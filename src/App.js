@@ -10,7 +10,7 @@ class App extends Component {
       <Router>
         <React.Fragment>
           <Route exact path="/" component={() => <div>HOME</div>} />
-          <Route path="/target/:targetId" component={TargetPage} />
+          <Route path="/target/:ensgId" component={TargetPage} />
           <Route path="/disease/:efoId" component={DiseasePage} />
         </React.Fragment>
       </Router>
