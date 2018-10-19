@@ -1,7 +1,11 @@
 {
   "name": "platform-app",
   "version": "0.1.0",
-  "private": true,
+  "license": "Apache-2.0",
+  "contributors": [
+    "Gareth Peat <garethpeat@gmail.com>",
+    "Alfredo Miranda <alfredo@miranda.io>"
+  ],
   "dependencies": {
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
