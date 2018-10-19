@@ -1,6 +1,10 @@
 import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import * as d3Bundle from "d3";
+import * as d3Dag from "d3-dag";
+
+const d3 = Object.assign({}, d3Bundle, d3Dag);
 
 const diseaseQuery = gql`
   query DiseaseQuery($efoId: String!) {
@@ -52,8 +56,38 @@ const DiseasePage = ({ match }) => {
 
           const width = 600;
           const height = 600;
+          const margin = 100;
 
-          return <svg width={width} height={height} />;
+          const dag = d3.dratify()(nodes);
+          const dagAfter = d3.sugiyama().coord(d3.coordGreedy())(dag);
+          const links = dagAfter.links();
+          const descendents = dagAfter.descendants();
+
+          console.log(links, descendents);
+
+          return (
+            <svg width={width} height={height}>
+              {descendents.map(({ x, y, id, data }) => (
+                <g
+                  key={id}
+                  transform={`translate(${margin +
+                    x * (width - 2 * margin)},${margin +
+                    y * (height - 2 * margin)})`}
+                >
+                  <circle r={3} cx={0} cy={0} fill="none" stroke="black" />
+                  <text
+                    x={0}
+                    y={10}
+                    textAnchor="middle"
+                    alignmentBaseline="middle"
+                    fontSize={10}
+                  >
+                    {data.name}
+                  </text>
+                </g>
+              ))}
+            </svg>
+          );
         }}
       </Query>
     </div>
