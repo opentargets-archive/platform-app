@@ -52,18 +52,31 @@ const DiseasePage = ({ match }) => {
           if (loading || error) {
             return null;
           }
-          const { nodes } = data.diseaseDAG;
+          const nodes = data.diseaseDAG.nodes.map(d => {
+            const { parentIds, ...rest } = d;
+            const node = { ...rest };
+            if (parentIds.length > 0) {
+              node.parentIds = parentIds;
+            }
+            return node;
+          });
 
-          const width = 600;
-          const height = 600;
+          const width = 1600;
+          const height = 800;
           const margin = 100;
 
           const dag = d3.dratify()(nodes);
-          const dagAfter = d3.sugiyama().coord(d3.coordGreedy())(dag);
+          const dagAfter = d3
+            .sugiyama()
+            .decross(d3.decrossTwoLayer().order(d3.twolayerMedian()))(dag);
           const links = dagAfter.links();
           const descendents = dagAfter.descendants();
 
-          console.log(links, descendents);
+          const line = d3
+            .line()
+            .curve(d3.curveCatmullRom)
+            .x(d => margin + d.x * (width - 2 * margin))
+            .y(d => margin + d.y * (height - 2 * margin));
 
           return (
             <svg width={width} height={height}>
@@ -85,6 +98,24 @@ const DiseasePage = ({ match }) => {
                     {data.name}
                   </text>
                 </g>
+              ))}
+              {links.map(({ source, target, data }) => (
+                <path
+                  key={`${source.id}-${target.id}`}
+                  stroke="grey"
+                  fill="none"
+                  d={line([
+                    {
+                      x: source.x,
+                      y: source.y,
+                    },
+                    ...(data.points ? data.points : []),
+                    {
+                      x: target.x,
+                      y: target.y,
+                    },
+                  ])}
+                />
               ))}
             </svg>
           );
