@@ -32,7 +32,7 @@ const diseaseDAGQuery = gql`
 const colourMap = {
   base: "chartreuse",
   parent: "lightblue",
-  child: "coral",
+  child: "coral"
 };
 
 const DiseasePage = ({ match }) => {
@@ -95,13 +95,13 @@ const DiseasePage = ({ match }) => {
                   d={line([
                     {
                       x: source.x,
-                      y: source.y,
+                      y: source.y
                     },
                     ...(data.points ? data.points : []),
                     {
                       x: target.x,
-                      y: target.y,
-                    },
+                      y: target.y
+                    }
                   ])}
                 />
               ))}
@@ -132,7 +132,7 @@ const DiseasePage = ({ match }) => {
                           padding: "2px",
                           background: colourMap[data.nodeType],
                           border: "1px solid black",
-                          wordBreak: "break-word",
+                          wordBreak: "break-word"
                         }}
                       >
                         {data.name}
