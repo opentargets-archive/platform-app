@@ -1,12 +1,12 @@
-import React from "react";
-import SvgIcon from "@material-ui/core/SvgIcon";
-import withStyles from "@material-ui/core/styles/withStyles";
-import classNames from "classnames";
+import React from 'react';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import withStyles from '@material-ui/core/styles/withStyles';
+import classNames from 'classnames';
 
 const styles = theme => ({
   root: {
-    fill: theme.palette.primary.main
-  }
+    fill: theme.palette.primary.main,
+  },
 });
 
 const TargetIcon = ({ className, classes, ...rest }) => {

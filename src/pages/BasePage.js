@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
-import Grid from "@material-ui/core/Grid";
-import { NavBar, Footer } from "ot-ui";
+import React, { Fragment } from 'react';
+import Grid from '@material-ui/core/Grid';
+import { NavBar, Footer } from 'ot-ui';
 
-import { externalLinks } from "../constants";
+import { externalLinks } from '../constants';
 
 const BasePage = ({ children }) => {
   return (

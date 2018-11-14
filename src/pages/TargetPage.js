@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import Grid from "@material-ui/core/Grid";
+import React, { Fragment } from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import Grid from '@material-ui/core/Grid';
 
-import BasePage from "./BasePage";
-import TargetIcon from "../icons/TargetIcon";
+import BasePage from './BasePage';
+import TargetIcon from '../icons/TargetIcon';
 
 const targetQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -47,7 +47,7 @@ const TargetPage = ({ match }) => {
                 </Grid>
               </Grid>
               <Grid container>{description}</Grid>
-              <Grid>Synonyms: {synonyms.join(", ")}</Grid>
+              <Grid>Synonyms: {synonyms.join(', ')}</Grid>
             </Fragment>
           );
         }}

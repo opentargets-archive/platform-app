@@ -1,8 +1,8 @@
-import React from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import * as d3Bundle from "d3";
-import * as d3Dag from "d3-dag";
+import React from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import * as d3Bundle from 'd3';
+import * as d3Dag from 'd3-dag';
 
 const d3 = Object.assign({}, d3Bundle, d3Dag);
 
@@ -30,9 +30,9 @@ const diseaseDAGQuery = gql`
 `;
 
 const colourMap = {
-  base: "chartreuse",
-  parent: "lightblue",
-  child: "coral"
+  base: 'chartreuse',
+  parent: 'lightblue',
+  child: 'coral',
 };
 
 const DiseasePage = ({ match }) => {
@@ -49,7 +49,7 @@ const DiseasePage = ({ match }) => {
           return (
             <div>
               <h2>{name}</h2>
-              <h4>{synonyms.join(", ")}</h4>
+              <h4>{synonyms.join(', ')}</h4>
             </div>
           );
         }}
@@ -95,13 +95,13 @@ const DiseasePage = ({ match }) => {
                   d={line([
                     {
                       x: source.x,
-                      y: source.y
+                      y: source.y,
                     },
                     ...(data.points ? data.points : []),
                     {
                       x: target.x,
-                      y: target.y
-                    }
+                      y: target.y,
+                    },
                   ])}
                 />
               ))}
@@ -126,13 +126,13 @@ const DiseasePage = ({ match }) => {
                       <p
                         xmlns="http://www.w3.org/1999/xhtml"
                         style={{
-                          fontSize: "10px",
-                          textAlign: "center",
+                          fontSize: '10px',
+                          textAlign: 'center',
                           margin: 0,
-                          padding: "2px",
+                          padding: '2px',
                           background: colourMap[data.nodeType],
-                          border: "1px solid black",
-                          wordBreak: "break-word"
+                          border: '1px solid black',
+                          wordBreak: 'break-word',
                         }}
                       >
                         {data.name}

@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import { OtUiThemeProvider } from "ot-ui";
+import { OtUiThemeProvider } from 'ot-ui';
 
-import HomePage from "./pages/HomePage.js";
-import TargetPage from "./pages/TargetPage";
-import DiseasePage from "./pages/DiseasePage";
+import HomePage from './pages/HomePage.js';
+import TargetPage from './pages/TargetPage';
+import DiseasePage from './pages/DiseasePage';
 
 class App extends Component {
   render() {

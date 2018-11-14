@@ -1,6 +1,6 @@
-import React from "react";
-import BasePage from "./BasePage";
-import { Link } from "react-router-dom";
+import React from 'react';
+import BasePage from './BasePage';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   return (

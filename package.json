@@ -36,7 +36,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write",
-    "prettier:all": "prettier --write 'src/**/*.js' config-overrides.js"
+    "prettier:all": "prettier --write 'src/**/*.js'"
   },
   "eslintConfig": {
     "extends": "react-app"
