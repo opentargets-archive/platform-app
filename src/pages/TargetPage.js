@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 
 const targetQuery = gql`
   query TargetQuery($ensgId: String!) {
-    target(ensgId: $ensgId) {
+    targetSummary(ensgId: $ensgId) {
       id
       name
       symbol
@@ -23,7 +23,8 @@ const TargetPage = ({ match }) => {
           if (loading || error) {
             return null;
           }
-          const { symbol, name, synonyms } = data.target;
+
+          const { symbol, name, synonyms } = data.targetSummary;
           return (
             <div>
               <h2>{symbol}</h2>
