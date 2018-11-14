@@ -4,6 +4,7 @@ import KnownDrugsWidget from './KnownDrugsWidget';
 import ChemicalProbesWidget from './ChemicalProbesWidget';
 import SimilarTargetsWidget from './SimilarTargetsWidget';
 import PathwaysWidget from './PathwaysWidget';
+import ProteinInformationWidget from './ProteinInformationWidget';
 
 const OverviewTab = ({ symbol }) => {
   return (
@@ -12,6 +13,7 @@ const OverviewTab = ({ symbol }) => {
       <ChemicalProbesWidget symbol={symbol} />
       <SimilarTargetsWidget symbol={symbol} />
       <PathwaysWidget symbol={symbol} />
+      <ProteinInformationWidget />
     </Grid>
   );
 };
