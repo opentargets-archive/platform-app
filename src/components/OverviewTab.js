@@ -5,6 +5,7 @@ import ChemicalProbesWidget from './ChemicalProbesWidget';
 import SimilarTargetsWidget from './SimilarTargetsWidget';
 import PathwaysWidget from './PathwaysWidget';
 import ProteinInformationWidget from './ProteinInformationWidget';
+import CancerBiomarkersWidget from './CancerBiomarkersWidget';
 
 const OverviewTab = ({ symbol }) => {
   return (
@@ -14,6 +15,7 @@ const OverviewTab = ({ symbol }) => {
       <SimilarTargetsWidget symbol={symbol} />
       <PathwaysWidget symbol={symbol} />
       <ProteinInformationWidget />
+      <CancerBiomarkersWidget />
     </Grid>
   );
 };
