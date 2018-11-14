@@ -14,7 +14,7 @@ import AssociatedDiseasesTab from './AssociatedDiseasesTab';
 
 class TargetTabs extends Component {
   state = {
-    value: 0,
+    value: 'overview',
   };
 
   handleChange = (event, value) => {
@@ -31,25 +31,25 @@ class TargetTabs extends Component {
           scrollable
           scrollButtons="auto"
         >
-          <Tab label="Overview" />
-          <Tab label="Proptein data" />
-          <Tab label="Drug & compound data" />
-          <Tab label="Pathways & interaction data" />
-          <Tab label="Genomic context data" />
-          <Tab label="Mouse model data" />
-          <Tab label="Cancer data" />
-          <Tab label="Bibliography" />
-          <Tab label="Associated diseases" />
+          <Tab value="overview" label="Overview" />
+          <Tab value="protein" label="Protein data" />
+          <Tab value="drug" label="Drug & compound data" />
+          <Tab value="pathways" label="Pathways & interaction data" />
+          <Tab value="genomics" label="Genomic context data" />
+          <Tab value="mouse" label="Mouse model data" />
+          <Tab value="cancer" label="Cancer data" />
+          <Tab value="bibliography" label="Bibliography" />
+          <Tab value="associated" label="Associated diseases" />
         </Tabs>
-        {value === 0 && <OverviewTab />}
-        {value === 1 && <ProteinTab />}
-        {value === 2 && <DrugAndCompoundTab />}
-        {value === 3 && <PathwaysTab />}
-        {value === 4 && <GenomicsTab />}
-        {value === 5 && <MouseTab />}
-        {value === 6 && <CancerTab />}
-        {value === 7 && <BibliographyTab />}
-        {value === 8 && <AssociatedDiseasesTab />}
+        {value === 'overview' && <OverviewTab />}
+        {value === 'protein' && <ProteinTab />}
+        {value === 'drug' && <DrugAndCompoundTab />}
+        {value === 'pathways' && <PathwaysTab />}
+        {value === 'genomics' && <GenomicsTab />}
+        {value === 'mouse' && <MouseTab />}
+        {value === 'cancer' && <CancerTab />}
+        {value === 'bibliography' && <BibliographyTab />}
+        {value === 'associated' && <AssociatedDiseasesTab />}
       </Fragment>
     );
   }
