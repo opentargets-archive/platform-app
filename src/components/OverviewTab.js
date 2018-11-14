@@ -1,11 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import ChemicalProbes from './ChemicalProbes';
+import ChemicalProbesWidget from './ChemicalProbesWidget';
+import SimilarTargetsWidget from './SimilarTargetsWidget';
 
-const OverviewTab = () => {
+const OverviewTab = ({ symbol }) => {
   return (
     <Grid container>
-      <ChemicalProbes />
+      <ChemicalProbesWidget symbol={symbol} />
+      <SimilarTargetsWidget />
     </Grid>
   );
 };

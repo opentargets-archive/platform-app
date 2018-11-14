@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
-const ChemicalProbes = () => {
+const ChemicalProbesWidget = ({ symbol }) => {
   return (
     <Grid item>
       <Card>
@@ -14,11 +14,13 @@ const ChemicalProbes = () => {
           <Typography variant="h4" align="center">
             1
           </Typography>
-          <Typography>number of chemical probes developed for {}</Typography>
+          <Typography>
+            number of chemical probes developed for {symbol}
+          </Typography>
         </CardContent>
       </Card>
     </Grid>
   );
 };
 
-export default ChemicalProbes;
+export default ChemicalProbesWidget;
