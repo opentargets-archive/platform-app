@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import BasePage from './BasePage';
 import TargetIcon from '../icons/TargetIcon';
@@ -18,7 +20,14 @@ const targetQuery = gql`
   }
 `;
 
-const TargetPage = ({ match }) => {
+const styles = theme => ({
+  targetIcon: {
+    width: '38px',
+    height: '55px',
+  },
+});
+
+const TargetPage = ({ match, classes }) => {
   const { ensgId } = match.params;
   return (
     <BasePage>
@@ -35,10 +44,11 @@ const TargetPage = ({ match }) => {
                 <Grid item>
                   <Grid container>
                     <Grid item>
-                      <TargetIcon />
+                      <TargetIcon className={classes.targetIcon} />
                     </Grid>
                     <Grid item>
-                      {symbol} {name}
+                      <Typography variant="h4">{symbol}</Typography>
+                      <Typography variant="subtitle2">{name}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -56,4 +66,4 @@ const TargetPage = ({ match }) => {
   );
 };
 
-export default TargetPage;
+export default withStyles(styles)(TargetPage);
