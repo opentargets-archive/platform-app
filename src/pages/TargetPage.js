@@ -7,6 +7,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import BasePage from './BasePage';
 import TargetIcon from '../icons/TargetIcon';
+import TargetTabs from '../components/TargetTabs';
 
 const targetQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -20,7 +21,7 @@ const targetQuery = gql`
   }
 `;
 
-const styles = theme => ({
+const summaryStyles = theme => ({
   targetIcon: {
     width: '38px',
     height: '55px',
@@ -31,7 +32,36 @@ const styles = theme => ({
   },
 });
 
-const TargetPage = ({ match, classes }) => {
+let TargetSummary = ({ classes, symbol, name, synonyms, description }) => (
+  <Fragment>
+    <Grid container justify="space-between">
+      <Grid item>
+        <Grid container>
+          <Grid item>
+            <TargetIcon className={classes.targetIcon} />
+          </Grid>
+          <Grid item>
+            <Typography className={classes.symbol} variant="h4">
+              {symbol}
+            </Typography>
+            <Typography variant="subtitle2">{name}</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
+        <button>View associated diseases</button>
+      </Grid>
+    </Grid>
+    <Grid container>
+      <Typography variant="body2">{description}</Typography>
+    </Grid>
+    <Grid>Synonyms: {synonyms.join(', ')}</Grid>
+  </Fragment>
+);
+
+TargetSummary = withStyles(summaryStyles)(TargetSummary);
+
+const TargetPage = ({ match }) => {
   const { ensgId } = match.params;
   return (
     <BasePage>
@@ -44,28 +74,13 @@ const TargetPage = ({ match, classes }) => {
           const { symbol, name, synonyms, description } = data.targetSummary;
           return (
             <Fragment>
-              <Grid container justify="space-between">
-                <Grid item>
-                  <Grid container>
-                    <Grid item>
-                      <TargetIcon className={classes.targetIcon} />
-                    </Grid>
-                    <Grid item>
-                      <Typography className={classes.symbol} variant="h4">
-                        {symbol}
-                      </Typography>
-                      <Typography variant="subtitle2">{name}</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item>
-                  <button>View associated diseases</button>
-                </Grid>
-              </Grid>
-              <Grid container>
-                <Typography variant="body2">{description}</Typography>
-              </Grid>
-              <Grid>Synonyms: {synonyms.join(', ')}</Grid>
+              <TargetSummary
+                symbol={symbol}
+                name={name}
+                synonyms={synonyms}
+                descript={description}
+              />
+              <TargetTabs />
             </Fragment>
           );
         }}
@@ -74,4 +89,4 @@ const TargetPage = ({ match, classes }) => {
   );
 };
 
-export default withStyles(styles)(TargetPage);
+export default TargetPage;
