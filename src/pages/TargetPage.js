@@ -24,6 +24,10 @@ const styles = theme => ({
   targetIcon: {
     width: '38px',
     height: '55px',
+    fill: '#7b196a',
+  },
+  symbol: {
+    color: '#7b196a',
   },
 });
 
@@ -47,7 +51,9 @@ const TargetPage = ({ match, classes }) => {
                       <TargetIcon className={classes.targetIcon} />
                     </Grid>
                     <Grid item>
-                      <Typography variant="h4">{symbol}</Typography>
+                      <Typography className={classes.symbol} variant="h4">
+                        {symbol}
+                      </Typography>
                       <Typography variant="subtitle2">{name}</Typography>
                     </Grid>
                   </Grid>
@@ -56,7 +62,9 @@ const TargetPage = ({ match, classes }) => {
                   <button>View associated diseases</button>
                 </Grid>
               </Grid>
-              <Grid container>{description}</Grid>
+              <Grid container>
+                <Typography variant="body2">{description}</Typography>
+              </Grid>
               <Grid>Synonyms: {synonyms.join(', ')}</Grid>
             </Fragment>
           );
