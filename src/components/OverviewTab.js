@@ -7,7 +7,7 @@ const OverviewTab = ({ symbol }) => {
   return (
     <Grid container>
       <ChemicalProbesWidget symbol={symbol} />
-      <SimilarTargetsWidget />
+      <SimilarTargetsWidget symbol={symbol} />
     </Grid>
   );
 };
