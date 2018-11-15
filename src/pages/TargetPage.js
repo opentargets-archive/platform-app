@@ -56,7 +56,7 @@ class TargetPage extends Component {
                   symbol={symbol}
                   name={name}
                   synonyms={synonyms}
-                  descript={description}
+                  description={description}
                 />
                 <Tabs
                   value={value}

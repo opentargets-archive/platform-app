@@ -7,12 +7,14 @@ import TargetIcon from '../icons/TargetIcon';
 
 const summaryStyles = theme => ({
   targetIcon: {
-    width: '38px',
-    height: '55px',
+    width: '40px',
+    height: '65px',
     fill: '#7b196a',
+    marginRight: '12px',
   },
   symbol: {
     color: '#7b196a',
+    fontWeight: 500,
   },
 });
 
