@@ -2,8 +2,10 @@ import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
+import { Button } from 'ot-ui';
 
 import TargetIcon from '../icons/TargetIcon';
+import AssociationsIcon from '../icons/AssociationsIcon';
 
 const summaryStyles = theme => ({
   targetIcon: {
@@ -15,6 +17,13 @@ const summaryStyles = theme => ({
   symbol: {
     color: '#7b196a',
     fontWeight: 500,
+  },
+  associatedIcon: {
+    marginRight: '6px',
+    fill: 'white',
+  },
+  associatedDiseases: {
+    height: '40px',
   },
 });
 
@@ -35,7 +44,10 @@ const TargetSummary = ({ classes, symbol, name, synonyms, description }) => (
         </Grid>
       </Grid>
       <Grid item>
-        <button>View associated diseases</button>
+        <Button gradient className={classes.associatedDiseases}>
+          <AssociationsIcon className={classes.associatedIcon} />
+          View associated diseases
+        </Button>
       </Grid>
     </Grid>
     <Grid container>

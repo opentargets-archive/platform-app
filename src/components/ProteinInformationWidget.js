@@ -12,8 +12,16 @@ const ProteinInformationWidget = () => {
         <CardHeader title="Protein information" />
         <CardContent>
           <Grid container>
-            <Grid item>Protvista sequence visualization available</Grid>
-            <Grid item>Subcellular location and subunit data available</Grid>
+            <Grid item>
+              <Typography>
+                Protvista sequence visualization available
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography>
+                Subcellular location and subunit data available
+              </Typography>
+            </Grid>
           </Grid>
         </CardContent>
       </Card>
