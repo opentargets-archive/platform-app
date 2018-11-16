@@ -37,8 +37,13 @@ const summaryStyles = theme => ({
     display: 'inline-block',
   },
   synonym: {
+    display: 'inline-block',
     border: '1px solid black',
-    borderRadius: '6px',
+    borderRadius: '10px',
+    marginRight: '5px',
+    marginBottom: '4px',
+    paddingLeft: '4px',
+    paddingRight: '4px',
   },
 });
 
@@ -68,17 +73,25 @@ const TargetSummary = ({ classes, symbol, name, synonyms, description }) => (
     <Grid className={classes.description} container>
       <Typography variant="body2">{description}</Typography>
     </Grid>
-    <Grid>
-      <Typography className={classes.synonymText} variant="subtitle2">
-        Synonyms:
-      </Typography>{' '}
-      {synonyms.map(synonym => {
-        return (
-          <span key={synonym} className={classes.synonym}>
-            {synonym}
-          </span>
-        );
-      })}
+    <Grid container>
+      <Grid item md={1}>
+        <Typography className={classes.synonymText} variant="subtitle2">
+          Synonyms:
+        </Typography>
+      </Grid>
+      <Grid item md={10}>
+        {synonyms.map(synonym => {
+          return (
+            <Typography
+              key={synonym}
+              className={classes.synonym}
+              variant="caption"
+            >
+              {synonym}
+            </Typography>
+          );
+        })}
+      </Grid>
     </Grid>
   </Fragment>
 );
