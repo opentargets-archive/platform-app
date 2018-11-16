@@ -4,6 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import { Button } from 'ot-ui';
 
+import LongText from './LongText';
 import TargetIcon from '../icons/TargetIcon';
 import AssociationsIcon from '../icons/AssociationsIcon';
 
@@ -71,7 +72,9 @@ const TargetSummary = ({ classes, symbol, name, synonyms, description }) => (
       </Grid>
     </Grid>
     <Grid className={classes.description} container>
-      <Typography variant="body2">{description}</Typography>
+      <Typography variant="body2">
+        <LongText lineLimit={7}>{description}</LongText>
+      </Typography>
     </Grid>
     <Grid container>
       <Grid item md={1}>
