@@ -8,6 +8,9 @@ import TargetIcon from '../icons/TargetIcon';
 import AssociationsIcon from '../icons/AssociationsIcon';
 
 const summaryStyles = theme => ({
+  titleContainer: {
+    marginBottom: '30px',
+  },
   targetIcon: {
     width: '40px',
     height: '65px',
@@ -23,13 +26,25 @@ const summaryStyles = theme => ({
     fill: 'white',
   },
   associatedDiseases: {
+    position: 'relative',
+    top: '14px',
     height: '40px',
+  },
+  description: {
+    marginBottom: '30px',
+  },
+  synonymText: {
+    display: 'inline-block',
+  },
+  synonym: {
+    border: '1px solid black',
+    borderRadius: '6px',
   },
 });
 
 const TargetSummary = ({ classes, symbol, name, synonyms, description }) => (
   <Fragment>
-    <Grid container justify="space-between">
+    <Grid className={classes.titleContainer} container justify="space-between">
       <Grid item>
         <Grid container>
           <Grid item>
@@ -50,10 +65,21 @@ const TargetSummary = ({ classes, symbol, name, synonyms, description }) => (
         </Button>
       </Grid>
     </Grid>
-    <Grid container>
+    <Grid className={classes.description} container>
       <Typography variant="body2">{description}</Typography>
     </Grid>
-    <Grid>Synonyms: {synonyms.join(', ')}</Grid>
+    <Grid>
+      <Typography className={classes.synonymText} variant="subtitle2">
+        Synonyms:
+      </Typography>{' '}
+      {synonyms.map(synonym => {
+        return (
+          <span key={synonym} className={classes.synonym}>
+            {synonym}
+          </span>
+        );
+      })}
+    </Grid>
   </Fragment>
 );
 
