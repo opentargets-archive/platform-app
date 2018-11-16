@@ -17,7 +17,7 @@ class LongText extends Component {
 
   state = {
     showMore: false,
-    originalHeight: 0,
+    height: 0,
     lineHeight: 0,
   };
 
@@ -32,7 +32,7 @@ class LongText extends Component {
     );
 
     this.setState({
-      originalHeight: height,
+      height,
       lineHeight,
     });
   }
@@ -43,22 +43,24 @@ class LongText extends Component {
 
   render() {
     const { children, classes, lineLimit } = this.props;
-    const { showMore, originalHeight, lineHeight } = this.state;
-    const numberOfLines = lineHeight === 0 ? 0 : originalHeight / lineHeight;
+    const { showMore, height, lineHeight } = this.state;
+    const numberOfLines = lineHeight === 0 ? 0 : height / lineHeight;
     const hideText = numberOfLines > lineLimit;
     return (
       <span>
         <span
           className={classes.textContainer}
-          style={{ height: showMore ? originalHeight : lineLimit * lineHeight }}
+          style={{
+            height: showMore ? height : lineLimit * lineHeight,
+          }}
         >
           <span ref={this.textRef}>{children}</span>
         </span>
         {hideText && (
           <span>
-            ...[{' '}
+            {showMore ? '' : '... '}[{' '}
             <span className={classes.showMore} onClick={this.showMore}>
-              show more
+              {showMore ? ' hide' : ' showMore'}
             </span>{' '}
             ]
           </span>
