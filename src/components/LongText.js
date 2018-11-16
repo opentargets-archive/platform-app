@@ -7,7 +7,7 @@ const styles = theme => ({
     overflow: 'hidden',
   },
   showMore: {
-    color: 'blue',
+    color: theme.palette.primary.main,
     cursor: 'pointer',
   },
 });
@@ -17,7 +17,6 @@ class LongText extends Component {
 
   state = {
     showMore: false,
-    height: 0,
     lineHeight: 0,
   };
 
@@ -32,8 +31,8 @@ class LongText extends Component {
     );
 
     this.setState({
-      height,
       lineHeight,
+      numberOfLines: Math.round(height / lineHeight),
     });
   }
 
@@ -43,20 +42,19 @@ class LongText extends Component {
 
   render() {
     const { children, classes, lineLimit } = this.props;
-    const { showMore, height, lineHeight } = this.state;
-    const numberOfLines = lineHeight === 0 ? 0 : height / lineHeight;
-    const hideText = numberOfLines > lineLimit;
+    const { showMore, lineHeight, numberOfLines } = this.state;
+
     return (
       <span>
         <span
           className={classes.textContainer}
           style={{
-            height: showMore ? height : lineLimit * lineHeight,
+            height: showMore ? 'auto' : lineLimit * lineHeight,
           }}
         >
           <span ref={this.textRef}>{children}</span>
         </span>
-        {hideText && (
+        {numberOfLines > lineLimit && (
           <span>
             {showMore ? '' : '... '}[{' '}
             <span className={classes.showMore} onClick={this.showMore}>
