@@ -3,11 +3,18 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import withStyles from '@material-ui/core/styles/withStyles';
 
-const ChemicalProbesWidget = ({ symbol }) => {
+const styles = theme => ({
+  widget: {
+    height: theme.widgetHeight,
+  },
+});
+
+const ChemicalProbesWidget = ({ symbol, classes }) => {
   return (
     <Grid item md={3}>
-      <Card>
+      <Card className={classes.widget}>
         <CardContent>
           <Typography variant="h5" align="center">
             Chemical probes
@@ -24,4 +31,4 @@ const ChemicalProbesWidget = ({ symbol }) => {
   );
 };
 
-export default ChemicalProbesWidget;
+export default withStyles(styles)(ChemicalProbesWidget);

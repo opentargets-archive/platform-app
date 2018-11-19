@@ -8,6 +8,9 @@ import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
+  widget: {
+    height: theme.widgetHeight,
+  },
   modal: {
     backgroundColor: 'red',
   },
@@ -36,7 +39,7 @@ class KnownDrugsWidget extends Component {
 
     return (
       <Grid item md={6}>
-        <Card onClick={this.handleClick}>
+        <Card onClick={this.handleClick} className={classes.widget}>
           <CardContent>
             <Typography variant="h5" align="center">
               Know drugs

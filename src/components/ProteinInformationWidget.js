@@ -3,11 +3,18 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import withStyles from '@material-ui/core/styles/withStyles';
 
-const ProteinInformationWidget = () => {
+const styles = theme => ({
+  widget: {
+    height: theme.widgetHeight,
+  },
+});
+
+const ProteinInformationWidget = ({ classes }) => {
   return (
     <Grid item md={6}>
-      <Card>
+      <Card className={classes.widget}>
         <CardContent>
           <Typography variant="h5" align="center">
             Protein information
@@ -30,4 +37,4 @@ const ProteinInformationWidget = () => {
   );
 };
 
-export default ProteinInformationWidget;
+export default withStyles(styles)(ProteinInformationWidget);
