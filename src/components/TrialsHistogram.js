@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { withContentRect } from 'react-measure';
 
-const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+const margin = { top: 20, right: 20, bottom: 20, left: 30 };
 const OUTER_HEIGHT = 180;
 
 class TrialsHistogram extends Component {
@@ -15,7 +15,7 @@ class TrialsHistogram extends Component {
   }
 
   render() {
-    const { measureRef, contentRect } = this.props;
+    const { measureRef } = this.props;
 
     return (
       <div ref={measureRef}>
@@ -69,6 +69,16 @@ class TrialsHistogram extends Component {
       .attr('y', d => countScale(d.trialCount))
       .attr('height', d => countScale(0) - countScale(d.trialCount))
       .attr('width', phaseScale.bandwidth());
+
+    const xAxis = d3.axisBottom(phaseScale);
+    const yAxis = d3.axisLeft(countScale);
+
+    plot
+      .append('g')
+      .attr('transform', `translate(0, ${height})`)
+      .call(xAxis);
+
+    plot.append('g').call(yAxis);
   }
 }
 
