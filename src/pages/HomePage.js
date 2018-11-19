@@ -7,7 +7,7 @@ const HomePage = () => {
     <BasePage>
       <div>Home</div>
       <div>
-        <Link to="/target/ENSG00000145777">Target page</Link>
+        <Link to="/target/ENSG00000091831">Target page</Link>
       </div>
       <div>
         <Link to="/disease/EFO_0000384">Disease page</Link>

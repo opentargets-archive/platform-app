@@ -49,7 +49,12 @@ class LongText extends Component {
         <span
           className={classes.textContainer}
           style={{
-            height: showMore ? 'auto' : lineLimit * lineHeight,
+            height:
+              numberOfLines <= lineLimit
+                ? 'auto'
+                : showMore
+                ? 'auto'
+                : lineLimit * lineHeight,
           }}
         >
           <span ref={this.textRef}>{children}</span>
