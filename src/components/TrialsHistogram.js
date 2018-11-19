@@ -60,6 +60,31 @@ class TrialsHistogram extends Component {
     const svg = d3.select(this.svgRef);
     const plot = svg.select('g');
 
+    const xAxis = d3.axisBottom(phaseScale);
+    const yAxis = d3.axisLeft(countScale).tickArguments([5]);
+
+    this._renderPhaseAxis(plot, xAxis, height);
+    this._renderCountAxis(plot, yAxis);
+    this._renderBars(plot, phaseScale, countScale, trialsByPhase);
+  }
+
+  _renderPhaseAxis(plot, xAxis, height) {
+    let g = plot.select('.axis.axis--phase');
+    if (g.empty()) {
+      g = plot.append('g').attr('class', 'axis axis--phase');
+    }
+    g.attr('transform', `translate(0,${height})`).call(xAxis);
+  }
+
+  _renderCountAxis(plot, yAxis) {
+    let g = plot.select('.axis.axis--count');
+    if (g.empty()) {
+      g = plot.append('g').attr('class', 'axis axis--count');
+    }
+    g.call(yAxis);
+  }
+
+  _renderBars(plot, phaseScale, countScale, trialsByPhase) {
     plot
       .selectAll('rect')
       .data(trialsByPhase)
@@ -69,16 +94,6 @@ class TrialsHistogram extends Component {
       .attr('y', d => countScale(d.trialCount))
       .attr('height', d => countScale(0) - countScale(d.trialCount))
       .attr('width', phaseScale.bandwidth());
-
-    const xAxis = d3.axisBottom(phaseScale);
-    const yAxis = d3.axisLeft(countScale);
-
-    plot
-      .append('g')
-      .attr('transform', `translate(0, ${height})`)
-      .call(xAxis);
-
-    plot.append('g').call(yAxis);
   }
 }
 
