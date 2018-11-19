@@ -25,7 +25,10 @@ class TrialsHistogram extends Component {
           width={this._width()}
           height={OUTER_HEIGHT}
         >
-          <g transform={`translate(${margin.left},${margin.top})`} />
+          <g
+            transform={`translate(${margin.left},${margin.top})`}
+            fill="#7b196a"
+          />
         </svg>
       </div>
     );
@@ -62,11 +65,7 @@ class TrialsHistogram extends Component {
       .data(trialsByPhase)
       .enter()
       .append('rect')
-      .attr('x', d => {
-        console.log('d.phase', d.phase);
-        console.log('phaseScale(d.phase)', phaseScale(d.phase));
-        return phaseScale(d.phase);
-      })
+      .attr('x', d => phaseScale(d.phase))
       .attr('y', d => countScale(d.trialCount))
       .attr('height', d => countScale(0) - countScale(d.trialCount))
       .attr('width', phaseScale.bandwidth());
