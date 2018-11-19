@@ -9,7 +9,7 @@ import CancerBiomarkersWidget from './CancerBiomarkersWidget';
 
 const OverviewTab = ({ symbol }) => {
   return (
-    <Grid container>
+    <Grid container spacing={16}>
       <KnownDrugsWidget symbol={symbol} />
       <ChemicalProbesWidget symbol={symbol} />
       <SimilarTargetsWidget symbol={symbol} />
