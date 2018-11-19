@@ -3,7 +3,6 @@ import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -36,11 +35,15 @@ class KnownDrugsWidget extends Component {
     const { isOpen } = this.state;
 
     return (
-      <Grid item>
+      <Grid item md={6}>
         <Card onClick={this.handleClick}>
-          <CardHeader title="Know drugs" />
           <CardContent>
-            <Typography variant="h4">43</Typography>
+            <Typography variant="h5" align="center">
+              Know drugs
+            </Typography>
+            <Typography variant="h4" align="center">
+              43
+            </Typography>
             <Typography>
               number of drugs associated with {symbol} with these modalities:
             </Typography>
