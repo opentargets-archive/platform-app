@@ -34,6 +34,13 @@ const overviewQuery = gql`
         count
         averageCommonDiseases
       }
+      pathways {
+        count
+      }
+      cancerBiomarkers {
+        count
+        diseaseCount
+      }
     }
   }
 `;
@@ -46,7 +53,13 @@ const OverviewTab = ({ ensgId, symbol }) => {
           return null;
         }
 
-        const { drugs, chemicalProbes, similarTargets } = data.targetSummary;
+        const {
+          drugs,
+          chemicalProbes,
+          similarTargets,
+          pathways,
+          cancerBiomarkers,
+        } = data.targetSummary;
 
         return (
           <Grid container spacing={16}>
@@ -59,9 +72,9 @@ const OverviewTab = ({ ensgId, symbol }) => {
               symbol={symbol}
               similarTargets={similarTargets}
             />
-            <PathwaysWidget symbol={ensgId} />
+            <PathwaysWidget symbol={symbol} pathways={pathways} />
             <ProteinInformationWidget />
-            <CancerBiomarkersWidget />
+            <CancerBiomarkersWidget cancerBiomarkers={cancerBiomarkers} />
           </Grid>
         );
       }}

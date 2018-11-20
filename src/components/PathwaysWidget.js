@@ -11,7 +11,7 @@ const styles = theme => ({
   },
 });
 
-const PathwaysWidget = ({ symbol, classes }) => {
+const PathwaysWidget = ({ symbol, classes, pathways }) => {
   return (
     <Grid item md={3}>
       <Card className={classes.widget}>
@@ -20,9 +20,9 @@ const PathwaysWidget = ({ symbol, classes }) => {
             Pathways
           </Typography>
           <Typography variant="h4" align="center">
-            14
+            {pathways.count}
           </Typography>
-          <Typography>
+          <Typography variant="body2" align="center">
             number of biological pathways involving {symbol}
           </Typography>
         </CardContent>

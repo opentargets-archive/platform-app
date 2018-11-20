@@ -9,6 +9,9 @@ const styles = theme => ({
   widget: {
     height: theme.widgetHeight,
   },
+  bold: {
+    fontWeight: 'bold',
+  },
 });
 
 const SimilarTargetsWidget = ({ symbol, classes, similarTargets }) => {
@@ -26,8 +29,11 @@ const SimilarTargetsWidget = ({ symbol, classes, similarTargets }) => {
             number of targets related to {symbol}
           </Typography>
           <Typography variant="caption" align="center">
-            average of {similarTargets.averageCommonDiseases} common associated
-            diseases
+            average of{' '}
+            <span className={classes.bold}>
+              {similarTargets.averageCommonDiseases}
+            </span>{' '}
+            common associated diseases
           </Typography>
         </CardContent>
       </Card>

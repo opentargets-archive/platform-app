@@ -9,9 +9,12 @@ const styles = theme => ({
   widget: {
     height: theme.widgetHeight,
   },
+  bold: {
+    fontWeight: 'bold',
+  },
 });
 
-const CancerBiomarkersWidget = ({ symbol, classes }) => {
+const CancerBiomarkersWidget = ({ symbol, classes, cancerBiomarkers }) => {
   return (
     <Grid item md={3}>
       <Card className={classes.widget}>
@@ -20,10 +23,14 @@ const CancerBiomarkersWidget = ({ symbol, classes }) => {
             Cancer biomarkers
           </Typography>
           <Typography variant="h4" align="center">
-            10
+            {cancerBiomarkers.count}
           </Typography>
-          <Typography>
-            number of biomarkers associated with 1 disease
+          <Typography variant="body2" align="center">
+            number of biomarkers associated with{' '}
+            <span className={classes.bold}>
+              {cancerBiomarkers.diseaseCount}
+            </span>{' '}
+            disease(s)
           </Typography>
         </CardContent>
       </Card>

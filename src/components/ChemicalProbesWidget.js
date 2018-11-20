@@ -22,7 +22,7 @@ const ChemicalProbesWidget = ({ symbol, classes, chemicalProbes }) => {
           <Typography variant="h4" align="center">
             {chemicalProbes.portalProbeCount}
           </Typography>
-          <Typography align="center">
+          <Typography variant="body2" align="center">
             number of chemical probes developed for {symbol}
           </Typography>
         </CardContent>
