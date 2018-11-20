@@ -7,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import KnownDrugsDetail from './KnownDrugsDetail';
+
 const styles = theme => ({
   widget: {
     height: theme.widgetHeight,
@@ -34,7 +36,7 @@ class KnownDrugsWidget extends Component {
   };
 
   render() {
-    const { symbol, classes } = this.props;
+    const { symbol, classes, ensgId } = this.props;
     const { isOpen } = this.state;
 
     return (
@@ -53,7 +55,10 @@ class KnownDrugsWidget extends Component {
           </CardContent>
         </Card>
         <Modal open={isOpen} onClose={this.handleClose}>
-          <div className={classes.modal}>Know Drugs Modal</div>
+          <div className={classes.modal}>
+            Know Drugs Modal
+            <KnownDrugsDetail ensgId={ensgId} />
+          </div>
         </Modal>
       </Grid>
     );

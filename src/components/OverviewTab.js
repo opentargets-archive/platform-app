@@ -7,10 +7,10 @@ import PathwaysWidget from './PathwaysWidget';
 import ProteinInformationWidget from './ProteinInformationWidget';
 import CancerBiomarkersWidget from './CancerBiomarkersWidget';
 
-const OverviewTab = ({ symbol }) => {
+const OverviewTab = ({ symbol, ensgId }) => {
   return (
     <Grid container spacing={16}>
-      <KnownDrugsWidget symbol={symbol} />
+      <KnownDrugsWidget symbol={symbol} ensgId={ensgId} />
       <ChemicalProbesWidget symbol={symbol} />
       <SimilarTargetsWidget symbol={symbol} />
       <PathwaysWidget symbol={symbol} />
