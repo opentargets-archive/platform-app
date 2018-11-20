@@ -11,7 +11,7 @@ const styles = theme => ({
   },
 });
 
-const SimilarTargetsWidget = ({ symbol, classes }) => {
+const SimilarTargetsWidget = ({ symbol, classes, similarTargets }) => {
   return (
     <Grid item md={3}>
       <Card className={classes.widget}>
@@ -20,9 +20,15 @@ const SimilarTargetsWidget = ({ symbol, classes }) => {
             Similar targets
           </Typography>
           <Typography variant="h4" align="center">
-            14
+            {similarTargets.count}
           </Typography>
-          <Typography>number of targets related to {symbol}</Typography>
+          <Typography align="center">
+            number of targets related to {symbol}
+          </Typography>
+          <Typography variant="caption" align="center">
+            average of {similarTargets.averageCommonDiseases} common associated
+            diseases
+          </Typography>
         </CardContent>
       </Card>
     </Grid>

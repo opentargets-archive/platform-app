@@ -27,6 +27,13 @@ const overviewQuery = gql`
           trialCount
         }
       }
+      chemicalProbes {
+        portalProbeCount
+      }
+      similarTargets {
+        count
+        averageCommonDiseases
+      }
     }
   }
 `;
@@ -39,13 +46,19 @@ const OverviewTab = ({ ensgId, symbol }) => {
           return null;
         }
 
-        const { drugs } = data.targetSummary;
+        const { drugs, chemicalProbes, similarTargets } = data.targetSummary;
 
         return (
           <Grid container spacing={16}>
             <KnownDrugsWidget symbol={symbol} drugs={drugs} />
-            <ChemicalProbesWidget symbol={ensgId} />
-            <SimilarTargetsWidget symbol={ensgId} />
+            <ChemicalProbesWidget
+              symbol={ensgId}
+              chemicalProbes={chemicalProbes}
+            />
+            <SimilarTargetsWidget
+              symbol={symbol}
+              similarTargets={similarTargets}
+            />
             <PathwaysWidget symbol={ensgId} />
             <ProteinInformationWidget />
             <CancerBiomarkersWidget />
