@@ -6,6 +6,9 @@ const margin = { top: 20, right: 20, bottom: 20, left: 30 };
 const OUTER_HEIGHT = 180;
 
 class TrialsHistogram extends Component {
+  countScale = d3.scaleLinear();
+  phaseScale = d3.scaleBand();
+
   componentDidMount() {
     this._render();
   }
@@ -40,6 +43,7 @@ class TrialsHistogram extends Component {
 
   _render() {
     const { trialsByPhase } = this.props;
+    const { countScale, phaseScale } = this;
     const outerWidth = this._width();
 
     if (!outerWidth) return;
@@ -47,15 +51,11 @@ class TrialsHistogram extends Component {
     const width = outerWidth - margin.left - margin.right;
     const height = OUTER_HEIGHT - margin.top - margin.bottom;
 
-    const countScale = d3
-      .scaleLinear()
+    countScale
       .domain([0, d3.max(trialsByPhase, d => d.trialCount)])
       .range([height, 0]);
 
-    const phaseScale = d3
-      .scaleBand()
-      .domain(trialsByPhase.map(d => d.phase))
-      .range([0, width]);
+    phaseScale.domain(trialsByPhase.map(d => d.phase)).range([0, width]);
 
     const svg = d3.select(this.svgRef);
     const plot = svg.select('g');
