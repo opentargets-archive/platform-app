@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
 import dc from 'dc';
+import _ from 'lodash';
 
 const styles = theme => ({
   dc: {
@@ -25,12 +26,12 @@ const query = gql`
     #     description
     #   }
     # }
-    # trialStatus: __type(name: "TrialStatus") {
-    #   enumValues {
-    #     name
-    #     description
-    #   }
-    # }
+    trialStatus: __type(name: "TrialStatus") {
+      enumValues {
+        name
+        description
+      }
+    }
     targetDetailDrugs(ensgId: $ensgId) {
       rows {
         targetId
@@ -69,22 +70,125 @@ class KnownDrugsDetail extends Component {
             // connect
             const ndx = crossfilter(data.targetDetailDrugs.rows);
 
-            // dimensions and groups
-            const dimTrialStatus = ndx.dimension(d =>
-              d.status ? d.status : 'UNKNOWN'
-            );
-
-            const groupTrialStatus = dimTrialStatus.group();
-            const dimDrugActivity = ndx.dimension(d => d.activity);
-            const dimDrugType = ndx.dimension(d => d.drugType);
+            // dimensions
+            const dimStatus = ndx.dimension(d => d.status || 'UNKNOWN');
             const dimPhase = ndx.dimension(d => d.phase);
             const dimDrugAndDisease = ndx.dimension(d => [
               d.drugName,
               d.efoLabel,
             ]);
-            const groupPhase = dimPhase.group();
+            const dimTrial = ndx.dimension(d => d.evidenceUrl);
             const dimDrug = ndx.dimension(d => d.drugName);
-            const groupPhaseByDrug = dimDrug.group().reduce(
+
+            // expected counts - for testing
+            console.log(
+              'unique trials',
+              _.uniqBy(data.targetDetailDrugs.rows, 'evidenceUrl').length
+            );
+            console.log(
+              'unique phases',
+              _.uniqBy(data.targetDetailDrugs.rows, 'phase').length
+            );
+            console.log(
+              'unique statuses',
+              _.uniqBy(data.targetDetailDrugs.rows, 'status').length
+            );
+            console.log(
+              'trials by phase',
+              _.uniqBy(
+                data.targetDetailDrugs.rows.map(d => ({
+                  trialId: d.evidenceUrl,
+                  status: d.status,
+                  phase: d.phase,
+                })),
+                'trialId'
+              ).reduce(
+                (acc, d) => {
+                  acc[d.phase] += 1;
+                  return acc;
+                },
+                { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 }
+              )
+            );
+            console.log(
+              'trials by phase',
+              _.uniqBy(
+                data.targetDetailDrugs.rows.map(d => ({
+                  trialId: d.evidenceUrl,
+                  status: d.status || 'UNKNOWN',
+                  phase: d.phase,
+                })),
+                'trialId'
+              ).reduce(
+                (acc, d) => {
+                  acc[d.status] += 1;
+                  return acc;
+                },
+                data.trialStatus.enumValues.reduce(
+                  (acc, d) => {
+                    acc[d.name] = 0;
+                    return acc;
+                  },
+                  { UNKNOWN: 0 }
+                )
+              )
+            );
+            console.log(
+              'trials by drug',
+              _.uniqBy(
+                data.targetDetailDrugs.rows.map(d => ({
+                  trialId: d.evidenceUrl,
+                  drugName: d.drugName,
+                })),
+                'trialId'
+              ).reduce((acc, d) => {
+                if (acc[d.drugName]) {
+                  acc[d.drugName] += 1;
+                } else {
+                  acc[d.drugName] = 1;
+                }
+                return acc;
+              }, {})
+            );
+
+            // groups
+            const groupTrialByStatus = dimStatus.group().reduce(
+              (p, d) => {
+                if (d.evidenceUrl in p.trialCounts) {
+                  p.trialCounts[d.evidenceUrl] += 1;
+                } else {
+                  p.trialCounts[d.evidenceUrl] = 1;
+                }
+                return p;
+              },
+              (p, d) => {
+                p.trialCounts[d.evidenceUrl] -= 1;
+                if (p.trialCounts[d.evidenceUrl] === 0) {
+                  delete p.trialCounts[d.evidenceUrl];
+                }
+                return p;
+              },
+              () => ({ trialCounts: {} })
+            );
+            const groupTrialByPhase = dimPhase.group().reduce(
+              (p, d) => {
+                if (d.evidenceUrl in p.trialCounts) {
+                  p.trialCounts[d.evidenceUrl] += 1;
+                } else {
+                  p.trialCounts[d.evidenceUrl] = 1;
+                }
+                return p;
+              },
+              (p, d) => {
+                p.trialCounts[d.evidenceUrl] -= 1;
+                if (p.trialCounts[d.evidenceUrl] === 0) {
+                  delete p.trialCounts[d.evidenceUrl];
+                }
+                return p;
+              },
+              () => ({ trialCounts: {} })
+            );
+            const groupDrugBy = dimDrug.group().reduce(
               (p, d) => {
                 if (d.phase in p.phaseCounts) {
                   p.phaseCounts[d.phase] += 1;
@@ -133,46 +237,49 @@ class KnownDrugsDetail extends Component {
                 },
                 () => ({ agonist: 0, antagonist: 0, upOrDown: 0 })
               );
-            console.log(groupDrugAndDiseaseByActivity.all());
 
             // charts
-            const chartTrialStatus = dc.rowChart('#dc-trial-status-chart');
-            const chartPhase = dc.rowChart('#dc-phase-chart');
-            const chartPhaseByDrug = dc.rowChart('#dc-phase-by-drug-chart');
+            const chartTrialByStatus = dc.rowChart('#dc-trial-by-status-chart');
+            const chartTrialByPhase = dc.rowChart('#dc-trial-by-phase-chart');
+            const chartTrialByDrug = dc.rowChart('#dc-trial-by-drug-chart');
             const chartDrugAndDiseaseByActivity = dc.heatMap(
               '#dc-drug-and-disease-by-activity-chart'
             );
 
+            // tables
             const tableDrugs = dc.dataTable('#dc-drugs-table');
 
-            chartTrialStatus
+            chartTrialByStatus
               .width(380)
               .height(580)
               .margins({ top: 20, left: 10, right: 10, bottom: 20 })
               .label(d => d.key)
-              .group(groupTrialStatus)
-              .dimension(dimTrialStatus)
+              .valueAccessor(d => Object.keys(d.value.trialCounts).length)
+              .group(groupTrialByStatus)
+              .dimension(dimStatus)
               .title(d => 'Status')
               .elasticX(true)
               .xAxis()
               .ticks(4);
 
-            chartPhase
+            chartTrialByPhase
               .width(380)
               .height(580)
               .margins({ top: 20, left: 10, right: 10, bottom: 20 })
-              .group(groupPhase)
+              .label(d => d.key)
+              .valueAccessor(d => Object.keys(d.value.trialCounts).length)
+              .group(groupTrialByPhase)
               .dimension(dimPhase)
               .title(d => 'Phase')
               .elasticX(true)
               .xAxis()
               .ticks(4);
 
-            chartPhaseByDrug
+            chartTrialByDrug
               .width(380)
               .height(580)
               .margins({ top: 20, left: 10, right: 10, bottom: 20 })
-              .group(groupPhaseByDrug)
+              .group(groupDrugBy)
               .dimension(dimDrug)
               .label(d => d.key)
               .valueAccessor(d => Object.keys(d.value.trialCounts).length)
@@ -194,9 +301,17 @@ class KnownDrugsDetail extends Component {
                 return d.key[1];
               })
               .colorAccessor(function(d) {
-                return d.value.agonist > 0 ? 1 : d.value.upOrDown > 0 ? 0 : -1;
+                return d.value.agonist > 0
+                  ? 3
+                  : d.value.upOrDown > 0
+                  ? 2
+                  : d.value.antagonist > 0
+                  ? 1
+                  : 0;
               })
-              .colors(['#f99', '#999', '#99f'])
+              .colors(['#eee', '#f99', '#999', '#99f'])
+              .renderTitle(true)
+              .title('Activity by drug and disease')
               .legend(
                 dc
                   .legend()
@@ -205,6 +320,8 @@ class KnownDrugsDetail extends Component {
                   .gap(5)
                   .horizontal(true)
               )
+              .xBorderRadius(0)
+              .yBorderRadius(0)
               .calculateColorDomain();
 
             tableDrugs
@@ -223,22 +340,36 @@ class KnownDrugsDetail extends Component {
 
             dc.renderAll();
 
+            // rotate labels
+            chartDrugAndDiseaseByActivity
+              .selectAll('g.cols.axis > text')
+              .attr('transform', function(d) {
+                var coord = this.getBBox();
+                var x = coord.x + coord.width / 2,
+                  y = coord.y + coord.height / 2;
+                return 'rotate(-45 ' + x + ' ' + y + ')';
+              })
+              .style('text-anchor', 'end');
+
             return null;
           }}
         </Query>
-        <div id="dc-trial-status-chart" className={classes.dc}>
-          <strong>Days by Gain/Loss</strong>
+        <div id="dc-trial-by-status-chart" className={classes.dc}>
+          <strong>Trials by Status</strong>
           <div className="clearfix" />
         </div>
-        <div id="dc-phase-chart" className={classes.dc} />
-        <div id="dc-drug-by-type-chart" className={classes.dc} />
-        <div id="dc-phase-by-drug-chart" className={classes.dc} />
-        <div id="dc-drug-type-chart" className={classes.dc} />
-        <div id="dc-drug-activity-chart" className={classes.dc} />
-        <div
-          id="dc-drug-and-disease-by-activity-chart"
-          className={classes.dc}
-        />
+        <div id="dc-trial-by-phase-chart" className={classes.dc}>
+          <strong>Trials by Phase</strong>
+          <div className="clearfix" />
+        </div>
+        <div id="dc-trial-by-drug-chart" className={classes.dc}>
+          <strong>Trials by Drug</strong>
+          <div className="clearfix" />
+        </div>
+        <div id="dc-drug-and-disease-by-activity-chart" className={classes.dc}>
+          <strong>Activity by (disease, drug)</strong>
+          <div className="clearfix" />
+        </div>
         <div id="dc-drugs-table" className={classes.dc} />
       </div>
     );
