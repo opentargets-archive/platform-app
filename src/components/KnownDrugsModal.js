@@ -10,6 +10,7 @@ import dc from 'dc';
 import _ from 'lodash';
 import * as d3 from 'd3';
 
+import DCContainer from './DCContainer';
 import { OtTable } from 'ot-ui';
 
 const knownDrugsQuery = gql`
@@ -82,27 +83,14 @@ const KnownDrugsModal = ({ classes, open, onClose, ensgId, symbol }) => {
         <Typography>
           Drugs in clinical trials or approved for {symbol}
         </Typography>
-        <div id="dc-trial-by-status-chart" className={classes.dc}>
-          <strong>Trials by Status</strong>
-          <div className="clearfix" />
-        </div>
-        <div id="dc-trial-by-phase-chart" className={classes.dc}>
-          <strong>Trials by Phase</strong>
-          <div className="clearfix" />
-        </div>
-        <div id="dc-trial-by-drug-chart" className={classes.dc}>
-          <strong>Trials by Drug</strong>
-          <div className="clearfix" />
-        </div>
-        <div id="dc-drug-by-activity-chart" className={classes.dc}>
-          <strong>Drug by Activity</strong>
-          <div className="clearfix" />
-        </div>
-        <div id="dc-drug-and-disease-by-activity-chart" className={classes.dc}>
-          <strong>Activity by (Disease, Drug)</strong>
-          <div className="clearfix" />
-        </div>
-        <div id="dc-drugs-table" className={classes.dc} />
+        <DCContainer id="dc-trial-by-status-chart" title="Trials by Status" />
+        <DCContainer id="dc-trial-by-phase-chart" title="Trials by Phase" />
+        <DCContainer id="dc-trial-by-drug-chart" title="Trials by Drug" />
+        <DCContainer id="dc-drug-by-activity-chart" title="Drug by Activity" />
+        <DCContainer
+          id="dc-drug-and-disease-by-activity-chart"
+          title="Activity by (Disease, Drug)"
+        />
         <Query query={knownDrugsQuery} variables={{ ensgId }}>
           {({ loading, error, data }) => {
             if (loading || error) return null;
@@ -119,7 +107,6 @@ const KnownDrugsModal = ({ classes, open, onClose, ensgId, symbol }) => {
               d.drugName,
               d.efoLabel,
             ]);
-            const dimTrial = ndx.dimension(d => d.evidenceUrl);
             const dimDrug = ndx.dimension(d => d.drugName);
 
             // expected counts - for testing
@@ -327,9 +314,6 @@ const KnownDrugsModal = ({ classes, open, onClose, ensgId, symbol }) => {
               '#dc-drug-and-disease-by-activity-chart'
             );
 
-            // tables
-            const tableDrugs = dc.dataTable('#dc-drugs-table');
-
             chartTrialByStatus
               .width(280)
               .height(280)
@@ -389,7 +373,7 @@ const KnownDrugsModal = ({ classes, open, onClose, ensgId, symbol }) => {
               );
 
             chartDrugAndDiseaseByActivity
-              .width(1200)
+              .width(800)
               .height(1200)
               .margins({ top: 20, left: 150, right: 10, bottom: 150 })
               .dimension(dimDrugAndDisease)
@@ -429,20 +413,6 @@ const KnownDrugsModal = ({ classes, open, onClose, ensgId, symbol }) => {
               .yBorderRadius(0)
               .calculateColorDomain();
 
-            tableDrugs
-              .dimension(dimDrug)
-              .group(d => d.efoLabel)
-              .size(10)
-              .columns([
-                'targetSymbol',
-                'efoLabel',
-                'drugName',
-                'status',
-                'phase',
-                'activity',
-                'drugType',
-              ]);
-
             dc.renderAll();
 
             // rotate labels
@@ -455,6 +425,11 @@ const KnownDrugsModal = ({ classes, open, onClose, ensgId, symbol }) => {
                 return 'rotate(-45 ' + x + ' ' + y + ')';
               })
               .style('text-anchor', 'end');
+
+            chartDrugAndDiseaseByActivity
+              .selectAll('g.rows.axis > text')
+              .attr('dy', 0);
+
             return (
               <OtTable
                 loading={loading}
