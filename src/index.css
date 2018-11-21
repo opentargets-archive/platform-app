@@ -14,6 +14,7 @@ code {
 }
 
 /* Overrides of dc.js */
-.dc-chart g.row text {
+.dc-chart g.row text,
+.dc-chart .pie-label-group .pie-label {
   fill: black;
 }
