@@ -65,6 +65,7 @@ const OverviewTab = ({ ensgId, symbol }) => {
           <Grid container spacing={16}>
             <KnownDrugsWidget ensgId={ensgId} symbol={symbol} drugs={drugs} />
             <ChemicalProbesWidget
+              ensgId={ensgId}
               symbol={symbol}
               chemicalProbes={chemicalProbes}
             />
