@@ -26,7 +26,6 @@ class KnownDrugsWidget extends Component {
   };
 
   handleClose = () => {
-    console.log('hey');
     this.setState({
       isOpen: false,
     });

@@ -3,7 +3,6 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 
