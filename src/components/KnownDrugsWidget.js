@@ -5,7 +5,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import KnownDrugsDetail from './KnownDrugsDetail';
 import TrialsHistogram from './TrialsHistogram';
 import KnownDrugsModal from './KnownDrugsModal';
 
