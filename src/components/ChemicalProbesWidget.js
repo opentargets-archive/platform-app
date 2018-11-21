@@ -11,7 +11,7 @@ const styles = theme => ({
   },
 });
 
-const ChemicalProbesWidget = ({ symbol, classes }) => {
+const ChemicalProbesWidget = ({ symbol, classes, chemicalProbes }) => {
   return (
     <Grid item md={3}>
       <Card className={classes.widget}>
@@ -20,9 +20,9 @@ const ChemicalProbesWidget = ({ symbol, classes }) => {
             Chemical probes
           </Typography>
           <Typography variant="h4" align="center">
-            1
+            {chemicalProbes.portalProbeCount}
           </Typography>
-          <Typography>
+          <Typography variant="body2" align="center">
             number of chemical probes developed for {symbol}
           </Typography>
         </CardContent>

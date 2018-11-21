@@ -75,7 +75,7 @@ class TargetPage extends Component {
                   <Tab value="associated" label="Associated diseases" />
                 </Tabs>
                 {value === 'overview' && (
-                  <OverviewTab symbol={symbol} ensgId={ensgId} />
+                  <OverviewTab ensgId={ensgId} symbol={symbol} />
                 )}
                 {value === 'protein' && <ProteinTab />}
                 {value === 'drug' && <DrugAndCompoundTab />}

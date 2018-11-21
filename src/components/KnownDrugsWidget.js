@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
-import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import KnownDrugsDetail from './KnownDrugsDetail';
+import TrialsHistogram from './TrialsHistogram';
+import KnownDrugsModal from './KnownDrugsModal';
 
 const styles = theme => ({
   widget: {
     height: theme.widgetHeight,
-  },
-  modal: {
-    backgroundColor: 'red',
   },
 });
 
@@ -36,7 +33,12 @@ class KnownDrugsWidget extends Component {
   };
 
   render() {
-    const { symbol, classes, ensgId } = this.props;
+    const {
+      ensgId,
+      symbol,
+      drugs: { count, trialsByPhase },
+      classes,
+    } = this.props;
     const { isOpen } = this.state;
 
     return (
@@ -46,20 +48,28 @@ class KnownDrugsWidget extends Component {
             <Typography variant="h5" align="center">
               Know drugs
             </Typography>
-            <Typography variant="h4" align="center">
-              43
-            </Typography>
-            <Typography>
-              number of drugs associated with {symbol} with these modalities:
-            </Typography>
+            <Grid container>
+              <Grid item md={6}>
+                <Typography variant="h4" align="center">
+                  {count}
+                </Typography>
+                <Typography align="center">
+                  number of drugs associated with {symbol} with these
+                  modalities:
+                </Typography>
+              </Grid>
+              <Grid item md={6}>
+                <TrialsHistogram trialsByPhase={trialsByPhase} />
+              </Grid>
+            </Grid>
           </CardContent>
         </Card>
-        <Modal open={isOpen} onClose={this.handleClose}>
-          <div className={classes.modal}>
-            Know Drugs Modal
-            <KnownDrugsDetail ensgId={ensgId} />
-          </div>
-        </Modal>
+        <KnownDrugsModal
+          open={isOpen}
+          onClose={this.handleClose}
+          ensgId={ensgId}
+          symbol={symbol}
+        />
       </Grid>
     );
   }
