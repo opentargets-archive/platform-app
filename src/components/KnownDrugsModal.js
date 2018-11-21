@@ -1,18 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
-import crossfilter from 'crossfilter2';
-import dc from 'dc';
-import _ from 'lodash';
-import * as d3 from 'd3';
 
-import DCContainer from './DCContainer';
 import KnownDrugsDetail from './KnownDrugsDetail';
-import { OtTable } from 'ot-ui';
 
 const knownDrugsQuery = gql`
   query KnownDrugsQuery($ensgId: String!) {
