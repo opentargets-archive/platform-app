@@ -74,7 +74,10 @@ const OverviewTab = ({ ensgId, symbol }) => {
             />
             <PathwaysWidget symbol={symbol} pathways={pathways} />
             <ProteinInformationWidget symbol={symbol} />
-            <CancerBiomarkersWidget cancerBiomarkers={cancerBiomarkers} />
+            <CancerBiomarkersWidget
+              ensgId={ensgId}
+              cancerBiomarkers={cancerBiomarkers}
+            />
           </Grid>
         );
       }}

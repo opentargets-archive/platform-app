@@ -34,7 +34,7 @@ class CancerBiomarkersWidget extends Component {
   };
 
   render() {
-    const { classes, cancerBiomarkers } = this.props;
+    const { classes, cancerBiomarkers, ensgId } = this.props;
     const { isOpen } = this.state;
 
     return (
@@ -56,7 +56,11 @@ class CancerBiomarkersWidget extends Component {
             </Typography>
           </CardContent>
         </Card>
-        <CancerBiomarkersModal open={isOpen} onClose={this.handleClose} />
+        <CancerBiomarkersModal
+          open={isOpen}
+          onClose={this.handleClose}
+          ensgId={ensgId}
+        />
       </Grid>
     );
   }
