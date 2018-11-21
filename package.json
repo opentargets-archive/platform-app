@@ -20,6 +20,7 @@
     "file-saver": "^2.0.0-rc.4",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
+    "lodash": "^4.17.11",
     "ot-ui": "^0.0.59",
     "polished": "^2.3.0",
     "react": "^16.5.2",
