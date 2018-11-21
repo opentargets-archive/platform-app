@@ -5,6 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
 import dc from 'dc';
 import _ from 'lodash';
+import * as d3 from 'd3';
 
 const styles = theme => ({
   dc: {
@@ -73,6 +74,7 @@ class KnownDrugsDetail extends Component {
             // dimensions
             const dimStatus = ndx.dimension(d => d.status || 'UNKNOWN');
             const dimPhase = ndx.dimension(d => d.phase);
+            const dimActivity = ndx.dimension(d => d.activity);
             const dimDrugAndDisease = ndx.dimension(d => [
               d.drugName,
               d.efoLabel,
@@ -146,6 +148,23 @@ class KnownDrugsDetail extends Component {
                   acc[d.drugName] += 1;
                 } else {
                   acc[d.drugName] = 1;
+                }
+                return acc;
+              }, {})
+            );
+            console.log(
+              'drugs by activity',
+              _.uniqBy(
+                data.targetDetailDrugs.rows.map(d => ({
+                  activity: d.activity,
+                  drugName: d.drugName,
+                })),
+                'drugName'
+              ).reduce((acc, d) => {
+                if (acc[d.activity]) {
+                  acc[d.activity] += 1;
+                } else {
+                  acc[d.activity] = 1;
                 }
                 return acc;
               }, {})
@@ -224,6 +243,25 @@ class KnownDrugsDetail extends Component {
               ANTAGONIST: 'antagonist',
               UP_OR_DOWN: 'upOrDown',
             };
+            const groupDrugByActivity = dimActivity.group().reduce(
+              (p, d) => {
+                if (d.drugName in p) {
+                  p[d.drugName] += 1;
+                } else {
+                  p[d.drugName] = 1;
+                }
+                return p;
+              },
+              (p, d) => {
+                p[d.drugName] -= 1;
+                if (p[d.drugName] === 0) {
+                  delete p[d.drugName];
+                }
+                return p;
+              },
+              () => ({})
+            );
+            console.log(groupDrugByActivity.all());
             const groupDrugAndDiseaseByActivity = dimDrugAndDisease
               .group()
               .reduce(
@@ -242,6 +280,9 @@ class KnownDrugsDetail extends Component {
             const chartTrialByStatus = dc.rowChart('#dc-trial-by-status-chart');
             const chartTrialByPhase = dc.rowChart('#dc-trial-by-phase-chart');
             const chartTrialByDrug = dc.rowChart('#dc-trial-by-drug-chart');
+            const chartDrugByActivity = dc.pieChart(
+              '#dc-drug-by-activity-chart'
+            );
             const chartDrugAndDiseaseByActivity = dc.heatMap(
               '#dc-drug-and-disease-by-activity-chart'
             );
@@ -250,33 +291,35 @@ class KnownDrugsDetail extends Component {
             const tableDrugs = dc.dataTable('#dc-drugs-table');
 
             chartTrialByStatus
-              .width(380)
-              .height(580)
+              .width(280)
+              .height(280)
               .margins({ top: 20, left: 10, right: 10, bottom: 20 })
               .label(d => d.key)
               .valueAccessor(d => Object.keys(d.value.trialCounts).length)
               .group(groupTrialByStatus)
               .dimension(dimStatus)
               .title(d => 'Status')
+              .colors(['#7B1A6A'])
               .elasticX(true)
               .xAxis()
               .ticks(4);
 
             chartTrialByPhase
-              .width(380)
-              .height(580)
+              .width(280)
+              .height(280)
               .margins({ top: 20, left: 10, right: 10, bottom: 20 })
-              .label(d => d.key)
+              .label(d => `Phase ${d.key}`)
               .valueAccessor(d => Object.keys(d.value.trialCounts).length)
               .group(groupTrialByPhase)
               .dimension(dimPhase)
               .title(d => 'Phase')
+              .colors(['#7B1A6A'])
               .elasticX(true)
               .xAxis()
               .ticks(4);
 
             chartTrialByDrug
-              .width(380)
+              .width(280)
               .height(580)
               .margins({ top: 20, left: 10, right: 10, bottom: 20 })
               .group(groupDrugBy)
@@ -284,9 +327,26 @@ class KnownDrugsDetail extends Component {
               .label(d => d.key)
               .valueAccessor(d => Object.keys(d.value.trialCounts).length)
               .title(d => 'Phase by Drug')
+              .colors(['#7B1A6A'])
               .elasticX(true)
               .xAxis()
               .ticks(4);
+
+            chartDrugByActivity
+              .width(280)
+              .height(280)
+              .radius(120)
+              .innerRadius(30)
+              .dimension(dimActivity)
+              .group(groupDrugByActivity)
+              .valueAccessor(d => Object.keys(d.value).length)
+              .colorAccessor(d => d.key)
+              .colors(
+                d3
+                  .scaleOrdinal()
+                  .domain(['agonist', 'antagonist', 'upOrDown'])
+                  .range(['#99f', '#f99', '#bbb'])
+              );
 
             chartDrugAndDiseaseByActivity
               .width(1200)
@@ -309,7 +369,12 @@ class KnownDrugsDetail extends Component {
                   ? 1
                   : 0;
               })
-              .colors(['#eee', '#f99', '#999', '#99f'])
+              .colors(
+                d3
+                  .scaleOrdinal()
+                  .domain([0, 1, 2, 3])
+                  .range(['#f99', '#99f', '#bbb', '#eee'])
+              )
               .renderTitle(true)
               .title('Activity by drug and disease')
               .legend(
@@ -366,8 +431,12 @@ class KnownDrugsDetail extends Component {
           <strong>Trials by Drug</strong>
           <div className="clearfix" />
         </div>
+        <div id="dc-drug-by-activity-chart" className={classes.dc}>
+          <strong>Drug by Activity</strong>
+          <div className="clearfix" />
+        </div>
         <div id="dc-drug-and-disease-by-activity-chart" className={classes.dc}>
-          <strong>Activity by (disease, drug)</strong>
+          <strong>Activity by (Disease, Drug)</strong>
           <div className="clearfix" />
         </div>
         <div id="dc-drugs-table" className={classes.dc} />
