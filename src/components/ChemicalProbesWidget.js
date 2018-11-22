@@ -41,11 +41,56 @@ class ChemicalProbesWidget extends Component {
             <Typography variant="h5" align="center">
               Chemical probes
             </Typography>
-            <Typography variant="h4" align="center">
-              {chemicalProbes.portalProbeCount}
-            </Typography>
-            <Typography variant="body2" align="center">
-              number of chemical probes developed for {symbol}
+
+            {chemicalProbes.portalProbeCount > 0 ? (
+              <div>
+                <Typography variant="h4" align="center">
+                  {chemicalProbes.portalProbeCount}
+                </Typography>
+                <Typography variant="body2" align="center">
+                  number of chemical probes developed for {symbol}
+                </Typography>
+              </div>
+            ) : (
+              <Typography variant="body2" align="center">
+                Potential chemical probes for {symbol} can be explored with{' '}
+                <a
+                  href={chemicalProbes.probeMinerLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Probe Miner
+                </a>
+                .
+              </Typography>
+            )}
+
+            <Typography variant="caption" align="center">
+              Chemical probes information from{' '}
+              <a
+                href="https://www.thesgc.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Structural Genomics Consortium
+              </a>
+              , the{' '}
+              <a
+                href="http://www.chemicalprobes.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Chemical Probes Portal
+              </a>
+              , and{' '}
+              <a
+                href="http://www.sgc-ffm.uni-frankfurt.de/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open Science Probes
+              </a>
+              .
             </Typography>
           </CardContent>
         </Card>

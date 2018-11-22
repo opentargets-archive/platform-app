@@ -29,6 +29,7 @@ const overviewQuery = gql`
       }
       chemicalProbes {
         portalProbeCount
+        probeMinerLink
       }
       similarTargets {
         count
