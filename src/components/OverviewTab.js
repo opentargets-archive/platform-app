@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 import KnownDrugsWidget from './KnownDrugsWidget';
 import ChemicalProbesWidget from './ChemicalProbesWidget';
@@ -45,44 +47,86 @@ const overviewQuery = gql`
   }
 `;
 
-const OverviewTab = ({ ensgId, symbol }) => {
-  return (
-    <Query query={overviewQuery} variables={{ ensgId }}>
-      {({ loading, error, data }) => {
-        if (loading || error) {
-          return null;
-        }
+class OverviewTab extends Component {
+  state = {
+    filterTerm: '',
+  };
 
-        const {
-          drugs,
-          chemicalProbes,
-          similarTargets,
-          pathways,
-          cancerBiomarkers,
-        } = data.targetSummary;
+  handleChange = event => {
+    this.setState({
+      filterTerm: event.target.value,
+    });
+  };
 
-        return (
-          <Grid container spacing={16}>
-            <KnownDrugsWidget ensgId={ensgId} symbol={symbol} drugs={drugs} />
-            <ChemicalProbesWidget
-              symbol={symbol}
-              chemicalProbes={chemicalProbes}
-            />
-            <SimilarTargetsWidget
-              symbol={symbol}
-              similarTargets={similarTargets}
-            />
-            <PathwaysWidget symbol={symbol} pathways={pathways} />
-            <ProteinInformationWidget symbol={symbol} />
-            <CancerBiomarkersWidget
-              ensgId={ensgId}
-              cancerBiomarkers={cancerBiomarkers}
-            />
-          </Grid>
-        );
-      }}
-    </Query>
-  );
-};
+  render() {
+    const { ensgId, symbol } = this.props;
+    const { filterTerm } = this.state;
+    const lowerCaseTerm = filterTerm.toLowerCase();
+
+    return (
+      <Query query={overviewQuery} variables={{ ensgId }}>
+        {({ loading, error, data }) => {
+          if (loading || error) {
+            return null;
+          }
+
+          const {
+            drugs,
+            chemicalProbes,
+            similarTargets,
+            pathways,
+            cancerBiomarkers,
+          } = data.targetSummary;
+
+          return (
+            <Fragment>
+              <Grid container>
+                <Typography>Filter widgets by name: </Typography>
+                <TextField
+                  value={filterTerm}
+                  onChange={this.handleChange}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid container spacing={16}>
+                {'known drugs'.includes(filterTerm) && (
+                  <KnownDrugsWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    drugs={drugs}
+                  />
+                )}
+                {'chemical probes'.includes(filterTerm) && (
+                  <ChemicalProbesWidget
+                    symbol={symbol}
+                    chemicalProbes={chemicalProbes}
+                  />
+                )}
+                {'similar targets'.includes(filterTerm) && (
+                  <SimilarTargetsWidget
+                    symbol={symbol}
+                    similarTargets={similarTargets}
+                  />
+                )}
+                {'pathways'.includes(filterTerm) && (
+                  <PathwaysWidget symbol={symbol} pathways={pathways} />
+                )}
+                {'protein information'.includes(filterTerm) && (
+                  <ProteinInformationWidget symbol={symbol} />
+                )}
+                {'cancer biomarkers'.includes(filterTerm) && (
+                  <CancerBiomarkersWidget
+                    ensgId={ensgId}
+                    cancerBiomarkers={cancerBiomarkers}
+                  />
+                )}
+              </Grid>
+            </Fragment>
+          );
+        }}
+      </Query>
+    );
+  }
+}
 
 export default OverviewTab;

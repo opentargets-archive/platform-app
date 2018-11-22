@@ -73,7 +73,7 @@ const TargetSummary = ({ classes, symbol, name, synonyms, description }) => (
     </Grid>
     <Grid className={classes.description} container>
       <Typography variant="body2">
-        <LongText lineLimit={7}>{description}</LongText>
+        <LongText lineLimit={3}>{description}</LongText>
       </Typography>
     </Grid>
     <Grid container>
