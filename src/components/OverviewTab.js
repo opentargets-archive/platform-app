@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import KnownDrugsWidget from './KnownDrugsWidget';
 import ChemicalProbesWidget from './ChemicalProbesWidget';
@@ -47,6 +48,18 @@ const overviewQuery = gql`
   }
 `;
 
+const styles = () => ({
+  filterSection: {
+    paddingTop: '14px',
+    paddingBottom: '14px',
+  },
+  filterLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '8px',
+  },
+});
+
 class OverviewTab extends Component {
   state = {
     filterTerm: '',
@@ -59,7 +72,7 @@ class OverviewTab extends Component {
   };
 
   render() {
-    const { ensgId, symbol } = this.props;
+    const { ensgId, symbol, classes } = this.props;
     const { filterTerm } = this.state;
     const lowerCaseTerm = filterTerm.toLowerCase();
 
@@ -80,8 +93,10 @@ class OverviewTab extends Component {
 
           return (
             <Fragment>
-              <Grid container>
-                <Typography>Filter widgets by name: </Typography>
+              <Grid container className={classes.filterSection}>
+                <Typography className={classes.filterLabel} variant="subtitle2">
+                  Filter widgets by name:
+                </Typography>
                 <TextField
                   value={filterTerm}
                   onChange={this.handleChange}
@@ -129,4 +144,4 @@ class OverviewTab extends Component {
   }
 }
 
-export default OverviewTab;
+export default withStyles(styles)(OverviewTab);
