@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import KnownDrugsModal from './KnownDrugsModal';
+import ChemicalProbesModal from './ChemicalProbesModal';
 
 const styles = theme => ({
   widget: {
@@ -50,7 +50,7 @@ class ChemicalProbesWidget extends Component {
           </CardContent>
         </Card>
 
-        <KnownDrugsModal
+        <ChemicalProbesModal
           open={isOpen}
           onClose={this.handleClose}
           ensgId={ensgId}
