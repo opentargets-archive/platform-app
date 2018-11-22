@@ -362,7 +362,7 @@ class KnownDrugsDetail extends React.Component {
       );
 
     chartDrugAndDiseaseByActivity
-      .width(800)
+      .width(600)
       .height(1200)
       .margins({ top: 20, left: 150, right: 10, bottom: 150 })
       .dimension(dimDrugAndDisease)
