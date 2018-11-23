@@ -18,7 +18,13 @@ class ChemicalProbesWidget extends Component {
     isOpen: false,
   };
 
-  handleClick = () => {
+  handleClick = e => {
+    // if the click is coming from a link, stop it to prevent opening the modal
+    if (e.target.tagName.toLowerCase() === 'a') {
+      e.stopPropagation();
+      return;
+    }
+
     this.setState({
       isOpen: true,
     });
@@ -47,12 +53,12 @@ class ChemicalProbesWidget extends Component {
                 <Typography variant="h4" align="center">
                   {chemicalProbes.portalProbeCount}
                 </Typography>
-                <Typography variant="body2" align="center">
-                  number of chemical probes developed for {symbol}
+                <Typography variant="body2" align="center" gutterBottom>
+                  Number of chemical probes developed for {symbol}
                 </Typography>
               </div>
             ) : (
-              <Typography variant="body2" align="center">
+              <Typography variant="body2" align="center" gutterBottom>
                 Potential chemical probes for {symbol} can be explored with{' '}
                 <a
                   href={chemicalProbes.probeMinerLink}
@@ -65,7 +71,7 @@ class ChemicalProbesWidget extends Component {
               </Typography>
             )}
 
-            <Typography variant="caption" align="center">
+            <Typography variant="caption" gutterBottom>
               Chemical probes information from{' '}
               <a
                 href="https://www.thesgc.org/"
