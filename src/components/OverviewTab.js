@@ -104,32 +104,32 @@ class OverviewTab extends Component {
                 />
               </Grid>
               <Grid container spacing={16}>
-                {'known drugs'.includes(filterTerm) && (
+                {KnownDrugsWidget.widgetName.includes(lowerCaseTerm) && (
                   <KnownDrugsWidget
                     ensgId={ensgId}
                     symbol={symbol}
                     drugs={drugs}
                   />
                 )}
-                {'chemical probes'.includes(filterTerm) && (
+                {ChemicalProbesWidget.widgetName.includes(lowerCaseTerm) && (
                   <ChemicalProbesWidget
                     symbol={symbol}
                     chemicalProbes={chemicalProbes}
                   />
                 )}
-                {'similar targets'.includes(filterTerm) && (
+                {SimilarTargetsWidget.widgetName.includes(lowerCaseTerm) && (
                   <SimilarTargetsWidget
                     symbol={symbol}
                     similarTargets={similarTargets}
                   />
                 )}
-                {'pathways'.includes(filterTerm) && (
+                {PathwaysWidget.widgetName.includes(lowerCaseTerm) && (
                   <PathwaysWidget symbol={symbol} pathways={pathways} />
                 )}
-                {'protein information'.includes(filterTerm) && (
-                  <ProteinInformationWidget symbol={symbol} />
-                )}
-                {'cancer biomarkers'.includes(filterTerm) && (
+                {ProteinInformationWidget.widgetName.includes(
+                  lowerCaseTerm
+                ) && <ProteinInformationWidget symbol={symbol} />}
+                {CancerBiomarkersWidget.widgetName.includes(lowerCaseTerm) && (
                   <CancerBiomarkersWidget
                     ensgId={ensgId}
                     cancerBiomarkers={cancerBiomarkers}

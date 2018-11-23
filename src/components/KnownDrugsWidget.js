@@ -15,6 +15,8 @@ const styles = theme => ({
 });
 
 class KnownDrugsWidget extends Component {
+  static widgetName = 'known drugs';
+
   state = {
     isOpen: false,
   };
