@@ -13,7 +13,11 @@ const columns = dataTypes => [
     label: 'Disease',
     renderCell: d => d.disease.name,
   },
-  { id: 'score', label: 'Overall' },
+  {
+    id: 'score',
+    label: 'Overall',
+    renderCell: d => <ScoreCell score={d.score} />,
+  },
   ...dataTypes.enumValues.map(dt => ({
     id: dt.name,
     label: dt.name,
