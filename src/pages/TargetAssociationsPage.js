@@ -21,6 +21,9 @@ const columns = dataTypes => [
   ...dataTypes.enumValues.map(dt => ({
     id: dt.name,
     label: dt.name,
+    comparator: (a, b) =>
+      a.dataTypes.find(t => t.dataType === dt.name).score -
+      b.dataTypes.find(t => t.dataType === dt.name).score,
     renderCell: d => (
       <ScoreCell score={d.dataTypes.find(t => t.dataType === dt.name).score} />
     ),
