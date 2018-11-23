@@ -1,34 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { OtTable } from 'ot-ui';
-
 import BasePage from './BasePage';
-import ScoreCell from '../components/ScoreCell';
-
-const columns = dataTypes => [
-  {
-    id: 'disease.id',
-    label: 'Disease',
-    renderCell: d => d.disease.name,
-  },
-  {
-    id: 'score',
-    label: 'Overall',
-    renderCell: d => <ScoreCell score={d.score} />,
-  },
-  ...dataTypes.enumValues.map(dt => ({
-    id: dt.name,
-    label: dt.name,
-    comparator: (a, b) =>
-      a.dataTypes.find(t => t.dataType === dt.name).score -
-      b.dataTypes.find(t => t.dataType === dt.name).score,
-    renderCell: d => (
-      <ScoreCell score={d.dataTypes.find(t => t.dataType === dt.name).score} />
-    ),
-  })),
-];
+import TargetAssociationsDetail from '../components/TargetAssociationsDetail';
 
 const targetAssociationsQuery = gql`
   query TargetAssociationsQuery($ensgId: String!) {
@@ -54,32 +29,21 @@ const targetAssociationsQuery = gql`
   }
 `;
 
-class TargetAssociationsPage extends Component {
-  render() {
-    const { ensgId } = this.props.match.params;
+const TargetAssociationsPage = ({ match }) => {
+  const { ensgId } = match.params;
+  return (
+    <BasePage>
+      <Query query={targetAssociationsQuery} variables={{ ensgId }}>
+        {({ loading, error, data }) => {
+          if (loading || error) {
+            return null;
+          }
 
-    return (
-      <BasePage>
-        <Query query={targetAssociationsQuery} variables={{ ensgId }}>
-          {({ loading, error, data }) => {
-            if (loading || error) {
-              return null;
-            }
-
-            const { dataTypes, targetAssociations } = data;
-            return (
-              <OtTable
-                loading={false}
-                error={null}
-                columns={columns(dataTypes)}
-                data={targetAssociations.associations}
-              />
-            );
-          }}
-        </Query>
-      </BasePage>
-    );
-  }
-}
+          return <TargetAssociationsDetail data={data} />;
+        }}
+      </Query>
+    </BasePage>
+  );
+};
 
 export default TargetAssociationsPage;
