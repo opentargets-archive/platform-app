@@ -59,7 +59,7 @@ class ChemicalProbesWidget extends Component {
                   Number of chemical probes developed for {symbol}
                 </Typography>
               </div>
-            ) : (
+            ) : chemicalProbes.hasProbeMinerLink ? (
               <Typography variant="body2" align="center" gutterBottom>
                 Potential chemical probes for {symbol} can be explored with{' '}
                 <a
@@ -70,6 +70,10 @@ class ChemicalProbesWidget extends Component {
                   Probe Miner
                 </a>
                 .
+              </Typography>
+            ) : (
+              <Typography variant="body2" align="center">
+                No information available for&nbsp;{symbol}
               </Typography>
             )}
 
