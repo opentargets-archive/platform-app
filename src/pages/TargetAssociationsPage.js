@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { OtTable } from 'ot-ui';
 
 import BasePage from './BasePage';
+import ScoreCell from '../components/ScoreCell';
 
 const columns = dataTypes => [
   {
@@ -16,7 +17,9 @@ const columns = dataTypes => [
   ...dataTypes.enumValues.map(dt => ({
     id: dt.name,
     label: dt.name,
-    renderCell: d => d.dataTypes.find(t => t.dataType === dt.name).score,
+    renderCell: d => (
+      <ScoreCell score={d.dataTypes.find(t => t.dataType === dt.name).score} />
+    ),
   })),
 ];
 
@@ -57,8 +60,6 @@ class TargetAssociationsPage extends Component {
             }
 
             const { dataTypes, targetAssociations } = data;
-            console.log(dataTypes);
-
             return (
               <OtTable
                 loading={false}
