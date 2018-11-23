@@ -74,7 +74,7 @@ class OverviewTab extends Component {
   render() {
     const { ensgId, symbol, classes } = this.props;
     const { filterTerm } = this.state;
-    const lowerCaseTerm = filterTerm.toLowerCase();
+    const lowerCaseTerm = filterTerm.trim().toLowerCase();
 
     return (
       <Query query={overviewQuery} variables={{ ensgId }}>
