@@ -14,6 +14,8 @@ const styles = theme => ({
 });
 
 class ProteinInformationWidget extends Component {
+  static widgetName = 'protein information';
+
   state = {
     isOpen: false,
   };

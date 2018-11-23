@@ -31,4 +31,6 @@ const ChemicalProbesWidget = ({ symbol, classes, chemicalProbes }) => {
   );
 };
 
+ChemicalProbesWidget.widgetName = 'chemical probes';
+
 export default withStyles(styles)(ChemicalProbesWidget);
