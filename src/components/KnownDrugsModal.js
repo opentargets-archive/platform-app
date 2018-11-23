@@ -2,26 +2,37 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { OtTable } from 'ot-ui';
+import KnownDrugsDetail from './KnownDrugsDetail';
 
 const knownDrugsQuery = gql`
   query KnownDrugsQuery($ensgId: String!) {
+    trialStatus: __type(name: "TrialStatus") {
+      enumValues {
+        name
+        description
+      }
+    }
     targetDetailDrugs(ensgId: $ensgId) {
       rows {
-        efoLabel
-        drugName
-        phase
-        status
-        drugType
-        mechanismOfAction
-        activity
+        targetId
         targetSymbol
         targetClass
+        efoId
+        efoLabel
+        drugId
+        drugName
+        drugType
+        phase
+        status
+        activity
+        evidenceUrl
         evidenceSource
+        mechanismOfAction
+        mechanismOfActionUrl
+        mechanismOfActionSource
       }
     }
   }
@@ -63,20 +74,12 @@ const KnownDrugsModal = ({ classes, open, onClose, ensgId, symbol }) => {
   return (
     <Modal className={classes.modalContainer} open={open} onClose={onClose}>
       <Paper className={classes.modalContents}>
-        <Typography>
-          Drugs in clinical trials or approved for {symbol}
-        </Typography>
         <Query query={knownDrugsQuery} variables={{ ensgId }}>
           {({ loading, error, data }) => {
             if (loading || error) return null;
-            const { rows } = data.targetDetailDrugs;
+
             return (
-              <OtTable
-                loading={loading}
-                error={error}
-                columns={columns}
-                data={rows}
-              />
+              <KnownDrugsDetail ensgId={ensgId} symbol={symbol} data={data} />
             );
           }}
         </Query>

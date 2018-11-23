@@ -112,4 +112,6 @@ class ChemicalProbesWidget extends Component {
   }
 }
 
+ChemicalProbesWidget.widgetName = 'chemical probes';
+
 export default withStyles(styles)(ChemicalProbesWidget);

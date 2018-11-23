@@ -17,6 +17,8 @@ const styles = theme => ({
 });
 
 class SimilarTargetsWidget extends Component {
+  static widgetName = 'similar targets';
+
   state = {
     isOpen: false,
   };

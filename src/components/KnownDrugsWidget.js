@@ -15,6 +15,8 @@ const styles = theme => ({
 });
 
 class KnownDrugsWidget extends Component {
+  static widgetName = 'known drugs';
+
   state = {
     isOpen: false,
   };
@@ -45,7 +47,7 @@ class KnownDrugsWidget extends Component {
         <Card onClick={this.handleClick} className={classes.widget}>
           <CardContent>
             <Typography variant="h5" align="center">
-              Know drugs
+              Known drugs
             </Typography>
             <Grid container>
               <Grid item md={6}>
