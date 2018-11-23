@@ -25,9 +25,11 @@ class ChemicalProbesWidget extends Component {
       return;
     }
 
-    this.setState({
-      isOpen: true,
-    });
+    if (this.props.chemicalProbes.portalProbeCount) {
+      this.setState({
+        isOpen: true,
+      });
+    }
   };
 
   handleClose = () => {
