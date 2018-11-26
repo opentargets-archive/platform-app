@@ -124,7 +124,7 @@ class TargetAssociationsDetail extends Component {
       return acc;
     }, {});
     const dimsDistDataType = dataTypes.enumValues.reduce((acc, dt) => {
-      acc[dt.name] = ndx.dimension(d => +Math.ceil(d.dataTypes[dt.name] * 100));
+      acc[dt.name] = ndx.dimension(d => +Math.ceil(d.dataTypes[dt.name] * 20));
       return acc;
     }, {});
 
@@ -170,10 +170,10 @@ class TargetAssociationsDetail extends Component {
         .gap(1)
         .renderTitle(true)
         .title(d => 'TITLE')
-        .x(d3.scaleLinear().domain([0, 100]))
+        .x(d3.scaleLinear().domain([0, 20]))
         // .valueAccessor(d => Math.log10(d.value)) // use log scale?
         .barPadding(0.01)
-        .centerBar(true)
+        // .centerBar(true)
         .dimension(dimsDistDataType[dt.name])
         .group(wrappedGroupsDistDataType[dt.name]);
     });
