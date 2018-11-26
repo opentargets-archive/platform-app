@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
 import dc from 'dc';
-import _ from 'lodash';
 import * as d3 from 'd3';
 
 import { OtTable } from 'ot-ui';

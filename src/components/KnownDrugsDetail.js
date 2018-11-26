@@ -59,8 +59,7 @@ class KnownDrugsDetail extends React.Component {
     // this.renderDC();
   }
   render() {
-    const { data, symbol, classes } = this.props;
-    // const { filteredRows } = this.state;
+    const { symbol, classes } = this.props;
     return (
       <React.Fragment>
         <Typography variant="h2">
