@@ -24,6 +24,10 @@ const targetAssociationsQuery = gql`
           dataType
           score
         }
+        therapeuticAreas {
+          id
+          name
+        }
       }
     }
   }

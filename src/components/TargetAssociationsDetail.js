@@ -71,21 +71,34 @@ class TargetAssociationsDetail extends Component {
         <Grid container spacing={16}>
           <Grid item container direction="column" xs={3}>
             <Paper>
-              {dataTypes.enumValues.map(dt => (
-                <div className={classes.dataTypeFilterContainer} key={dt.name}>
-                  <div>
-                    <span>{dt.name}</span>
+              <div>
+                <h3>Data Type</h3>
+                {dataTypes.enumValues.map(dt => (
+                  <div
+                    className={classes.dataTypeFilterContainer}
+                    key={dt.name}
+                  >
+                    <div>
+                      <span>{dt.name}</span>
+                    </div>
+                    <DCContainer
+                      id={`dc-disease-by-with-${dt.name.toLowerCase()}-chart`}
+                      title={null}
+                    />
+                    <DCContainer
+                      id={`dc-${dt.name.toLowerCase()}-dist-chart`}
+                      title={null}
+                    />
                   </div>
-                  <DCContainer
-                    id={`dc-disease-by-with-${dt.name.toLowerCase()}-chart`}
-                    title={null}
-                  />
-                  <DCContainer
-                    id={`dc-${dt.name.toLowerCase()}-dist-chart`}
-                    title={null}
-                  />
-                </div>
-              ))}
+                ))}
+              </div>
+              <div>
+                <h3>Therapeutic Area</h3>
+                <DCContainer
+                  id={`dc-disease-by-therapeutic-area-chart`}
+                  title={null}
+                />
+              </div>
             </Paper>
           </Grid>
           <Grid item xs={9}>
@@ -105,12 +118,24 @@ class TargetAssociationsDetail extends Component {
     const { dataTypes, targetAssociations } = data;
     const { associations } = targetAssociations;
 
+    // const therapeuticAreas = associations.reduce((acc, d) => {
+    //   if (d.therapeuticAreas) {
+    //     d.therapeuticAreas.forEach(ta => {
+    //       acc[ta.id] = ta.name;
+    //     });
+    //   }
+    //   return acc;
+    // }, {});
+
     const associationsFlat = associations.map(d => ({
       ...d,
       dataTypes: dataTypes.enumValues.reduce((acc, k) => {
         acc[k.name] = d.dataTypes.find(t => t.dataType === k.name).score;
         return acc;
       }, {}),
+      therapeuticAreas: d.therapeuticAreas
+        ? d.therapeuticAreas.map(ta => ta.name)
+        : [],
     }));
 
     // connect
@@ -127,6 +152,7 @@ class TargetAssociationsDetail extends Component {
       acc[dt.name] = ndx.dimension(d => +Math.ceil(d.dataTypes[dt.name] * 20));
       return acc;
     }, {});
+    const dimTherapeuticArea = ndx.dimension(d => d.therapeuticAreas, true);
 
     // groups
     const groupsWithDataType = dataTypes.enumValues.reduce((acc, dt) => {
@@ -143,6 +169,7 @@ class TargetAssociationsDetail extends Component {
       };
       return acc;
     }, {});
+    const groupTherapeuticArea = dimTherapeuticArea.group().reduceCount();
 
     // chart
     dataTypes.enumValues.forEach(dt => {
@@ -168,8 +195,6 @@ class TargetAssociationsDetail extends Component {
         .margins({ top: 1, right: 1, bottom: 1, left: 1 })
         .elasticY(true)
         .gap(1)
-        .renderTitle(true)
-        .title(d => 'TITLE')
         .x(d3.scaleLinear().domain([0, 20]))
         // .valueAccessor(d => Math.log10(d.value)) // use log scale?
         .barPadding(0.01)
@@ -177,6 +202,16 @@ class TargetAssociationsDetail extends Component {
         .dimension(dimsDistDataType[dt.name])
         .group(wrappedGroupsDistDataType[dt.name]);
     });
+    dc.rowChart('#dc-disease-by-therapeutic-area-chart')
+      .width(240)
+      .height(480)
+      .margins({ top: 1, left: 5, right: 5, bottom: 20 })
+      .group(groupTherapeuticArea)
+      .dimension(dimTherapeuticArea)
+      .colors(['#015299'])
+      .elasticX(true)
+      .xAxis()
+      .ticks(4);
 
     dc.renderAll();
 
