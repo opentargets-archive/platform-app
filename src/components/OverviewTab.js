@@ -32,6 +32,7 @@ const overviewQuery = gql`
       }
       chemicalProbes {
         portalProbeCount
+        probeMinerLink
       }
       similarTargets {
         count
@@ -113,6 +114,7 @@ class OverviewTab extends Component {
                 )}
                 {ChemicalProbesWidget.widgetName.includes(lowerCaseTerm) && (
                   <ChemicalProbesWidget
+                    ensgId={ensgId}
                     symbol={symbol}
                     chemicalProbes={chemicalProbes}
                   />
