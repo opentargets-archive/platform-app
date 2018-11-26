@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import KnownDrugsWidget from './KnownDrugsWidget';
 import ChemicalProbesWidget from './ChemicalProbesWidget';
@@ -29,6 +32,7 @@ const overviewQuery = gql`
       }
       chemicalProbes {
         portalProbeCount
+        probeMinerLink
       }
       similarTargets {
         count
@@ -45,44 +49,101 @@ const overviewQuery = gql`
   }
 `;
 
-const OverviewTab = ({ ensgId, symbol }) => {
-  return (
-    <Query query={overviewQuery} variables={{ ensgId }}>
-      {({ loading, error, data }) => {
-        if (loading || error) {
-          return null;
-        }
+const styles = () => ({
+  filterSection: {
+    paddingTop: '14px',
+    paddingBottom: '14px',
+  },
+  filterLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '8px',
+  },
+});
 
-        const {
-          drugs,
-          chemicalProbes,
-          similarTargets,
-          pathways,
-          cancerBiomarkers,
-        } = data.targetSummary;
+class OverviewTab extends Component {
+  state = {
+    filterTerm: '',
+  };
 
-        return (
-          <Grid container spacing={16}>
-            <KnownDrugsWidget ensgId={ensgId} symbol={symbol} drugs={drugs} />
-            <ChemicalProbesWidget
-              symbol={symbol}
-              chemicalProbes={chemicalProbes}
-            />
-            <SimilarTargetsWidget
-              symbol={symbol}
-              similarTargets={similarTargets}
-            />
-            <PathwaysWidget symbol={symbol} pathways={pathways} />
-            <ProteinInformationWidget symbol={symbol} />
-            <CancerBiomarkersWidget
-              ensgId={ensgId}
-              cancerBiomarkers={cancerBiomarkers}
-            />
-          </Grid>
-        );
-      }}
-    </Query>
-  );
-};
+  handleChange = event => {
+    this.setState({
+      filterTerm: event.target.value,
+    });
+  };
 
-export default OverviewTab;
+  render() {
+    const { ensgId, symbol, classes } = this.props;
+    const { filterTerm } = this.state;
+    const lowerCaseTerm = filterTerm.trim().toLowerCase();
+
+    return (
+      <Query query={overviewQuery} variables={{ ensgId }}>
+        {({ loading, error, data }) => {
+          if (loading || error) {
+            return null;
+          }
+
+          const {
+            drugs,
+            chemicalProbes,
+            similarTargets,
+            pathways,
+            cancerBiomarkers,
+          } = data.targetSummary;
+
+          return (
+            <Fragment>
+              <Grid container className={classes.filterSection}>
+                <Typography className={classes.filterLabel} variant="subtitle2">
+                  Filter widgets by name:
+                </Typography>
+                <TextField
+                  value={filterTerm}
+                  onChange={this.handleChange}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid container spacing={16}>
+                {KnownDrugsWidget.widgetName.includes(lowerCaseTerm) && (
+                  <KnownDrugsWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    drugs={drugs}
+                  />
+                )}
+                {ChemicalProbesWidget.widgetName.includes(lowerCaseTerm) && (
+                  <ChemicalProbesWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    chemicalProbes={chemicalProbes}
+                  />
+                )}
+                {SimilarTargetsWidget.widgetName.includes(lowerCaseTerm) && (
+                  <SimilarTargetsWidget
+                    symbol={symbol}
+                    similarTargets={similarTargets}
+                  />
+                )}
+                {PathwaysWidget.widgetName.includes(lowerCaseTerm) && (
+                  <PathwaysWidget symbol={symbol} pathways={pathways} />
+                )}
+                {ProteinInformationWidget.widgetName.includes(
+                  lowerCaseTerm
+                ) && <ProteinInformationWidget symbol={symbol} />}
+                {CancerBiomarkersWidget.widgetName.includes(lowerCaseTerm) && (
+                  <CancerBiomarkersWidget
+                    ensgId={ensgId}
+                    cancerBiomarkers={cancerBiomarkers}
+                  />
+                )}
+              </Grid>
+            </Fragment>
+          );
+        }}
+      </Query>
+    );
+  }
+}
+
+export default withStyles(styles)(OverviewTab);

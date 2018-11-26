@@ -14,6 +14,8 @@ const styles = theme => ({
 });
 
 class PathwaysWidget extends Component {
+  static widgetName = 'pathways';
+
   state = {
     isOpen: false,
   };

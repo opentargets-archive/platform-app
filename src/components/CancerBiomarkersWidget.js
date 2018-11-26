@@ -17,6 +17,8 @@ const styles = theme => ({
 });
 
 class CancerBiomarkersWidget extends Component {
+  static widgetName = 'cancer biomarker';
+
   state = {
     isOpen: false,
   };
