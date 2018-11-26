@@ -104,6 +104,7 @@ class TargetAssociationsDetail extends Component {
             <OtTable
               loading={false}
               error={null}
+              pageSize={20}
               columns={columns(dataTypes)}
               data={this.state.filteredRows}
             />
