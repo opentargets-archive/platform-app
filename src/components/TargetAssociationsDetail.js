@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
@@ -18,6 +19,16 @@ const styles = theme => ({
   },
   dataTypeFilterContainer: {
     width: '100%',
+    clear: 'both',
+    '& svg g g.axis.x .tick': {
+      display: 'none',
+    },
+    '& svg g g.axis.y .tick': {
+      display: 'none',
+    },
+    '& svg g g.axis .path': {
+      stroke: '#EEE',
+    },
   },
 });
 
@@ -54,31 +65,38 @@ class TargetAssociationsDetail extends Component {
     return (
       <React.Fragment>
         <Typography variant="h2">
-          NUMBER diseases associated with GENE SYMBOL
+          {data.targetAssociations.associations.length} diseases associated with
+          GENE SYMBOL
         </Typography>
-        <Paper>
-          {dataTypes.enumValues.map(dt => (
-            <div className={classes.dataTypeFilterContainer}>
-              <DCContainer
-                id={`dc-disease-by-with-${dt.name.toLowerCase()}-chart`}
-                title={dt.name.toLowerCase()}
-              />
-              <DCContainer
-                id={`dc-${dt.name.toLowerCase()}-dist-chart`}
-                title={dt.name.toLowerCase()}
-              />
-            </div>
-          ))}
-          {/* <DCContainer id="dc-disease-by-with-genetic-chart" title="GENETIC" />
-          <DCContainer id="dc-disease-by-with-somatic-chart" title="SOMATIC" />
-          <DCContainer id="dc-genetic-dist-chart" title="GENETIC DIST" /> */}
-        </Paper>
-        <OtTable
-          loading={false}
-          error={null}
-          columns={columns(dataTypes)}
-          data={this.state.filteredRows}
-        />
+        <Grid container spacing={16}>
+          <Grid item container direction="column" xs={3}>
+            <Paper>
+              {dataTypes.enumValues.map(dt => (
+                <div className={classes.dataTypeFilterContainer} key={dt.name}>
+                  <div>
+                    <span>{dt.name}</span>
+                  </div>
+                  <DCContainer
+                    id={`dc-disease-by-with-${dt.name.toLowerCase()}-chart`}
+                    title={null}
+                  />
+                  <DCContainer
+                    id={`dc-${dt.name.toLowerCase()}-dist-chart`}
+                    title={null}
+                  />
+                </div>
+              ))}
+            </Paper>
+          </Grid>
+          <Grid item xs={9}>
+            <OtTable
+              loading={false}
+              error={null}
+              columns={columns(dataTypes)}
+              data={this.state.filteredRows}
+            />
+          </Grid>
+        </Grid>
       </React.Fragment>
     );
   }
@@ -99,15 +117,6 @@ class TargetAssociationsDetail extends Component {
     const ndx = crossfilter(associationsFlat);
 
     // dimensions
-    // const dimWithGenetic = ndx.dimension(d =>
-    //   d.dataTypes.GENETIC > 0 ? 'Yes' : 'No'
-    // );
-    // const dimWithSomatic = ndx.dimension(d =>
-    //   d.dataTypes.SOMATIC > 0 ? 'Yes' : 'No'
-    // );
-    // const dimDistGenetic = ndx.dimension(
-    //   d => +Math.ceil(d.dataTypes.GENETIC * 100)
-    // );
     const dimsWithDataType = dataTypes.enumValues.reduce((acc, dt) => {
       acc[dt.name] = ndx.dimension(d =>
         d.dataTypes[dt.name] > 0 ? 'Yes' : 'No'
@@ -120,14 +129,6 @@ class TargetAssociationsDetail extends Component {
     }, {});
 
     // groups
-    // const groupDiseasesByWithGenetic = dimWithGenetic.group().reduceCount();
-    // const groupDiseasesByWithSomatic = dimWithSomatic.group().reduceCount();
-    // const groupDistGenetic = dimDistGenetic.group().reduceCount();
-    // const wrappedGroupDistGenetic = {
-    //   all: () => groupDistGenetic.all().filter(d => d.key > 0),
-    // };
-    // console.log(groupDistGenetic.all());
-    // console.log(wrappedGroupDistGenetic.all());
     const groupsWithDataType = dataTypes.enumValues.reduce((acc, dt) => {
       acc[dt.name] = dimsWithDataType[dt.name].group().reduceCount();
       return acc;
@@ -144,70 +145,38 @@ class TargetAssociationsDetail extends Component {
     }, {});
 
     // chart
-    // dc.pieChart('#dc-disease-by-with-genetic-chart')
-    //   .width(100)
-    //   .height(100)
-    //   .radius(50)
-    //   .innerRadius(20)
-    //   .dimension(dimWithGenetic)
-    //   .group(groupDiseasesByWithGenetic);
-
-    // dc.pieChart('#dc-disease-by-with-somatic-chart')
-    //   .width(100)
-    //   .height(100)
-    //   .radius(50)
-    //   .innerRadius(20)
-    //   .dimension(dimWithSomatic)
-    //   .group(groupDiseasesByWithSomatic);
     dataTypes.enumValues.forEach(dt => {
       dc.pieChart(`#dc-disease-by-with-${dt.name.toLowerCase()}-chart`)
-        .width(100)
-        .height(100)
-        .radius(50)
-        .innerRadius(20)
+        .width(40)
+        .height(40)
+        .radius(18)
+        .innerRadius(8)
+        .renderLabel(false)
+        .colorAccessor(d => d.key)
+        .colors(
+          d3
+            .scaleOrdinal()
+            .domain(['Yes', 'No'])
+            .range(['#015299', '#EEE'])
+        )
         .dimension(dimsWithDataType[dt.name])
         .group(groupsWithDataType[dt.name]);
 
       dc.barChart(`#dc-${dt.name.toLowerCase()}-dist-chart`)
-        .width(400)
-        .height(100)
-        .margins({ top: 20, right: 10, bottom: 20, left: 40 })
+        .width(200)
+        .height(40)
+        .margins({ top: 1, right: 1, bottom: 1, left: 1 })
         .elasticY(true)
-        .gap(0.01)
+        .gap(1)
+        .renderTitle(true)
+        .title(d => 'TITLE')
         .x(d3.scaleLinear().domain([0, 100]))
-        // .keyAccessor(d => d.key)
         // .valueAccessor(d => Math.log10(d.value)) // use log scale?
-        // .x(d3.scaleBand())
-        // .xUnits(dc.units.ordinal)
-        // .round(dc.round.floor)
-        // .alwaysUseRounding(true)
         .barPadding(0.01)
         .centerBar(true)
-        // .outerPadding(0)
         .dimension(dimsDistDataType[dt.name])
-        // .group(groupDistGenetic);
         .group(wrappedGroupsDistDataType[dt.name]);
     });
-
-    // dc.barChart('#dc-genetic-dist-chart')
-    //   .width(400)
-    //   .height(100)
-    //   .margins({ top: 20, right: 10, bottom: 20, left: 40 })
-    //   // .elasticY(true)
-    //   .gap(0.01)
-    //   .x(d3.scaleLinear().domain([0, 100]))
-    //   // .keyAccessor(d => d.key)
-    //   // .valueAccessor(d => Math.log10(d.value)) // use log scale?
-    //   // .x(d3.scaleBand())
-    //   // .xUnits(dc.units.ordinal)
-    //   // .round(dc.round.floor)
-    //   // .alwaysUseRounding(true)
-    //   .barPadding(0.01)
-    //   .centerBar(true)
-    //   // .outerPadding(0)
-    //   .dimension(dimDistGenetic)
-    //   // .group(groupDistGenetic);
-    //   .group(wrappedGroupDistGenetic);
 
     dc.renderAll();
 
