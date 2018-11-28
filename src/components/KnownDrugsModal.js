@@ -38,28 +38,6 @@ const knownDrugsQuery = gql`
   }
 `;
 
-const columns = [
-  {
-    id: 'efoLabel',
-    label: 'Disease',
-  },
-  { id: 'drugName', label: 'Drug' },
-  {
-    id: 'phase',
-    label: 'Phase',
-  },
-  {
-    id: 'status',
-    label: 'Status',
-  },
-  { id: 'drugType', label: 'Type' },
-  { id: 'mechanismOfAction', label: 'Mechanism of action' },
-  { id: 'activity', label: 'Activity' },
-  { id: 'targetSymbol', label: 'Target' },
-  { id: 'targetClass', label: 'Target class' },
-  { id: 'evidenceSource', label: 'Evidence curated from' },
-];
-
 const styles = theme => ({
   modalContainer: {
     overflow: 'auto',

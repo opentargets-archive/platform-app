@@ -59,8 +59,7 @@ class KnownDrugsDetail extends React.Component {
     // this.renderDC();
   }
   render() {
-    const { data, symbol, classes } = this.props;
-    // const { filteredRows } = this.state;
+    const { symbol, classes } = this.props;
     return (
       <React.Fragment>
         <Typography variant="h2">
@@ -362,7 +361,7 @@ class KnownDrugsDetail extends React.Component {
       );
 
     chartDrugAndDiseaseByActivity
-      .width(800)
+      .width(600)
       .height(1200)
       .margins({ top: 20, left: 150, right: 10, bottom: 150 })
       .dimension(dimDrugAndDisease)
