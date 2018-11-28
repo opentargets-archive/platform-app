@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import crossfilter from 'crossfilter2';
+import * as d3 from 'd3';
 import dc from 'dc';
 import { OtTable } from 'ot-ui';
 
@@ -100,7 +101,6 @@ class CancerBiomarkersDetails extends Component {
       },
       () => ({})
     );
-    console.log('biomarkersByDrugGroup.all()', biomarkersByDrugGroup.all());
 
     const biomarkersByAssociationGroup = biomarkersByAssociation.group().reduce(
       (acc, data) => {
@@ -119,10 +119,6 @@ class CancerBiomarkersDetails extends Component {
         return acc;
       },
       () => ({})
-    );
-    console.log(
-      'biomarkersByAssociationGroup.all()',
-      biomarkersByAssociationGroup.all()
     );
 
     const biomarkersByEvidenceGroup = biomarkersByEvidence.group().reduce(
@@ -143,23 +139,8 @@ class CancerBiomarkersDetails extends Component {
       },
       () => ({})
     );
-    console.log(
-      'biomarkersByEvidenceGroup.all()',
-      biomarkersByEvidenceGroup.all()
-    );
 
-    const biomarkerAndDrugGroup = biomarkerAndDrug.group().reduce(
-      (acc, data) => {
-        console.log('data', data);
-        return acc + 1;
-      },
-      (acc, data) => {
-        return acc - 1;
-      },
-      () => 0
-    );
-
-    console.log('biomarkerAndDrugGroup.all()', biomarkerAndDrugGroup.all());
+    const biomarkerAndDrugGroup = biomarkerAndDrug.group().reduceCount();
 
     const biomarkersByDrugChart = dc.rowChart('#biomarkers-by-drug');
     const biomarkersByAssociationChart = dc.pieChart(
@@ -220,7 +201,15 @@ class CancerBiomarkersDetails extends Component {
       .group(biomarkerAndDrugGroup)
       .keyAccessor(d => d.key[0])
       .valueAccessor(d => d.key[1])
-      .colorAccessor(() => 2)
+      .colorAccessor(d => {
+        return d.value > 0 ? 1 : 0;
+      })
+      .colors(
+        d3
+          .scaleOrdinal()
+          .domain([0, 1])
+          .range(['#ccc', '#3182bd'])
+      )
       .xBorderRadius(0)
       .yBorderRadius(0)
       .render();
