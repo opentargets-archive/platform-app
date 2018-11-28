@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { OtTable } from 'ot-ui';
+import CancerBiomarkersDetails from './CancerBiomarkersDetails';
 
 const cancerBiomarkersQuery = gql`
   query CancerBiomarkersQuery($ensgId: String!) {
@@ -28,25 +28,6 @@ const cancerBiomarkersQuery = gql`
     }
   }
 `;
-
-const columns = [
-  { id: 'biomarker', label: 'Biomarker' },
-  {
-    id: 'diseases',
-    label: 'Disease',
-    renderCell: rowData => {
-      return rowData.diseases.map(disease => disease.efoLabel).join(', ');
-    },
-  },
-  { id: 'drugName', label: 'Drug' },
-  { id: 'associationType', label: 'Association' },
-  { id: 'evidenceLevel', label: 'Evidence' },
-  {
-    id: 'sources',
-    label: 'Sources',
-    renderCell: rowData => rowData.sources.label,
-  },
-];
 
 const styles = () => ({
   modalContainer: {
@@ -72,14 +53,7 @@ const CancerBiomarkersModal = ({ classes, open, onClose, ensgId }) => {
           {({ loading, error, data }) => {
             if (loading || error) return null;
             const { rows } = data.targetDetailCancerBiomarkers;
-            return (
-              <OtTable
-                loading={loading}
-                error={error}
-                columns={columns}
-                data={rows}
-              />
-            );
+            return <CancerBiomarkersDetails rows={rows} />;
           }}
         </Query>
       </Paper>
