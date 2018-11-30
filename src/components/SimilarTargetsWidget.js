@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -19,25 +20,18 @@ const styles = theme => ({
 class SimilarTargetsWidget extends Component {
   static widgetName = 'similar targets';
 
-  state = {
-    isOpen: false,
-  };
-
   handleClick = () => {
-    this.setState({
-      isOpen: true,
-    });
+    const { history, match } = this.props;
+    history.push(`${match.url}/similar-targets`);
   };
 
   handleClose = () => {
-    this.setState({
-      isOpen: false,
-    });
+    const { history, match } = this.props;
+    history.push(match.url);
   };
 
   render() {
-    const { symbol, classes, similarTargets } = this.props;
-    const { isOpen } = this.state;
+    const { symbol, classes, similarTargets, match } = this.props;
 
     return (
       <Grid item md={3}>
@@ -61,14 +55,21 @@ class SimilarTargetsWidget extends Component {
             </Typography>
           </CardContent>
         </Card>
-        <SimilarTargetsModal
-          open={isOpen}
-          onClose={this.handleClose}
-          symbol={symbol}
+        <Route
+          path={`${match.path}/similar-targets`}
+          render={() => {
+            return (
+              <SimilarTargetsModal
+                open
+                onClose={this.handleClose}
+                symbol={symbol}
+              />
+            );
+          }}
         />
       </Grid>
     );
   }
 }
 
-export default withStyles(styles)(SimilarTargetsWidget);
+export default withStyles(styles)(withRouter(SimilarTargetsWidget));
