@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Tabs from '@material-ui/core/Tabs';
@@ -75,15 +75,18 @@ class TargetPage extends Component {
                   <Tab value="associations" label="Associations View" />
                   <Tab value="overview" label="Target Profile Overview" />
                 </Tabs>
-                <Route
-                  exact
-                  path={match.path}
-                  render={() => <OverviewTab ensgId={ensgId} symbol={symbol} />}
-                />
-                <Route
-                  path={`${match.path}/associations`}
-                  component={TargetAssociationsPage}
-                />
+                <Switch>
+                  <Route
+                    path={`${match.path}/associations`}
+                    component={TargetAssociationsPage}
+                  />
+                  <Route
+                    path={match.path}
+                    render={() => (
+                      <OverviewTab ensgId={ensgId} symbol={symbol} />
+                    )}
+                  />
+                </Switch>
               </Fragment>
             );
           }}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -17,20 +18,14 @@ const styles = theme => ({
 class KnownDrugsWidget extends Component {
   static widgetName = 'known drugs';
 
-  state = {
-    isOpen: false,
-  };
-
   handleClick = () => {
-    this.setState({
-      isOpen: true,
-    });
+    const { history, match } = this.props;
+    history.push(`${match.url}/known-drugs`);
   };
 
   handleClose = () => {
-    this.setState({
-      isOpen: false,
-    });
+    const { history, match } = this.props;
+    history.push(match.url);
   };
 
   render() {
@@ -39,8 +34,8 @@ class KnownDrugsWidget extends Component {
       symbol,
       drugs: { count, trialsByPhase },
       classes,
+      match,
     } = this.props;
-    const { isOpen } = this.state;
 
     return (
       <Grid item md={6}>
@@ -65,15 +60,22 @@ class KnownDrugsWidget extends Component {
             </Grid>
           </CardContent>
         </Card>
-        <KnownDrugsModal
-          open={isOpen}
-          onClose={this.handleClose}
-          ensgId={ensgId}
-          symbol={symbol}
+        <Route
+          path={`${match.path}/known-drugs`}
+          render={() => {
+            return (
+              <KnownDrugsModal
+                open
+                onClose={this.handleClose}
+                ensgId={ensgId}
+                symbol={symbol}
+              />
+            );
+          }}
         />
       </Grid>
     );
   }
 }
 
-export default withStyles(styles)(KnownDrugsWidget);
+export default withStyles(styles)(withRouter(KnownDrugsWidget));
