@@ -17,10 +17,6 @@ const styles = theme => ({
 class ProteinInformationWidget extends Component {
   static widgetName = 'protein information';
 
-  state = {
-    isOpen: false,
-  };
-
   handleClick = () => {
     const { history, match } = this.props;
     history.push(`${match.url}/protein-information`);
