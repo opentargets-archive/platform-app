@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -17,27 +18,20 @@ const styles = theme => ({
 });
 
 class CancerBiomarkersWidget extends Component {
-  static widgetName = 'cancer biomarker';
-
-  state = {
-    isOpen: false,
-  };
+  static widgetName = 'cancer biomarkers';
 
   handleClick = () => {
-    this.setState({
-      isOpen: true,
-    });
+    const { history, match } = this.props;
+    history.push(`${match.url}/cancer-biomarkers`);
   };
 
   handleClose = () => {
-    this.setState({
-      isOpen: false,
-    });
+    const { history, match } = this.props;
+    history.push(match.url);
   };
 
   render() {
-    const { classes, cancerBiomarkers, ensgId } = this.props;
-    const { isOpen } = this.state;
+    const { classes, cancerBiomarkers, ensgId, match } = this.props;
 
     return (
       <Grid item md={3}>
@@ -58,14 +52,21 @@ class CancerBiomarkersWidget extends Component {
             </Typography>
           </CardContent>
         </Card>
-        <CancerBiomarkersModal
-          open={isOpen}
-          onClose={this.handleClose}
-          ensgId={ensgId}
+        <Route
+          path={`${match.path}/cancer-biomarkers`}
+          render={() => {
+            return (
+              <CancerBiomarkersModal
+                open
+                onClose={this.handleClose}
+                ensgId={ensgId}
+              />
+            );
+          }}
         />
       </Grid>
     );
   }
 }
 
-export default withStyles(styles)(CancerBiomarkersWidget);
+export default withStyles(styles)(withRouter(CancerBiomarkersWidget));
