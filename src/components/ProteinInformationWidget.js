@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -21,20 +22,17 @@ class ProteinInformationWidget extends Component {
   };
 
   handleClick = () => {
-    this.setState({
-      isOpen: true,
-    });
+    const { history, match } = this.props;
+    history.push(`${match.url}/protein-information`);
   };
 
   handleClose = () => {
-    this.setState({
-      isOpen: false,
-    });
+    const { history, match } = this.props;
+    history.push(match.url);
   };
 
   render() {
-    const { classes, symbol } = this.props;
-    const { isOpen } = this.state;
+    const { classes, symbol, match } = this.props;
 
     return (
       <Grid item md={6}>
@@ -57,14 +55,21 @@ class ProteinInformationWidget extends Component {
             </Grid>
           </CardContent>
         </Card>
-        <ProteinInformationModal
-          open={isOpen}
-          onClose={this.handleClose}
-          symbol={symbol}
+        <Route
+          path={`${match.path}/protein-information`}
+          render={() => {
+            return (
+              <ProteinInformationModal
+                open
+                onClose={this.handleClose}
+                symbol={symbol}
+              />
+            );
+          }}
         />
       </Grid>
     );
   }
 }
 
-export default withStyles(styles)(ProteinInformationWidget);
+export default withStyles(styles)(withRouter(ProteinInformationWidget));
