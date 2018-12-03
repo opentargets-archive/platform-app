@@ -9,6 +9,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import TrialsHistogram from './TrialsHistogram';
 import KnownDrugsModal from './KnownDrugsModal';
 import AntibodyIcon from '../icons/AntibodyIcon';
+import OligonucleotideIcon from '../icons/OligonucleotideIcon';
 
 const styles = theme => ({
   widget: {
@@ -51,6 +52,7 @@ class KnownDrugsWidget extends Component {
               <Grid item md={4}>
                 <Typography>Modalities</Typography>
                 <AntibodyIcon />
+                <OligonucleotideIcon />
               </Grid>
               <Grid item md={4}>
                 <Typography variant="h4" align="center">
