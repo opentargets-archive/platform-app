@@ -11,6 +11,7 @@ import KnownDrugsModal from './KnownDrugsModal';
 import AntibodyIcon from '../icons/AntibodyIcon';
 import OligonucleotideIcon from '../icons/OligonucleotideIcon';
 import ProteinIcon from '../icons/ProteinIcon';
+import OtherDrugsIcon from '../icons/OtherDrugsIcon';
 
 const styles = theme => ({
   widget: {
@@ -55,6 +56,7 @@ class KnownDrugsWidget extends Component {
                 <AntibodyIcon />
                 <OligonucleotideIcon />
                 <ProteinIcon />
+                <OtherDrugsIcon />
               </Grid>
               <Grid item md={4}>
                 <Typography variant="h4" align="center">
