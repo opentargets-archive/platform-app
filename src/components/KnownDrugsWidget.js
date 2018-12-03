@@ -8,6 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import TrialsHistogram from './TrialsHistogram';
 import KnownDrugsModal from './KnownDrugsModal';
+import AntibodyIcon from '../icons/AntibodyIcon';
 
 const styles = theme => ({
   widget: {
@@ -32,20 +33,26 @@ class KnownDrugsWidget extends Component {
     const {
       ensgId,
       symbol,
-      drugs: { count, trialsByPhase },
+      drugs: { count, modalities, trialsByPhase },
       classes,
       match,
     } = this.props;
 
+    console.log('modalities', modalities);
+
     return (
-      <Grid item md={6}>
+      <Grid item md={9}>
         <Card onClick={this.handleClick} className={classes.widget}>
           <CardContent>
             <Typography variant="h5" align="center">
               Known drugs
             </Typography>
             <Grid container>
-              <Grid item md={6}>
+              <Grid item md={4}>
+                <Typography>Modalities</Typography>
+                <AntibodyIcon />
+              </Grid>
+              <Grid item md={4}>
                 <Typography variant="h4" align="center">
                   {count}
                 </Typography>
@@ -54,7 +61,7 @@ class KnownDrugsWidget extends Component {
                   modalities:
                 </Typography>
               </Grid>
-              <Grid item md={6}>
+              <Grid item md={4}>
                 <TrialsHistogram trialsByPhase={trialsByPhase} />
               </Grid>
             </Grid>
