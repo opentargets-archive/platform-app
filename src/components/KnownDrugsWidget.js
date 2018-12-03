@@ -20,6 +20,22 @@ const styles = theme => ({
   widget: {
     height: theme.widgetHeight,
   },
+  icons: {
+    flexDirection: 'column',
+  },
+  modalityText: {
+    color: '#E2DFDF',
+  },
+  modality: {
+    height: '32px',
+    width: '32px',
+    fill: '#E2DFDF',
+  },
+  modalityExists: {
+    height: '32px',
+    width: '32px',
+    fill: '#7B196A',
+  },
 });
 
 class KnownDrugsWidget extends Component {
@@ -44,7 +60,33 @@ class KnownDrugsWidget extends Component {
       match,
     } = this.props;
 
-    console.log('modalities', modalities);
+    const antibodyClasses = modalities.antibody
+      ? classes.modalityExists
+      : classes.modality;
+
+    const oligonucleotideClasses = modalities.oligonucleotide
+      ? classes.modalityExists
+      : classes.modality;
+
+    const proteinClasses = modalities.protein
+      ? classes.modalityExists
+      : classes.modality;
+
+    const otherDrugsClasses = modalities.otherDrugs
+      ? classes.modalityExists
+      : classes.modality;
+
+    const enzymeClasses = modalities.enzyme
+      ? classes.modalityExists
+      : classes.modality;
+
+    const oligosaccharideClasses = modalities.oligosaccharide
+      ? classes.modalityExists
+      : classes.modality;
+
+    const moleculeClasses = modalities.smallMolecule
+      ? classes.modalityExists
+      : classes.modality;
 
     return (
       <Grid item md={9}>
@@ -55,14 +97,68 @@ class KnownDrugsWidget extends Component {
             </Typography>
             <Grid container>
               <Grid item md={4}>
-                <Typography>Modalities</Typography>
-                <AntibodyIcon />
-                <OligonucleotideIcon />
-                <ProteinIcon />
-                <OtherDrugsIcon />
-                <EnzymeIcon />
-                <OligoSaccharideIcon />
-                <SmallMoleculeIcon />
+                <Typography align="center">Modalities</Typography>
+                <Grid container>
+                  <Grid item container className={classes.icons} md={6}>
+                    <Typography
+                      variant="caption"
+                      className={
+                        modalities.antibody ? '' : classes.modalityText
+                      }
+                    >
+                      <AntibodyIcon className={antibodyClasses} /> Antibody
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      className={
+                        modalities.oligonucleotides ? '' : classes.modalityText
+                      }
+                    >
+                      <OligonucleotideIcon className={oligonucleotideClasses} />
+                      Oligonucleotide
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      className={modalities.protein ? '' : classes.modalityText}
+                    >
+                      <ProteinIcon className={proteinClasses} /> Protein
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      className={
+                        modalities.otherDrugs ? '' : classes.modalityText
+                      }
+                    >
+                      <OtherDrugsIcon className={otherDrugsClasses} /> Other
+                    </Typography>
+                  </Grid>
+                  <Grid item container className={classes.icons} md={6}>
+                    <Typography
+                      variant="caption"
+                      className={modalities.enzyme ? '' : classes.modalityText}
+                    >
+                      <EnzymeIcon className={enzymeClasses} /> Enzyme
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      className={
+                        modalities.oligosaccharide ? '' : classes.modalityText
+                      }
+                    >
+                      <OligoSaccharideIcon className={oligosaccharideClasses} />{' '}
+                      Oligosaccharide
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      className={
+                        modalities.smallMolecule ? '' : classes.modalityText
+                      }
+                    >
+                      <SmallMoleculeIcon className={moleculeClasses} /> Small
+                      molecule
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item md={4}>
                 <Typography variant="h4" align="center">
@@ -77,6 +173,9 @@ class KnownDrugsWidget extends Component {
                 <TrialsHistogram trialsByPhase={trialsByPhase} />
               </Grid>
             </Grid>
+            <Typography variant="caption" align="center">
+              Source: ChEMBL
+            </Typography>
           </CardContent>
         </Card>
         <Route
