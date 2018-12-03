@@ -13,6 +13,8 @@ import OligonucleotideIcon from '../icons/OligonucleotideIcon';
 import ProteinIcon from '../icons/ProteinIcon';
 import OtherDrugsIcon from '../icons/OtherDrugsIcon';
 import EnzymeIcon from '../icons/EnzymeIcon';
+import OligoSaccharideIcon from '../icons/OligoSaccharideIcon';
+import SmallMoleculeIcon from '../icons/SmallMoleculeIcon';
 
 const styles = theme => ({
   widget: {
@@ -59,6 +61,8 @@ class KnownDrugsWidget extends Component {
                 <ProteinIcon />
                 <OtherDrugsIcon />
                 <EnzymeIcon />
+                <OligoSaccharideIcon />
+                <SmallMoleculeIcon />
               </Grid>
               <Grid item md={4}>
                 <Typography variant="h4" align="center">
