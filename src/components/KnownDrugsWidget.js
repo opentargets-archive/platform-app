@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -24,19 +25,36 @@ const styles = theme => ({
     flexDirection: 'column',
   },
   modalityText: {
+    alignItems: 'center',
+    display: 'flex',
+  },
+  modalityTextNotPresent: {
     color: '#E2DFDF',
   },
   modality: {
-    height: '32px',
-    width: '32px',
-    fill: '#E2DFDF',
+    height: '30px',
+    width: '30px',
   },
-  modalityExists: {
-    height: '32px',
-    width: '32px',
+  modalityIsPresent: {
     fill: '#7B196A',
   },
+  modalityNotPresent: {
+    fill: '#E2DFDF',
+  },
 });
+
+function getTextClasses(classes, count) {
+  return classNames(classes.modalityText, {
+    [classes.modalityTextNotPresent]: count === 0,
+  });
+}
+
+function getIconClasses(classes, count) {
+  return classNames(classes.modality, {
+    [classes.modalityIsPresent]: count > 0,
+    [classes.modalityNotPresent]: count === 0,
+  });
+}
 
 class KnownDrugsWidget extends Component {
   static widgetName = 'known drugs';
@@ -55,38 +73,53 @@ class KnownDrugsWidget extends Component {
     const {
       ensgId,
       symbol,
-      drugs: { count, modalities, trialsByPhase },
+      drugs: { count, trialsByPhase },
       classes,
       match,
     } = this.props;
 
-    const antibodyClasses = modalities.antibody
-      ? classes.modalityExists
-      : classes.modality;
+    const modalities = {
+      antibody: 0,
+      enzyme: 1,
+      oligonucleotide: 3,
+      oligosaccharide: 0,
+      protein: 0,
+      smallMolecule: 1,
+      other: 0,
+    };
 
-    const oligonucleotideClasses = modalities.oligonucleotide
-      ? classes.modalityExists
-      : classes.modality;
+    const antibodyText = getTextClasses(classes, modalities.antibody);
+    const antibodyIcon = getIconClasses(classes, modalities.antibody);
 
-    const proteinClasses = modalities.protein
-      ? classes.modalityExists
-      : classes.modality;
+    const enzymeText = getTextClasses(classes, modalities.enzyme);
+    const enzymeIcon = getIconClasses(classes, modalities.enzyme);
 
-    const otherDrugsClasses = modalities.otherDrugs
-      ? classes.modalityExists
-      : classes.modality;
+    const oligonucleotideText = getTextClasses(
+      classes,
+      modalities.oligonucleotide
+    );
+    const oligonucleotideIcon = getIconClasses(
+      classes,
+      modalities.oligonucleotide
+    );
 
-    const enzymeClasses = modalities.enzyme
-      ? classes.modalityExists
-      : classes.modality;
+    const oligosaccharideText = getTextClasses(
+      classes,
+      modalities.oligosaccharide
+    );
+    const oligosaccharideIcon = getIconClasses(
+      classes,
+      modalities.oligosaccharide
+    );
 
-    const oligosaccharideClasses = modalities.oligosaccharide
-      ? classes.modalityExists
-      : classes.modality;
+    const proteinText = getTextClasses(classes, modalities.protein);
+    const proteinIcon = getIconClasses(classes, modalities.protein);
 
-    const moleculeClasses = modalities.smallMolecule
-      ? classes.modalityExists
-      : classes.modality;
+    const smallMoleculeText = getTextClasses(classes, modalities.smallMolecule);
+    const smallMoleculeIcon = getIconClasses(classes, modalities.smallMolecule);
+
+    const otherText = getTextClasses(classes, modalities.other);
+    const otherIcon = getIconClasses(classes, modalities.other);
 
     return (
       <Grid item md={9}>
@@ -100,62 +133,41 @@ class KnownDrugsWidget extends Component {
                 <Typography align="center">Modalities</Typography>
                 <Grid container>
                   <Grid item container className={classes.icons} md={6}>
-                    <Typography
-                      variant="caption"
-                      className={
-                        modalities.antibody ? '' : classes.modalityText
-                      }
-                    >
-                      <AntibodyIcon className={antibodyClasses} /> Antibody
+                    <Typography variant="caption" className={antibodyText}>
+                      <AntibodyIcon className={antibodyIcon} />
+                      Antibody ({modalities.antibody})
                     </Typography>
                     <Typography
                       variant="caption"
-                      className={
-                        modalities.oligonucleotides ? '' : classes.modalityText
-                      }
+                      className={oligonucleotideText}
                     >
-                      <OligonucleotideIcon className={oligonucleotideClasses} />
-                      Oligonucleotide
+                      <OligonucleotideIcon className={oligonucleotideIcon} />
+                      Oligonucleotide ({modalities.oligonucleotide})
                     </Typography>
-                    <Typography
-                      variant="caption"
-                      className={modalities.protein ? '' : classes.modalityText}
-                    >
-                      <ProteinIcon className={proteinClasses} /> Protein
+                    <Typography variant="caption" className={proteinText}>
+                      <ProteinIcon className={proteinIcon} />
+                      Protein ({modalities.protein})
                     </Typography>
-                    <Typography
-                      variant="caption"
-                      className={
-                        modalities.otherDrugs ? '' : classes.modalityText
-                      }
-                    >
-                      <OtherDrugsIcon className={otherDrugsClasses} /> Other
+                    <Typography variant="caption" className={otherText}>
+                      <OtherDrugsIcon className={otherIcon} />
+                      Other ({modalities.other})
                     </Typography>
                   </Grid>
                   <Grid item container className={classes.icons} md={6}>
-                    <Typography
-                      variant="caption"
-                      className={modalities.enzyme ? '' : classes.modalityText}
-                    >
-                      <EnzymeIcon className={enzymeClasses} /> Enzyme
+                    <Typography variant="caption" className={enzymeText}>
+                      <EnzymeIcon className={enzymeIcon} />
+                      Enzyme ({modalities.enzyme})
                     </Typography>
                     <Typography
                       variant="caption"
-                      className={
-                        modalities.oligosaccharide ? '' : classes.modalityText
-                      }
+                      className={oligosaccharideText}
                     >
-                      <OligoSaccharideIcon className={oligosaccharideClasses} />{' '}
-                      Oligosaccharide
+                      <OligoSaccharideIcon className={oligosaccharideIcon} />
+                      Oligosaccharide ({modalities.oligosaccharide})
                     </Typography>
-                    <Typography
-                      variant="caption"
-                      className={
-                        modalities.smallMolecule ? '' : classes.modalityText
-                      }
-                    >
-                      <SmallMoleculeIcon className={moleculeClasses} /> Small
-                      molecule
+                    <Typography variant="caption" className={smallMoleculeText}>
+                      <SmallMoleculeIcon className={smallMoleculeIcon} />
+                      Small molecule ({modalities.smallMolecule})
                     </Typography>
                   </Grid>
                 </Grid>
