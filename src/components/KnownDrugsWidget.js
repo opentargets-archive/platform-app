@@ -21,8 +21,8 @@ const styles = theme => ({
   widget: {
     height: theme.widgetHeight,
   },
-  icons: {
-    flexDirection: 'column',
+  modalities: {
+    height: '85%',
   },
   modalityText: {
     alignItems: 'center',
@@ -131,43 +131,67 @@ class KnownDrugsWidget extends Component {
             <Grid container>
               <Grid item md={4}>
                 <Typography align="center">Modalities</Typography>
-                <Grid container>
-                  <Grid item container className={classes.icons} md={6}>
-                    <Typography variant="caption" className={antibodyText}>
-                      <AntibodyIcon className={antibodyIcon} />
-                      Antibody ({modalities.antibody})
-                    </Typography>
-                    <Typography
-                      variant="caption"
-                      className={oligonucleotideText}
-                    >
-                      <OligonucleotideIcon className={oligonucleotideIcon} />
-                      Oligonucleotide ({modalities.oligonucleotide})
-                    </Typography>
-                    <Typography variant="caption" className={proteinText}>
-                      <ProteinIcon className={proteinIcon} />
-                      Protein ({modalities.protein})
-                    </Typography>
+                <Grid
+                  container
+                  direction="column"
+                  justify="space-between"
+                  className={classes.modalities}
+                >
+                  <Grid item container>
+                    <Grid item md={6}>
+                      <Typography variant="caption" className={antibodyText}>
+                        <AntibodyIcon className={antibodyIcon} />
+                        Antibody ({modalities.antibody})
+                      </Typography>
+                    </Grid>
+                    <Grid item md={6}>
+                      <Typography variant="caption" className={enzymeText}>
+                        <EnzymeIcon className={enzymeIcon} />
+                        Enzyme ({modalities.enzyme})
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid item container>
+                    <Grid item md={6}>
+                      <Typography
+                        variant="caption"
+                        className={oligonucleotideText}
+                      >
+                        <OligonucleotideIcon className={oligonucleotideIcon} />
+                        Oligonucleotide ({modalities.oligonucleotide})
+                      </Typography>
+                    </Grid>
+                    <Grid item md={6}>
+                      <Typography
+                        variant="caption"
+                        className={oligosaccharideText}
+                      >
+                        <OligoSaccharideIcon className={oligosaccharideIcon} />
+                        Oligosaccharide ({modalities.oligosaccharide})
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid item container>
+                    <Grid item md={6}>
+                      <Typography variant="caption" className={proteinText}>
+                        <ProteinIcon className={proteinIcon} />
+                        Protein ({modalities.protein})
+                      </Typography>
+                    </Grid>
+                    <Grid item md={6}>
+                      <Typography
+                        variant="caption"
+                        className={smallMoleculeText}
+                      >
+                        <SmallMoleculeIcon className={smallMoleculeIcon} />
+                        Small molecule ({modalities.smallMolecule})
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid item container>
                     <Typography variant="caption" className={otherText}>
                       <OtherDrugsIcon className={otherIcon} />
                       Other ({modalities.other})
-                    </Typography>
-                  </Grid>
-                  <Grid item container className={classes.icons} md={6}>
-                    <Typography variant="caption" className={enzymeText}>
-                      <EnzymeIcon className={enzymeIcon} />
-                      Enzyme ({modalities.enzyme})
-                    </Typography>
-                    <Typography
-                      variant="caption"
-                      className={oligosaccharideText}
-                    >
-                      <OligoSaccharideIcon className={oligosaccharideIcon} />
-                      Oligosaccharide ({modalities.oligosaccharide})
-                    </Typography>
-                    <Typography variant="caption" className={smallMoleculeText}>
-                      <SmallMoleculeIcon className={smallMoleculeIcon} />
-                      Small molecule ({modalities.smallMolecule})
                     </Typography>
                   </Grid>
                 </Grid>
