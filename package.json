@@ -6,6 +6,10 @@
     "Gareth Peat <garethpeat@gmail.com>",
     "Alfredo Miranda <alfredo@miranda.io>"
   ],
+  "bugs": {
+    "url": "https://github.com/opentargets/platform/issues",
+    "email": "support@targetvalidation.org"
+  },
   "dependencies": {
     "@material-ui/core": "^3.4.0",
     "@material-ui/icons": "^3.0.1",
