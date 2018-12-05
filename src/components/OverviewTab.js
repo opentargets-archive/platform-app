@@ -15,35 +15,43 @@ import CancerBiomarkersWidget from './CancerBiomarkersWidget';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
-    targetSummary(ensgId: $ensgId) {
+    target(ensgId: $ensgId) {
       id
-      drugs {
-        count
-        modalities {
-          antibody
-          peptide
-          protein
-          smallMolecule
+      summaries {
+        drugs {
+          drugCount
+          drugModalities {
+            antibody
+            enzyme
+            oligonucleotide
+            oligosaccharide
+            protein
+            smallMolecule
+            other
+          }
+          trialsByPhase {
+            phase
+            trialCount
+          }
         }
-        trialsByPhase {
-          phase
-          trialCount
+        chemicalProbes {
+          hasStructuralGenomicsConsortium
+          hasChemicalProbesPortal
+          hasOpenScienceProbes
+          hasProbeMiner
         }
-      }
-      chemicalProbes {
-        portalProbeCount
-        probeMinerLink
-      }
-      similarTargets {
-        count
-        averageCommonDiseases
-      }
-      pathways {
-        count
-      }
-      cancerBiomarkers {
-        count
-        diseaseCount
+        relatedTargets {
+          relatedTargetsCount
+        }
+        pathways {
+          count
+        }
+        cancerBiomarkers {
+          hasCancerBiomarkers
+          cancerBiomarkerCount
+          diseaseCount
+          drugCount
+        }
       }
     }
   }
