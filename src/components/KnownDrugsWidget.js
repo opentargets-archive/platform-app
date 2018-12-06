@@ -78,6 +78,10 @@ class KnownDrugsWidget extends Component {
       match,
     } = this.props;
 
+    const totalTrials = trialsByPhase.reduce((acc, trial) => {
+      return acc + trial.trialCount;
+    }, 0);
+
     const antibodyText = getTextClasses(classes, drugModalities.antibody);
     const antibodyIcon = getIconClasses(classes, drugModalities.antibody);
 
@@ -202,6 +206,9 @@ class KnownDrugsWidget extends Component {
                 </Typography>
               </Grid>
               <Grid item md={4}>
+                <Typography variant="subtitle2" align="center">
+                  {totalTrials} clinical trials
+                </Typography>
                 <TrialsHistogram trialsByPhase={trialsByPhase} />
               </Grid>
             </Grid>

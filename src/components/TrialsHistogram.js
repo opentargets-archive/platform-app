@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { withContentRect } from 'react-measure';
 
-const margin = { top: 20, right: 20, bottom: 20, left: 30 };
+const margin = { top: 5, right: 20, bottom: 20, left: 30 };
 const OUTER_HEIGHT = 180;
 
 class TrialsHistogram extends Component {
