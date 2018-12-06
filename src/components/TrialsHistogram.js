@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { withContentRect } from 'react-measure';
 
+import { PHASE_MAP } from '../constants';
+
 const margin = { top: 5, right: 20, bottom: 20, left: 30 };
 const OUTER_HEIGHT = 180;
 
@@ -73,7 +75,9 @@ class TrialsHistogram extends Component {
     if (g.empty()) {
       g = plot.append('g').attr('class', 'axis axis--phase');
     }
-    g.attr('transform', `translate(0,${height})`).call(xAxis);
+    g.attr('transform', `translate(0,${height})`).call(
+      xAxis.tickFormat(d => PHASE_MAP[d])
+    );
   }
 
   _renderCountAxis(plot, yAxis) {
