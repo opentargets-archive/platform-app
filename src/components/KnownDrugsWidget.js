@@ -21,6 +21,12 @@ const styles = theme => ({
   widget: {
     height: theme.widgetHeight,
   },
+  widgetWithData: {
+    border: `2px solid ${theme.palette.text.primary}`,
+  },
+  widgetNoData: {
+    border: '2px solid #E2DFDF',
+  },
   modalities: {
     height: '85%',
   },
@@ -60,8 +66,10 @@ class KnownDrugsWidget extends Component {
   static widgetName = 'known drugs';
 
   handleClick = () => {
-    const { history, match } = this.props;
-    history.push(`${match.url}/known-drugs`);
+    const { history, match, drugs } = this.props;
+    if (drugs.drugCount > 0) {
+      history.push(`${match.url}/known-drugs`);
+    }
   };
 
   handleClose = () => {
@@ -81,6 +89,11 @@ class KnownDrugsWidget extends Component {
     const totalTrials = trialsByPhase.reduce((acc, trial) => {
       return acc + trial.trialCount;
     }, 0);
+
+    const widgetClasses = classNames(classes.widget, {
+      [classes.widgetWithData]: drugCount > 0,
+      [classes.widgetNoData]: drugCount === 0,
+    });
 
     const antibodyText = getTextClasses(classes, drugModalities.antibody);
     const antibodyIcon = getIconClasses(classes, drugModalities.antibody);
@@ -123,14 +136,23 @@ class KnownDrugsWidget extends Component {
 
     return (
       <Grid item md={9}>
-        <Card onClick={this.handleClick} className={classes.widget}>
+        <Card onClick={this.handleClick} className={widgetClasses}>
           <CardContent>
-            <Typography variant="h5" align="center">
+            <Typography
+              color={drugCount > 0 ? 'default' : 'secondary'}
+              variant="h5"
+              align="center"
+            >
               Known drugs
             </Typography>
             <Grid container>
               <Grid item md={4}>
-                <Typography align="center">Modalities</Typography>
+                <Typography
+                  color={drugCount > 0 ? 'default' : 'secondary'}
+                  align="center"
+                >
+                  Modalities
+                </Typography>
                 <Grid
                   container
                   direction="column"
@@ -196,16 +218,23 @@ class KnownDrugsWidget extends Component {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item md={4}>
-                <Typography variant="h4" align="center">
+              <Grid item md={3}>
+                <Typography
+                  color={drugCount > 0 ? 'default' : 'secondary'}
+                  variant="h4"
+                  align="center"
+                >
                   {drugCount}
                 </Typography>
-                <Typography align="center">
+                <Typography
+                  color={drugCount > 0 ? 'default' : 'secondary'}
+                  align="center"
+                >
                   number of drugs in clinical research stages where the target
                   is {symbol}
                 </Typography>
               </Grid>
-              <Grid item md={4}>
+              <Grid item md={5}>
                 <Typography variant="subtitle2" align="center">
                   {totalTrials} clinical trials
                 </Typography>
