@@ -235,10 +235,17 @@ class KnownDrugsWidget extends Component {
                 </Typography>
               </Grid>
               <Grid item md={5}>
-                <Typography variant="subtitle2" align="center">
+                <Typography
+                  color={drugCount > 0 ? 'default' : 'secondary'}
+                  variant="subtitle2"
+                  align="center"
+                >
                   {totalTrials} clinical trials
                 </Typography>
-                <TrialsHistogram trialsByPhase={trialsByPhase} />
+                <TrialsHistogram
+                  drugCount={drugCount}
+                  trialsByPhase={trialsByPhase}
+                />
               </Grid>
             </Grid>
             <Typography variant="caption" align="center">

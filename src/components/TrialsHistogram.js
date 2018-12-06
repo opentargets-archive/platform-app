@@ -44,7 +44,7 @@ class TrialsHistogram extends Component {
   }
 
   _render() {
-    const { trialsByPhase } = this.props;
+    const { trialsByPhase, drugCount } = this.props;
     const { countScale, phaseScale } = this;
     const outerWidth = this._width();
 
@@ -65,12 +65,12 @@ class TrialsHistogram extends Component {
     const xAxis = d3.axisBottom(phaseScale);
     const yAxis = d3.axisLeft(countScale).tickArguments([5]);
 
-    this._renderPhaseAxis(plot, xAxis, width, height);
-    this._renderCountAxis(plot, yAxis, height);
+    this._renderPhaseAxis(plot, xAxis, width, height, drugCount);
+    this._renderCountAxis(plot, yAxis, height, drugCount);
     this._renderBars(plot, phaseScale, countScale, trialsByPhase);
   }
 
-  _renderPhaseAxis(plot, xAxis, width, height) {
+  _renderPhaseAxis(plot, xAxis, width, height, drugCount) {
     let g = plot.select('.axis.axis--phase');
     if (g.empty()) {
       g = plot.append('g').attr('class', 'axis axis--phase');
@@ -78,24 +78,43 @@ class TrialsHistogram extends Component {
     g.attr('transform', `translate(0,${height})`).call(
       xAxis.tickFormat(d => PHASE_MAP[d])
     );
+
+    g.select('path').attr('stroke', drugCount > 0 ? '#5A5F5F' : '#E2DFDF');
+    const ticks = g.selectAll('.tick');
+
+    ticks
+      .selectAll('line')
+      .attr('stroke', drugCount > 0 ? '#5A5F5F' : '#E2DFDF');
+
+    ticks.selectAll('text').attr('fill', drugCount > 0 ? '#5A5F5F' : '#E2DFDF');
+
     let label = g.select('.axis-label.axis-label--phase');
     if (label.empty()) {
       label = g
         .append('text')
         .attr('class', 'axis-label axis-label--phase')
         .attr('dy', 30)
-        .attr('fill', 'black')
+        .attr('fill', drugCount > 0 ? '#5A5F5F' : '#E2DFDF')
         .text('Phase');
     }
     label.attr('dx', width / 2);
   }
 
-  _renderCountAxis(plot, yAxis, height) {
+  _renderCountAxis(plot, yAxis, height, drugCount) {
     let g = plot.select('.axis.axis--count');
     if (g.empty()) {
       g = plot.append('g').attr('class', 'axis axis--count');
     }
     g.call(yAxis);
+
+    g.select('path').attr('stroke', drugCount > 0 ? '#5A5F5F' : '#E2DFDF');
+    const ticks = g.selectAll('.tick');
+
+    ticks
+      .selectAll('line')
+      .attr('stroke', drugCount > 0 ? '#5A5F5F' : '#E2DFDF');
+
+    ticks.selectAll('text').attr('fill', drugCount > 0 ? '#5A5F5F' : '#E2DFDF');
 
     const label = g.select('.axis-label.axis-label--count');
     if (label.empty()) {
@@ -104,7 +123,7 @@ class TrialsHistogram extends Component {
         .attr('transform', 'rotate(-90)')
         .attr('dx', -height / 2 + 40)
         .attr('dy', -35)
-        .attr('fill', 'black')
+        .attr('fill', drugCount > 0 ? '#5A5F5F' : '#E2DFDF')
         .text('Number of trials');
     }
   }
