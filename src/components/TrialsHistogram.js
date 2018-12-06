@@ -78,15 +78,16 @@ class TrialsHistogram extends Component {
     g.attr('transform', `translate(0,${height})`).call(
       xAxis.tickFormat(d => PHASE_MAP[d])
     );
-    const label = g.select('.axis-label.axis-label--phase');
+    let label = g.select('.axis-label.axis-label--phase');
     if (label.empty()) {
-      g.append('text')
+      label = g
+        .append('text')
         .attr('class', 'axis-label axis-label--phase')
-        .attr('dx', width / 2)
         .attr('dy', 30)
         .attr('fill', 'black')
         .text('Phase');
     }
+    label.attr('dx', width / 2);
   }
 
   _renderCountAxis(plot, yAxis, height) {
@@ -99,25 +100,27 @@ class TrialsHistogram extends Component {
     const label = g.select('.axis-label.axis-label--count');
     if (label.empty()) {
       g.append('text')
-        .attr('class', 'axis-label axis-label--phase')
+        .attr('class', 'axis-label axis-label--count')
         .attr('transform', 'rotate(-90)')
         .attr('dx', -height / 2 + 40)
-        .attr('dy', -40)
+        .attr('dy', -35)
         .attr('fill', 'black')
         .text('Number of trials');
     }
   }
 
   _renderBars(plot, phaseScale, countScale, trialsByPhase) {
-    plot
-      .selectAll('rect')
-      .data(trialsByPhase)
+    const bars = plot.selectAll('rect').data(trialsByPhase);
+    bars
       .enter()
       .append('rect')
-      .attr('x', d => phaseScale(d.phase))
       .attr('y', d => countScale(d.trialCount))
       .attr('height', d => countScale(0) - countScale(d.trialCount))
+      .merge(bars)
+      .attr('x', d => phaseScale(d.phase))
       .attr('width', phaseScale.bandwidth());
+
+    bars.exit().remove();
   }
 }
 
