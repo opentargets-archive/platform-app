@@ -73,53 +73,49 @@ class KnownDrugsWidget extends Component {
     const {
       ensgId,
       symbol,
-      drugs: { count, trialsByPhase },
+      drugs: { drugCount, drugModalities, trialsByPhase },
       classes,
       match,
     } = this.props;
 
-    const modalities = {
-      antibody: 0,
-      enzyme: 1,
-      oligonucleotide: 3,
-      oligosaccharide: 0,
-      protein: 0,
-      smallMolecule: 1,
-      other: 0,
-    };
+    const antibodyText = getTextClasses(classes, drugModalities.antibody);
+    const antibodyIcon = getIconClasses(classes, drugModalities.antibody);
 
-    const antibodyText = getTextClasses(classes, modalities.antibody);
-    const antibodyIcon = getIconClasses(classes, modalities.antibody);
-
-    const enzymeText = getTextClasses(classes, modalities.enzyme);
-    const enzymeIcon = getIconClasses(classes, modalities.enzyme);
+    const enzymeText = getTextClasses(classes, drugModalities.enzyme);
+    const enzymeIcon = getIconClasses(classes, drugModalities.enzyme);
 
     const oligonucleotideText = getTextClasses(
       classes,
-      modalities.oligonucleotide
+      drugModalities.oligonucleotide
     );
     const oligonucleotideIcon = getIconClasses(
       classes,
-      modalities.oligonucleotide
+      drugModalities.oligonucleotide
     );
 
     const oligosaccharideText = getTextClasses(
       classes,
-      modalities.oligosaccharide
+      drugModalities.oligosaccharide
     );
     const oligosaccharideIcon = getIconClasses(
       classes,
-      modalities.oligosaccharide
+      drugModalities.oligosaccharide
     );
 
-    const proteinText = getTextClasses(classes, modalities.protein);
-    const proteinIcon = getIconClasses(classes, modalities.protein);
+    const proteinText = getTextClasses(classes, drugModalities.protein);
+    const proteinIcon = getIconClasses(classes, drugModalities.protein);
 
-    const smallMoleculeText = getTextClasses(classes, modalities.smallMolecule);
-    const smallMoleculeIcon = getIconClasses(classes, modalities.smallMolecule);
+    const smallMoleculeText = getTextClasses(
+      classes,
+      drugModalities.smallMolecule
+    );
+    const smallMoleculeIcon = getIconClasses(
+      classes,
+      drugModalities.smallMolecule
+    );
 
-    const otherText = getTextClasses(classes, modalities.other);
-    const otherIcon = getIconClasses(classes, modalities.other);
+    const otherText = getTextClasses(classes, drugModalities.other);
+    const otherIcon = getIconClasses(classes, drugModalities.other);
 
     return (
       <Grid item md={9}>
@@ -141,13 +137,13 @@ class KnownDrugsWidget extends Component {
                     <Grid item md={6}>
                       <Typography variant="caption" className={antibodyText}>
                         <AntibodyIcon className={antibodyIcon} />
-                        Antibody ({modalities.antibody})
+                        Antibody ({drugModalities.antibody})
                       </Typography>
                     </Grid>
                     <Grid item md={6}>
                       <Typography variant="caption" className={enzymeText}>
                         <EnzymeIcon className={enzymeIcon} />
-                        Enzyme ({modalities.enzyme})
+                        Enzyme ({drugModalities.enzyme})
                       </Typography>
                     </Grid>
                   </Grid>
@@ -158,7 +154,7 @@ class KnownDrugsWidget extends Component {
                         className={oligonucleotideText}
                       >
                         <OligonucleotideIcon className={oligonucleotideIcon} />
-                        Oligonucleotide ({modalities.oligonucleotide})
+                        Oligonucleotide ({drugModalities.oligonucleotide})
                       </Typography>
                     </Grid>
                     <Grid item md={6}>
@@ -167,7 +163,7 @@ class KnownDrugsWidget extends Component {
                         className={oligosaccharideText}
                       >
                         <OligoSaccharideIcon className={oligosaccharideIcon} />
-                        Oligosaccharide ({modalities.oligosaccharide})
+                        Oligosaccharide ({drugModalities.oligosaccharide})
                       </Typography>
                     </Grid>
                   </Grid>
@@ -175,7 +171,7 @@ class KnownDrugsWidget extends Component {
                     <Grid item md={6}>
                       <Typography variant="caption" className={proteinText}>
                         <ProteinIcon className={proteinIcon} />
-                        Protein ({modalities.protein})
+                        Protein ({drugModalities.protein})
                       </Typography>
                     </Grid>
                     <Grid item md={6}>
@@ -184,21 +180,21 @@ class KnownDrugsWidget extends Component {
                         className={smallMoleculeText}
                       >
                         <SmallMoleculeIcon className={smallMoleculeIcon} />
-                        Small molecule ({modalities.smallMolecule})
+                        Small molecule ({drugModalities.smallMolecule})
                       </Typography>
                     </Grid>
                   </Grid>
                   <Grid item container>
                     <Typography variant="caption" className={otherText}>
                       <OtherDrugsIcon className={otherIcon} />
-                      Other ({modalities.other})
+                      Other ({drugModalities.other})
                     </Typography>
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item md={4}>
                 <Typography variant="h4" align="center">
-                  {count}
+                  {drugCount}
                 </Typography>
                 <Typography align="center">
                   number of drugs associated with {symbol} with these
