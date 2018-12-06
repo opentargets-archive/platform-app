@@ -28,7 +28,7 @@ class PathwaysWidget extends Component {
   };
 
   render() {
-    const { symbol, classes, pathways, match } = this.props;
+    const { ensgId, symbol, classes, pathways, match } = this.props;
 
     return (
       <Grid item md={3}>
@@ -48,7 +48,12 @@ class PathwaysWidget extends Component {
         <Route
           path={`${match.path}/pathways`}
           render={() => (
-            <PathwaysModal open onClose={this.handleClose} symbol={symbol} />
+            <PathwaysModal
+              open
+              onClose={this.handleClose}
+              ensgId={ensgId}
+              symbol={symbol}
+            />
           )}
         />
       </Grid>
