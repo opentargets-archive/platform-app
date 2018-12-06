@@ -92,8 +92,6 @@ class OverviewTab extends Component {
             return null;
           }
 
-          console.log('data', data);
-
           const {
             drugs,
             chemicalProbes,

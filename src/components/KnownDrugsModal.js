@@ -9,30 +9,27 @@ import KnownDrugsDetail from './KnownDrugsDetail';
 
 const knownDrugsQuery = gql`
   query KnownDrugsQuery($ensgId: String!) {
-    trialStatus: __type(name: "TrialStatus") {
-      enumValues {
-        name
-        description
-      }
-    }
-    targetDetailDrugs(ensgId: $ensgId) {
-      rows {
-        targetId
-        targetSymbol
-        targetClass
-        efoId
-        efoLabel
-        drugId
-        drugName
-        drugType
-        phase
-        status
-        activity
-        evidenceUrl
-        evidenceSource
-        mechanismOfAction
-        mechanismOfActionUrl
-        mechanismOfActionSource
+    target(ensgId: $ensgId) {
+      id
+      details {
+        drugs {
+          rows {
+            disease {
+              name
+            }
+            drug {
+              name
+            }
+            clinicalTrial {
+              phase
+              status
+            }
+            mechanismOfAction {
+              name
+              sourceName
+            }
+          }
+        }
       }
     }
   }

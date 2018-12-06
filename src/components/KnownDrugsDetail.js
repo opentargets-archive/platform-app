@@ -89,7 +89,7 @@ class KnownDrugsDetail extends React.Component {
   }
   renderDC = () => {
     const { data } = this.props;
-    const { rows } = data.targetDetailDrugs;
+    const { rows } = data.target.details.drugs;
 
     // connect
     const ndx = crossfilter(rows);
@@ -102,22 +102,13 @@ class KnownDrugsDetail extends React.Component {
     const dimDrug = ndx.dimension(d => d.drugName);
 
     // expected counts - for testing
-    console.log(
-      'unique trials',
-      _.uniqBy(data.targetDetailDrugs.rows, 'evidenceUrl').length
-    );
-    console.log(
-      'unique phases',
-      _.uniqBy(data.targetDetailDrugs.rows, 'phase').length
-    );
-    console.log(
-      'unique statuses',
-      _.uniqBy(data.targetDetailDrugs.rows, 'status').length
-    );
+    console.log('unique trials', _.uniqBy(rows, 'evidenceUrl').length);
+    console.log('unique phases', _.uniqBy(rows, 'phase').length);
+    console.log('unique statuses', _.uniqBy(rows, 'status').length);
     console.log(
       'trials by phase',
       _.uniqBy(
-        data.targetDetailDrugs.rows.map(d => ({
+        rows.map(d => ({
           trialId: d.evidenceUrl,
           status: d.status,
           phase: d.phase,
@@ -134,7 +125,7 @@ class KnownDrugsDetail extends React.Component {
     console.log(
       'trials by phase',
       _.uniqBy(
-        data.targetDetailDrugs.rows.map(d => ({
+        rows.map(d => ({
           trialId: d.evidenceUrl,
           status: d.status || 'UNKNOWN',
           phase: d.phase,
@@ -157,7 +148,7 @@ class KnownDrugsDetail extends React.Component {
     console.log(
       'trials by drug',
       _.uniqBy(
-        data.targetDetailDrugs.rows.map(d => ({
+        rows.map(d => ({
           trialId: d.evidenceUrl,
           drugName: d.drugName,
         })),
@@ -174,7 +165,7 @@ class KnownDrugsDetail extends React.Component {
     console.log(
       'drugs by activity',
       _.uniqBy(
-        data.targetDetailDrugs.rows.map(d => ({
+        rows.map(d => ({
           activity: d.activity,
           drugName: d.drugName,
         })),

@@ -57,7 +57,6 @@ const CancerBiomarkersModal = ({ classes, open, onClose, ensgId }) => {
           {({ loading, error, data }) => {
             if (loading || error) return null;
             const { rows } = data.target.details.cancerBiomarkers;
-            console.log('rows', rows);
             return <CancerBiomarkersDetails rows={rows} />;
           }}
         </Query>
