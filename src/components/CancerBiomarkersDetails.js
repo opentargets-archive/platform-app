@@ -12,7 +12,7 @@ const columns = [
     id: 'diseases',
     label: 'Disease',
     renderCell: rowData => {
-      return rowData.diseases.map(disease => disease.efoLabel).join(', ');
+      return rowData.diseases.map(disease => disease.name).join(', ');
     },
   },
   { id: 'drugName', label: 'Drug' },
@@ -29,7 +29,7 @@ const columns = [
           target="_blank"
           rel="noopener noreferrer"
         >
-          {source.label}
+          {source.name}
         </a>
       ));
       return result;

@@ -10,19 +10,23 @@ import CancerBiomarkersDetails from './CancerBiomarkersDetails';
 
 const cancerBiomarkersQuery = gql`
   query CancerBiomarkersQuery($ensgId: String!) {
-    targetDetailCancerBiomarkers(ensgId: $ensgId) {
-      rows {
-        biomarker
-        diseases {
-          efoId
-          efoLabel
-        }
-        drugName
-        associationType
-        evidenceLevel
-        sources {
-          url
-          label
+    target(ensgId: $ensgId) {
+      id
+      details {
+        cancerBiomarkers {
+          rows {
+            biomarker
+            diseases {
+              name
+            }
+            drugName
+            associationType
+            evidenceLevel
+            sources {
+              url
+              name
+            }
+          }
         }
       }
     }
@@ -52,7 +56,7 @@ const CancerBiomarkersModal = ({ classes, open, onClose, ensgId }) => {
         <Query query={cancerBiomarkersQuery} variables={{ ensgId }}>
           {({ loading, error, data }) => {
             if (loading || error) return null;
-            const { rows } = data.targetDetailCancerBiomarkers;
+            const { rows } = data.target.details.cancerBiomarkers;
             return <CancerBiomarkersDetails rows={rows} />;
           }}
         </Query>

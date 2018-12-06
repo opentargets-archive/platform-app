@@ -12,7 +12,7 @@ import OverviewTab from '../components/OverviewTab';
 
 const targetQuery = gql`
   query TargetQuery($ensgId: String!) {
-    targetSummary(ensgId: $ensgId) {
+    target(ensgId: $ensgId) {
       id
       name
       symbol
@@ -57,7 +57,7 @@ class TargetPage extends Component {
               return null;
             }
 
-            const { symbol, name, synonyms, description } = data.targetSummary;
+            const { symbol, name, synonyms, description } = data.target;
             return (
               <Fragment>
                 <TargetSummary

@@ -6,7 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import SimilarTargetsModal from './SimilarTargetsModal';
+import RelatedTargetsModal from './RelatedTargetsModal';
 
 const styles = theme => ({
   widget: {
@@ -17,12 +17,12 @@ const styles = theme => ({
   },
 });
 
-class SimilarTargetsWidget extends Component {
+class RelatedTargetsWidget extends Component {
   static widgetName = 'similar targets';
 
   handleClick = () => {
     const { history, match } = this.props;
-    history.push(`${match.url}/similar-targets`);
+    history.push(`${match.url}/related-targets`);
   };
 
   handleClose = () => {
@@ -31,17 +31,17 @@ class SimilarTargetsWidget extends Component {
   };
 
   render() {
-    const { symbol, classes, similarTargets, match } = this.props;
+    const { symbol, classes, relatedTargets, match } = this.props;
 
     return (
       <Grid item md={3}>
         <Card onClick={this.handleClick} className={classes.widget}>
           <CardContent>
             <Typography variant="h5" align="center">
-              Similar targets
+              Related targets
             </Typography>
             <Typography variant="h4" align="center">
-              {similarTargets.count}
+              {relatedTargets.count}
             </Typography>
             <Typography align="center">
               number of targets related to {symbol}
@@ -49,17 +49,17 @@ class SimilarTargetsWidget extends Component {
             <Typography variant="caption" align="center">
               average of{' '}
               <span className={classes.bold}>
-                {similarTargets.averageCommonDiseases}
+                {relatedTargets.averageCommonDiseases}
               </span>{' '}
               common associated diseases
             </Typography>
           </CardContent>
         </Card>
         <Route
-          path={`${match.path}/similar-targets`}
+          path={`${match.path}/related-targets`}
           render={() => {
             return (
-              <SimilarTargetsModal
+              <RelatedTargetsModal
                 open
                 onClose={this.handleClose}
                 symbol={symbol}
@@ -72,4 +72,4 @@ class SimilarTargetsWidget extends Component {
   }
 }
 
-export default withStyles(styles)(withRouter(SimilarTargetsWidget));
+export default withStyles(styles)(withRouter(RelatedTargetsWidget));

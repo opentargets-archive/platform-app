@@ -8,42 +8,50 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import KnownDrugsWidget from './KnownDrugsWidget';
 import ChemicalProbesWidget from './ChemicalProbesWidget';
-import SimilarTargetsWidget from './SimilarTargetsWidget';
+import RelatedTargetsWidget from './RelatedTargetsWidget';
 import PathwaysWidget from './PathwaysWidget';
 import ProteinInformationWidget from './ProteinInformationWidget';
 import CancerBiomarkersWidget from './CancerBiomarkersWidget';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
-    targetSummary(ensgId: $ensgId) {
+    target(ensgId: $ensgId) {
       id
-      drugs {
-        count
-        modalities {
-          antibody
-          peptide
-          protein
-          smallMolecule
+      summaries {
+        drugs {
+          drugCount
+          drugModalities {
+            antibody
+            enzyme
+            oligonucleotide
+            oligosaccharide
+            protein
+            smallMolecule
+            other
+          }
+          trialsByPhase {
+            phase
+            trialCount
+          }
         }
-        trialsByPhase {
-          phase
-          trialCount
+        chemicalProbes {
+          hasStructuralGenomicsConsortium
+          hasChemicalProbesPortal
+          hasOpenScienceProbes
+          hasProbeMiner
         }
-      }
-      chemicalProbes {
-        portalProbeCount
-        probeMinerLink
-      }
-      similarTargets {
-        count
-        averageCommonDiseases
-      }
-      pathways {
-        count
-      }
-      cancerBiomarkers {
-        count
-        diseaseCount
+        relatedTargets {
+          relatedTargetsCount
+        }
+        pathways {
+          count
+        }
+        cancerBiomarkers {
+          hasCancerBiomarkers
+          cancerBiomarkerCount
+          diseaseCount
+          drugCount
+        }
       }
     }
   }
@@ -87,10 +95,10 @@ class OverviewTab extends Component {
           const {
             drugs,
             chemicalProbes,
-            similarTargets,
+            relatedTargets,
             pathways,
             cancerBiomarkers,
-          } = data.targetSummary;
+          } = data.target.summaries;
 
           return (
             <Fragment>
@@ -119,10 +127,10 @@ class OverviewTab extends Component {
                     chemicalProbes={chemicalProbes}
                   />
                 )}
-                {SimilarTargetsWidget.widgetName.includes(lowerCaseTerm) && (
-                  <SimilarTargetsWidget
+                {RelatedTargetsWidget.widgetName.includes(lowerCaseTerm) && (
+                  <RelatedTargetsWidget
                     symbol={symbol}
-                    similarTargets={similarTargets}
+                    relatedTargets={relatedTargets}
                   />
                 )}
                 {PathwaysWidget.widgetName.includes(lowerCaseTerm) && (
