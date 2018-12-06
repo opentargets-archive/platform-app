@@ -197,8 +197,8 @@ class KnownDrugsWidget extends Component {
                   {drugCount}
                 </Typography>
                 <Typography align="center">
-                  number of drugs associated with {symbol} with these
-                  modalities:
+                  number of drugs in clinical research stages where the target
+                  is {symbol}
                 </Typography>
               </Grid>
               <Grid item md={4}>
