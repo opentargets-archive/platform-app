@@ -8,7 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import KnownDrugsWidget from './KnownDrugsWidget';
 import ChemicalProbesWidget from './ChemicalProbesWidget';
-import SimilarTargetsWidget from './SimilarTargetsWidget';
+import RelatedTargetsWidget from './RelatedTargetsWidget';
 import PathwaysWidget from './PathwaysWidget';
 import ProteinInformationWidget from './ProteinInformationWidget';
 import CancerBiomarkersWidget from './CancerBiomarkersWidget';
@@ -92,13 +92,15 @@ class OverviewTab extends Component {
             return null;
           }
 
+          console.log('data', data);
+
           const {
             drugs,
             chemicalProbes,
-            similarTargets,
+            relatedTargets,
             pathways,
             cancerBiomarkers,
-          } = data.targetSummary;
+          } = data.target.summaries;
 
           return (
             <Fragment>
@@ -127,10 +129,10 @@ class OverviewTab extends Component {
                     chemicalProbes={chemicalProbes}
                   />
                 )}
-                {SimilarTargetsWidget.widgetName.includes(lowerCaseTerm) && (
-                  <SimilarTargetsWidget
+                {RelatedTargetsWidget.widgetName.includes(lowerCaseTerm) && (
+                  <RelatedTargetsWidget
                     symbol={symbol}
-                    similarTargets={similarTargets}
+                    relatedTargets={relatedTargets}
                   />
                 )}
                 {PathwaysWidget.widgetName.includes(lowerCaseTerm) && (

@@ -14,7 +14,7 @@ const styles = theme => ({
   },
 });
 
-const SimilarTargetsModal = ({ classes, open, symbol, onClose }) => {
+const RelatedTargetsModal = ({ classes, open, symbol, onClose }) => {
   return (
     <Modal className={classes.modalContainer} open={open} onClose={onClose}>
       <Paper className={classes.modalContents}>
@@ -26,4 +26,4 @@ const SimilarTargetsModal = ({ classes, open, symbol, onClose }) => {
   );
 };
 
-export default withStyles(styles)(SimilarTargetsModal);
+export default withStyles(styles)(RelatedTargetsModal);
