@@ -134,7 +134,11 @@ class OverviewTab extends Component {
                   />
                 )}
                 {PathwaysWidget.widgetName.includes(lowerCaseTerm) && (
-                  <PathwaysWidget symbol={symbol} pathways={pathways} />
+                  <PathwaysWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    pathways={pathways}
+                  />
                 )}
                 {ProteinInformationWidget.widgetName.includes(
                   lowerCaseTerm
