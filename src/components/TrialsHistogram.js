@@ -4,7 +4,7 @@ import { withContentRect } from 'react-measure';
 
 import { PHASE_MAP } from '../constants';
 
-const margin = { top: 5, right: 20, bottom: 20, left: 30 };
+const margin = { top: 5, right: 20, bottom: 40, left: 50 };
 const OUTER_HEIGHT = 180;
 
 class TrialsHistogram extends Component {
@@ -65,12 +65,12 @@ class TrialsHistogram extends Component {
     const xAxis = d3.axisBottom(phaseScale);
     const yAxis = d3.axisLeft(countScale).tickArguments([5]);
 
-    this._renderPhaseAxis(plot, xAxis, height);
-    this._renderCountAxis(plot, yAxis);
+    this._renderPhaseAxis(plot, xAxis, width, height);
+    this._renderCountAxis(plot, yAxis, height);
     this._renderBars(plot, phaseScale, countScale, trialsByPhase);
   }
 
-  _renderPhaseAxis(plot, xAxis, height) {
+  _renderPhaseAxis(plot, xAxis, width, height) {
     let g = plot.select('.axis.axis--phase');
     if (g.empty()) {
       g = plot.append('g').attr('class', 'axis axis--phase');
@@ -78,14 +78,34 @@ class TrialsHistogram extends Component {
     g.attr('transform', `translate(0,${height})`).call(
       xAxis.tickFormat(d => PHASE_MAP[d])
     );
+    const label = g.select('.axis-label.axis-label--phase');
+    if (label.empty()) {
+      g.append('text')
+        .attr('class', 'axis-label axis-label--phase')
+        .attr('dx', width / 2)
+        .attr('dy', 30)
+        .attr('fill', 'black')
+        .text('Phase');
+    }
   }
 
-  _renderCountAxis(plot, yAxis) {
+  _renderCountAxis(plot, yAxis, height) {
     let g = plot.select('.axis.axis--count');
     if (g.empty()) {
       g = plot.append('g').attr('class', 'axis axis--count');
     }
     g.call(yAxis);
+
+    const label = g.select('.axis-label.axis-label--count');
+    if (label.empty()) {
+      g.append('text')
+        .attr('class', 'axis-label axis-label--phase')
+        .attr('transform', 'rotate(-90)')
+        .attr('dx', -height / 2 + 40)
+        .attr('dy', -40)
+        .attr('fill', 'black')
+        .text('Number of trials');
+    }
   }
 
   _renderBars(plot, phaseScale, countScale, trialsByPhase) {
