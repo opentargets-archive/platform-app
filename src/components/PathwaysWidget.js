@@ -16,7 +16,6 @@ const styles = theme => ({
     border: `2px solid ${theme.palette.text.primary}`,
   },
   widgetNoData: {
-    height: theme.widgetHeight,
     border: '2px solid #E2DFDF',
   },
   widgetIcon: {
@@ -64,8 +63,7 @@ class PathwaysWidget extends Component {
       <Grid item md={3}>
         <Card
           onClick={this.handleClick}
-          className={classNames({
-            [classes.widget]: count > 0,
+          className={classNames(classes.widget, {
             [classes.widgetNoData]: count === 0,
           })}
         >
