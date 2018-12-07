@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import PathwaysModal from './PathwaysModal';
+import PathwaysWidgetIcon from '../icons/PathwaysWidgetIcon';
 
 const styles = theme => ({
   widget: {
@@ -37,12 +38,12 @@ class PathwaysWidget extends Component {
             <Typography variant="h5" align="center">
               Pathways
             </Typography>
-            <Typography variant="h4" align="center">
-              {pathways.count}
+            <PathwaysWidgetIcon />
+            <Typography variant="h5" align="center">
+              <span>{pathways.count}</span> biological processes and pathways
+              involving ESR1
             </Typography>
-            <Typography variant="body2" align="center">
-              number of biological pathways involving {symbol}
-            </Typography>
+            <Typography variant="caption">Source: Reactome</Typography>
           </CardContent>
         </Card>
         <Route
