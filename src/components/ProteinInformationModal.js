@@ -40,6 +40,9 @@ const styles = () => ({
     width: '90%',
     margin: '0 auto',
   },
+  keywordCategory: {
+    paddingBottom: '0.8rem',
+  },
 });
 
 class ProteinInformationModal extends React.Component {
@@ -106,10 +109,10 @@ class ProteinInformationModal extends React.Component {
                   {value === 'structure' ? <div>Something...</div> : null}
                   {value === 'subCellularLocation' ? (
                     <div>
-                      <Typography>
-                        <ul>
-                          {subCellularLocations.map((d, i) => (
-                            <li key={i}>
+                      <ul>
+                        {subCellularLocations.map((d, i) => (
+                          <li key={i}>
+                            <Typography>
                               <a
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -119,44 +122,49 @@ class ProteinInformationModal extends React.Component {
                               >
                                 {d.name}
                               </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </Typography>
+                            </Typography>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   ) : null}
                   {value === 'subUnit' ? (
                     <div>
-                      <Typography>
-                        <ul>
-                          {subUnit.map((d, i) => (
-                            <li key={i}>{d}</li>
-                          ))}
-                        </ul>
-                      </Typography>
+                      <ul>
+                        {subUnit.map((d, i) => (
+                          <li key={i}>
+                            <Typography>{d}</Typography>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   ) : null}
                   {value === 'keywords' ? (
                     <div>
-                      {Object.keys(keywordsGrouped).map(c => (
-                        <React.Fragment key={c}>
-                          <Typography>{c}</Typography>
-                          {keywordsGrouped[c].map((d, i) => (
-                            <React.Fragment key={d.id}>
-                              {i > 0 ? ' | ' : null}
-                              <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href={`https://www.uniprot.org/locations/${
-                                  d.id
-                                }`}
-                              >
-                                {d.name}
-                              </a>
-                            </React.Fragment>
-                          ))}
-                        </React.Fragment>
-                      ))}
+                      {Object.keys(keywordsGrouped)
+                        .sort()
+                        .map(c => (
+                          <div key={c} className={classes.keywordCategory}>
+                            <Typography variant="h6">{c}</Typography>
+                            <Typography>
+                              {keywordsGrouped[c].map((d, i) => (
+                                <React.Fragment key={d.id}>
+                                  {i > 0 ? ' | ' : null}
+
+                                  <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href={`https://www.uniprot.org/locations/${
+                                      d.id
+                                    }`}
+                                  >
+                                    {d.name}
+                                  </a>
+                                </React.Fragment>
+                              ))}
+                            </Typography>
+                          </div>
+                        ))}
                     </div>
                   ) : null}
                 </React.Fragment>
