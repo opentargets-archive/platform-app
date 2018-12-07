@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import ChemicalProbesModal from './ChemicalProbesModal';
+import CheckboxList from './CheckboxList';
 
 const styles = theme => ({
   widget: {
@@ -35,7 +36,22 @@ class ChemicalProbesWidget extends Component {
 
   render() {
     const { ensgId, symbol, chemicalProbes, classes, match } = this.props;
+    const {
+      hasStructuralGenomicsConsortium,
+      hasChemicalProbesPortal,
+      hasOpenScienceProbes,
+      hasProbeMiner,
+    } = chemicalProbes;
 
+    const items = [
+      {
+        value: hasStructuralGenomicsConsortium,
+        label: 'Structural Genomics Consortium',
+      },
+      { value: hasChemicalProbesPortal, label: 'Chemical Probes Portal' },
+      { value: hasOpenScienceProbes, label: 'Open Science Probes' },
+      { value: hasProbeMiner, label: 'ProbeMiner' },
+    ];
     return (
       <Grid item md={3}>
         <Card onClick={this.handleClick} className={classes.widget}>
@@ -44,32 +60,17 @@ class ChemicalProbesWidget extends Component {
               Chemical probes
             </Typography>
 
-            {chemicalProbes.portalProbeCount > 0 ? (
-              <div>
-                <Typography variant="h4" align="center">
-                  {chemicalProbes.portalProbeCount}
-                </Typography>
-                <Typography variant="body2" align="center" gutterBottom>
-                  Number of chemical probes developed for {symbol}
-                </Typography>
-              </div>
-            ) : chemicalProbes.hasProbeMinerLink ? (
-              <Typography variant="body2" align="center" gutterBottom>
-                Potential chemical probes for {symbol} can be explored with{' '}
-                <a
-                  href={chemicalProbes.probeMinerLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Probe Miner
-                </a>
-                .
-              </Typography>
-            ) : (
-              <Typography variant="body2" align="center">
-                No information available for&nbsp;{symbol}
-              </Typography>
-            )}
+            <Grid
+              container
+              direction="column"
+              alignItems="stretch"
+              justify="space-evenly"
+              className={classes.checkboxListContainer}
+            >
+              <Grid item xs={12}>
+                <CheckboxList items={items} />
+              </Grid>
+            </Grid>
 
             <Typography variant="caption" gutterBottom>
               Chemical probes information from{' '}
