@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import RelatedTargetsModal from './RelatedTargetsModal';
+import RelatedTargetsWidgetIcon from '../icons/RelatedTargetsWidgetIcon';
 
 const styles = theme => ({
   widget: {
@@ -31,7 +32,12 @@ class RelatedTargetsWidget extends Component {
   };
 
   render() {
-    const { symbol, classes, relatedTargets, match } = this.props;
+    const {
+      symbol,
+      classes,
+      relatedTargets: { relatedTargetsCount },
+      match,
+    } = this.props;
 
     return (
       <Grid item md={3}>
@@ -40,18 +46,13 @@ class RelatedTargetsWidget extends Component {
             <Typography variant="h5" align="center">
               Related targets
             </Typography>
-            <Typography variant="h4" align="center">
-              {relatedTargets.count}
-            </Typography>
-            <Typography align="center">
-              number of targets related to {symbol}
+            <RelatedTargetsWidgetIcon />
+            <Typography variant="caption" align="center">
+              View the top {relatedTargetsCount} targets related to {symbol}{' '}
+              based on diseases in common
             </Typography>
             <Typography variant="caption" align="center">
-              average of{' '}
-              <span className={classes.bold}>
-                {relatedTargets.averageCommonDiseases}
-              </span>{' '}
-              common associated diseases
+              Source: Open Targets
             </Typography>
           </CardContent>
         </Card>
