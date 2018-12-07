@@ -46,6 +46,13 @@ const overviewQuery = gql`
         pathways {
           count
         }
+        protein {
+          hasSequenceAnnotationVisualisation
+          hasProteinStructure
+          hasSubCellularLocation
+          hasSubUnitData
+          hasUniprotKeywords
+        }
         cancerBiomarkers {
           hasCancerBiomarkers
           cancerBiomarkerCount
@@ -97,6 +104,7 @@ class OverviewTab extends Component {
             chemicalProbes,
             relatedTargets,
             pathways,
+            protein,
             cancerBiomarkers,
           } = data.target.summaries;
 
@@ -142,7 +150,13 @@ class OverviewTab extends Component {
                 )}
                 {ProteinInformationWidget.widgetName.includes(
                   lowerCaseTerm
-                ) && <ProteinInformationWidget symbol={symbol} />}
+                ) && (
+                  <ProteinInformationWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    protein={protein}
+                  />
+                )}
                 {CancerBiomarkersWidget.widgetName.includes(lowerCaseTerm) && (
                   <CancerBiomarkersWidget
                     ensgId={ensgId}

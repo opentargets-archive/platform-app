@@ -7,10 +7,14 @@ import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import ProteinInformationModal from './ProteinInformationModal';
+import CheckboxList from './CheckboxList';
 
 const styles = theme => ({
   widget: {
     height: theme.widgetHeight,
+  },
+  checkboxListContainer: {
+    width: '100%',
   },
 });
 
@@ -28,25 +32,54 @@ class ProteinInformationWidget extends Component {
   };
 
   render() {
-    const { classes, symbol, match } = this.props;
+    const { classes, ensgId, symbol, protein, match } = this.props;
+    const {
+      hasSequenceAnnotationVisualisation,
+      hasProteinStructure,
+      hasSubCellularLocation,
+      hasSubUnitData,
+      hasUniprotKeywords,
+    } = protein;
 
+    const items = [
+      {
+        value: hasSequenceAnnotationVisualisation,
+        label: 'Sequence annotation',
+      },
+      {
+        value: hasProteinStructure,
+        label: '3D structure',
+      },
+      {
+        value: hasSubCellularLocation,
+        label: 'Subcellular location',
+      },
+      {
+        value: hasSubUnitData,
+        label: 'Sub-unit data',
+      },
+      {
+        value: hasUniprotKeywords,
+        label: 'UniProt keywords',
+      },
+    ];
     return (
-      <Grid item md={6}>
+      <Grid item md={3}>
         <Card onClick={this.handleClick} className={classes.widget}>
           <CardContent>
             <Typography variant="h5" align="center">
               Protein information
             </Typography>
-            <Grid container>
-              <Grid item md={6}>
-                <Typography>
-                  Protvista sequence visualization available
-                </Typography>
-              </Grid>
-              <Grid item md={6}>
-                <Typography>
-                  Subcellular location and subunit data available
-                </Typography>
+
+            <Grid
+              container
+              direction="column"
+              alignItems="stretch"
+              justify="space-evenly"
+              className={classes.checkboxListContainer}
+            >
+              <Grid item xs={12}>
+                <CheckboxList items={items} />
               </Grid>
             </Grid>
           </CardContent>
@@ -58,6 +91,7 @@ class ProteinInformationWidget extends Component {
               <ProteinInformationModal
                 open
                 onClose={this.handleClose}
+                ensgId={ensgId}
                 symbol={symbol}
               />
             );
