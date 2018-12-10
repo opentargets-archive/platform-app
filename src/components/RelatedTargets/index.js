@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import RelatedTargetsModal from './RelatedTargetsModal';
+import RelatedTargetsModal from './Detail';
 import RelatedTargetsWidgetIcon from '../../icons/RelatedTargetsWidgetIcon';
 
 const styles = theme => ({
