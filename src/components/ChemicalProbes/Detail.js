@@ -56,9 +56,7 @@ const columns = [
 const ChemicalProbesDetail = ({ ensgId, symbol }) => {
   return (
     <React.Fragment>
-      <Typography component="h2">
-        ChemicalProbes for {symbol} brahhaa
-      </Typography>
+      <Typography component="h2">ChemicalProbes for {symbol}</Typography>
       <Query query={query} variables={{ ensgId }}>
         {({ loading, error, data }) => {
           if (loading || error) return null;
