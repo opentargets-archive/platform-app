@@ -33,18 +33,30 @@ const overviewQuery = gql`
             phase
             trialCount
           }
+          sources {
+            name
+          }
         }
         chemicalProbes {
           hasStructuralGenomicsConsortium
           hasChemicalProbesPortal
           hasOpenScienceProbes
           hasProbeMiner
+          sources {
+            name
+          }
         }
         relatedTargets {
           relatedTargetsCount
+          sources {
+            name
+          }
         }
         pathways {
           count
+          sources {
+            name
+          }
         }
         protein {
           hasSequenceAnnotationVisualisation
@@ -52,12 +64,18 @@ const overviewQuery = gql`
           hasSubCellularLocation
           hasSubUnitData
           hasUniprotKeywords
+          sources {
+            name
+          }
         }
         cancerBiomarkers {
           hasCancerBiomarkers
           cancerBiomarkerCount
           diseaseCount
           drugCount
+          sources {
+            name
+          }
         }
       }
     }
