@@ -10,7 +10,7 @@ import KnownDrugsWidget from './KnownDrugs';
 import ChemicalProbesWidget from './ChemicalProbes';
 import RelatedTargetsWidget from './RelatedTargetsWidget';
 import PathwaysWidget from './PathwaysWidget';
-import ProteinInformationWidget from './ProteinInformationWidget';
+import ProteinInformationWidget from './ProteinInformation';
 import CancerBiomarkersWidget from './CancerBiomarkersWidget';
 
 const overviewQuery = gql`

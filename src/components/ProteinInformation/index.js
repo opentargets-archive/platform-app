@@ -6,8 +6,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import ProteinInformationModal from './ProteinInformationModal';
-import CheckboxList from './CheckboxList';
+import ProteinInformationDetail from './Detail';
+import CheckboxList from '../CheckboxList';
 
 const styles = theme => ({
   widget: {
@@ -88,7 +88,7 @@ class ProteinInformationWidget extends Component {
           path={`${match.path}/protein-information`}
           render={() => {
             return (
-              <ProteinInformationModal
+              <ProteinInformationDetail
                 open
                 onClose={this.handleClose}
                 ensgId={ensgId}

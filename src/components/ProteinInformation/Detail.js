@@ -8,7 +8,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-const proteinInfoQuery = gql`
+const query = gql`
   query ProteinInfoQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
       id
@@ -63,7 +63,7 @@ class ProteinInformationModal extends React.Component {
           <Typography>
             General information about {symbol} protein from UniProt.
           </Typography>
-          <Query query={proteinInfoQuery} variables={{ ensgId }}>
+          <Query query={query} variables={{ ensgId }}>
             {({ loading, error, data }) => {
               if (loading || error) return null;
 
