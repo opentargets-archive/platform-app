@@ -8,7 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import KnownDrugsWidget from './KnownDrugs';
 import ChemicalProbesWidget from './ChemicalProbes';
-import RelatedTargetsWidget from './RelatedTargetsWidget';
+import RelatedTargetsWidget from './RelatedTargets';
 import PathwaysWidget from './PathwaysWidget';
 import ProteinInformationWidget from './ProteinInformation';
 import CancerBiomarkersWidget from './CancerBiomarkersWidget';
