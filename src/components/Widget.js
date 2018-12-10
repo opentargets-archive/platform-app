@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Modal from './Modal';
 
 const styles = theme => ({
   widget: {
@@ -71,7 +72,14 @@ class Widget extends Component {
             </Typography>
           </CardContent>
         </Card>
-        <Route path={`${match.path}/${detailUrlStem}`} component={detail} />
+        <Route
+          path={`${match.path}/${detailUrlStem}`}
+          render={() => (
+            <Modal open onClose={this.handleClose}>
+              {detail}
+            </Modal>
+          )}
+        />
       </Grid>
     );
   }

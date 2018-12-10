@@ -6,8 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import KnownDrugsWidget from './KnownDrugsWidget';
-import ChemicalProbesWidget from './ChemicalProbesWidget';
+import KnownDrugsWidget from './KnownDrugs';
+import ChemicalProbesWidget from './ChemicalProbes';
 import RelatedTargetsWidget from './RelatedTargetsWidget';
 import PathwaysWidget from './PathwaysWidget';
 import ProteinInformationWidget from './ProteinInformationWidget';

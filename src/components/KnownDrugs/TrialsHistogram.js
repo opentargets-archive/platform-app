@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { withContentRect } from 'react-measure';
 
-import { PHASE_MAP } from '../constants';
+import { PHASE_MAP } from '../../constants';
 
 const margin = { top: 5, right: 20, bottom: 40, left: 50 };
 const OUTER_HEIGHT = 180;
