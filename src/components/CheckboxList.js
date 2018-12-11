@@ -1,7 +1,6 @@
 import React from 'react';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 

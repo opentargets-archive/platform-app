@@ -1,10 +1,7 @@
-import React, { Component } from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import React from 'react';
 import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import Widget from '../Widget';
