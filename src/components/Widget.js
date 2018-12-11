@@ -7,6 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Modal from './Modal';
+import { CardHeader, CardActions } from '@material-ui/core';
 
 const styles = theme => ({
   widget: {
@@ -17,6 +18,15 @@ const styles = theme => ({
   },
   widgetNoData: {
     border: '2px solid #E2DFDF',
+  },
+  widgetHeader: {
+    padding: '8px 12px',
+  },
+  widgetContent: {
+    padding: '8px 12px',
+  },
+  widgetFooter: {
+    padding: '8px 12px',
   },
 });
 
@@ -57,20 +67,23 @@ class Widget extends Component {
             [classes.widgetNoData]: !hasData,
           })}
         >
-          <CardContent>
-            <Typography
-              color={hasData ? 'default' : 'secondary'}
-              variant="h5"
-              align="center"
-            >
-              {title}
-            </Typography>
+          <CardHeader
+            className={classes.widgetHeader}
+            title={title}
+            titleTypographyProps={{
+              align: 'center',
+              color: hasData ? 'default' : 'secondary',
+            }}
+          />
+          <CardContent className={classes.widgetContent}>
             {children}
+          </CardContent>
+          <CardActions className={classes.widgetFooter}>
             <Typography variant="caption" align="center">
               Source{sources.length > 1 ? 's' : null}:{' '}
               {sources.map(d => d.name).join(', ')}
             </Typography>
-          </CardContent>
+          </CardActions>
         </Card>
         <Route
           path={`${match.path}/${detailUrlStem}`}
