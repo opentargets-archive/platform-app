@@ -11,7 +11,7 @@ import ChemicalProbesWidget from './ChemicalProbes';
 import RelatedTargetsWidget from './RelatedTargets';
 import PathwaysWidget from './Pathways';
 import ProteinInformationWidget from './ProteinInformation';
-import CancerBiomarkersWidget from './CancerBiomarkersWidget';
+import CancerBiomarkersWidget from './CancerBiomarkers';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
