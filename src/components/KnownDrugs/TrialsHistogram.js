@@ -5,11 +5,11 @@ import { withContentRect } from 'react-measure';
 import { PHASE_MAP } from '../../constants';
 
 const margin = { top: 5, right: 20, bottom: 40, left: 50 };
-const OUTER_HEIGHT = 180;
+const OUTER_HEIGHT = 140;
 
 class TrialsHistogram extends Component {
   countScale = d3.scaleLinear();
-  phaseScale = d3.scaleBand();
+  phaseScale = d3.scaleBand().padding(0.2);
 
   componentDidMount() {
     this._render();
