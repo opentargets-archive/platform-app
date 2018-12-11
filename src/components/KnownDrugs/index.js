@@ -17,7 +17,7 @@ import KnownDrugsDetail from './Detail';
 
 const styles = theme => ({
   modalities: {
-    height: '85%',
+    height: '75%',
   },
   modalityText: {
     alignItems: 'center',
@@ -55,7 +55,7 @@ const KnownDrugsWidget = ({
   classes,
   ensgId,
   symbol,
-  drugs: { drugCount, drugModalities, trialsByPhase },
+  drugs: { drugCount, drugModalities, trialsByPhase, sources },
 }) => {
   const totalTrials = trialsByPhase.reduce((acc, trial) => {
     return acc + trial.trialCount;
@@ -108,6 +108,7 @@ const KnownDrugsWidget = ({
       detailUrlStem="known-drugs"
       detail={<KnownDrugsDetail ensgId={ensgId} symbol={symbol} />}
       hasData={drugCount > 0}
+      sources={sources}
     >
       <Grid container>
         <Grid item md={4}>

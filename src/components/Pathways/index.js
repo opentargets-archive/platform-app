@@ -28,7 +28,12 @@ const styles = theme => ({
   },
 });
 
-const PathwaysWidget = ({ ensgId, symbol, classes, pathways: { count } }) => {
+const PathwaysWidget = ({
+  ensgId,
+  symbol,
+  classes,
+  pathways: { count, sources },
+}) => {
   const hasData = count > 0;
   return (
     <Widget
@@ -36,6 +41,7 @@ const PathwaysWidget = ({ ensgId, symbol, classes, pathways: { count } }) => {
       detailUrlStem="pathways"
       detail={<PathwaysDetail ensgId={ensgId} symbol={symbol} />}
       hasData={hasData}
+      sources={sources}
     >
       <Grid
         className={classes.container}

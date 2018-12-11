@@ -31,13 +31,14 @@ const CancerBiomarkersWidget = ({
   ensgId,
   symbol,
 }) => {
-  const { hasCancerBiomarkers: hasData } = cancerBiomarkers;
+  const { hasCancerBiomarkers: hasData, sources } = cancerBiomarkers;
   return (
     <Widget
       title="Cancer biomarkers"
       detailUrlStem="cancer-biomarkers"
       detail={<CancerBiomarkersDetail ensgId={ensgId} symbol={symbol} />}
       hasData={hasData}
+      sources={sources}
     >
       <Grid
         className={classes.fullHeight}
