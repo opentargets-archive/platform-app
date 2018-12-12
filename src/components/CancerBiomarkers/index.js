@@ -25,7 +25,13 @@ const CancerBiomarkersWidget = ({
   ensgId,
   symbol,
 }) => {
-  const { hasCancerBiomarkers: hasData, sources } = cancerBiomarkers;
+  const {
+    hasCancerBiomarkers: hasData,
+    cancerBiomarkerCount,
+    drugCount,
+    diseaseCount,
+    sources,
+  } = cancerBiomarkers;
   return (
     <Widget
       title="Cancer biomarkers"
@@ -50,10 +56,12 @@ const CancerBiomarkersWidget = ({
             align="center"
             color={hasData ? 'default' : 'secondary'}
           >
-            <strong>{cancerBiomarkers.cancerBiomarkerCount}</strong> biomarkers
-            that have an effect on the responsiveness of{' '}
-            <strong>{cancerBiomarkers.drugCount}</strong> drug(s) when treating{' '}
-            <strong>{cancerBiomarkers.diseaseCount}</strong> disease(s)
+            <strong>{cancerBiomarkerCount}</strong> biomarker
+            {cancerBiomarkerCount > 1 ? 's' : null} that have an effect on the
+            responsiveness of <strong>{drugCount}</strong> drug
+            {drugCount > 1 ? 's' : null} when treating{' '}
+            <strong>{diseaseCount}</strong> disease
+            {diseaseCount > 1 ? 's' : null}
           </Typography>
         </Grid>
       </Grid>
