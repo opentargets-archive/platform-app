@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Helmet } from 'react-helmet';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { NavBar, Footer } from 'ot-ui';
@@ -15,6 +16,10 @@ const styles = theme => ({
 const BasePage = ({ children, classes }) => {
   return (
     <Fragment>
+      <Helmet
+        defaultTitle="Open Targets Platform"
+        titleTemplate="%s | Open Targets Platform"
+      />
       <NavBar name="Platform" />
       <Grid className={classes.container} container justify="space-around">
         <Grid item md={10}>
