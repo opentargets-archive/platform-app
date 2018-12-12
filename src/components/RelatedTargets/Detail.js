@@ -67,6 +67,8 @@ const columns = symbol => [
       return (
         <a
           href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {d.diseaseCountAAndB}
         </a>
@@ -86,8 +88,8 @@ const columns = symbol => [
 const RelatedTargetsDetail = ({ ensgId, symbol }) => {
   return (
     <React.Fragment>
-      <Typography>
-        Other targets related to {symbol} based on common associated diseases
+      <Typography variant="h5">
+        {symbol} - Targets that share disease associations
       </Typography>
       <Query query={query} variables={{ ensgId }}>
         {({ loading, error, data }) => {
