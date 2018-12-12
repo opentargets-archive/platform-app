@@ -1,10 +1,37 @@
 import React, { Component, Fragment } from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 import crossfilter from 'crossfilter2';
 import * as d3 from 'd3';
 import dc from 'dc';
 import { OtTable } from 'ot-ui';
 
-import DCContainer from './DCContainer';
+import DCContainer from '../DCContainer';
+
+const query = gql`
+  query CancerBiomarkersQuery($ensgId: String!) {
+    target(ensgId: $ensgId) {
+      id
+      details {
+        cancerBiomarkers {
+          rows {
+            biomarker
+            diseases {
+              name
+            }
+            drugName
+            associationType
+            evidenceLevel
+            sources {
+              url
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 const columns = [
   { id: 'biomarker', label: 'Biomarker' },
@@ -71,6 +98,9 @@ class CancerBiomarkersDetails extends Component {
 
   renderCharts() {
     const { rows } = this.props;
+    // TODO: Remove the following to re-enable detail
+    if (!rows) return;
+
     const biomarkers = crossfilter(rows);
 
     const biomarkersByDrug = biomarkers.dimension(d => d.drugName);

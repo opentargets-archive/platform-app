@@ -6,12 +6,12 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import KnownDrugsWidget from './KnownDrugsWidget';
-import ChemicalProbesWidget from './ChemicalProbesWidget';
-import RelatedTargetsWidget from './RelatedTargetsWidget';
-import PathwaysWidget from './PathwaysWidget';
-import ProteinInformationWidget from './ProteinInformationWidget';
-import CancerBiomarkersWidget from './CancerBiomarkersWidget';
+import KnownDrugsWidget from './KnownDrugs';
+import ChemicalProbesWidget from './ChemicalProbes';
+import RelatedTargetsWidget from './RelatedTargets';
+import PathwaysWidget from './Pathways';
+import ProteinInformationWidget from './ProteinInformation';
+import CancerBiomarkersWidget from './CancerBiomarkers';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -33,18 +33,30 @@ const overviewQuery = gql`
             phase
             trialCount
           }
+          sources {
+            name
+          }
         }
         chemicalProbes {
           hasStructuralGenomicsConsortium
           hasChemicalProbesPortal
           hasOpenScienceProbes
           hasProbeMiner
+          sources {
+            name
+          }
         }
         relatedTargets {
           relatedTargetsCount
+          sources {
+            name
+          }
         }
         pathways {
           count
+          sources {
+            name
+          }
         }
         protein {
           hasSequenceAnnotationVisualisation
@@ -52,12 +64,18 @@ const overviewQuery = gql`
           hasSubCellularLocation
           hasSubUnitData
           hasUniprotKeywords
+          sources {
+            name
+          }
         }
         cancerBiomarkers {
           hasCancerBiomarkers
           cancerBiomarkerCount
           diseaseCount
           drugCount
+          sources {
+            name
+          }
         }
       }
     }

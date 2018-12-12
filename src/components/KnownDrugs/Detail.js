@@ -1,4 +1,6 @@
 import React from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
@@ -6,8 +8,36 @@ import dc from 'dc';
 import _ from 'lodash';
 import * as d3 from 'd3';
 
-import DCContainer from './DCContainer';
+import DCContainer from '../DCContainer';
 import { OtTable } from 'ot-ui';
+
+const query = gql`
+  query KnownDrugsQuery($ensgId: String!) {
+    target(ensgId: $ensgId) {
+      id
+      details {
+        drugs {
+          rows {
+            disease {
+              name
+            }
+            drug {
+              name
+            }
+            clinicalTrial {
+              phase
+              status
+            }
+            mechanismOfAction {
+              name
+              sourceName
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 const columns = [
   {
@@ -59,36 +89,59 @@ class KnownDrugsDetail extends React.Component {
     // this.renderDC();
   }
   render() {
-    const { symbol, classes } = this.props;
+    const { ensgId, symbol, classes } = this.props;
     return (
       <React.Fragment>
         <Typography variant="h2">
           Drugs in clinical trials or approved for {symbol}
         </Typography>
-        <div className={classes.dcChartContainer}>
-          <DCContainer id="dc-trial-by-status-chart" title="Trials by Status" />
-          <DCContainer id="dc-trial-by-phase-chart" title="Trials by Phase" />
-          <DCContainer id="dc-trial-by-drug-chart" title="Trials by Drug" />
-          <DCContainer
-            id="dc-drug-by-activity-chart"
-            title="Drug by Activity"
-          />
-          <DCContainer
-            id="dc-drug-and-disease-by-activity-chart"
-            title="Activity by (Disease, Drug)"
-          />
-        </div>
-        <OtTable
-          loading={false}
-          error={null}
-          columns={columns}
-          data={this.state.filteredRows}
-        />
+        <Query query={query} variables={{ ensgId }}>
+          {({ loading, error, data }) => {
+            if (loading || error) return null;
+            console.log(loading, error, data);
+            return (
+              <React.Fragment>
+                <div className={classes.dcChartContainer}>
+                  <DCContainer
+                    id="dc-trial-by-status-chart"
+                    title="Trials by Status"
+                  />
+                  <DCContainer
+                    id="dc-trial-by-phase-chart"
+                    title="Trials by Phase"
+                  />
+                  <DCContainer
+                    id="dc-trial-by-drug-chart"
+                    title="Trials by Drug"
+                  />
+                  <DCContainer
+                    id="dc-drug-by-activity-chart"
+                    title="Drug by Activity"
+                  />
+                  <DCContainer
+                    id="dc-drug-and-disease-by-activity-chart"
+                    title="Activity by (Disease, Drug)"
+                  />
+                </div>
+                <OtTable
+                  loading={false}
+                  error={null}
+                  columns={columns}
+                  data={this.state.filteredRows}
+                />
+              </React.Fragment>
+            );
+          }}
+        </Query>
       </React.Fragment>
     );
   }
   renderDC = () => {
     const { data } = this.props;
+    console.log('renderDC', data);
+
+    // TODO: Remove the following to re-enable detail
+    if (!data) return;
     const { rows } = data.target.details.drugs;
 
     // connect

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Modal from '@material-ui/core/Modal';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -11,13 +9,6 @@ import classNames from 'classnames';
 import { OtTable } from 'ot-ui';
 
 const styles = () => ({
-  modalContainer: {
-    overflow: 'auto',
-  },
-  modalContents: {
-    width: '90%',
-    margin: '0 auto',
-  },
   topLevelPathwayContainer: {
     border: '1px solid black',
     textAlign: 'center',
@@ -30,7 +21,7 @@ const styles = () => ({
   },
 });
 
-const pathwaysQuery = gql`
+const query = gql`
   query PathwaysQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
       id
@@ -113,51 +104,46 @@ const columns = [
   },
 ];
 
-const PathwaysModal = ({ classes, open, ensgId, symbol, onClose }) => {
+const PathwaysDetail = ({ classes, ensgId, symbol }) => {
   return (
-    <Modal className={classes.modalContainer} open={open} onClose={onClose}>
-      <Paper className={classes.modalContents}>
-        <Typography>Pathway information for {symbol} from Reactome</Typography>
-        <Query query={pathwaysQuery} variables={{ ensgId }}>
-          {({ loading, error, data }) => {
-            if (loading || error) return null;
+    <React.Fragment>
+      <Typography>Pathway information for {symbol} from Reactome</Typography>
+      <Query query={query} variables={{ ensgId }}>
+        {({ loading, error, data }) => {
+          if (loading || error) return null;
 
-            const {
-              topLevelPathways,
-              lowLevelPathways,
-            } = data.target.details.pathways;
-            return (
-              <React.Fragment>
-                <Grid container alignItems="stretch" spacing={8}>
-                  {topLevelPathways.map(d => (
-                    <Grid item xs={4} md={2} key={d.id}>
-                      <div
-                        className={classNames(
-                          classes.topLevelPathwayContainer,
-                          {
-                            [classes.topLevelPathwayContainerHighlight]:
-                              d.isAssociated,
-                          }
-                        )}
-                      >
-                        <Typography color="inherit">{d.name}</Typography>
-                      </div>
-                    </Grid>
-                  ))}
-                </Grid>
-                <OtTable
-                  loading={false}
-                  error={null}
-                  columns={columns}
-                  data={lowLevelPathways}
-                />
-              </React.Fragment>
-            );
-          }}
-        </Query>
-      </Paper>
-    </Modal>
+          const {
+            topLevelPathways,
+            lowLevelPathways,
+          } = data.target.details.pathways;
+          return (
+            <React.Fragment>
+              <Grid container alignItems="stretch" spacing={8}>
+                {topLevelPathways.map(d => (
+                  <Grid item xs={4} md={2} key={d.id}>
+                    <div
+                      className={classNames(classes.topLevelPathwayContainer, {
+                        [classes.topLevelPathwayContainerHighlight]:
+                          d.isAssociated,
+                      })}
+                    >
+                      <Typography color="inherit">{d.name}</Typography>
+                    </div>
+                  </Grid>
+                ))}
+              </Grid>
+              <OtTable
+                loading={false}
+                error={null}
+                columns={columns}
+                data={lowLevelPathways}
+              />
+            </React.Fragment>
+          );
+        }}
+      </Query>
+    </React.Fragment>
   );
 };
 
-export default withStyles(styles)(PathwaysModal);
+export default withStyles(styles)(PathwaysDetail);
