@@ -22,8 +22,8 @@ class Venn extends React.Component {
     const { sets } = this.props;
     var chart = venn
       .VennDiagram()
-      .width(100)
-      .height(100);
+      .width(150)
+      .height(75);
 
     d3.select(this.ref)
       .datum(sets)
