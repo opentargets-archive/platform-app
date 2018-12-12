@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Helmet } from 'react-helmet';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
@@ -60,6 +61,9 @@ class TargetPage extends Component {
             const { symbol, name, synonyms, description } = data.target;
             return (
               <Fragment>
+                <Helmet>
+                  <title>{symbol}</title>
+                </Helmet>
                 <TargetSummary
                   symbol={symbol}
                   name={name}
