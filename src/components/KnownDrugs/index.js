@@ -28,8 +28,9 @@ const styles = theme => ({
     color: '#E2DFDF',
   },
   modality: {
-    height: '30px',
-    width: '30px',
+    height: '20px',
+    width: '20px',
+    paddingRight: '3px',
   },
   modalityIsPresent: {
     fill: '#7B196A',
@@ -61,6 +62,8 @@ const KnownDrugsWidget = ({
   const totalTrials = trialsByPhase.reduce((acc, trial) => {
     return acc + trial.trialCount;
   }, 0);
+
+  const hasData = drugCount > 0;
 
   const antibodyText = getTextClasses(classes, drugModalities.antibody);
   const antibodyIcon = getIconClasses(classes, drugModalities.antibody);
@@ -110,14 +113,15 @@ const KnownDrugsWidget = ({
       title="Known drugs"
       detailUrlStem="known-drugs"
       detail={<KnownDrugsDetail ensgId={ensgId} symbol={symbol} />}
-      hasData={drugCount > 0}
+      hasData={hasData}
       sources={sources}
     >
       <Grid container>
         <Hidden only={['xs', 'sm']}>
           <Grid item xs={4}>
             <Typography
-              color={drugCount > 0 ? 'default' : 'secondary'}
+              variant="subtitle2"
+              color={hasData ? 'default' : 'secondary'}
               align="center"
             >
               Modalities
@@ -181,27 +185,24 @@ const KnownDrugsWidget = ({
         </Hidden>
         <Grid item xs={6} md={4}>
           <Typography
-            color={drugCount > 0 ? 'default' : 'secondary'}
+            color={hasData ? 'default' : 'secondary'}
             variant="h4"
             align="center"
           >
             {drugCount}
           </Typography>
-          <Typography
-            color={drugCount > 0 ? 'default' : 'secondary'}
-            align="center"
-          >
+          <Typography color={hasData ? 'default' : 'secondary'} align="center">
             number of drugs in clinical research stages where the target is{' '}
-            {symbol}
+            <strong>{symbol}</strong>
           </Typography>
         </Grid>
         <Grid item xs={6} md={4}>
           <Typography
-            color={drugCount > 0 ? 'default' : 'secondary'}
+            color={hasData ? 'default' : 'secondary'}
             variant="subtitle2"
             align="center"
           >
-            {totalTrials} clinical trials
+            <strong>{totalTrials}</strong> clinical trials
           </Typography>
           <TrialsHistogram
             drugCount={drugCount}
