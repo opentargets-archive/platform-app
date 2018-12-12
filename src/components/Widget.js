@@ -28,6 +28,9 @@ const styles = theme => ({
   widgetFooter: {
     padding: '8px 12px',
   },
+  widgetSources: {
+    width: '100%',
+  },
 });
 
 class Widget extends Component {
@@ -55,11 +58,12 @@ class Widget extends Component {
       xs,
       sm,
       md,
+      lg,
       match,
     } = this.props;
 
     return (
-      <Grid item {...{ xs, sm, md }}>
+      <Grid item {...{ xs, sm, md, lg }}>
         <Card
           onClick={this.handleClick}
           className={classNames(classes.widget, {
@@ -79,7 +83,11 @@ class Widget extends Component {
             {children}
           </CardContent>
           <CardActions className={classes.widgetFooter}>
-            <Typography variant="caption" align="center">
+            <Typography
+              className={classes.widgetSources}
+              variant="caption"
+              align="center"
+            >
               Source{sources.length > 1 ? 's' : null}:{' '}
               {sources.map(d => d.name).join(', ')}
             </Typography>
@@ -101,7 +109,8 @@ class Widget extends Component {
 Widget.defaultProps = {
   xs: 12,
   sm: 6,
-  md: 3,
+  md: 6,
+  lg: 3,
   hasData: true,
   title: '<title>',
   detail: () => (
