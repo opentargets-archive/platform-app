@@ -20,12 +20,6 @@ const styles = theme => ({
   cardContent: {
     height: '100%',
   },
-  container: {
-    height: '100%',
-  },
-  count: {
-    fontWeight: 'bold',
-  },
 });
 
 const PathwaysWidget = ({
@@ -43,27 +37,24 @@ const PathwaysWidget = ({
       hasData={hasData}
       sources={sources}
     >
-      <Grid
-        className={classes.container}
-        container
-        direction="column"
-        justify="space-between"
-      >
+      <Grid container direction="column" justify="space-between">
         <Grid item container justify="center">
-          <PathwaysWidgetIcon
-            className={classNames(classes.widgetIcon, {
-              [classes.widgetIconNoData]: count === 0,
-            })}
-          />
+          <Grid item>
+            <PathwaysWidgetIcon
+              className={classNames(classes.widgetIcon, {
+                [classes.widgetIconNoData]: count === 0,
+              })}
+            />
+          </Grid>
         </Grid>
         <Grid item>
           <Typography
-            variant="h5"
+            variant="subtitle1"
             align="center"
             color={count > 0 ? 'default' : 'secondary'}
           >
-            <span className={classes.count}>{count}</span> biological processes
-            and pathways involving ESR1
+            <strong>{count}</strong> biological processes and pathways involving{' '}
+            <strong>{symbol}</strong>
           </Typography>
         </Grid>
       </Grid>

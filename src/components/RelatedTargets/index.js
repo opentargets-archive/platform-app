@@ -34,21 +34,27 @@ const RelatedTargetsWidget = ({
       hasData={hasData}
       sources={sources}
     >
-      <Grid container justify="center">
-        <RelatedTargetsWidgetIcon
-          className={classNames(classes.widgetIcon, {
-            [classes.widgetIconNoData]: !hasData,
-          })}
-        />
+      <Grid container direction="column" justify="space-between">
+        <Grid item container justify="center">
+          <Grid item>
+            <RelatedTargetsWidgetIcon
+              className={classNames(classes.widgetIcon, {
+                [classes.widgetIconNoData]: !hasData,
+              })}
+            />
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Typography
+            variant="subtitle1"
+            align="center"
+            color={hasData ? 'default' : 'secondary'}
+          >
+            View the top <strong>{relatedTargetsCount}</strong> targets related
+            to <strong>{symbol}</strong> based on diseases in common
+          </Typography>
+        </Grid>
       </Grid>
-      <Typography
-        variant="h5"
-        align="center"
-        color={hasData ? 'default' : 'secondary'}
-      >
-        View the top {relatedTargetsCount} targets related to {symbol} based on
-        diseases in common
-      </Typography>
     </Widget>
   );
 };

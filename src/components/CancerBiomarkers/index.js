@@ -9,12 +9,6 @@ import CancerBiomarkersDetail from './Detail';
 import CancerBiomarkersWidgetIcon from '../../icons/CancerBiomarkersWidgetIcon';
 
 const styles = theme => ({
-  fullHeight: {
-    height: '100%',
-  },
-  bold: {
-    fontWeight: 'bold',
-  },
   icon: {
     width: '50px',
     height: '50px',
@@ -40,18 +34,15 @@ const CancerBiomarkersWidget = ({
       hasData={hasData}
       sources={sources}
     >
-      <Grid
-        className={classes.fullHeight}
-        container
-        direction="column"
-        justify="space-between"
-      >
+      <Grid container direction="column" justify="space-between">
         <Grid item container justify="center">
-          <CancerBiomarkersWidgetIcon
-            className={classNames(classes.icon, {
-              [classes.iconNoData]: !hasData,
-            })}
-          />
+          <Grid item>
+            <CancerBiomarkersWidgetIcon
+              className={classNames(classes.icon, {
+                [classes.iconNoData]: !hasData,
+              })}
+            />
+          </Grid>
         </Grid>
         <Grid item>
           <Typography
@@ -59,16 +50,10 @@ const CancerBiomarkersWidget = ({
             align="center"
             color={hasData ? 'default' : 'secondary'}
           >
-            <span className={classes.bold}>
-              {cancerBiomarkers.cancerBiomarkerCount}
-            </span>{' '}
-            biomarkers that have an effect on the responsiveness of{' '}
-            <span className={classes.bold}>{cancerBiomarkers.drugCount}</span>{' '}
-            drug(s) when treating{' '}
-            <span className={classes.bold}>
-              {cancerBiomarkers.diseaseCount}
-            </span>{' '}
-            disease(s)
+            <strong>{cancerBiomarkers.cancerBiomarkerCount}</strong> biomarkers
+            that have an effect on the responsiveness of{' '}
+            <strong>{cancerBiomarkers.drugCount}</strong> drug(s) when treating{' '}
+            <strong>{cancerBiomarkers.diseaseCount}</strong> disease(s)
           </Typography>
         </Grid>
       </Grid>
