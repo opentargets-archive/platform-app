@@ -155,6 +155,7 @@ class OverviewTab extends Component {
                 )}
                 {RelatedTargetsWidget.widgetName.includes(lowerCaseTerm) && (
                   <RelatedTargetsWidget
+                    ensgId={ensgId}
                     symbol={symbol}
                     relatedTargets={relatedTargets}
                   />
