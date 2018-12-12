@@ -12,6 +12,8 @@ import { CardHeader, CardActions } from '@material-ui/core';
 const styles = theme => ({
   widget: {
     height: theme.widgetHeight,
+    display: 'flex',
+    flexFlow: 'column',
   },
   widgetWithData: {
     border: `2px solid ${theme.palette.text.primary}`,
@@ -21,12 +23,16 @@ const styles = theme => ({
   },
   widgetHeader: {
     padding: '8px 12px',
+    minHeight: '47px',
   },
   widgetContent: {
     padding: '8px 12px',
+    flex: 2,
+    overflow: 'auto',
   },
   widgetFooter: {
     padding: '8px 12px',
+    minHeight: '20px',
   },
   widgetSources: {
     width: '100%',
