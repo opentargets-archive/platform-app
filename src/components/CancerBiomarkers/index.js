@@ -9,12 +9,6 @@ import CancerBiomarkersDetail from './Detail';
 import CancerBiomarkersWidgetIcon from '../../icons/CancerBiomarkersWidgetIcon';
 
 const styles = theme => ({
-  fullHeight: {
-    height: '100%',
-  },
-  bold: {
-    fontWeight: 'bold',
-  },
   icon: {
     width: '50px',
     height: '50px',
@@ -31,7 +25,13 @@ const CancerBiomarkersWidget = ({
   ensgId,
   symbol,
 }) => {
-  const { hasCancerBiomarkers: hasData, sources } = cancerBiomarkers;
+  const {
+    hasCancerBiomarkers: hasData,
+    cancerBiomarkerCount,
+    drugCount,
+    diseaseCount,
+    sources,
+  } = cancerBiomarkers;
   return (
     <Widget
       title="Cancer biomarkers"
@@ -40,18 +40,15 @@ const CancerBiomarkersWidget = ({
       hasData={hasData}
       sources={sources}
     >
-      <Grid
-        className={classes.fullHeight}
-        container
-        direction="column"
-        justify="space-between"
-      >
+      <Grid container direction="column" justify="space-between">
         <Grid item container justify="center">
-          <CancerBiomarkersWidgetIcon
-            className={classNames(classes.icon, {
-              [classes.iconNoData]: !hasData,
-            })}
-          />
+          <Grid item>
+            <CancerBiomarkersWidgetIcon
+              className={classNames(classes.icon, {
+                [classes.iconNoData]: !hasData,
+              })}
+            />
+          </Grid>
         </Grid>
         <Grid item>
           <Typography
@@ -59,16 +56,12 @@ const CancerBiomarkersWidget = ({
             align="center"
             color={hasData ? 'default' : 'secondary'}
           >
-            <span className={classes.bold}>
-              {cancerBiomarkers.cancerBiomarkerCount}
-            </span>{' '}
-            biomarkers that have an effect on the responsiveness of{' '}
-            <span className={classes.bold}>{cancerBiomarkers.drugCount}</span>{' '}
-            drug(s) when treating{' '}
-            <span className={classes.bold}>
-              {cancerBiomarkers.diseaseCount}
-            </span>{' '}
-            disease(s)
+            <strong>{cancerBiomarkerCount}</strong> biomarker
+            {cancerBiomarkerCount > 1 ? 's' : null} that have an effect on the
+            responsiveness of <strong>{drugCount}</strong> drug
+            {drugCount > 1 ? 's' : null} when treating{' '}
+            <strong>{diseaseCount}</strong> disease
+            {diseaseCount > 1 ? 's' : null}
           </Typography>
         </Grid>
       </Grid>

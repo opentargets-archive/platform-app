@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
+import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -27,8 +28,9 @@ const styles = theme => ({
     color: '#E2DFDF',
   },
   modality: {
-    height: '30px',
-    width: '30px',
+    height: '20px',
+    width: '20px',
+    paddingRight: '3px',
   },
   modalityIsPresent: {
     fill: '#7B196A',
@@ -60,6 +62,8 @@ const KnownDrugsWidget = ({
   const totalTrials = trialsByPhase.reduce((acc, trial) => {
     return acc + trial.trialCount;
   }, 0);
+
+  const hasData = drugCount > 0;
 
   const antibodyText = getTextClasses(classes, drugModalities.antibody);
   const antibodyIcon = getIconClasses(classes, drugModalities.antibody);
@@ -102,101 +106,103 @@ const KnownDrugsWidget = ({
 
   return (
     <Widget
+      xs={12}
       sm={12}
-      md={9}
+      md={12}
+      lg={9}
       title="Known drugs"
       detailUrlStem="known-drugs"
       detail={<KnownDrugsDetail ensgId={ensgId} symbol={symbol} />}
-      hasData={drugCount > 0}
+      hasData={hasData}
       sources={sources}
     >
       <Grid container>
-        <Grid item md={4}>
-          <Typography
-            color={drugCount > 0 ? 'default' : 'secondary'}
-            align="center"
-          >
-            Modalities
-          </Typography>
-          <Grid
-            container
-            direction="column"
-            justify="space-between"
-            className={classes.modalities}
-          >
-            <Grid item container>
-              <Grid item md={6}>
-                <Typography variant="caption" className={antibodyText}>
-                  <AntibodyIcon className={antibodyIcon} />
-                  Antibody ({drugModalities.antibody})
+        <Hidden only={['xs', 'sm']}>
+          <Grid item xs={4}>
+            <Typography
+              variant="subtitle2"
+              color={hasData ? 'default' : 'secondary'}
+              align="center"
+            >
+              Modalities
+            </Typography>
+            <Grid
+              container
+              direction="column"
+              justify="space-between"
+              className={classes.modalities}
+            >
+              <Grid item container>
+                <Grid item md={6}>
+                  <Typography variant="caption" className={antibodyText}>
+                    <AntibodyIcon className={antibodyIcon} />
+                    Antibody ({drugModalities.antibody})
+                  </Typography>
+                </Grid>
+                <Grid item md={6}>
+                  <Typography variant="caption" className={enzymeText}>
+                    <EnzymeIcon className={enzymeIcon} />
+                    Enzyme ({drugModalities.enzyme})
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item container>
+                <Grid item md={6}>
+                  <Typography variant="caption" className={oligonucleotideText}>
+                    <OligonucleotideIcon className={oligonucleotideIcon} />
+                    Oligonucleotide ({drugModalities.oligonucleotide})
+                  </Typography>
+                </Grid>
+                <Grid item md={6}>
+                  <Typography variant="caption" className={oligosaccharideText}>
+                    <OligoSaccharideIcon className={oligosaccharideIcon} />
+                    Oligosaccharide ({drugModalities.oligosaccharide})
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item container>
+                <Grid item md={6}>
+                  <Typography variant="caption" className={proteinText}>
+                    <ProteinIcon className={proteinIcon} />
+                    Protein ({drugModalities.protein})
+                  </Typography>
+                </Grid>
+                <Grid item md={6}>
+                  <Typography variant="caption" className={smallMoleculeText}>
+                    <SmallMoleculeIcon className={smallMoleculeIcon} />
+                    Small molecule ({drugModalities.smallMolecule})
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item container>
+                <Typography variant="caption" className={otherText}>
+                  <OtherDrugsIcon className={otherIcon} />
+                  Other ({drugModalities.other})
                 </Typography>
               </Grid>
-              <Grid item md={6}>
-                <Typography variant="caption" className={enzymeText}>
-                  <EnzymeIcon className={enzymeIcon} />
-                  Enzyme ({drugModalities.enzyme})
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid item container>
-              <Grid item md={6}>
-                <Typography variant="caption" className={oligonucleotideText}>
-                  <OligonucleotideIcon className={oligonucleotideIcon} />
-                  Oligonucleotide ({drugModalities.oligonucleotide})
-                </Typography>
-              </Grid>
-              <Grid item md={6}>
-                <Typography variant="caption" className={oligosaccharideText}>
-                  <OligoSaccharideIcon className={oligosaccharideIcon} />
-                  Oligosaccharide ({drugModalities.oligosaccharide})
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid item container>
-              <Grid item md={6}>
-                <Typography variant="caption" className={proteinText}>
-                  <ProteinIcon className={proteinIcon} />
-                  Protein ({drugModalities.protein})
-                </Typography>
-              </Grid>
-              <Grid item md={6}>
-                <Typography variant="caption" className={smallMoleculeText}>
-                  <SmallMoleculeIcon className={smallMoleculeIcon} />
-                  Small molecule ({drugModalities.smallMolecule})
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid item container>
-              <Typography variant="caption" className={otherText}>
-                <OtherDrugsIcon className={otherIcon} />
-                Other ({drugModalities.other})
-              </Typography>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item md={3}>
+        </Hidden>
+        <Grid item xs={6} md={4}>
           <Typography
-            color={drugCount > 0 ? 'default' : 'secondary'}
+            color={hasData ? 'default' : 'secondary'}
             variant="h4"
             align="center"
           >
             {drugCount}
           </Typography>
-          <Typography
-            color={drugCount > 0 ? 'default' : 'secondary'}
-            align="center"
-          >
+          <Typography color={hasData ? 'default' : 'secondary'} align="center">
             number of drugs in clinical research stages where the target is{' '}
-            {symbol}
+            <strong>{symbol}</strong>
           </Typography>
         </Grid>
-        <Grid item md={5}>
+        <Grid item xs={6} md={4}>
           <Typography
-            color={drugCount > 0 ? 'default' : 'secondary'}
+            color={hasData ? 'default' : 'secondary'}
             variant="subtitle2"
             align="center"
           >
-            {totalTrials} clinical trials
+            <strong>{totalTrials}</strong> clinical trials
           </Typography>
           <TrialsHistogram
             drugCount={drugCount}

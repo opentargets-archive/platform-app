@@ -7,16 +7,35 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Modal from './Modal';
+import { CardHeader, CardActions } from '@material-ui/core';
 
 const styles = theme => ({
   widget: {
     height: theme.widgetHeight,
+    display: 'flex',
+    flexFlow: 'column',
   },
   widgetWithData: {
     border: `2px solid ${theme.palette.text.primary}`,
   },
   widgetNoData: {
     border: '2px solid #E2DFDF',
+  },
+  widgetHeader: {
+    padding: '8px 12px',
+    minHeight: '47px',
+  },
+  widgetContent: {
+    padding: '8px 12px',
+    flex: 2,
+    overflow: 'auto',
+  },
+  widgetFooter: {
+    padding: '8px 12px',
+    minHeight: '20px',
+  },
+  widgetSources: {
+    width: '100%',
   },
 });
 
@@ -45,11 +64,12 @@ class Widget extends Component {
       xs,
       sm,
       md,
+      lg,
       match,
     } = this.props;
 
     return (
-      <Grid item {...{ xs, sm, md }}>
+      <Grid item {...{ xs, sm, md, lg }}>
         <Card
           onClick={this.handleClick}
           className={classNames(classes.widget, {
@@ -57,20 +77,27 @@ class Widget extends Component {
             [classes.widgetNoData]: !hasData,
           })}
         >
-          <CardContent>
+          <CardHeader
+            className={classes.widgetHeader}
+            title={title}
+            titleTypographyProps={{
+              align: 'center',
+              color: hasData ? 'default' : 'secondary',
+            }}
+          />
+          <CardContent className={classes.widgetContent}>
+            {children}
+          </CardContent>
+          <CardActions className={classes.widgetFooter}>
             <Typography
-              color={hasData ? 'default' : 'secondary'}
-              variant="h5"
+              className={classes.widgetSources}
+              variant="caption"
               align="center"
             >
-              {title}
-            </Typography>
-            {children}
-            <Typography variant="caption" align="center">
               Source{sources.length > 1 ? 's' : null}:{' '}
               {sources.map(d => d.name).join(', ')}
             </Typography>
-          </CardContent>
+          </CardActions>
         </Card>
         <Route
           path={`${match.path}/${detailUrlStem}`}
@@ -88,7 +115,8 @@ class Widget extends Component {
 Widget.defaultProps = {
   xs: 12,
   sm: 6,
-  md: 3,
+  md: 6,
+  lg: 3,
   hasData: true,
   title: '<title>',
   detail: () => (
