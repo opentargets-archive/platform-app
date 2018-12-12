@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import Typography from '@material-ui/core/Typography';
 
 import { OtTable } from 'ot-ui';
+import Venn from './Venn';
 
 const query = gql`
   query RelatedTargetsQuery($ensgId: String!) {
@@ -40,7 +41,37 @@ const columns = symbol => [
   },
   {
     id: 'diseaseCountAAndB',
+    label: 'Venn',
+    renderCell: d => (
+      <Venn
+        sets={[
+          { sets: [d.A.symbol], size: d.diseaseCountA },
+          { sets: [d.B.symbol], size: d.diseaseCountB },
+          { sets: [d.A.symbol, d.B.symbol], size: d.diseaseCountAOrB },
+        ]}
+      />
+    ),
+  },
+  {
+    id: 'venn',
     label: 'Number of shared disease associations',
+    renderCell: d => {
+      const ensemblIdRegexA = /ENSG(0)+/g;
+      ensemblIdRegexA.exec(d.A.id);
+      const compressedA = d.A.id.slice(ensemblIdRegexA.lastIndex);
+
+      const ensemblIdRegexB = /ENSG(0)+/g;
+      ensemblIdRegexB.exec(d.B.id);
+      const compressedB = d.B.id.slice(ensemblIdRegexB.lastIndex);
+
+      return (
+        <a
+          href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
+        >
+          {d.diseaseCountAAndB}
+        </a>
+      );
+    },
   },
   {
     id: 'diseaseCountANotB',
@@ -68,6 +99,7 @@ const RelatedTargetsDetail = ({ ensgId, symbol }) => {
             diseaseCountANotB: d.diseaseCountA - d.diseaseCountAAndB,
             diseaseCountBNotA: d.diseaseCountB - d.diseaseCountAAndB,
           }));
+
           return (
             <OtTable
               loading={loading}
