@@ -41,7 +41,7 @@ const columns = symbol => [
   },
   {
     id: 'diseaseCountAAndB',
-    label: 'Venn',
+    label: 'Venn diagram',
     renderCell: d => (
       <Venn
         sets={[
@@ -85,11 +85,25 @@ const columns = symbol => [
   },
 ];
 
-const RelatedTargetsDetail = ({ ensgId, symbol }) => {
+const RelatedTargetsDetail = ({ ensgId, symbol, sources }) => {
   return (
     <React.Fragment>
-      <Typography variant="h5">
-        {symbol} - Targets that share disease associations
+      <Typography variant="h5">{symbol} - Related Targets</Typography>
+      <Typography>
+        Targets related to {symbol} based on shared disease associations.
+      </Typography>
+      <Typography variant="caption">
+        Source{sources.length > 1 ? 's' : null}:{' '}
+        {sources.map(d => (
+          <a
+            key={d.name}
+            href={d.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {d.name}
+          </a>
+        ))}
       </Typography>
       <Query query={query} variables={{ ensgId }}>
         {({ loading, error, data }) => {

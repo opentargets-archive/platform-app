@@ -30,7 +30,13 @@ const RelatedTargetsWidget = ({
     <Widget
       title="Related targets"
       detailUrlStem="related-targets"
-      detail={<RelatedTargetsDetail ensgId={ensgId} symbol={symbol} />}
+      detail={
+        <RelatedTargetsDetail
+          ensgId={ensgId}
+          symbol={symbol}
+          sources={sources}
+        />
+      }
       hasData={hasData}
       sources={sources}
     >
