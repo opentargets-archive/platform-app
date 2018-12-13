@@ -36,7 +36,13 @@ const CancerBiomarkersWidget = ({
     <Widget
       title="Cancer biomarkers"
       detailUrlStem="cancer-biomarkers"
-      detail={<CancerBiomarkersDetail ensgId={ensgId} symbol={symbol} />}
+      detail={
+        <CancerBiomarkersDetail
+          ensgId={ensgId}
+          symbol={symbol}
+          sources={sources}
+        />
+      }
       hasData={hasData}
       sources={sources}
     >
