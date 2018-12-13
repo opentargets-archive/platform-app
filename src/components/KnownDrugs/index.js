@@ -112,7 +112,9 @@ const KnownDrugsWidget = ({
       lg={9}
       title="Known drugs"
       detailUrlStem="known-drugs"
-      detail={<KnownDrugsDetail ensgId={ensgId} symbol={symbol} />}
+      detail={
+        <KnownDrugsDetail ensgId={ensgId} symbol={symbol} sources={sources} />
+      }
       hasData={hasData}
       sources={sources}
     >
