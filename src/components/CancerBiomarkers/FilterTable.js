@@ -37,6 +37,10 @@ const columns = [
   },
 ];
 
+const DC_PIE_INNER_RADIUS = 40;
+const DC_PIE_OUTER_RADIUS = 120;
+const DC_PIE_WIDTH = 280;
+
 class FilterTable extends Component {
   state = {
     filteredRows: [],
@@ -51,7 +55,7 @@ class FilterTable extends Component {
 
     return (
       <Fragment>
-        <DCContainer id="biomarkers-by-drug" title="Biomarkers by drug" />
+        {/* <DCContainer id="biomarkers-by-drug" title="Biomarkers by drug" /> */}
         <DCContainer
           id="biomarkers-by-association"
           title="Biomarkers by association"
@@ -60,10 +64,10 @@ class FilterTable extends Component {
           id="biomarkers-by-evidence"
           title="Biomarkers by Evidence"
         />
-        <DCContainer
+        {/* <DCContainer
           id="biomarkers-drugs-heatmap"
           title="Biomarkers and drugs"
-        />
+        /> */}
         <OtTable columns={columns} data={filteredRows} />
       </Fragment>
     );
@@ -71,39 +75,37 @@ class FilterTable extends Component {
 
   renderCharts() {
     const { rows } = this.props;
-    // TODO: Remove the following to re-enable detail
-    // if (!rows) return;
 
     const biomarkers = crossfilter(rows);
 
-    const biomarkersByDrug = biomarkers.dimension(d => d.drugName);
+    // const biomarkersByDrug = biomarkers.dimension(d => d.drugName);
     const biomarkersByAssociation = biomarkers.dimension(
       d => d.associationType
     );
     const biomarkersByEvidence = biomarkers.dimension(d => d.evidenceLevel);
-    const biomarkerAndDrug = biomarkers.dimension(d => [
-      d.biomarker,
-      d.drugName,
-    ]);
+    // const biomarkerAndDrug = biomarkers.dimension(d => [
+    //   d.biomarker,
+    //   d.drugName,
+    // ]);
 
-    const biomarkersByDrugGroup = biomarkersByDrug.group().reduce(
-      (acc, data) => {
-        if (data.biomarker in acc) {
-          acc[data.biomarker]++;
-        } else {
-          acc[data.biomarker] = 1;
-        }
-        return acc;
-      },
-      (acc, data) => {
-        acc[data.biomarker]--;
-        if (acc[data.biomarker] === 0) {
-          delete acc[data.biomarker];
-        }
-        return acc;
-      },
-      () => ({})
-    );
+    // const biomarkersByDrugGroup = biomarkersByDrug.group().reduce(
+    //   (acc, data) => {
+    //     if (data.biomarker in acc) {
+    //       acc[data.biomarker]++;
+    //     } else {
+    //       acc[data.biomarker] = 1;
+    //     }
+    //     return acc;
+    //   },
+    //   (acc, data) => {
+    //     acc[data.biomarker]--;
+    //     if (acc[data.biomarker] === 0) {
+    //       delete acc[data.biomarker];
+    //     }
+    //     return acc;
+    //   },
+    //   () => ({})
+    // );
 
     const biomarkersByAssociationGroup = biomarkersByAssociation.group().reduce(
       (acc, data) => {
@@ -143,35 +145,36 @@ class FilterTable extends Component {
       () => ({})
     );
 
-    const biomarkerAndDrugGroup = biomarkerAndDrug.group().reduceCount();
+    // const biomarkerAndDrugGroup = biomarkerAndDrug.group().reduceCount();
 
-    const biomarkersByDrugChart = dc.rowChart('#biomarkers-by-drug');
+    // const biomarkersByDrugChart = dc.rowChart('#biomarkers-by-drug');
     const biomarkersByAssociationChart = dc.pieChart(
       '#biomarkers-by-association'
     );
     const biomarkersByEvidenceChart = dc.pieChart('#biomarkers-by-evidence');
-    const biomarkersDrugsHeatmap = dc.heatMap('#biomarkers-drugs-heatmap');
+    // const biomarkersDrugsHeatmap = dc.heatMap('#biomarkers-drugs-heatmap');
 
-    biomarkersByDrugChart
-      .width(280)
-      .height(280)
-      .margins({ top: 20, left: 10, right: 10, bottom: 20 })
-      .label(d => d.key)
-      .valueAccessor(d => Object.keys(d.value).length)
-      .group(biomarkersByDrugGroup)
-      .dimension(biomarkersByDrug)
-      .xAxis();
+    // biomarkersByDrugChart
+    //   .width(280)
+    //   .height(280)
+    //   .margins({ top: 20, left: 10, right: 10, bottom: 20 })
+    //   .label(d => d.key)
+    //   .valueAccessor(d => Object.keys(d.value).length)
+    //   .group(biomarkersByDrugGroup)
+    //   .dimension(biomarkersByDrug)
+    //   .xAxis();
 
-    biomarkersByDrugChart.render();
+    // biomarkersByDrugChart.render();
 
-    biomarkersByDrugChart.on('filtered', d => {
-      this.setState({ filteredRows: biomarkers.allFiltered() });
-    });
+    // biomarkersByDrugChart.on('filtered', d => {
+    //   this.setState({ filteredRows: biomarkers.allFiltered() });
+    // });
 
     biomarkersByAssociationChart
-      .width(280)
-      .height(280)
-      .radius(120)
+      .width(DC_PIE_WIDTH)
+      .height(DC_PIE_WIDTH)
+      .radius(DC_PIE_OUTER_RADIUS)
+      .innerRadius(DC_PIE_INNER_RADIUS)
       .label(d => d.key)
       .valueAccessor(d => Object.keys(d.value).length)
       .group(biomarkersByAssociationGroup)
@@ -183,9 +186,10 @@ class FilterTable extends Component {
     });
 
     biomarkersByEvidenceChart
-      .width(280)
-      .height(280)
-      .radius(120)
+      .width(DC_PIE_WIDTH)
+      .height(DC_PIE_WIDTH)
+      .radius(DC_PIE_OUTER_RADIUS)
+      .innerRadius(DC_PIE_INNER_RADIUS)
       .label(d => d.key)
       .valueAccessor(d => Object.keys(d.value).length)
       .group(biomarkersByEvidenceGroup)
@@ -196,44 +200,44 @@ class FilterTable extends Component {
       this.setState({ filteredRows: biomarkers.allFiltered() });
     });
 
-    biomarkersDrugsHeatmap
-      .width(380)
-      .height(450)
-      .margins({ top: 20, left: 200, right: 10, bottom: 150 })
-      .dimension(biomarkerAndDrug)
-      .group(biomarkerAndDrugGroup)
-      .keyAccessor(d => d.key[0])
-      .valueAccessor(d => d.key[1])
-      .colorAccessor(d => {
-        return d.value > 0 ? 1 : 0;
-      })
-      .colors(
-        d3
-          .scaleOrdinal()
-          .domain([0, 1])
-          .range(['#ccc', '#3182bd'])
-      )
-      .xBorderRadius(0)
-      .yBorderRadius(0)
-      .render();
+    // biomarkersDrugsHeatmap
+    //   .width(380)
+    //   .height(450)
+    //   .margins({ top: 20, left: 200, right: 10, bottom: 150 })
+    //   .dimension(biomarkerAndDrug)
+    //   .group(biomarkerAndDrugGroup)
+    //   .keyAccessor(d => d.key[0])
+    //   .valueAccessor(d => d.key[1])
+    //   .colorAccessor(d => {
+    //     return d.value > 0 ? 1 : 0;
+    //   })
+    //   .colors(
+    //     d3
+    //       .scaleOrdinal()
+    //       .domain([0, 1])
+    //       .range(['#ccc', '#3182bd'])
+    //   )
+    //   .xBorderRadius(0)
+    //   .yBorderRadius(0)
+    //   .render();
 
-    biomarkersDrugsHeatmap.on('filtered', d => {
-      this.setState({ filteredRows: biomarkers.allFiltered() });
-    });
+    // biomarkersDrugsHeatmap.on('filtered', d => {
+    //   this.setState({ filteredRows: biomarkers.allFiltered() });
+    // });
 
     this.setState({
       filteredRows: biomarkers.allFiltered(),
     });
 
-    biomarkersDrugsHeatmap
-      .selectAll('g.cols.axis > text')
-      .attr('transform', function(d) {
-        const coord = this.getBBox();
-        const x = coord.x + coord.width / 2;
-        const y = coord.y + coord.height / 2;
-        return `rotate(-45 ${x} ${y})`;
-      })
-      .style('text-anchor', 'end');
+    // biomarkersDrugsHeatmap
+    //   .selectAll('g.cols.axis > text')
+    //   .attr('transform', function(d) {
+    //     const coord = this.getBBox();
+    //     const x = coord.x + coord.width / 2;
+    //     const y = coord.y + coord.height / 2;
+    //     return `rotate(-45 ${x} ${y})`;
+    //   })
+    //   .style('text-anchor', 'end');
   }
 }
 
