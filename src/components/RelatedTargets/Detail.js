@@ -98,15 +98,13 @@ const RelatedTargetsDetail = ({ ensgId, symbol, sources }) => {
       </Typography>
       <Typography variant="caption">
         Source{sources.length > 1 ? 's' : null}:{' '}
-        {sources.map(d => (
-          <a
-            key={d.name}
-            href={d.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {d.name}
-          </a>
+        {sources.map((d, i) => (
+          <React.Fragment key={d.name}>
+            {i > 0 ? ' ' : null}
+            <a href={d.url} target="_blank" rel="noopener noreferrer">
+              {d.name}
+            </a>
+          </React.Fragment>
         ))}
       </Typography>
       <Query query={query} variables={{ ensgId }}>
