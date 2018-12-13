@@ -34,7 +34,13 @@ const ChemicalProbesWidget = ({
     <Widget
       title="Chemical probes"
       detailUrlStem="chemical-probes"
-      detail={<ChemicalProbesDetail ensgId={ensgId} symbol={symbol} />}
+      detail={
+        <ChemicalProbesDetail
+          ensgId={ensgId}
+          symbol={symbol}
+          sources={sources}
+        />
+      }
       hasData={hasData}
       sources={sources}
     >
