@@ -58,7 +58,7 @@ const ChemicalProbesDetail = ({ ensgId, symbol, sources }) => {
     <React.Fragment>
       <Typography variant="h5">{symbol} - Chemical Probes</Typography>
       <Typography>
-        Information on chemical probes that have been developed for {symbol}
+        Information on chemical probes that have been developed for {symbol}.
       </Typography>
       <Typography variant="caption">
         Source{sources.length > 1 ? 's' : null}:{' '}
@@ -89,14 +89,17 @@ const ChemicalProbesDetail = ({ ensgId, symbol, sources }) => {
 
               {probeMinerUrl ? (
                 <React.Fragment>
-                  Further chemical probes available at{' '}
-                  <a
-                    href="https://europepmc.org/articles/PMC5875005"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    ProbeMiner
-                  </a>
+                  <Typography>
+                    Further chemical probes available from{' '}
+                    <a
+                      href="https://europepmc.org/articles/PMC5875005"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      ProbeMiner
+                    </a>
+                    .
+                  </Typography>
                 </React.Fragment>
               ) : null}
             </React.Fragment>
