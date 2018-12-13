@@ -179,6 +179,7 @@ class OverviewTab extends Component {
                 {CancerBiomarkersWidget.widgetName.includes(lowerCaseTerm) && (
                   <CancerBiomarkersWidget
                     ensgId={ensgId}
+                    symbol={symbol}
                     cancerBiomarkers={cancerBiomarkers}
                   />
                 )}
