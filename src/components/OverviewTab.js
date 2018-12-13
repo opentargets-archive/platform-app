@@ -35,6 +35,7 @@ const overviewQuery = gql`
           }
           sources {
             name
+            url
           }
         }
         chemicalProbes {
@@ -44,18 +45,21 @@ const overviewQuery = gql`
           hasProbeMiner
           sources {
             name
+            url
           }
         }
         relatedTargets {
           relatedTargetsCount
           sources {
             name
+            url
           }
         }
         pathways {
           count
           sources {
             name
+            url
           }
         }
         protein {
@@ -66,6 +70,7 @@ const overviewQuery = gql`
           hasUniprotKeywords
           sources {
             name
+            url
           }
         }
         cancerBiomarkers {
@@ -75,6 +80,7 @@ const overviewQuery = gql`
           drugCount
           sources {
             name
+            url
           }
         }
       }
