@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import crossfilter from 'crossfilter2';
 import * as d3 from 'd3';
 import dc from 'dc';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { OtTable } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
@@ -38,8 +39,15 @@ const columns = [
 ];
 
 const DC_PIE_INNER_RADIUS = 40;
-const DC_PIE_OUTER_RADIUS = 120;
-const DC_PIE_WIDTH = 280;
+const DC_PIE_OUTER_RADIUS = 100;
+const DC_PIE_WIDTH = 220;
+
+const styles = theme => ({
+  countLabel: {
+    width: DC_PIE_WIDTH,
+    float: 'left',
+  },
+});
 
 class FilterTable extends Component {
   state = {
@@ -51,10 +59,24 @@ class FilterTable extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     const { filteredRows } = this.state;
 
     return (
       <Fragment>
+        <div className={classes.countLabel}>
+          <strong>Summary</strong>
+          <p>
+            <span id="biomarkers-drug-count" /> drugs (or drug families)
+          </p>
+          <p>
+            <span id="biomarkers-biomarker-count" /> biomarkers
+          </p>
+          <p>
+            <span id="biomarkers-disease-count" /> diseases
+          </p>
+          <div className="clearfix" />
+        </div>
         {/* <DCContainer id="biomarkers-by-drug" title="Biomarkers by drug" /> */}
         <DCContainer
           id="biomarkers-by-association"
@@ -62,7 +84,7 @@ class FilterTable extends Component {
         />
         <DCContainer
           id="biomarkers-by-evidence"
-          title="Biomarkers by Evidence"
+          title="Biomarkers by evidence"
         />
         {/* <DCContainer
           id="biomarkers-drugs-heatmap"
@@ -78,7 +100,6 @@ class FilterTable extends Component {
 
     const biomarkers = crossfilter(rows);
 
-    // const biomarkersByDrug = biomarkers.dimension(d => d.drugName);
     const biomarkersByAssociation = biomarkers.dimension(
       d => d.associationType
     );
@@ -107,6 +128,65 @@ class FilterTable extends Component {
     //   () => ({})
     // );
 
+    const drugCount = biomarkers.groupAll().reduce(
+      (acc, data) => {
+        if (data.drugName in acc) {
+          acc[data.drugName]++;
+        } else {
+          acc[data.drugName] = 1;
+        }
+        return acc;
+      },
+      (acc, data) => {
+        acc[data.drugName]--;
+        if (acc[data.drugName] === 0) {
+          delete acc[data.drugName];
+        }
+        return acc;
+      },
+      () => ({})
+    );
+    const biomarkerCount = biomarkers.groupAll().reduce(
+      (acc, data) => {
+        if (data.biomarker in acc) {
+          acc[data.biomarker]++;
+        } else {
+          acc[data.biomarker] = 1;
+        }
+        return acc;
+      },
+      (acc, data) => {
+        acc[data.biomarker]--;
+        if (acc[data.biomarker] === 0) {
+          delete acc[data.biomarker];
+        }
+        return acc;
+      },
+      () => ({})
+    );
+
+    const diseaseCount = biomarkers.groupAll().reduce(
+      (acc, data) => {
+        data.diseases.forEach(d => {
+          if (d.name in acc) {
+            acc[d.name]++;
+          } else {
+            acc[d.name] = 1;
+          }
+        });
+        return acc;
+      },
+      (acc, data) => {
+        data.diseases.forEach(d => {
+          acc[d.name]--;
+          if (acc[d.name] === 0) {
+            delete acc[d.name];
+          }
+        });
+        return acc;
+      },
+      () => ({})
+    );
     const biomarkersByAssociationGroup = biomarkersByAssociation.group().reduce(
       (acc, data) => {
         if (data.biomarker in acc) {
@@ -147,12 +227,33 @@ class FilterTable extends Component {
 
     // const biomarkerAndDrugGroup = biomarkerAndDrug.group().reduceCount();
 
+    const drugCountLabel = dc.numberDisplay('#biomarkers-drug-count');
+    const biomarkerCountLabel = dc.numberDisplay('#biomarkers-biomarker-count');
+    const diseaseCountLabel = dc.numberDisplay('#biomarkers-disease-count');
     // const biomarkersByDrugChart = dc.rowChart('#biomarkers-by-drug');
     const biomarkersByAssociationChart = dc.pieChart(
       '#biomarkers-by-association'
     );
     const biomarkersByEvidenceChart = dc.pieChart('#biomarkers-by-evidence');
     // const biomarkersDrugsHeatmap = dc.heatMap('#biomarkers-drugs-heatmap');
+
+    drugCountLabel
+      .group(drugCount)
+      .formatNumber(d3.format('d'))
+      .valueAccessor(d => Object.keys(d).length)
+      .render();
+
+    biomarkerCountLabel
+      .group(biomarkerCount)
+      .formatNumber(d3.format('d'))
+      .valueAccessor(d => Object.keys(d).length)
+      .render();
+
+    diseaseCountLabel
+      .group(diseaseCount)
+      .formatNumber(d3.format('d'))
+      .valueAccessor(d => Object.keys(d).length)
+      .render();
 
     // biomarkersByDrugChart
     //   .width(280)
@@ -241,4 +342,4 @@ class FilterTable extends Component {
   }
 }
 
-export default FilterTable;
+export default withStyles(styles)(FilterTable);
