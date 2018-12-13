@@ -92,7 +92,7 @@ const ChemicalProbesDetail = ({ ensgId, symbol, sources }) => {
                   <Typography>
                     Further chemical probes available from{' '}
                     <a
-                      href="https://europepmc.org/articles/PMC5875005"
+                      href={probeMinerUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
