@@ -3,6 +3,7 @@ import crossfilter from 'crossfilter2';
 import * as d3 from 'd3';
 import dc from 'dc';
 import withStyles from '@material-ui/core/styles/withStyles';
+import classNames from 'classnames';
 import { OtTable } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
@@ -43,9 +44,28 @@ const DC_PIE_OUTER_RADIUS = 100;
 const DC_PIE_WIDTH = 220;
 
 const styles = theme => ({
-  countLabel: {
+  countLabelSection: {
     width: DC_PIE_WIDTH,
     float: 'left',
+  },
+  countLabel: {
+    fontWeight: 'bold',
+    padding: '8px',
+    borderRadius: '50%',
+    color: '#FFF',
+    width: '36px',
+    height: '36px',
+    display: 'inline-block',
+    textAlign: 'center',
+  },
+  countLabelDrug: {
+    backgroundColor: '#38954C',
+  },
+  countLabelBiomarker: {
+    backgroundColor: '#7b196a',
+  },
+  countLabelDisease: {
+    backgroundColor: '#d36141',
   },
 });
 
@@ -64,16 +84,34 @@ class FilterTable extends Component {
 
     return (
       <Fragment>
-        <div className={classes.countLabel}>
+        <div className={classes.countLabelSection}>
           <strong>Summary</strong>
           <p>
-            <span id="biomarkers-drug-count" /> drugs (or drug families)
+            <span
+              id="biomarkers-drug-count"
+              className={classNames(classes.countLabel, classes.countLabelDrug)}
+            />{' '}
+            drugs (or drug families)
           </p>
           <p>
-            <span id="biomarkers-biomarker-count" /> biomarkers
+            <span
+              id="biomarkers-biomarker-count"
+              className={classNames(
+                classes.countLabel,
+                classes.countLabelBiomarker
+              )}
+            />{' '}
+            biomarkers
           </p>
           <p>
-            <span id="biomarkers-disease-count" /> diseases
+            <span
+              id="biomarkers-disease-count"
+              className={classNames(
+                classes.countLabel,
+                classes.countLabelDisease
+              )}
+            />{' '}
+            diseases
           </p>
           <div className="clearfix" />
         </div>
@@ -280,6 +318,7 @@ class FilterTable extends Component {
       .valueAccessor(d => Object.keys(d.value).length)
       .group(biomarkersByAssociationGroup)
       .dimension(biomarkersByAssociation)
+      .colors(['#E2DFDF'])
       .render();
 
     biomarkersByAssociationChart.on('filtered', d => {
@@ -295,6 +334,7 @@ class FilterTable extends Component {
       .valueAccessor(d => Object.keys(d.value).length)
       .group(biomarkersByEvidenceGroup)
       .dimension(biomarkersByEvidence)
+      .colors(['#E2DFDF'])
       .render();
 
     biomarkersByEvidenceChart.on('filtered', d => {
