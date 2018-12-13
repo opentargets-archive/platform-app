@@ -65,13 +65,17 @@ const columns = symbol => [
       const compressedB = d.B.id.slice(ensemblIdRegexB.lastIndex);
 
       return (
-        <a
-          href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <React.Fragment>
           {d.diseaseCountAAndB}
-        </a>
+          <br />
+          <a
+            href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            See associated diseases
+          </a>
+        </React.Fragment>
       );
     },
   },
