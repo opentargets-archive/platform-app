@@ -4,8 +4,8 @@ import { withContentRect } from 'react-measure';
 
 import { PHASE_MAP } from '../../constants';
 
-const margin = { top: 5, right: 20, bottom: 40, left: 50 };
-const OUTER_HEIGHT = 140;
+const margin = { top: 5, right: 20, bottom: 30, left: 50 };
+const OUTER_HEIGHT = 122;
 
 class TrialsHistogram extends Component {
   countScale = d3.scaleLinear();
