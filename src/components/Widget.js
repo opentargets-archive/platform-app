@@ -26,7 +26,7 @@ const styles = theme => ({
     minHeight: '47px',
   },
   widgetContent: {
-    padding: '8px 12px',
+    padding: '6px 12px',
     flex: 2,
     overflow: 'auto',
   },

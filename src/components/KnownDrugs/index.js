@@ -193,7 +193,11 @@ const KnownDrugsWidget = ({
           >
             {drugCount}
           </Typography>
-          <Typography color={hasData ? 'default' : 'secondary'} align="center">
+          <Typography
+            variant="body1"
+            color={hasData ? 'default' : 'secondary'}
+            align="center"
+          >
             number of drugs in clinical research stages where the target is{' '}
             <strong>{symbol}</strong>
           </Typography>

@@ -49,7 +49,7 @@ const PathwaysWidget = ({
         </Grid>
         <Grid item>
           <Typography
-            variant="subtitle1"
+            variant="body1"
             align="center"
             color={count > 0 ? 'default' : 'secondary'}
           >

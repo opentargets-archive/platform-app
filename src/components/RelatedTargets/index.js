@@ -52,7 +52,7 @@ const RelatedTargetsWidget = ({
         </Grid>
         <Grid item>
           <Typography
-            variant="subtitle1"
+            variant="body1"
             align="center"
             color={hasData ? 'default' : 'secondary'}
           >
