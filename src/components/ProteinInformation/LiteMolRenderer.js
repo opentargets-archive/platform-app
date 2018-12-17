@@ -18,15 +18,28 @@ class LiteMolRenderer extends React.Component {
       url: `https://www.ebi.ac.uk/pdbe/entry-files/download/pdb${pdbId}.ent`,
       format: 'pdb',
     });
+    this.plugin = plugin;
+  }
+  componentDidUpdate(prevProps) {
+    const { pdbId } = this.props;
+    if (prevProps.pdbId !== pdbId) {
+      this.plugin.clear();
+      this.plugin.loadMolecule({
+        id: pdbId,
+        url: `https://www.ebi.ac.uk/pdbe/entry-files/download/pdb${pdbId}.ent`,
+        format: 'pdb',
+      });
+    }
   }
   render() {
     return (
       <div
         id="litemol"
         style={{
-          width: '640px',
-          height: '480px',
-
+          border: '1px solid #E0E0E0',
+          width: '100%',
+          height: '100%',
+          minHeight: '480px',
           position: 'relative',
         }}
       />

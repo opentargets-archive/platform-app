@@ -1,15 +1,12 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { OtTable } from 'ot-ui';
-
-import LiteMolRenderer from './LiteMolRenderer';
+import Structure from './Structure';
 
 const query = gql`
   query ProteinInfoQuery($ensgId: String!) {
@@ -20,7 +17,7 @@ const query = gql`
           uniprotId
           pdbId
           pdbs {
-            id
+            pdbId
             chain
             start
             end
@@ -43,35 +40,6 @@ const query = gql`
     }
   }
 `;
-
-const columns = [
-  {
-    id: 'id',
-    label: 'PDB ID',
-    renderCell: d => d.id.toUpperCase(),
-  },
-  {
-    id: 'method',
-    label: 'Method',
-  },
-  {
-    id: 'coverage',
-    label: 'Coverage',
-  },
-  {
-    id: 'resolution',
-    label: 'Resolution',
-  },
-  {
-    id: 'chain',
-    label: 'Chain',
-  },
-  {
-    id: 'start',
-    label: 'Position',
-    renderCell: d => `${d.start} - ${d.end}`,
-  },
-];
 
 const styles = () => ({
   keywordCategory: {
@@ -138,21 +106,7 @@ class ProteinInformationModal extends React.Component {
                   <div>Something...</div>
                 ) : null}
                 {value === 'structure' ? (
-                  <div>
-                    <Grid container>
-                      <Grid item xs={12} md={6}>
-                        <LiteMolRenderer pdbId={pdbId} />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <OtTable
-                          loading={false}
-                          error={null}
-                          columns={columns}
-                          data={pdbs}
-                        />
-                      </Grid>
-                    </Grid>
-                  </div>
+                  <Structure pdbId={pdbId} pdbs={pdbs} />
                 ) : null}
                 {value === 'subCellularLocation' ? (
                   <div>
