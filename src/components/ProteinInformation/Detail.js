@@ -6,6 +6,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import Structure from './Structure';
+
 const query = gql`
   query ProteinInfoQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
@@ -14,6 +16,15 @@ const query = gql`
         protein {
           uniprotId
           pdbId
+          pdbs {
+            pdbId
+            chain
+            start
+            end
+            coverage
+            resolution
+            method
+          }
           keywords {
             id
             name
@@ -24,6 +35,12 @@ const query = gql`
             name
           }
           subUnit
+          structuralFeatures {
+            type
+            start
+            end
+          }
+          sequenceLength
         }
       }
     }
@@ -60,9 +77,12 @@ class ProteinInformationModal extends React.Component {
             const {
               uniprotId,
               pdbId,
+              pdbs,
               keywords,
               subCellularLocations,
               subUnit,
+              structuralFeatures,
+              sequenceLength,
             } = data.target.details.protein;
 
             const keywordsGrouped = keywords.reduce((acc, d) => {
@@ -93,7 +113,11 @@ class ProteinInformationModal extends React.Component {
                 {value === 'sequenceAnnotation' ? (
                   <div>Something...</div>
                 ) : null}
-                {value === 'structure' ? <div>Something...</div> : null}
+                {value === 'structure' ? (
+                  <Structure
+                    {...{ pdbId, pdbs, structuralFeatures, sequenceLength }}
+                  />
+                ) : null}
                 {value === 'subCellularLocation' ? (
                   <div>
                     <ul>

@@ -867,6 +867,12 @@
   version "15.5.6"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
 
+"@types/react-dom@^15.5.6":
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-15.5.8.tgz#e2fe3d95fc443c2dc2786eba99223f4e0eeeac22"
+  dependencies:
+    "@types/react" "^15"
+
 "@types/react-transition-group@^2.0.8":
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-2.0.14.tgz#afd0cd785a97f070b55765e9f9d76ff568269001"
@@ -879,6 +885,10 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
+
+"@types/react@^15", "@types/react@^15.6.16":
+  version "15.6.21"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.6.21.tgz#86fb19df382be9becee360290948bb3f66808f90"
 
 "@types/tapable@1.0.2":
   version "1.0.2"
@@ -5792,6 +5802,13 @@ listr@^0.14.2:
     listr-verbose-renderer "^0.5.0"
     p-map "^2.0.0"
     rxjs "^6.3.3"
+
+"litemol@https://github.com/dsehnal/LiteMol":
+  version "2.4.1"
+  resolved "https://github.com/dsehnal/LiteMol#33ead68e8fee63657067b59b368353ae2d23caf8"
+  dependencies:
+    "@types/react" "^15.6.16"
+    "@types/react-dom" "^15.5.6"
 
 load-json-file@^1.0.0:
   version "1.1.0"
