@@ -26,7 +26,7 @@ const columns = (pdbId, handleChangePdbId) => [
   },
   {
     id: 'resolution',
-    label: 'Resolution',
+    label: 'Resolution (Å)',
   },
   {
     id: 'chain',
