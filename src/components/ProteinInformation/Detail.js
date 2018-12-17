@@ -35,6 +35,12 @@ const query = gql`
             name
           }
           subUnit
+          structuralFeatures {
+            type
+            start
+            end
+          }
+          sequenceLength
         }
       }
     }
@@ -75,6 +81,8 @@ class ProteinInformationModal extends React.Component {
               keywords,
               subCellularLocations,
               subUnit,
+              structuralFeatures,
+              sequenceLength,
             } = data.target.details.protein;
 
             const keywordsGrouped = keywords.reduce((acc, d) => {
@@ -106,7 +114,9 @@ class ProteinInformationModal extends React.Component {
                   <div>Something...</div>
                 ) : null}
                 {value === 'structure' ? (
-                  <Structure pdbId={pdbId} pdbs={pdbs} />
+                  <Structure
+                    {...{ pdbId, pdbs, structuralFeatures, sequenceLength }}
+                  />
                 ) : null}
                 {value === 'subCellularLocation' ? (
                   <div>
