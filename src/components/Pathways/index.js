@@ -34,6 +34,14 @@ const PathwaysWidget = ({
       title="Pathways"
       detailUrlStem="pathways"
       detail={<PathwaysDetail ensgId={ensgId} symbol={symbol} />}
+      detailHeader={{
+        title: <React.Fragment>{symbol} - Pathways</React.Fragment>,
+        description: (
+          <React.Fragment>
+            Pathway information for {symbol} from Reactome
+          </React.Fragment>
+        ),
+      }}
       hasData={hasData}
       sources={sources}
     >
