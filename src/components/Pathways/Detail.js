@@ -1,25 +1,12 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Grid from '@material-ui/core/Grid';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
-import classNames from 'classnames';
 
-import { OtTable } from 'ot-ui';
-
-const styles = () => ({
-  topLevelPathwayContainer: {
-    border: '1px solid black',
-    textAlign: 'center',
-    minHeight: '1.8rem',
-    height: '100%',
-  },
-  topLevelPathwayContainerHighlight: {
-    backgroundColor: '#891C76',
-    color: 'white',
-  },
-});
+import OverviewTab from './OverviewTab';
+import BrowserTab from './BrowserTab';
 
 const query = gql`
   query PathwaysQuery($ensgId: String!) {
@@ -46,103 +33,54 @@ const query = gql`
   }
 `;
 
-const columns = [
-  { id: 'name', label: 'Pathway' },
-  {
-    id: 'id',
-    label: 'Reactome ID',
-    renderCell: d => (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href={`https://reactome.org/content/detail/${d.id}`}
-      >
-        {d.id}
-      </a>
-    ),
-  },
-  {
-    id: 'parents',
-    label: 'Top-level pathway',
-    renderCell: d => (
+class PathwaysDetail extends React.Component {
+  state = {
+    tab: 'overview',
+  };
+  handleChange = (event, tab) => {
+    this.setState({ tab });
+  };
+  render() {
+    const { ensgId, symbol } = this.props;
+    const { tab } = this.state;
+    return (
       <React.Fragment>
-        {d.parents.map((p, i) => (
-          <React.Fragment key={i}>
-            {i > 0 ? <br /> : null}
-            {p.name}
-          </React.Fragment>
-        ))}
+        <Query query={query} variables={{ ensgId }}>
+          {({ loading, error, data }) => {
+            if (loading || error) return null;
+
+            const {
+              topLevelPathways,
+              lowLevelPathways,
+            } = data.target.details.pathways;
+            return (
+              <React.Fragment>
+                <Tabs
+                  value={tab}
+                  onChange={this.handleChange}
+                  scrollable
+                  scrollButtons="auto"
+                >
+                  <Tab value="overview" label="Pathways Overview" />
+                  <Tab value="browser" label="Reactome Pathway Browser" />
+                </Tabs>
+                {tab === 'overview' ? (
+                  <OverviewTab
+                    {...{ symbol, topLevelPathways, lowLevelPathways }}
+                  />
+                ) : null}
+                {tab === 'browser' ? (
+                  <BrowserTab
+                    {...{ symbol, topLevelPathways, lowLevelPathways }}
+                  />
+                ) : null}
+              </React.Fragment>
+            );
+          }}
+        </Query>
       </React.Fragment>
-    ),
-  },
-  {
-    id: 'diagram',
-    label: 'View diagram',
-    renderCell: d => (
-      <React.Fragment>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://reactome.org/ContentService/exporter/diagram/${
-            d.id
-          }.svg`}
-        >
-          SVG
-        </a>{' '}
-        |{' '}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://reactome.org/ContentService/exporter/diagram/${
-            d.id
-          }.png`}
-        >
-          PNG
-        </a>
-      </React.Fragment>
-    ),
-  },
-];
+    );
+  }
+}
 
-const PathwaysDetail = ({ classes, ensgId, symbol }) => {
-  return (
-    <React.Fragment>
-      <Query query={query} variables={{ ensgId }}>
-        {({ loading, error, data }) => {
-          if (loading || error) return null;
-
-          const {
-            topLevelPathways,
-            lowLevelPathways,
-          } = data.target.details.pathways;
-          return (
-            <React.Fragment>
-              <Grid container alignItems="stretch" spacing={8}>
-                {topLevelPathways.map(d => (
-                  <Grid item xs={4} md={2} key={d.id}>
-                    <div
-                      className={classNames(classes.topLevelPathwayContainer, {
-                        [classes.topLevelPathwayContainerHighlight]:
-                          d.isAssociated,
-                      })}
-                    >
-                      <Typography color="inherit">{d.name}</Typography>
-                    </div>
-                  </Grid>
-                ))}
-              </Grid>
-              <OtTable
-                loading={false}
-                error={null}
-                columns={columns}
-                data={lowLevelPathways}
-              />
-            </React.Fragment>
-          );
-        }}
-      </Query>
-    </React.Fragment>
-  );
-};
-
-export default withStyles(styles)(PathwaysDetail);
+export default PathwaysDetail;
