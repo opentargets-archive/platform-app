@@ -61,12 +61,19 @@ class Widget extends Component {
       sources,
       detail,
       detailUrlStem,
+      detailHeader,
       xs,
       sm,
       md,
       lg,
       match,
     } = this.props;
+
+    const detailHeaderFull = {
+      sources: this.props.sources,
+      title: detailHeader.title || this.props.title,
+      description: detailHeader.description,
+    };
 
     return (
       <Grid item {...{ xs, sm, md, lg }}>
@@ -102,7 +109,7 @@ class Widget extends Component {
         <Route
           path={`${match.path}/${detailUrlStem}`}
           render={() => (
-            <Modal open onClose={this.handleClose}>
+            <Modal open onClose={this.handleClose} header={detailHeaderFull}>
               {detail}
             </Modal>
           )}
