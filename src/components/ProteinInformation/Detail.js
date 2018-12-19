@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import Structure from './Structure';
+import ProtVistaRenderer from './ProtVistaRenderer';
 
 const query = gql`
   query ProteinInfoQuery($ensgId: String!) {
@@ -111,7 +112,7 @@ class ProteinInformationModal extends React.Component {
                   <Tab value="keywords" label="UniProt keywords" />
                 </Tabs>
                 {value === 'sequenceAnnotation' ? (
-                  <div>Something...</div>
+                  <ProtVistaRenderer uniprotId={uniprotId} />
                 ) : null}
                 {value === 'structure' ? (
                   <Structure
