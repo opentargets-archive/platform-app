@@ -41,6 +41,15 @@ const ChemicalProbesWidget = ({
           sources={sources}
         />
       }
+      detailHeader={{
+        title: <React.Fragment>{symbol} - Chemical Probes</React.Fragment>,
+        description: (
+          <React.Fragment>
+            Information on chemical probes that have been developed for {symbol}
+            .
+          </React.Fragment>
+        ),
+      }}
       hasData={hasData}
       sources={sources}
     >
