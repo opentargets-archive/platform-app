@@ -43,6 +43,25 @@ const CancerBiomarkersWidget = ({
           sources={sources}
         />
       }
+      detailHeader={{
+        title: <React.Fragment>{symbol} - Cancer biomarkers</React.Fragment>,
+        description: (
+          <React.Fragment>
+            Genomic biomarkers of drug responses, and their levels of clinical
+            significance as described by{' '}
+            <a
+              href="https://europepmc.org/articles/PMC5875005"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {' '}
+              Tamborero et al. (2018)
+            </a>
+            . This data is manually curated by clinical and scientific
+            communities in the field of precision oncology.
+          </React.Fragment>
+        ),
+      }}
       hasData={hasData}
       sources={sources}
     >
