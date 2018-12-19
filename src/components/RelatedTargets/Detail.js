@@ -92,21 +92,6 @@ const columns = symbol => [
 const RelatedTargetsDetail = ({ ensgId, symbol, sources }) => {
   return (
     <React.Fragment>
-      <Typography variant="h5">{symbol} - Related Targets</Typography>
-      <Typography>
-        Targets related to {symbol} based on shared disease associations.
-      </Typography>
-      <Typography variant="caption">
-        Source{sources.length > 1 ? 's' : null}:{' '}
-        {sources.map((d, i) => (
-          <React.Fragment key={d.name}>
-            {i > 0 ? ' ' : null}
-            <a href={d.url} target="_blank" rel="noopener noreferrer">
-              {d.name}
-            </a>
-          </React.Fragment>
-        ))}
-      </Typography>
       <Query query={query} variables={{ ensgId }}>
         {({ loading, error, data }) => {
           if (loading || error) return null;
