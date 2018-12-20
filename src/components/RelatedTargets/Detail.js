@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Typography from '@material-ui/core/Typography';
 
 import { OtTable } from 'ot-ui';
 import Venn from './Venn';

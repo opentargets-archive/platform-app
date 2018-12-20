@@ -64,7 +64,7 @@ class ProteinInformationModal extends React.Component {
   };
 
   render() {
-    const { classes, symbol, ensgId } = this.props;
+    const { classes, ensgId } = this.props;
     const { value } = this.state;
     return (
       <React.Fragment>
