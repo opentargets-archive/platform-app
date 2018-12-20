@@ -54,7 +54,7 @@ const ProteinInformationWidget = ({
         title: <React.Fragment>{symbol} - Protein information</React.Fragment>,
         description: (
           <React.Fragment>
-            General information about {symbol} protein from UniProt.
+            General information about {symbol} protein from UniProt and PDBe.
           </React.Fragment>
         ),
       }}
