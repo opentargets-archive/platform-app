@@ -37,6 +37,14 @@ const RelatedTargetsWidget = ({
           sources={sources}
         />
       }
+      detailHeader={{
+        title: <React.Fragment>{symbol} - Related targets</React.Fragment>,
+        description: (
+          <React.Fragment>
+            Targets related to {symbol} based on shared disease associations.
+          </React.Fragment>
+        ),
+      }}
       hasData={hasData}
       sources={sources}
     >

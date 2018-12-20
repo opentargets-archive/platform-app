@@ -61,19 +61,6 @@ const styles = theme => ({
 const KnownDrugsDetail = ({ ensgId, symbol, sources }) => {
   return (
     <React.Fragment>
-      <Typography variant="h5">{symbol} - Known Drugs</Typography>
-      <Typography>Drugs in clinical trials or approved for {symbol}</Typography>
-      <Typography variant="caption">
-        Source{sources.length > 1 ? 's' : null}:{' '}
-        {sources.map((d, i) => (
-          <React.Fragment key={d.name}>
-            {i > 0 ? ' ' : null}
-            <a href={d.url} target="_blank" rel="noopener noreferrer">
-              {d.name}
-            </a>
-          </React.Fragment>
-        ))}
-      </Typography>
       <Query query={query} variables={{ ensgId }}>
         {({ loading, error, data }) => {
           if (loading || error) return null;

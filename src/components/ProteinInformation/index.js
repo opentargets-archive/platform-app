@@ -50,6 +50,14 @@ const ProteinInformationWidget = ({
       title="Protein information"
       detailUrlStem="protein-information"
       detail={<ProteinInformationDetail ensgId={ensgId} symbol={symbol} />}
+      detailHeader={{
+        title: <React.Fragment>{symbol} - Protein information</React.Fragment>,
+        description: (
+          <React.Fragment>
+            General information about {symbol} protein from UniProt and PDBe.
+          </React.Fragment>
+        ),
+      }}
       hasData={hasData}
       sources={sources}
     >

@@ -68,9 +68,6 @@ class ProteinInformationModal extends React.Component {
     const { value } = this.state;
     return (
       <React.Fragment>
-        <Typography>
-          General information about {symbol} protein from UniProt.
-        </Typography>
         <Query query={query} variables={{ ensgId }}>
           {({ loading, error, data }) => {
             if (loading || error) return null;

@@ -45,7 +45,6 @@ class PathwaysDetail extends React.Component {
     const { tab } = this.state;
     return (
       <React.Fragment>
-        <Typography>Pathway information for {symbol} from Reactome</Typography>
         <Query query={query} variables={{ ensgId }}>
           {({ loading, error, data }) => {
             if (loading || error) return null;

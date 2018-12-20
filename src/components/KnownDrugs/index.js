@@ -115,6 +115,14 @@ const KnownDrugsWidget = ({
       detail={
         <KnownDrugsDetail ensgId={ensgId} symbol={symbol} sources={sources} />
       }
+      detailHeader={{
+        title: <React.Fragment>{symbol} - Known drugs</React.Fragment>,
+        description: (
+          <React.Fragment>
+            Drugs in clinical trials or approved for {symbol}
+          </React.Fragment>
+        ),
+      }}
       hasData={hasData}
       sources={sources}
     >
