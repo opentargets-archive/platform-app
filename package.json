@@ -28,7 +28,7 @@
     "graphql-tag": "^2.10.0",
     "litemol": "https://github.com/dsehnal/LiteMol",
     "lodash": "^4.17.11",
-    "ot-ui": "^0.0.60",
+    "ot-ui": "^0.0.62",
     "polished": "^2.3.0",
     "react": "^16.5.2",
     "react-apollo": "^2.2.4",
@@ -43,7 +43,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "REACT_APP_REVISION=\"$(git rev-parse --short HEAD)\" react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write",
