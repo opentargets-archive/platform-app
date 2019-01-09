@@ -100,6 +100,7 @@ class Widget extends Component {
               className={classes.widgetSources}
               variant="caption"
               align="center"
+              color={hasData ? 'default' : 'secondary'}
             >
               Source{sources.length > 1 ? 's' : null}:{' '}
               {sources.map(d => d.name).join(', ')}
