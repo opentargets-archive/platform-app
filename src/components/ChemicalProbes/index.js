@@ -24,11 +24,11 @@ const ChemicalProbesWidget = ({
   const items = [
     {
       value: hasStructuralGenomicsConsortium,
-      label: 'Structural Genomics Consortium',
+      label: 'SGC',
     },
     { value: hasChemicalProbesPortal, label: 'Chemical Probes Portal' },
     { value: hasOpenScienceProbes, label: 'Open Science Probes' },
-    { value: hasProbeMiner, label: 'ProbeMiner' },
+    { value: hasProbeMiner, label: 'Probe Miner' },
   ];
   return (
     <Widget
