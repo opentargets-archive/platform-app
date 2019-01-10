@@ -45,7 +45,7 @@ export const externalLinks = {
     { label: 'Biogen', url: 'https://www.biogen.com' },
     { label: 'Celgene', url: 'https://www.celgene.com' },
     {
-      label: 'European Bioinformatics Institute (EMBL-EBI)',
+      label: 'EMBL-EBI',
       url: 'https://www.ebi.ac.uk',
     },
     { label: 'GSK', url: 'https://www.gsk.com' },
@@ -79,8 +79,7 @@ export const externalLinks = {
     },
     {
       iconClasses: 'fab fa-linkedin',
-      url:
-        'https://www.linkedin.com/company/centre-for-therapeutic-target-validation',
+      url: 'https://www.linkedin.com/company/open-targets',
     },
     {
       iconClasses: 'fab fa-youtube-square',
