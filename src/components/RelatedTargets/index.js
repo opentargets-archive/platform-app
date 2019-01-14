@@ -64,8 +64,12 @@ const RelatedTargetsWidget = ({
             align="center"
             color={hasData ? 'default' : 'secondary'}
           >
-            <strong>{relatedTargetsCount}</strong> targets related to{' '}
-            <strong>{symbol}</strong> based on diseases in common
+            View the top{' '}
+            <strong>
+              {relatedTargetsCount > 20 ? '20+' : relatedTargetsCount}
+            </strong>{' '}
+            targets related to <strong>{symbol}</strong> based on shared disease
+            associations
           </Typography>
         </Grid>
       </Grid>
