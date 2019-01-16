@@ -32,6 +32,12 @@ const styles = theme => ({
       color: '#000',
     },
   },
+  modalTitle: {
+    fontWeight: 500,
+  },
+  description: {
+    fontStyle: 'italic',
+  },
 });
 
 const Modal = ({ classes, open, onClose, children, header }) => {
@@ -40,8 +46,12 @@ const Modal = ({ classes, open, onClose, children, header }) => {
       <Paper className={classes.modalContents}>
         <div className={classes.modalHeader}>
           <div>
-            <Typography variant="h5">{header.title}</Typography>
-            <Typography>{header.description}</Typography>
+            <Typography variant="h5" className={classes.modalTitle}>
+              {header.title}
+            </Typography>
+            <Typography className={classes.description}>
+              {header.description}
+            </Typography>
             <Typography variant="caption">
               Source{header.sources.length > 1 ? 's' : null}:{' '}
               {header.sources.map((d, i) => (
@@ -54,12 +64,9 @@ const Modal = ({ classes, open, onClose, children, header }) => {
               ))}
             </Typography>
           </div>
-
-          <div>
-            <div className={classes.modalCloseButton} onClick={onClose}>
-              <i className="far fa-times-circle fa-lg" />
-              <span>Close</span>
-            </div>
+          <div className={classes.modalCloseButton} onClick={onClose}>
+            <i className="far fa-times-circle fa-lg" />
+            <span>Close</span>
           </div>
         </div>
 
