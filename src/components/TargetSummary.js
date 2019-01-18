@@ -22,11 +22,25 @@ const summaryStyles = theme => ({
     color: '#7b196a',
     fontWeight: 500,
   },
+  geneticsLink: {
+    alignItems: 'center',
+    display: 'flex',
+    height: '35px',
+    borderRadius: '3px',
+    fontSize: '13px',
+    fontWeight: '500',
+    backgroundColor: '#7b196a',
+    color: 'white',
+    padding: '0 10px',
+    textDecoration: 'none',
+  },
   associatedIcon: {
     marginRight: '6px',
     fill: 'white',
   },
   associatedDiseases: {
+    backgroundColor: '#7b196a',
+    color: 'white',
     position: 'relative',
     top: '14px',
     height: '40px',
@@ -48,7 +62,14 @@ const summaryStyles = theme => ({
   },
 });
 
-const TargetSummary = ({ classes, symbol, name, synonyms, description }) => (
+const TargetSummary = ({
+  classes,
+  ensgId,
+  symbol,
+  name,
+  synonyms,
+  description,
+}) => (
   <Fragment>
     <Grid className={classes.titleContainer} container justify="space-between">
       <Grid item>
@@ -65,10 +86,15 @@ const TargetSummary = ({ classes, symbol, name, synonyms, description }) => (
         </Grid>
       </Grid>
       <Grid item>
-        <Button gradient className={classes.associatedDiseases}>
+        <a
+          className={classes.geneticsLink}
+          href={`https://genetics.opentargets.org/gene/${ensgId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <AssociationsIcon className={classes.associatedIcon} />
-          View associated diseases
-        </Button>
+          View {symbol} profile in Open Targets Genetics
+        </a>
       </Grid>
     </Grid>
     <Grid className={classes.description} container>

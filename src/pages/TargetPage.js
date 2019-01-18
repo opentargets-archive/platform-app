@@ -65,6 +65,7 @@ class TargetPage extends Component {
                   <title>{symbol}</title>
                 </Helmet>
                 <TargetSummary
+                  ensgId={ensgId}
                   symbol={symbol}
                   name={name}
                   synonyms={synonyms}
