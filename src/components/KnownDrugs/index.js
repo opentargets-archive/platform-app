@@ -107,7 +107,7 @@ const KnownDrugsWidget = ({
   return (
     <Widget
       xs={12}
-      sm={12}
+      sm={6}
       md={12}
       lg={9}
       title="Known drugs"
