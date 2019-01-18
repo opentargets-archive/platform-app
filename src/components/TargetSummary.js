@@ -22,6 +22,10 @@ const summaryStyles = theme => ({
     color: '#7b196a',
     fontWeight: 500,
   },
+  name: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   geneticsLink: {
     alignItems: 'center',
     display: 'flex',
@@ -78,10 +82,25 @@ const TargetSummary = ({
             <TargetIcon className={classes.targetIcon} />
           </Grid>
           <Grid item>
-            <Typography className={classes.symbol} variant="h4">
-              {symbol}
-            </Typography>
-            <Typography variant="subtitle2">{name}</Typography>
+            <Grid container>
+              <Typography className={classes.symbol} variant="h4">
+                {symbol}
+              </Typography>
+              <Typography className={classes.name} variant="subtitle2">
+                {name}
+              </Typography>
+            </Grid>
+            <Grid container>
+              <Typography>
+                Ensembl:{' '}
+                <a
+                  href={`http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`}
+                >
+                  {ensgId}
+                </a>{' '}
+                | UniProt:
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
