@@ -16,6 +16,7 @@ const targetQuery = gql`
     target(ensgId: $ensgId) {
       id
       name
+      uniprotId
       symbol
       description
       synonyms
@@ -58,7 +59,14 @@ class TargetPage extends Component {
               return null;
             }
 
-            const { symbol, name, synonyms, description } = data.target;
+            const {
+              symbol,
+              name,
+              uniprotId,
+              synonyms,
+              description,
+            } = data.target;
+
             return (
               <Fragment>
                 <Helmet>
@@ -68,6 +76,7 @@ class TargetPage extends Component {
                   ensgId={ensgId}
                   symbol={symbol}
                   name={name}
+                  uniprotId={uniprotId}
                   synonyms={synonyms}
                   description={description}
                 />

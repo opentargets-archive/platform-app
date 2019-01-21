@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import { Button } from 'ot-ui';
+import { ExternalLink } from 'ot-ui';
 
 import LongText from './LongText';
 import TargetIcon from '../icons/TargetIcon';
@@ -25,6 +25,9 @@ const summaryStyles = theme => ({
   name: {
     display: 'flex',
     alignItems: 'center',
+  },
+  titleLink: {
+    color: theme.palette.primary.main,
   },
   geneticsLink: {
     alignItems: 'center',
@@ -71,6 +74,7 @@ const TargetSummary = ({
   ensgId,
   symbol,
   name,
+  uniprotId,
   synonyms,
   description,
 }) => (
@@ -93,12 +97,19 @@ const TargetSummary = ({
             <Grid container>
               <Typography>
                 Ensembl:{' '}
-                <a
+                <ExternalLink
+                  className={classes.titleLink}
                   href={`http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`}
                 >
                   {ensgId}
-                </a>{' '}
-                | UniProt:
+                </ExternalLink>{' '}
+                | UniProt:{' '}
+                <ExternalLink
+                  className={classes.titleLink}
+                  href={`https://www.uniprot.org/uniprot/${uniprotId}`}
+                >
+                  {uniprotId}
+                </ExternalLink>
               </Typography>
             </Grid>
           </Grid>
