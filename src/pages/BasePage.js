@@ -8,8 +8,7 @@ import { externalLinks } from '../constants';
 
 const styles = theme => ({
   container: {
-    paddingTop: '40px',
-    paddingBottom: '40px',
+    padding: '40px 24px',
   },
 });
 
@@ -22,7 +21,7 @@ const BasePage = ({ children, classes }) => {
       />
       <NavBar name="Platform" />
       <Grid className={classes.container} container justify="space-around">
-        <Grid item md={10}>
+        <Grid item md={11}>
           {children}
         </Grid>
       </Grid>
