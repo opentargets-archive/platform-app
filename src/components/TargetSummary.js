@@ -6,7 +6,6 @@ import { ExternalLink } from 'ot-ui';
 
 import LongText from './LongText';
 import TargetIcon from '../icons/TargetIcon';
-import AssociationsIcon from '../icons/AssociationsIcon';
 
 const summaryStyles = theme => ({
   titleContainer: {
@@ -122,7 +121,6 @@ const TargetSummary = ({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <AssociationsIcon className={classes.associatedIcon} />
           View {symbol} profile in Open Targets Genetics
         </a>
       </Grid>
