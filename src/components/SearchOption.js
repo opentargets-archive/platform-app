@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchOption, commaSeparate } from 'ot-ui';
+import { SearchOption } from 'ot-ui';
 
 const Option = ({ data }) => {
   switch (data.groupType) {
