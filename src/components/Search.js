@@ -60,10 +60,45 @@ const MOCK_SEARCH_DATA = {
   ],
 };
 
+const buildPrefixRegex = question => {
+  const questionReverse = question
+    .split('')
+    .reverse()
+    .join('');
+  const words = questionReverse.split(' ');
+  let regexString = '(?:\\?|$)';
+  words.forEach((w, i, wordArray) => {
+    // handle space
+    if (i > 0) {
+      regexString = `(?: ${regexString}|$)`;
+    }
+
+    // handle word
+    const letters = w.split('');
+    letters.forEach((l, j, word) => {
+      if (l === '*') {
+        // handle unknown
+        regexString = `(\\w+${regexString}|$)`;
+      } else {
+        // handle letter
+        if (i === wordArray.length - 1 && j === word.length - 1) {
+          // handle very first letter
+          regexString = `(?:${l}${regexString})`;
+        } else {
+          // handle any other letter
+          regexString = `(?:${l}${regexString}|$)`;
+        }
+      }
+    });
+  });
+  return new RegExp(`^${regexString}`, 'gi');
+};
+
 const QUESTIONS = [
   {
     id: 'Q001',
     regex: /Which tissues is (\w+) expressed in\?/gi,
+    prefixRegex: buildPrefixRegex('which tissues is * expressed in'),
     text: 'Which tissues is expressed in?',
     template: (
       <React.Fragment>
@@ -75,6 +110,7 @@ const QUESTIONS = [
   {
     id: 'Q002',
     regex: /Which diseases is (\w+) associated with\?/gi,
+    prefixRegex: buildPrefixRegex('which diseases is * associated with'),
     text: 'Which diseases is associated with?',
     template: (
       <React.Fragment>
@@ -86,6 +122,7 @@ const QUESTIONS = [
   {
     id: 'Q003',
     regex: /Which genes is (\w+) associated with\?/gi,
+    prefixRegex: buildPrefixRegex('which genes is * associated with'),
     text: 'Which genes is associated with?',
     template: (
       <React.Fragment>
@@ -97,6 +134,7 @@ const QUESTIONS = [
   {
     id: 'Q004',
     regex: /Is (\w+) part of a protein complex\?/gi,
+    prefixRegex: buildPrefixRegex('is * part of a protein complex'),
     text: 'Is part of a protein complex?',
     template: (
       <React.Fragment>
@@ -106,22 +144,6 @@ const QUESTIONS = [
     groupTypes: ['gene'],
   },
 ];
-
-// alternative to lunr is to construct monster regexes,
-// such as: ^(?:W(?:h(?:i(?:c(?:h(?: (?:t(?:i(?:s(?:s(?:u(?:e(?:s(?: (?:i(?:s(?: (?:(\w+)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)
-// (this seems like a bad idea)
-const lunrIndex = lunr(function() {
-  this.ref('id');
-  this.field('text');
-
-  this.pipeline.remove(lunr.stopWordFilter);
-  this.searchPipeline.remove(lunr.stopWordFilter);
-  this.pipeline.remove(lunr.stemmer);
-  this.searchPipeline.remove(lunr.stemmer);
-  QUESTIONS.forEach(function(q) {
-    this.add(q);
-  }, this);
-});
 
 const standardSearch = queryString => {
   const queryStringLower = queryString.toLowerCase();
@@ -140,14 +162,6 @@ const standardSearch = queryString => {
 };
 const questionSearch = queryString => {
   const queryStringLower = queryString.toLowerCase();
-  // const lunrQuery = `${queryStringLower}*`;
-  const lunrQuery = queryStringLower
-    .split(' ')
-    .map((w, i, arr) => `+${w}${i === arr.length - 1 ? '*' : ''}`)
-    .join(' ');
-  const lunrDocs =
-    queryStringLower.length > 0 ? lunrIndex.search(lunrQuery) : [];
-  console.log(lunrQuery, lunrDocs);
   return QUESTIONS.map(q => {
     const match = q.regex.exec(queryStringLower);
     const isMatch = match && match.length === q.groupTypes.length + 1;
@@ -159,7 +173,7 @@ const questionSearch = queryString => {
         }
       });
     }
-    const isPartialMatch = lunrDocs.find(l => l.ref === q.id);
+    const isPartialMatch = queryStringLower.match(q.prefixRegex);
     return {
       ...q,
       isMatch,
