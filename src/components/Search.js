@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
+import lunr from 'lunr';
 
 import { AdvancedSearch as OtSearch } from 'ot-ui';
 
@@ -62,7 +62,9 @@ const MOCK_SEARCH_DATA = {
 
 const QUESTIONS = [
   {
+    id: 'Q001',
     regex: /Which tissues is (\w+) expressed in\?/gi,
+    text: 'Which tissues is gene expressed in?',
     template: (
       <React.Fragment>
         Which tissues is <strong>gene</strong> expressed in?
@@ -70,7 +72,45 @@ const QUESTIONS = [
     ),
     groupTypes: ['gene'],
   },
+  {
+    id: 'Q002',
+    regex: /Which diseases is (\w+) associated with\?/gi,
+    text: 'Which diseases is gene associated with?',
+    template: (
+      <React.Fragment>
+        Which diseases is <strong>gene</strong> associated with?
+      </React.Fragment>
+    ),
+    groupTypes: ['gene'],
+  },
+  {
+    id: 'Q002',
+    regex: /Which targets is (\w+) associated with\?/gi,
+    text: 'Which targets is disease associated with?',
+    template: (
+      <React.Fragment>
+        Which targets is <strong>disease</strong> associated with?
+      </React.Fragment>
+    ),
+    groupTypes: ['disease'],
+  },
 ];
+
+// alternative to lunr is to construct monster regexes,
+// such as: ^(?:W(?:h(?:i(?:c(?:h(?: (?:t(?:i(?:s(?:s(?:u(?:e(?:s(?: (?:i(?:s(?: (?:(\w+)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)|$)
+// (this seems like a bad idea)
+const lunrIndex = lunr(function() {
+  this.ref('id');
+  this.field('text');
+
+  this.pipeline.remove(lunr.stopWordFilter);
+  this.searchPipeline.remove(lunr.stopWordFilter);
+  // this.pipeline.remove(lunr.stemmer);
+  // this.searchPipeline.remove(lunr.stemmer);
+  QUESTIONS.forEach(function(q) {
+    this.add(q);
+  }, this);
+});
 
 const standardSearch = queryString => {
   const queryStringLower = queryString.toLowerCase();
@@ -89,6 +129,8 @@ const standardSearch = queryString => {
 };
 const questionSearch = queryString => {
   const queryStringLower = queryString.toLowerCase();
+  const lunrDocs =
+    queryStringLower.length > 0 ? lunrIndex.search(`${queryStringLower}*`) : [];
   return QUESTIONS.map(q => {
     const match = q.regex.exec(queryStringLower);
     const isMatch = match && match.length === q.groupTypes.length + 1;
@@ -100,12 +142,14 @@ const questionSearch = queryString => {
         }
       });
     }
+    const isPartialMatch = lunrDocs.find(l => l.ref === q.id);
     return {
       ...q,
       isMatch,
+      isPartialMatch,
       groups,
     };
-  }).filter(q => q.isMatch);
+  }); //.filter(q => q.isMatch);
 };
 
 const asGroupedOptions = data => {
@@ -126,7 +170,15 @@ const asQuestionSuggestions = questions => {
     <div style={{ backgroundColor: 'black' }}>
       <ul>
         {questions.map((q, i) => (
-          <li key={i}>{q.template}</li>
+          <li
+            key={i}
+            style={{
+              color: q.isPartialMatch ? 'lightgreen' : 'white',
+              textDecoration: q.isMatch ? 'underline wavy yellow' : 'none',
+            }}
+          >
+            {q.template}
+          </li>
         ))}
       </ul>
     </div>
@@ -170,7 +222,7 @@ class Search extends React.Component {
   handleFocus = () => {};
   render() {
     const questions = questionSearch(this.state.value);
-    console.log(questions);
+    // console.log(questions);
     return (
       <OtSearch
         menuMessage={asQuestionSuggestions(questions)}
