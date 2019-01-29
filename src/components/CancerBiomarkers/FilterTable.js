@@ -8,6 +8,10 @@ import classNames from 'classnames';
 import { OtTable, Autocomplete } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
+import {
+  upReducerKeyCount,
+  downReducerKeyCount,
+} from '../../utils/crossfilterReducers';
 
 const getColumns = ({
   biomarkerOptions,
@@ -102,16 +106,15 @@ class FilterTable extends Component {
 
   componentDidMount() {
     this.setupCharts();
-    this.renderCharts();
   }
 
   componentDidUpdate() {
-    this.renderCharts();
+    this.redrawCharts();
   }
 
   biomarkerFilterHandler = selection => {
     if (selection.length === 0) {
-      this.biomarkerDim.filterAll(); // clear the biomarker dimension filter
+      this.biomarkerDim.filterAll();
     } else {
       this.biomarkerDim.filter(d => {
         return d === selection.value;
@@ -188,43 +191,24 @@ class FilterTable extends Component {
     );
     const evidenceDim = this.biomarkers.dimension(row => row.evidenceLevel);
 
-    const drugCount = this.biomarkers.groupAll().reduce(
-      (acc, data) => {
-        if (data.drugName in acc) {
-          acc[data.drugName]++;
-        } else {
-          acc[data.drugName] = 1;
-        }
-        return acc;
-      },
-      (acc, data) => {
-        acc[data.drugName]--;
-        if (acc[data.drugName] === 0) {
-          delete acc[data.drugName];
-        }
-        return acc;
-      },
-      () => ({})
-    );
+    const drugAccessor = data => data.drugName;
+    const biomarkerAccessor = data => data.biomarker;
 
-    const biomarkerCount = this.biomarkers.groupAll().reduce(
-      (acc, data) => {
-        if (data.biomarker in acc) {
-          acc[data.biomarker]++;
-        } else {
-          acc[data.biomarker] = 1;
-        }
-        return acc;
-      },
-      (acc, data) => {
-        acc[data.biomarker]--;
-        if (acc[data.biomarker] === 0) {
-          delete acc[data.biomarker];
-        }
-        return acc;
-      },
-      () => ({})
-    );
+    const drugCount = this.biomarkers
+      .groupAll()
+      .reduce(
+        upReducerKeyCount(drugAccessor),
+        downReducerKeyCount(drugAccessor),
+        () => ({})
+      );
+
+    const biomarkerCount = this.biomarkers
+      .groupAll()
+      .reduce(
+        upReducerKeyCount(biomarkerAccessor),
+        downReducerKeyCount(biomarkerAccessor),
+        () => ({})
+      );
 
     const diseaseCount = this.biomarkers.groupAll().reduce(
       (acc, data) => {
@@ -249,43 +233,21 @@ class FilterTable extends Component {
       () => ({})
     );
 
-    const associationGroup = associationDim.group().reduce(
-      (acc, data) => {
-        if (data.biomarker in acc) {
-          acc[data.biomarker]++;
-        } else {
-          acc[data.biomarker] = 1;
-        }
-        return acc;
-      },
-      (acc, data) => {
-        acc[data.biomarker]--;
-        if (acc[data.biomarker] === 0) {
-          delete acc[data.biomarker];
-        }
-        return acc;
-      },
-      () => ({})
-    );
+    const associationGroup = associationDim
+      .group()
+      .reduce(
+        upReducerKeyCount(biomarkerAccessor),
+        downReducerKeyCount(biomarkerAccessor),
+        () => ({})
+      );
 
-    const evidenceGroup = evidenceDim.group().reduce(
-      (acc, data) => {
-        if (data.biomarker in acc) {
-          acc[data.biomarker]++;
-        } else {
-          acc[data.biomarker] = 1;
-        }
-        return acc;
-      },
-      (acc, data) => {
-        acc[data.biomarker]--;
-        if (acc[data.biomarker] === 0) {
-          delete acc[data.biomarker];
-        }
-        return acc;
-      },
-      () => ({})
-    );
+    const evidenceGroup = evidenceDim
+      .group()
+      .reduce(
+        upReducerKeyCount(biomarkerAccessor),
+        downReducerKeyCount(biomarkerAccessor),
+        () => ({})
+      );
 
     this.drugCountLabel = dc.numberDisplay('#biomarkers-drug-count');
     this.biomarkerCountLabel = dc.numberDisplay('#biomarkers-biomarker-count');
@@ -298,17 +260,20 @@ class FilterTable extends Component {
     this.drugCountLabel
       .group(drugCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length);
+      .valueAccessor(d => Object.keys(d).length)
+      .render();
 
     this.biomarkerCountLabel
       .group(biomarkerCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length);
+      .valueAccessor(d => Object.keys(d).length)
+      .render();
 
     this.diseaseCountLabel
       .group(diseaseCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length);
+      .valueAccessor(d => Object.keys(d).length)
+      .render();
 
     this.biomarkersByAssociationChart
       .width(DC_PIE_WIDTH)
@@ -319,7 +284,8 @@ class FilterTable extends Component {
       .valueAccessor(d => Object.keys(d.value).length)
       .group(associationGroup)
       .dimension(associationDim)
-      .colors(['#E2DFDF']);
+      .colors(['#E2DFDF'])
+      .render();
 
     this.biomarkersByEvidenceChart
       .width(DC_PIE_WIDTH)
@@ -330,7 +296,8 @@ class FilterTable extends Component {
       .valueAccessor(d => Object.keys(d.value).length)
       .group(evidenceGroup)
       .dimension(evidenceDim)
-      .colors(['#E2DFDF']);
+      .colors(['#E2DFDF'])
+      .render();
 
     this.biomarkersByAssociationChart.on('filtered', d => {
       this.setState({ filteredRows: this.biomarkers.allFiltered() });
@@ -343,12 +310,12 @@ class FilterTable extends Component {
     this.setState({ filteredRows: this.biomarkers.allFiltered() });
   }
 
-  renderCharts() {
-    this.drugCountLabel.render();
-    this.biomarkerCountLabel.render();
-    this.diseaseCountLabel.render();
-    this.biomarkersByAssociationChart.render();
-    this.biomarkersByEvidenceChart.render();
+  redrawCharts() {
+    this.drugCountLabel.redraw();
+    this.biomarkerCountLabel.redraw();
+    this.diseaseCountLabel.redraw();
+    this.biomarkersByAssociationChart.redraw();
+    this.biomarkersByEvidenceChart.redraw();
   }
 }
 
