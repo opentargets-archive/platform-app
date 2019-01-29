@@ -1,43 +1,61 @@
 import React, { Component, Fragment } from 'react';
 import crossfilter from 'crossfilter2';
+import _ from 'lodash';
 import * as d3 from 'd3';
 import dc from 'dc';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import { OtTable } from 'ot-ui';
+import { OtTable, Autocomplete } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
 
-const columns = [
-  { id: 'biomarker', label: 'Biomarker' },
-  {
-    id: 'diseases',
-    label: 'Disease',
-    renderCell: rowData => {
-      return rowData.diseases.map(disease => disease.name).join(', ');
+const getColumns = ({
+  biomarkerOptions,
+  selectedBiomarker,
+  biomarkerFilterHandler,
+}) => {
+  return [
+    {
+      id: 'biomarker',
+      label: 'Biomarker',
+      renderFilter: () => (
+        <Autocomplete
+          options={biomarkerOptions}
+          value={selectedBiomarker}
+          handleSelectOption={biomarkerFilterHandler}
+          placeholder="None"
+        />
+      ),
     },
-  },
-  { id: 'drugName', label: 'Drug' },
-  { id: 'associationType', label: 'Association' },
-  { id: 'evidenceLevel', label: 'Evidence' },
-  {
-    id: 'sources',
-    label: 'Sources',
-    renderCell: rowData => {
-      const result = rowData.sources.map(source => (
-        <a
-          key={source.url}
-          href={source.url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {source.name}
-        </a>
-      ));
-      return result;
+    {
+      id: 'diseases',
+      label: 'Disease',
+      renderCell: rowData => {
+        return rowData.diseases.map(disease => disease.name).join(', ');
+      },
     },
-  },
-];
+    { id: 'drugName', label: 'Drug' },
+    { id: 'associationType', label: 'Association' },
+    { id: 'evidenceLevel', label: 'Evidence' },
+    {
+      id: 'sources',
+      label: 'Sources',
+      renderCell: rowData => {
+        const result = rowData.sources.map(source => (
+          <a
+            key={source.url}
+            href={source.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {source.name}
+          </a>
+        ));
+        return result;
+      },
+    },
+  ];
+};
 
 const DC_PIE_INNER_RADIUS = 40;
 const DC_PIE_OUTER_RADIUS = 100;
@@ -69,18 +87,43 @@ const styles = theme => ({
   },
 });
 
+const getBiomarkerOptions = rows => {
+  return _.uniq(rows.map(row => row.biomarker)).map(row => ({
+    label: row,
+    value: row,
+  }));
+};
+
 class FilterTable extends Component {
   state = {
     filteredRows: [],
+    selectedBiomarker: null,
   };
 
   componentDidMount() {
     this.renderCharts();
   }
 
+  biomarkerFilterHandler = selection => {
+    if (selection.length === 0) {
+      this.biomarkerDim.filterAll(); // clear the biomarker dimension filter
+    } else {
+      this.biomarkerDim.filter(d => {
+        return d === selection.value;
+      });
+    }
+
+    this.setState({
+      selectedBiomarker: selection,
+      filteredRows: this.biomarkers.allFiltered(),
+    });
+  };
+
   render() {
     const { classes } = this.props;
-    const { filteredRows } = this.state;
+    const { filteredRows, selectedBiomarker } = this.state;
+
+    const biomarkerOptions = getBiomarkerOptions(filteredRows);
 
     return (
       <Fragment>
@@ -117,7 +160,15 @@ class FilterTable extends Component {
         </div>
         <DCContainer id="biomarkers-by-association" title="Association" />
         <DCContainer id="biomarkers-by-evidence" title="Evidence" />
-        <OtTable columns={columns} data={filteredRows} />
+        <OtTable
+          columns={getColumns({
+            biomarkerOptions,
+            selectedBiomarker,
+            biomarkerFilterHandler: this.biomarkerFilterHandler,
+          })}
+          data={filteredRows}
+          filters
+        />
       </Fragment>
     );
   }
@@ -125,11 +176,14 @@ class FilterTable extends Component {
   renderCharts() {
     const { rows } = this.props;
 
-    const biomarkers = crossfilter(rows);
-    const associationDim = biomarkers.dimension(row => row.associationType);
-    const evidenceDim = biomarkers.dimension(row => row.evidenceLevel);
+    this.biomarkers = crossfilter(rows);
+    this.biomarkerDim = this.biomarkers.dimension(row => row.biomarker);
+    const associationDim = this.biomarkers.dimension(
+      row => row.associationType
+    );
+    const evidenceDim = this.biomarkers.dimension(row => row.evidenceLevel);
 
-    const drugCount = biomarkers.groupAll().reduce(
+    const drugCount = this.biomarkers.groupAll().reduce(
       (acc, data) => {
         if (data.drugName in acc) {
           acc[data.drugName]++;
@@ -148,7 +202,7 @@ class FilterTable extends Component {
       () => ({})
     );
 
-    const biomarkerCount = biomarkers.groupAll().reduce(
+    const biomarkerCount = this.biomarkers.groupAll().reduce(
       (acc, data) => {
         if (data.biomarker in acc) {
           acc[data.biomarker]++;
@@ -167,7 +221,7 @@ class FilterTable extends Component {
       () => ({})
     );
 
-    const diseaseCount = biomarkers.groupAll().reduce(
+    const diseaseCount = this.biomarkers.groupAll().reduce(
       (acc, data) => {
         data.diseases.forEach(d => {
           if (d.name in acc) {
@@ -266,10 +320,6 @@ class FilterTable extends Component {
       .colors(['#E2DFDF'])
       .render();
 
-    biomarkersByAssociationChart.on('filtered', d => {
-      this.setState({ filteredRows: biomarkers.allFiltered() });
-    });
-
     biomarkersByEvidenceChart
       .width(DC_PIE_WIDTH)
       .height(DC_PIE_WIDTH)
@@ -282,11 +332,15 @@ class FilterTable extends Component {
       .colors(['#E2DFDF'])
       .render();
 
-    biomarkersByEvidenceChart.on('filtered', d => {
-      this.setState({ filteredRows: biomarkers.allFiltered() });
+    biomarkersByAssociationChart.on('filtered', d => {
+      this.setState({ filteredRows: this.biomarkers.allFiltered() });
     });
 
-    this.setState({ filteredRows: biomarkers.allFiltered() });
+    biomarkersByEvidenceChart.on('filtered', d => {
+      this.setState({ filteredRows: this.biomarkers.allFiltered() });
+    });
+
+    this.setState({ filteredRows: this.biomarkers.allFiltered() });
   }
 }
 
