@@ -1,47 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { withApollo } from 'react-apollo';
-import lunr from 'lunr';
 
 import { AdvancedSearch as OtSearch } from 'ot-ui';
 
 import SearchOption from './SearchOption';
-
-// const SEARCH_QUERY = gql`
-//   query SearchQuery($queryString: String!) {
-//     search(queryString: $queryString) {
-//       totalGenes
-//       totalVariants
-//       totalStudies
-//       genes {
-//         id
-//         symbol
-//         chromosome
-//         start
-//         end
-//       }
-//       variants {
-//         variant {
-//           id
-//           rsId
-//           chromosome
-//           position
-//           refAllele
-//           altAllele
-//         }
-//       }
-//       studies {
-//         studyId
-//         traitReported
-//         pmid
-//         pubAuthor
-//         pubDate
-//         pubJournal
-//         nInitial
-//       }
-//     }
-//   }
-// `;
 
 const MOCK_SEARCH_DATA = {
   genes: [
@@ -260,7 +223,6 @@ class Search extends React.Component {
   handleFocus = () => {};
   render() {
     const questions = questionSearch(this.state.value);
-    // console.log(questions);
     return (
       <OtSearch
         menuMessage={asQuestionSuggestions(questions)}
