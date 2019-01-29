@@ -1,43 +1,65 @@
 import React, { Component, Fragment } from 'react';
 import crossfilter from 'crossfilter2';
+import _ from 'lodash';
 import * as d3 from 'd3';
 import dc from 'dc';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import { OtTable } from 'ot-ui';
+import { OtTable, Autocomplete } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
+import {
+  upReducerKeyCount,
+  downReducerKeyCount,
+} from '../../utils/crossfilterReducers';
 
-const columns = [
-  { id: 'biomarker', label: 'Biomarker' },
-  {
-    id: 'diseases',
-    label: 'Disease',
-    renderCell: rowData => {
-      return rowData.diseases.map(disease => disease.name).join(', ');
+const getColumns = ({
+  biomarkerOptions,
+  selectedBiomarker,
+  biomarkerFilterHandler,
+}) => {
+  return [
+    {
+      id: 'biomarker',
+      label: 'Biomarker',
+      renderFilter: () => (
+        <Autocomplete
+          options={biomarkerOptions}
+          value={selectedBiomarker}
+          handleSelectOption={biomarkerFilterHandler}
+          placeholder="None"
+        />
+      ),
     },
-  },
-  { id: 'drugName', label: 'Drug' },
-  { id: 'associationType', label: 'Association' },
-  { id: 'evidenceLevel', label: 'Evidence' },
-  {
-    id: 'sources',
-    label: 'Sources',
-    renderCell: rowData => {
-      const result = rowData.sources.map(source => (
-        <a
-          key={source.url}
-          href={source.url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {source.name}
-        </a>
-      ));
-      return result;
+    {
+      id: 'diseases',
+      label: 'Disease',
+      renderCell: rowData => {
+        return rowData.diseases.map(disease => disease.name).join(', ');
+      },
     },
-  },
-];
+    { id: 'drugName', label: 'Drug' },
+    { id: 'associationType', label: 'Association' },
+    { id: 'evidenceLevel', label: 'Evidence' },
+    {
+      id: 'sources',
+      label: 'Sources',
+      renderCell: rowData => {
+        const result = rowData.sources.map(source => (
+          <a
+            key={source.url}
+            href={source.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {source.name}
+          </a>
+        ));
+        return result;
+      },
+    },
+  ];
+};
 
 const DC_PIE_INNER_RADIUS = 40;
 const DC_PIE_OUTER_RADIUS = 100;
@@ -69,18 +91,212 @@ const styles = theme => ({
   },
 });
 
+const getBiomarkerOptions = rows => {
+  return _.uniq(rows.map(row => row.biomarker)).map(row => ({
+    label: row,
+    value: row,
+  }));
+};
+
 class FilterTable extends Component {
   state = {
     filteredRows: [],
+    selectedBiomarker: null,
   };
 
+  setupCharts() {
+    // set up DC charts, not crossfilter stuff
+    this.drugCountLabel = dc.numberDisplay('#biomarkers-drug-count');
+    this.biomarkerCountLabel = dc.numberDisplay('#biomarkers-biomarker-count');
+    this.diseaseCountLabel = dc.numberDisplay('#biomarkers-disease-count');
+    this.biomarkersByAssociationChart = dc.pieChart(
+      '#biomarkers-by-association'
+    );
+    this.biomarkersByEvidenceChart = dc.pieChart('#biomarkers-by-evidence');
+
+    const {
+      biomarkers,
+      drugCount,
+      biomarkerCount,
+      diseaseCount,
+      associationDim,
+      associationGroup,
+      evidenceDim,
+      evidenceGroup,
+    } = this.state;
+
+    this.drugCountLabel
+      .group(drugCount)
+      .formatNumber(d3.format('d'))
+      .valueAccessor(d => Object.keys(d).length)
+      .render();
+
+    this.biomarkerCountLabel
+      .group(biomarkerCount)
+      .formatNumber(d3.format('d'))
+      .valueAccessor(d => Object.keys(d).length)
+      .render();
+
+    this.diseaseCountLabel
+      .group(diseaseCount)
+      .formatNumber(d3.format('d'))
+      .valueAccessor(d => Object.keys(d).length)
+      .render();
+
+    this.biomarkersByAssociationChart
+      .width(DC_PIE_WIDTH)
+      .height(DC_PIE_WIDTH)
+      .radius(DC_PIE_OUTER_RADIUS)
+      .innerRadius(DC_PIE_INNER_RADIUS)
+      .label(d => `${d.key} (${Object.keys(d.value).length})`)
+      .valueAccessor(d => Object.keys(d.value).length)
+      .dimension(associationDim)
+      .group(associationGroup)
+      .colors(['#E2DFDF'])
+      .render();
+
+    this.biomarkersByEvidenceChart
+      .width(DC_PIE_WIDTH)
+      .height(DC_PIE_WIDTH)
+      .radius(DC_PIE_OUTER_RADIUS)
+      .innerRadius(DC_PIE_INNER_RADIUS)
+      .label(d => `${d.key} (${Object.keys(d.value).length}`)
+      .valueAccessor(d => Object.keys(d.value).length)
+      .dimension(evidenceDim)
+      .group(evidenceGroup)
+      .colors(['#E2DFDF'])
+      .render();
+
+    this.biomarkersByAssociationChart.on('filtered', d => {
+      this.setState({ filteredRows: biomarkers.allFiltered() });
+    });
+
+    this.biomarkersByEvidenceChart.on('filtered', d => {
+      this.setState({ filteredRows: biomarkers.allFiltered() });
+    });
+  }
+
+  redrawCharts() {
+    this.drugCountLabel.redraw();
+    this.biomarkerCountLabel.redraw();
+    this.diseaseCountLabel.redraw();
+    this.biomarkersByAssociationChart.redraw();
+    this.biomarkersByEvidenceChart.redraw();
+  }
+
   componentDidMount() {
-    this.renderCharts();
+    this.setupCharts();
+  }
+
+  componentDidUpdate() {
+    this.redrawCharts();
+  }
+
+  biomarkerFilterHandler = selection => {
+    const { biomarkers, biomarkerDim } = this.state;
+    if (selection.length === 0) {
+      biomarkerDim.filterAll();
+    } else {
+      biomarkerDim.filter(d => {
+        return d === selection.value;
+      });
+    }
+
+    this.setState({
+      selectedBiomarker: selection,
+      filteredRows: biomarkers.allFiltered(),
+    });
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    const { rows } = props;
+
+    if (!state.biomarkers) {
+      const biomarkers = crossfilter(rows);
+      const biomarkerDim = biomarkers.dimension(row => row.biomarker);
+      const associationDim = biomarkers.dimension(row => row.associationType);
+      const evidenceDim = biomarkers.dimension(row => row.evidenceLevel);
+
+      const drugAccessor = data => data.drugName;
+      const biomarkerAccessor = data => data.biomarker;
+
+      const drugCount = biomarkers
+        .groupAll()
+        .reduce(
+          upReducerKeyCount(drugAccessor),
+          downReducerKeyCount(drugAccessor),
+          () => ({})
+        );
+
+      const biomarkerCount = biomarkers
+        .groupAll()
+        .reduce(
+          upReducerKeyCount(biomarkerAccessor),
+          downReducerKeyCount(biomarkerAccessor),
+          () => ({})
+        );
+
+      const diseaseCount = biomarkers.groupAll().reduce(
+        (acc, data) => {
+          data.diseases.forEach(d => {
+            if (d.name in acc) {
+              acc[d.name]++;
+            } else {
+              acc[d.name] = 1;
+            }
+          });
+          return acc;
+        },
+        (acc, data) => {
+          data.diseases.forEach(d => {
+            acc[d.name]--;
+            if (acc[d.name] === 0) {
+              delete acc[d.name];
+            }
+          });
+          return acc;
+        },
+        () => ({})
+      );
+
+      const associationGroup = associationDim
+        .group()
+        .reduce(
+          upReducerKeyCount(biomarkerAccessor),
+          downReducerKeyCount(biomarkerAccessor),
+          () => ({})
+        );
+
+      const evidenceGroup = evidenceDim
+        .group()
+        .reduce(
+          upReducerKeyCount(biomarkerAccessor),
+          downReducerKeyCount(biomarkerAccessor),
+          () => ({})
+        );
+
+      return {
+        filteredRows: biomarkers.allFiltered(),
+        biomarkers,
+        biomarkerDim,
+        drugCount,
+        biomarkerCount,
+        diseaseCount,
+        associationDim,
+        associationGroup,
+        evidenceDim,
+        evidenceGroup,
+      };
+    } else {
+      return null;
+    }
   }
 
   render() {
     const { classes } = this.props;
-    const { filteredRows } = this.state;
+    const { filteredRows, selectedBiomarker } = this.state;
+
+    const biomarkerOptions = getBiomarkerOptions(filteredRows);
 
     return (
       <Fragment>
@@ -117,176 +333,17 @@ class FilterTable extends Component {
         </div>
         <DCContainer id="biomarkers-by-association" title="Association" />
         <DCContainer id="biomarkers-by-evidence" title="Evidence" />
-        <OtTable columns={columns} data={filteredRows} />
+        <OtTable
+          columns={getColumns({
+            biomarkerOptions,
+            selectedBiomarker,
+            biomarkerFilterHandler: this.biomarkerFilterHandler,
+          })}
+          data={filteredRows}
+          filters
+        />
       </Fragment>
     );
-  }
-
-  renderCharts() {
-    const { rows } = this.props;
-
-    const biomarkers = crossfilter(rows);
-    const associationDim = biomarkers.dimension(row => row.associationType);
-    const evidenceDim = biomarkers.dimension(row => row.evidenceLevel);
-
-    const drugCount = biomarkers.groupAll().reduce(
-      (acc, data) => {
-        if (data.drugName in acc) {
-          acc[data.drugName]++;
-        } else {
-          acc[data.drugName] = 1;
-        }
-        return acc;
-      },
-      (acc, data) => {
-        acc[data.drugName]--;
-        if (acc[data.drugName] === 0) {
-          delete acc[data.drugName];
-        }
-        return acc;
-      },
-      () => ({})
-    );
-
-    const biomarkerCount = biomarkers.groupAll().reduce(
-      (acc, data) => {
-        if (data.biomarker in acc) {
-          acc[data.biomarker]++;
-        } else {
-          acc[data.biomarker] = 1;
-        }
-        return acc;
-      },
-      (acc, data) => {
-        acc[data.biomarker]--;
-        if (acc[data.biomarker] === 0) {
-          delete acc[data.biomarker];
-        }
-        return acc;
-      },
-      () => ({})
-    );
-
-    const diseaseCount = biomarkers.groupAll().reduce(
-      (acc, data) => {
-        data.diseases.forEach(d => {
-          if (d.name in acc) {
-            acc[d.name]++;
-          } else {
-            acc[d.name] = 1;
-          }
-        });
-        return acc;
-      },
-      (acc, data) => {
-        data.diseases.forEach(d => {
-          acc[d.name]--;
-          if (acc[d.name] === 0) {
-            delete acc[d.name];
-          }
-        });
-        return acc;
-      },
-      () => ({})
-    );
-
-    const associationGroup = associationDim.group().reduce(
-      (acc, data) => {
-        if (data.biomarker in acc) {
-          acc[data.biomarker]++;
-        } else {
-          acc[data.biomarker] = 1;
-        }
-        return acc;
-      },
-      (acc, data) => {
-        acc[data.biomarker]--;
-        if (acc[data.biomarker] === 0) {
-          delete acc[data.biomarker];
-        }
-        return acc;
-      },
-      () => ({})
-    );
-
-    const evidenceGroup = evidenceDim.group().reduce(
-      (acc, data) => {
-        if (data.biomarker in acc) {
-          acc[data.biomarker]++;
-        } else {
-          acc[data.biomarker] = 1;
-        }
-        return acc;
-      },
-      (acc, data) => {
-        acc[data.biomarker]--;
-        if (acc[data.biomarker] === 0) {
-          delete acc[data.biomarker];
-        }
-        return acc;
-      },
-      () => ({})
-    );
-
-    const drugCountLabel = dc.numberDisplay('#biomarkers-drug-count');
-    const biomarkerCountLabel = dc.numberDisplay('#biomarkers-biomarker-count');
-    const diseaseCountLabel = dc.numberDisplay('#biomarkers-disease-count');
-    const biomarkersByAssociationChart = dc.pieChart(
-      '#biomarkers-by-association'
-    );
-    const biomarkersByEvidenceChart = dc.pieChart('#biomarkers-by-evidence');
-
-    drugCountLabel
-      .group(drugCount)
-      .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length)
-      .render();
-
-    biomarkerCountLabel
-      .group(biomarkerCount)
-      .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length)
-      .render();
-
-    diseaseCountLabel
-      .group(diseaseCount)
-      .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length)
-      .render();
-
-    biomarkersByAssociationChart
-      .width(DC_PIE_WIDTH)
-      .height(DC_PIE_WIDTH)
-      .radius(DC_PIE_OUTER_RADIUS)
-      .innerRadius(DC_PIE_INNER_RADIUS)
-      .label(d => d.key)
-      .valueAccessor(d => Object.keys(d.value).length)
-      .group(associationGroup)
-      .dimension(associationDim)
-      .colors(['#E2DFDF'])
-      .render();
-
-    biomarkersByAssociationChart.on('filtered', d => {
-      this.setState({ filteredRows: biomarkers.allFiltered() });
-    });
-
-    biomarkersByEvidenceChart
-      .width(DC_PIE_WIDTH)
-      .height(DC_PIE_WIDTH)
-      .radius(DC_PIE_OUTER_RADIUS)
-      .innerRadius(DC_PIE_INNER_RADIUS)
-      .label(d => d.key)
-      .valueAccessor(d => Object.keys(d.value).length)
-      .group(evidenceGroup)
-      .dimension(evidenceDim)
-      .colors(['#E2DFDF'])
-      .render();
-
-    biomarkersByEvidenceChart.on('filtered', d => {
-      this.setState({ filteredRows: biomarkers.allFiltered() });
-    });
-
-    this.setState({ filteredRows: biomarkers.allFiltered() });
   }
 }
 
