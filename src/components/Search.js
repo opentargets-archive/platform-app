@@ -64,7 +64,7 @@ const QUESTIONS = [
   {
     id: 'Q001',
     regex: /Which tissues is (\w+) expressed in\?/gi,
-    text: 'Which tissues is gene expressed in?',
+    text: 'Which tissues is expressed in?',
     template: (
       <React.Fragment>
         Which tissues is <strong>gene</strong> expressed in?
@@ -75,7 +75,7 @@ const QUESTIONS = [
   {
     id: 'Q002',
     regex: /Which diseases is (\w+) associated with\?/gi,
-    text: 'Which diseases is gene associated with?',
+    text: 'Which diseases is associated with?',
     template: (
       <React.Fragment>
         Which diseases is <strong>gene</strong> associated with?
@@ -84,15 +84,26 @@ const QUESTIONS = [
     groupTypes: ['gene'],
   },
   {
-    id: 'Q002',
-    regex: /Which targets is (\w+) associated with\?/gi,
-    text: 'Which targets is disease associated with?',
+    id: 'Q003',
+    regex: /Which genes is (\w+) associated with\?/gi,
+    text: 'Which genes is associated with?',
     template: (
       <React.Fragment>
-        Which targets is <strong>disease</strong> associated with?
+        Which genes is <strong>disease</strong> associated with?
       </React.Fragment>
     ),
     groupTypes: ['disease'],
+  },
+  {
+    id: 'Q004',
+    regex: /Is (\w+) part of a protein complex\?/gi,
+    text: 'Is part of a protein complex?',
+    template: (
+      <React.Fragment>
+        Is <strong>gene</strong> part of a protein complex?
+      </React.Fragment>
+    ),
+    groupTypes: ['gene'],
   },
 ];
 
@@ -105,8 +116,8 @@ const lunrIndex = lunr(function() {
 
   this.pipeline.remove(lunr.stopWordFilter);
   this.searchPipeline.remove(lunr.stopWordFilter);
-  // this.pipeline.remove(lunr.stemmer);
-  // this.searchPipeline.remove(lunr.stemmer);
+  this.pipeline.remove(lunr.stemmer);
+  this.searchPipeline.remove(lunr.stemmer);
   QUESTIONS.forEach(function(q) {
     this.add(q);
   }, this);
@@ -129,8 +140,14 @@ const standardSearch = queryString => {
 };
 const questionSearch = queryString => {
   const queryStringLower = queryString.toLowerCase();
+  // const lunrQuery = `${queryStringLower}*`;
+  const lunrQuery = queryStringLower
+    .split(' ')
+    .map((w, i, arr) => `+${w}${i === arr.length - 1 ? '*' : ''}`)
+    .join(' ');
   const lunrDocs =
-    queryStringLower.length > 0 ? lunrIndex.search(`${queryStringLower}*`) : [];
+    queryStringLower.length > 0 ? lunrIndex.search(lunrQuery) : [];
+  console.log(lunrQuery, lunrDocs);
   return QUESTIONS.map(q => {
     const match = q.regex.exec(queryStringLower);
     const isMatch = match && match.length === q.groupTypes.length + 1;
