@@ -28,6 +28,7 @@
     "graphql-tag": "^2.10.0",
     "litemol": "https://github.com/dsehnal/LiteMol",
     "lodash": "^4.17.11",
+    "lunr": "^2.3.5",
     "ot-ui": "^0.0.65",
     "polished": "^2.3.0",
     "react": "^16.5.2",
