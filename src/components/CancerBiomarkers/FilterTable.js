@@ -101,6 +101,11 @@ class FilterTable extends Component {
   };
 
   componentDidMount() {
+    this.setupCharts();
+    this.renderCharts();
+  }
+
+  componentDidUpdate() {
     this.renderCharts();
   }
 
@@ -173,7 +178,7 @@ class FilterTable extends Component {
     );
   }
 
-  renderCharts() {
+  setupCharts() {
     const { rows } = this.props;
 
     this.biomarkers = crossfilter(rows);
@@ -282,33 +287,30 @@ class FilterTable extends Component {
       () => ({})
     );
 
-    const drugCountLabel = dc.numberDisplay('#biomarkers-drug-count');
-    const biomarkerCountLabel = dc.numberDisplay('#biomarkers-biomarker-count');
-    const diseaseCountLabel = dc.numberDisplay('#biomarkers-disease-count');
-    const biomarkersByAssociationChart = dc.pieChart(
+    this.drugCountLabel = dc.numberDisplay('#biomarkers-drug-count');
+    this.biomarkerCountLabel = dc.numberDisplay('#biomarkers-biomarker-count');
+    this.diseaseCountLabel = dc.numberDisplay('#biomarkers-disease-count');
+    this.biomarkersByAssociationChart = dc.pieChart(
       '#biomarkers-by-association'
     );
-    const biomarkersByEvidenceChart = dc.pieChart('#biomarkers-by-evidence');
+    this.biomarkersByEvidenceChart = dc.pieChart('#biomarkers-by-evidence');
 
-    drugCountLabel
+    this.drugCountLabel
       .group(drugCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length)
-      .render();
+      .valueAccessor(d => Object.keys(d).length);
 
-    biomarkerCountLabel
+    this.biomarkerCountLabel
       .group(biomarkerCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length)
-      .render();
+      .valueAccessor(d => Object.keys(d).length);
 
-    diseaseCountLabel
+    this.diseaseCountLabel
       .group(diseaseCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length)
-      .render();
+      .valueAccessor(d => Object.keys(d).length);
 
-    biomarkersByAssociationChart
+    this.biomarkersByAssociationChart
       .width(DC_PIE_WIDTH)
       .height(DC_PIE_WIDTH)
       .radius(DC_PIE_OUTER_RADIUS)
@@ -317,10 +319,9 @@ class FilterTable extends Component {
       .valueAccessor(d => Object.keys(d.value).length)
       .group(associationGroup)
       .dimension(associationDim)
-      .colors(['#E2DFDF'])
-      .render();
+      .colors(['#E2DFDF']);
 
-    biomarkersByEvidenceChart
+    this.biomarkersByEvidenceChart
       .width(DC_PIE_WIDTH)
       .height(DC_PIE_WIDTH)
       .radius(DC_PIE_OUTER_RADIUS)
@@ -329,18 +330,25 @@ class FilterTable extends Component {
       .valueAccessor(d => Object.keys(d.value).length)
       .group(evidenceGroup)
       .dimension(evidenceDim)
-      .colors(['#E2DFDF'])
-      .render();
+      .colors(['#E2DFDF']);
 
-    biomarkersByAssociationChart.on('filtered', d => {
+    this.biomarkersByAssociationChart.on('filtered', d => {
       this.setState({ filteredRows: this.biomarkers.allFiltered() });
     });
 
-    biomarkersByEvidenceChart.on('filtered', d => {
+    this.biomarkersByEvidenceChart.on('filtered', d => {
       this.setState({ filteredRows: this.biomarkers.allFiltered() });
     });
 
     this.setState({ filteredRows: this.biomarkers.allFiltered() });
+  }
+
+  renderCharts() {
+    this.drugCountLabel.render();
+    this.biomarkerCountLabel.render();
+    this.diseaseCountLabel.render();
+    this.biomarkersByAssociationChart.render();
+    this.biomarkersByEvidenceChart.render();
   }
 }
 
