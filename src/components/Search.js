@@ -60,11 +60,21 @@ const MOCK_SEARCH_DATA = {
   ],
 };
 
-const mockQuery = queryString => {
-  // console.log(queryString);
+const QUESTIONS = [
+  {
+    regex: /Which tissues is (\w+) expressed in\?/gi,
+    template: (
+      <React.Fragment>
+        Which tissues is <strong>gene</strong> expressed in?
+      </React.Fragment>
+    ),
+    groupTypes: ['gene'],
+  },
+];
+
+const standardSearch = queryString => {
   const queryStringLower = queryString.toLowerCase();
   const genes = MOCK_SEARCH_DATA.genes.filter(d => {
-    // console.log(d.symbol, d.symbol.startsWith(queryStringLower));
     return (
       d.symbol.toLowerCase().startsWith(queryStringLower) ||
       d.id.toLowerCase().startsWith(queryStringLower)
@@ -75,13 +85,27 @@ const mockQuery = queryString => {
       d.name.toLowerCase().startsWith(queryStringLower) ||
       d.id.toLowerCase().startsWith(queryStringLower)
   );
-  // console.log(genes, diseases);
-  return {
-    totalGenes: genes.length,
-    totalDiseases: diseases.length,
-    genes,
-    diseases,
-  };
+  return { genes, diseases };
+};
+const questionSearch = queryString => {
+  const queryStringLower = queryString.toLowerCase();
+  return QUESTIONS.map(q => {
+    const match = q.regex.exec(queryStringLower);
+    const isMatch = match && match.length === q.groupTypes.length + 1;
+    const groups = [];
+    if (isMatch) {
+      match.forEach((d, i) => {
+        if (i > 0) {
+          groups.push({ query: d, type: q.groupTypes[i - 1] });
+        }
+      });
+    }
+    return {
+      ...q,
+      isMatch,
+      groups,
+    };
+  }).filter(q => q.isMatch);
 };
 
 const asGroupedOptions = data => {
@@ -97,7 +121,25 @@ const asGroupedOptions = data => {
   ];
 };
 
+const asQuestionSuggestions = questions => {
+  return (
+    <div style={{ backgroundColor: 'black' }}>
+      <ul>
+        {questions.map((q, i) => (
+          <li key={i}>{q.template}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 class Search extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+    };
+  }
   handleSelectOption = (value, { action }) => {
     const { history } = this.props;
     if (action === 'select-option') {
@@ -117,35 +159,22 @@ class Search extends React.Component {
     }
   };
   handleInputChange = inputValue => {
+    this.setState({ value: inputValue });
     if (!inputValue || inputValue.length < 3) {
-      return;
+      return Promise.resolve([]);
+    } else {
+      const options = asGroupedOptions(standardSearch(inputValue));
+      return Promise.resolve(options);
     }
-
-    // const { client } = this.props;
-    // return client
-    //   .query({
-    //     query: SEARCH_QUERY,
-    //     variables: { queryString: inputValue },
-    //   })
-    //   .then(response => {
-    //     if (response.data && response.data.search) {
-    //       return asGroupedOptions(response.data.search);
-    //     } else {
-    //       return asGroupedOptions({
-    //         genes: [],
-    //         variants: [],
-    //         studies: [],
-    //       });
-    //     }
-    //   });
-    const options = asGroupedOptions(mockQuery(inputValue));
-    console.log(options);
-    return Promise.resolve(options);
   };
   handleFocus = () => {};
   render() {
+    const questions = questionSearch(this.state.value);
+    console.log(questions);
     return (
       <OtSearch
+        menuMessage={asQuestionSuggestions(questions)}
+        value={this.state.value}
         onInputChange={this.handleInputChange}
         onFocus={this.handleFocus}
         optionComponent={SearchOption}
