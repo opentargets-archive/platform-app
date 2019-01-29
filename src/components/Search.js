@@ -99,7 +99,6 @@ const QUESTIONS = [
     id: 'Q001',
     regex: /Which tissues is (\w+) expressed in\?/gi,
     prefixRegex: buildPrefixRegex('which tissues is * expressed in'),
-    text: 'Which tissues is expressed in?',
     template: (
       <React.Fragment>
         Which tissues is <strong>gene</strong> expressed in?
@@ -111,7 +110,6 @@ const QUESTIONS = [
     id: 'Q002',
     regex: /Which diseases is (\w+) associated with\?/gi,
     prefixRegex: buildPrefixRegex('which diseases is * associated with'),
-    text: 'Which diseases is associated with?',
     template: (
       <React.Fragment>
         Which diseases is <strong>gene</strong> associated with?
@@ -123,7 +121,6 @@ const QUESTIONS = [
     id: 'Q003',
     regex: /Which genes is (\w+) associated with\?/gi,
     prefixRegex: buildPrefixRegex('which genes is * associated with'),
-    text: 'Which genes is associated with?',
     template: (
       <React.Fragment>
         Which genes is <strong>disease</strong> associated with?
@@ -135,10 +132,20 @@ const QUESTIONS = [
     id: 'Q004',
     regex: /Is (\w+) part of a protein complex\?/gi,
     prefixRegex: buildPrefixRegex('is * part of a protein complex'),
-    text: 'Is part of a protein complex?',
     template: (
       <React.Fragment>
         Is <strong>gene</strong> part of a protein complex?
+      </React.Fragment>
+    ),
+    groupTypes: ['gene'],
+  },
+  {
+    id: 'Q005',
+    regex: /Which pathways is (\w+) involved in\?/gi,
+    prefixRegex: buildPrefixRegex('which pathways is * involved in'),
+    template: (
+      <React.Fragment>
+        Which pathways is <strong>gene</strong> involved in?
       </React.Fragment>
     ),
     groupTypes: ['gene'],
