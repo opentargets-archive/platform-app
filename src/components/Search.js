@@ -170,8 +170,8 @@ const asGroupedOptions = data => {
 };
 
 const asQuestionSuggestions = questions => {
-  return (
-    <div style={{ backgroundColor: '#ddd' }}>
+  return questions.length > 0 ? (
+    <div style={{ backgroundColor: '#ddd', padding: '5px' }}>
       <div
         style={{
           padding: '3px',
@@ -198,7 +198,7 @@ const asQuestionSuggestions = questions => {
         </div>
       ))}
     </div>
-  );
+  ) : null;
 };
 
 class Search extends React.Component {
