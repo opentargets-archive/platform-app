@@ -171,20 +171,32 @@ const asGroupedOptions = data => {
 
 const asQuestionSuggestions = questions => {
   return (
-    <div style={{ backgroundColor: 'black' }}>
-      <ul>
-        {questions.map((q, i) => (
-          <li
-            key={i}
-            style={{
-              color: q.isPartialMatch ? 'lightgreen' : 'white',
-              textDecoration: q.isMatch ? 'underline wavy yellow' : 'none',
-            }}
-          >
-            {q.template}
-          </li>
-        ))}
-      </ul>
+    <div style={{ backgroundColor: '#ddd' }}>
+      <div
+        style={{
+          padding: '3px',
+          fontSize: '0.9rem',
+          color: 'black',
+          maxHeight: '200px',
+          overflowY: 'auto',
+        }}
+      >
+        Questions (replace bold parts):
+      </div>
+      {questions.map((q, i) => (
+        <div
+          key={i}
+          style={{
+            padding: '3px 6px',
+            fontSize: '0.7rem',
+            color: 'black',
+            fontStyle: 'italic',
+            textDecoration: q.isMatch ? 'underline solid green' : 'none',
+          }}
+        >
+          {q.template}
+        </div>
+      ))}
     </div>
   );
 };
