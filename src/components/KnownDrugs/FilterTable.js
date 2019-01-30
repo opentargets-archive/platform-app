@@ -245,17 +245,17 @@ class KnownDrugsDetail extends React.Component {
     const { rows } = this.props;
 
     // connect
-    const ndx = crossfilter(rows);
+    const drugsxf = crossfilter(rows);
 
     // dimensions
-    const dimPhase = ndx.dimension(d => d.clinicalTrial.phase);
-    const dimActivity = ndx.dimension(d => d.drug.activity);
-    const dimType = ndx.dimension(d => d.drug.type);
+    const dimPhase = drugsxf.dimension(d => d.clinicalTrial.phase);
+    const dimActivity = drugsxf.dimension(d => d.drug.activity);
+    const dimType = drugsxf.dimension(d => d.drug.type);
 
     // groups
 
     const drugAccessor = d => d.drug.name;
-    const drugCount = ndx
+    const drugCount = drugsxf
       .groupAll()
       .reduce(
         upReducerKeyCount(drugAccessor),
@@ -264,7 +264,7 @@ class KnownDrugsDetail extends React.Component {
       );
 
     const targetAccessor = d => d.target.id;
-    const targetCount = ndx
+    const targetCount = drugsxf
       .groupAll()
       .reduce(
         upReducerKeyCount(targetAccessor),
@@ -273,7 +273,7 @@ class KnownDrugsDetail extends React.Component {
       );
 
     const diseaseAccessor = d => d.disease.id;
-    const diseaseCount = ndx
+    const diseaseCount = drugsxf
       .groupAll()
       .reduce(
         upReducerKeyCount(diseaseAccessor),
@@ -388,13 +388,13 @@ class KnownDrugsDetail extends React.Component {
     dc.renderAll();
 
     // state for material table: initial
-    this.setState({ filteredRows: ndx.allFiltered() });
+    this.setState({ filteredRows: drugsxf.allFiltered() });
 
     // state for material table: on chart filter
     const that = this;
     dc.chartRegistry.list().forEach(chart =>
       chart.on('filtered', () => {
-        that.setState({ filteredRows: ndx.allFiltered() });
+        that.setState({ filteredRows: drugsxf.allFiltered() });
       })
     );
   };
