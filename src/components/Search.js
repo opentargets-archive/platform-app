@@ -113,6 +113,53 @@ const QUESTIONS = [
     ),
     groupTypes: ['gene'],
   },
+  {
+    id: 'Q006',
+    regex: /Which drugs target (\w+)\?/gi,
+    prefixRegex: buildPrefixRegex('which drugs target *'),
+    template: (
+      <React.Fragment>
+        Which drugs target <strong>gene</strong>?
+      </React.Fragment>
+    ),
+    groupTypes: ['gene'],
+  },
+  {
+    id: 'Q007',
+    regex: /Does (\w+) have any adverse effects\?/gi,
+    prefixRegex: buildPrefixRegex('does * have any adverse effects'),
+    template: (
+      <React.Fragment>
+        Does <strong>drug</strong> have any adverse effects?
+      </React.Fragment>
+    ),
+    groupTypes: ['drug'],
+  },
+  {
+    id: 'Q008',
+    regex: /What evidence is there for (\w+) and (\w+) being associated\?/gi,
+    prefixRegex: buildPrefixRegex(
+      'what evidence is there for * and * being associated'
+    ),
+    template: (
+      <React.Fragment>
+        What evidence is there for <strong>gene</strong> and{' '}
+        <strong>disease</strong> being associated?
+      </React.Fragment>
+    ),
+    groupTypes: ['gene', 'disease'],
+  },
+  {
+    id: 'Q009',
+    regex: /Which genes are highly expressed in (\w+)\?/gi,
+    prefixRegex: buildPrefixRegex('which genes are highly expressed in *'),
+    template: (
+      <React.Fragment>
+        Which genes are highly expressed in <strong>tissue</strong>?
+      </React.Fragment>
+    ),
+    groupTypes: ['tissue'],
+  },
 ];
 
 const standardSearch = queryString => {
@@ -240,6 +287,9 @@ class Search extends React.Component {
   handleFocus = () => {};
   render() {
     const questions = questionSearch(this.state.value);
+    questions.forEach(q => {
+      if (q.isMatch) console.log(q.groups);
+    });
     return (
       <OtSearch
         menuMessage={asQuestionSuggestions(questions)}
