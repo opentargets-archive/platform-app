@@ -6,7 +6,6 @@ import * as d3 from 'd3';
 
 import DCContainer from '../DCContainer';
 import { OtTable } from 'ot-ui';
-// import TrialsHistogram from './TrialsHistogram';
 import classNames from 'classnames';
 import {
   upReducerKeyCount,
@@ -140,7 +139,6 @@ const styles = theme => ({
     marginTop: '20px',
   },
   dcChartSection: {
-    // width: '220px',
     float: 'left',
     margin: '20px 20px 0 0',
   },
@@ -213,21 +211,24 @@ class KnownDrugsDetail extends React.Component {
             <div className="clearfix" />
           </div>
 
-          {/* <DCContainer id="dc-trial-by-status-chart" title="Trials by Status" /> */}
           <div className={classes.dcChartSection}>
-            <DCContainer id="dc-trial-by-phase-chart" title="Clinical Trials" />
-          </div>
-          {/* <DCContainer id="dc-trial-by-drug-chart" title="Trials by Drug" /> */}
-          <div className={classes.dcChartSection}>
-            <DCContainer id="dc-drug-by-type-chart" title="Type" />
+            <DCContainer
+              id="dc-trial-by-phase-chart"
+              title="Clinical trials by phase"
+            />
           </div>
           <div className={classes.dcChartSection}>
-            <DCContainer id="dc-drug-by-activity-chart" title="Activity" />
+            <DCContainer
+              id="dc-drug-by-type-chart"
+              title="Unique drugs by type"
+            />
           </div>
-          {/* <DCContainer
-            id="dc-drug-and-disease-by-activity-chart"
-            title="Activity by (Disease, Drug)"
-          /> */}
+          <div className={classes.dcChartSection}>
+            <DCContainer
+              id="dc-drug-by-activity-chart"
+              title="Unique drugs by activity"
+            />
+          </div>
         </div>
         <OtTable
           loading={false}
@@ -242,18 +243,14 @@ class KnownDrugsDetail extends React.Component {
 
   renderCharts = () => {
     const { rows } = this.props;
-    console.log(rows[0]);
 
     // connect
     const ndx = crossfilter(rows);
 
     // dimensions
-    // const dimStatus = ndx.dimension(d => d.clinicalTrial.status || 'UNKNOWN');
     const dimPhase = ndx.dimension(d => d.clinicalTrial.phase);
     const dimActivity = ndx.dimension(d => d.drug.activity);
     const dimType = ndx.dimension(d => d.drug.type);
-    // const dimDrugAndDisease = ndx.dimension(d => [d.drug.name, d.disease.name]);
-    // const dimDrug = ndx.dimension(d => d.drug.name);
 
     // groups
 
@@ -266,25 +263,6 @@ class KnownDrugsDetail extends React.Component {
         () => ({})
       );
 
-    // const targetCount = ndx.groupAll().reduce(
-    //   (acc, data) => {
-    //     if (data.target.id in acc) {
-    //       acc[data.target.id]++;
-    //     } else {
-    //       acc[data.target.id] = 1;
-    //     }
-    //     return acc;
-    //   },
-    //   (acc, data) => {
-    //     acc[data.target.id]--;
-    //     if (acc[data.target.id] === 0) {
-    //       delete acc[data.target.id];
-    //     }
-    //     return acc;
-    //   },
-    //   () => ({})
-    // );
-
     const targetAccessor = d => d.target.id;
     const targetCount = ndx
       .groupAll()
@@ -293,18 +271,6 @@ class KnownDrugsDetail extends React.Component {
         downReducerKeyCount(targetAccessor),
         () => ({})
       );
-
-    // const diseaseCount = ndx.groupAll().reduce(
-    //   (p, d) => {
-    //     p[d.disease.id] = 1;
-    //     return p;
-    //   },
-    //   (p, d) => {
-    //     delete p[d.disease.id];
-    //     return p;
-    //   },
-    //   () => ({})
-    // );
 
     const diseaseAccessor = d => d.disease.id;
     const diseaseCount = ndx
@@ -315,146 +281,46 @@ class KnownDrugsDetail extends React.Component {
         () => ({})
       );
 
-    // const groupTrialByStatus = dimStatus.group().reduce(
-    //   (p, d) => {
-    //     if (d.clinicalTrial.sourceUrl in p.trialCounts) {
-    //       p.trialCounts[d.clinicalTrial.sourceUrl] += 1;
-    //     } else {
-    //       p.trialCounts[d.clinicalTrial.sourceUrl] = 1;
-    //     }
-    //     return p;
-    //   },
-    //   (p, d) => {
-    //     p.trialCounts[d.clinicalTrial.sourceUrl] -= 1;
-    //     if (p.trialCounts[d.clinicalTrial.sourceUrl] === 0) {
-    //       delete p.trialCounts[d.clinicalTrial.sourceUrl];
-    //     }
-    //     return p;
-    //   },
-    //   () => ({ trialCounts: {} })
-    // );
+    const phaseAccessor = d => d.clinicalTrial.sourceUrl;
+    const groupTrialByPhase = dimPhase
+      .group()
+      .reduce(
+        upReducerKeyCount(phaseAccessor),
+        downReducerKeyCount(phaseAccessor),
+        () => ({})
+      );
 
-    const groupTrialByPhase = dimPhase.group().reduce(
-      (p, d) => {
-        if (d.clinicalTrial.sourceUrl in p.trialCounts) {
-          p.trialCounts[d.clinicalTrial.sourceUrl] += 1;
-        } else {
-          p.trialCounts[d.clinicalTrial.sourceUrl] = 1;
-        }
-        return p;
-      },
-      (p, d) => {
-        p.trialCounts[d.clinicalTrial.sourceUrl] -= 1;
-        if (p.trialCounts[d.clinicalTrial.sourceUrl] === 0) {
-          delete p.trialCounts[d.clinicalTrial.sourceUrl];
-        }
-        return p;
-      },
-      () => ({ trialCounts: {} })
-    );
+    const groupDrugByType = dimType
+      .group()
+      .reduce(
+        upReducerKeyCount(drugAccessor),
+        downReducerKeyCount(drugAccessor),
+        () => ({})
+      );
 
-    // const groupDrugBy = dimDrug.group().reduce(
-    //   (p, d) => {
-    //     if (d.clinicalTrial.phase in p.phaseCounts) {
-    //       p.phaseCounts[d.clinicalTrial.phase] += 1;
-    //     } else {
-    //       p.phaseCounts[d.clinicalTrial.phase] = 1;
-    //     }
-
-    //     if (d.clinicalTrial.sourceUrl in p.trialCounts) {
-    //       p.trialCounts[d.clinicalTrial.sourceUrl] += 1;
-    //     } else {
-    //       p.trialCounts[d.clinicalTrial.sourceUrl] = 1;
-    //     }
-
-    //     return p;
-    //   },
-    //   (p, d) => {
-    //     p.phaseCounts[d.clinicalTrial.phase] -= 1;
-    //     if (p.phaseCounts[d.clinicalTrial.phase] === 0) {
-    //       delete p.phaseCounts[d.clinicalTrial.phase];
-    //     }
-
-    //     p.trialCounts[d.clinicalTrial.sourceUrl] -= 1;
-    //     if (p.trialCounts[d.clinicalTrial.sourceUrl] === 0) {
-    //       delete p.trialCounts[d.clinicalTrial.sourceUrl];
-    //     }
-
-    //     return p;
-    //   },
-    //   () => ({ phaseCounts: {}, trialCounts: {} })
-    // );
-
-    // type
-    const groupDrugByType = dimType.group().reduce(
-      (p, d) => {
-        if (d.drug.name in p) {
-          p[d.drug.name] += 1;
-        } else {
-          p[d.drug.name] = 1;
-        }
-        return p;
-      },
-      (p, d) => {
-        p[d.drug.name] -= 1;
-        if (p[d.drug.name] === 0) {
-          delete p[d.drug.name];
-        }
-        return p;
-      },
-      () => ({})
-    );
-
-    // activity
-    const groupDrugByActivity = dimActivity.group().reduce(
-      (p, d) => {
-        if (d.drug.name in p) {
-          p[d.drug.name] += 1;
-        } else {
-          p[d.drug.name] = 1;
-        }
-        return p;
-      },
-      (p, d) => {
-        p[d.drug.name] -= 1;
-        if (p[d.drug.name] === 0) {
-          delete p[d.drug.name];
-        }
-        return p;
-      },
-      () => ({})
-    );
+    const groupDrugByActivity = dimActivity
+      .group()
+      .reduce(
+        upReducerKeyCount(drugAccessor),
+        downReducerKeyCount(drugAccessor),
+        () => ({})
+      );
 
     // heatmap stuff
-    const activityMap = {
-      AGONIST: 'agonist',
-      ANTAGONIST: 'antagonist',
-      UP_OR_DOWN: 'upOrDown',
-    };
-
-    // const groupDrugAndDiseaseByActivity = dimDrugAndDisease.group().reduce(
-    //   (p, d) => {
-    //     p[activityMap[d.drug.activity]] += 1;
-    //     return p;
-    //   },
-    //   (p, d) => {
-    //     p[activityMap[d.drug.activity]] -= 1;
-    //     return p;
-    //   },
-    //   () => ({ agonist: 0, antagonist: 0, upOrDown: 0 })
-    // );
+    // const activityMap = {
+    //   AGONIST: 'agonist',
+    //   ANTAGONIST: 'antagonist',
+    //   UP_OR_DOWN: 'upOrDown',
+    // };
 
     // charts
     const drugCountLabel = dc.numberDisplay('#unique-drugs-count');
     const targetsCountLabel = dc.numberDisplay('#associated-targets-count');
     const diseasesCountLabel = dc.numberDisplay('#associated-diseases-count');
 
-    // const chartTrialByStatus = dc.rowChart('#dc-trial-by-status-chart');
     const chartTrialByPhase = dc.barChart('#dc-trial-by-phase-chart');
-    // const chartTrialByDrug = dc.rowChart('#dc-trial-by-drug-chart');
     const chartDrugByType = dc.pieChart('#dc-drug-by-type-chart');
     const chartDrugByActivity = dc.pieChart('#dc-drug-by-activity-chart');
-    // const chartDrugAndDiseaseByActivity = dc.heatMap('#dc-drug-and-disease-by-activity-chart');
 
     // summary count charts
     drugCountLabel
@@ -475,67 +341,23 @@ class KnownDrugsDetail extends React.Component {
       .valueAccessor(d => Object.keys(d).length)
       .render();
 
-    // chartTrialByStatus
-    //   .width(280)
-    //   .height(280)
-    //   .margins({ top: 20, left: 10, right: 10, bottom: 20 })
-    //   .label(d => d.key)
-    //   .valueAccessor(d => Object.keys(d.value.trialCounts).length)
-    //   .group(groupTrialByStatus)
-    //   .dimension(dimStatus)
-    //   .title(d => 'Status')
-    //   .colors(['#7B1A6A'])
-    //   .elasticX(true)
-    //   .xAxis()
-    //   .ticks(4);
-
-    // phase: original rowchart
-    // chartTrialByPhase
-    // .width(280)
-    // .height(280)
-    // .margins({ top: 20, left: 10, right: 10, bottom: 20 })
-    // .label(d => `Phase ${d.key}`)
-    // .valueAccessor(d => Object.keys(d.value.trialCounts).length)
-    // .group(groupTrialByPhase)
-    // .dimension(dimPhase)
-    // .title(d => 'Phase')
-    // .colors(['#7B1A6A'])
-    // .elasticX(true)
-    // .xAxis()
-    // .ticks(4);
+    // phase
     chartTrialByPhase // barchart version
       .width(280)
       .height(240)
-      // .margins({ top: 20, left: 10, right: 10, bottom: 20 })
       .valueAccessor(d => {
-        return Object.keys(d.value.trialCounts).length;
+        return Object.keys(d.value).length;
       })
       .group(groupTrialByPhase)
       .dimension(dimPhase)
-      .title(d => 'Phase')
+      .title(d => `Phase ${d.key}: ${Object.keys(d.value).length}`)
       .colors(['#7B1A6A'])
       .elasticX(true)
-      // .xAxis()
       .x(d3.scaleBand())
       .xUnits(dc.units.ordinal)
       .barPadding(0.1)
       .outerPadding(0.05)
       .xAxisLabel('Phase');
-    // .ticks(4);
-
-    // chartTrialByDrug
-    //   .width(280)
-    //   .height(580)
-    //   .margins({ top: 20, left: 10, right: 10, bottom: 20 })
-    //   .group(groupDrugBy)
-    //   .dimension(dimDrug)
-    //   .label(d => d.key)
-    //   .valueAccessor(d => Object.keys(d.value.trialCounts).length)
-    //   .title(d => 'Phase by Drug')
-    //   .colors(['#7B1A6A'])
-    //   .elasticX(true)
-    //   .xAxis()
-    //   .ticks(4);
 
     // type
     chartDrugByType
@@ -546,15 +368,9 @@ class KnownDrugsDetail extends React.Component {
       .dimension(dimType)
       .group(groupDrugByType)
       .valueAccessor(d => Object.keys(d.value).length)
-      // .label(d => Object.keys(d.value).length)
+      .label(d => `${d.key} (${Object.keys(d.value).length})`)
       .colorAccessor(d => d.key)
       .colors(['#E2DFDF']);
-    // .colors(
-    //   d3
-    //     .scaleOrdinal()
-    //     .domain(['agonist', 'antagonist', 'upOrDown'])
-    //     .range(['#99f', '#f99', '#bbb'])
-    // );
 
     // activity
     chartDrugByActivity
@@ -565,61 +381,15 @@ class KnownDrugsDetail extends React.Component {
       .dimension(dimActivity)
       .group(groupDrugByActivity)
       .valueAccessor(d => Object.keys(d.value).length)
-      .label(d => d.key)
+      .label(d => `${d.key} (${Object.keys(d.value).length})`)
       .colorAccessor(d => d.key)
       .colors(['#E2DFDF']);
-    // .colors(
-    //   d3
-    //     .scaleOrdinal()
-    //     .domain(['agonist', 'antagonist', 'upOrDown'])
-    //     .range(['#99f', '#f99', '#bbb'])
-    // );
-
-    // chartDrugAndDiseaseByActivity
-    //   .width(600)
-    //   .height(1200)
-    //   .margins({ top: 20, left: 150, right: 10, bottom: 150 })
-    //   .dimension(dimDrugAndDisease)
-    //   .group(groupDrugAndDiseaseByActivity)
-    //   .keyAccessor(function(d) {
-    //     return d.key[0];
-    //   })
-    //   .valueAccessor(function(d) {
-    //     return d.key[1];
-    //   })
-    //   .colorAccessor(function(d) {
-    //     return d.value.agonist > 0
-    //       ? 3
-    //       : d.value.upOrDown > 0
-    //       ? 2
-    //       : d.value.antagonist > 0
-    //       ? 1
-    //       : 0;
-    //   })
-    //   .colors(
-    //     d3
-    //       .scaleOrdinal()
-    //       .domain([0, 1, 2, 3])
-    //       .range(['#f99', '#99f', '#bbb', '#eee'])
-    //   )
-    //   .renderTitle(true)
-    //   .title('Activity by drug and disease')
-    //   .legend(
-    //     dc
-    //       .legend()
-    //       .x(10)
-    //       .y(255)
-    //       .gap(5)
-    //       .horizontal(true)
-    //   )
-    //   .xBorderRadius(0)
-    //   .yBorderRadius(0)
-    //   .calculateColorDomain();
 
     dc.renderAll();
 
     // state for material table: initial
     this.setState({ filteredRows: ndx.allFiltered() });
+
     // state for material table: on chart filter
     const that = this;
     dc.chartRegistry.list().forEach(chart =>
@@ -627,19 +397,6 @@ class KnownDrugsDetail extends React.Component {
         that.setState({ filteredRows: ndx.allFiltered() });
       })
     );
-
-    // rotate labels
-    // chartDrugAndDiseaseByActivity
-    //   .selectAll('g.cols.axis > text')
-    //   .attr('transform', function(d) {
-    //     var coord = this.getBBox();
-    //     var x = coord.x + coord.width / 2,
-    //       y = coord.y + coord.height / 2;
-    //     return 'rotate(-45 ' + x + ' ' + y + ')';
-    //   })
-    //   .style('text-anchor', 'end');
-
-    // chartDrugAndDiseaseByActivity.selectAll('g.rows.axis > text').attr('dy', 0);
   };
 }
 
