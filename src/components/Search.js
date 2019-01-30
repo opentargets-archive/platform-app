@@ -132,7 +132,7 @@ const standardSearch = queryString => {
 };
 const questionSearch = queryString => {
   const queryStringLower = queryString.toLowerCase();
-  return QUESTIONS.map(q => {
+  const matchedQuestions = QUESTIONS.map(q => {
     const match = q.regex.exec(queryStringLower);
     const isMatch = match && match.length === q.groupTypes.length + 1;
     const groups = [];
@@ -150,7 +150,10 @@ const questionSearch = queryString => {
       isPartialMatch,
       groups,
     };
-  }); //.filter(q => q.isMatch);
+  });
+  return queryStringLower.length > 0
+    ? matchedQuestions.filter(q => q.isPartialMatch)
+    : matchedQuestions;
 };
 
 const asGroupedOptions = data => {
@@ -213,6 +216,8 @@ class Search extends React.Component {
   };
   handleInputChange = inputValue => {
     this.setState({ value: inputValue });
+  };
+  handleLoadOptions = inputValue => {
     if (!inputValue || inputValue.length < 3) {
       return Promise.resolve([]);
     } else {
@@ -227,6 +232,7 @@ class Search extends React.Component {
       <OtSearch
         menuMessage={asQuestionSuggestions(questions)}
         value={this.state.value}
+        onLoadOptions={this.handleLoadOptions}
         onInputChange={this.handleInputChange}
         onFocus={this.handleFocus}
         optionComponent={SearchOption}
