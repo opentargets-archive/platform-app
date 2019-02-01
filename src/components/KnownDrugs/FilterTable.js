@@ -11,6 +11,7 @@ import {
   upReducerKeyCount,
   downReducerKeyCount,
 } from '../../utils/crossfilterReducers';
+import { generateComparatorFromAccessor } from '../../utils/comparators';
 import * as dcconfig from '../config/dc.js';
 
 const columns = [
@@ -18,34 +19,19 @@ const columns = [
     id: 'disease',
     label: 'Disease',
     renderCell: d => d.disease.name,
-    comparator: (a, b) =>
-      a.disease.name > b.disease.name
-        ? 1
-        : a.disease.name === b.disease.name
-        ? 0
-        : -1,
+    comparator: generateComparatorFromAccessor(d => d.disease.name),
   },
   {
     id: 'phase',
     label: 'Phase',
     renderCell: d => d.clinicalTrial.phase,
-    comparator: (a, b) =>
-      a.clinicalTrial.phase > b.clinicalTrial.phase
-        ? 1
-        : a.clinicalTrial.phase === b.clinicalTrial.phase
-        ? 0
-        : -1,
+    comparator: generateComparatorFromAccessor(d => d.clinicalTrial.phase),
   },
   {
     id: 'status',
     label: 'Status',
     renderCell: d => d.clinicalTrial.status,
-    comparator: (a, b) =>
-      a.clinicalTrial.status > b.clinicalTrial.status
-        ? 1
-        : a.clinicalTrial.status === b.clinicalTrial.status
-        ? 0
-        : -1,
+    comparator: generateComparatorFromAccessor(d => d.clinicalTrial.status),
   },
   {
     id: 'source',
@@ -59,26 +45,19 @@ const columns = [
         {d.clinicalTrial.sourceName}
       </a>
     ),
-    comparator: (a, b) =>
-      a.clinicalTrial.sourceName > b.clinicalTrial.sourceName
-        ? 1
-        : a.clinicalTrial.sourceName === b.clinicalTrial.sourceName
-        ? 0
-        : -1,
+    comparator: generateComparatorFromAccessor(d => d.clinicalTrial.sourceName),
   },
   {
     id: 'drug',
     label: 'Drug',
     renderCell: d => d.drug.name,
-    comparator: (a, b) =>
-      a.drug.name > b.drug.name ? 1 : a.drug.name === b.drug.name ? 0 : -1,
+    comparator: generateComparatorFromAccessor(d => d.drug.name),
   },
   {
     id: 'type',
     label: 'Type',
     renderCell: d => d.drug.type,
-    comparator: (a, b) =>
-      a.drug.type > b.drug.type ? 1 : a.drug.type === b.drug.type ? 0 : -1,
+    comparator: generateComparatorFromAccessor(d => d.drug.type),
   },
   {
     id: 'mechanism',
@@ -96,34 +75,21 @@ const columns = [
         </a>
       </React.Fragment>
     ),
-    comparator: (a, b) =>
-      a.mechanismOfAction.sourceName > b.mechanismOfAction.sourceName
-        ? 1
-        : a.mechanismOfAction.sourceName === b.mechanismOfAction.sourceName
-        ? 0
-        : -1,
+    comparator: generateComparatorFromAccessor(
+      d => d.mechanismOfAction.sourceName
+    ),
   },
   {
     id: 'activity',
     label: 'Activity',
     renderCell: d => d.drug.activity,
-    comparator: (a, b) =>
-      a.drug.activity > b.drug.activity
-        ? 1
-        : a.drug.activity === b.drug.activity
-        ? 0
-        : -1,
+    comparator: generateComparatorFromAccessor(d => d.drug.activity),
   },
   {
     id: 'target',
     label: 'Target',
     renderCell: d => d.target.symbol,
-    comparator: (a, b) =>
-      a.target.symbol > b.target.symbol
-        ? 1
-        : a.target.symbol === b.target.symbol
-        ? 0
-        : -1,
+    comparator: generateComparatorFromAccessor(d => d.target.symbol),
   },
 ];
 
@@ -263,7 +229,6 @@ class KnownDrugsDetail extends React.Component {
     const dimType = drugsxf.dimension(d => d.drug.type);
 
     // groups
-
     const drugAccessor = d => d.drug.name;
     const drugCount = drugsxf
       .groupAll()
@@ -315,13 +280,6 @@ class KnownDrugsDetail extends React.Component {
         downReducerKeyCount(drugAccessor),
         () => ({})
       );
-
-    // heatmap stuff
-    // const activityMap = {
-    //   AGONIST: 'agonist',
-    //   ANTAGONIST: 'antagonist',
-    //   UP_OR_DOWN: 'upOrDown',
-    // };
 
     // charts
     const drugCountLabel = dc.numberDisplay('#unique-drugs-count');
