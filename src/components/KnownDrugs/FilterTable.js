@@ -11,6 +11,7 @@ import {
   upReducerKeyCount,
   downReducerKeyCount,
 } from '../../utils/crossfilterReducers';
+import * as dcconfig from '../config/dc.js';
 
 const columns = [
   {
@@ -126,6 +127,15 @@ const columns = [
   },
 ];
 
+const {
+  DC_PIE_INNER_RADIUS,
+  DC_PIE_OUTER_RADIUS,
+  DC_PIE_WIDTH,
+  DC_PIE_HEIGHT,
+  DC_COUNTLABEL_SIZE,
+  DC_COLORS,
+} = dcconfig;
+
 const styles = theme => ({
   modalContainer: {
     overflow: 'auto',
@@ -146,20 +156,20 @@ const styles = theme => ({
     fontWeight: 'bold',
     padding: '8px 0px',
     borderRadius: '50%',
-    color: '#FFF',
-    width: '36px',
-    height: '36px',
+    color: DC_COLORS.WHITE,
+    width: `${DC_COUNTLABEL_SIZE}px`,
+    height: `${DC_COUNTLABEL_SIZE}px`,
     display: 'inline-block',
     textAlign: 'center',
   },
   countLabelDrug: {
-    backgroundColor: '#38954C',
+    backgroundColor: DC_COLORS.GREEN,
   },
   countLabelTarget: {
-    backgroundColor: '#7b196a',
+    backgroundColor: DC_COLORS.PURPLE,
   },
   countLabelDisease: {
-    backgroundColor: '#d36141',
+    backgroundColor: DC_COLORS.ORANGE,
   },
 });
 
@@ -343,15 +353,15 @@ class KnownDrugsDetail extends React.Component {
 
     // phase
     chartTrialByPhase // barchart version
-      .width(280)
-      .height(240)
+      .width(DC_PIE_WIDTH)
+      .height(DC_PIE_HEIGHT)
       .valueAccessor(d => {
         return Object.keys(d.value).length;
       })
       .group(groupTrialByPhase)
       .dimension(dimPhase)
       .title(d => `Phase ${d.key}: ${Object.keys(d.value).length}`)
-      .colors(['#7B1A6A'])
+      .colors([DC_COLORS.PURPLE])
       .elasticX(true)
       .x(d3.scaleBand())
       .xUnits(dc.units.ordinal)
@@ -361,29 +371,29 @@ class KnownDrugsDetail extends React.Component {
 
     // type
     chartDrugByType
-      .width(280)
-      .height(280)
-      .radius(120)
-      .innerRadius(30)
+      .width(DC_PIE_WIDTH)
+      .height(DC_PIE_HEIGHT)
+      .radius(DC_PIE_OUTER_RADIUS)
+      .innerRadius(DC_PIE_INNER_RADIUS)
       .dimension(dimType)
       .group(groupDrugByType)
       .valueAccessor(d => Object.keys(d.value).length)
       .label(d => `${d.key} (${Object.keys(d.value).length})`)
       .colorAccessor(d => d.key)
-      .colors(['#E2DFDF']);
+      .colors([DC_COLORS.GREY]);
 
     // activity
     chartDrugByActivity
-      .width(280)
-      .height(280)
-      .radius(120)
-      .innerRadius(30)
+      .width(DC_PIE_WIDTH)
+      .height(DC_PIE_HEIGHT)
+      .radius(DC_PIE_OUTER_RADIUS)
+      .innerRadius(DC_PIE_INNER_RADIUS)
       .dimension(dimActivity)
       .group(groupDrugByActivity)
       .valueAccessor(d => Object.keys(d.value).length)
       .label(d => `${d.key} (${Object.keys(d.value).length})`)
       .colorAccessor(d => d.key)
-      .colors(['#E2DFDF']);
+      .colors([DC_COLORS.GREY]);
 
     dc.renderAll();
 
