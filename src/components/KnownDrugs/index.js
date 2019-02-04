@@ -116,7 +116,9 @@ const KnownDrugsWidget = ({
         <KnownDrugsDetail ensgId={ensgId} symbol={symbol} sources={sources} />
       }
       detailHeader={{
-        title: <React.Fragment>{symbol} - Known drugs</React.Fragment>,
+        title: (
+          <React.Fragment>{symbol} - Known drugs & compounds</React.Fragment>
+        ),
         description: (
           <React.Fragment>
             Drugs in clinical trials or approved for {symbol}
