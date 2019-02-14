@@ -13,12 +13,13 @@ import {
 } from '../../utils/crossfilterReducers';
 import { generateComparatorFromAccessor } from '../../utils/comparators';
 import * as dcconfig from '../config/dc.js';
+import _ from 'lodash';
 
 const columns = [
   {
     id: 'disease',
     label: 'Disease',
-    renderCell: d => d.disease.name,
+    renderCell: d => _.capitalize(d.disease.name),
     comparator: generateComparatorFromAccessor(d => d.disease.name),
     export: d => d.disease.name,
   },
@@ -32,8 +33,10 @@ const columns = [
   {
     id: 'status',
     label: 'Status',
-    renderCell: d => d.clinicalTrial.status,
-    comparator: generateComparatorFromAccessor(d => d.clinicalTrial.status),
+    renderCell: d => _.capitalize(d.clinicalTrial.status) || '-',
+    comparator: generateComparatorFromAccessor(
+      d => d.clinicalTrial.status || ''
+    ),
     export: d => d.clinicalTrial.status,
   },
   {
@@ -54,14 +57,17 @@ const columns = [
   {
     id: 'drug',
     label: 'Drug',
-    renderCell: d => d.drug.name,
+    renderCell: d => _.capitalize(d.drug.name),
     comparator: generateComparatorFromAccessor(d => d.drug.name),
     export: d => d.drug.name,
   },
   {
     id: 'type',
     label: 'Type',
-    renderCell: d => d.drug.type,
+    renderCell: d =>
+      _(d.drug.type)
+        .capitalize()
+        .replace(/_/g, ' '),
     comparator: generateComparatorFromAccessor(d => d.drug.type),
     export: d => d.drug.type,
   },
@@ -89,7 +95,7 @@ const columns = [
   {
     id: 'activity',
     label: 'Activity',
-    renderCell: d => d.drug.activity,
+    renderCell: d => _.capitalize(d.drug.activity),
     comparator: generateComparatorFromAccessor(d => d.drug.activity),
     export: d => d.drug.activity,
   },
@@ -346,7 +352,12 @@ class KnownDrugsDetail extends React.Component {
       .dimension(dimType)
       .group(groupDrugByType)
       .valueAccessor(d => Object.keys(d.value).length)
-      .label(d => `${d.key} (${Object.keys(d.value).length})`)
+      .label(
+        d =>
+          `${_(d.key)
+            .capitalize()
+            .replace(/_/g, ' ')} (${Object.keys(d.value).length})`
+      )
       .colorAccessor(d => d.key)
       .colors([DC_COLORS.GREY]);
 
@@ -359,7 +370,12 @@ class KnownDrugsDetail extends React.Component {
       .dimension(dimActivity)
       .group(groupDrugByActivity)
       .valueAccessor(d => Object.keys(d.value).length)
-      .label(d => `${d.key} (${Object.keys(d.value).length})`)
+      .label(
+        d =>
+          `${_(d.key)
+            .capitalize()
+            .replace(/_/g, ' ')} (${Object.keys(d.value).length})`
+      )
       .colorAccessor(d => d.key)
       .colors([DC_COLORS.GREY]);
 
