@@ -20,18 +20,21 @@ const columns = [
     label: 'Disease',
     renderCell: d => d.disease.name,
     comparator: generateComparatorFromAccessor(d => d.disease.name),
+    export: d => d.disease.name,
   },
   {
     id: 'phase',
     label: 'Phase',
     renderCell: d => d.clinicalTrial.phase,
     comparator: generateComparatorFromAccessor(d => d.clinicalTrial.phase),
+    export: d => d.clinicalTrial.phase,
   },
   {
     id: 'status',
     label: 'Status',
     renderCell: d => d.clinicalTrial.status,
     comparator: generateComparatorFromAccessor(d => d.clinicalTrial.status),
+    export: d => d.clinicalTrial.status,
   },
   {
     id: 'source',
@@ -46,18 +49,21 @@ const columns = [
       </a>
     ),
     comparator: generateComparatorFromAccessor(d => d.clinicalTrial.sourceName),
+    export: d => d.clinicalTrial.sourceName,
   },
   {
     id: 'drug',
     label: 'Drug',
     renderCell: d => d.drug.name,
     comparator: generateComparatorFromAccessor(d => d.drug.name),
+    export: d => d.drug.name,
   },
   {
     id: 'type',
     label: 'Type',
     renderCell: d => d.drug.type,
     comparator: generateComparatorFromAccessor(d => d.drug.type),
+    export: d => d.drug.type,
   },
   {
     id: 'mechanism',
@@ -78,18 +84,21 @@ const columns = [
     comparator: generateComparatorFromAccessor(
       d => d.mechanismOfAction.sourceName
     ),
+    export: d => d.mechanismOfAction.name,
   },
   {
     id: 'activity',
     label: 'Activity',
     renderCell: d => d.drug.activity,
     comparator: generateComparatorFromAccessor(d => d.drug.activity),
+    export: d => d.drug.activity,
   },
   {
     id: 'target',
     label: 'Target',
     renderCell: d => d.target.symbol,
     comparator: generateComparatorFromAccessor(d => d.target.symbol),
+    export: d => d.target.symbol,
   },
 ];
 
@@ -147,7 +156,7 @@ class KnownDrugsDetail extends React.Component {
     this.renderCharts();
   }
   render() {
-    const { classes } = this.props;
+    const { classes, symbol } = this.props;
     const { filteredRows } = this.state;
     return (
       <React.Fragment>
@@ -212,6 +221,7 @@ class KnownDrugsDetail extends React.Component {
           columns={columns}
           data={filteredRows}
           tableLayout="fixed"
+          downloadFileStem={symbol + '_knowndrugs'}
         />
       </React.Fragment>
     );
