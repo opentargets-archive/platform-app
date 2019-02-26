@@ -83,7 +83,7 @@ class TargetPage extends Component {
                 <Tabs
                   value={value}
                   onChange={this.handleChange}
-                  scrollable
+                  variant="scrollable"
                   scrollButtons="auto"
                 >
                   <Tab value="associations" label="Associations View" />
