@@ -96,7 +96,7 @@ class ProteinInformationModal extends React.Component {
                 <Tabs
                   value={value}
                   onChange={this.handleChange}
-                  scrollable
+                  variant="scrollable"
                   scrollButtons="auto"
                 >
                   <Tab value="sequenceAnnotation" label="Sequence annotation" />
