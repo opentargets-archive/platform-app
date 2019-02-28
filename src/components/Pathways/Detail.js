@@ -57,7 +57,7 @@ class PathwaysDetail extends React.Component {
                 <Tabs
                   value={tab}
                   onChange={this.handleChange}
-                  scrollable
+                  variant="scrollable"
                   scrollButtons="auto"
                 >
                   <Tab value="overview" label="Pathways Overview" />
