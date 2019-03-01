@@ -24,8 +24,8 @@ const getColumns = ({
       label: 'Biomarker',
       renderFilter: () => (
         <Autocomplete
+          multiple
           options={biomarkerOptions}
-          value={selectedBiomarker}
           handleSelectOption={biomarkerFilterHandler}
           placeholder="None"
         />
@@ -198,7 +198,7 @@ class FilterTable extends Component {
       biomarkerDim.filterAll();
     } else {
       biomarkerDim.filter(d => {
-        return d === selection.value;
+        return d === selection[0].value;
       });
     }
 
