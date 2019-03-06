@@ -14,9 +14,13 @@ const styles = theme => ({
     height: theme.widgetHeight,
     display: 'flex',
     flexFlow: 'column',
+    cursor: 'pointer',
   },
   widgetWithData: {
     border: `2px solid ${theme.palette.text.primary}`,
+    '&:hover': {
+      borderColor: theme.palette.purple,
+    },
   },
   widgetNoData: {
     border: '2px solid #E2DFDF',
