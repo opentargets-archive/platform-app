@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
+import Select from 'react-select';
 import crossfilter from 'crossfilter2';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import dc from 'dc';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import { OtTable, Autocomplete } from 'ot-ui';
+import { OtTable } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
 import {
@@ -15,19 +16,19 @@ import {
 
 const getColumns = ({
   biomarkerOptions,
-  selectedBiomarker,
+  drugOptions,
   biomarkerFilterHandler,
+  drugsFilterHandler,
 }) => {
   return [
     {
       id: 'biomarker',
       label: 'Biomarker',
       renderFilter: () => (
-        <Autocomplete
-          multiple
+        <Select
+          isClearable
           options={biomarkerOptions}
-          handleSelectOption={biomarkerFilterHandler}
-          placeholder="None"
+          onChange={biomarkerFilterHandler}
         />
       ),
     },
@@ -38,7 +39,10 @@ const getColumns = ({
         return rowData.diseases.map(disease => disease.name).join(', ');
       },
     },
-    { id: 'drugName', label: 'Drug' },
+    {
+      id: 'drugName',
+      label: 'Drug',
+    },
     { id: 'associationType', label: 'Association' },
     { id: 'evidenceLevel', label: 'Evidence' },
     {
@@ -98,10 +102,16 @@ const getBiomarkerOptions = rows => {
   }));
 };
 
+const getDrugOptions = rows => {
+  return _.uniq(rows.map(row => row.drugName)).map(row => ({
+    label: row,
+    value: row,
+  }));
+};
+
 class FilterTable extends Component {
   state = {
     filteredRows: [],
-    selectedBiomarker: null,
   };
 
   setupCharts() {
@@ -192,20 +202,17 @@ class FilterTable extends Component {
     this.redrawCharts();
   }
 
-  biomarkerFilterHandler = selection => {
+  biomarkerFilterHandler = (selection, a) => {
     const { biomarkers, biomarkerDim } = this.state;
-    if (selection.length === 0) {
-      biomarkerDim.filterAll();
+    if (selection) {
+      biomarkerDim.filter(d => d === selection.value);
     } else {
-      biomarkerDim.filter(d => {
-        return d === selection[0].value;
-      });
+      // if the selection has been cleared, clear any filters on the
+      // biomarkersDim dimension
+      biomarkerDim.filterAll();
     }
 
-    this.setState({
-      selectedBiomarker: selection,
-      filteredRows: biomarkers.allFiltered(),
-    });
+    this.setState({ filteredRows: biomarkers.allFiltered() });
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -214,6 +221,7 @@ class FilterTable extends Component {
     if (!state.biomarkers) {
       const biomarkers = crossfilter(rows);
       const biomarkerDim = biomarkers.dimension(row => row.biomarker);
+      const drugsDim = biomarkers.dimension(row => row.drugName);
       const associationDim = biomarkers.dimension(row => row.associationType);
       const evidenceDim = biomarkers.dimension(row => row.evidenceLevel);
 
@@ -294,9 +302,10 @@ class FilterTable extends Component {
 
   render() {
     const { classes } = this.props;
-    const { filteredRows, selectedBiomarker } = this.state;
+    const { filteredRows } = this.state;
 
     const biomarkerOptions = getBiomarkerOptions(filteredRows);
+    const drugOptions = getDrugOptions(filteredRows);
 
     return (
       <Fragment>
@@ -336,8 +345,9 @@ class FilterTable extends Component {
         <OtTable
           columns={getColumns({
             biomarkerOptions,
-            selectedBiomarker,
+            drugOptions,
             biomarkerFilterHandler: this.biomarkerFilterHandler,
+            drugsFilterHandler: this.drugsFilterHandler,
           })}
           data={filteredRows}
           filters
