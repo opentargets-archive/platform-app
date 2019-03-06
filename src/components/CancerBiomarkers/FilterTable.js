@@ -17,8 +17,10 @@ import {
 const getColumns = ({
   biomarkerOptions,
   drugOptions,
+  associationOptions,
   biomarkerFilterHandler,
   drugFilterHandler,
+  associationFilterHandler,
 }) => {
   return [
     {
@@ -50,7 +52,17 @@ const getColumns = ({
         />
       ),
     },
-    { id: 'associationType', label: 'Association' },
+    {
+      id: 'associationType',
+      label: 'Association',
+      renderFilter: () => (
+        <Select
+          isClearable
+          options={associationOptions}
+          onChange={associationFilterHandler}
+        />
+      ),
+    },
     { id: 'evidenceLevel', label: 'Evidence' },
     {
       id: 'sources',
@@ -111,6 +123,13 @@ const getBiomarkerOptions = rows => {
 
 const getDrugOptions = rows => {
   return _.uniq(rows.map(row => row.drugName)).map(row => ({
+    label: row,
+    value: row,
+  }));
+};
+
+const getAssociationOptions = rows => {
+  return _.uniq(rows.map(row => row.associationType)).map(row => ({
     label: row,
     value: row,
   }));
@@ -233,6 +252,17 @@ class FilterTable extends Component {
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
 
+  associationFilterHandler = selection => {
+    const { biomarkers, associationDim } = this.state;
+    if (selection) {
+      associationDim.filter(d => d === selection.value);
+    } else {
+      associationDim.filterAll();
+    }
+
+    this.setState({ filteredRows: biomarkers.allFiltered() });
+  };
+
   static getDerivedStateFromProps(props, state) {
     const { rows } = props;
 
@@ -325,6 +355,7 @@ class FilterTable extends Component {
 
     const biomarkerOptions = getBiomarkerOptions(filteredRows);
     const drugOptions = getDrugOptions(filteredRows);
+    const associationOptions = getAssociationOptions(filteredRows);
 
     return (
       <Fragment>
@@ -365,8 +396,10 @@ class FilterTable extends Component {
           columns={getColumns({
             biomarkerOptions,
             drugOptions,
+            associationOptions,
             biomarkerFilterHandler: this.biomarkerFilterHandler,
             drugFilterHandler: this.drugFilterHandler,
+            associationFilterHandler: this.associationFilterHandler,
           })}
           data={filteredRows}
           filters
