@@ -1,4 +1,5 @@
 import React from 'react';
+import Select from 'react-select';
 import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
 import dc from 'dc';
@@ -15,13 +16,16 @@ import { generateComparatorFromAccessor } from '../../utils/comparators';
 import * as dcconfig from '../config/dc.js';
 import _ from 'lodash';
 
-const getColFilterOptions = (rows, accessor) => {
+// Get list of options (i.e. drop-down content) for a column filter
+// render formats the label (similar to renderCell for cells content)
+const getColFilterOptions = (rows, accessor, render) => {
   return _.uniq(rows.map(row => accessor(row))).map(row => ({
-    label: row,
+    label: render ? render(row) : row,
     value: row,
   }));
 };
 
+// Define columns headers, how to sort, render and export the cells
 const getColumns = ({ filters }) => {
   const cols = [
     {
@@ -41,7 +45,8 @@ const getColumns = ({ filters }) => {
     {
       id: 'status',
       label: 'Status',
-      renderCell: d => _.capitalize(d.clinicalTrial.status) || '-',
+      renderCell: d =>
+        _.capitalize(d.clinicalTrial.status).replace(/_/g, ' ') || '-',
       comparator: generateComparatorFromAccessor(
         d => d.clinicalTrial.status || ''
       ),
@@ -118,16 +123,16 @@ const getColumns = ({ filters }) => {
     },
   ];
 
-  // setup column filters, if any, for each col required
+  // setup column filters (if any) for each col required
   if (filters) {
     cols.forEach(c => {
       if (filters[c.id]) {
         const f = filters[c.id];
         c.renderFilter = d => (
-          <Autocomplete
-            multiple
+          <Select
+            isClearable
             options={f.options}
-            handleSelectOption={f.handler}
+            onChange={f.handler}
             placeholder=""
           />
         );
@@ -198,15 +203,16 @@ class KnownDrugsDetail extends React.Component {
   dimDisease = this.drugsxf.dimension(d => d.disease.name);
   dimStatus = this.drugsxf.dimension(d => d.clinicalTrial.status);
   dimSource = this.drugsxf.dimension(d => d.clinicalTrial.sourceName);
+  dimDrug = this.drugsxf.dimension(d => d.drug.name);
+  dimMechanism = this.drugsxf.dimension(d => d.mechanismOfAction.name);
 
+  // Setup a colum filter handler based on the specified dimension
   getColFilterHandler = dim => {
     return selection => {
-      if (selection.length === 0) {
-        dim.filterAll();
+      if (selection) {
+        dim.filter(d => d === selection.value);
       } else {
-        dim.filter(d => {
-          return d === selection[0].value;
-        });
+        dim.filterAll();
       }
 
       this.setState({
@@ -223,8 +229,8 @@ class KnownDrugsDetail extends React.Component {
     );
   };
 
+  // setup crossfilter grouping
   setupGroups = () => {
-    // groups
     const drugAccessor = d => d.drug.name;
     this.drugCount = this.reduceGroup(this.drugsxf.groupAll(), drugAccessor);
     this.targetCount = this.reduceGroup(
@@ -330,7 +336,6 @@ class KnownDrugsDetail extends React.Component {
 
     // state for material table: initial
     this.setState({ filteredRows: this.drugsxf.allFiltered() });
-
     // state for material table: on chart filter
     const that = this;
     dc.chartRegistry.list().forEach(chart =>
@@ -348,7 +353,6 @@ class KnownDrugsDetail extends React.Component {
     this.chartDrugByType.redraw();
     this.chartDrugByActivity.redraw();
   };
-
   componentDidMount() {
     this.setupGroups();
     this.renderCharts();
@@ -361,10 +365,15 @@ class KnownDrugsDetail extends React.Component {
   render() {
     const { classes, symbol } = this.props;
     const { filteredRows } = this.state;
-    // setup filters for the columns that require it
+    // Setup filters for the columns that require it; cols identified by ID
+    // options = array of {label, value} to populate filter dropdown; handler: on-select callback
     const colFilters = {
       disease: {
-        options: getColFilterOptions(filteredRows, row => row.disease.name),
+        options: getColFilterOptions(
+          filteredRows,
+          row => row.disease.name,
+          label => _(label).capitalize()
+        ),
         handler: this.getColFilterHandler(this.dimDisease),
       },
       phase: {
@@ -377,7 +386,11 @@ class KnownDrugsDetail extends React.Component {
       status: {
         options: getColFilterOptions(
           filteredRows,
-          row => row.clinicalTrial.status
+          row => row.clinicalTrial.status,
+          label =>
+            _(label || '-')
+              .capitalize()
+              .replace(/_/g, ' ')
         ),
         handler: this.getColFilterHandler(this.dimStatus),
       },
@@ -387,6 +400,44 @@ class KnownDrugsDetail extends React.Component {
           row => row.clinicalTrial.sourceName
         ),
         handler: this.getColFilterHandler(this.dimSource),
+      },
+      drug: {
+        options: getColFilterOptions(
+          filteredRows,
+          row => row.drug.name,
+          label => _(label).capitalize()
+        ),
+        handler: this.getColFilterHandler(this.dimDrug),
+      },
+      type: {
+        options: getColFilterOptions(
+          filteredRows,
+          row => row.drug.type,
+          label =>
+            _(label)
+              .capitalize()
+              .replace(/_/g, ' ')
+        ),
+        handler: this.getColFilterHandler(this.dimType),
+      },
+      mechanism: {
+        options: getColFilterOptions(
+          filteredRows,
+          row => row.mechanismOfAction.name,
+          label =>
+            _(label)
+              .capitalize()
+              .replace(/_/g, ' ')
+        ),
+        handler: this.getColFilterHandler(this.dimMechanism),
+      },
+      activity: {
+        options: getColFilterOptions(
+          filteredRows,
+          row => row.drug.activity,
+          label => _(label).capitalize()
+        ),
+        handler: this.getColFilterHandler(this.dimActivity),
       },
     };
 
