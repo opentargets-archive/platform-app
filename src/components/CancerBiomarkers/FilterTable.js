@@ -18,7 +18,7 @@ const getColumns = ({
   biomarkerOptions,
   drugOptions,
   biomarkerFilterHandler,
-  drugsFilterHandler,
+  drugFilterHandler,
 }) => {
   return [
     {
@@ -42,6 +42,13 @@ const getColumns = ({
     {
       id: 'drugName',
       label: 'Drug',
+      renderFilter: () => (
+        <Select
+          isClearable
+          options={drugOptions}
+          onChange={drugFilterHandler}
+        />
+      ),
     },
     { id: 'associationType', label: 'Association' },
     { id: 'evidenceLevel', label: 'Evidence' },
@@ -202,7 +209,7 @@ class FilterTable extends Component {
     this.redrawCharts();
   }
 
-  biomarkerFilterHandler = (selection, a) => {
+  biomarkerFilterHandler = selection => {
     const { biomarkers, biomarkerDim } = this.state;
     if (selection) {
       biomarkerDim.filter(d => d === selection.value);
@@ -215,13 +222,24 @@ class FilterTable extends Component {
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
 
+  drugFilterHandler = selection => {
+    const { biomarkers, drugDim } = this.state;
+    if (selection) {
+      drugDim.filter(d => d === selection.value);
+    } else {
+      drugDim.filterAll();
+    }
+
+    this.setState({ filteredRows: biomarkers.allFiltered() });
+  };
+
   static getDerivedStateFromProps(props, state) {
     const { rows } = props;
 
     if (!state.biomarkers) {
       const biomarkers = crossfilter(rows);
       const biomarkerDim = biomarkers.dimension(row => row.biomarker);
-      const drugsDim = biomarkers.dimension(row => row.drugName);
+      const drugDim = biomarkers.dimension(row => row.drugName);
       const associationDim = biomarkers.dimension(row => row.associationType);
       const evidenceDim = biomarkers.dimension(row => row.evidenceLevel);
 
@@ -287,6 +305,7 @@ class FilterTable extends Component {
         filteredRows: biomarkers.allFiltered(),
         biomarkers,
         biomarkerDim,
+        drugDim,
         drugCount,
         biomarkerCount,
         diseaseCount,
@@ -347,7 +366,7 @@ class FilterTable extends Component {
             biomarkerOptions,
             drugOptions,
             biomarkerFilterHandler: this.biomarkerFilterHandler,
-            drugsFilterHandler: this.drugsFilterHandler,
+            drugFilterHandler: this.drugFilterHandler,
           })}
           data={filteredRows}
           filters
