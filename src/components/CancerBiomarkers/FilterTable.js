@@ -379,7 +379,7 @@ class FilterTable extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { symbol, classes } = this.props;
     const { filteredRows } = this.state;
 
     const biomarkerOptions = getBiomarkerOptions(filteredRows);
@@ -435,6 +435,7 @@ class FilterTable extends Component {
           })}
           data={filteredRows}
           filters
+          downloadFileStem={`${symbol}-cancer-biomarkers`}
         />
       </Fragment>
     );

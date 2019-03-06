@@ -37,7 +37,7 @@ const CancerBiomarkersDetail = ({ ensgId, symbol, sources }) => {
           if (loading || error) return null;
 
           const { rows } = data.target.details.cancerBiomarkers;
-          return <FilterTable rows={rows} />;
+          return <FilterTable rows={rows} symbol={symbol} />;
         }}
       </Query>
     </React.Fragment>
