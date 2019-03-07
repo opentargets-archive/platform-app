@@ -14,6 +14,12 @@ import {
   downReducerKeyCount,
 } from '../../utils/crossfilterReducers';
 
+import {
+  DC_PIE_INNER_RADIUS,
+  DC_PIE_OUTER_RADIUS,
+  DC_PIE_WIDTH,
+} from './../config/dc';
+
 const getColumns = ({
   biomarkerOptions,
   drugOptions,
@@ -99,10 +105,6 @@ const getColumns = ({
     },
   ];
 };
-
-const DC_PIE_INNER_RADIUS = 40;
-const DC_PIE_OUTER_RADIUS = 100;
-const DC_PIE_WIDTH = 220;
 
 const styles = theme => ({
   countLabelSection: {
