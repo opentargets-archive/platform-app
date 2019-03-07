@@ -31,7 +31,11 @@ const getColumns = ({ filters }) => {
     {
       id: 'disease',
       label: 'Disease',
-      renderCell: d => _.capitalize(d.disease.name),
+      renderCell: d => (
+        <a href={'/disease/' + d.disease.id} rel="noopener noreferrer">
+          {_.capitalize(d.disease.name)}
+        </a>
+      ),
       comparator: generateComparatorFromAccessor(d => d.disease.name),
       export: d => d.disease.name,
     },
@@ -72,7 +76,11 @@ const getColumns = ({ filters }) => {
     {
       id: 'drug',
       label: 'Drug',
-      renderCell: d => _.capitalize(d.drug.name),
+      renderCell: d => (
+        <a href={'/drug/' + d.drug.id} rel="noopener noreferrer">
+          {_.capitalize(d.drug.name)}
+        </a>
+      ),
       comparator: generateComparatorFromAccessor(d => d.drug.name),
       export: d => d.drug.name,
     },
