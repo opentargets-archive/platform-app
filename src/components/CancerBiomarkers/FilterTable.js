@@ -161,9 +161,7 @@ const getEvidenceOptions = rows => {
 };
 
 class FilterTable extends Component {
-  state = {
-    filteredRows: [],
-  };
+  state = {};
 
   setupCharts() {
     // set up DC charts, not crossfilter stuff
@@ -221,7 +219,7 @@ class FilterTable extends Component {
       .height(DC_PIE_WIDTH)
       .radius(DC_PIE_OUTER_RADIUS)
       .innerRadius(DC_PIE_INNER_RADIUS)
-      .label(d => `${d.key} (${Object.keys(d.value).length}`)
+      .label(d => `${d.key} (${Object.keys(d.value).length})`)
       .valueAccessor(d => Object.keys(d.value).length)
       .dimension(evidenceDim)
       .group(evidenceGroup)
