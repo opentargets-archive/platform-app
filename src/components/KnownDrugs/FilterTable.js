@@ -6,7 +6,7 @@ import dc from 'dc';
 import * as d3 from 'd3';
 
 import DCContainer from '../DCContainer';
-import { OtTable, Autocomplete } from 'ot-ui';
+import { OtTable } from 'ot-ui';
 import classNames from 'classnames';
 import {
   upReducerKeyCount,
@@ -252,7 +252,7 @@ class KnownDrugsDetail extends React.Component {
     );
   };
 
-  renderCharts = () => {
+  setupCharts = () => {
     // charts
     this.drugCountLabel = dc.numberDisplay('#unique-drugs-count');
     this.targetsCountLabel = dc.numberDisplay('#associated-targets-count');
@@ -355,7 +355,7 @@ class KnownDrugsDetail extends React.Component {
   };
   componentDidMount() {
     this.setupGroups();
-    this.renderCharts();
+    this.setupCharts();
   }
 
   componentDidUpdate() {
