@@ -133,7 +133,7 @@ const getColumns = ({ filters }) => {
             isClearable
             options={f.options}
             onChange={f.handler}
-            placeholder=""
+            placeholder="None"
           />
         );
       }
