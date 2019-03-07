@@ -245,14 +245,6 @@ class FilterTable extends Component {
     this.biomarkersByEvidenceChart.redraw();
   }
 
-  componentDidMount() {
-    this.setupCharts();
-  }
-
-  componentDidUpdate() {
-    this.redrawCharts();
-  }
-
   biomarkerFilterHandler = selection => {
     const { biomarkers, biomarkerDim } = this.state;
     if (selection) {
@@ -299,10 +291,12 @@ class FilterTable extends Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    const { rows } = props;
+    const prevProps = state.prevProps || {};
 
-    if (!state.biomarkers) {
-      const biomarkers = crossfilter(rows);
+    if (props.rows !== prevProps.rows) {
+      // only create a new crossfilter, groups, and dimensions
+      // when the rows prop has changed
+      const biomarkers = crossfilter(props.rows);
       const biomarkerDim = biomarkers.dimension(row => row.biomarker);
       const drugDim = biomarkers.dimension(row => row.drugName);
       const associationDim = biomarkers.dimension(row => row.associationType);
@@ -367,21 +361,30 @@ class FilterTable extends Component {
         );
 
       return {
+        prevProps: props,
         filteredRows: biomarkers.allFiltered(),
         biomarkers,
         biomarkerDim,
+        biomarkerCount,
         drugDim,
         drugCount,
-        biomarkerCount,
         diseaseCount,
         associationDim,
         associationGroup,
         evidenceDim,
         evidenceGroup,
       };
-    } else {
-      return null;
     }
+
+    return null;
+  }
+
+  componentDidMount() {
+    this.setupCharts();
+  }
+
+  componentDidUpdate() {
+    this.redrawCharts();
   }
 
   render() {
