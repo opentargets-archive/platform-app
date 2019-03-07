@@ -110,7 +110,7 @@ const getColumns = ({ filters }) => {
     {
       id: 'activity',
       label: 'Activity',
-      renderCell: d => _.capitalize(d.drug.activity),
+      renderCell: d => _.capitalize(d.drug.activity).replace(/_/g, ' '),
       comparator: generateComparatorFromAccessor(d => d.drug.activity),
       export: d => d.drug.activity,
     },
@@ -435,7 +435,10 @@ class KnownDrugsDetail extends React.Component {
         options: getColFilterOptions(
           filteredRows,
           row => row.drug.activity,
-          label => _(label).capitalize()
+          label =>
+            _(label)
+              .capitalize()
+              .replace(/_/g, ' ')
         ),
         handler: this.getColFilterHandler(this.dimActivity),
       },
