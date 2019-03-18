@@ -429,17 +429,6 @@ class FilterTable extends Component {
     const associationOptions = getAssociationOptions(filteredRows);
     const evidenceOptions = getEvidenceOptions(filteredRows);
 
-    const columns = getColumns({
-      biomarkerOptions,
-      drugOptions,
-      associationOptions,
-      evidenceOptions,
-      biomarkerFilterHandler: this.biomarkerFilterHandler,
-      drugFilterHandler: this.drugFilterHandler,
-      associationFilterHandler: this.associationFilterHandler,
-      evidenceFilterHandler: this.evidenceFilterHandler,
-    });
-
     return (
       <Fragment>
         <div className={classes.countLabelSection}>
@@ -480,7 +469,20 @@ class FilterTable extends Component {
           rows={getDownloadRows(rows)}
           fileStem={`${symbol}-cancer-biomarkers`}
         />
-        <OtTableRF columns={columns} data={filteredRows} filters />
+        <OtTableRF
+          columns={getColumns({
+            biomarkerOptions,
+            drugOptions,
+            associationOptions,
+            evidenceOptions,
+            biomarkerFilterHandler: this.biomarkerFilterHandler,
+            drugFilterHandler: this.drugFilterHandler,
+            associationFilterHandler: this.associationFilterHandler,
+            evidenceFilterHandler: this.evidenceFilterHandler,
+          })}
+          data={filteredRows}
+          filters
+        />
       </Fragment>
     );
   }
