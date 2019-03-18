@@ -102,7 +102,7 @@ const getColumns = ({
       id: 'sources',
       label: 'Sources',
       renderCell: rowData => {
-        const result = rowData.sources.map(source => (
+        return rowData.sources.map(source => (
           <a
             key={source.url}
             href={source.url}
@@ -112,7 +112,6 @@ const getColumns = ({
             {source.name}
           </a>
         ));
-        return result;
       },
     },
   ];
