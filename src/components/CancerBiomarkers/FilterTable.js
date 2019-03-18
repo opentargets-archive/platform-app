@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 import dc from 'dc';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import { OtTable } from 'ot-ui';
+import { OtTableRF, DataDownloader } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
 import {
@@ -47,7 +47,19 @@ const getColumns = ({
       id: 'diseases',
       label: 'Disease',
       renderCell: rowData => {
-        return rowData.diseases.map(disease => disease.name).join(', ');
+        return rowData.diseases.map((disease, i) => {
+          return (
+            <a
+              key={i}
+              href={`https://www.targetvalidation.org/disease/${disease.id}`}
+              style={{ display: 'block' }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {disease.name}
+            </a>
+          );
+        });
       },
     },
     {
@@ -394,6 +406,17 @@ class FilterTable extends Component {
     const associationOptions = getAssociationOptions(filteredRows);
     const evidenceOptions = getEvidenceOptions(filteredRows);
 
+    const columns = getColumns({
+      biomarkerOptions,
+      drugOptions,
+      associationOptions,
+      evidenceOptions,
+      biomarkerFilterHandler: this.biomarkerFilterHandler,
+      drugFilterHandler: this.drugFilterHandler,
+      associationFilterHandler: this.associationFilterHandler,
+      evidenceFilterHandler: this.evidenceFilterHandler,
+    });
+
     return (
       <Fragment>
         <div className={classes.countLabelSection}>
@@ -429,21 +452,12 @@ class FilterTable extends Component {
         </div>
         <DCContainer id="biomarkers-by-association" title="Association" />
         <DCContainer id="biomarkers-by-evidence" title="Evidence" />
-        <OtTable
-          columns={getColumns({
-            biomarkerOptions,
-            drugOptions,
-            associationOptions,
-            evidenceOptions,
-            biomarkerFilterHandler: this.biomarkerFilterHandler,
-            drugFilterHandler: this.drugFilterHandler,
-            associationFilterHandler: this.associationFilterHandler,
-            evidenceFilterHandler: this.evidenceFilterHandler,
-          })}
-          data={filteredRows}
-          filters
-          downloadFileStem={`${symbol}-cancer-biomarkers`}
+        <DataDownloader
+          tableHeaders={columns}
+          rows={filteredRows}
+          fileStem={`${symbol}-cancer-biomarkers`}
         />
+        <OtTableRF columns={columns} data={filteredRows} filters />
       </Fragment>
     );
   }
