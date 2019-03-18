@@ -172,6 +172,30 @@ const getEvidenceOptions = rows => {
   }));
 };
 
+const getDownloadColumns = () => {
+  return [
+    { id: 'biomarker', label: 'Biomarker' },
+    { id: 'diseases', label: 'Diseases' },
+    { id: 'efo', label: 'EFO codes' },
+    { id: 'drugName', label: 'Drug' },
+    { id: 'associationType', label: 'Association' },
+    { id: 'evidenceLevel', label: 'Evidence' },
+    { id: 'sources', label: 'Sources' },
+  ];
+};
+
+const getDownloadRows = rows => {
+  return rows.map(row => ({
+    biomarker: row.biomarker,
+    diseases: row.diseases.map(disease => disease.name).join(', '),
+    efo: row.diseases.map(disease => disease.id).join(', '),
+    drugName: row.drugName,
+    associationType: row.associationType,
+    evidenceLevel: row.evidenceLevel,
+    sources: row.sources.map(source => source.url).join(', '),
+  }));
+};
+
 class FilterTable extends Component {
   state = {};
 
@@ -398,7 +422,7 @@ class FilterTable extends Component {
   }
 
   render() {
-    const { symbol, classes } = this.props;
+    const { symbol, classes, rows } = this.props;
     const { filteredRows } = this.state;
 
     const biomarkerOptions = getBiomarkerOptions(filteredRows);
@@ -453,8 +477,8 @@ class FilterTable extends Component {
         <DCContainer id="biomarkers-by-association" title="Association" />
         <DCContainer id="biomarkers-by-evidence" title="Evidence" />
         <DataDownloader
-          tableHeaders={columns}
-          rows={filteredRows}
+          tableHeaders={getDownloadColumns()}
+          rows={getDownloadRows(rows)}
           fileStem={`${symbol}-cancer-biomarkers`}
         />
         <OtTableRF columns={columns} data={filteredRows} filters />
