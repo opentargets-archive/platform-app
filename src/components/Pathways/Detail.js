@@ -65,12 +65,16 @@ class PathwaysDetail extends React.Component {
                 </Tabs>
                 {tab === 'overview' ? (
                   <OverviewTab
-                    {...{ symbol, topLevelPathways, lowLevelPathways }}
+                    symbol={symbol}
+                    topLevelPathways={topLevelPathways}
+                    lowLevelPathways={lowLevelPathways}
                   />
                 ) : null}
                 {tab === 'browser' ? (
                   <BrowserTab
-                    {...{ symbol, topLevelPathways, lowLevelPathways }}
+                    symbol={symbol}
+                    topLevelPathways={topLevelPathways}
+                    lowLevelPathways={lowLevelPathways}
                   />
                 ) : null}
               </React.Fragment>
