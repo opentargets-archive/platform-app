@@ -13,6 +13,7 @@ const query = gql`
           rows {
             biomarker
             diseases {
+              id
               name
             }
             drugName

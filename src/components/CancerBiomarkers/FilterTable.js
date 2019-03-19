@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 import dc from 'dc';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import { OtTable } from 'ot-ui';
+import { OtTableRF, DataDownloader } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
 import {
@@ -47,7 +47,19 @@ const getColumns = ({
       id: 'diseases',
       label: 'Disease',
       renderCell: rowData => {
-        return rowData.diseases.map(disease => disease.name).join(', ');
+        return rowData.diseases.map((disease, i) => {
+          return (
+            <a
+              key={i}
+              href={`https://www.targetvalidation.org/disease/${disease.id}`}
+              style={{ display: 'block' }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {disease.name}
+            </a>
+          );
+        });
       },
     },
     {
@@ -90,7 +102,7 @@ const getColumns = ({
       id: 'sources',
       label: 'Sources',
       renderCell: rowData => {
-        const result = rowData.sources.map(source => (
+        return rowData.sources.map(source => (
           <a
             key={source.url}
             href={source.url}
@@ -100,7 +112,6 @@ const getColumns = ({
             {source.name}
           </a>
         ));
-        return result;
       },
     },
   ];
@@ -157,6 +168,30 @@ const getEvidenceOptions = rows => {
   return _.uniq(rows.map(row => row.evidenceLevel)).map(row => ({
     label: row,
     value: row,
+  }));
+};
+
+const getDownloadColumns = () => {
+  return [
+    { id: 'biomarker', label: 'Biomarker' },
+    { id: 'diseases', label: 'Diseases' },
+    { id: 'efo', label: 'EFO codes' },
+    { id: 'drugName', label: 'Drug' },
+    { id: 'associationType', label: 'Association' },
+    { id: 'evidenceLevel', label: 'Evidence' },
+    { id: 'sources', label: 'Sources' },
+  ];
+};
+
+const getDownloadRows = rows => {
+  return rows.map(row => ({
+    biomarker: row.biomarker,
+    diseases: row.diseases.map(disease => disease.name).join(', '),
+    efo: row.diseases.map(disease => disease.id).join(', '),
+    drugName: row.drugName,
+    associationType: row.associationType,
+    evidenceLevel: row.evidenceLevel,
+    sources: row.sources.map(source => source.url).join(', '),
   }));
 };
 
@@ -386,7 +421,7 @@ class FilterTable extends Component {
   }
 
   render() {
-    const { symbol, classes } = this.props;
+    const { symbol, classes, rows } = this.props;
     const { filteredRows } = this.state;
 
     const biomarkerOptions = getBiomarkerOptions(filteredRows);
@@ -429,7 +464,12 @@ class FilterTable extends Component {
         </div>
         <DCContainer id="biomarkers-by-association" title="Association" />
         <DCContainer id="biomarkers-by-evidence" title="Evidence" />
-        <OtTable
+        <DataDownloader
+          tableHeaders={getDownloadColumns()}
+          rows={getDownloadRows(rows)}
+          fileStem={`${symbol}-cancer-biomarkers`}
+        />
+        <OtTableRF
           columns={getColumns({
             biomarkerOptions,
             drugOptions,
@@ -442,7 +482,6 @@ class FilterTable extends Component {
           })}
           data={filteredRows}
           filters
-          downloadFileStem={`${symbol}-cancer-biomarkers`}
         />
       </Fragment>
     );
