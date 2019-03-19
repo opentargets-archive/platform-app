@@ -77,6 +77,7 @@ const getColumns = ({
     {
       id: 'associationType',
       label: 'Association',
+      renderCell: row => _.capitalize(row.associationType.replace(/_/g, ' ')),
       renderFilter: () => (
         <Select
           isClearable
