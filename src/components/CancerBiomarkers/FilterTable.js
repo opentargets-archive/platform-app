@@ -22,10 +22,12 @@ import {
 
 const getColumns = ({
   biomarkerOptions,
+  diseaseOptions,
   drugOptions,
   associationOptions,
   evidenceOptions,
   biomarkerFilterHandler,
+  diseaseFilterHandler,
   drugFilterHandler,
   associationFilterHandler,
   evidenceFilterHandler,
@@ -61,6 +63,14 @@ const getColumns = ({
           );
         });
       },
+      renderFilter: () => (
+        <Select
+          isClearable
+          options={diseaseOptions}
+          onChange={diseaseFilterHandler}
+          placeholder="None"
+        />
+      ),
     },
     {
       id: 'drugName',
@@ -103,16 +113,20 @@ const getColumns = ({
       id: 'sources',
       label: 'Sources',
       renderCell: rowData => {
-        return rowData.sources.map(source => (
-          <a
-            key={source.url}
-            href={source.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {source.name}
-          </a>
-        ));
+        return (
+          <Fragment>
+            {rowData.sources.map((source, i) => (
+              <a
+                key={i}
+                href={source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {source.name}
+              </a>
+            ))}
+          </Fragment>
+        );
       },
     },
   ];
@@ -149,6 +163,17 @@ const getBiomarkerOptions = rows => {
     label: row,
     value: row,
   }));
+};
+
+const getDiseaseOptions = rows => {
+  return _.uniq(
+    rows.reduce((acc, row) => {
+      row.diseases.forEach(disease => {
+        acc.push(disease.name);
+      });
+      return acc;
+    }, [])
+  ).map(disease => ({ label: disease, value: disease }));
 };
 
 const getDrugOptions = rows => {
@@ -292,6 +317,19 @@ class FilterTable extends Component {
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
 
+  diseaseFilterHandler = selection => {
+    const { biomarkers, diseaseDim } = this.state;
+    if (selection) {
+      diseaseDim.filter(d => {
+        const index = d.findIndex(disease => disease.name === selection.value);
+        return index !== -1;
+      });
+    } else {
+      diseaseDim.filterAll();
+    }
+    this.setState({ filteredRows: biomarkers.allFiltered() });
+  };
+
   drugFilterHandler = selection => {
     const { biomarkers, drugDim } = this.state;
     if (selection) {
@@ -332,6 +370,7 @@ class FilterTable extends Component {
       // when the rows prop has changed
       const biomarkers = crossfilter(props.rows);
       const biomarkerDim = biomarkers.dimension(row => row.biomarker);
+      const diseaseDim = biomarkers.dimension(row => row.diseases);
       const drugDim = biomarkers.dimension(row => row.drugName);
       const associationDim = biomarkers.dimension(row => row.associationType);
       const evidenceDim = biomarkers.dimension(row => row.evidenceLevel);
@@ -400,6 +439,7 @@ class FilterTable extends Component {
         biomarkers,
         biomarkerDim,
         biomarkerCount,
+        diseaseDim,
         drugDim,
         drugCount,
         diseaseCount,
@@ -426,6 +466,7 @@ class FilterTable extends Component {
     const { filteredRows } = this.state;
 
     const biomarkerOptions = getBiomarkerOptions(filteredRows);
+    const diseaseOptions = getDiseaseOptions(filteredRows);
     const drugOptions = getDrugOptions(filteredRows);
     const associationOptions = getAssociationOptions(filteredRows);
     const evidenceOptions = getEvidenceOptions(filteredRows);
@@ -473,10 +514,12 @@ class FilterTable extends Component {
         <OtTableRF
           columns={getColumns({
             biomarkerOptions,
+            diseaseOptions,
             drugOptions,
             associationOptions,
             evidenceOptions,
             biomarkerFilterHandler: this.biomarkerFilterHandler,
+            diseaseFilterHandler: this.diseaseFilterHandler,
             drugFilterHandler: this.drugFilterHandler,
             associationFilterHandler: this.associationFilterHandler,
             evidenceFilterHandler: this.evidenceFilterHandler,
