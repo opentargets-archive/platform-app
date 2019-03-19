@@ -77,6 +77,17 @@ const columns = [
   },
 ];
 
+const getDownloadRows = rows => {
+  return rows.map(row => ({
+    name: row.name,
+    id: row.id,
+    parents: row.parents.map(parent => parent.name).join(', '),
+    diagram: `https://reactome.org/ContentService/exporter/diagram/${
+      row.id
+    }.png`,
+  }));
+};
+
 const OverviewTab = ({
   symbol,
   classes,
@@ -99,7 +110,7 @@ const OverviewTab = ({
     </Grid>
     <DataDownloader
       tableHeaders={columns}
-      rows={lowLevelPathways}
+      rows={getDownloadRows(lowLevelPathways)}
       fileStem={`${symbol}-pathways`}
     />
     <OtTableRF
