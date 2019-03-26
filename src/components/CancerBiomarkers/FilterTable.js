@@ -4,6 +4,7 @@ import crossfilter from 'crossfilter2';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import dc from 'dc';
+import { lighten } from 'polished';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 import { OtTableRF, DataDownloader } from 'ot-ui';
@@ -221,6 +222,13 @@ const getDownloadRows = rows => {
   }));
 };
 
+const getPieColors = items => {
+  return items.reduce((acc, item, i) => {
+    acc[item.label] = lighten(0.1 * i, '#7b196a');
+    return acc;
+  }, {});
+};
+
 class FilterTable extends Component {
   state = {};
 
@@ -272,7 +280,7 @@ class FilterTable extends Component {
       .valueAccessor(d => Object.keys(d.value).length)
       .dimension(associationDim)
       .group(associationGroup)
-      .colors(['#E2DFDF'])
+      .colors(association => this.associationColors[association])
       .render();
 
     this.biomarkersByEvidenceChart
@@ -284,7 +292,7 @@ class FilterTable extends Component {
       .valueAccessor(d => Object.keys(d.value).length)
       .dimension(evidenceDim)
       .group(evidenceGroup)
-      .colors(['#E2DFDF'])
+      .colors(evidence => this.evidenceColors[evidence])
       .render();
 
     this.biomarkersByAssociationChart.on('filtered', d => {
@@ -454,6 +462,10 @@ class FilterTable extends Component {
   }
 
   componentDidMount() {
+    this.evidenceColors = getPieColors(getEvidenceOptions(this.props.rows));
+    this.associationColors = getPieColors(
+      getAssociationOptions(this.props.rows)
+    );
     this.setupCharts();
   }
 
