@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { OtTable } from 'ot-ui';
+import { DataDownloader, OtTableRF } from 'ot-ui';
 import Venn from './Venn';
 
 const query = gql`
@@ -90,29 +90,34 @@ const columns = symbol => [
 
 const RelatedTargetsDetail = ({ ensgId, symbol, sources }) => {
   return (
-    <React.Fragment>
-      <Query query={query} variables={{ ensgId }}>
-        {({ loading, error, data }) => {
-          if (loading || error) return null;
+    <Query query={query} variables={{ ensgId }}>
+      {({ loading, error, data }) => {
+        if (loading || error) return null;
 
-          const { rows } = data.target.details.relatedTargets;
-          const rowsMapped = rows.map(d => ({
-            ...d,
-            diseaseCountANotB: d.diseaseCountA - d.diseaseCountAAndB,
-            diseaseCountBNotA: d.diseaseCountB - d.diseaseCountAAndB,
-          }));
+        const { rows } = data.target.details.relatedTargets;
+        const rowsMapped = rows.map(d => ({
+          ...d,
+          diseaseCountANotB: d.diseaseCountA - d.diseaseCountAAndB,
+          diseaseCountBNotA: d.diseaseCountB - d.diseaseCountAAndB,
+        }));
 
-          return (
-            <OtTable
+        return (
+          <Fragment>
+            <DataDownloader
+              tableHeaders={columns(symbol)}
+              rows={rowsMapped}
+              fileStem={`${symbol}-related-targets`}
+            />
+            <OtTableRF
               loading={loading}
               error={error}
               columns={columns(symbol)}
               data={rowsMapped}
             />
-          );
-        }}
-      </Query>
-    </React.Fragment>
+          </Fragment>
+        );
+      }}
+    </Query>
   );
 };
 

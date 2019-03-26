@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 
-import { OtTable } from 'ot-ui';
+import { DataDownloader, OtTableRF } from 'ot-ui';
 
 const styles = () => ({
   topLevelPathwayContainer: {
@@ -77,7 +77,23 @@ const columns = [
   },
 ];
 
-const OverviewTab = ({ classes, topLevelPathways, lowLevelPathways }) => (
+const getDownloadRows = rows => {
+  return rows.map(row => ({
+    name: row.name,
+    id: row.id,
+    parents: row.parents.map(parent => parent.name).join(', '),
+    diagram: `https://reactome.org/ContentService/exporter/diagram/${
+      row.id
+    }.png`,
+  }));
+};
+
+const OverviewTab = ({
+  symbol,
+  classes,
+  topLevelPathways,
+  lowLevelPathways,
+}) => (
   <React.Fragment>
     <Grid container alignItems="stretch" spacing={8}>
       {topLevelPathways.map(d => (
@@ -92,7 +108,12 @@ const OverviewTab = ({ classes, topLevelPathways, lowLevelPathways }) => (
         </Grid>
       ))}
     </Grid>
-    <OtTable
+    <DataDownloader
+      tableHeaders={columns}
+      rows={getDownloadRows(lowLevelPathways)}
+      fileStem={`${symbol}-pathways`}
+    />
+    <OtTableRF
       loading={false}
       error={null}
       columns={columns}

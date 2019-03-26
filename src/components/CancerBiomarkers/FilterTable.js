@@ -4,9 +4,10 @@ import crossfilter from 'crossfilter2';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import dc from 'dc';
+import { lighten } from 'polished';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import { OtTable } from 'ot-ui';
+import { OtTableRF, DataDownloader } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
 import {
@@ -22,10 +23,12 @@ import {
 
 const getColumns = ({
   biomarkerOptions,
+  diseaseOptions,
   drugOptions,
   associationOptions,
   evidenceOptions,
   biomarkerFilterHandler,
+  diseaseFilterHandler,
   drugFilterHandler,
   associationFilterHandler,
   evidenceFilterHandler,
@@ -47,8 +50,28 @@ const getColumns = ({
       id: 'diseases',
       label: 'Disease',
       renderCell: rowData => {
-        return rowData.diseases.map(disease => disease.name).join(', ');
+        return rowData.diseases.map((disease, i) => {
+          return (
+            <a
+              key={i}
+              href={`https://www.targetvalidation.org/disease/${disease.id}`}
+              style={{ display: 'block' }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {disease.name}
+            </a>
+          );
+        });
       },
+      renderFilter: () => (
+        <Select
+          isClearable
+          options={diseaseOptions}
+          onChange={diseaseFilterHandler}
+          placeholder="None"
+        />
+      ),
     },
     {
       id: 'drugName',
@@ -65,6 +88,7 @@ const getColumns = ({
     {
       id: 'associationType',
       label: 'Association',
+      renderCell: row => _.capitalize(row.associationType.replace(/_/g, ' ')),
       renderFilter: () => (
         <Select
           isClearable
@@ -90,17 +114,20 @@ const getColumns = ({
       id: 'sources',
       label: 'Sources',
       renderCell: rowData => {
-        const result = rowData.sources.map(source => (
-          <a
-            key={source.url}
-            href={source.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {source.name}
-          </a>
-        ));
-        return result;
+        return (
+          <Fragment>
+            {rowData.sources.map((source, i) => (
+              <a
+                key={i}
+                href={source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {source.name}
+              </a>
+            ))}
+          </Fragment>
+        );
       },
     },
   ];
@@ -139,6 +166,17 @@ const getBiomarkerOptions = rows => {
   }));
 };
 
+const getDiseaseOptions = rows => {
+  return _.uniq(
+    rows.reduce((acc, row) => {
+      row.diseases.forEach(disease => {
+        acc.push(disease.name);
+      });
+      return acc;
+    }, [])
+  ).map(disease => ({ label: disease, value: disease }));
+};
+
 const getDrugOptions = rows => {
   return _.uniq(rows.map(row => row.drugName)).map(row => ({
     label: row,
@@ -160,10 +198,39 @@ const getEvidenceOptions = rows => {
   }));
 };
 
+const getDownloadColumns = () => {
+  return [
+    { id: 'biomarker', label: 'Biomarker' },
+    { id: 'diseases', label: 'Diseases' },
+    { id: 'efo', label: 'EFO codes' },
+    { id: 'drugName', label: 'Drug' },
+    { id: 'associationType', label: 'Association' },
+    { id: 'evidenceLevel', label: 'Evidence' },
+    { id: 'sources', label: 'Sources' },
+  ];
+};
+
+const getDownloadRows = rows => {
+  return rows.map(row => ({
+    biomarker: row.biomarker,
+    diseases: row.diseases.map(disease => disease.name).join(', '),
+    efo: row.diseases.map(disease => disease.id).join(', '),
+    drugName: row.drugName,
+    associationType: row.associationType,
+    evidenceLevel: row.evidenceLevel,
+    sources: row.sources.map(source => source.url).join(', '),
+  }));
+};
+
+const getPieColors = items => {
+  return items.reduce((acc, item, i) => {
+    acc[item.label] = lighten(0.1 * i, '#7b196a');
+    return acc;
+  }, {});
+};
+
 class FilterTable extends Component {
-  state = {
-    filteredRows: [],
-  };
+  state = {};
 
   setupCharts() {
     // set up DC charts, not crossfilter stuff
@@ -213,7 +280,7 @@ class FilterTable extends Component {
       .valueAccessor(d => Object.keys(d.value).length)
       .dimension(associationDim)
       .group(associationGroup)
-      .colors(['#E2DFDF'])
+      .colors(association => this.associationColors[association])
       .render();
 
     this.biomarkersByEvidenceChart
@@ -221,11 +288,11 @@ class FilterTable extends Component {
       .height(DC_PIE_WIDTH)
       .radius(DC_PIE_OUTER_RADIUS)
       .innerRadius(DC_PIE_INNER_RADIUS)
-      .label(d => `${d.key} (${Object.keys(d.value).length}`)
+      .label(d => `${d.key} (${Object.keys(d.value).length})`)
       .valueAccessor(d => Object.keys(d.value).length)
       .dimension(evidenceDim)
       .group(evidenceGroup)
-      .colors(['#E2DFDF'])
+      .colors(evidence => this.evidenceColors[evidence])
       .render();
 
     this.biomarkersByAssociationChart.on('filtered', d => {
@@ -245,14 +312,6 @@ class FilterTable extends Component {
     this.biomarkersByEvidenceChart.redraw();
   }
 
-  componentDidMount() {
-    this.setupCharts();
-  }
-
-  componentDidUpdate() {
-    this.redrawCharts();
-  }
-
   biomarkerFilterHandler = selection => {
     const { biomarkers, biomarkerDim } = this.state;
     if (selection) {
@@ -263,6 +322,19 @@ class FilterTable extends Component {
       biomarkerDim.filterAll();
     }
 
+    this.setState({ filteredRows: biomarkers.allFiltered() });
+  };
+
+  diseaseFilterHandler = selection => {
+    const { biomarkers, diseaseDim } = this.state;
+    if (selection) {
+      diseaseDim.filter(d => {
+        const index = d.findIndex(disease => disease.name === selection.value);
+        return index !== -1;
+      });
+    } else {
+      diseaseDim.filterAll();
+    }
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
 
@@ -299,11 +371,14 @@ class FilterTable extends Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    const { rows } = props;
+    const prevProps = state.prevProps || {};
 
-    if (!state.biomarkers) {
-      const biomarkers = crossfilter(rows);
+    if (props.rows !== prevProps.rows) {
+      // only create a new crossfilter, groups, and dimensions
+      // when the rows prop has changed
+      const biomarkers = crossfilter(props.rows);
       const biomarkerDim = biomarkers.dimension(row => row.biomarker);
+      const diseaseDim = biomarkers.dimension(row => row.diseases);
       const drugDim = biomarkers.dimension(row => row.drugName);
       const associationDim = biomarkers.dimension(row => row.associationType);
       const evidenceDim = biomarkers.dimension(row => row.evidenceLevel);
@@ -367,28 +442,43 @@ class FilterTable extends Component {
         );
 
       return {
+        prevProps: props,
         filteredRows: biomarkers.allFiltered(),
         biomarkers,
         biomarkerDim,
+        biomarkerCount,
+        diseaseDim,
         drugDim,
         drugCount,
-        biomarkerCount,
         diseaseCount,
         associationDim,
         associationGroup,
         evidenceDim,
         evidenceGroup,
       };
-    } else {
-      return null;
     }
+
+    return null;
+  }
+
+  componentDidMount() {
+    this.evidenceColors = getPieColors(getEvidenceOptions(this.props.rows));
+    this.associationColors = getPieColors(
+      getAssociationOptions(this.props.rows)
+    );
+    this.setupCharts();
+  }
+
+  componentDidUpdate() {
+    this.redrawCharts();
   }
 
   render() {
-    const { symbol, classes } = this.props;
+    const { symbol, classes, rows } = this.props;
     const { filteredRows } = this.state;
 
     const biomarkerOptions = getBiomarkerOptions(filteredRows);
+    const diseaseOptions = getDiseaseOptions(filteredRows);
     const drugOptions = getDrugOptions(filteredRows);
     const associationOptions = getAssociationOptions(filteredRows);
     const evidenceOptions = getEvidenceOptions(filteredRows);
@@ -428,20 +518,26 @@ class FilterTable extends Component {
         </div>
         <DCContainer id="biomarkers-by-association" title="Association" />
         <DCContainer id="biomarkers-by-evidence" title="Evidence" />
-        <OtTable
+        <DataDownloader
+          tableHeaders={getDownloadColumns()}
+          rows={getDownloadRows(rows)}
+          fileStem={`${symbol}-cancer-biomarkers`}
+        />
+        <OtTableRF
           columns={getColumns({
             biomarkerOptions,
+            diseaseOptions,
             drugOptions,
             associationOptions,
             evidenceOptions,
             biomarkerFilterHandler: this.biomarkerFilterHandler,
+            diseaseFilterHandler: this.diseaseFilterHandler,
             drugFilterHandler: this.drugFilterHandler,
             associationFilterHandler: this.associationFilterHandler,
             evidenceFilterHandler: this.evidenceFilterHandler,
           })}
           data={filteredRows}
           filters
-          downloadFileStem={`${symbol}-cancer-biomarkers`}
         />
       </Fragment>
     );
