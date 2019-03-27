@@ -4,8 +4,7 @@ import Link from '@material-ui/core/Link';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { DataDownloader, OtTableRF, ExternalLink } from 'ot-ui';
-// import Venn from './Venn';
+import { OtTableRF, ExternalLink } from 'ot-ui';
 import Intersection from '../Intersection';
 
 const query = gql`

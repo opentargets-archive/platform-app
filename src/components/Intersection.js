@@ -4,11 +4,13 @@ import { PALETTE } from 'ot-ui';
 
 const PADDING = 3;
 const RADIUS = 48;
+const OFFSET = 10;
 
 const styles = () => {
   return {
     svg: {
       display: 'block',
+      marginBottom: '8px',
     },
   };
 };
@@ -52,13 +54,23 @@ const Intersection = ({ classes, id, a, ab, b }) => {
         strokeWidth="3"
         fill="none"
       />
-      <text x="26" y="50%" textAnchor="middle" fill={PALETTE.darkgrey}>
+      <text
+        x="26"
+        y={RADIUS + OFFSET}
+        textAnchor="middle"
+        fill={PALETTE.darkgrey}
+      >
         {a}
       </text>
-      <text x="70" y="50%" textAnchor="middle" fill="white">
+      <text x="70" y={RADIUS + OFFSET} textAnchor="middle" fill="white">
         {ab}
       </text>
-      <text x="115" y="50%" textAnchor="middle" fill={PALETTE.darkgrey}>
+      <text
+        x="115"
+        y={RADIUS + OFFSET}
+        textAnchor="middle"
+        fill={PALETTE.darkgrey}
+      >
         {b}
       </text>
     </svg>
