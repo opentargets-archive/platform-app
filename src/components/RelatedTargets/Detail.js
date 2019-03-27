@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -33,6 +34,41 @@ const query = gql`
   }
 `;
 
+const styles = () => ({
+  container: {
+    width: '204px',
+    margin: '8px 0',
+  },
+});
+
+let SharedDiseases = ({ d, classes }) => {
+  const ensemblIdRegexA = /ENSG(0)+/g;
+  ensemblIdRegexA.exec(d.A.id);
+  const compressedA = d.A.id.slice(ensemblIdRegexA.lastIndex);
+
+  const ensemblIdRegexB = /ENSG(0)+/g;
+  ensemblIdRegexB.exec(d.B.id);
+  const compressedB = d.B.id.slice(ensemblIdRegexB.lastIndex);
+
+  return (
+    <div className={classes.container}>
+      <Intersection
+        id={d.B.symbol}
+        a={d.diseaseCountANotB}
+        ab={d.diseaseCountAAndB}
+        b={d.diseaseCountBNotA}
+      />
+      <ExternalLink
+        href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
+      >
+        See all shared disease associations
+      </ExternalLink>
+    </div>
+  );
+};
+
+SharedDiseases = withStyles(styles)(SharedDiseases);
+
 const columns = symbol => [
   {
     id: 'B.symbol',
@@ -47,29 +83,7 @@ const columns = symbol => [
     id: 'diseaseCountAAndB',
     label: 'Number of shared disease associations',
     renderCell: d => {
-      const ensemblIdRegexA = /ENSG(0)+/g;
-      ensemblIdRegexA.exec(d.A.id);
-      const compressedA = d.A.id.slice(ensemblIdRegexA.lastIndex);
-
-      const ensemblIdRegexB = /ENSG(0)+/g;
-      ensemblIdRegexB.exec(d.B.id);
-      const compressedB = d.B.id.slice(ensemblIdRegexB.lastIndex);
-
-      return (
-        <Fragment>
-          <Intersection
-            id={d.B.symbol}
-            a={d.diseaseCountANotB}
-            ab={d.diseaseCountAAndB}
-            b={d.diseaseCountBNotA}
-          />
-          <ExternalLink
-            href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
-          >
-            See all shared disease associations
-          </ExternalLink>
-        </Fragment>
-      );
+      return <SharedDiseases d={d} />;
     },
   },
   {

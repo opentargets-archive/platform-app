@@ -6,14 +6,12 @@ const PADDING = 3;
 const RADIUS = 48;
 const OFFSET = 10;
 
-const styles = () => {
-  return {
-    svg: {
-      display: 'block',
-      marginBottom: '8px',
-    },
-  };
-};
+const styles = () => ({
+  svg: {
+    display: 'block',
+    margin: '0 auto 8px auto',
+  },
+});
 
 const Intersection = ({ classes, id, a, ab, b }) => {
   return (
