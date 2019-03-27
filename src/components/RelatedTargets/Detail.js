@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -36,7 +37,11 @@ const columns = symbol => [
   {
     id: 'B.symbol',
     label: 'Related target',
-    renderCell: d => <Link to={`../${d.B.id}`}>{d.B.symbol}</Link>,
+    renderCell: d => (
+      <Link component={RouterLink} to={`../${d.B.id}`}>
+        {d.B.symbol}
+      </Link>
+    ),
   },
   {
     id: 'diseaseCountAAndB',
