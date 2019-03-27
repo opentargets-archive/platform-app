@@ -5,7 +5,8 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import { DataDownloader, OtTableRF, ExternalLink } from 'ot-ui';
-import Venn from './Venn';
+// import Venn from './Venn';
+import Intersection from '../Intersection';
 
 const query = gql`
   query RelatedTargetsQuery($ensgId: String!) {
@@ -45,7 +46,7 @@ const columns = symbol => [
   },
   {
     id: 'diseaseCountAAndB',
-    label: 'Venn diagram',
+    label: 'Number of shared disease associations',
     renderCell: d => {
       const ensemblIdRegexA = /ENSG(0)+/g;
       ensemblIdRegexA.exec(d.A.id);
@@ -57,16 +58,14 @@ const columns = symbol => [
 
       return (
         <Fragment>
-          <Venn
-            sets={[
-              { sets: [d.A.symbol], size: d.diseaseCountA },
-              { sets: [d.B.symbol], size: d.diseaseCountB },
-              { sets: [d.A.symbol, d.B.symbol], size: d.diseaseCountAOrB },
-            ]}
+          <Intersection
+            id={d.B.symbol}
+            a={d.diseaseCountANotB}
+            ab={d.diseaseCountAAndB}
+            b={d.diseaseCountBNotA}
           />
           <ExternalLink
             href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
-            className="lol"
           >
             See all shared disease associations
           </ExternalLink>
@@ -99,11 +98,6 @@ const RelatedTargetsDetail = ({ ensgId, symbol, sources }) => {
 
         return (
           <Fragment>
-            <DataDownloader
-              tableHeaders={columns(symbol)}
-              rows={rowsMapped}
-              fileStem={`${symbol}-related-targets`}
-            />
             <OtTableRF
               loading={loading}
               error={error}
