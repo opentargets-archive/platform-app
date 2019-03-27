@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { DataDownloader, OtTableRF } from 'ot-ui';
+import { DataDownloader, OtTableRF, ExternalLink } from 'ot-ui';
 import Venn from './Venn';
 
 const query = gql`
@@ -36,24 +36,11 @@ const columns = symbol => [
   {
     id: 'B.symbol',
     label: 'Related target',
-    renderCell: d => <Link to={`target/${d.B.id}`}>{d.B.symbol}</Link>,
+    renderCell: d => <Link to={`../${d.B.id}`}>{d.B.symbol}</Link>,
   },
   {
     id: 'diseaseCountAAndB',
     label: 'Venn diagram',
-    renderCell: d => (
-      <Venn
-        sets={[
-          { sets: [d.A.symbol], size: d.diseaseCountA },
-          { sets: [d.B.symbol], size: d.diseaseCountB },
-          { sets: [d.A.symbol, d.B.symbol], size: d.diseaseCountAOrB },
-        ]}
-      />
-    ),
-  },
-  {
-    id: 'venn',
-    label: 'Number of shared disease associations',
     renderCell: d => {
       const ensemblIdRegexA = /ENSG(0)+/g;
       ensemblIdRegexA.exec(d.A.id);
@@ -64,17 +51,21 @@ const columns = symbol => [
       const compressedB = d.B.id.slice(ensemblIdRegexB.lastIndex);
 
       return (
-        <React.Fragment>
-          {d.diseaseCountAAndB}
-          <br />
-          <a
+        <Fragment>
+          <Venn
+            sets={[
+              { sets: [d.A.symbol], size: d.diseaseCountA },
+              { sets: [d.B.symbol], size: d.diseaseCountB },
+              { sets: [d.A.symbol, d.B.symbol], size: d.diseaseCountAOrB },
+            ]}
+          />
+          <ExternalLink
             href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
-            target="_blank"
-            rel="noopener noreferrer"
+            className="lol"
           >
-            See associated diseases
-          </a>
-        </React.Fragment>
+            See all shared disease associations
+          </ExternalLink>
+        </Fragment>
       );
     },
   },
