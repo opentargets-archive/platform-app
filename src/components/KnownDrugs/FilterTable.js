@@ -6,7 +6,7 @@ import dc from 'dc';
 import * as d3 from 'd3';
 
 import DCContainer from '../DCContainer';
-import { OtTable } from 'ot-ui';
+import { OtTableRF, DataDownloader } from 'ot-ui';
 import classNames from 'classnames';
 import {
   upReducerKeyCount,
@@ -371,7 +371,7 @@ class KnownDrugsDetail extends React.Component {
   }
 
   render() {
-    const { classes, symbol } = this.props;
+    const { classes, symbol, rows } = this.props;
     const { filteredRows } = this.state;
     // Setup filters for the columns that require it; cols identified by ID
     // options = array of {label, value} to populate filter dropdown; handler: on-select callback
@@ -509,13 +509,14 @@ class KnownDrugsDetail extends React.Component {
             />
           </div>
         </div>
-        <OtTable
-          loading={false}
-          error={null}
+        <DataDownloader
+          tableHeaders={getColumns({})}
+          rows={filteredRows}
+          fileStem={`${symbol}-knowndrugs`}
+        />
+        <OtTableRF
           columns={getColumns({ filters: colFilters })}
           data={filteredRows}
-          tableLayout="fixed"
-          downloadFileStem={symbol + '_knowndrugs'}
           filters
         />
       </React.Fragment>
