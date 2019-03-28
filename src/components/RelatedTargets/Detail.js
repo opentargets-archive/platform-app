@@ -94,11 +94,11 @@ const columns = symbol => [
   },
   {
     id: 'diseaseCountANotB',
-    label: `Number of diseases associated with ${symbol} but not the related target`,
+    label: `Diseases associated with the related target but not ${symbol}`,
   },
   {
     id: 'diseaseCountBNotA',
-    label: `Number of diseases associated with the related target but not ${symbol}`,
+    label: `Diseases associated with ${symbol} but not the related target`,
   },
 ];
 
