@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -78,6 +78,12 @@ const columns = symbol => [
         {d.B.symbol}
       </Link>
     ),
+    comparator: (a, b) => {
+      if (a.B.symbol <= b.B.symbol) {
+        return -1;
+      }
+      return 1;
+    },
   },
   {
     id: 'diseaseCountAAndB',
@@ -110,14 +116,12 @@ const RelatedTargetsDetail = ({ ensgId, symbol, sources }) => {
         }));
 
         return (
-          <Fragment>
-            <OtTableRF
-              loading={loading}
-              error={error}
-              columns={columns(symbol)}
-              data={rowsMapped}
-            />
-          </Fragment>
+          <OtTableRF
+            loading={loading}
+            error={error}
+            columns={columns(symbol)}
+            data={rowsMapped}
+          />
         );
       }}
     </Query>
