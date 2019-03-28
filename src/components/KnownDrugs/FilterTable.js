@@ -194,6 +194,9 @@ const styles = theme => ({
   countLabelDisease: {
     backgroundColor: DC_COLORS.ORANGE,
   },
+  countLabelTrials: {
+    backgroundColor: DC_COLORS.BLUE_BRAND,
+  },
 });
 
 class KnownDrugsDetail extends React.Component {
@@ -241,19 +244,29 @@ class KnownDrugsDetail extends React.Component {
   setupGroups = () => {
     const drugAccessor = d => d.drug.name;
     this.drugCount = this.reduceGroup(this.drugsxf.groupAll(), drugAccessor);
+
     this.targetCount = this.reduceGroup(
       this.drugsxf.groupAll(),
       d => d.target.id
     );
+
     this.diseaseCount = this.reduceGroup(
       this.drugsxf.groupAll(),
       d => d.disease.id
     );
+
+    this.trialCount = this.reduceGroup(
+      this.drugsxf.groupAll(),
+      d => d.clinicalTrial.sourceUrl
+    );
+
     this.groupTrialByPhase = this.reduceGroup(
       this.dimPhase.group(),
       d => d.clinicalTrial.sourceUrl
     );
+
     this.groupDrugByType = this.reduceGroup(this.dimType.group(), drugAccessor);
+
     this.groupDrugByActivity = this.reduceGroup(
       this.dimActivity.group(),
       drugAccessor
@@ -265,6 +278,7 @@ class KnownDrugsDetail extends React.Component {
     this.drugCountLabel = dc.numberDisplay('#unique-drugs-count');
     this.targetsCountLabel = dc.numberDisplay('#associated-targets-count');
     this.diseasesCountLabel = dc.numberDisplay('#associated-diseases-count');
+    this.trialsCountLabel = dc.numberDisplay('#clinical-trials-count');
 
     this.chartTrialByPhase = dc.barChart('#dc-trial-by-phase-chart');
     this.chartDrugByType = dc.pieChart('#dc-drug-by-type-chart');
@@ -283,6 +297,11 @@ class KnownDrugsDetail extends React.Component {
 
     this.diseasesCountLabel
       .group(this.diseaseCount)
+      .formatNumber(d3.format('d'))
+      .valueAccessor(d => Object.keys(d).length);
+
+    this.trialsCountLabel
+      .group(this.trialCount)
       .formatNumber(d3.format('d'))
       .valueAccessor(d => Object.keys(d).length);
 
@@ -486,6 +505,16 @@ class KnownDrugsDetail extends React.Component {
                 )}
               />{' '}
               associated diseases
+            </p>
+            <p>
+              <span
+                id="clinical-trials-count"
+                className={classNames(
+                  classes.countLabel,
+                  classes.countLabelTrials
+                )}
+              />{' '}
+              clinical trials
             </p>
             <div className="clearfix" />
           </div>

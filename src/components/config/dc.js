@@ -10,4 +10,5 @@ export const DC_COLORS = {
   GREEN: '#38954C',
   ORANGE: '#d36141',
   WHITE: '#FFF',
+  BLUE_BRAND: '#3489ca',
 };
