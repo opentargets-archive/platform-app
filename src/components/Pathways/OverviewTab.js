@@ -7,6 +7,12 @@ import classNames from 'classnames';
 import { DataDownloader, OtTableRF } from 'ot-ui';
 
 const styles = () => ({
+  panelTitle: {
+    marginTop: '10px',
+  },
+  topLevel: {
+    marginTop: '10px',
+  },
   topLevelPathwayContainer: {
     border: '1px solid black',
     textAlign: 'center',
@@ -95,7 +101,15 @@ const OverviewTab = ({
   lowLevelPathways,
 }) => (
   <React.Fragment>
-    <Grid container alignItems="stretch" spacing={8}>
+    <Typography className={classes.panelTitle} variant="h6">
+      Top-level parent pathways
+    </Typography>
+    <Grid
+      container
+      alignItems="stretch"
+      spacing={8}
+      className={classes.topLevel}
+    >
       {topLevelPathways.map(d => (
         <Grid item xs={4} md={2} key={d.id}>
           <div
