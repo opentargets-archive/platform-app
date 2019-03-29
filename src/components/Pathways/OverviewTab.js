@@ -32,7 +32,7 @@ const columns = [
   { id: 'name', label: 'Pathway' },
   {
     id: 'id',
-    label: 'Reactome ID',
+    label: 'Pathway ID',
     renderCell: d => (
       <a
         target="_blank"
@@ -45,7 +45,7 @@ const columns = [
   },
   {
     id: 'parents',
-    label: 'Top-level pathway',
+    label: 'Top-level parent pathway',
     renderCell: d => (
       <React.Fragment>
         {d.parents.map((p, i) => (
