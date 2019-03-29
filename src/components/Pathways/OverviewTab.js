@@ -14,8 +14,11 @@ const styles = () => ({
     marginTop: '10px',
   },
   topLevelPathwayContainer: {
-    border: '1px solid black',
+    display: 'flex',
+    alignItems: 'center',
     textAlign: 'center',
+    justifyContent: 'center',
+    border: '1px solid black',
     minHeight: '1.8rem',
     height: '100%',
   },
@@ -112,13 +115,13 @@ const OverviewTab = ({
     >
       {topLevelPathways.map(d => (
         <Grid item xs={4} md={2} key={d.id}>
-          <div
+          <Typography
             className={classNames(classes.topLevelPathwayContainer, {
               [classes.topLevelPathwayContainerHighlight]: d.isAssociated,
             })}
           >
-            <Typography color="inherit">{d.name}</Typography>
-          </div>
+            {d.name}
+          </Typography>
         </Grid>
       ))}
     </Grid>
