@@ -11,4 +11,5 @@ export const DC_COLORS = {
   ORANGE: '#d36141',
   WHITE: '#FFF',
   BLUE_BRAND: '#3489ca',
+  LIGHT_PURPLE: '#954788',
 };
