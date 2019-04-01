@@ -4,6 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
 import dc from 'dc';
 import * as d3 from 'd3';
+import { lighten } from 'polished';
 
 import DCContainer from '../DCContainer';
 import { OtTableRF, DataDownloader } from 'ot-ui';
@@ -199,6 +200,15 @@ const styles = theme => ({
   },
 });
 
+// Get the colours for pie chart slices.
+// Ideally this kinda thing will be replaced by a d3 scale of some sort?
+const getPieColors = items => {
+  return items.reduce((acc, item, i) => {
+    acc[item] = lighten(0.1 * i, DC_COLORS.LIGHT_PURPLE);
+    return acc;
+  }, {});
+};
+
 class KnownDrugsDetail extends React.Component {
   state = {
     filteredRows: [],
@@ -338,8 +348,8 @@ class KnownDrugsDetail extends React.Component {
             .capitalize()
             .replace(/_/g, ' ')} (${Object.keys(d.value).length})`
       )
-      .colorAccessor(d => d.key)
-      .colors([DC_COLORS.GREY]);
+      // .colorAccessor(d => d.key)
+      .colors(k => this.typeColors[k]);
 
     // activity
     this.chartDrugByActivity
@@ -356,8 +366,8 @@ class KnownDrugsDetail extends React.Component {
             .capitalize()
             .replace(/_/g, ' ')} (${Object.keys(d.value).length})`
       )
-      .colorAccessor(d => d.key)
-      .colors([DC_COLORS.GREY]);
+      // .colorAccessor(d => d.value.length)
+      .colors(k => this.activityColors[k]);
 
     dc.renderAll();
 
@@ -380,7 +390,14 @@ class KnownDrugsDetail extends React.Component {
     this.chartDrugByType.redraw();
     this.chartDrugByActivity.redraw();
   };
+
   componentDidMount() {
+    this.typeColors = getPieColors(
+      _.uniq(this.props.rows.map(row => row.drug.type))
+    );
+    this.activityColors = getPieColors(
+      _.uniq(this.props.rows.map(row => row.drug.activity))
+    );
     this.setupGroups();
     this.setupCharts();
   }
