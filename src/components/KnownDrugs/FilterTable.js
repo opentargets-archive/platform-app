@@ -16,6 +16,7 @@ import {
 import { generateComparatorFromAccessor } from '../../utils/comparators';
 import * as dcconfig from '../config/dc.js';
 import _ from 'lodash';
+import { Grid } from '@material-ui/core';
 
 // Get list of options (i.e. drop-down content) for a column filter
 // render formats the label (similar to renderCell for cells content)
@@ -169,12 +170,15 @@ const styles = theme => ({
     margin: '0 auto',
   },
   dcChartContainer: {
-    padding: '8px',
+    padding: '8px', // this could perhaps be removed, and just use the Grid container
     marginTop: '20px',
+    maxWidth: '1200px',
+    width: '100%',
   },
   dcChartSection: {
-    float: 'left',
-    margin: '20px 20px 0 0',
+    minWidth: DC_PIE_WIDTH + 20 + 'px',
+    // maxWidth: '320px',
+    width: '25%',
   },
   countLabel: {
     fontWeight: 'bold',
@@ -490,8 +494,8 @@ class KnownDrugsDetail extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={classes.dcChartContainer}>
-          <div className={classes.dcChartSection}>
+        <Grid container spacing={24} className={classes.dcChartContainer}>
+          <Grid item className={classes.dcChartSection}>
             <strong>Summary</strong>
             <p>
               <span
@@ -533,28 +537,27 @@ class KnownDrugsDetail extends React.Component {
               />{' '}
               clinical trials
             </p>
-            <div className="clearfix" />
-          </div>
+          </Grid>
 
-          <div className={classes.dcChartSection}>
+          <Grid item className={classes.dcChartSection}>
             <DCContainer
               id="dc-trial-by-phase-chart"
               title="Clinical trials by phase"
             />
-          </div>
-          <div className={classes.dcChartSection}>
+          </Grid>
+          <Grid item className={classes.dcChartSection}>
             <DCContainer
               id="dc-drug-by-type-chart"
               title="Unique drugs by type"
             />
-          </div>
-          <div className={classes.dcChartSection}>
+          </Grid>
+          <Grid item className={classes.dcChartSection}>
             <DCContainer
               id="dc-drug-by-activity-chart"
               title="Unique drugs by activity"
             />
-          </div>
-        </div>
+          </Grid>
+        </Grid>
         <DataDownloader
           tableHeaders={getColumns({})}
           rows={filteredRows}
