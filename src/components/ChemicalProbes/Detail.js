@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Typography from '@material-ui/core/Typography';
 
-import { OtTable } from 'ot-ui';
+import { OtTableRF, DataDownloader } from 'ot-ui';
 
 const query = gql`
   query ChemicalProbesQuery($ensgId: String!) {
@@ -46,6 +46,7 @@ const columns = [
         ))}
       </React.Fragment>
     ),
+    export: rowData => rowData.sources.map(d => d.url).join(', '),
   },
   {
     id: 'note',
@@ -64,12 +65,14 @@ const ChemicalProbesDetail = ({ ensgId, symbol, sources }) => {
           return (
             <React.Fragment>
               {rows.length > 0 ? (
-                <OtTable
-                  loading={loading}
-                  error={error}
-                  columns={columns}
-                  data={rows}
-                />
+                <React.Fragment>
+                  <DataDownloader
+                    tableHeaders={columns}
+                    rows={rows}
+                    fileStem={`${symbol}-chemical-probes`}
+                  />
+                  <OtTableRF columns={columns} data={rows} />
+                </React.Fragment>
               ) : null}
 
               {probeMinerUrl ? (
