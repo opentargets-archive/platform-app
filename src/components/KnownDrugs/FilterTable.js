@@ -182,13 +182,14 @@ const styles = theme => ({
   },
   countLabel: {
     fontWeight: 'bold',
-    padding: '8px 0px',
+    padding: '9px 0px',
     borderRadius: '50%',
     color: DC_COLORS.WHITE,
     width: `${DC_COUNTLABEL_SIZE}px`,
     height: `${DC_COUNTLABEL_SIZE}px`,
     display: 'inline-block',
     textAlign: 'center',
+    fontSize: '0.9em',
   },
   countLabelDrug: {
     backgroundColor: DC_COLORS.GREEN,
