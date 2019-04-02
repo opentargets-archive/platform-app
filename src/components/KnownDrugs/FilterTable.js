@@ -571,6 +571,12 @@ class KnownDrugsDetail extends React.Component {
           columns={getColumns({ filters: colFilters })}
           data={filteredRows}
           filters
+          headerGroups={[
+            { colspan: 1, label: '' },
+            { colspan: 3, label: 'Trial information' },
+            { colspan: 4, label: 'Drug information' },
+          ]}
+          bob
         />
       </React.Fragment>
     );
