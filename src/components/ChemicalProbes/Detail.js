@@ -78,7 +78,7 @@ const ChemicalProbesDetail = ({ ensgId, symbol, sources }) => {
               {probeMinerUrl ? (
                 <React.Fragment>
                   <Typography>
-                    Further chemical probes available from{' '}
+                    Potential chemical probes can be explored with{' '}
                     <a
                       href={probeMinerUrl}
                       target="_blank"
