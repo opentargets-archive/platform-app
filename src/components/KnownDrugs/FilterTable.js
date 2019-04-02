@@ -576,7 +576,6 @@ class KnownDrugsDetail extends React.Component {
             { colspan: 3, label: 'Trial information' },
             { colspan: 4, label: 'Drug information' },
           ]}
-          bob
         />
       </React.Fragment>
     );
