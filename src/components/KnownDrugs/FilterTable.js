@@ -124,13 +124,13 @@ const getColumns = ({ filters }) => {
       comparator: generateComparatorFromAccessor(d => d.drug.activity),
       export: d => d.drug.activity,
     },
-    {
-      id: 'target',
-      label: 'Target',
-      renderCell: d => d.target.symbol,
-      comparator: generateComparatorFromAccessor(d => d.target.symbol),
-      export: d => d.target.symbol,
-    },
+    // {
+    //   id: 'target',
+    //   label: 'Target',
+    //   renderCell: d => d.target.symbol,
+    //   comparator: generateComparatorFromAccessor(d => d.target.symbol),
+    //   export: d => d.target.symbol,
+    // },
   ];
 
   // setup column filters (if any) for each col required
