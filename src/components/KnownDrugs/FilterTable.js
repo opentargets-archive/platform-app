@@ -539,7 +539,10 @@ class KnownDrugsDetail extends React.Component {
             </p>
           </Grid>
 
-          <Grid item className={classes.dcChartSection}>
+          <Grid
+            item
+            className={classNames(classes.dcChartSection, 'dcChartOverflow')}
+          >
             <DCContainer
               id="dc-trial-by-phase-chart"
               title="Clinical trials by phase"
