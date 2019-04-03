@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Typography from '@material-ui/core/Typography';
@@ -65,11 +65,16 @@ class ProteinInformationModal extends React.Component {
     this.setState({ value });
   };
 
+  makePmidLink = match => {
+    var id = match.substring(7);
+    return `PMID: <a href="https://europepmc.org/abstract/med/${id}" target="_blank">${id}</a>`;
+  };
+
   render() {
     const { classes, ensgId } = this.props;
     const { value } = this.state;
     return (
-      <React.Fragment>
+      <Fragment>
         <Query query={query} variables={{ ensgId }}>
           {({ loading, error, data }) => {
             if (loading || error) return null;
@@ -94,7 +99,7 @@ class ProteinInformationModal extends React.Component {
             }, {});
 
             return (
-              <React.Fragment>
+              <Fragment>
                 <Tabs
                   value={value}
                   onChange={this.handleChange}
@@ -143,11 +148,19 @@ class ProteinInformationModal extends React.Component {
                   {value === 'subUnit' ? (
                     <div>
                       <ul>
-                        {subUnit.map((d, i) => (
-                          <li key={i}>
-                            <Typography>{d}</Typography>
-                          </li>
-                        ))}
+                        {subUnit.map((d, i) => {
+                          const desc = {
+                            __html: d.replace(
+                              /Pubmed:\d+/gi,
+                              this.makePmidLink
+                            ),
+                          };
+                          return (
+                            <li key={i}>
+                              <Typography dangerouslySetInnerHTML={desc} />
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                   ) : null}
@@ -160,7 +173,7 @@ class ProteinInformationModal extends React.Component {
                             <Typography variant="h6">{c}</Typography>
                             <Typography>
                               {keywordsGrouped[c].map((d, i) => (
-                                <React.Fragment key={d.id}>
+                                <Fragment key={d.id}>
                                   {i > 0 ? ' | ' : null}
 
                                   <a
@@ -172,7 +185,7 @@ class ProteinInformationModal extends React.Component {
                                   >
                                     {d.name}
                                   </a>
-                                </React.Fragment>
+                                </Fragment>
                               ))}
                             </Typography>
                           </div>
@@ -180,11 +193,11 @@ class ProteinInformationModal extends React.Component {
                     </div>
                   ) : null}
                 </div>
-              </React.Fragment>
+              </Fragment>
             );
           }}
         </Query>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
