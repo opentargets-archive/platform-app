@@ -2,8 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Typography from '@material-ui/core/Typography';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { Tabs, Tab } from 'ot-ui';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import Structure from './Structure';
