@@ -51,6 +51,9 @@ const styles = () => ({
   keywordCategory: {
     paddingBottom: '0.8rem',
   },
+  tabPanel: {
+    marginTop: '20px',
+  },
 });
 
 class ProteinInformationModal extends React.Component {
@@ -107,72 +110,76 @@ class ProteinInformationModal extends React.Component {
                   <Tab value="subUnit" label="Subunit data" />
                   <Tab value="keywords" label="UniProt keywords" />
                 </Tabs>
-                {value === 'sequenceAnnotation' ? (
-                  <ProtVistaRenderer uniprotId={uniprotId} />
-                ) : null}
-                {value === 'structure' ? (
-                  <Structure
-                    {...{ pdbId, pdbs, structuralFeatures, sequenceLength }}
-                  />
-                ) : null}
-                {value === 'subCellularLocation' ? (
-                  <div>
-                    <ul>
-                      {subCellularLocations.map((d, i) => (
-                        <li key={i}>
-                          <Typography>
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href={`https://www.uniprot.org/locations/${d.id}`}
-                            >
-                              {d.name}
-                            </a>
-                          </Typography>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-                {value === 'subUnit' ? (
-                  <div>
-                    <ul>
-                      {subUnit.map((d, i) => (
-                        <li key={i}>
-                          <Typography>{d}</Typography>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-                {value === 'keywords' ? (
-                  <div>
-                    {Object.keys(keywordsGrouped)
-                      .sort()
-                      .map(c => (
-                        <div key={c} className={classes.keywordCategory}>
-                          <Typography variant="h6">{c}</Typography>
-                          <Typography>
-                            {keywordsGrouped[c].map((d, i) => (
-                              <React.Fragment key={d.id}>
-                                {i > 0 ? ' | ' : null}
+                <div className={classes.tabPanel}>
+                  {value === 'sequenceAnnotation' ? (
+                    <ProtVistaRenderer uniprotId={uniprotId} />
+                  ) : null}
+                  {value === 'structure' ? (
+                    <Structure
+                      {...{ pdbId, pdbs, structuralFeatures, sequenceLength }}
+                    />
+                  ) : null}
+                  {value === 'subCellularLocation' ? (
+                    <div>
+                      <ul>
+                        {subCellularLocations.map((d, i) => (
+                          <li key={i}>
+                            <Typography>
+                              <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`https://www.uniprot.org/locations/${
+                                  d.id
+                                }`}
+                              >
+                                {d.name}
+                              </a>
+                            </Typography>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                  {value === 'subUnit' ? (
+                    <div>
+                      <ul>
+                        {subUnit.map((d, i) => (
+                          <li key={i}>
+                            <Typography>{d}</Typography>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                  {value === 'keywords' ? (
+                    <div>
+                      {Object.keys(keywordsGrouped)
+                        .sort()
+                        .map(c => (
+                          <div key={c} className={classes.keywordCategory}>
+                            <Typography variant="h6">{c}</Typography>
+                            <Typography>
+                              {keywordsGrouped[c].map((d, i) => (
+                                <React.Fragment key={d.id}>
+                                  {i > 0 ? ' | ' : null}
 
-                                <a
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  href={`https://www.uniprot.org/locations/${
-                                    d.id
-                                  }`}
-                                >
-                                  {d.name}
-                                </a>
-                              </React.Fragment>
-                            ))}
-                          </Typography>
-                        </div>
-                      ))}
-                  </div>
-                ) : null}
+                                  <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href={`https://www.uniprot.org/locations/${
+                                      d.id
+                                    }`}
+                                  >
+                                    {d.name}
+                                  </a>
+                                </React.Fragment>
+                              ))}
+                            </Typography>
+                          </div>
+                        ))}
+                    </div>
+                  ) : null}
+                </div>
               </React.Fragment>
             );
           }}
