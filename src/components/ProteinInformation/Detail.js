@@ -166,7 +166,7 @@ class ProteinInformationModal extends React.Component {
                                   <a
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    href={`https://www.uniprot.org/locations/${
+                                    href={`https://www.uniprot.org/keywords/${
                                       d.id
                                     }`}
                                   >
