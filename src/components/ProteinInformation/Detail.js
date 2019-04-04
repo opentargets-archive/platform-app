@@ -149,15 +149,20 @@ class ProteinInformationModal extends React.Component {
                     <div>
                       <ul>
                         {subUnit.map((d, i) => {
-                          const desc = {
-                            __html: d.replace(
-                              /Pubmed:\d+/gi,
-                              this.makePmidLink
-                            ),
-                          };
+                          // replace PMIDs and 'by similarity' with appropriate links
+                          const desc = d
+                            .replace(/Pubmed:\d+/gi, this.makePmidLink)
+                            .replace(
+                              /\(By similarity\)/gi,
+                              match =>
+                                `(<a href='https://www.uniprot.org/uniprot/${uniprotId}#interaction' target="_blank" rel="noopener noreferrer">By similarity</a>)`
+                            );
+
                           return (
                             <li key={i}>
-                              <Typography dangerouslySetInnerHTML={desc} />
+                              <Typography
+                                dangerouslySetInnerHTML={{ __html: desc }}
+                              />
                             </li>
                           );
                         })}
