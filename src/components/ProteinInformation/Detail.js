@@ -74,135 +74,131 @@ class ProteinInformationModal extends React.Component {
     const { classes, ensgId } = this.props;
     const { value } = this.state;
     return (
-      <Fragment>
-        <Query query={query} variables={{ ensgId }}>
-          {({ loading, error, data }) => {
-            if (loading || error) return null;
+      <Query query={query} variables={{ ensgId }}>
+        {({ loading, error, data }) => {
+          if (loading || error) return null;
 
-            const {
-              uniprotId,
-              pdbId,
-              pdbs,
-              keywords,
-              subCellularLocations,
-              subUnit,
-              structuralFeatures,
-              sequenceLength,
-            } = data.target.details.protein;
+          const {
+            uniprotId,
+            pdbId,
+            pdbs,
+            keywords,
+            subCellularLocations,
+            subUnit,
+            structuralFeatures,
+            sequenceLength,
+          } = data.target.details.protein;
 
-            const keywordsGrouped = keywords.reduce((acc, d) => {
-              if (!acc[d.category]) {
-                acc[d.category] = [];
-              }
-              acc[d.category].push(d);
-              return acc;
-            }, {});
+          const keywordsGrouped = keywords.reduce((acc, d) => {
+            if (!acc[d.category]) {
+              acc[d.category] = [];
+            }
+            acc[d.category].push(d);
+            return acc;
+          }, {});
 
-            return (
-              <Fragment>
-                <Tabs
-                  value={value}
-                  onChange={this.handleChange}
-                  variant="scrollable"
-                  scrollButtons="auto"
-                >
-                  <Tab value="sequenceAnnotation" label="Sequence annotation" />
-                  <Tab value="structure" label="Structure" />
-                  <Tab
-                    value="subCellularLocation"
-                    label="Sub-cellular location"
+          return (
+            <Fragment>
+              <Tabs
+                value={value}
+                onChange={this.handleChange}
+                variant="scrollable"
+                scrollButtons="auto"
+              >
+                <Tab value="sequenceAnnotation" label="Sequence annotation" />
+                <Tab value="structure" label="Structure" />
+                <Tab
+                  value="subCellularLocation"
+                  label="Sub-cellular location"
+                />
+                <Tab value="subUnit" label="Subunit data" />
+                <Tab value="keywords" label="UniProt keywords" />
+              </Tabs>
+              <div className={classes.tabPanel}>
+                {value === 'sequenceAnnotation' ? (
+                  <ProtVistaRenderer uniprotId={uniprotId} />
+                ) : null}
+                {value === 'structure' ? (
+                  <Structure
+                    {...{ pdbId, pdbs, structuralFeatures, sequenceLength }}
                   />
-                  <Tab value="subUnit" label="Subunit data" />
-                  <Tab value="keywords" label="UniProt keywords" />
-                </Tabs>
-                <div className={classes.tabPanel}>
-                  {value === 'sequenceAnnotation' ? (
-                    <ProtVistaRenderer uniprotId={uniprotId} />
-                  ) : null}
-                  {value === 'structure' ? (
-                    <Structure
-                      {...{ pdbId, pdbs, structuralFeatures, sequenceLength }}
-                    />
-                  ) : null}
-                  {value === 'subCellularLocation' ? (
-                    <div>
-                      <ul>
-                        {subCellularLocations.map((d, i) => (
-                          <li key={i}>
-                            <Typography>
-                              <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href={`https://www.uniprot.org/locations/${
-                                  d.id
-                                }`}
-                              >
-                                {d.name}
-                              </a>
-                            </Typography>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
-                  {value === 'subUnit' ? (
-                    <div>
-                      <ul>
-                        {subUnit.map((d, i) => {
-                          // replace PMIDs and 'by similarity' with appropriate links
-                          const desc = d
-                            .replace(/Pubmed:\d+/gi, this.makePmidLink)
-                            .replace(
-                              /\(By similarity\)/gi,
-                              match =>
-                                `(<a href='https://www.uniprot.org/uniprot/${uniprotId}#interaction' target="_blank" rel="noopener noreferrer">By similarity</a>)`
-                            );
-
-                          return (
-                            <li key={i}>
-                              <Typography
-                                dangerouslySetInnerHTML={{ __html: desc }}
-                              />
-                            </li>
+                ) : null}
+                {value === 'subCellularLocation' ? (
+                  <div>
+                    <ul>
+                      {subCellularLocations.map((d, i) => (
+                        <li key={i}>
+                          <Typography>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`https://www.uniprot.org/locations/${d.id}`}
+                            >
+                              {d.name}
+                            </a>
+                          </Typography>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                {value === 'subUnit' ? (
+                  <div>
+                    <ul>
+                      {subUnit.map((d, i) => {
+                        // replace PMIDs and 'by similarity' with appropriate links
+                        const desc = d
+                          .replace(/Pubmed:\d+/gi, this.makePmidLink)
+                          .replace(
+                            /\(By similarity\)/gi,
+                            match =>
+                              `(<a href='https://www.uniprot.org/uniprot/${uniprotId}#interaction' target="_blank" rel="noopener noreferrer">By similarity</a>)`
                           );
-                        })}
-                      </ul>
-                    </div>
-                  ) : null}
-                  {value === 'keywords' ? (
-                    <div>
-                      {Object.keys(keywordsGrouped)
-                        .sort()
-                        .map(c => (
-                          <div key={c} className={classes.keywordCategory}>
-                            <Typography variant="h6">{c}</Typography>
-                            <Typography>
-                              {keywordsGrouped[c].map((d, i) => (
-                                <Fragment key={d.id}>
-                                  {i > 0 ? ' | ' : null}
 
-                                  <a
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    href={`https://www.uniprot.org/keywords/${
-                                      d.id
-                                    }`}
-                                  >
-                                    {d.name}
-                                  </a>
-                                </Fragment>
-                              ))}
-                            </Typography>
-                          </div>
-                        ))}
-                    </div>
-                  ) : null}
-                </div>
-              </Fragment>
-            );
-          }}
-        </Query>
-      </Fragment>
+                        return (
+                          <li key={i}>
+                            <Typography
+                              dangerouslySetInnerHTML={{ __html: desc }}
+                            />
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : null}
+                {value === 'keywords' ? (
+                  <div>
+                    {Object.keys(keywordsGrouped)
+                      .sort()
+                      .map(c => (
+                        <div key={c} className={classes.keywordCategory}>
+                          <Typography variant="h6">{c}</Typography>
+                          <Typography>
+                            {keywordsGrouped[c].map((d, i) => (
+                              <Fragment key={d.id}>
+                                {i > 0 ? ' | ' : null}
+
+                                <a
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  href={`https://www.uniprot.org/keywords/${
+                                    d.id
+                                  }`}
+                                >
+                                  {d.name}
+                                </a>
+                              </Fragment>
+                            ))}
+                          </Typography>
+                        </div>
+                      ))}
+                  </div>
+                ) : null}
+              </div>
+            </Fragment>
+          );
+        }}
+      </Query>
     );
   }
 }
