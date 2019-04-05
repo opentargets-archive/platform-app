@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ReactomeRenderer from './ReactomeRenderer';
+import { Button } from 'ot-ui';
 
 class BrowserTab extends React.Component {
   state = {};
@@ -20,14 +21,15 @@ class BrowserTab extends React.Component {
           {lowLevelPathways.map(d => (
             <li key={d.id}>
               {d.id === reactomeId ? <strong>{d.name}</strong> : d.name} |{' '}
-              <a
-                href="#"
+              <Button
                 onClick={() => {
                   this.handleChange(d.id);
                 }}
+                size="small"
+                disableRipple
               >
-                View
-              </a>
+                View in browser below
+              </Button>
             </li>
           ))}
         </ul>
