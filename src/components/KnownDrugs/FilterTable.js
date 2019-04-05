@@ -7,7 +7,7 @@ import * as d3 from 'd3';
 import { lighten } from 'polished';
 
 import DCContainer from '../DCContainer';
-import { OtTableRF, DataDownloader } from 'ot-ui';
+import { OtTableRF, DataDownloader, PALETTE } from 'ot-ui';
 import classNames from 'classnames';
 import {
   upReducerKeyCount,
@@ -158,7 +158,6 @@ const {
   DC_PIE_WIDTH,
   DC_PIE_HEIGHT,
   DC_COUNTLABEL_SIZE,
-  DC_COLORS,
 } = dcconfig;
 
 const styles = theme => ({
@@ -184,7 +183,7 @@ const styles = theme => ({
     fontWeight: 'bold',
     padding: '9px 0px',
     borderRadius: '50%',
-    color: DC_COLORS.WHITE,
+    color: '#FFF',
     width: `${DC_COUNTLABEL_SIZE}px`,
     height: `${DC_COUNTLABEL_SIZE}px`,
     display: 'inline-block',
@@ -192,16 +191,16 @@ const styles = theme => ({
     fontSize: '0.9em',
   },
   countLabelDrug: {
-    backgroundColor: DC_COLORS.GREEN,
+    backgroundColor: PALETTE.green,
   },
   countLabelTarget: {
-    backgroundColor: DC_COLORS.PURPLE,
+    backgroundColor: PALETTE.purple,
   },
   countLabelDisease: {
-    backgroundColor: DC_COLORS.ORANGE,
+    backgroundColor: PALETTE.orange,
   },
   countLabelTrials: {
-    backgroundColor: DC_COLORS.BLUE_BRAND,
+    backgroundColor: PALETTE.blue,
   },
 });
 
@@ -209,7 +208,7 @@ const styles = theme => ({
 // Ideally this kinda thing will be replaced by a d3 scale of some sort?
 const getPieColors = items => {
   return items.reduce((acc, item, i) => {
-    acc[item] = lighten(0.1 * i, DC_COLORS.LIGHT_PURPLE);
+    acc[item] = lighten(0.1 * i, PALETTE.lightpurple);
     return acc;
   }, {});
 };
@@ -330,7 +329,7 @@ class KnownDrugsDetail extends React.Component {
       .group(this.groupTrialByPhase)
       .dimension(this.dimPhase)
       .title(d => `Phase ${d.key}: ${Object.keys(d.value).length}`)
-      .colors([DC_COLORS.PURPLE])
+      .colors([PALETTE.purple])
       .elasticX(true)
       .x(d3.scaleBand())
       .xUnits(dc.units.ordinal)
