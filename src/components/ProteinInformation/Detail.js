@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Typography from '@material-ui/core/Typography';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { Tabs, Tab } from 'ot-ui';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import Structure from './Structure';
@@ -52,6 +51,9 @@ const styles = () => ({
   keywordCategory: {
     paddingBottom: '0.8rem',
   },
+  tabPanel: {
+    marginTop: '20px',
+  },
 });
 
 class ProteinInformationModal extends React.Component {
@@ -63,51 +65,56 @@ class ProteinInformationModal extends React.Component {
     this.setState({ value });
   };
 
+  makePmidLink = match => {
+    var id = match.substring(7);
+    return `PMID: <a href="https://europepmc.org/abstract/med/${id}" target="_blank">${id}</a>`;
+  };
+
   render() {
     const { classes, ensgId } = this.props;
     const { value } = this.state;
     return (
-      <React.Fragment>
-        <Query query={query} variables={{ ensgId }}>
-          {({ loading, error, data }) => {
-            if (loading || error) return null;
+      <Query query={query} variables={{ ensgId }}>
+        {({ loading, error, data }) => {
+          if (loading || error) return null;
 
-            const {
-              uniprotId,
-              pdbId,
-              pdbs,
-              keywords,
-              subCellularLocations,
-              subUnit,
-              structuralFeatures,
-              sequenceLength,
-            } = data.target.details.protein;
+          const {
+            uniprotId,
+            pdbId,
+            pdbs,
+            keywords,
+            subCellularLocations,
+            subUnit,
+            structuralFeatures,
+            sequenceLength,
+          } = data.target.details.protein;
 
-            const keywordsGrouped = keywords.reduce((acc, d) => {
-              if (!acc[d.category]) {
-                acc[d.category] = [];
-              }
-              acc[d.category].push(d);
-              return acc;
-            }, {});
+          const keywordsGrouped = keywords.reduce((acc, d) => {
+            if (!acc[d.category]) {
+              acc[d.category] = [];
+            }
+            acc[d.category].push(d);
+            return acc;
+          }, {});
 
-            return (
-              <React.Fragment>
-                <Tabs
-                  value={value}
-                  onChange={this.handleChange}
-                  variant="scrollable"
-                  scrollButtons="auto"
-                >
-                  <Tab value="sequenceAnnotation" label="Sequence annotation" />
-                  <Tab value="structure" label="Structure" />
-                  <Tab
-                    value="subCellularLocation"
-                    label="Sub-cellular location"
-                  />
-                  <Tab value="subUnit" label="Subunit data" />
-                  <Tab value="keywords" label="UniProt keywords" />
-                </Tabs>
+          return (
+            <Fragment>
+              <Tabs
+                value={value}
+                onChange={this.handleChange}
+                variant="scrollable"
+                scrollButtons="auto"
+              >
+                <Tab value="sequenceAnnotation" label="Sequence annotation" />
+                <Tab value="structure" label="Structure" />
+                <Tab
+                  value="subCellularLocation"
+                  label="Sub-cellular location"
+                />
+                <Tab value="subUnit" label="Subunit data" />
+                <Tab value="keywords" label="UniProt keywords" />
+              </Tabs>
+              <div className={classes.tabPanel}>
                 {value === 'sequenceAnnotation' ? (
                   <ProtVistaRenderer uniprotId={uniprotId} />
                 ) : null}
@@ -138,11 +145,24 @@ class ProteinInformationModal extends React.Component {
                 {value === 'subUnit' ? (
                   <div>
                     <ul>
-                      {subUnit.map((d, i) => (
-                        <li key={i}>
-                          <Typography>{d}</Typography>
-                        </li>
-                      ))}
+                      {subUnit.map((d, i) => {
+                        // replace PMIDs and 'by similarity' with appropriate links
+                        const desc = d
+                          .replace(/Pubmed:\d+/gi, this.makePmidLink)
+                          .replace(
+                            /\(By similarity\)/gi,
+                            match =>
+                              `(<a href='https://www.uniprot.org/uniprot/${uniprotId}#interaction' target="_blank" rel="noopener noreferrer">By similarity</a>)`
+                          );
+
+                        return (
+                          <li key={i}>
+                            <Typography
+                              dangerouslySetInnerHTML={{ __html: desc }}
+                            />
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 ) : null}
@@ -155,30 +175,30 @@ class ProteinInformationModal extends React.Component {
                           <Typography variant="h6">{c}</Typography>
                           <Typography>
                             {keywordsGrouped[c].map((d, i) => (
-                              <React.Fragment key={d.id}>
+                              <Fragment key={d.id}>
                                 {i > 0 ? ' | ' : null}
 
                                 <a
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  href={`https://www.uniprot.org/locations/${
+                                  href={`https://www.uniprot.org/keywords/${
                                     d.id
                                   }`}
                                 >
                                   {d.name}
                                 </a>
-                              </React.Fragment>
+                              </Fragment>
                             ))}
                           </Typography>
                         </div>
                       ))}
                   </div>
                 ) : null}
-              </React.Fragment>
-            );
-          }}
-        </Query>
-      </React.Fragment>
+              </div>
+            </Fragment>
+          );
+        }}
+      </Query>
     );
   }
 }

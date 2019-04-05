@@ -21,3 +21,7 @@ code {
 .dc-chart .pie-slice path {
   stroke: #afafaf;
 }
+
+.dcChartOverflow svg {
+  overflow: visible;
+}

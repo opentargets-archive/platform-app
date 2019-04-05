@@ -4,9 +4,10 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
 import dc from 'dc';
 import * as d3 from 'd3';
+import { lighten } from 'polished';
 
 import DCContainer from '../DCContainer';
-import { OtTable } from 'ot-ui';
+import { OtTableRF, DataDownloader, PALETTE } from 'ot-ui';
 import classNames from 'classnames';
 import {
   upReducerKeyCount,
@@ -15,6 +16,7 @@ import {
 import { generateComparatorFromAccessor } from '../../utils/comparators';
 import * as dcconfig from '../config/dc.js';
 import _ from 'lodash';
+import { Grid } from '@material-ui/core';
 
 // Get list of options (i.e. drop-down content) for a column filter
 // render formats the label (similar to renderCell for cells content)
@@ -31,7 +33,11 @@ const getColumns = ({ filters }) => {
     {
       id: 'disease',
       label: 'Disease',
-      renderCell: d => _.capitalize(d.disease.name),
+      renderCell: d => (
+        <a href={'/disease/' + d.disease.id} rel="noopener noreferrer">
+          {_.capitalize(d.disease.name)}
+        </a>
+      ),
       comparator: generateComparatorFromAccessor(d => d.disease.name),
       export: d => d.disease.name,
     },
@@ -72,7 +78,11 @@ const getColumns = ({ filters }) => {
     {
       id: 'drug',
       label: 'Drug',
-      renderCell: d => _.capitalize(d.drug.name),
+      renderCell: d => (
+        <a href={'/drug/' + d.drug.id} rel="noopener noreferrer">
+          {_.capitalize(d.drug.name)}
+        </a>
+      ),
       comparator: generateComparatorFromAccessor(d => d.drug.name),
       export: d => d.drug.name,
     },
@@ -114,13 +124,13 @@ const getColumns = ({ filters }) => {
       comparator: generateComparatorFromAccessor(d => d.drug.activity),
       export: d => d.drug.activity,
     },
-    {
-      id: 'target',
-      label: 'Target',
-      renderCell: d => d.target.symbol,
-      comparator: generateComparatorFromAccessor(d => d.target.symbol),
-      export: d => d.target.symbol,
-    },
+    // {
+    //   id: 'target',
+    //   label: 'Target',
+    //   renderCell: d => d.target.symbol,
+    //   comparator: generateComparatorFromAccessor(d => d.target.symbol),
+    //   export: d => d.target.symbol,
+    // },
   ];
 
   // setup column filters (if any) for each col required
@@ -148,7 +158,6 @@ const {
   DC_PIE_WIDTH,
   DC_PIE_HEIGHT,
   DC_COUNTLABEL_SIZE,
-  DC_COLORS,
 } = dcconfig;
 
 const styles = theme => ({
@@ -160,33 +169,49 @@ const styles = theme => ({
     margin: '0 auto',
   },
   dcChartContainer: {
-    padding: '8px',
+    padding: '8px', // this could perhaps be removed, and just use the Grid container
     marginTop: '20px',
+    maxWidth: '1200px',
+    width: '100%',
   },
   dcChartSection: {
-    float: 'left',
-    margin: '20px 20px 0 0',
+    minWidth: DC_PIE_WIDTH + 20 + 'px',
+    // maxWidth: '320px',
+    width: '25%',
   },
   countLabel: {
     fontWeight: 'bold',
-    padding: '8px 0px',
+    padding: '9px 0px',
     borderRadius: '50%',
-    color: DC_COLORS.WHITE,
+    color: '#FFF',
     width: `${DC_COUNTLABEL_SIZE}px`,
     height: `${DC_COUNTLABEL_SIZE}px`,
     display: 'inline-block',
     textAlign: 'center',
+    fontSize: '0.9em',
   },
   countLabelDrug: {
-    backgroundColor: DC_COLORS.GREEN,
+    backgroundColor: PALETTE.green,
   },
   countLabelTarget: {
-    backgroundColor: DC_COLORS.PURPLE,
+    backgroundColor: PALETTE.purple,
   },
   countLabelDisease: {
-    backgroundColor: DC_COLORS.ORANGE,
+    backgroundColor: PALETTE.orange,
+  },
+  countLabelTrials: {
+    backgroundColor: PALETTE.blue,
   },
 });
+
+// Get the colours for pie chart slices.
+// Ideally this kinda thing will be replaced by a d3 scale of some sort?
+const getPieColors = items => {
+  return items.reduce((acc, item, i) => {
+    acc[item] = lighten(0.1 * i, PALETTE.lightpurple);
+    return acc;
+  }, {});
+};
 
 class KnownDrugsDetail extends React.Component {
   state = {
@@ -233,19 +258,29 @@ class KnownDrugsDetail extends React.Component {
   setupGroups = () => {
     const drugAccessor = d => d.drug.name;
     this.drugCount = this.reduceGroup(this.drugsxf.groupAll(), drugAccessor);
+
     this.targetCount = this.reduceGroup(
       this.drugsxf.groupAll(),
       d => d.target.id
     );
+
     this.diseaseCount = this.reduceGroup(
       this.drugsxf.groupAll(),
       d => d.disease.id
     );
+
+    this.trialCount = this.reduceGroup(
+      this.drugsxf.groupAll(),
+      d => d.clinicalTrial.sourceUrl
+    );
+
     this.groupTrialByPhase = this.reduceGroup(
       this.dimPhase.group(),
       d => d.clinicalTrial.sourceUrl
     );
+
     this.groupDrugByType = this.reduceGroup(this.dimType.group(), drugAccessor);
+
     this.groupDrugByActivity = this.reduceGroup(
       this.dimActivity.group(),
       drugAccessor
@@ -257,6 +292,7 @@ class KnownDrugsDetail extends React.Component {
     this.drugCountLabel = dc.numberDisplay('#unique-drugs-count');
     this.targetsCountLabel = dc.numberDisplay('#associated-targets-count');
     this.diseasesCountLabel = dc.numberDisplay('#associated-diseases-count');
+    this.trialsCountLabel = dc.numberDisplay('#clinical-trials-count');
 
     this.chartTrialByPhase = dc.barChart('#dc-trial-by-phase-chart');
     this.chartDrugByType = dc.pieChart('#dc-drug-by-type-chart');
@@ -278,6 +314,11 @@ class KnownDrugsDetail extends React.Component {
       .formatNumber(d3.format('d'))
       .valueAccessor(d => Object.keys(d).length);
 
+    this.trialsCountLabel
+      .group(this.trialCount)
+      .formatNumber(d3.format('d'))
+      .valueAccessor(d => Object.keys(d).length);
+
     // phase
     this.chartTrialByPhase // barchart version
       .width(DC_PIE_WIDTH)
@@ -288,7 +329,7 @@ class KnownDrugsDetail extends React.Component {
       .group(this.groupTrialByPhase)
       .dimension(this.dimPhase)
       .title(d => `Phase ${d.key}: ${Object.keys(d.value).length}`)
-      .colors([DC_COLORS.PURPLE])
+      .colors([PALETTE.purple])
       .elasticX(true)
       .x(d3.scaleBand())
       .xUnits(dc.units.ordinal)
@@ -311,8 +352,8 @@ class KnownDrugsDetail extends React.Component {
             .capitalize()
             .replace(/_/g, ' ')} (${Object.keys(d.value).length})`
       )
-      .colorAccessor(d => d.key)
-      .colors([DC_COLORS.GREY]);
+      // .colorAccessor(d => d.key)
+      .colors(k => this.typeColors[k]);
 
     // activity
     this.chartDrugByActivity
@@ -329,8 +370,8 @@ class KnownDrugsDetail extends React.Component {
             .capitalize()
             .replace(/_/g, ' ')} (${Object.keys(d.value).length})`
       )
-      .colorAccessor(d => d.key)
-      .colors([DC_COLORS.GREY]);
+      // .colorAccessor(d => d.value.length)
+      .colors(k => this.activityColors[k]);
 
     dc.renderAll();
 
@@ -353,7 +394,14 @@ class KnownDrugsDetail extends React.Component {
     this.chartDrugByType.redraw();
     this.chartDrugByActivity.redraw();
   };
+
   componentDidMount() {
+    this.typeColors = getPieColors(
+      _.uniq(this.props.rows.map(row => row.drug.type))
+    );
+    this.activityColors = getPieColors(
+      _.uniq(this.props.rows.map(row => row.drug.activity))
+    );
     this.setupGroups();
     this.setupCharts();
   }
@@ -363,7 +411,7 @@ class KnownDrugsDetail extends React.Component {
   }
 
   render() {
-    const { classes, symbol } = this.props;
+    const { classes, symbol, rows } = this.props;
     const { filteredRows } = this.state;
     // Setup filters for the columns that require it; cols identified by ID
     // options = array of {label, value} to populate filter dropdown; handler: on-select callback
@@ -446,8 +494,8 @@ class KnownDrugsDetail extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={classes.dcChartContainer}>
-          <div className={classes.dcChartSection}>
+        <Grid container spacing={24} className={classes.dcChartContainer}>
+          <Grid item className={classes.dcChartSection}>
             <strong>Summary</strong>
             <p>
               <span
@@ -479,36 +527,54 @@ class KnownDrugsDetail extends React.Component {
               />{' '}
               associated diseases
             </p>
-            <div className="clearfix" />
-          </div>
+            <p>
+              <span
+                id="clinical-trials-count"
+                className={classNames(
+                  classes.countLabel,
+                  classes.countLabelTrials
+                )}
+              />{' '}
+              clinical trials
+            </p>
+          </Grid>
 
-          <div className={classes.dcChartSection}>
+          <Grid
+            item
+            className={classNames(classes.dcChartSection, 'dcChartOverflow')}
+          >
             <DCContainer
               id="dc-trial-by-phase-chart"
               title="Clinical trials by phase"
             />
-          </div>
-          <div className={classes.dcChartSection}>
+          </Grid>
+          <Grid item className={classes.dcChartSection}>
             <DCContainer
               id="dc-drug-by-type-chart"
               title="Unique drugs by type"
             />
-          </div>
-          <div className={classes.dcChartSection}>
+          </Grid>
+          <Grid item className={classes.dcChartSection}>
             <DCContainer
               id="dc-drug-by-activity-chart"
               title="Unique drugs by activity"
             />
-          </div>
-        </div>
-        <OtTable
-          loading={false}
-          error={null}
+          </Grid>
+        </Grid>
+        <DataDownloader
+          tableHeaders={getColumns({})}
+          rows={filteredRows}
+          fileStem={`${symbol}-knowndrugs`}
+        />
+        <OtTableRF
           columns={getColumns({ filters: colFilters })}
           data={filteredRows}
-          tableLayout="fixed"
-          downloadFileStem={symbol + '_knowndrugs'}
           filters
+          headerGroups={[
+            { colspan: 1, label: '' },
+            { colspan: 3, label: 'Trial information' },
+            { colspan: 4, label: 'Drug information' },
+          ]}
         />
       </React.Fragment>
     );
