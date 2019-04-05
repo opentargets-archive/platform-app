@@ -1,10 +1,12 @@
-import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { DataDownloader, OtTableRF } from 'ot-ui';
-import Venn from './Venn';
+import { OtTableRF, ExternalLink } from 'ot-ui';
+import Intersection from '../Intersection';
 
 const query = gql`
   query RelatedTargetsQuery($ensgId: String!) {
@@ -32,59 +34,71 @@ const query = gql`
   }
 `;
 
+const styles = () => ({
+  container: {
+    width: '204px',
+    margin: '8px 0',
+  },
+});
+
+let SharedDiseases = ({ d, classes }) => {
+  const ensemblIdRegexA = /ENSG(0)+/g;
+  ensemblIdRegexA.exec(d.A.id);
+  const compressedA = d.A.id.slice(ensemblIdRegexA.lastIndex);
+
+  const ensemblIdRegexB = /ENSG(0)+/g;
+  ensemblIdRegexB.exec(d.B.id);
+  const compressedB = d.B.id.slice(ensemblIdRegexB.lastIndex);
+
+  return (
+    <div className={classes.container}>
+      <Intersection
+        id={d.B.symbol}
+        a={d.diseaseCountANotB}
+        ab={d.diseaseCountAAndB}
+        b={d.diseaseCountBNotA}
+      />
+      <ExternalLink
+        href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
+      >
+        See all shared disease associations
+      </ExternalLink>
+    </div>
+  );
+};
+
+SharedDiseases = withStyles(styles)(SharedDiseases);
+
 const columns = symbol => [
   {
     id: 'B.symbol',
     label: 'Related target',
-    renderCell: d => <Link to={`target/${d.B.id}`}>{d.B.symbol}</Link>,
+    renderCell: d => (
+      <Link component={RouterLink} to={`../${d.B.id}`}>
+        {d.B.symbol}
+      </Link>
+    ),
+    comparator: (a, b) => {
+      if (a.B.symbol <= b.B.symbol) {
+        return -1;
+      }
+      return 1;
+    },
   },
   {
     id: 'diseaseCountAAndB',
-    label: 'Venn diagram',
-    renderCell: d => (
-      <Venn
-        sets={[
-          { sets: [d.A.symbol], size: d.diseaseCountA },
-          { sets: [d.B.symbol], size: d.diseaseCountB },
-          { sets: [d.A.symbol, d.B.symbol], size: d.diseaseCountAOrB },
-        ]}
-      />
-    ),
-  },
-  {
-    id: 'venn',
     label: 'Number of shared disease associations',
     renderCell: d => {
-      const ensemblIdRegexA = /ENSG(0)+/g;
-      ensemblIdRegexA.exec(d.A.id);
-      const compressedA = d.A.id.slice(ensemblIdRegexA.lastIndex);
-
-      const ensemblIdRegexB = /ENSG(0)+/g;
-      ensemblIdRegexB.exec(d.B.id);
-      const compressedB = d.B.id.slice(ensemblIdRegexB.lastIndex);
-
-      return (
-        <React.Fragment>
-          {d.diseaseCountAAndB}
-          <br />
-          <a
-            href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            See associated diseases
-          </a>
-        </React.Fragment>
-      );
+      return <SharedDiseases d={d} />;
     },
   },
   {
     id: 'diseaseCountANotB',
-    label: `Number of diseases associated with ${symbol} but not the related target`,
+    label: `Diseases associated with the related target but not ${symbol}`,
   },
   {
     id: 'diseaseCountBNotA',
-    label: `Number of diseases associated with the related target but not ${symbol}`,
+    label: `Diseases associated with ${symbol} but not the related target`,
   },
 ];
 
@@ -102,19 +116,12 @@ const RelatedTargetsDetail = ({ ensgId, symbol, sources }) => {
         }));
 
         return (
-          <Fragment>
-            <DataDownloader
-              tableHeaders={columns(symbol)}
-              rows={rowsMapped}
-              fileStem={`${symbol}-related-targets`}
-            />
-            <OtTableRF
-              loading={loading}
-              error={error}
-              columns={columns(symbol)}
-              data={rowsMapped}
-            />
-          </Fragment>
+          <OtTableRF
+            loading={loading}
+            error={error}
+            columns={columns(symbol)}
+            data={rowsMapped}
+          />
         );
       }}
     </Query>
