@@ -189,6 +189,17 @@ class OverviewTab extends Component {
     });
   };
 
+  parentFilterHandler = selection => {
+    const { filteredRows } = this.state;
+    this.setState({
+      filteredRows: selection
+        ? filteredRows.filter(row =>
+            row.parents.map(parent => parent.id).includes(selection.value)
+          )
+        : this.props.lowLevelPathways,
+    });
+  };
+
   render() {
     const { symbol, classes, topLevelPathways, lowLevelPathways } = this.props;
     const { filteredRows } = this.state;
