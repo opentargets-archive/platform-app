@@ -5,9 +5,10 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 import dc from 'dc';
 import { lighten } from 'polished';
+import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import { OtTableRF, DataDownloader } from 'ot-ui';
+import { OtTableRF, DataDownloader, PALETTE } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
 import {
@@ -224,7 +225,7 @@ const getDownloadRows = rows => {
 
 const getPieColors = items => {
   return items.reduce((acc, item, i) => {
-    acc[item.label] = lighten(0.1 * i, '#7b196a');
+    acc[item.label] = lighten(0.1 * i, PALETTE.lightpurple);
     return acc;
   }, {});
 };
@@ -485,39 +486,50 @@ class FilterTable extends Component {
 
     return (
       <Fragment>
-        <div className={classes.countLabelSection}>
-          <strong>Summary</strong>
-          <p>
-            <span
-              id="biomarkers-drug-count"
-              className={classNames(classes.countLabel, classes.countLabelDrug)}
-            />{' '}
-            drugs (or drug families)
-          </p>
-          <p>
-            <span
-              id="biomarkers-biomarker-count"
-              className={classNames(
-                classes.countLabel,
-                classes.countLabelBiomarker
-              )}
-            />{' '}
-            biomarkers
-          </p>
-          <p>
-            <span
-              id="biomarkers-disease-count"
-              className={classNames(
-                classes.countLabel,
-                classes.countLabelDisease
-              )}
-            />{' '}
-            diseases
-          </p>
-          <div className="clearfix" />
-        </div>
-        <DCContainer id="biomarkers-by-association" title="Association" />
-        <DCContainer id="biomarkers-by-evidence" title="Evidence" />
+        <Grid container spacing={24}>
+          <Grid item>
+            <div className={classes.countLabelSection}>
+              <strong>Summary</strong>
+              <p>
+                <span
+                  id="biomarkers-drug-count"
+                  className={classNames(
+                    classes.countLabel,
+                    classes.countLabelDrug
+                  )}
+                />{' '}
+                drugs (or drug families)
+              </p>
+              <p>
+                <span
+                  id="biomarkers-biomarker-count"
+                  className={classNames(
+                    classes.countLabel,
+                    classes.countLabelBiomarker
+                  )}
+                />{' '}
+                biomarkers
+              </p>
+              <p>
+                <span
+                  id="biomarkers-disease-count"
+                  className={classNames(
+                    classes.countLabel,
+                    classes.countLabelDisease
+                  )}
+                />{' '}
+                diseases
+              </p>
+              <div className="clearfix" />
+            </div>
+          </Grid>
+          <Grid item className="dcChartOverflow">
+            <DCContainer id="biomarkers-by-association" title="Association" />
+          </Grid>
+          <Grid className="dcChartOverflow">
+            <DCContainer id="biomarkers-by-evidence" title="Evidence" />
+          </Grid>
+        </Grid>
         <DataDownloader
           tableHeaders={getDownloadColumns()}
           rows={getDownloadRows(rows)}
