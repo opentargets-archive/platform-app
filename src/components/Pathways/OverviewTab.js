@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
 import _ from 'lodash';
+import crossfilter from 'crossfilter2';
+import Select from 'react-select';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -140,7 +141,7 @@ const getDownloadRows = rows => {
 const getPathwayOptions = pathways => {
   return pathways.map(row => ({
     label: row.name,
-    value: row.id,
+    value: row.name,
   }));
 };
 
@@ -172,33 +173,50 @@ class OverviewTab extends Component {
   };
 
   pathwayFilterHandler = selection => {
-    const { filteredRows } = this.state;
-    this.setState({
-      filteredRows: selection
-        ? filteredRows.filter(row => row.id === selection.value)
-        : this.props.lowLevelPathways,
-    });
+    const { pathwayXf, pathwayDim } = this;
+
+    if (selection) {
+      pathwayDim.filter(d => d === selection.value);
+    } else {
+      pathwayDim.filterAll();
+    }
+
+    this.setState({ filteredRows: pathwayXf.allFiltered() });
   };
 
   idFilterHandler = selection => {
-    const { filteredRows } = this.state;
-    this.setState({
-      filteredRows: selection
-        ? filteredRows.filter(row => row.id === selection.value)
-        : this.props.lowLevelPathways,
-    });
+    const { pathwayXf, idDim } = this;
+
+    if (selection) {
+      idDim.filter(d => d === selection.value);
+    } else {
+      idDim.filterAll();
+    }
+
+    this.setState({ filteredRows: pathwayXf.allFiltered() });
   };
 
   parentFilterHandler = selection => {
-    const { filteredRows } = this.state;
-    this.setState({
-      filteredRows: selection
-        ? filteredRows.filter(row =>
-            row.parents.map(parent => parent.id).includes(selection.value)
-          )
-        : this.props.lowLevelPathways,
-    });
+    const { pathwayXf, parentDim } = this;
+
+    if (selection) {
+      parentDim.filter(d => {
+        const index = d.findIndex(parent => parent.id === selection.value);
+        return index !== -1;
+      });
+    } else {
+      parentDim.filterAll();
+    }
+
+    this.setState({ filteredRows: pathwayXf.allFiltered() });
   };
+
+  componentDidMount() {
+    this.pathwayXf = crossfilter(this.props.lowLevelPathways);
+    this.pathwayDim = this.pathwayXf.dimension(row => row.name);
+    this.idDim = this.pathwayXf.dimension(row => row.id);
+    this.parentDim = this.pathwayXf.dimension(row => row.parents);
+  }
 
   render() {
     const { symbol, classes, topLevelPathways, lowLevelPathways } = this.props;
