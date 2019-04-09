@@ -38,6 +38,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
     "react-select": "^2.1.1",
+    "typeface-inter": "^3.3.0",
     "typeface-roboto": "^0.0.54",
     "venn.js": "^0.2.20"
   },
