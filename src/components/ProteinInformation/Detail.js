@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Typography from '@material-ui/core/Typography';
-import { Tabs, Tab } from 'ot-ui';
+import { Link, Tabs, Tab } from 'ot-ui';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import Structure from './Structure';
@@ -129,13 +129,12 @@ class ProteinInformationModal extends React.Component {
                       {subCellularLocations.map((d, i) => (
                         <li key={i}>
                           <Typography>
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href={`https://www.uniprot.org/locations/${d.id}`}
+                            <Link
+                              external
+                              to={`https://www.uniprot.org/locations/${d.id}`}
                             >
                               {d.name}
-                            </a>
+                            </Link>
                           </Typography>
                         </li>
                       ))}
@@ -178,15 +177,14 @@ class ProteinInformationModal extends React.Component {
                               <Fragment key={d.id}>
                                 {i > 0 ? ' | ' : null}
 
-                                <a
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  href={`https://www.uniprot.org/keywords/${
+                                <Link
+                                  external
+                                  to={`https://www.uniprot.org/keywords/${
                                     d.id
                                   }`}
                                 >
                                   {d.name}
-                                </a>
+                                </Link>
                               </Fragment>
                             ))}
                           </Typography>

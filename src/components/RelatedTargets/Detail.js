@@ -1,11 +1,9 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { OtTableRF, ExternalLink } from 'ot-ui';
+import { OtTableRF, Link } from 'ot-ui';
 import Intersection from '../Intersection';
 
 const query = gql`
@@ -58,11 +56,12 @@ let SharedDiseases = ({ d, classes }) => {
         ab={d.diseaseCountAAndB}
         b={d.diseaseCountBNotA}
       />
-      <ExternalLink
-        href={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
+      <Link
+        external
+        to={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
       >
         See all shared disease associations
-      </ExternalLink>
+      </Link>
     </div>
   );
 };
@@ -73,11 +72,7 @@ const columns = symbol => [
   {
     id: 'B.symbol',
     label: 'Related target',
-    renderCell: d => (
-      <Link component={RouterLink} to={`../${d.B.id}`}>
-        {d.B.symbol}
-      </Link>
-    ),
+    renderCell: d => <Link to={`../${d.B.id}`}>{d.B.symbol}</Link>,
     comparator: (a, b) => {
       if (a.B.symbol <= b.B.symbol) {
         return -1;

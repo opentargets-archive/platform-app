@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { OtTable } from 'ot-ui';
+import { Link, OtTable } from 'ot-ui';
 
 import LiteMolRenderer from './LiteMolRenderer';
 
@@ -13,11 +13,7 @@ const columns = (pdbId, handleChangePdbId) => [
     id: 'id',
     label: 'PDB ID',
     renderCell: d => (
-      <a
-        href={`https://www.ebi.ac.uk/pdbe/entry/pdb/${d.pdbId}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <Link external to={`https://www.ebi.ac.uk/pdbe/entry/pdb/${d.pdbId}`}>
         {d.pdbId === pdbId ? (
           <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
             {d.pdbId.toUpperCase()}
@@ -25,7 +21,7 @@ const columns = (pdbId, handleChangePdbId) => [
         ) : (
           d.pdbId.toUpperCase()
         )}
-      </a>
+      </Link>
     ),
   },
   {
@@ -53,9 +49,9 @@ const columns = (pdbId, handleChangePdbId) => [
     id: 'view',
     label: 'Display',
     renderCell: d => (
-      <a href="#" onClick={() => handleChangePdbId(d.pdbId)}>
+      <Link to="#" onClick={() => handleChangePdbId(d.pdbId)}>
         View
-      </a>
+      </Link>
     ),
   },
 ];

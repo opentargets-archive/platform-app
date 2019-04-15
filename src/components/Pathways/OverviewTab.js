@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 
-import { DataDownloader, OtTableRF } from 'ot-ui';
+import { Link, DataDownloader, OtTableRF } from 'ot-ui';
 
 const styles = () => ({
   panelTitle: {
@@ -56,13 +56,9 @@ const getColumns = (
       id: 'id',
       label: 'Pathway ID',
       renderCell: d => (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://reactome.org/content/detail/${d.id}`}
-        >
+        <Link external to={`https://reactome.org/content/detail/${d.id}`}>
           {d.id}
-        </a>
+        </Link>
       ),
       renderFilter: () => (
         <Select
@@ -100,25 +96,23 @@ const getColumns = (
       label: 'View diagram',
       renderCell: d => (
         <React.Fragment>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href={`https://reactome.org/ContentService/exporter/diagram/${
+          <Link
+            external
+            to={`https://reactome.org/ContentService/exporter/diagram/${
               d.id
             }.svg`}
           >
             SVG
-          </a>{' '}
+          </Link>{' '}
           |{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href={`https://reactome.org/ContentService/exporter/diagram/${
+          <Link
+            external
+            to={`https://reactome.org/ContentService/exporter/diagram/${
               d.id
             }.png`}
           >
             PNG
-          </a>
+          </Link>
         </React.Fragment>
       ),
     },

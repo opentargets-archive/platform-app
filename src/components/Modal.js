@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'ot-ui';
+
 import MuiModal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -57,9 +59,9 @@ const Modal = ({ classes, open, onClose, children, header }) => {
               {header.sources.map((d, i) => (
                 <React.Fragment key={d.name}>
                   {i > 0 ? ' ' : null}
-                  <a href={d.url} target="_blank" rel="noopener noreferrer">
+                  <Link external to={d.url}>
                     {d.name}
-                  </a>
+                  </Link>
                 </React.Fragment>
               ))}
             </Typography>
