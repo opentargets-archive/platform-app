@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import { ExternalLink } from 'ot-ui';
+import { Link } from 'ot-ui';
 
 import LongText from './LongText';
 import TargetIcon from '../icons/TargetIcon';
@@ -96,19 +96,19 @@ const TargetSummary = ({
             <Grid container>
               <Typography>
                 Ensembl:{' '}
-                <ExternalLink
-                  className={classes.titleLink}
-                  href={`http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`}
+                <Link
+                  external
+                  to={`http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`}
                 >
                   {ensgId}
-                </ExternalLink>{' '}
+                </Link>{' '}
                 | UniProt:{' '}
-                <ExternalLink
-                  className={classes.titleLink}
-                  href={`https://www.uniprot.org/uniprot/${uniprotId}`}
+                <Link
+                  external
+                  to={`https://www.uniprot.org/uniprot/${uniprotId}`}
                 >
                   {uniprotId}
-                </ExternalLink>
+                </Link>
               </Typography>
             </Grid>
           </Grid>

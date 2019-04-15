@@ -7,7 +7,7 @@ import * as d3 from 'd3';
 import { lighten } from 'polished';
 
 import DCContainer from '../DCContainer';
-import { OtTableRF, DataDownloader, PALETTE } from 'ot-ui';
+import { Link, OtTableRF, DataDownloader, PALETTE } from 'ot-ui';
 import classNames from 'classnames';
 import {
   upReducerKeyCount,
@@ -34,9 +34,9 @@ const getColumns = ({ filters }) => {
       id: 'disease',
       label: 'Disease',
       renderCell: d => (
-        <a href={'/disease/' + d.disease.id} rel="noopener noreferrer">
+        <Link to={'/disease/' + d.disease.id}>
           {_.capitalize(d.disease.name)}
-        </a>
+        </Link>
       ),
       comparator: generateComparatorFromAccessor(d => d.disease.name),
       export: d => d.disease.name,
@@ -62,13 +62,9 @@ const getColumns = ({ filters }) => {
       id: 'source',
       label: 'Source',
       renderCell: d => (
-        <a
-          href={d.clinicalTrial.sourceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Link external to={d.clinicalTrial.sourceUrl}>
           {d.clinicalTrial.sourceName}
-        </a>
+        </Link>
       ),
       comparator: generateComparatorFromAccessor(
         d => d.clinicalTrial.sourceName
@@ -79,9 +75,7 @@ const getColumns = ({ filters }) => {
       id: 'drug',
       label: 'Drug',
       renderCell: d => (
-        <a href={'/drug/' + d.drug.id} rel="noopener noreferrer">
-          {_.capitalize(d.drug.name)}
-        </a>
+        <Link to={'/drug/' + d.drug.id}>{_.capitalize(d.drug.name)}</Link>
       ),
       comparator: generateComparatorFromAccessor(d => d.drug.name),
       export: d => d.drug.name,
@@ -103,13 +97,9 @@ const getColumns = ({ filters }) => {
         <React.Fragment>
           {d.mechanismOfAction.name}
           <br />
-          <a
-            href={d.mechanismOfAction.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link external to={d.mechanismOfAction.sourceUrl}>
             {d.mechanismOfAction.sourceName}
-          </a>
+          </Link>
         </React.Fragment>
       ),
       comparator: generateComparatorFromAccessor(

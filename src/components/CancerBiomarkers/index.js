@@ -4,6 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import { Link } from 'ot-ui';
+
 import Widget from '../Widget';
 import CancerBiomarkersDetail from './Detail';
 import CancerBiomarkersWidgetIcon from '../../icons/CancerBiomarkersWidgetIcon';
@@ -49,14 +51,10 @@ const CancerBiomarkersWidget = ({
           <React.Fragment>
             Genomic biomarkers of drug responses, and their levels of clinical
             significance as described by{' '}
-            <a
-              href="https://europepmc.org/articles/PMC5875005"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link external to="https://europepmc.org/articles/PMC5875005">
               {' '}
               Tamborero et al. (2018)
-            </a>
+            </Link>
             . This data is manually curated by clinical and scientific
             communities in the field of precision oncology.
           </React.Fragment>

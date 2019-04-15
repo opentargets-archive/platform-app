@@ -8,7 +8,7 @@ import { lighten } from 'polished';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import { OtTableRF, DataDownloader, PALETTE } from 'ot-ui';
+import { Link, OtTableRF, DataDownloader, PALETTE } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
 import {
@@ -53,15 +53,13 @@ const getColumns = ({
       renderCell: rowData => {
         return rowData.diseases.map((disease, i) => {
           return (
-            <a
+            <Link
               key={i}
-              href={`https://www.targetvalidation.org/disease/${disease.id}`}
-              style={{ display: 'block' }}
-              target="_blank"
-              rel="noopener noreferrer"
+              external
+              to={`https://www.targetvalidation.org/disease/${disease.id}`}
             >
               {disease.name}
-            </a>
+            </Link>
           );
         });
       },
@@ -118,14 +116,9 @@ const getColumns = ({
         return (
           <Fragment>
             {rowData.sources.map((source, i) => (
-              <a
-                key={i}
-                href={source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link key={i} external to={source.url}>
                 {source.name}
-              </a>
+              </Link>
             ))}
           </Fragment>
         );
