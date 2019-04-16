@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+
+import { Tabs, Tab } from 'ot-ui';
 
 import BasePage from './BasePage';
 import TargetAssociationsPage from './TargetAssociationsPage';
