@@ -4,7 +4,7 @@ import { Page, NavBar, Footer } from 'ot-ui';
 
 import { externalLinks } from '../constants';
 
-const BasePage = ({ children, classes }) => (
+const BasePage = ({ children }) => (
   <Page
     header={<NavBar name="Platform" />}
     footer={<Footer externalLinks={externalLinks} />}
