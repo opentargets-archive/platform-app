@@ -7001,9 +7001,9 @@ osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-ot-ui@^0.0.81:
-  version "0.0.81"
-  resolved "https://registry.yarnpkg.com/ot-ui/-/ot-ui-0.0.81.tgz#f87f5c2185bc39ab7dee32fb111db2179a1e7a0d"
+ot-ui@^0.0.82:
+  version "0.0.82"
+  resolved "https://registry.yarnpkg.com/ot-ui/-/ot-ui-0.0.82.tgz#a2c8327e5da6d9a7f56f2efeef8cf65c25447a58"
 
 p-defer@^1.0.0:
   version "1.0.0"
