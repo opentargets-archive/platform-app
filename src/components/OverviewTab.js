@@ -12,6 +12,7 @@ import RelatedTargetsWidget from './RelatedTargets';
 import PathwaysWidget from './Pathways';
 import ProteinInformationWidget from './ProteinInformation';
 import CancerBiomarkersWidget from './CancerBiomarkers';
+import GeneOntologyWidget from './GeneOntology';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -83,6 +84,15 @@ const overviewQuery = gql`
             url
           }
         }
+        geneOntology {
+          molecularFunctionTermsCount
+          biologicalProcessTermsCount
+          cellularComponentTermsCount
+          sources {
+            url
+            name
+          }
+        }
       }
     }
   }
@@ -130,6 +140,7 @@ class OverviewTab extends Component {
             pathways,
             protein,
             cancerBiomarkers,
+            geneOntology,
           } = data.target.summaries;
 
           return (
@@ -188,6 +199,9 @@ class OverviewTab extends Component {
                     symbol={symbol}
                     cancerBiomarkers={cancerBiomarkers}
                   />
+                )}
+                {GeneOntologyWidget.widgetName.includes(lowerCaseTerm) && (
+                  <GeneOntologyWidget geneOntology={geneOntology} />
                 )}
               </Grid>
             </Fragment>
