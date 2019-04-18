@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -19,7 +19,7 @@ const styles = theme => ({
   },
 });
 
-const GeneOntologyWidget = ({ classes, geneOntology }) => {
+const GeneOntologyWidget = ({ classes, geneOntology, ensgId, symbol }) => {
   const {
     molecularFunctionTermsCount,
     biologicalProcessTermsCount,
@@ -36,8 +36,11 @@ const GeneOntologyWidget = ({ classes, geneOntology }) => {
     <Widget
       title="Gene Ontology"
       detailUrlStem="gene-ontology"
-      detail={<GeneOntologyDetail />}
-      detailHeader={{ title: <Fragment>Gene Ontology</Fragment> }}
+      detail={<GeneOntologyDetail symbol={symbol} ensgId={ensgId} />}
+      detailHeader={{
+        title: `${symbol} - Gene Ontology`,
+        description: `Gene Ontology terms related to ${symbol}`,
+      }}
       hasData={hasData}
       sources={sources}
     >

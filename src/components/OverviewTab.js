@@ -201,7 +201,11 @@ class OverviewTab extends Component {
                   />
                 )}
                 {GeneOntologyWidget.widgetName.includes(lowerCaseTerm) && (
-                  <GeneOntologyWidget geneOntology={geneOntology} />
+                  <GeneOntologyWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    geneOntology={geneOntology}
+                  />
                 )}
               </Grid>
             </Fragment>
