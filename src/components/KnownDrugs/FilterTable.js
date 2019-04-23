@@ -401,7 +401,7 @@ class KnownDrugsDetail extends React.Component {
   }
 
   render() {
-    const { classes, symbol, rows } = this.props;
+    const { classes, symbol } = this.props;
     const { filteredRows } = this.state;
     // Setup filters for the columns that require it; cols identified by ID
     // options = array of {label, value} to populate filter dropdown; handler: on-select callback
