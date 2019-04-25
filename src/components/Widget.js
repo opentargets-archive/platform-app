@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import classNames from 'classnames';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Modal from './Modal';
-import { CardHeader, CardActions } from '@material-ui/core';
+import { CardHeader /* CardActions */ } from '@material-ui/core';
 
 const styles = theme => ({
   widget: {
@@ -62,7 +62,7 @@ class Widget extends Component {
       children,
       hasData,
       title,
-      sources,
+      // sources,
       detail,
       detailUrlStem,
       detailHeader,
@@ -99,7 +99,7 @@ class Widget extends Component {
           <CardContent className={classes.widgetContent}>
             {children}
           </CardContent>
-          <CardActions className={classes.widgetFooter}>
+          {/*<CardActions className={classes.widgetFooter}>
             <Typography
               className={classes.widgetSources}
               variant="caption"
@@ -109,7 +109,7 @@ class Widget extends Component {
               Source{sources.length > 1 ? 's' : null}:{' '}
               {sources.map(d => d.name).join(', ')}
             </Typography>
-          </CardActions>
+          </CardActions>*/}
         </Card>
         <Route
           path={`${match.path}/${detailUrlStem}`}
