@@ -25,6 +25,8 @@ const ProteinInteractionsWidget = ({
   proteinInteractions,
 }) => {
   const { ppi, pathways, enzymeSubstrate } = proteinInteractions;
+  const hasData = ppi > 0 || pathways > 0 || proteinInteractions > 0;
+
   return (
     <Widget
       title="Protein interactions"
@@ -34,22 +36,37 @@ const ProteinInteractionsWidget = ({
         title: `${symbol} - Protein Interactions`,
         description: `Protein Interactions`,
       }}
+      hasData={hasData}
     >
       <Grid container direction="column" justify="space-between">
         <Grid item container justify="center">
           <ProteinInteractionsWidgetIcon
-            className={classNames(classes.icon, { [classes.iconNoData]: true })}
+            className={classNames(classes.icon, {
+              [classes.iconNoData]: !hasData,
+            })}
           />
         </Grid>
       </Grid>
       <Grid item>
-        <Typography variant="body1" align="center">
+        <Typography
+          variant="body1"
+          align="center"
+          color={ppi > 0 ? 'default' : 'secondary'}
+        >
           <strong>{ppi}</strong> protein-protein interactions
         </Typography>
-        <Typography variant="body1" align="center">
+        <Typography
+          variant="body1"
+          align="center"
+          color={pathways > 0 ? 'default' : 'secondary'}
+        >
           <strong>{pathways}</strong> pathway interactins
         </Typography>
-        <Typography variant="body1" align="center">
+        <Typography
+          variant="body1"
+          align="center"
+          color={enzymeSubstrate > 0 ? 'default' : 'secondary'}
+        >
           <strong>{enzymeSubstrate}</strong> enzyme-substrate interactions
         </Typography>
       </Grid>
