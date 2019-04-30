@@ -14,6 +14,7 @@ import ProteinInformationWidget from './ProteinInformation';
 import CancerBiomarkersWidget from './CancerBiomarkers';
 import GeneOntologyWidget from './GeneOntology';
 import ProteinInteractionsWidget from './ProteinInteractions';
+import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -99,6 +100,10 @@ const overviewQuery = gql`
           pathways
           enzymeSubstrate
         }
+        rnaAndProteinExpression {
+          rnaBaselineExpression
+          proteinBaselineExpression
+        }
       }
     }
   }
@@ -148,6 +153,7 @@ class OverviewTab extends Component {
             cancerBiomarkers,
             geneOntology,
             proteinInteractions,
+            rnaAndProteinExpression,
           } = data.target.summaries;
 
           return (
@@ -220,6 +226,13 @@ class OverviewTab extends Component {
                   <ProteinInteractionsWidget
                     symbol={symbol}
                     proteinInteractions={proteinInteractions}
+                  />
+                )}
+                {RNAAndProteinExpressionWidget.widgetName.includes(
+                  lowerCaseTerm
+                ) && (
+                  <RNAAndProteinExpressionWidget
+                    rnaAndProteinExpression={rnaAndProteinExpression}
                   />
                 )}
               </Grid>
