@@ -15,6 +15,8 @@ import CancerBiomarkersWidget from './CancerBiomarkers';
 import GeneOntologyWidget from './GeneOntology';
 import ProteinInteractionsWidget from './ProteinInteractions';
 import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
+import MousePhenotypesWidget from './MousePhenotypes';
+import TargetTractabilityWidget from './TargetTractability';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -104,6 +106,14 @@ const overviewQuery = gql`
           rnaBaselineExpression
           proteinBaselineExpression
         }
+        mousePhenotypes {
+          phenotypeCount
+          categoryCount
+        }
+        tractability {
+          hasSmallMoleculeTractabilityAssessment
+          hasAntibodyTractabilityAssessment
+        }
       }
     }
   }
@@ -154,6 +164,8 @@ class OverviewTab extends Component {
             geneOntology,
             proteinInteractions,
             rnaAndProteinExpression,
+            mousePhenotypes,
+            tractability,
           } = data.target.summaries;
 
           return (
@@ -235,6 +247,12 @@ class OverviewTab extends Component {
                     rnaAndProteinExpression={rnaAndProteinExpression}
                   />
                 )}
+                {MousePhenotypesWidget.widgetName.includes(lowerCaseTerm) && (
+                  <MousePhenotypesWidget mousePhenotypes={mousePhenotypes} />
+                )}
+                {TargetTractabilityWidget.widgetName.includes(
+                  lowerCaseTerm
+                ) && <TargetTractabilityWidget tractability={tractability} />}
               </Grid>
             </Fragment>
           );
