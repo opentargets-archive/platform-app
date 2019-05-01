@@ -22,7 +22,6 @@ const styles = theme => ({
 });
 
 const TargetTractabilityWidget = ({ classes, tractability }) => {
-  console.log('tractability', tractability);
   const {
     hasAntibodyTractabilityAssessment,
     hasSmallMoleculeTractabilityAssessment,
