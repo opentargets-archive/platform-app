@@ -22,6 +22,8 @@ const styles = theme => ({
 const MousePhenotypesWidget = ({ classes, mousePhenotypes }) => {
   const { phenotypeCount, categoryCount } = mousePhenotypes;
 
+  const hasData = phenotypeCount > 0 || categoryCount > 0;
+
   return (
     <Widget
       title="Mouse phenotypes"
@@ -31,18 +33,22 @@ const MousePhenotypesWidget = ({ classes, mousePhenotypes }) => {
         title: 'Mouse phenotypes',
         description: 'Gene Ontology terms related to',
       }}
-      hasData={true}
+      hasData={hasData}
     >
       <Grid container direction="column" justify="space-between">
         <Grid item container justify="center">
           <MousePhenotypesWidgetIcon
             className={classNames(classes.icon, {
-              [classes.iconNoData]: false,
+              [classes.iconNoData]: !hasData,
             })}
           />
         </Grid>
         <Grid item>
-          <Typography variant="body1" align="center">
+          <Typography
+            variant="body1"
+            align="center"
+            color={hasData ? 'default' : 'secondary'}
+          >
             <strong>{phenotypeCount}</strong> phenotypes in{' '}
             <strong>{categoryCount}</strong> different phenotype categories
             observed in mouse models
