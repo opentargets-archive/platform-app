@@ -19,6 +19,8 @@
     "apollo-link-http": "^1.5.5",
     "classnames": "^2.2.6",
     "crossfilter2": "^1.4.6",
+    "cttv.api": "^0.0.20",
+    "cttv.genome": "opentargets/targetGenomeBrowser",
     "d3": "^5.7.0",
     "d3-dag": "^0.1.2",
     "dc": "^3.0.8",
@@ -38,6 +40,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
     "react-select": "^2.1.1",
+    "tnt.genome": "^0.1.10",
+    "tntvis": "^0.3.1",
     "typeface-inter": "^3.3.0",
     "venn.js": "^0.2.20"
   },
