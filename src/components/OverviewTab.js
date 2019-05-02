@@ -270,7 +270,11 @@ class OverviewTab extends Component {
                   lowerCaseTerm
                 ) && <TargetTractabilityWidget tractability={tractability} />}
                 {VariationWidget.widgetName.includes(lowerCaseTerm) && (
-                  <VariationWidget symbol={symbol} variation={variation} />
+                  <VariationWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    variation={variation}
+                  />
                 )}
               </Grid>
             </Fragment>
