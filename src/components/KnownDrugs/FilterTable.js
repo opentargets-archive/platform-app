@@ -401,29 +401,26 @@ class KnownDrugsDetail extends React.Component {
   }
 
   render() {
-    const { classes, symbol } = this.props;
+    const { classes, symbol, rows } = this.props;
     const { filteredRows } = this.state;
     // Setup filters for the columns that require it; cols identified by ID
     // options = array of {label, value} to populate filter dropdown; handler: on-select callback
     const colFilters = {
       disease: {
         options: getColFilterOptions(
-          filteredRows,
+          rows,
           row => row.disease.name,
           label => _(label).capitalize()
         ),
         handler: this.getColFilterHandler(this.dimDisease),
       },
       phase: {
-        options: getColFilterOptions(
-          filteredRows,
-          row => row.clinicalTrial.phase
-        ),
+        options: getColFilterOptions(rows, row => row.clinicalTrial.phase),
         handler: this.getColFilterHandler(this.dimPhase),
       },
       status: {
         options: getColFilterOptions(
-          filteredRows,
+          rows,
           row => row.clinicalTrial.status,
           label =>
             _(label || '-')
@@ -433,15 +430,12 @@ class KnownDrugsDetail extends React.Component {
         handler: this.getColFilterHandler(this.dimStatus),
       },
       source: {
-        options: getColFilterOptions(
-          filteredRows,
-          row => row.clinicalTrial.sourceName
-        ),
+        options: getColFilterOptions(rows, row => row.clinicalTrial.sourceName),
         handler: this.getColFilterHandler(this.dimSource),
       },
       drug: {
         options: getColFilterOptions(
-          filteredRows,
+          rows,
           row => row.drug.name,
           label => _(label).capitalize()
         ),
@@ -449,7 +443,7 @@ class KnownDrugsDetail extends React.Component {
       },
       type: {
         options: getColFilterOptions(
-          filteredRows,
+          rows,
           row => row.drug.type,
           label =>
             _(label)
@@ -460,7 +454,7 @@ class KnownDrugsDetail extends React.Component {
       },
       mechanism: {
         options: getColFilterOptions(
-          filteredRows,
+          rows,
           row => row.mechanismOfAction.name,
           label =>
             _(label)
@@ -471,7 +465,7 @@ class KnownDrugsDetail extends React.Component {
       },
       activity: {
         options: getColFilterOptions(
-          filteredRows,
+          rows,
           row => row.drug.activity,
           label =>
             _(label)
