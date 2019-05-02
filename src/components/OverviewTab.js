@@ -248,7 +248,10 @@ class OverviewTab extends Component {
                   />
                 )}
                 {MousePhenotypesWidget.widgetName.includes(lowerCaseTerm) && (
-                  <MousePhenotypesWidget mousePhenotypes={mousePhenotypes} />
+                  <MousePhenotypesWidget
+                    mousePhenotypes={mousePhenotypes}
+                    ensgId={ensgId}
+                  />
                 )}
                 {TargetTractabilityWidget.widgetName.includes(
                   lowerCaseTerm

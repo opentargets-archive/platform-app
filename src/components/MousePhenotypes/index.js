@@ -19,7 +19,7 @@ const styles = theme => ({
   },
 });
 
-const MousePhenotypesWidget = ({ classes, mousePhenotypes }) => {
+const MousePhenotypesWidget = ({ classes, mousePhenotypes, ensgId }) => {
   const { phenotypeCount, categoryCount } = mousePhenotypes;
 
   const hasData = phenotypeCount > 0 || categoryCount > 0;
@@ -28,7 +28,7 @@ const MousePhenotypesWidget = ({ classes, mousePhenotypes }) => {
     <Widget
       title="Mouse phenotypes"
       detailUrlStem="mouse-phenotypes"
-      detail={<MousePhenotypesDetail />}
+      detail={<MousePhenotypesDetail ensgId={ensgId} />}
       detailHeader={{
         title: 'Mouse phenotypes',
         description: 'Gene Ontology terms related to',
