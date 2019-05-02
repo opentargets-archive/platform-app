@@ -471,11 +471,11 @@ class FilterTable extends Component {
     const { symbol, classes, rows } = this.props;
     const { filteredRows } = this.state;
 
-    const biomarkerOptions = getBiomarkerOptions(filteredRows);
-    const diseaseOptions = getDiseaseOptions(filteredRows);
-    const drugOptions = getDrugOptions(filteredRows);
-    const associationOptions = getAssociationOptions(filteredRows);
-    const evidenceOptions = getEvidenceOptions(filteredRows);
+    const biomarkerOptions = getBiomarkerOptions(rows);
+    const diseaseOptions = getDiseaseOptions(rows);
+    const drugOptions = getDrugOptions(rows);
+    const associationOptions = getAssociationOptions(rows);
+    const evidenceOptions = getEvidenceOptions(rows);
 
     return (
       <Fragment>
