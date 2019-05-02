@@ -26,7 +26,7 @@ const VariationWidget = ({ classes, ensgId, symbol, variation }) => {
   return (
     <Widget
       title="Variants and genomic context"
-      detailUrlStem="protein-interactions"
+      detailUrlStem="variation"
       detail={<VariationDetail ensgId={ensgId} />}
       detailHeader={{
         title: `${symbol} - Variants and genomic context`,
