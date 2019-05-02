@@ -109,6 +109,10 @@ const overviewQuery = gql`
         mousePhenotypes {
           phenotypeCount
           categoryCount
+          sources {
+            url
+            name
+          }
         }
         tractability {
           hasSmallMoleculeTractabilityAssessment
@@ -251,6 +255,7 @@ class OverviewTab extends Component {
                   <MousePhenotypesWidget
                     mousePhenotypes={mousePhenotypes}
                     ensgId={ensgId}
+                    symbol={symbol}
                   />
                 )}
                 {TargetTractabilityWidget.widgetName.includes(
