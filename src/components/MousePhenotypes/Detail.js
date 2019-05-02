@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+
+import PhenotypesTable from './PhenotypesTable';
 import AssociationSummary from '../AssociationSummary';
 
 const query = gql`
@@ -19,6 +21,7 @@ const query = gql`
             categoryLabel
             phenotypeLabel
             subjectAllelicComposition
+            pmId
           }
         }
       }
@@ -37,6 +40,7 @@ const MousePhenotypesDetail = ({ ensgId }) => {
         return (
           <Fragment>
             <AssociationSummary data={categories} />
+            <PhenotypesTable rows={rows} />
           </Fragment>
         );
       }}
