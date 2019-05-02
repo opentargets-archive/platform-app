@@ -34,11 +34,11 @@ const GeneOntologyWidget = ({ classes, geneOntology, ensgId, symbol }) => {
 
   return (
     <Widget
-      title="Gene Ontology"
+      title="Gene ontology"
       detailUrlStem="gene-ontology"
       detail={<GeneOntologyDetail symbol={symbol} ensgId={ensgId} />}
       detailHeader={{
-        title: `${symbol} - Gene Ontology`,
+        title: `${symbol} - Gene ontology`,
         description: `Gene Ontology terms related to ${symbol}`,
       }}
       hasData={hasData}
