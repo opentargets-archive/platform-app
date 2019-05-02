@@ -17,11 +17,13 @@ const query = gql`
             isAssociated
           }
           rows {
+            mouseGeneId
             mouseGeneSymbol
             categoryLabel
             phenotypeLabel
             subjectAllelicComposition
-            pmId
+            subjectBackground
+            pmIds
           }
         }
       }
