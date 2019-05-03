@@ -43,6 +43,7 @@
     "react-scripts": "2.1.5",
     "react-select": "^2.1.1",
     "tnt.api": "^0.1.1",
+    "tnt.board": "^0.1.12",
     "tnt.genome": "^0.1.10",
     "tnt.rest": "^0.1.1",
     "tnt.tooltip": "^1.0.0",
