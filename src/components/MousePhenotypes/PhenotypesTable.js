@@ -110,6 +110,30 @@ const getPhenotypeOptions = rows => {
   }));
 };
 
+const downloadColumns = [
+  { id: 'mouseGeneSymbol', label: 'Mouse gene' },
+  { id: 'categoryLabel', label: 'Phenotype category' },
+  { id: 'phenotypeLabel', label: 'Phenotype label' },
+  { id: 'subjectAllelicComposition', label: 'Allelic composition' },
+  { id: 'subjectBackground', label: 'Subject background' },
+  { id: 'pmIds', label: 'Sources' },
+];
+
+const getDownloadRows = rows => {
+  return rows.map(row => {
+    const query = row.pmIds.map(pmId => `EXT_ID:${pmId}`).join(' OR ');
+
+    return {
+      mouseGeneSymbol: row.mouseGeneSymbol,
+      categoryLabel: row.categoryLabel,
+      phenotypeLabel: row.phenotypeLabel,
+      subjectAllelicComposition: row.subjectAllelicComposition,
+      subjectBackground: row.subjectBackground,
+      pmIds: `https://europepmc.org/search?query=${query}`,
+    };
+  });
+};
+
 class PhenotypesTable extends Component {
   state = {
     filteredRows: this.props.rows,
@@ -157,11 +181,13 @@ class PhenotypesTable extends Component {
   }
 
   render() {
-    const { rows } = this.props;
+    const { symbol, rows } = this.props;
     const { filteredRows } = this.state;
     const mouseGeneOptions = getMouseGeneOptions(rows);
     const categoryOptions = getCategoryOptions(rows);
     const phenotypeOptions = getPhenotypeOptions(rows);
+
+    const downloadRows = getDownloadRows(rows);
 
     const columns = getColumns(
       mouseGeneOptions,
@@ -174,7 +200,11 @@ class PhenotypesTable extends Component {
 
     return (
       <Fragment>
-        <DataDownloader />
+        <DataDownloader
+          tableHeaders={downloadColumns}
+          rows={downloadRows}
+          fileStem={`${symbol}-mouse-phenotypes`}
+        />
         <OtTableRF filters columns={columns} data={filteredRows} />
       </Fragment>
     );
