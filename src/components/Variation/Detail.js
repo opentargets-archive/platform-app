@@ -1,8 +1,18 @@
 import React from 'react';
+import * as d3 from 'd3';
 import tnt from 'tntvis';
+import utils from 'tnt.utils';
+import rest from 'tnt.rest';
+// import tooltip from 'tnt.tooltip';
+
 import board from 'tnt.genome';
 import cttvApi from 'cttv.api';
 import targetGenomeBrowser from 'cttv.genome';
+
+import tooltip from './tooltip';
+
+console.log(window.d3.version);
+window.tnt.tooltip = tooltip;
 
 class VariationDetail extends React.Component {
   componentDidMount() {
@@ -39,7 +49,11 @@ class VariationDetail extends React.Component {
     theme(browser, document.getElementById('otTargetGenomeBrowser'));
   }
   render() {
-    return <div id="otTargetGenomeBrowser" />;
+    return (
+      <div id="otTargetGenomeBrowserContainer">
+        <div id="otTargetGenomeBrowser" />
+      </div>
+    );
   }
 }
 
