@@ -96,9 +96,7 @@ class TargetPage extends Component {
                   />
                   <Route
                     path={match.path}
-                    render={() => (
-                      <OverviewTab ensgId={ensgId} symbol={symbol} />
-                    )}
+                    render={() => <OverviewTab {...{ ensgId, symbol, name }} />}
                   />
                 </Switch>
               </Fragment>

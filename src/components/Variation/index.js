@@ -19,7 +19,7 @@ const styles = theme => ({
   },
 });
 
-const VariationWidget = ({ classes, ensgId, symbol, variation }) => {
+const VariationWidget = ({ classes, ensgId, symbol, name, variation }) => {
   const { common, rare, sources } = variation;
   const hasData = common.variantsCount > 0 || rare.mutationsCount > 0;
 
@@ -27,7 +27,7 @@ const VariationWidget = ({ classes, ensgId, symbol, variation }) => {
     <Widget
       title="Variants and genomic context"
       detailUrlStem="variation"
-      detail={<VariationDetail ensgId={ensgId} />}
+      detail={<VariationDetail ensgId={ensgId} name={name} />}
       detailHeader={{
         title: `${symbol} - Variants and genomic context`,
         description: `Genomic variants associated with ${symbol}. Only variant information associating ${symbol} with any disease is displayed. Click on any variant, gene or transcript to get more information about it. Pan or zoom the browser to see neighbouring genes. The number above gene variants means that more than 1 overlap the same region at the current zoom level. Genomic coordinates are relative to GRCh38.`,

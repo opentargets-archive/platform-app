@@ -158,7 +158,7 @@ class OverviewTab extends Component {
   };
 
   render() {
-    const { ensgId, symbol, classes } = this.props;
+    const { ensgId, symbol, name, classes } = this.props;
     const { filterTerm } = this.state;
     const lowerCaseTerm = filterTerm.trim().toLowerCase();
 
@@ -273,6 +273,7 @@ class OverviewTab extends Component {
                   <VariationWidget
                     ensgId={ensgId}
                     symbol={symbol}
+                    name={name}
                     variation={variation}
                   />
                 )}

@@ -66,9 +66,12 @@ class VariationDetail extends React.Component {
     }
   }
   render() {
-    const { ensgId, measureRef } = this.props;
+    const { ensgId, name, measureRef } = this.props;
     return (
       <div id="otTargetGenomeBrowserContainer" ref={measureRef}>
+        <Typography variant="body1">
+          <strong>Gene information</strong>
+        </Typography>
         <Typography>
           <strong>Ensembl ID: </strong>
           <Link
@@ -77,6 +80,9 @@ class VariationDetail extends React.Component {
           >
             {ensgId}
           </Link>
+          <br />
+          <strong>Description: </strong>
+          {name}
         </Typography>
         <div id="otTargetGenomeBrowser" />
       </div>
