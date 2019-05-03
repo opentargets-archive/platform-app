@@ -25,6 +25,7 @@ const TargetTractabilityWidget = ({ classes, tractability }) => {
   const {
     hasAntibodyTractabilityAssessment,
     hasSmallMoleculeTractabilityAssessment,
+    sources,
   } = tractability;
 
   const hasData =
@@ -40,6 +41,7 @@ const TargetTractabilityWidget = ({ classes, tractability }) => {
         description: 'Target tractability',
       }}
       hasData={hasData}
+      sources={sources}
     >
       <Grid container>
         <Grid item container md={6} justify="center">

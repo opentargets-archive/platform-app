@@ -117,6 +117,10 @@ const overviewQuery = gql`
         tractability {
           hasSmallMoleculeTractabilityAssessment
           hasAntibodyTractabilityAssessment
+          sources {
+            url
+            name
+          }
         }
       }
     }
