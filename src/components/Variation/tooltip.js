@@ -1,44 +1,10 @@
-// var apijs = require("tnt.api");
-// import { drag as d3Drag } from 'd3';
-// import * as d3 from 'd3';
-// import {
-//   event as d3Event,
-//   mouse as d3Mouse,
-//   // clientPoint as d3ClientPoint,
-//   select as d3Select,
-// } from 'd3-selection';
 import apijs from 'tnt.api';
-// console.log(d3.version);
+
+// TODO: update tntvis to use the latest version of d3 (not v3 as here)
+// this file is a tweaked version of that in the `tnt.tooltip` dep
 const d3 = window.d3;
 
-var point = function(node, event) {
-  var svg = node.ownerSVGElement || node;
-
-  if (svg.createSVGPoint) {
-    var point = svg.createSVGPoint();
-    point.x = event.clientX;
-    point.y = event.clientY;
-    point = point.matrixTransform(node.getScreenCTM().inverse());
-    return [point.x, point.y];
-  }
-
-  var rect = node.getBoundingClientRect();
-  return [
-    event.clientX - rect.left - node.clientLeft,
-    event.clientY - rect.top - node.clientTop,
-  ];
-};
-
-var myMouse = function(node) {
-  var event = d3.event.sourceEvent();
-  // var event = d3Event.sourceEvent();
-  if (event.changedTouches) event = event.changedTouches[0];
-  return point(node, event);
-};
-
 var tooltip = function() {
-  
-
   var drag = d3.behavior.drag();
   var tooltip_div;
 
@@ -62,12 +28,6 @@ var tooltip = function() {
           y: parseInt(d3.select(this).style('top')),
         };
       })
-      // .subject(function() {
-      //   return {
-      //     x: parseInt(d3.select(this).style('left')),
-      //     y: parseInt(d3.select(this).style('top')),
-      //   };
-      // })
       .on('drag', function() {
         if (conf.allow_drag) {
           d3.select(this)
