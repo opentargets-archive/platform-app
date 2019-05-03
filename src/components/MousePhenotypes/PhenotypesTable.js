@@ -1,10 +1,18 @@
 import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import crossfilter from 'crossfilter2';
+import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import { DataDownloader, OtTableRF, Link } from 'ot-ui';
 
-const getColumns = () => {
+const getColumns = (
+  mouseGeneOptions,
+  mouseGeneFilterHandler,
+  categoryOptions,
+  categoryFilterHandler,
+  phenotypeOptions,
+  phenotypeFilterHandler
+) => {
   return [
     {
       id: 'mouseGeneSymbol',
@@ -17,14 +25,38 @@ const getColumns = () => {
           {row.mouseGeneSymbol}
         </Link>
       ),
+      renderFilter: () => (
+        <Select
+          isClearable
+          placeholder="None"
+          options={mouseGeneOptions}
+          onChange={mouseGeneFilterHandler}
+        />
+      ),
     },
     {
       id: 'categoryLabel',
       label: 'Phenotype category',
+      renderFilter: () => (
+        <Select
+          isClearable
+          placeholder="None"
+          options={categoryOptions}
+          onChange={categoryFilterHandler}
+        />
+      ),
     },
     {
       id: 'phenotypeLabel',
       label: 'Phenotype label',
+      renderFilter: () => (
+        <Select
+          isClearable
+          placeholder="None"
+          options={phenotypeOptions}
+          onChange={phenotypeFilterHandler}
+        />
+      ),
     },
     {
       id: 'subjectAllelicComposition',
@@ -57,14 +89,93 @@ const getColumns = () => {
   ];
 };
 
+const getMouseGeneOptions = rows => {
+  return _.uniqBy(rows, 'mouseGeneId').map(row => ({
+    label: row.mouseGeneSymbol,
+    value: row.mouseGeneId,
+  }));
+};
+
+const getCategoryOptions = rows => {
+  return _.uniqBy(rows, 'categoryLabel').map(row => ({
+    label: row.categoryLabel,
+    value: row.categoryLabel,
+  }));
+};
+
+const getPhenotypeOptions = rows => {
+  return _.uniqBy(rows, 'phenotypeLabel').map(row => ({
+    label: row.phenotypeLabel,
+    value: row.phenotypeLabel,
+  }));
+};
+
 class PhenotypesTable extends Component {
+  state = {
+    filteredRows: this.props.rows,
+  };
+
+  mouseGeneFilterHandler = selection => {
+    const { phenotypesXf, mouseGeneDim } = this;
+
+    if (selection) {
+      mouseGeneDim.filter(d => d === selection.value);
+    } else {
+      mouseGeneDim.filterAll();
+    }
+
+    this.setState({ filteredRows: phenotypesXf.allFiltered() });
+  };
+
+  categoryFilterHandler = selection => {
+    const { phenotypesXf, categoryDim } = this;
+    if (selection) {
+      categoryDim.filter(d => d === selection.value);
+    } else {
+      categoryDim.filterAll();
+    }
+
+    this.setState({ filteredRows: phenotypesXf.allFiltered() });
+  };
+
+  phenotypeFilterHandler = selection => {
+    const { phenotypesXf, phenotypeDim } = this;
+
+    if (selection) {
+      phenotypeDim.filter(d => d === selection.value);
+    } else {
+      phenotypeDim.filterAll();
+    }
+    this.setState({ filteredRows: phenotypesXf.allFiltered() });
+  };
+
+  componentDidMount() {
+    this.phenotypesXf = crossfilter(this.props.rows);
+    this.mouseGeneDim = this.phenotypesXf.dimension(row => row.mouseGeneId);
+    this.categoryDim = this.phenotypesXf.dimension(row => row.categoryLabel);
+    this.phenotypeDim = this.phenotypesXf.dimension(row => row.phenotypeLabel);
+  }
+
   render() {
     const { rows } = this.props;
-    const columns = getColumns();
+    const { filteredRows } = this.state;
+    const mouseGeneOptions = getMouseGeneOptions(rows);
+    const categoryOptions = getCategoryOptions(rows);
+    const phenotypeOptions = getPhenotypeOptions(rows);
+
+    const columns = getColumns(
+      mouseGeneOptions,
+      this.mouseGeneFilterHandler,
+      categoryOptions,
+      this.categoryFilterHandler,
+      phenotypeOptions,
+      this.phenotypeFilterHandler
+    );
+
     return (
       <Fragment>
         <DataDownloader />
-        <OtTableRF filters columns={columns} data={rows} />
+        <OtTableRF filters columns={columns} data={filteredRows} />
       </Fragment>
     );
   }
