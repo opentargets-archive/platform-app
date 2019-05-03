@@ -19,8 +19,13 @@ const styles = theme => ({
   },
 });
 
-const MousePhenotypesWidget = ({ classes, mousePhenotypes }) => {
-  const { phenotypeCount, categoryCount } = mousePhenotypes;
+const MousePhenotypesWidget = ({
+  classes,
+  mousePhenotypes,
+  ensgId,
+  symbol,
+}) => {
+  const { phenotypeCount, categoryCount, sources } = mousePhenotypes;
 
   const hasData = phenotypeCount > 0 || categoryCount > 0;
 
@@ -28,12 +33,13 @@ const MousePhenotypesWidget = ({ classes, mousePhenotypes }) => {
     <Widget
       title="Mouse phenotypes"
       detailUrlStem="mouse-phenotypes"
-      detail={<MousePhenotypesDetail />}
+      detail={<MousePhenotypesDetail ensgId={ensgId} symbol={symbol} />}
       detailHeader={{
         title: 'Mouse phenotypes',
-        description: 'Gene Ontology terms related to',
+        description: `Mouse phenotypes by model associated with ${symbol} orthologues`,
       }}
       hasData={hasData}
+      sources={sources}
     >
       <Grid container direction="column" justify="space-between">
         <Grid item container justify="center">

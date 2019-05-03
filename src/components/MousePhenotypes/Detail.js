@@ -1,7 +1,53 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
-const MousePhenotypesDetail = () => {
-  return <div>Mouse phenotypes</div>;
+import PhenotypesTable from './PhenotypesTable';
+import AssociationSummary from '../AssociationSummary';
+
+const query = gql`
+  query MousePhenotypesQuery($ensgId: String!) {
+    target(ensgId: $ensgId) {
+      id
+      details {
+        mousePhenotypes {
+          categories {
+            id
+            name
+            isAssociated
+          }
+          rows {
+            mouseGeneId
+            mouseGeneSymbol
+            categoryLabel
+            phenotypeLabel
+            subjectAllelicComposition
+            subjectBackground
+            pmIds
+          }
+        }
+      }
+    }
+  }
+`;
+
+const MousePhenotypesDetail = ({ ensgId, symbol }) => {
+  return (
+    <Query query={query} variables={{ ensgId }}>
+      {({ loading, error, data }) => {
+        if (loading || error) return null;
+
+        const { categories, rows } = data.target.details.mousePhenotypes;
+
+        return (
+          <Fragment>
+            <AssociationSummary data={categories} />
+            <PhenotypesTable rows={rows} symbol={symbol} />
+          </Fragment>
+        );
+      }}
+    </Query>
+  );
 };
 
 export default MousePhenotypesDetail;
