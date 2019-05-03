@@ -1,9 +1,12 @@
 import React from 'react';
+import { withContentRect } from 'react-measure';
+import Typography from '@material-ui/core/Typography';
 import * as d3 from 'd3';
+
+import { Link } from 'ot-ui';
 import tnt from 'tntvis';
 import utils from 'tnt.utils';
 import rest from 'tnt.rest';
-// import tooltip from 'tnt.tooltip';
 
 import board from 'tnt.genome';
 import cttvApi from 'cttv.api';
@@ -11,50 +14,74 @@ import targetGenomeBrowser from 'cttv.genome';
 
 import tooltip from './tooltip';
 
-console.log(window.d3.version);
 window.tnt.tooltip = tooltip;
 
+// TODO: Currently, when a resize occurs, we just
+// redraw the widget, meaning internal state is lost.
+// Ideally, this should use componentDidUpdate, but
+// some investigation needs to be done into tntvis.
 class VariationDetail extends React.Component {
-  componentDidMount() {
-    const { ensgId } = this.props;
+  state = {};
+  static getDerivedStateFromProps(props) {
+    const { width = 600 } = props.contentRect.bounds;
+    return { width };
+  }
+  _render = (ensgId, width) => {
+    // clear previous (if existed)
+    d3.select('#otTargetGenomeBrowser')
+      .selectAll('*')
+      .remove();
+
+    // draw
     const browser = board
       .genome()
       .species('human')
       .gene(ensgId)
       .context(20)
-      .width(800);
-
+      .width(width);
     browser
       .rest()
       .prefix('')
       .protocol('https')
       .domain('rest.ensembl.org');
-
     const api = cttvApi()
       .prefix('https://platform-api.opentargets.io')
-      // .prefix('/api/')
-
-      // .prefix("/api/")
-      // .prefix('http://127.0.0.1:8123/api/')
-      // .prefix("https://www.targetvalidation.org/api/")
-      // .version('latest')
-      // .appname('cttv-web-app')
-      // .secret('2J23T20O31UyepRj7754pEA2osMOYfFK')
       .verbose(false);
-
     const theme = targetGenomeBrowser()
       .efo(null)
       .cttvRestApi(api);
-
     theme(browser, document.getElementById('otTargetGenomeBrowser'));
+    this.browser = browser;
+  };
+  componentDidMount() {
+    const { ensgId } = this.props;
+    const { width } = this.state;
+    this._render(ensgId, width);
+  }
+  componentDidUpdate() {
+    const { ensgId } = this.props;
+    const { width } = this.state;
+    if (this.browser.width() !== width) {
+      this._render(ensgId, width);
+    }
   }
   render() {
+    const { ensgId, measureRef } = this.props;
     return (
-      <div id="otTargetGenomeBrowserContainer">
+      <div id="otTargetGenomeBrowserContainer" ref={measureRef}>
+        <Typography>
+          <strong>Ensembl ID: </strong>
+          <Link
+            external
+            to={`http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`}
+          >
+            {ensgId}
+          </Link>
+        </Typography>
         <div id="otTargetGenomeBrowser" />
       </div>
     );
   }
 }
 
-export default VariationDetail;
+export default withContentRect('bounds')(VariationDetail);
