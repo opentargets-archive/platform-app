@@ -280,7 +280,12 @@ class OverviewTab extends Component {
                 )}
                 {TargetTractabilityWidget.widgetName.includes(
                   lowerCaseTerm
-                ) && <TargetTractabilityWidget tractability={tractability} />}
+                ) && (
+                  <TargetTractabilityWidget
+                    tractability={tractability}
+                    symbol={symbol}
+                  />
+                )}
                 {VariationWidget.widgetName.includes(lowerCaseTerm) && (
                   <VariationWidget
                     ensgId={ensgId}
