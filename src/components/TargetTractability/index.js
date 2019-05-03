@@ -21,7 +21,12 @@ const styles = theme => ({
   },
 });
 
-const TargetTractabilityWidget = ({ classes, tractability, symbol }) => {
+const TargetTractabilityWidget = ({
+  classes,
+  tractability,
+  symbol,
+  ensgId,
+}) => {
   const {
     hasAntibodyTractabilityAssessment,
     hasSmallMoleculeTractabilityAssessment,
@@ -35,7 +40,7 @@ const TargetTractabilityWidget = ({ classes, tractability, symbol }) => {
     <Widget
       title="Target tractability"
       detailUrlStem="target-tractability"
-      detail={<TargetTractabilityDetail />}
+      detail={<TargetTractabilityDetail ensgId={ensgId} />}
       detailHeader={{
         title: 'Target tractability',
         description: (

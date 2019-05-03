@@ -282,6 +282,7 @@ class OverviewTab extends Component {
                   lowerCaseTerm
                 ) && (
                   <TargetTractabilityWidget
+                    ensgId={ensgId}
                     tractability={tractability}
                     symbol={symbol}
                   />
