@@ -17,6 +17,7 @@ import ProteinInteractionsWidget from './ProteinInteractions';
 import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
 import MousePhenotypesWidget from './MousePhenotypes';
 import TargetTractabilityWidget from './TargetTractability';
+import VariationWidget from './Variation';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -118,6 +119,20 @@ const overviewQuery = gql`
           hasSmallMoleculeTractabilityAssessment
           hasAntibodyTractabilityAssessment
         }
+        variation {
+          common {
+            variantsCount
+            diseasesCount
+          }
+          rare {
+            mutationsCount
+            diseasesCount
+          }
+          sources {
+            url
+            name
+          }
+        }
       }
     }
   }
@@ -147,7 +162,7 @@ class OverviewTab extends Component {
   };
 
   render() {
-    const { ensgId, symbol, classes } = this.props;
+    const { ensgId, symbol, name, classes } = this.props;
     const { filterTerm } = this.state;
     const lowerCaseTerm = filterTerm.trim().toLowerCase();
 
@@ -170,6 +185,7 @@ class OverviewTab extends Component {
             rnaAndProteinExpression,
             mousePhenotypes,
             tractability,
+            variation,
           } = data.target.summaries;
 
           return (
@@ -261,6 +277,14 @@ class OverviewTab extends Component {
                 {TargetTractabilityWidget.widgetName.includes(
                   lowerCaseTerm
                 ) && <TargetTractabilityWidget tractability={tractability} />}
+                {VariationWidget.widgetName.includes(lowerCaseTerm) && (
+                  <VariationWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    name={name}
+                    variation={variation}
+                  />
+                )}
               </Grid>
             </Fragment>
           );
