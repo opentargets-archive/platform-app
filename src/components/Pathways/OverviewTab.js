@@ -9,25 +9,12 @@ import classNames from 'classnames';
 
 import { Link, DataDownloader, OtTableRF } from 'ot-ui';
 
+import AssociationSummary from '../AssociationSummary';
+
 const styles = () => ({
   panelTitle: {
     marginTop: '10px',
-  },
-  topLevel: {
-    marginTop: '10px',
-  },
-  topLevelPathwayContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
-    border: '1px solid black',
-    minHeight: '1.8rem',
-    height: '100%',
-  },
-  topLevelPathwayContainerHighlight: {
-    backgroundColor: '#891C76',
-    color: 'white',
+    marginBottom: '14px',
   },
 });
 
@@ -232,24 +219,7 @@ class OverviewTab extends Component {
         <Typography className={classes.panelTitle} variant="h6">
           Top-level parent pathways
         </Typography>
-        <Grid
-          container
-          alignItems="stretch"
-          spacing={8}
-          className={classes.topLevel}
-        >
-          {topLevelPathways.map(d => (
-            <Grid item xs={4} md={2} key={d.id}>
-              <Typography
-                className={classNames(classes.topLevelPathwayContainer, {
-                  [classes.topLevelPathwayContainerHighlight]: d.isAssociated,
-                })}
-              >
-                {d.name}
-              </Typography>
-            </Grid>
-          ))}
-        </Grid>
+        <AssociationSummary data={topLevelPathways} />
         <DataDownloader
           tableHeaders={columns}
           rows={getDownloadRows(lowLevelPathways)}
