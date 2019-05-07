@@ -36,8 +36,10 @@ const query = gql`
 const styles = () => ({
   table: {
     borderCollapse: 'collapse',
+    marginBottom: '8px',
   },
   cell: {
+    color: PALETTE.darkgrey,
     border: '1px solid black',
   },
   purpleCell: {
@@ -52,8 +54,6 @@ const TargetTractabilityDetail = ({ classes, ensgId }) => {
       {({ loading, error, data }) => {
         if (loading || error) return null;
         const { antibody, smallMolecule } = data.target.details.tractability;
-        console.log('antibody', antibody);
-        console.log('smallMolecule', smallMolecule);
         return (
           <Fragment>
             <Typography variant="h6">Small molecule</Typography>
