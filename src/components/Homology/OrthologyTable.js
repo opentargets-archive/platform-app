@@ -2,7 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { OtTableRF, Link, significantFigures } from 'ot-ui';
+import { DataDownloader, OtTableRF, Link, significantFigures } from 'ot-ui';
 
 const query = gql`
   query OrthologyTableQuery($ensgId: String!) {
@@ -76,19 +76,57 @@ const columns = [
   },
 ];
 
-const OrthologyTable = ({ ensgId }) => (
+const downloadColumns = [
+  {
+    id: 'species',
+    label: 'Species',
+  },
+  {
+    id: 'homologyType',
+    label: 'Homology type',
+  },
+  {
+    id: 'targetGeneSymbol',
+    label: 'Orthologue symbol',
+  },
+  {
+    id: 'targetGeneId',
+    label: 'Orthologue ID',
+  },
+  {
+    id: 'dNdS',
+    label: `dN/dS`,
+  },
+  {
+    id: 'queryPercentageIdentity',
+    label: `Query %id`,
+  },
+  {
+    id: 'targetPercentageIdentity',
+    label: `Target %id`,
+  },
+];
+
+const OrthologyTable = ({ ensgId, symbol }) => (
   <Query query={query} variables={{ ensgId }}>
     {({ loading, error, data }) => {
       if (loading || error) return null;
 
       const { rows } = data.target.details.homology;
       return (
-        <OtTableRF
-          loading={loading}
-          error={error}
-          columns={columns}
-          data={rows}
-        />
+        <React.Fragment>
+          <DataDownloader
+            tableHeaders={downloadColumns}
+            rows={rows}
+            fileStem={`${symbol}-orthologues`}
+          />
+          <OtTableRF
+            loading={loading}
+            error={error}
+            columns={columns}
+            data={rows}
+          />
+        </React.Fragment>
       );
     }}
   </Query>

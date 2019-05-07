@@ -21,7 +21,7 @@ class OrthologyTableTab extends React.Component {
             Ensembl
           </Link>
         </Typography>
-        <OrthologyTable ensgId={ensgId} />
+        <OrthologyTable ensgId={ensgId} symbol={symbol} />
       </React.Fragment>
     );
   }
