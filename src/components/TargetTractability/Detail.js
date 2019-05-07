@@ -2,7 +2,11 @@ import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import classNames from 'classnames';
-// import Table from '@material-ui/core/Table';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { PALETTE } from 'ot-ui';
@@ -30,8 +34,15 @@ const query = gql`
 `;
 
 const styles = () => ({
+  table: {
+    borderCollapse: 'collapse',
+  },
   cell: {
+    border: '1px solid black',
+  },
+  purpleCell: {
     backgroundColor: PALETTE.purple,
+    color: 'white',
   },
 });
 
@@ -46,12 +57,24 @@ const TargetTractabilityDetail = ({ classes, ensgId }) => {
         return (
           <Fragment>
             <Typography variant="h6">Small molecule</Typography>
-            <table>
+            <table className={classes.table}>
               <thead>
                 <tr>
-                  <th colSpan="3">Clinical precedence</th>
-                  <th colSpan="2">Discovery precedence</th>
-                  <th colSpan="3">Predicted tractable</th>
+                  <th className={classes.cell} colSpan="3">
+                    <Typography variant="subtitle2">
+                      Clinical precedence
+                    </Typography>
+                  </th>
+                  <th className={classes.cell} colSpan="2">
+                    <Typography variant="subtitle2">
+                      Discovery precedence
+                    </Typography>
+                  </th>
+                  <th className={classes.cell} colSpan="3">
+                    <Typography variant="subtitle2">
+                      Predicted tractable
+                    </Typography>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -59,10 +82,14 @@ const TargetTractabilityDetail = ({ classes, ensgId }) => {
                   {smallMolecule.map(m => {
                     return (
                       <td
-                        className={classNames({ [classes.cell]: m.value })}
+                        className={classNames(classes.cell, {
+                          [classes.purpleCell]: m.value,
+                        })}
                         key={m.chemblBucket}
                       >
-                        {m.description}
+                        <Typography color="inherit" variant="caption">
+                          {m.description}
+                        </Typography>
                       </td>
                     );
                   })}
@@ -70,24 +97,43 @@ const TargetTractabilityDetail = ({ classes, ensgId }) => {
               </tbody>
             </table>
             <Typography variant="h6">Antibody</Typography>
-            <table>
+            <table className={classes.table}>
               <thead>
                 <tr>
-                  <th colSpan="3">Clinical precedence</th>
-                  <th colSpan="2">Predicted tractable - high confidence</th>
-                  <th colSpan="4">
-                    Predicted tractable - medium to low confidence
+                  <th className={classes.cell} colSpan="3">
+                    <Typography variant="subtitle2">
+                      Clinical precedence
+                    </Typography>
+                  </th>
+                  <th className={classes.cell} colSpan="2">
+                    <Typography variant="subtitle2">
+                      Predicted tractable - high confidence
+                    </Typography>
+                  </th>
+                  <th className={classes.cell} colSpan="4">
+                    <Typography variant="subtitle2">
+                      Predicted tractable - medium to low confidence
+                    </Typography>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {antibody.map(ab => {
-                  return (
-                    <td className={classNames({ [classes.cell]: ab.value })}>
-                      {ab.description}
-                    </td>
-                  );
-                })}
+                <tr>
+                  {antibody.map(ab => {
+                    return (
+                      <td
+                        className={classNames(classes.cell, {
+                          [classes.purpleCell]: ab.value,
+                        })}
+                        key={ab.chemblBucket}
+                      >
+                        <Typography color="inherit" variant="caption">
+                          {ab.description}
+                        </Typography>
+                      </td>
+                    );
+                  })}
+                </tr>
               </tbody>
             </table>
           </Fragment>
