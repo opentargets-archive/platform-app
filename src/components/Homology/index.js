@@ -24,7 +24,6 @@ const styles = theme => ({
 
 const HomologyWidget = ({ ensgId, symbol, classes, homology }) => {
   const hasData = true; // TODO: update
-  const { sources } = homology;
   return (
     <Widget
       title="Homology"
@@ -35,7 +34,6 @@ const HomologyWidget = ({ ensgId, symbol, classes, homology }) => {
         description: null,
       }}
       hasData={hasData}
-      sources={sources}
     >
       <Grid container direction="column" justify="space-between">
         <Grid item container justify="center">

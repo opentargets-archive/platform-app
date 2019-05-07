@@ -136,9 +136,7 @@ Widget.defaultProps = {
       Unspecified <pre>detail</pre> component
     </div>
   ),
-  sources: [
-    { name: '<unspecified source>', url: 'https://www.targetvalidation.org' },
-  ],
+  sources: [],
 };
 
 export default withStyles(styles)(withRouter(Widget));
