@@ -42,7 +42,7 @@ class HomologyDetail extends React.Component {
           {({ loading, error, data }) => {
             if (loading || error) return null;
 
-            const { rows, tree } = data.target.details.homology;
+            const { rows } = data.target.details.homology;
             return (
               <React.Fragment>
                 <Tabs
@@ -55,7 +55,7 @@ class HomologyDetail extends React.Component {
                   <Tab value="table" label="Orthology table" />
                 </Tabs>
                 {tab === 'tree' ? (
-                  <GeneTreeTab symbol={symbol} tree={tree} />
+                  <GeneTreeTab ensgId={ensgId} symbol={symbol} />
                 ) : null}
                 {tab === 'table' ? (
                   <OrthologyTableTab symbol={symbol} rows={rows} />
