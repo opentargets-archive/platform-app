@@ -18,6 +18,7 @@ import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
 import MousePhenotypesWidget from './MousePhenotypes';
 import TargetTractabilityWidget from './TargetTractability';
 import VariationWidget from './Variation';
+import HomologyWidget from './Homology';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -137,6 +138,12 @@ const overviewQuery = gql`
             name
           }
         }
+        homology {
+          sources {
+            url
+            name
+          }
+        }
       }
     }
   }
@@ -190,6 +197,7 @@ class OverviewTab extends Component {
             mousePhenotypes,
             tractability,
             variation,
+            homology,
           } = data.target.summaries;
 
           return (
@@ -293,6 +301,13 @@ class OverviewTab extends Component {
                     symbol={symbol}
                     name={name}
                     variation={variation}
+                  />
+                )}
+                {HomologyWidget.widgetName.includes(lowerCaseTerm) && (
+                  <HomologyWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    homology={homology}
                   />
                 )}
               </Grid>

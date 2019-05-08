@@ -1008,8 +1008,8 @@
     indefinite-observable "^1.0.1"
 
 "@types/node@*":
-  version "11.13.9"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.9.tgz#f80697caca7f7fb2526527a5c5a2743487f05ccc"
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.0.tgz#d11813b9c0ff8aaca29f04cbc12817f4c7d656e5"
 
 "@types/prop-types@*":
   version "15.7.1"
@@ -1032,8 +1032,8 @@
     "@types/react" "*"
 
 "@types/react@*":
-  version "16.8.15"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.15.tgz#a76515fed5aa3e996603056f54427fec5f2a5122"
+  version "16.8.16"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.16.tgz#2bf980b4fb29cceeb01b2c139b3e185e57d3e08e"
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -2455,8 +2455,8 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000918, caniuse-lite@^1.0.30000929, caniuse-lite@^1.0.30000957, caniuse-lite@^1.0.30000963:
-  version "1.0.30000966"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000966.tgz#f3c6fefacfbfbfb981df6dfa68f2aae7bff41b64"
+  version "1.0.30000967"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000967.tgz#a5039577806fccee80a04aaafb2c0890b1ee2f73"
 
 capture-exit@^1.2.0:
   version "1.2.0"
@@ -3293,6 +3293,28 @@ cttv.genome@opentargets/targetGenomeBrowser:
     tnt.tooltip "0.2.0"
     tnt.utils "0.1.0"
 
+cttv.speciesIcons@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/cttv.speciesIcons/-/cttv.speciesIcons-0.0.1.tgz#1f900a0e530706ef35ce584360f6db723389b951"
+  dependencies:
+    tnt.api "^0.1.1"
+
+cttv.spinner@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/cttv.spinner/-/cttv.spinner-0.0.1.tgz#f8aa7f7ed1d71cec8b08fae6a88fee71258aff2b"
+
+cttv.targetGeneTree@opentargets/targetGeneTree:
+  version "0.0.14"
+  resolved "https://codeload.github.com/opentargets/targetGeneTree/tar.gz/4b4dbb1a422018c13c09843f24c863b2db294c61"
+  dependencies:
+    cttv.speciesIcons "0.0.1"
+    cttv.spinner "0.0.1"
+    rsvp "^3.0.18"
+    tnt.ensembl "0.0.13"
+    tnt.tooltip "0.2.0"
+    tnt.tree "0.1.7"
+    tnt.utils "^0.1.3"
+
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
@@ -3967,8 +3989,8 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
 electron-to-chromium@^1.3.103, electron-to-chromium@^1.3.127:
-  version "1.3.130"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.130.tgz#27f84e823bd80a5090e2baeca4fefbaf476cf7af"
+  version "1.3.131"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.131.tgz#205a0b7a276b3f56bc056f19178909243054252a"
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -4074,7 +4096,7 @@ es-to-primitive@^1.2.0:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-es6-promise@^2.0.1:
+es6-promise@^2.0.1, es6-promise@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-2.3.0.tgz#96edb9f2fdb01995822b263dd8aadab6748181bc"
 
@@ -5702,7 +5724,7 @@ httpplease-promises@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/httpplease-promises/-/httpplease-promises-0.3.0.tgz#03a15cce3739c1d27c0ec311453b73e69bc58e91"
 
-httpplease@0.15.3, httpplease@^0.15.2:
+httpplease@0.15.3, httpplease@^0.15.2, httpplease@^0.15.3:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/httpplease/-/httpplease-0.15.3.tgz#1363205ab35e75e337e095b7f972e9f4471af50c"
   dependencies:
@@ -9321,8 +9343,8 @@ postcss@^6.0.1, postcss@^6.0.23:
     supports-color "^5.4.0"
 
 postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.2, postcss@^7.0.5, postcss@^7.0.6:
-  version "7.0.14"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.14.tgz#4527ed6b1ca0d82c53ce5ec1a2041c2346bbd6e5"
+  version "7.0.16"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.16.tgz#48f64f1b4b558cb8b52c88987724359acb010da2"
   dependencies:
     chalk "^2.4.2"
     source-map "^0.6.1"
@@ -10558,8 +10580,8 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
 simple-git@^1.85.0:
-  version "1.110.0"
-  resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-1.110.0.tgz#54eb179089d055a7783d32399246cebc9d9933e9"
+  version "1.112.0"
+  resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-1.112.0.tgz#2aec1b124c3705adf6baf977b663a0632f50267f"
   dependencies:
     debug "^4.0.1"
 
@@ -11351,6 +11373,15 @@ tnt.board@^0.1.12, tnt.board@^0.1.9:
     tnt.api "^0.1.0"
     tnt.utils "^0.1.0"
 
+tnt.ensembl@0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/tnt.ensembl/-/tnt.ensembl-0.0.13.tgz#dc3d733ba4e2446966a42d6b3074c6ff93a69a5c"
+  dependencies:
+    es6-promise "^2.3.0"
+    httpplease "^0.15.3"
+    httpplease-promises "^0.3.0"
+    tnt.api "0.0.1"
+
 tnt.genome@^0.1.10, tnt.genome@^0.1.7:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/tnt.genome/-/tnt.genome-0.1.10.tgz#e6695049ff0e19a0bc2488784dd3e707d9d2d908"
@@ -11406,6 +11437,15 @@ tnt.tree.node@^0.1.0:
     tnt.api "^0.1.1"
     tnt.newick "^0.1.0"
     tnt.utils "^0.1.0"
+
+tnt.tree@0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/tnt.tree/-/tnt.tree-0.1.7.tgz#c9f923dbb2b229f691a6c7efea1f4655733474ec"
+  dependencies:
+    biojs-events "0.0.4"
+    tnt.api "^0.1.1"
+    tnt.newick "^0.1.0"
+    tnt.tree.node "^0.1.0"
 
 tnt.tree@^0.1.13:
   version "0.1.13"
@@ -11635,8 +11675,8 @@ uglify-js@^2.6.2:
     uglify-to-browserify "~1.0.0"
 
 uglify-js@^3.1.4:
-  version "3.5.10"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.5.10.tgz#652bef39f86d9dbfd6674407ee05a5e2d372cf2d"
+  version "3.5.11"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.5.11.tgz#833442c0aa29b3a7d34344c7c63adaa3f3504f6a"
   dependencies:
     commander "~2.20.0"
     source-map "~0.6.1"

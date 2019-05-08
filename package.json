@@ -21,6 +21,8 @@
     "crossfilter2": "^1.4.6",
     "cttv.api": "^0.0.20",
     "cttv.genome": "opentargets/targetGenomeBrowser",
+    "cttv.spinner": "0.0.1",
+    "cttv.targetGeneTree": "opentargets/targetGeneTree",
     "d3": "^5.9.2",
     "d3-dag": "^0.1.2",
     "d3-selection": "^1.4.0",
