@@ -91,8 +91,8 @@ const HomologyWidget = ({ ensgId, symbol, classes, homology }) => {
       }}
       hasData={hasData}
     >
-      <Grid container direction="column">
-        <Grid item>
+      <Grid container>
+        <Grid item xs={12}>
           {/* <Typography
             variant="subtitle2"
             className={getParaloguesClasses(classes, paraloguesCount)}
