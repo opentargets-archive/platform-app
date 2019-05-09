@@ -139,7 +139,6 @@ const overviewQuery = gql`
           }
         }
         homology {
-          paraloguesCount
           orthologuesBySpecies {
             species
             speciesId

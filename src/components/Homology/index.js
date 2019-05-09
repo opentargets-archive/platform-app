@@ -54,7 +54,7 @@ function getIconClasses(classes, count) {
 }
 
 const HomologyWidget = ({ ensgId, symbol, classes, homology }) => {
-  const { paraloguesCount, orthologuesBySpecies } = homology;
+  const { orthologuesBySpecies } = homology;
   const isEven = orthologuesBySpecies.length % 2 === 0;
   const halfLength = Math.ceil(orthologuesBySpecies.length / 2);
   const orthologuesBySpeciesPairs = [];
