@@ -1,12 +1,12 @@
 import React from 'react';
-// import classNames from 'classnames';
-// import Typography from '@material-ui/core/Typography';
+import classNames from 'classnames';
+import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import SpeciesIcon from '../../icons/SpeciesIcon';
 import Widget from '../Widget';
 import HomologyDetail from './Detail';
-// import PathwaysWidgetIcon from '../../icons/PathwaysWidgetIcon';
 
 const styles = theme => ({
   widgetIcon: {
@@ -20,44 +20,111 @@ const styles = theme => ({
   cardContent: {
     height: '100%',
   },
+  speciesText: {
+    alignItems: 'center',
+    display: 'flex',
+  },
+  speciesTextNotPresent: {
+    color: '#E2DFDF',
+  },
+  speciesIcon: {
+    height: '20px',
+    width: '20px',
+    paddingRight: '3px',
+  },
+  speciesIsPresent: {
+    fill: '#7B196A',
+  },
+  speciesNotPresent: {
+    fill: '#E2DFDF',
+  },
 });
 
+function getTextClasses(classes, count) {
+  return classNames(classes.speciesText, {
+    [classes.speciesTextNotPresent]: count === 0,
+  });
+}
+
+function getIconClasses(classes, count) {
+  return classNames(classes.speciesIcon, {
+    [classes.speciesIsPresent]: count > 0,
+    [classes.speciesNotPresent]: count === 0,
+  });
+}
+
 const HomologyWidget = ({ ensgId, symbol, classes, homology }) => {
-  const hasData = true; // TODO: update
-  const { sources } = homology;
+  const { orthologuesBySpecies } = homology;
+  const isEven = orthologuesBySpecies.length % 2 === 0;
+  const halfLength = Math.ceil(orthologuesBySpecies.length / 2);
+  const orthologuesBySpeciesPairs = [];
+  for (let i = 0; i < halfLength; i += 1) {
+    if (i === halfLength && !isEven) {
+      orthologuesBySpeciesPairs.push([orthologuesBySpecies[i], null]);
+    } else {
+      orthologuesBySpeciesPairs.push([
+        orthologuesBySpecies[i],
+        orthologuesBySpecies[i + halfLength],
+      ]);
+    }
+  }
+  const hasData = orthologuesBySpecies.some(d => d.orthologuesCount > 0);
   return (
     <Widget
-      title="Homology"
-      detailUrlStem="homology"
+      title="Gene tree"
+      detailUrlStem="gene-tree"
       detail={<HomologyDetail ensgId={ensgId} symbol={symbol} />}
       detailHeader={{
         title: <React.Fragment>{symbol} - Gene tree</React.Fragment>,
         description: null,
       }}
       hasData={hasData}
-      sources={sources}
     >
-      <Grid container direction="column" justify="space-between">
-        <Grid item container justify="center">
-          <Grid item>
-            some content
-            {/* <PathwaysWidgetIcon
-              className={classNames(classes.widgetIcon, {
-                [classes.widgetIconNoData]: count === 0,
-              })}
-            /> */}
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography
+            variant="subtitle2"
+            color={hasData ? 'default' : 'secondary'}
+            align="center"
+          >
+            Homologues by species
+          </Typography>
+          <Grid container direction="column">
+            {orthologuesBySpeciesPairs.map((d, i) => (
+              <Grid item container key={i}>
+                <Grid item xs={6}>
+                  <Typography
+                    variant="caption"
+                    className={getTextClasses(classes, d[0].orthologuesCount)}
+                  >
+                    <SpeciesIcon
+                      species={d[0].species}
+                      className={getIconClasses(classes, d[0].orthologuesCount)}
+                    />
+                    {d[0].species} ({d[0].orthologuesCount})
+                  </Typography>
+                </Grid>
+                {d[1] ? (
+                  <Grid item xs={6}>
+                    <Typography
+                      variant="caption"
+                      className={getTextClasses(classes, d[1].orthologuesCount)}
+                    >
+                      <SpeciesIcon
+                        species={d[1].species}
+                        className={getIconClasses(
+                          classes,
+                          d[1].orthologuesCount
+                        )}
+                      />
+                      {d[1].species} ({d[1].orthologuesCount})
+                    </Typography>
+                  </Grid>
+                ) : null}
+              </Grid>
+            ))}
           </Grid>
         </Grid>
-        {/* <Grid item>
-          <Typography
-            variant="body1"
-            align="center"
-            color={count > 0 ? 'default' : 'secondary'}
-          >
-            <strong>{count}</strong> biological processes and pathways involving{' '}
-            <strong>{symbol}</strong>
-          </Typography>
-        </Grid> */}
       </Grid>
     </Widget>
   );

@@ -139,6 +139,11 @@ const overviewQuery = gql`
           }
         }
         homology {
+          orthologuesBySpecies {
+            species
+            speciesId
+            orthologuesCount
+          }
           sources {
             url
             name
