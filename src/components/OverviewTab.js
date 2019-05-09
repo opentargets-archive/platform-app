@@ -119,6 +119,10 @@ const overviewQuery = gql`
         tractability {
           hasSmallMoleculeTractabilityAssessment
           hasAntibodyTractabilityAssessment
+          sources {
+            url
+            name
+          }
         }
         variation {
           common {
@@ -290,7 +294,13 @@ class OverviewTab extends Component {
                 )}
                 {TargetTractabilityWidget.widgetName.includes(
                   lowerCaseTerm
-                ) && <TargetTractabilityWidget tractability={tractability} />}
+                ) && (
+                  <TargetTractabilityWidget
+                    ensgId={ensgId}
+                    tractability={tractability}
+                    symbol={symbol}
+                  />
+                )}
                 {VariationWidget.widgetName.includes(lowerCaseTerm) && (
                   <VariationWidget
                     ensgId={ensgId}
