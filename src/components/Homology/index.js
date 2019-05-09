@@ -20,6 +20,11 @@ const styles = theme => ({
   cardContent: {
     height: '100%',
   },
+  // paraloguesText: {
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   display: 'flex',
+  // },
   speciesText: {
     alignItems: 'center',
     display: 'flex',
@@ -40,6 +45,12 @@ const styles = theme => ({
   },
 });
 
+// function getParaloguesClasses(classes, count) {
+//   return classNames(classes.paraloguesText, {
+//     [classes.speciesTextNotPresent]: count === 0,
+//   });
+// }
+
 function getTextClasses(classes, count) {
   return classNames(classes.speciesText, {
     [classes.speciesTextNotPresent]: count === 0,
@@ -54,7 +65,7 @@ function getIconClasses(classes, count) {
 }
 
 const HomologyWidget = ({ ensgId, symbol, classes, homology }) => {
-  const { orthologuesBySpecies } = homology;
+  const { paraloguesCount, orthologuesBySpecies } = homology;
   const isEven = orthologuesBySpecies.length % 2 === 0;
   const halfLength = Math.ceil(orthologuesBySpecies.length / 2);
   const orthologuesBySpeciesPairs = [];
@@ -80,16 +91,29 @@ const HomologyWidget = ({ ensgId, symbol, classes, homology }) => {
       }}
       hasData={hasData}
     >
-      <Grid container direction="column" justify="space-between">
+      <Grid container direction="column">
         <Grid item>
+          {/* <Typography
+            variant="subtitle2"
+            className={getParaloguesClasses(classes, paraloguesCount)}
+            color={hasData ? 'default' : 'secondary'}
+            align="center"
+          >
+            <SpeciesIcon
+              species={'Human'}
+              className={getIconClasses(classes, paraloguesCount)}
+            />
+            Human paralogues ({paraloguesCount})
+          </Typography>
+          <br /> */}
           <Typography
             variant="subtitle2"
             color={hasData ? 'default' : 'secondary'}
             align="center"
           >
-            Orthologues by species
+            Homologues by species
           </Typography>
-          <Grid container direction="column" justify="space-between">
+          <Grid container direction="column">
             {orthologuesBySpeciesPairs.map((d, i) => (
               <Grid item container key={i}>
                 <Grid item xs={6}>
