@@ -20,11 +20,6 @@ const styles = theme => ({
   cardContent: {
     height: '100%',
   },
-  // paraloguesText: {
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   display: 'flex',
-  // },
   speciesText: {
     alignItems: 'center',
     display: 'flex',
@@ -44,12 +39,6 @@ const styles = theme => ({
     fill: '#E2DFDF',
   },
 });
-
-// function getParaloguesClasses(classes, count) {
-//   return classNames(classes.paraloguesText, {
-//     [classes.speciesTextNotPresent]: count === 0,
-//   });
-// }
 
 function getTextClasses(classes, count) {
   return classNames(classes.speciesText, {
@@ -93,19 +82,6 @@ const HomologyWidget = ({ ensgId, symbol, classes, homology }) => {
     >
       <Grid container>
         <Grid item xs={12}>
-          {/* <Typography
-            variant="subtitle2"
-            className={getParaloguesClasses(classes, paraloguesCount)}
-            color={hasData ? 'default' : 'secondary'}
-            align="center"
-          >
-            <SpeciesIcon
-              species={'Human'}
-              className={getIconClasses(classes, paraloguesCount)}
-            />
-            Human paralogues ({paraloguesCount})
-          </Typography>
-          <br /> */}
           <Typography
             variant="subtitle2"
             color={hasData ? 'default' : 'secondary'}
