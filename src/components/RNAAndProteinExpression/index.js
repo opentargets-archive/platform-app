@@ -26,11 +26,15 @@ const RNAAndProteinExpressionWidget = ({
   const {
     rnaBaselineExpression,
     proteinBaselineExpression,
+    expressionAtlasExperiment,
+    gtexData,
   } = rnaAndProteinExpression;
 
   const items = [
     { value: rnaBaselineExpression, label: 'RNA baseline expression' },
     { value: proteinBaselineExpression, label: 'Protein baseline expression' },
+    { value: expressionAtlasExperiment, label: 'Expression Atlas experiment' },
+    { value: gtexData, label: 'GTEx data' },
   ];
 
   const hasData = rnaBaselineExpression || proteinBaselineExpression;
@@ -51,6 +55,7 @@ const RNAAndProteinExpressionWidget = ({
   );
 };
 
-RNAAndProteinExpressionWidget.widgetName = 'gene ontology';
+RNAAndProteinExpressionWidget.widgetName =
+  'rna and protein baseline expression';
 
 export default withStyles(styles)(RNAAndProteinExpressionWidget);

@@ -107,6 +107,8 @@ const overviewQuery = gql`
         rnaAndProteinExpression {
           rnaBaselineExpression
           proteinBaselineExpression
+          expressionAtlasExperiment
+          gtexData
         }
         mousePhenotypes {
           phenotypeCount
