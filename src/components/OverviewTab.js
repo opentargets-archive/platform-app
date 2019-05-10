@@ -17,6 +17,7 @@ import ProteinInteractionsWidget from './ProteinInteractions';
 import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
 import MousePhenotypesWidget from './MousePhenotypes';
 import TargetTractabilityWidget from './TargetTractability';
+import CancerHallmarksWidget from './CancerHallmarks';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -118,6 +119,19 @@ const overviewQuery = gql`
           hasSmallMoleculeTractabilityAssessment
           hasAntibodyTractabilityAssessment
         }
+        cancerHallmarks {
+          roleInCancer {
+            name
+          }
+          sources {
+            name
+          }
+          promotionAndSuppressionByHallmark {
+            name
+            promotes
+            suppresses
+          }
+        }
       }
     }
   }
@@ -170,6 +184,7 @@ class OverviewTab extends Component {
             rnaAndProteinExpression,
             mousePhenotypes,
             tractability,
+            cancerHallmarks,
           } = data.target.summaries;
 
           return (
@@ -261,6 +276,13 @@ class OverviewTab extends Component {
                 {TargetTractabilityWidget.widgetName.includes(
                   lowerCaseTerm
                 ) && <TargetTractabilityWidget tractability={tractability} />}
+                {CancerHallmarksWidget.widgetName.includes(lowerCaseTerm) && (
+                  <CancerHallmarksWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    cancerHallmarks={cancerHallmarks}
+                  />
+                )}
               </Grid>
             </Fragment>
           );
