@@ -33,7 +33,7 @@ const MousePhenotypesWidget = ({
     <Widget
       title="Mouse phenotypes"
       detailUrlStem="mouse-phenotypes"
-      detail={<MousePhenotypesDetail ensgId={ensgId} />}
+      detail={<MousePhenotypesDetail ensgId={ensgId} symbol={symbol} />}
       detailHeader={{
         title: 'Mouse phenotypes',
         description: `Mouse phenotypes by model associated with ${symbol} orthologues`,

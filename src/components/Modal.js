@@ -54,17 +54,19 @@ const Modal = ({ classes, open, onClose, children, header }) => {
             <Typography className={classes.description}>
               {header.description}
             </Typography>
-            <Typography variant="caption">
-              Source{header.sources.length > 1 ? 's' : null}:{' '}
-              {header.sources.map((d, i) => (
-                <React.Fragment key={d.name}>
-                  {i > 0 ? ' ' : null}
-                  <Link external to={d.url}>
-                    {d.name}
-                  </Link>
-                </React.Fragment>
-              ))}
-            </Typography>
+            {header.sources.length > 0 ? (
+              <Typography variant="caption">
+                Source{header.sources.length > 1 ? 's' : null}:{' '}
+                {header.sources.map((d, i) => (
+                  <React.Fragment key={d.name}>
+                    {i > 0 ? ' ' : null}
+                    <Link external to={d.url}>
+                      {d.name}
+                    </Link>
+                  </React.Fragment>
+                ))}
+              </Typography>
+            ) : null}
           </div>
           <div className={classes.modalCloseButton} onClick={onClose}>
             <i className="far fa-times-circle fa-lg" />

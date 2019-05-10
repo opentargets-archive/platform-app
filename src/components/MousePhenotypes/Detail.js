@@ -17,11 +17,13 @@ const query = gql`
             isAssociated
           }
           rows {
+            mouseGeneId
             mouseGeneSymbol
             categoryLabel
             phenotypeLabel
             subjectAllelicComposition
-            pmId
+            subjectBackground
+            pmIds
           }
         }
       }
@@ -29,7 +31,7 @@ const query = gql`
   }
 `;
 
-const MousePhenotypesDetail = ({ ensgId }) => {
+const MousePhenotypesDetail = ({ ensgId, symbol }) => {
   return (
     <Query query={query} variables={{ ensgId }}>
       {({ loading, error, data }) => {
@@ -40,7 +42,7 @@ const MousePhenotypesDetail = ({ ensgId }) => {
         return (
           <Fragment>
             <AssociationSummary data={categories} />
-            <PhenotypesTable rows={rows} />
+            <PhenotypesTable rows={rows} symbol={symbol} />
           </Fragment>
         );
       }}

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { PALETTE } from 'ot-ui';
+import { PALETTE, Link } from 'ot-ui';
 
 import Widget from '../Widget';
 import TargetTractabilityDetail from './Detail';
@@ -21,10 +21,16 @@ const styles = theme => ({
   },
 });
 
-const TargetTractabilityWidget = ({ classes, tractability }) => {
+const TargetTractabilityWidget = ({
+  classes,
+  tractability,
+  symbol,
+  ensgId,
+}) => {
   const {
     hasAntibodyTractabilityAssessment,
     hasSmallMoleculeTractabilityAssessment,
+    sources,
   } = tractability;
 
   const hasData =
@@ -34,12 +40,26 @@ const TargetTractabilityWidget = ({ classes, tractability }) => {
     <Widget
       title="Target tractability"
       detailUrlStem="target-tractability"
-      detail={<TargetTractabilityDetail />}
+      detail={<TargetTractabilityDetail ensgId={ensgId} />}
       detailHeader={{
         title: 'Target tractability',
-        description: 'Target tractability',
+        description: (
+          <Fragment>
+            Summary of tractability assessment for {symbol} for small molecule
+            and antibody modalities. For more information on the tractability
+            assessment and descriptions of each bucket, please read{' '}
+            <Link
+              external
+              to="https://docs.targetvalidation.org/getting-started/target-tractability"
+            >
+              the tractability section of our documentation
+            </Link>
+            .
+          </Fragment>
+        ),
       }}
       hasData={hasData}
+      sources={sources}
     >
       <Grid container>
         <Grid item container md={6} justify="center">

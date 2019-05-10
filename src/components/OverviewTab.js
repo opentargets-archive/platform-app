@@ -18,6 +18,8 @@ import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
 import MousePhenotypesWidget from './MousePhenotypes';
 import TargetTractabilityWidget from './TargetTractability';
 import CancerHallmarksWidget from './CancerHallmarks';
+import VariationWidget from './Variation';
+import HomologyWidget from './Homology';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -118,6 +120,35 @@ const overviewQuery = gql`
         tractability {
           hasSmallMoleculeTractabilityAssessment
           hasAntibodyTractabilityAssessment
+          sources {
+            url
+            name
+          }
+        }
+        variation {
+          common {
+            variantsCount
+            diseasesCount
+          }
+          rare {
+            mutationsCount
+            diseasesCount
+          }
+          sources {
+            url
+            name
+          }
+        }
+        homology {
+          orthologuesBySpecies {
+            species
+            speciesId
+            orthologuesCount
+          }
+          sources {
+            url
+            name
+          }
         }
         cancerHallmarks {
           roleInCancer {
@@ -161,7 +192,7 @@ class OverviewTab extends Component {
   };
 
   render() {
-    const { ensgId, symbol, classes } = this.props;
+    const { ensgId, symbol, name, classes } = this.props;
     const { filterTerm } = this.state;
     const lowerCaseTerm = filterTerm.trim().toLowerCase();
 
@@ -185,6 +216,8 @@ class OverviewTab extends Component {
             mousePhenotypes,
             tractability,
             cancerHallmarks,
+            variation,
+            homology,
           } = data.target.summaries;
 
           return (
@@ -275,7 +308,29 @@ class OverviewTab extends Component {
                 )}
                 {TargetTractabilityWidget.widgetName.includes(
                   lowerCaseTerm
-                ) && <TargetTractabilityWidget tractability={tractability} />}
+                ) && (
+                  <TargetTractabilityWidget
+                    ensgId={ensgId}
+                    tractability={tractability}
+                    symbol={symbol}
+                  />
+                )}
+                {VariationWidget.widgetName.includes(lowerCaseTerm) && (
+                  <VariationWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    name={name}
+                    variation={variation}
+                  />
+                )}
+                {HomologyWidget.widgetName.includes(lowerCaseTerm) && (
+                  <HomologyWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    homology={homology}
+                  />
+                )}
+
                 {CancerHallmarksWidget.widgetName.includes(lowerCaseTerm) && (
                   <CancerHallmarksWidget
                     ensgId={ensgId}
