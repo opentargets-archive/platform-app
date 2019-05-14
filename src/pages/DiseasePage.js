@@ -2,8 +2,8 @@ import React, { Fragment, Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import * as d3Bundle from 'd3';
-import * as d3Dag from 'd3-dag';
+// import * as d3Bundle from 'd3';
+// import * as d3Dag from 'd3-dag';
 import { Helmet } from 'react-helmet';
 
 import { Tabs, Tab } from 'ot-ui';
@@ -13,7 +13,7 @@ import DiseaseAssociationsPage from './DiseaseAssociationsPage';
 import DiseaseSummary from '../components/DiseaseSummary';
 // import DiseaseOverviewTab from '../components/DiseaseOverviewTab';
 
-const d3 = Object.assign({}, d3Bundle, d3Dag);
+// const d3 = Object.assign({}, d3Bundle, d3Dag);
 
 const diseaseQuery = gql`
   query DiseaseQuery($efoId: String!) {
@@ -26,7 +26,7 @@ const diseaseQuery = gql`
   }
 `;
 
-const diseaseDAGQuery = gql`
+/* const diseaseDAGQuery = gql`
   query DiseaseDAGQuery($efoId: String!) {
     diseaseDAG(efoId: $efoId) {
       nodes {
@@ -37,13 +37,13 @@ const diseaseDAGQuery = gql`
       }
     }
   }
-`;
+`; */
 
-const colourMap = {
+/* const colourMap = {
   base: 'chartreuse',
   parent: 'lightblue',
   child: 'coral',
-};
+}; */
 
 class DiseasePage extends Component {
   state = {};

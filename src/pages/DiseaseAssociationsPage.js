@@ -1,8 +1,8 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+// import { Query } from 'react-apollo';
 
 const DiseaseAssociationsPage = ({ match }) => {
-  const { efoId } = match.params;
+  // const { efoId } = match.params;
   return <div>association content</div>;
 };
 

@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import crossfilter from 'crossfilter2';
 import Select from 'react-select';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import classNames from 'classnames';
 
 import { Link, DataDownloader, OtTableRF } from 'ot-ui';
 

@@ -139,7 +139,7 @@ var tooltip = function() {
 tooltip.list = function() {
   // list tooltip is based on general tooltips
   var t = tooltip();
-  var width = 180;
+  // var width = 180;
 
   t.fill(function(obj) {
     var tooltip_div = d3.select(this);
@@ -192,7 +192,7 @@ tooltip.table = function() {
   var t = tooltip();
   console.log(t.container());
 
-  var width = 180;
+  // var width = 180;
 
   t.fill(function(obj) {
     var tooltip_div = d3.select(this);
