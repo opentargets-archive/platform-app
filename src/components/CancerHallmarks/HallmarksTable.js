@@ -26,7 +26,7 @@ const getColumns = (
       ),
     },
     {
-      id: 'updown',
+      id: 'activity',
       label: 'Promotes or suppresses',
       renderCell: row => row.activity,
       renderFilter: () => (
@@ -51,7 +51,7 @@ const getColumns = (
           external
           to={`http://europepmc.org/search?query=EXT_ID:${row.pmId}`}
         >
-          1&nbsp;Publication
+          1&nbsp;publication
         </Link>
       ),
     },
@@ -59,10 +59,10 @@ const getColumns = (
 };
 
 const downloadColumns = [
-  { id: 'hallmark', label: 'Hallmarks' },
-  { id: 'updown', label: 'Promotes or suppresses' },
+  { id: 'name', label: 'Hallmarks' },
+  { id: 'activity', label: 'Promotes or suppresses' },
   { id: 'description', label: 'Description' },
-  { id: 'sources', label: 'Sources' },
+  { id: 'pmId', label: 'Sources (PubMed id)' },
 ];
 
 const getHallmarksOptions = rows => {
@@ -129,11 +129,11 @@ class HallmarksTable extends Component {
 
     return (
       <Fragment>
-        {/* <DataDownloader
+        <DataDownloader
           tableHeaders={downloadColumns}
           rows={filteredRows}
           fileStem={`${symbol}-hallmarks`}
-        /> */}
+        />
         <OtTableRF columns={columns} data={filteredRows} filters />
       </Fragment>
     );
