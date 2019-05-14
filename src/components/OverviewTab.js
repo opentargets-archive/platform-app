@@ -153,6 +153,7 @@ const overviewQuery = gql`
         cancerHallmarks {
           roleInCancer {
             name
+            pmId
           }
           sources {
             name
