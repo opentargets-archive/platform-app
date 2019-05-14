@@ -1,12 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import ToggleButton from '@material-ui/lab/ToggleButton';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Link, Button } from 'ot-ui';
+import { Link } from 'ot-ui';
 
 import SummaryTable from './SummaryTable';
 
@@ -37,15 +35,8 @@ const styles = () => ({
 });
 
 class SummaryTab extends Component {
-  state = { groupBy: 'organs' };
-
-  handleChange = (_, groupBy) => {
-    this.setState({ groupBy });
-  };
-
   render() {
     const { ensgId, symbol, classes } = this.props;
-    const { groupBy } = this.state;
 
     return (
       <Fragment>

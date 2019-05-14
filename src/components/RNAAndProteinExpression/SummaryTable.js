@@ -13,6 +13,10 @@ const styles = () => ({
 class SummaryTable extends Component {
   state = { groupBy: 'organs' };
 
+  handleChange = (_, groupBy) => {
+    this.setState({ groupBy });
+  };
+
   render() {
     const { classes, data } = this.props;
     const { groupBy } = this.state;
