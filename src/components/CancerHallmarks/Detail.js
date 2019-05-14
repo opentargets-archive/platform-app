@@ -3,7 +3,8 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Typography from '@material-ui/core/Typography';
 
-import { Link, OtTableRF, DataDownloader } from 'ot-ui';
+import { Link } from 'ot-ui';
+import HallmarksTable from './HallmarksTable';
 
 const query = gql`
   query CancerHallmarksQuery($ensgId: String!) {
@@ -11,17 +12,16 @@ const query = gql`
       id
       details {
         cancerHallmarks {
-          publicationsByHallmark {
+          roleInCancer {
+            name
+          }
+          rows {
             name
             promotes
             suppresses
-            publications {
-              pmId
-              description
-            }
-          }
-          roleInCancer {
-            name
+            pmId
+            description
+            activity
           }
         }
       }
@@ -44,21 +44,34 @@ const columns = [
   },
 ];
 
-const CancerHallmarksDetail = ({ ensgId, symbol, sources }) => {
+const CancerHallmarksDetail = ({ ensgId, symbol, roleInCancer }) => {
   return (
-    <React.Fragment>
-      <Query query={query} variables={{ ensgId }}>
-        {({ loading, error, data }) => {
-          if (loading || error) return null;
+    <Query query={query} variables={{ ensgId }}>
+      {({ loading, error, data }) => {
+        if (loading || error) return null;
 
-          return (
-            <React.Fragment>
-              <Typography>Cancer hallmarks</Typography>
-            </React.Fragment>
-          );
-        }}
-      </Query>
-    </React.Fragment>
+        const { rows } = data.target.details.cancerHallmarks;
+        return (
+          <React.Fragment>
+            <Typography>
+              Role in cancer:{' '}
+              {roleInCancer.map(r => (
+                <React.Fragment key={r.pmId}>
+                  <Link
+                    external
+                    to={'http://europepmc.org/search?query=EXT_ID:$' + r.pmId}
+                  >
+                    {r.name}
+                  </Link>
+                  &nbsp;
+                </React.Fragment>
+              )) || 'No data'}
+            </Typography>
+            <HallmarksTable rows={rows} symbol={symbol} />
+          </React.Fragment>
+        );
+      }}
+    </Query>
   );
 };
 
