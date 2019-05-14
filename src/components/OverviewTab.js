@@ -283,6 +283,7 @@ class OverviewTab extends Component {
                   lowerCaseTerm
                 ) && (
                   <RNAAndProteinExpressionWidget
+                    ensgId={ensgId}
                     symbol={symbol}
                     rnaAndProteinExpression={rnaAndProteinExpression}
                   />

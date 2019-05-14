@@ -1,10 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ToggleButton from '@material-ui/lab/ToggleButton';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Link } from 'ot-ui';
+import { Link, Button } from 'ot-ui';
+
+import SummaryTable from './SummaryTable';
 
 const query = gql`
   query ExpressionQuery($ensgId: String!) {
@@ -27,11 +31,22 @@ const styles = () => ({
   description: {
     fontStyle: 'italic',
   },
+  inlineBlock: {
+    display: 'inline-block',
+  },
 });
 
 class SummaryTab extends Component {
+  state = { groupBy: 'organs' };
+
+  handleChange = (_, groupBy) => {
+    this.setState({ groupBy });
+  };
+
   render() {
-    const { symbol, classes } = this.props;
+    const { ensgId, symbol, classes } = this.props;
+    const { groupBy } = this.state;
+
     return (
       <Fragment>
         <Typography className={classes.description}>
@@ -52,6 +67,13 @@ class SummaryTab extends Component {
             Expression Atlas
           </Link>
         </Typography>
+        <Query query={query} variables={{ ensgId }}>
+          {({ loading, error, data }) => {
+            if (loading || error) return null;
+
+            return <SummaryTable data={data.target.details.expression.rows} />;
+          }}
+        </Query>
       </Fragment>
     );
   }

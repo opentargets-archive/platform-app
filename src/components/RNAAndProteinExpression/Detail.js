@@ -12,7 +12,7 @@ class RNAAndProteinExpressionDetail extends Component {
   };
 
   render() {
-    const { symbol } = this.props;
+    const { ensgId, symbol } = this.props;
     const { value } = this.state;
 
     return (
@@ -22,7 +22,7 @@ class RNAAndProteinExpressionDetail extends Component {
           <Tab value="atlas" label="Expression Atlas" />
           <Tab value="gtex" label="GTEx variability" />
         </Tabs>
-        {value === 'summary' && <SummaryTab symbol={symbol} />}
+        {value === 'summary' && <SummaryTab ensgId={ensgId} symbol={symbol} />}
         {value === 'atlas' && <AtlasTab />}
         {value === 'gtex' && <GtexTab />}
       </Fragment>
