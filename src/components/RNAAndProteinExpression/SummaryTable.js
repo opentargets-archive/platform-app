@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
@@ -10,6 +11,60 @@ const styles = () => ({
   },
 });
 
+const getOrgans = data => {
+  const organSet = [];
+  data.forEach(({ organs }) => {
+    organs.forEach(organ => {
+      organSet.push(organ);
+    });
+  });
+  return _.uniq(organSet);
+};
+
+const getLabelsByOrgan = (data, organ) => {
+  const labels = [];
+  data.forEach(d => {
+    if (d.organs.includes(organ)) {
+      labels.push(d.label);
+    }
+  });
+  return labels;
+};
+
+class OrganRow extends Component {
+  state = {
+    collapsed: true,
+  };
+
+  handleClick = () => {
+    this.setState(state => ({ collapsed: !state.collapsed }));
+  };
+
+  render() {
+    const { organ, data } = this.props;
+    const { collapsed } = this.state;
+
+    const labels = getLabelsByOrgan(data, organ);
+
+    return (
+      <Fragment>
+        <tr
+          key={organ}
+          style={{ backgroundColor: 'papayawhip' }}
+          onClick={this.handleClick}
+        >
+          <td>{organ}</td>
+        </tr>
+        {labels.map(label => (
+          <tr key={label} style={{ display: collapsed ? 'none' : 'table-row' }}>
+            <td>{label}</td>
+          </tr>
+        ))}
+      </Fragment>
+    );
+  }
+}
+
 class SummaryTable extends Component {
   state = { groupBy: 'organs' };
 
@@ -20,6 +75,8 @@ class SummaryTable extends Component {
   render() {
     const { classes, data } = this.props;
     const { groupBy } = this.state;
+
+    const organs = getOrgans(data);
 
     return (
       <Fragment>
@@ -46,7 +103,11 @@ class SummaryTable extends Component {
               <td>High Low</td>
             </tr>
           </thead>
-          <tbody />
+          <tbody>
+            {organs.map(organ => {
+              return <OrganRow key={organ} organ={organ} data={data} />;
+            })}
+          </tbody>
         </table>
       </Fragment>
     );

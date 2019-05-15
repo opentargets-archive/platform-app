@@ -15,7 +15,6 @@ const query = gql`
       details {
         expression {
           rows {
-            uberonId
             label
             organs
           }
