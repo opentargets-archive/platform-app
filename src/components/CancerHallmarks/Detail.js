@@ -21,7 +21,6 @@ const query = gql`
             suppresses
             pmId
             description
-            activity
           }
         }
       }

@@ -81,7 +81,12 @@ const getPromotesOptions = rows => {
 
 class HallmarksTable extends Component {
   state = {
-    filteredRows: this.props.rows,
+    filteredRows: this.props.rows.map(r => ({
+      name: r.name,
+      activity: r.promotes ? 'promotes' : r.suppresses ? 'suppresses' : '',
+      description: r.description,
+      pmId: r.pmId,
+    })),
   };
 
   hallmarksFilterHandler = selection => {
@@ -109,21 +114,20 @@ class HallmarksTable extends Component {
   };
 
   componentDidMount() {
-    this.hallmarksXf = crossfilter(this.props.rows);
+    this.hallmarksXf = crossfilter(this.rows);
     this.hallmarksDim = this.hallmarksXf.dimension(row => row.name);
     this.promotesDim = this.hallmarksXf.dimension(row => row.activity);
   }
 
   render() {
-    const { symbol, rows } = this.props;
+    const { symbol } = this.props;
     const { filteredRows } = this.state;
-    const hallmarksOptions = getHallmarksOptions(rows);
-    const promotesOptions = getPromotesOptions(rows);
+    this.rows = this.state.filteredRows;
 
     const columns = getColumns(
-      hallmarksOptions,
+      getHallmarksOptions(this.rows),
       this.hallmarksFilterHandler,
-      promotesOptions,
+      getPromotesOptions(this.rows),
       this.promotesFilterHandler
     );
 
