@@ -49,7 +49,7 @@ const CancerHallmarksWidget = ({
         />
       }
       detailHeader={{
-        title: <React.Fragment>{symbol} - Cancer Hallmarks</React.Fragment>,
+        title: `${symbol} - Cancer Hallmarks`,
         description: (
           <React.Fragment>
             Essential alterations in cell physiology that dictate malignant
