@@ -103,6 +103,10 @@ const overviewQuery = gql`
           ppi
           pathways
           enzymeSubstrate
+          sources {
+            name
+            url
+          }
         }
         rnaAndProteinExpression {
           rnaBaselineExpression
@@ -275,6 +279,7 @@ class OverviewTab extends Component {
                   lowerCaseTerm
                 ) && (
                   <ProteinInteractionsWidget
+                    ensgId={ensgId}
                     symbol={symbol}
                     proteinInteractions={proteinInteractions}
                   />

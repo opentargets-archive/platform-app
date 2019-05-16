@@ -21,20 +21,22 @@ const styles = theme => ({
 
 const ProteinInteractionsWidget = ({
   classes,
+  ensgId,
   symbol,
   proteinInteractions,
 }) => {
-  const { ppi, pathways, enzymeSubstrate } = proteinInteractions;
+  const { ppi, pathways, enzymeSubstrate, sources } = proteinInteractions;
   const hasData = ppi > 0 || pathways > 0 || proteinInteractions > 0;
 
   return (
     <Widget
       title="Protein interactions"
       detailUrlStem="protein-interactions"
-      detail={<ProteinInteractionsDetail />}
+      detail={<ProteinInteractionsDetail ensgId={ensgId} />}
+      sources={sources}
       detailHeader={{
         title: `${symbol} - Protein Interactions`,
-        description: `Protein Interactions`,
+        description: `Summary of interactions for ${symbol} based on OmniPath DB data. When 2 targets are selected, details on the interaction (including publications) are shown.`,
       }}
       hasData={hasData}
     >
