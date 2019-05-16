@@ -81,6 +81,8 @@ const getPromotesOptions = rows => {
 
 class HallmarksTable extends Component {
   state = {
+    // initialize filteredrows to rows: we also map each entry
+    // and generate a convenience 'activity' field to then filter on
     filteredRows: this.props.rows.map(r => ({
       name: r.name,
       activity: r.promotes ? 'promotes' : r.suppresses ? 'suppresses' : '',
@@ -114,7 +116,9 @@ class HallmarksTable extends Component {
   };
 
   componentDidMount() {
-    this.hallmarksXf = crossfilter(this.rows);
+    // Initialize the xfilter with filteredrows:
+    // this is only done at hte beginning and hence stores the full data rows
+    this.hallmarksXf = crossfilter(this.state.filteredRows);
     this.hallmarksDim = this.hallmarksXf.dimension(row => row.name);
     this.promotesDim = this.hallmarksXf.dimension(row => row.activity);
   }
@@ -122,12 +126,12 @@ class HallmarksTable extends Component {
   render() {
     const { symbol } = this.props;
     const { filteredRows } = this.state;
-    this.rows = this.state.filteredRows;
 
+    // At this point filteredrows is the mapped rows from the props.
     const columns = getColumns(
-      getHallmarksOptions(this.rows),
+      getHallmarksOptions(filteredRows),
       this.hallmarksFilterHandler,
-      getPromotesOptions(this.rows),
+      getPromotesOptions(filteredRows),
       this.promotesFilterHandler
     );
 
