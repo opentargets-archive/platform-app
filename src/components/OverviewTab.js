@@ -17,6 +17,7 @@ import ProteinInteractionsWidget from './ProteinInteractions';
 import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
 import MousePhenotypesWidget from './MousePhenotypes';
 import TargetTractabilityWidget from './TargetTractability';
+import CancerHallmarksWidget from './CancerHallmarks';
 import VariationWidget from './Variation';
 import HomologyWidget from './Homology';
 
@@ -151,6 +152,20 @@ const overviewQuery = gql`
             name
           }
         }
+        cancerHallmarks {
+          roleInCancer {
+            name
+            pmId
+          }
+          sources {
+            name
+          }
+          promotionAndSuppressionByHallmark {
+            name
+            promotes
+            suppresses
+          }
+        }
       }
     }
   }
@@ -203,6 +218,7 @@ class OverviewTab extends Component {
             rnaAndProteinExpression,
             mousePhenotypes,
             tractability,
+            cancerHallmarks,
             variation,
             homology,
           } = data.target.summaries;
@@ -315,6 +331,14 @@ class OverviewTab extends Component {
                     ensgId={ensgId}
                     symbol={symbol}
                     homology={homology}
+                  />
+                )}
+
+                {CancerHallmarksWidget.widgetName.includes(lowerCaseTerm) && (
+                  <CancerHallmarksWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    cancerHallmarks={cancerHallmarks}
                   />
                 )}
               </Grid>
