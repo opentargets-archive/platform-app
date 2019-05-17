@@ -17,6 +17,14 @@ const query = gql`
           rows {
             label
             organs
+            anatomicalSystems
+            rna {
+              value
+              level
+            }
+            protein {
+              level
+            }
           }
         }
       }
@@ -61,7 +69,9 @@ class SummaryTab extends Component {
           {({ loading, error, data }) => {
             if (loading || error) return null;
 
-            return <SummaryTable data={data.target.details.expression.rows} />;
+            return (
+              <SummaryTable tissues={data.target.details.expression.rows} />
+            );
           }}
         </Query>
       </Fragment>

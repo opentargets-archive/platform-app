@@ -11,27 +11,48 @@ const styles = () => ({
   },
 });
 
-const getOrgans = data => {
-  const organSet = [];
-  data.forEach(({ organs }) => {
-    organs.forEach(organ => {
-      organSet.push(organ);
-    });
-  });
-  return _.uniq(organSet);
-};
+const getTissuesByGroup = (groupBy, parentLabel, tissues) => {
+  const filteredTissues = [];
 
-const getLabelsByOrgan = (data, organ) => {
-  const labels = [];
-  data.forEach(d => {
-    if (d.organs.includes(organ)) {
-      labels.push(d.label);
+  tissues.forEach(tissue => {
+    if (tissue[groupBy].includes(parentLabel)) {
+      filteredTissues.push(tissue);
     }
   });
-  return labels;
+
+  return filteredTissues;
 };
 
-class OrganRow extends Component {
+const proteinLevel = level => {
+  if (level === 0) {
+    return 'Under expressed';
+  }
+  if (level === 1) {
+    return 'Low';
+  }
+  if (level === 2) {
+    return 'Medium';
+  }
+  return 'High';
+};
+
+const rnaValueToPercent = (maxRnaValue, value) => {
+  return (value * 100) / maxRnaValue;
+};
+
+const proteinLevelToPercent = level => {
+  return (level * 100) / 3;
+};
+
+const getRowMaxRnaValue = tissues => {
+  return _.maxBy(tissues, tissue => tissue.rna.value).rna.value;
+};
+
+const getRowMaxProteinLevel = tissues => {
+  return _.maxBy(tissues, tissue => tissue.protein.level).protein.level;
+};
+
+class SummaryRow extends Component {
   state = {
     collapsed: true,
   };
@@ -41,42 +62,109 @@ class OrganRow extends Component {
   };
 
   render() {
-    const { organ, data } = this.props;
+    const { parentLabel, maxRnaValue, tissues, groupBy } = this.props;
     const { collapsed } = this.state;
 
-    const labels = getLabelsByOrgan(data, organ);
+    const filteredTissues = getTissuesByGroup(groupBy, parentLabel, tissues);
+    const rowMaxRnaValue = getRowMaxRnaValue(filteredTissues);
+    const rowMaxProteinLevel = getRowMaxProteinLevel(filteredTissues);
 
     return (
       <Fragment>
         <tr
-          key={organ}
           style={{ backgroundColor: 'papayawhip' }}
           onClick={this.handleClick}
         >
-          <td>{organ}</td>
+          <td>{parentLabel}</td>
+          <td>
+            <div
+              title={`${rowMaxRnaValue} (normalized count)`}
+              style={{
+                backgroundColor: 'blue',
+                width: `${rnaValueToPercent(maxRnaValue, rowMaxRnaValue)}%`,
+                height: '12px',
+                float: 'right',
+              }}
+            />
+          </td>
+          <td>
+            <div
+              title={proteinLevel(rowMaxProteinLevel)}
+              style={{
+                backgroundColor: 'blue',
+                width: `${proteinLevelToPercent(rowMaxProteinLevel)}%`,
+                height: '12px',
+              }}
+            />
+          </td>
         </tr>
-        {labels.map(label => (
-          <tr key={label} style={{ display: collapsed ? 'none' : 'table-row' }}>
-            <td>{label}</td>
-          </tr>
-        ))}
+        {filteredTissues.map(tissue => {
+          const rnaPercent = rnaValueToPercent(maxRnaValue, tissue.rna.value);
+          const proteinPercent = proteinLevelToPercent(tissue.protein.level);
+
+          return (
+            <tr
+              key={tissue.label}
+              style={{ display: collapsed ? 'none' : 'table-row' }}
+            >
+              <td>{tissue.label}</td>
+              <td>
+                <div
+                  title={`${tissue.rna.value} (normalized count)`}
+                  style={{
+                    backgroundColor: 'blue',
+                    width: `${rnaPercent}%`,
+                    height: '12px',
+                    float: 'right',
+                  }}
+                />
+              </td>
+              <td>
+                <div
+                  title={proteinLevel(tissue.protein.level)}
+                  style={{
+                    backgroundColor: 'blue',
+                    width: `${proteinPercent}%`,
+                    height: '12px',
+                  }}
+                />
+              </td>
+            </tr>
+          );
+        })}
       </Fragment>
     );
   }
 }
 
+const getParentLabels = (groupBy, tissues) => {
+  const labelSet = [];
+
+  tissues.forEach(tissue => {
+    const labels = tissue[groupBy];
+    labels.forEach(label => {
+      labelSet.push(label);
+    });
+  });
+
+  return _.uniq(labelSet);
+};
+
 class SummaryTable extends Component {
   state = { groupBy: 'organs' };
 
   handleChange = (_, groupBy) => {
-    this.setState({ groupBy });
+    if (groupBy) {
+      this.setState({ groupBy });
+    }
   };
 
   render() {
-    const { classes, data } = this.props;
+    const { classes, tissues } = this.props;
     const { groupBy } = this.state;
 
-    const organs = getOrgans(data);
+    const parentLabels = getParentLabels(groupBy, tissues);
+    const maxRnaValue = _.maxBy(tissues, tissue => tissue.rna.value).rna.value;
 
     return (
       <Fragment>
@@ -88,7 +176,9 @@ class SummaryTable extends Component {
           onChange={this.handleChange}
         >
           <ToggleButton value="organs">Organs</ToggleButton>
-          <ToggleButton value="systems">Anatomical Systems</ToggleButton>
+          <ToggleButton value="anatomicalSystems">
+            Anatomical Systems
+          </ToggleButton>
         </ToggleButtonGroup>
         <table>
           <thead>
@@ -104,8 +194,16 @@ class SummaryTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {organs.map(organ => {
-              return <OrganRow key={organ} organ={organ} data={data} />;
+            {parentLabels.map(parentLabel => {
+              return (
+                <SummaryRow
+                  key={parentLabel}
+                  parentLabel={parentLabel}
+                  maxRnaValue={maxRnaValue}
+                  tissues={tissues}
+                  groupBy={groupBy}
+                />
+              );
             })}
           </tbody>
         </table>
