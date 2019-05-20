@@ -69,25 +69,36 @@ class SummaryRow extends Component {
         >
           <td>{parent.parentLabel}</td>
           <td>
-            <div
-              title={`${parent.maxRnaValue} (normalized count)`}
-              style={{
-                backgroundColor: 'blue',
-                width: `${rnaValueToPercent(maxRnaValue, parent.maxRnaValue)}%`,
-                height: '12px',
-                float: 'right',
-              }}
-            />
+            {parent.maxRnaLevel >= 0 ? (
+              <div
+                title={`${parent.maxRnaValue} (normalized count)`}
+                style={{
+                  backgroundColor: 'blue',
+                  width: `${rnaValueToPercent(
+                    maxRnaValue,
+                    parent.maxRnaValue
+                  )}%`,
+                  height: '12px',
+                  float: 'right',
+                }}
+              />
+            ) : (
+              <div>N/A</div>
+            )}
           </td>
           <td>
-            <div
-              title={proteinLevel(parent.maxProteinLevel)}
-              style={{
-                backgroundColor: 'blue',
-                width: `${proteinLevelToPercent(parent.maxProteinLevel)}%`,
-                height: '12px',
-              }}
-            />
+            {parent.maxProteinLevel >= 0 ? (
+              <div
+                title={proteinLevel(parent.maxProteinLevel)}
+                style={{
+                  backgroundColor: 'blue',
+                  width: `${proteinLevelToPercent(parent.maxProteinLevel)}%`,
+                  height: '12px',
+                }}
+              />
+            ) : (
+              <div>N/A</div>
+            )}
           </td>
         </tr>
         {parent.tissues.map(tissue => {
@@ -138,43 +149,69 @@ class SummaryRow extends Component {
 }
 
 const groupTissues = (tissues, groupBy) => {
-  const groupedTissuesMap = {};
+  const groupedTissues = {};
 
   tissues.forEach(tissue => {
     const parentLabels = tissue[groupBy];
     parentLabels.forEach(parentLabel => {
-      if (!groupedTissuesMap[parentLabel]) {
-        groupedTissuesMap[parentLabel] = {
+      if (!groupedTissues[parentLabel]) {
+        groupedTissues[parentLabel] = {
           parentLabel: parentLabel,
           tissues: [],
           maxRnaValue: Number.NEGATIVE_INFINITY,
+          maxRnaLevel: Number.NEGATIVE_INFINITY,
           maxProteinLevel: Number.NEGATIVE_INFINITY,
         };
       }
 
-      groupedTissuesMap[parentLabel].tissues.push(tissue);
-      groupedTissuesMap[parentLabel].maxRnaValue =
-        groupedTissuesMap[parentLabel].maxRnaValue < tissue.rna.value
+      groupedTissues[parentLabel].tissues.push(tissue);
+      groupedTissues[parentLabel].maxRnaValue =
+        groupedTissues[parentLabel].maxRnaValue < tissue.rna.value
           ? tissue.rna.value
-          : groupedTissuesMap[parentLabel].maxRnaValue;
-      groupedTissuesMap[parentLabel].maxProteinLevel =
-        groupedTissuesMap[parentLabel].maxProteinLevel < tissue.protein.level
+          : groupedTissues[parentLabel].maxRnaValue;
+      groupedTissues[parentLabel].maxRnaLevel =
+        groupedTissues[parentLabel].maxRnaLevel < tissue.rna.level
+          ? tissue.rna.level
+          : groupedTissues[parentLabel].maxRnaLevel;
+      groupedTissues[parentLabel].maxProteinLevel =
+        groupedTissues[parentLabel].maxProteinLevel < tissue.protein.level
           ? tissue.protein.level
-          : groupedTissuesMap[parentLabel].maxProteinLevel;
+          : groupedTissues[parentLabel].maxProteinLevel;
     });
   });
 
-  return Object.values(groupedTissuesMap);
+  return Object.values(groupedTissues);
+};
+
+const tissueComparator = sortBy => {
+  if (sortBy === 'rna') {
+    return (a, b) => {
+      return b.rna.value - a.rna.value;
+    };
+  }
+
+  return (a, b) => {
+    return b.protein.level - a.protein.level;
+  };
+};
+
+const parentComparator = sortBy => {
+  if (sortBy === 'rna') {
+    return (a, b) => {
+      return b.maxRnaValue - a.maxRnaValue;
+    };
+  }
+
+  return (a, b) => {
+    return b.maxProteinLevel - a.maxProteinLevel;
+  };
 };
 
 const sort = (parents, sortBy) => {
   parents.forEach(parent => {
-    parent.tissues = _.sortBy(
-      parent.tissues,
-      tissue => tissue.rna.value
-    ).reverse();
+    parent.tissues.sort(tissueComparator(sortBy));
   });
-  return _.sortBy(parents, parent => parent.maxRnaValue).reverse();
+  return parents.sort(parentComparator(sortBy));
 };
 
 class SummaryTable extends Component {
@@ -196,7 +233,6 @@ class SummaryTable extends Component {
 
     const maxRnaValue = getMaxRnaValue(tissues);
     const parents = sort(groupTissues(tissues, groupBy), sortBy);
-    console.log('parents', parents);
 
     return (
       <Fragment>
@@ -222,7 +258,7 @@ class SummaryTable extends Component {
             <tr>
               <td />
               <td>High Low</td>
-              <td>High Low</td>
+              <td>Low High</td>
             </tr>
           </thead>
           <tbody>
