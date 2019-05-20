@@ -13,8 +13,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
 
-import { Link, OtTableRF, PALETTE } from 'ot-ui';
+import { Button, Link, OtTableRF, PALETTE } from 'ot-ui';
 
 const query = gql`
   query ProteinInteractionsQuery($ensgId: String!) {
@@ -52,7 +53,8 @@ const sourceTypeColors = {
 
 const styles = theme => ({
   formControl: {
-    margin: theme.spacing.unit * 3,
+    margin: theme.spacing.unit * 0.5,
+    marginLeft: theme.spacing.unit * 2,
   },
   chip: {
     margin: theme.spacing.unit * 0.5,
@@ -261,6 +263,7 @@ class ProteinInteractionsDetail extends React.Component {
               <Grid item sm={12} md={6}>
                 <div>
                   <Typography>Filter by interaction type</Typography>
+
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
@@ -326,16 +329,39 @@ class ProteinInteractionsDetail extends React.Component {
                     </FormGroup>
                   </FormControl>
                 </div>
+                <br />
                 <Typography>Selection</Typography>
-                {selectedUniprotIds.map(uniprotId => (
-                  <Chip
-                    key={uniprotId}
-                    className={classes.chip}
-                    color="primary"
-                    label={nodes.find(n => n.uniprotId === uniprotId).symbol}
-                    onDelete={() => this.handleProteinClick(uniprotId)}
-                  />
-                ))}
+
+                {selectedUniprotIds.length > 0 ? (
+                  <React.Fragment>
+                    {selectedUniprotIds.map(uniprotId => (
+                      <Chip
+                        key={uniprotId}
+                        className={classes.chip}
+                        color="primary"
+                        label={
+                          nodes.find(n => n.uniprotId === uniprotId).symbol
+                        }
+                        onDelete={() => this.handleProteinClick(uniprotId)}
+                      />
+                    ))}
+                    {selectedUniprotIds.length > 1 ? (
+                      <Button color="primary" size="small" disableRipple>
+                        Analyse with batch search
+                      </Button>
+                    ) : null}
+                  </React.Fragment>
+                ) : (
+                  <Typography align="center" style={{ padding: '4px' }}>
+                    <i>
+                      No selection. Click on proteins on the chart to make a
+                      selection.
+                    </i>
+                  </Typography>
+                )}
+
+                <br />
+                <br />
                 <Typography>Interaction details</Typography>
                 <OtTableRF
                   columns={[
