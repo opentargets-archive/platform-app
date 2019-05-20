@@ -426,34 +426,6 @@ class ProteinInteractionsDetail extends React.Component {
                       >
                         Not a neighbour of selection
                       </text>
-                      {/* <text
-                        x={-10}
-                        y={10}
-                        fill="#bbb"
-                        textAnchor="end"
-                        alignmentBaseline="central"
-                      >
-                        {0}
-                      </text>
-                      {legendData.map((d, i) => (
-                        <rect
-                          x={i * 20}
-                          y={0}
-                          width={20}
-                          height={20}
-                          fill={colour(d + 1)}
-                          stroke="#bbb"
-                        />
-                      ))}
-                      <text
-                        x={legendData.length * 20 + 10}
-                        y={10}
-                        fill="#bbb"
-                        textAnchor="start"
-                        alignmentBaseline="central"
-                      >
-                        {maxNeighbourCount}
-                      </text> */}
                     </g>
                     {selectedUniprotIds.length > 0 ? (
                       <g
