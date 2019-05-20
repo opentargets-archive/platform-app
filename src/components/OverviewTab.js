@@ -24,6 +24,7 @@ const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
       id
+      uniprotId
       summaries {
         drugs {
           drugCount
@@ -195,6 +196,7 @@ class OverviewTab extends Component {
             return null;
           }
 
+          const { uniprotId, summaries } = data.target;
           const {
             drugs,
             chemicalProbes,
@@ -209,7 +211,7 @@ class OverviewTab extends Component {
             tractability,
             variation,
             homology,
-          } = data.target.summaries;
+          } = summaries;
 
           return (
             <Fragment>
@@ -281,6 +283,7 @@ class OverviewTab extends Component {
                   <ProteinInteractionsWidget
                     ensgId={ensgId}
                     symbol={symbol}
+                    uniprotId={uniprotId}
                     proteinInteractions={proteinInteractions}
                   />
                 )}

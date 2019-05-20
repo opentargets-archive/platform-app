@@ -22,6 +22,7 @@ const styles = theme => ({
 const ProteinInteractionsWidget = ({
   classes,
   ensgId,
+  uniprotId,
   symbol,
   proteinInteractions,
 }) => {
@@ -32,7 +33,9 @@ const ProteinInteractionsWidget = ({
     <Widget
       title="Protein interactions"
       detailUrlStem="protein-interactions"
-      detail={<ProteinInteractionsDetail ensgId={ensgId} />}
+      detail={
+        <ProteinInteractionsDetail ensgId={ensgId} uniprotId={uniprotId} />
+      }
       sources={sources}
       detailHeader={{
         title: `${symbol} - Protein Interactions`,
