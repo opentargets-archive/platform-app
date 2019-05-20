@@ -11,6 +11,9 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
+import Chip from '@material-ui/core/Chip';
+
+import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 
 const query = gql`
   query ProteinInteractionsQuery($ensgId: String!) {
@@ -44,6 +47,9 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit * 3,
   },
+  chip: {
+    margin: theme.spacing.unit * 0.5,
+  },
 });
 
 class ProteinInteractionsDetail extends React.Component {
@@ -75,7 +81,7 @@ class ProteinInteractionsDetail extends React.Component {
         selectedUniprotIds: selectedUniprotIds.filter(d => d !== uniprotId),
       });
     } else {
-      this.setState({ selectedUniprotIds: [uniprotId, ...selectedUniprotIds] });
+      this.setState({ selectedUniprotIds: [...selectedUniprotIds, uniprotId] });
     }
   };
   render() {
@@ -97,13 +103,40 @@ class ProteinInteractionsDetail extends React.Component {
             nodes: nodesRaw,
             edges,
           } = data.target.details.proteinInteractions;
+          const edgesFiltered = edges
+            .filter(
+              e =>
+                (interactionTypes.ppi && e.ppiSources.length > 0) ||
+                (interactionTypes.pathways && e.pathwaysSources.length > 0) ||
+                (interactionTypes.enzymeSubstrate &&
+                  e.enzymeSubstrateSources.length > 0)
+            )
+            .filter(e =>
+              selectedUniprotIds.length > 1
+                ? selectedUniprotIds.indexOf(e.source) >= 0 &&
+                  selectedUniprotIds.indexOf(e.target) >= 0
+                : selectedUniprotIds.length === 1
+                ? selectedUniprotIds.indexOf(e.source) >= 0 ||
+                  selectedUniprotIds.indexOf(e.target) >= 0
+                : true
+            );
           const nodes = nodesRaw.map(n => ({
             ...n,
-            neighbourCount: edges.filter(
+            neighbourCount: edgesFiltered.filter(
               e => e.source === n.uniprotId || e.target === n.uniprotId
             ).length,
           }));
           const nodeCount = nodes.length;
+          const maxNeighbourCount = d3.max(nodes, n => n.neighbourCount);
+          const legendInterval = maxNeighbourCount / 5;
+          const legendData = [
+            0,
+            legendInterval,
+            legendInterval * 2,
+            legendInterval * 3,
+            legendInterval * 4,
+            legendInterval * 5,
+          ];
 
           // helpers
           const padding = 100;
@@ -133,15 +166,16 @@ class ProteinInteractionsDetail extends React.Component {
 
           return (
             <Grid container>
-              <Grid item sm={12} md={3}>
+              <Grid item sm={12} md={6}>
                 <div>
+                  <Typography>Filter by interaction type</Typography>
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
                   >
-                    <FormLabel component="legend">
+                    {/* <FormLabel component="legend">
                       Filter by interaction type
-                    </FormLabel>
+                    </FormLabel> */}
                     <FormGroup>
                       <FormControlLabel
                         control={
@@ -180,9 +214,68 @@ class ProteinInteractionsDetail extends React.Component {
                     </FormGroup>
                   </FormControl>
                 </div>
+                <Typography>Selection</Typography>
+                {selectedUniprotIds.map(uniprotId => (
+                  <Chip
+                    className={classes.chip}
+                    color="primary"
+                    label={nodes.find(n => n.uniprotId === uniprotId).symbol}
+                    onDelete={() => this.handleProteinClick(uniprotId)}
+                  />
+                ))}
                 <Typography>Interaction details</Typography>
+                <OtTableRF
+                  columns={[
+                    {
+                      id: 'source',
+                      label: 'Source',
+                      renderCell: d => {
+                        const node = nodes.find(n => n.uniprotId === d.source);
+                        const { ensgId, symbol } = node;
+                        return <Link to={`target/${ensgId}`}>{symbol}</Link>;
+                      },
+                    },
+                    {
+                      id: 'target',
+                      label: 'Target',
+                      renderCell: d => {
+                        const node = nodes.find(n => n.uniprotId === d.target);
+                        const { ensgId, symbol } = node;
+                        return <Link to={`target/${ensgId}`}>{symbol}</Link>;
+                      },
+                    },
+                    {
+                      id: 'sources',
+                      label: 'Sources',
+                      renderCell: d => d.sources.join(', '),
+                    },
+                    {
+                      id: 'pmIds',
+                      label: 'Reference',
+                      renderCell: d =>
+                        d.pmIds.length > 0 ? (
+                          <Link
+                            external
+                            to={`https://europepmc.org/search?query=${d.pmIds
+                              .map(r => `EXT_ID:${r}`)
+                              .join(' OR ')}`}
+                          >
+                            {d.pmIds.length} publication
+                            {d.pmIds.length > 1 ? 's' : null}
+                          </Link>
+                        ) : null,
+                    },
+                    /* {
+                      id: 'enzymeSubstrateSources',
+                      label: 'Enzyme-substrate',
+                      renderCell: d =>
+                        d.enzymeSubstrateSources.length > 0 ? 'Yes' : 'No',
+                    }, */
+                  ]}
+                  data={edgesFiltered}
+                />
               </Grid>
-              <Grid item sm={12} md={9}>
+              <Grid item sm={12} md={6}>
                 <div ref={measureRef}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -190,13 +283,46 @@ class ProteinInteractionsDetail extends React.Component {
                     height={height}
                   >
                     <g
+                      transform={`translate(${width -
+                        20 * (legendData.length + 3)},${20})`}
+                    >
+                      <text
+                        x={-10}
+                        y={10}
+                        fill="#bbb"
+                        textAnchor="end"
+                        alignmentBaseline="central"
+                      >
+                        {0}
+                      </text>
+                      {legendData.map((d, i) => (
+                        <rect
+                          x={i * 20}
+                          y={0}
+                          width={20}
+                          height={20}
+                          fill={colour(d + 1)}
+                          stroke="#bbb"
+                        />
+                      ))}
+                      <text
+                        x={legendData.length * 20 + 10}
+                        y={10}
+                        fill="#bbb"
+                        textAnchor="start"
+                        alignmentBaseline="central"
+                      >
+                        {maxNeighbourCount}
+                      </text>
+                    </g>
+                    <g
                       fill="none"
                       stroke="#999"
                       strokeOpacity={0.6}
                       transform={`translate(${width / 2},${height / 2})`}
                     >
-                      {edges
-                        .filter(
+                      {edgesFiltered
+                        /* .filter(
                           e =>
                             (interactionTypes.ppi && e.ppiSources.length > 0) ||
                             (interactionTypes.pathways &&
@@ -213,7 +339,7 @@ class ProteinInteractionsDetail extends React.Component {
                             ? selectedUniprotIds.indexOf(e.source) >= 0 ||
                               selectedUniprotIds.indexOf(e.target) >= 0
                             : true
-                        )
+                        ) */
                         .map(e => {
                           let fromAngle = nodeToAngleRad(e.source) + 0.001;
                           let toAngle = nodeToAngleRad(e.target) + 0.001;
