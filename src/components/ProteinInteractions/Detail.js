@@ -1,21 +1,19 @@
 import React from 'react';
-import { withContentRect } from 'react-measure';
 import classNames from 'classnames';
-import * as d3 from 'd3';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
 
-import { Button, Link, OtTableRF, PALETTE } from 'ot-ui';
+import { Button, Link, OtTableRF, ListTooltip, PALETTE } from 'ot-ui';
+
+import InteractionsPlot from './InteractionsPlot';
 
 const query = gql`
   query ProteinInteractionsQuery($ensgId: String!) {
@@ -105,11 +103,13 @@ class ProteinInteractionsDetail extends React.Component {
       ppi: true,
     },
     selectedUniprotIds: [],
+    tooltip: {
+      open: false,
+      anchorData: null,
+      anchorEl: null,
+    },
   };
-  static getDerivedStateFromProps(props) {
-    const { width = 600 } = props.contentRect.bounds;
-    return { width };
-  }
+
   handleInteractionTypeChange = interactionType => event => {
     const { interactionTypes } = this.state;
     this.setState({
@@ -129,14 +129,36 @@ class ProteinInteractionsDetail extends React.Component {
       this.setState({ selectedUniprotIds: [...selectedUniprotIds, uniprotId] });
     }
   };
+  handleMouseOver = d => {
+    const anchorEl = document.querySelector(`#node-${d.uniprotId}`);
+    const data = [
+      { label: 'Protein', value: d.symbol },
+      { label: 'Edges within selection', value: d.neighbourCountWithin },
+    ];
+    this.setState({
+      tooltip: {
+        open: true,
+        data,
+        anchorEl,
+      },
+    });
+  };
+  handleMouseLeave = () => {
+    this.setState({
+      tooltip: {
+        open: false,
+        data: null,
+        anchorEl: null,
+      },
+    });
+  };
   componentDidMount() {
     const { uniprotId } = this.props;
     this.setState({ selectedUniprotIds: [uniprotId] });
   }
   render() {
-    const { classes, ensgId, symbol, measureRef } = this.props;
-    const { width, interactionTypes, selectedUniprotIds } = this.state;
-    const height = Math.min(width, 700);
+    const { classes, ensgId } = this.props;
+    const { interactionTypes, selectedUniprotIds, tooltip } = this.state;
     return (
       <Query query={query} variables={{ ensgId }} fetchPolicy="no-cache">
         {({ loading, error, data }) => {
@@ -220,43 +242,6 @@ class ProteinInteractionsDetail extends React.Component {
                 e => e.source === n.uniprotId || e.target === n.uniprotId
               ).length,
           }));
-          const nodeCount = nodes.length;
-          const maxNeighbourCount = d3.max(nodes, n => n.neighbourCount);
-          const legendInterval = maxNeighbourCount / 5;
-          const legendData = [
-            0,
-            legendInterval,
-            legendInterval * 2,
-            legendInterval * 3,
-            legendInterval * 4,
-            legendInterval * 5,
-          ];
-
-          // helpers
-          const padding = 100;
-          const radius = height / 2 - padding;
-          const diameter = 2 * radius;
-          const textOffset = 10;
-          const textRadius = radius + textOffset;
-          const circleRadius = 4;
-          const colour = d3
-            .scaleLog()
-            .domain(d3.extent(nodes, n => n.neighbourCount + 1))
-            .range(['#fff', '#3489ca']);
-
-          // order alphabetically
-          const uniprotIdToIndex = new Map(
-            nodes
-              .sort((a, b) => d3.ascending(a.symbol, b.symbol))
-              .map((d, i) => [d.uniprotId, i])
-          );
-          const nodeToAngleRad = n =>
-            (2 * Math.PI * uniprotIdToIndex.get(n)) / nodeCount;
-          const nodeToAngleDeg = n =>
-            (360 * uniprotIdToIndex.get(n)) / nodeCount;
-          const nodeToColour = n => colour(n.neighbourCount + 1);
-          const isInRightSemiCircle = n =>
-            uniprotIdToIndex.get(n) / nodeCount < 0.5;
 
           return (
             <Grid container>
@@ -456,217 +441,33 @@ class ProteinInteractionsDetail extends React.Component {
                   }
                 />
               </Grid>
-              <Grid item sm={12} md={6}>
-                <div ref={measureRef}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={width}
-                    height={height}
-                  >
-                    <g
-                      transform={`translate(${width -
-                        20 * (legendData.length + 3)},${20})`}
-                    >
-                      <text
-                        x={-10}
-                        y={10}
-                        fill="#bbb"
-                        textAnchor="end"
-                        alignmentBaseline="central"
-                      >
-                        {0}
-                      </text>
-                      {legendData.map((d, i) => (
-                        <rect
-                          x={i * 20}
-                          y={0}
-                          width={20}
-                          height={20}
-                          fill={colour(d + 1)}
-                          stroke="#bbb"
-                        />
-                      ))}
-                      <text
-                        x={legendData.length * 20 + 10}
-                        y={10}
-                        fill="#bbb"
-                        textAnchor="start"
-                        alignmentBaseline="central"
-                      >
-                        {maxNeighbourCount}
-                      </text>
-                    </g>
-                    <g transform={`translate(${20},${20})`}>
-                      <circle
-                        cx="10"
-                        cy="10"
-                        r={circleRadius}
-                        stroke="#000"
-                        strokeWidth="2"
-                        fill="none"
-                      />
-                      <text
-                        x="30"
-                        y="10"
-                        fill="#000"
-                        fontSize="12px"
-                        fontWeight="bold"
-                        textAnchor="start"
-                        alignmentBaseline="central"
-                      >
-                        Selection
-                      </text>
-                      <circle
-                        cx="10"
-                        cy="30"
-                        r={circleRadius}
-                        stroke="#bbb"
-                        fill="none"
-                      />
-                      <text
-                        x="30"
-                        y="30"
-                        fill="#777"
-                        fontSize="10px"
-                        textAnchor="start"
-                        alignmentBaseline="central"
-                      >
-                        Neighbour of selection
-                      </text>
-                      <circle
-                        cx="10"
-                        cy="50"
-                        r={circleRadius}
-                        stroke="#bbb"
-                        fill="none"
-                      />
-                      <text
-                        x="30"
-                        y="50"
-                        fill="#ddd"
-                        fontSize="10px"
-                        textAnchor="start"
-                        alignmentBaseline="central"
-                      >
-                        Not a neighbour of selection
-                      </text>
-                    </g>
-                    {selectedUniprotIds.length > 0 ? (
-                      <g
-                        fill="none"
-                        stroke="#999"
-                        strokeOpacity={0.6}
-                        transform={`translate(${width / 2},${height / 2})`}
-                      >
-                        {(selectedUniprotIds.length === 1
-                          ? edgesFilteredWithoutSelectedUniprotIds
-                          : edgesFilteredWithinSelectedUniprotIds
-                        ).map(e => {
-                          let fromAngle = nodeToAngleRad(e.source) + 0.001;
-                          let toAngle = nodeToAngleRad(e.target) + 0.001;
-                          let fromX =
-                            ((diameter - circleRadius) / 2) *
-                            Math.sin(fromAngle);
-                          let fromY =
-                            (-(diameter - circleRadius) / 2) *
-                            Math.cos(fromAngle);
-                          let toX =
-                            ((diameter - circleRadius) / 2) * Math.sin(toAngle);
-                          let toY =
-                            (-(diameter - circleRadius) / 2) *
-                            Math.cos(toAngle);
-                          const d = `M${fromX},${fromY} Q0,0 ${toX},${toY}`;
-                          return <path d={d} />;
-                        })}
-                      </g>
-                    ) : (
-                      <g
-                        fill="none"
-                        stroke="#999"
-                        strokeOpacity={0.6}
-                        transform={`translate(${width / 2},${height / 2})`}
-                      >
-                        {edgesFiltered.map(e => {
-                          let fromAngle = nodeToAngleRad(e.source) + 0.001;
-                          let toAngle = nodeToAngleRad(e.target) + 0.001;
-                          let fromX =
-                            ((diameter - circleRadius) / 2) *
-                            Math.sin(fromAngle);
-                          let fromY =
-                            (-(diameter - circleRadius) / 2) *
-                            Math.cos(fromAngle);
-                          let toX =
-                            ((diameter - circleRadius) / 2) * Math.sin(toAngle);
-                          let toY =
-                            (-(diameter - circleRadius) / 2) *
-                            Math.cos(toAngle);
-                          const d = `M${fromX},${fromY} Q0,0 ${toX},${toY}`;
-                          return <path d={d} />;
-                        })}
-                      </g>
-                    )}
-                    <g
-                      style={{ font: '10px sans-serif' }}
-                      transform={`translate(${width / 2},${height / 2})`}
-                    >
-                      {nodes.map(n => {
-                        const { isSelected, isNeighbourOfSelected } = n;
-                        const angleRad = nodeToAngleRad(n.uniprotId);
-                        const angleDeg = nodeToAngleDeg(n.uniprotId);
-                        const isRightHalf = isInRightSemiCircle(n.uniprotId);
-                        return (
-                          <g
-                            key={n.uniprotId}
-                            transform={`translate(${textRadius *
-                              Math.sin(angleRad)},${-textRadius *
-                              Math.cos(angleRad)})`}
-                            onClick={() => this.handleProteinClick(n.uniprotId)}
-                          >
-                            <circle
-                              cx="0"
-                              cy="0"
-                              r={circleRadius}
-                              fill={nodeToColour(n)}
-                              stroke={isSelected ? '#000' : '#bbb'}
-                              strokeWidth={isSelected ? 2 : 1}
-                              style={{ cursor: 'pointer' }}
-                            />
-                            <text
-                              x="0"
-                              y="0"
-                              style={{ cursor: 'pointer' }}
-                              fill={
-                                selectedUniprotIds.length > 0
-                                  ? isSelected
-                                    ? '#000'
-                                    : isNeighbourOfSelected
-                                    ? '#777'
-                                    : '#ddd'
-                                  : '#777'
-                              }
-                              fontSize={isSelected ? '12px' : null}
-                              fontWeight={isSelected ? 'bold' : null}
-                              textAnchor={isRightHalf ? 'start' : 'end'}
-                              alignmentBaseline="central"
-                              transform={`rotate(${(isRightHalf ? 270 : 90) +
-                                angleDeg}) translate(${
-                                isRightHalf ? textOffset : -textOffset
-                              }, 0)`}
-                            >
-                              {n.symbol} (
-                              {selectedUniprotIds.length > 0
-                                ? selectedUniprotIds.length === 1
-                                  ? n.neighbourCountWithinOrWithout
-                                  : n.neighbourCountWithin
-                                : n.neighbourCount}
-                              )
-                            </text>
-                          </g>
-                        );
-                      })}
-                    </g>
-                  </svg>
-                </div>
+              <Grid
+                id="interaction-plot-container"
+                item
+                sm={12}
+                md={6}
+                onMouseLeave={() => this.handleMouseLeave()}
+              >
+                <ListTooltip
+                  open={tooltip.open}
+                  anchorEl={tooltip.anchorEl}
+                  dataList={tooltip.data ? tooltip.data : []}
+                  container={document.getElementById(
+                    'interaction-plot-container'
+                  )}
+                />
+
+                <InteractionsPlot
+                  {...{
+                    nodes,
+                    selectedUniprotIds,
+                    edgesFiltered,
+                    edgesFilteredWithinSelectedUniprotIds,
+                    edgesFilteredWithoutSelectedUniprotIds,
+                    handleProteinClick: this.handleProteinClick,
+                    handleMouseOver: this.handleMouseOver,
+                  }}
+                />
               </Grid>
             </Grid>
           );
@@ -676,6 +477,4 @@ class ProteinInteractionsDetail extends React.Component {
   }
 }
 
-export default withContentRect('bounds')(
-  withStyles(styles)(ProteinInteractionsDetail)
-);
+export default withStyles(styles)(ProteinInteractionsDetail);
