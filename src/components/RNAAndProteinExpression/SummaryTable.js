@@ -101,25 +101,33 @@ class SummaryRow extends Component {
             >
               <td>{tissue.label}</td>
               <td>
-                <div
-                  title={`${tissue.rna.value} (normalized count)`}
-                  style={{
-                    backgroundColor: 'blue',
-                    width: `${rnaPercent}%`,
-                    height: '12px',
-                    float: 'right',
-                  }}
-                />
+                {tissue.rna.level >= 0 ? (
+                  <div
+                    title={`${tissue.rna.value} (normalized count)`}
+                    style={{
+                      backgroundColor: 'blue',
+                      width: `${rnaPercent}%`,
+                      height: '12px',
+                      float: 'right',
+                    }}
+                  />
+                ) : (
+                  <div title="No experimental data">N/A</div>
+                )}
               </td>
               <td>
-                <div
-                  title={proteinLevel(tissue.protein.level)}
-                  style={{
-                    backgroundColor: 'blue',
-                    width: `${proteinPercent}%`,
-                    height: '12px',
-                  }}
-                />
+                {tissue.protein.level >= 0 ? (
+                  <div
+                    title={proteinLevel(tissue.protein.level)}
+                    style={{
+                      backgroundColor: 'blue',
+                      width: `${proteinPercent}%`,
+                      height: '12px',
+                    }}
+                  />
+                ) : (
+                  <div>N/A</div>
+                )}
               </td>
             </tr>
           );
@@ -188,6 +196,7 @@ class SummaryTable extends Component {
 
     const maxRnaValue = getMaxRnaValue(tissues);
     const parents = sort(groupTissues(tissues, groupBy), sortBy);
+    console.log('parents', parents);
 
     return (
       <Fragment>
