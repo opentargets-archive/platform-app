@@ -44,12 +44,8 @@ const proteinLevelToPercent = level => {
   return (level * 100) / 3;
 };
 
-const getRowMaxRnaValue = tissues => {
+const getMaxRnaValue = tissues => {
   return _.maxBy(tissues, tissue => tissue.rna.value).rna.value;
-};
-
-const getRowMaxProteinLevel = tissues => {
-  return _.maxBy(tissues, tissue => tissue.protein.level).protein.level;
 };
 
 class SummaryRow extends Component {
@@ -62,12 +58,8 @@ class SummaryRow extends Component {
   };
 
   render() {
-    const { parentLabel, maxRnaValue, tissues, groupBy } = this.props;
+    const { parent, maxRnaValue } = this.props;
     const { collapsed } = this.state;
-
-    const filteredTissues = getTissuesByGroup(groupBy, parentLabel, tissues);
-    const rowMaxRnaValue = getRowMaxRnaValue(filteredTissues);
-    const rowMaxProteinLevel = getRowMaxProteinLevel(filteredTissues);
 
     return (
       <Fragment>
@@ -75,13 +67,13 @@ class SummaryRow extends Component {
           style={{ backgroundColor: 'papayawhip' }}
           onClick={this.handleClick}
         >
-          <td>{parentLabel}</td>
+          <td>{parent.parentLabel}</td>
           <td>
             <div
-              title={`${rowMaxRnaValue} (normalized count)`}
+              title={`${parent.maxRnaValue} (normalized count)`}
               style={{
                 backgroundColor: 'blue',
-                width: `${rnaValueToPercent(maxRnaValue, rowMaxRnaValue)}%`,
+                width: `${rnaValueToPercent(maxRnaValue, parent.maxRnaValue)}%`,
                 height: '12px',
                 float: 'right',
               }}
@@ -89,16 +81,16 @@ class SummaryRow extends Component {
           </td>
           <td>
             <div
-              title={proteinLevel(rowMaxProteinLevel)}
+              title={proteinLevel(parent.maxProteinLevel)}
               style={{
                 backgroundColor: 'blue',
-                width: `${proteinLevelToPercent(rowMaxProteinLevel)}%`,
+                width: `${proteinLevelToPercent(parent.maxProteinLevel)}%`,
                 height: '12px',
               }}
             />
           </td>
         </tr>
-        {filteredTissues.map(tissue => {
+        {parent.tissues.map(tissue => {
           const rnaPercent = rnaValueToPercent(maxRnaValue, tissue.rna.value);
           const proteinPercent = proteinLevelToPercent(tissue.protein.level);
 
@@ -137,21 +129,48 @@ class SummaryRow extends Component {
   }
 }
 
-const getParentLabels = (groupBy, tissues) => {
-  const labelSet = [];
+const groupTissues = (tissues, groupBy) => {
+  const groupedTissuesMap = {};
 
   tissues.forEach(tissue => {
-    const labels = tissue[groupBy];
-    labels.forEach(label => {
-      labelSet.push(label);
+    const parentLabels = tissue[groupBy];
+    parentLabels.forEach(parentLabel => {
+      if (!groupedTissuesMap[parentLabel]) {
+        groupedTissuesMap[parentLabel] = {
+          parentLabel: parentLabel,
+          tissues: [],
+          maxRnaValue: Number.NEGATIVE_INFINITY,
+          maxProteinLevel: Number.NEGATIVE_INFINITY,
+        };
+      }
+
+      groupedTissuesMap[parentLabel].tissues.push(tissue);
+      groupedTissuesMap[parentLabel].maxRnaValue =
+        groupedTissuesMap[parentLabel].maxRnaValue < tissue.rna.value
+          ? tissue.rna.value
+          : groupedTissuesMap[parentLabel].maxRnaValue;
+      groupedTissuesMap[parentLabel].maxProteinLevel =
+        groupedTissuesMap[parentLabel].maxProteinLevel < tissue.protein.level
+          ? tissue.protein.level
+          : groupedTissuesMap[parentLabel].maxProteinLevel;
     });
   });
 
-  return _.uniq(labelSet);
+  return Object.values(groupedTissuesMap);
+};
+
+const sort = (parents, sortBy) => {
+  parents.forEach(parent => {
+    parent.tissues = _.sortBy(
+      parent.tissues,
+      tissue => tissue.rna.value
+    ).reverse();
+  });
+  return _.sortBy(parents, parent => parent.maxRnaValue).reverse();
 };
 
 class SummaryTable extends Component {
-  state = { groupBy: 'organs' };
+  state = { groupBy: 'organs', sortBy: 'rna' };
 
   handleChange = (_, groupBy) => {
     if (groupBy) {
@@ -159,12 +178,16 @@ class SummaryTable extends Component {
     }
   };
 
+  handleSort = sortBy => {
+    this.setState({ sortBy });
+  };
+
   render() {
     const { classes, tissues } = this.props;
-    const { groupBy } = this.state;
+    const { groupBy, sortBy } = this.state;
 
-    const parentLabels = getParentLabels(groupBy, tissues);
-    const maxRnaValue = _.maxBy(tissues, tissue => tissue.rna.value).rna.value;
+    const maxRnaValue = getMaxRnaValue(tissues);
+    const parents = sort(groupTissues(tissues, groupBy), sortBy);
 
     return (
       <Fragment>
@@ -184,8 +207,8 @@ class SummaryTable extends Component {
           <thead>
             <tr>
               <td>Tissue</td>
-              <td>RNA</td>
-              <td>Protein</td>
+              <td onClick={() => this.handleSort('rna')}>RNA</td>
+              <td onClick={() => this.handleSort('protein')}>Protein</td>
             </tr>
             <tr>
               <td />
@@ -194,14 +217,12 @@ class SummaryTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {parentLabels.map(parentLabel => {
+            {parents.map(parent => {
               return (
                 <SummaryRow
-                  key={parentLabel}
-                  parentLabel={parentLabel}
+                  key={parent.parentLabel}
                   maxRnaValue={maxRnaValue}
-                  tissues={tissues}
-                  groupBy={groupBy}
+                  parent={parent}
                 />
               );
             })}
