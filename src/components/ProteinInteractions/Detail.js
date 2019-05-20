@@ -1,5 +1,6 @@
 import React from 'react';
 import { withContentRect } from 'react-measure';
+import classNames from 'classnames';
 import * as d3 from 'd3';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -13,7 +14,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 
-import { Link, OtTableRF, DataDownloader } from 'ot-ui';
+import { Link, OtTableRF, PALETTE } from 'ot-ui';
 
 const query = gql`
   query ProteinInteractionsQuery($ensgId: String!) {
@@ -43,12 +44,54 @@ const query = gql`
   }
 `;
 
+const sourceTypeColors = {
+  enzymeSubstrate: PALETTE.red, //'#fcc',
+  pathways: PALETTE.green, //'#cfc',
+  ppi: PALETTE.purple, //'#ccf',
+};
+
 const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit * 3,
   },
   chip: {
     margin: theme.spacing.unit * 0.5,
+  },
+  chipSource: {
+    margin: '1px',
+    height: '24px',
+    color: 'white',
+  },
+  chipSourcePathways: {
+    backgroundColor: sourceTypeColors.pathways,
+    // border: `1px solid black`,
+    // border: `1px solid ${sourceTypeColors.pathways}`,
+  },
+  chipSourcePPI: {
+    backgroundColor: sourceTypeColors.ppi,
+    // border: `1px solid black`,
+    // border: `1px solid ${sourceTypeColors.ppi}`,
+  },
+  chipSourceEnzymeSubstrate: {
+    backgroundColor: sourceTypeColors.enzymeSubstrate,
+    // border: `1px solid black`,
+    // border: `1px solid ${sourceTypeColors.enzymeSubstrate}`,
+  },
+  checked: {},
+  checkboxPathways: {
+    '&$checked': {
+      color: sourceTypeColors.pathways,
+    },
+  },
+  checkboxPPI: {
+    '&$checked': {
+      color: sourceTypeColors.ppi,
+    },
+  },
+  checkboxEnzymeSubstrate: {
+    '&$checked': {
+      color: sourceTypeColors.enzymeSubstrate,
+    },
   },
 });
 
@@ -226,6 +269,10 @@ class ProteinInteractionsDetail extends React.Component {
                       <FormControlLabel
                         control={
                           <Checkbox
+                            classes={{
+                              root: classes.checkboxEnzymeSubstrate,
+                              checked: classes.checked,
+                            }}
                             checked={interactionTypes.enzymeSubstrate}
                             onChange={this.handleInteractionTypeChange(
                               'enzymeSubstrate'
@@ -242,6 +289,10 @@ class ProteinInteractionsDetail extends React.Component {
                       <FormControlLabel
                         control={
                           <Checkbox
+                            classes={{
+                              root: classes.checkboxPathways,
+                              checked: classes.checked,
+                            }}
                             checked={interactionTypes.pathways}
                             onChange={this.handleInteractionTypeChange(
                               'pathways'
@@ -258,6 +309,10 @@ class ProteinInteractionsDetail extends React.Component {
                       <FormControlLabel
                         control={
                           <Checkbox
+                            classes={{
+                              root: classes.checkboxPPI,
+                              checked: classes.checked,
+                            }}
                             checked={interactionTypes.ppi}
                             onChange={this.handleInteractionTypeChange('ppi')}
                             value="ppi"
@@ -274,6 +329,7 @@ class ProteinInteractionsDetail extends React.Component {
                 <Typography>Selection</Typography>
                 {selectedUniprotIds.map(uniprotId => (
                   <Chip
+                    key={uniprotId}
                     className={classes.chip}
                     color="primary"
                     label={nodes.find(n => n.uniprotId === uniprotId).symbol}
@@ -304,7 +360,49 @@ class ProteinInteractionsDetail extends React.Component {
                     {
                       id: 'sources',
                       label: 'Sources',
-                      renderCell: d => d.sources.join(', '),
+                      renderCell: d => (
+                        <React.Fragment>
+                          {interactionTypes.enzymeSubstrate
+                            ? d.enzymeSubstrateSources.map(s => (
+                                <Chip
+                                  className={classNames(
+                                    classes.chipSource,
+                                    classes.chipSourceEnzymeSubstrate
+                                  )}
+                                  key={s}
+                                  label={s}
+                                  color={sourceTypeColors.enzymeSubstrate}
+                                />
+                              ))
+                            : null}
+                          {interactionTypes.pathways
+                            ? d.pathwaysSources.map(s => (
+                                <Chip
+                                  className={classNames(
+                                    classes.chipSource,
+                                    classes.chipSourcePathways
+                                  )}
+                                  key={s}
+                                  label={s}
+                                  color={sourceTypeColors.pathways}
+                                />
+                              ))
+                            : null}
+                          {interactionTypes.ppi
+                            ? d.ppiSources.map(s => (
+                                <Chip
+                                  className={classNames(
+                                    classes.chipSource,
+                                    classes.chipSourcePPI
+                                  )}
+                                  key={s}
+                                  label={s}
+                                  color={sourceTypeColors.ppi}
+                                />
+                              ))
+                            : null}
+                        </React.Fragment>
+                      ),
                     },
                     {
                       id: 'pmIds',
