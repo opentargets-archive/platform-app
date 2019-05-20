@@ -11,18 +11,6 @@ const styles = () => ({
   },
 });
 
-const getTissuesByGroup = (groupBy, parentLabel, tissues) => {
-  const filteredTissues = [];
-
-  tissues.forEach(tissue => {
-    if (tissue[groupBy].includes(parentLabel)) {
-      filteredTissues.push(tissue);
-    }
-  });
-
-  return filteredTissues;
-};
-
 const proteinLevel = level => {
   if (level === 0) {
     return 'Under expressed';
@@ -153,10 +141,10 @@ const groupTissues = (tissues, groupBy) => {
 
   tissues.forEach(tissue => {
     const parentLabels = tissue[groupBy];
-    parentLabels.forEach(parentLabel => {
-      if (!groupedTissues[parentLabel]) {
-        groupedTissues[parentLabel] = {
-          parentLabel: parentLabel,
+    parentLabels.forEach(label => {
+      if (!groupedTissues[label]) {
+        groupedTissues[label] = {
+          parentLabel: label,
           tissues: [],
           maxRnaValue: Number.NEGATIVE_INFINITY,
           maxRnaLevel: Number.NEGATIVE_INFINITY,
@@ -164,19 +152,21 @@ const groupTissues = (tissues, groupBy) => {
         };
       }
 
-      groupedTissues[parentLabel].tissues.push(tissue);
-      groupedTissues[parentLabel].maxRnaValue =
-        groupedTissues[parentLabel].maxRnaValue < tissue.rna.value
+      const parent = groupedTissues[label];
+
+      parent.tissues.push(tissue);
+      parent.maxRnaValue =
+        parent.maxRnaValue < tissue.rna.value
           ? tissue.rna.value
-          : groupedTissues[parentLabel].maxRnaValue;
-      groupedTissues[parentLabel].maxRnaLevel =
-        groupedTissues[parentLabel].maxRnaLevel < tissue.rna.level
+          : parent.maxRnaValue;
+      parent.maxRnaLevel =
+        parent.maxRnaLevel < tissue.rna.level
           ? tissue.rna.level
-          : groupedTissues[parentLabel].maxRnaLevel;
-      groupedTissues[parentLabel].maxProteinLevel =
-        groupedTissues[parentLabel].maxProteinLevel < tissue.protein.level
+          : parent.maxRnaLevel;
+      parent.maxProteinLevel =
+        parent.maxProteinLevel < tissue.protein.level
           ? tissue.protein.level
-          : groupedTissues[parentLabel].maxProteinLevel;
+          : parent.maxProteinLevel;
     });
   });
 
