@@ -372,6 +372,89 @@ class ProteinInteractionsDetail extends React.Component {
                         {maxNeighbourCount}
                       </text>
                     </g>
+                    <g transform={`translate(${20},${20})`}>
+                      <circle
+                        cx="10"
+                        cy="10"
+                        r={circleRadius}
+                        stroke="#000"
+                        strokeWidth="2"
+                        fill="none"
+                      />
+                      <text
+                        x="30"
+                        y="10"
+                        fill="#000"
+                        fontSize="12px"
+                        fontWeight="bold"
+                        textAnchor="start"
+                        alignmentBaseline="central"
+                      >
+                        Selection
+                      </text>
+                      <circle
+                        cx="10"
+                        cy="30"
+                        r={circleRadius}
+                        stroke="#bbb"
+                        fill="none"
+                      />
+                      <text
+                        x="30"
+                        y="30"
+                        fill="#777"
+                        fontSize="10px"
+                        textAnchor="start"
+                        alignmentBaseline="central"
+                      >
+                        Neighbour of selection
+                      </text>
+                      <circle
+                        cx="10"
+                        cy="50"
+                        r={circleRadius}
+                        stroke="#bbb"
+                        fill="none"
+                      />
+                      <text
+                        x="30"
+                        y="50"
+                        fill="#ddd"
+                        fontSize="10px"
+                        textAnchor="start"
+                        alignmentBaseline="central"
+                      >
+                        Not a neighbour of selection
+                      </text>
+                      {/* <text
+                        x={-10}
+                        y={10}
+                        fill="#bbb"
+                        textAnchor="end"
+                        alignmentBaseline="central"
+                      >
+                        {0}
+                      </text>
+                      {legendData.map((d, i) => (
+                        <rect
+                          x={i * 20}
+                          y={0}
+                          width={20}
+                          height={20}
+                          fill={colour(d + 1)}
+                          stroke="#bbb"
+                        />
+                      ))}
+                      <text
+                        x={legendData.length * 20 + 10}
+                        y={10}
+                        fill="#bbb"
+                        textAnchor="start"
+                        alignmentBaseline="central"
+                      >
+                        {maxNeighbourCount}
+                      </text> */}
+                    </g>
                     {selectedUniprotIds.length > 0 ? (
                       <g
                         fill="none"
