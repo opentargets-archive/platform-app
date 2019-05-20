@@ -84,6 +84,10 @@ class ProteinInteractionsDetail extends React.Component {
       this.setState({ selectedUniprotIds: [...selectedUniprotIds, uniprotId] });
     }
   };
+  componentDidMount() {
+    const { uniprotId } = this.props;
+    this.setState({ selectedUniprotIds: [uniprotId] });
+  }
   render() {
     const { classes, ensgId, symbol, measureRef } = this.props;
     const { width, interactionTypes, selectedUniprotIds } = this.state;
@@ -103,28 +107,73 @@ class ProteinInteractionsDetail extends React.Component {
             nodes: nodesRaw,
             edges,
           } = data.target.details.proteinInteractions;
-          const edgesFiltered = edges
-            .filter(
-              e =>
+          const edgesWithFilterProperties = edges
+            .map(e => ({
+              ...e,
+              isFilteredSourceType:
                 (interactionTypes.ppi && e.ppiSources.length > 0) ||
                 (interactionTypes.pathways && e.pathwaysSources.length > 0) ||
                 (interactionTypes.enzymeSubstrate &&
-                  e.enzymeSubstrateSources.length > 0)
-            )
-            .filter(e =>
-              selectedUniprotIds.length > 1
-                ? selectedUniprotIds.indexOf(e.source) >= 0 &&
-                  selectedUniprotIds.indexOf(e.target) >= 0
-                : selectedUniprotIds.length === 1
-                ? selectedUniprotIds.indexOf(e.source) >= 0 ||
-                  selectedUniprotIds.indexOf(e.target) >= 0
-                : true
-            );
+                  e.enzymeSubstrateSources.length > 0),
+            }))
+            .map(e => ({
+              ...e,
+              isFilteredWithinSelectedUniprotIds:
+                selectedUniprotIds.length > 1
+                  ? selectedUniprotIds.indexOf(e.source) >= 0 &&
+                    selectedUniprotIds.indexOf(e.target) >= 0
+                  : false,
+              isFilteredWithoutSelectedUniprotIds:
+                selectedUniprotIds.length > 0
+                  ? (selectedUniprotIds.indexOf(e.source) >= 0 &&
+                      selectedUniprotIds.indexOf(e.target) < 0) ||
+                    (selectedUniprotIds.indexOf(e.target) >= 0 &&
+                      selectedUniprotIds.indexOf(e.source) < 0)
+                  : false,
+            }));
+          const edgesFiltered = edgesWithFilterProperties.filter(
+            e => e.isFilteredSourceType
+          );
+          const edgesFilteredWithinSelectedUniprotIds = edgesFiltered.filter(
+            e => e.isFilteredWithinSelectedUniprotIds
+          );
+          const edgesFilteredWithoutSelectedUniprotIds = edgesFiltered.filter(
+            e => e.isFilteredWithoutSelectedUniprotIds
+          );
+          const edgesFilteredEitherWithinOrWithoutSelectedUniprotIds = edgesFiltered.filter(
+            e =>
+              e.isFilteredWithinSelectedUniprotIds ||
+              e.isFilteredWithoutSelectedUniprotIds
+          );
+          const edgesSelected =
+            selectedUniprotIds.length > 0
+              ? selectedUniprotIds.length > 1
+                ? edgesWithFilterProperties.filter(
+                    e => e.isFilteredWithinSelectedUniprotIds
+                  )
+                : edgesWithFilterProperties.filter(
+                    e =>
+                      e.isFilteredWithinSelectedUniprotIds ||
+                      e.isFilteredWithoutSelectedUniprotIds
+                  )
+              : edgesWithFilterProperties;
           const nodes = nodesRaw.map(n => ({
             ...n,
             neighbourCount: edgesFiltered.filter(
               e => e.source === n.uniprotId || e.target === n.uniprotId
             ).length,
+            neighbourCountWithin: edgesFilteredWithinSelectedUniprotIds.filter(
+              e => e.source === n.uniprotId || e.target === n.uniprotId
+            ).length,
+            neighbourCountWithinOrWithout: edgesFilteredEitherWithinOrWithoutSelectedUniprotIds.filter(
+              e => e.source === n.uniprotId || e.target === n.uniprotId
+            ).length,
+            isSelected: selectedUniprotIds.indexOf(n.uniprotId) >= 0,
+            isNeighbourOfSelected:
+              selectedUniprotIds.indexOf(n.uniprotId) < 0 &&
+              edgesFilteredWithoutSelectedUniprotIds.filter(
+                e => e.source === n.uniprotId || e.target === n.uniprotId
+              ).length,
           }));
           const nodeCount = nodes.length;
           const maxNeighbourCount = d3.max(nodes, n => n.neighbourCount);
@@ -173,9 +222,6 @@ class ProteinInteractionsDetail extends React.Component {
                     component="fieldset"
                     className={classes.formControl}
                   >
-                    {/* <FormLabel component="legend">
-                      Filter by interaction type
-                    </FormLabel> */}
                     <FormGroup>
                       <FormControlLabel
                         control={
@@ -187,7 +233,11 @@ class ProteinInteractionsDetail extends React.Component {
                             value="enzymeSubstrate"
                           />
                         }
-                        label="Enzyme-substrate"
+                        label={`Enzyme-substrate (${
+                          edgesSelected.filter(
+                            e => e.enzymeSubstrateSources.length > 0
+                          ).length
+                        })`}
                       />
                       <FormControlLabel
                         control={
@@ -199,7 +249,11 @@ class ProteinInteractionsDetail extends React.Component {
                             value="pathways"
                           />
                         }
-                        label="Pathways"
+                        label={`Pathways (${
+                          edgesSelected.filter(
+                            e => e.pathwaysSources.length > 0
+                          ).length
+                        })`}
                       />
                       <FormControlLabel
                         control={
@@ -209,7 +263,10 @@ class ProteinInteractionsDetail extends React.Component {
                             value="ppi"
                           />
                         }
-                        label="PPI"
+                        label={`PPI (${
+                          edgesSelected.filter(e => e.ppiSources.length > 0)
+                            .length
+                        })`}
                       />
                     </FormGroup>
                   </FormControl>
@@ -265,14 +322,14 @@ class ProteinInteractionsDetail extends React.Component {
                           </Link>
                         ) : null,
                     },
-                    /* {
-                      id: 'enzymeSubstrateSources',
-                      label: 'Enzyme-substrate',
-                      renderCell: d =>
-                        d.enzymeSubstrateSources.length > 0 ? 'Yes' : 'No',
-                    }, */
                   ]}
-                  data={edgesFiltered}
+                  data={
+                    selectedUniprotIds.length > 0
+                      ? selectedUniprotIds.length > 1
+                        ? edgesFilteredWithinSelectedUniprotIds
+                        : edgesFilteredWithoutSelectedUniprotIds
+                      : edgesFiltered
+                  }
                 />
               </Grid>
               <Grid item sm={12} md={6}>
@@ -315,32 +372,17 @@ class ProteinInteractionsDetail extends React.Component {
                         {maxNeighbourCount}
                       </text>
                     </g>
-                    <g
-                      fill="none"
-                      stroke="#999"
-                      strokeOpacity={0.6}
-                      transform={`translate(${width / 2},${height / 2})`}
-                    >
-                      {edgesFiltered
-                        /* .filter(
-                          e =>
-                            (interactionTypes.ppi && e.ppiSources.length > 0) ||
-                            (interactionTypes.pathways &&
-                              e.pathwaysSources.length > 0) ||
-                            (interactionTypes.enzymeSubstrate &&
-                              e.enzymeSubstrateSources.length > 0)
-                        )
-
-                        .filter(e =>
-                          selectedUniprotIds.length > 1
-                            ? selectedUniprotIds.indexOf(e.source) >= 0 &&
-                              selectedUniprotIds.indexOf(e.target) >= 0
-                            : selectedUniprotIds.length === 1
-                            ? selectedUniprotIds.indexOf(e.source) >= 0 ||
-                              selectedUniprotIds.indexOf(e.target) >= 0
-                            : true
-                        ) */
-                        .map(e => {
+                    {selectedUniprotIds.length > 0 ? (
+                      <g
+                        fill="none"
+                        stroke="#999"
+                        strokeOpacity={0.6}
+                        transform={`translate(${width / 2},${height / 2})`}
+                      >
+                        {(selectedUniprotIds.length === 1
+                          ? edgesFilteredWithoutSelectedUniprotIds
+                          : edgesFilteredWithinSelectedUniprotIds
+                        ).map(e => {
                           let fromAngle = nodeToAngleRad(e.source) + 0.001;
                           let toAngle = nodeToAngleRad(e.target) + 0.001;
                           let fromX =
@@ -357,17 +399,42 @@ class ProteinInteractionsDetail extends React.Component {
                           const d = `M${fromX},${fromY} Q0,0 ${toX},${toY}`;
                           return <path d={d} />;
                         })}
-                    </g>
+                      </g>
+                    ) : (
+                      <g
+                        fill="none"
+                        stroke="#999"
+                        strokeOpacity={0.6}
+                        transform={`translate(${width / 2},${height / 2})`}
+                      >
+                        {edgesFiltered.map(e => {
+                          let fromAngle = nodeToAngleRad(e.source) + 0.001;
+                          let toAngle = nodeToAngleRad(e.target) + 0.001;
+                          let fromX =
+                            ((diameter - circleRadius) / 2) *
+                            Math.sin(fromAngle);
+                          let fromY =
+                            (-(diameter - circleRadius) / 2) *
+                            Math.cos(fromAngle);
+                          let toX =
+                            ((diameter - circleRadius) / 2) * Math.sin(toAngle);
+                          let toY =
+                            (-(diameter - circleRadius) / 2) *
+                            Math.cos(toAngle);
+                          const d = `M${fromX},${fromY} Q0,0 ${toX},${toY}`;
+                          return <path d={d} />;
+                        })}
+                      </g>
+                    )}
                     <g
                       style={{ font: '10px sans-serif' }}
                       transform={`translate(${width / 2},${height / 2})`}
                     >
                       {nodes.map(n => {
+                        const { isSelected, isNeighbourOfSelected } = n;
                         const angleRad = nodeToAngleRad(n.uniprotId);
                         const angleDeg = nodeToAngleDeg(n.uniprotId);
                         const isRightHalf = isInRightSemiCircle(n.uniprotId);
-                        const isSelected =
-                          selectedUniprotIds.indexOf(n.uniprotId) >= 0;
                         return (
                           <g
                             key={n.uniprotId}
@@ -383,11 +450,22 @@ class ProteinInteractionsDetail extends React.Component {
                               fill={nodeToColour(n)}
                               stroke={isSelected ? '#000' : '#bbb'}
                               strokeWidth={isSelected ? 2 : 1}
+                              style={{ cursor: 'pointer' }}
                             />
                             <text
                               x="0"
                               y="0"
-                              fill={isSelected ? '#000' : '#bbb'}
+                              style={{ cursor: 'pointer' }}
+                              fill={
+                                selectedUniprotIds.length > 0
+                                  ? isSelected
+                                    ? '#000'
+                                    : isNeighbourOfSelected
+                                    ? '#777'
+                                    : '#ddd'
+                                  : '#777'
+                              }
+                              fontSize={isSelected ? '12px' : null}
                               fontWeight={isSelected ? 'bold' : null}
                               textAnchor={isRightHalf ? 'start' : 'end'}
                               alignmentBaseline="central"
@@ -396,7 +474,13 @@ class ProteinInteractionsDetail extends React.Component {
                                 isRightHalf ? textOffset : -textOffset
                               }, 0)`}
                             >
-                              {n.symbol} ({n.neighbourCount})
+                              {n.symbol} (
+                              {selectedUniprotIds.length > 0
+                                ? selectedUniprotIds.length === 1
+                                  ? n.neighbourCountWithinOrWithout
+                                  : n.neighbourCountWithin
+                                : n.neighbourCount}
+                              )
                             </text>
                           </g>
                         );
