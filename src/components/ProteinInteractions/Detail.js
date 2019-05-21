@@ -12,9 +12,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 
-import { Button, Link, OtTableRF, ListTooltip, PALETTE } from 'ot-ui';
+import { Button, ListTooltip } from 'ot-ui';
 
 import InteractionsPlot from './InteractionsPlot';
+import InteractionsTable from './InteractionsTable';
+import SourceChip, { sourceTypeColors } from './SourceChip';
 
 const query = gql`
   query ProteinInteractionsQuery($ensgId: String!) {
@@ -44,12 +46,6 @@ const query = gql`
   }
 `;
 
-const sourceTypeColors = {
-  enzymeSubstrate: PALETTE.red,
-  pathways: PALETTE.green,
-  ppi: PALETTE.purple,
-};
-
 const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit * 0.5,
@@ -57,20 +53,6 @@ const styles = theme => ({
   },
   chip: {
     margin: theme.spacing.unit * 0.5,
-  },
-  chipSource: {
-    margin: '1px',
-    height: '24px',
-    color: 'white',
-  },
-  chipSourcePathways: {
-    backgroundColor: sourceTypeColors.pathways,
-  },
-  chipSourcePPI: {
-    backgroundColor: sourceTypeColors.ppi,
-  },
-  chipSourceEnzymeSubstrate: {
-    backgroundColor: sourceTypeColors.enzymeSubstrate,
   },
   checked: {},
   checkboxPathways: {
@@ -125,7 +107,6 @@ class ProteinInteractionsDetail extends React.Component {
     }
   };
   handleMouseOver = d => {
-    const { classes } = this.props;
     const { interactionTypes } = this.state;
     const anchorEl = document.querySelector(`#node-${d.uniprotId}`);
     const data = [
@@ -139,35 +120,23 @@ class ProteinInteractionsDetail extends React.Component {
         value: (
           <React.Fragment>
             {interactionTypes.enzymeSubstrate ? (
-              <Chip
-                className={classNames(
-                  classes.chipSource,
-                  classes.chipSourceEnzymeSubstrate
-                )}
+              <SourceChip
+                sourceType="enzymeSubstrate"
                 label={`Enzyme-substrate (${
                   d.interactionsEnzymeSubstrateCount
                 })`}
-                color={sourceTypeColors.enzymeSubstrate}
               />
             ) : null}
             {interactionTypes.pathways ? (
-              <Chip
-                className={classNames(
-                  classes.chipSource,
-                  classes.chipSourcePathways
-                )}
+              <SourceChip
+                sourceType="pathways"
                 label={`Pathways (${d.interactionsPathwaysCount})`}
-                color={sourceTypeColors.pathways}
               />
             ) : null}
             {interactionTypes.ppi ? (
-              <Chip
-                className={classNames(
-                  classes.chipSource,
-                  classes.chipSourcePPI
-                )}
+              <SourceChip
+                sourceType="ppi"
                 label={`PPI (${d.interactionsPPICount})`}
-                color={sourceTypeColors.ppi}
               />
             ) : null}
           </React.Fragment>
@@ -427,97 +396,13 @@ class ProteinInteractionsDetail extends React.Component {
                 <br />
                 <br />
                 <Typography>Interaction details</Typography>
-                <OtTableRF
-                  columns={[
-                    {
-                      id: 'source',
-                      label: 'Source',
-                      renderCell: d => {
-                        const node = nodes.find(n => n.uniprotId === d.source);
-                        const { ensgId, symbol } = node;
-                        return <Link to={`target/${ensgId}`}>{symbol}</Link>;
-                      },
-                    },
-                    {
-                      id: 'target',
-                      label: 'Target',
-                      renderCell: d => {
-                        const node = nodes.find(n => n.uniprotId === d.target);
-                        const { ensgId, symbol } = node;
-                        return <Link to={`target/${ensgId}`}>{symbol}</Link>;
-                      },
-                    },
-                    {
-                      id: 'sources',
-                      label: 'Sources',
-                      renderCell: d => (
-                        <React.Fragment>
-                          {interactionTypes.enzymeSubstrate
-                            ? d.enzymeSubstrateSources.map(s => (
-                                <Chip
-                                  className={classNames(
-                                    classes.chipSource,
-                                    classes.chipSourceEnzymeSubstrate
-                                  )}
-                                  key={s}
-                                  label={s}
-                                  color={sourceTypeColors.enzymeSubstrate}
-                                />
-                              ))
-                            : null}
-                          {interactionTypes.pathways
-                            ? d.pathwaysSources.map(s => (
-                                <Chip
-                                  className={classNames(
-                                    classes.chipSource,
-                                    classes.chipSourcePathways
-                                  )}
-                                  key={s}
-                                  label={s}
-                                  color={sourceTypeColors.pathways}
-                                />
-                              ))
-                            : null}
-                          {interactionTypes.ppi
-                            ? d.ppiSources.map(s => (
-                                <Chip
-                                  className={classNames(
-                                    classes.chipSource,
-                                    classes.chipSourcePPI
-                                  )}
-                                  key={s}
-                                  label={s}
-                                  color={sourceTypeColors.ppi}
-                                />
-                              ))
-                            : null}
-                        </React.Fragment>
-                      ),
-                    },
-                    {
-                      id: 'pmIds',
-                      label: 'Reference',
-                      renderCell: d =>
-                        d.pmIds.length > 0 ? (
-                          <Link
-                            external
-                            to={`https://europepmc.org/search?query=${d.pmIds
-                              .map(r => `EXT_ID:${r}`)
-                              .join(' OR ')}`}
-                          >
-                            {d.pmIds.length} publication
-                            {d.pmIds.length > 1 ? 's' : null}
-                          </Link>
-                        ) : null,
-                    },
-                  ]}
-                  data={
-                    selectedUniprotIds.length > 0
-                      ? selectedUniprotIds.length > 1
-                        ? edgesFilteredWithinSelectedUniprotIds
-                        : edgesFilteredWithoutSelectedUniprotIds
-                      : edgesFiltered
-                  }
+                <InteractionsTable
+                  interactionTypes={interactionTypes}
+                  data={edgesDisplayed.map(e => ({
+                    ...e,
+                    sourceNode: nodes.find(n => n.uniprotId === e.source),
+                    targetNode: nodes.find(n => n.uniprotId === e.target),
+                  }))}
                 />
               </Grid>
             </Grid>
