@@ -132,38 +132,50 @@ class ProteinInteractionsDetail extends React.Component {
   };
   handleMouseOver = d => {
     const { classes } = this.props;
+    const { interactionTypes } = this.state;
     const anchorEl = document.querySelector(`#node-${d.uniprotId}`);
     const data = [
       { label: 'Protein', value: d.symbol },
       {
-        label: 'Interactors',
+        label: 'Interactors (within selection)',
         value: d.interactorsCount,
       },
       {
-        label: 'Interactions by type',
+        label: 'Interactions by type (within selection)',
         value: (
           <React.Fragment>
-            <Chip
-              className={classNames(
-                classes.chipSource,
-                classes.chipSourceEnzymeSubstrate
-              )}
-              label={`Enzyme-substrate (${d.interactionsEnzymeSubstrateCount})`}
-              color={sourceTypeColors.enzymeSubstrate}
-            />
-            <Chip
-              className={classNames(
-                classes.chipSource,
-                classes.chipSourcePathways
-              )}
-              label={`Pathways (${d.interactionsPathwaysCount})`}
-              color={sourceTypeColors.pathways}
-            />
-            <Chip
-              className={classNames(classes.chipSource, classes.chipSourcePPI)}
-              label={`PPI (${d.interactionsPPICount})`}
-              color={sourceTypeColors.ppi}
-            />
+            {interactionTypes.enzymeSubstrate ? (
+              <Chip
+                className={classNames(
+                  classes.chipSource,
+                  classes.chipSourceEnzymeSubstrate
+                )}
+                label={`Enzyme-substrate (${
+                  d.interactionsEnzymeSubstrateCount
+                })`}
+                color={sourceTypeColors.enzymeSubstrate}
+              />
+            ) : null}
+            {interactionTypes.pathways ? (
+              <Chip
+                className={classNames(
+                  classes.chipSource,
+                  classes.chipSourcePathways
+                )}
+                label={`Pathways (${d.interactionsPathwaysCount})`}
+                color={sourceTypeColors.pathways}
+              />
+            ) : null}
+            {interactionTypes.ppi ? (
+              <Chip
+                className={classNames(
+                  classes.chipSource,
+                  classes.chipSourcePPI
+                )}
+                label={`PPI (${d.interactionsPPICount})`}
+                color={sourceTypeColors.ppi}
+              />
+            ) : null}
           </React.Fragment>
         ),
       },
