@@ -3,6 +3,8 @@ import { findDOMNode } from 'react-dom';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 
+import Typography from '@material-ui/core/Typography';
+
 import { Button, downloadSVG } from 'ot-ui';
 
 class InteractionsPlot extends React.Component {
@@ -71,14 +73,19 @@ class InteractionsPlot extends React.Component {
 
     return (
       <div ref={measureRef}>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            this.handleSVGDownload(this.svgContainer, filenameStem);
-          }}
-        >
-          SVG
-        </Button>
+        <div style={{ float: 'right', marginRight: '12px' }}>
+          <Typography>
+            Download as{' '}
+            <Button
+              variant="outlined"
+              onClick={() => {
+                this.handleSVGDownload(this.svgContainer, filenameStem);
+              }}
+            >
+              SVG
+            </Button>
+          </Typography>
+        </div>
         <div ref={this.svgContainer}>
           <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height}>
             <g
