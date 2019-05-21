@@ -332,7 +332,7 @@ class ProteinInteractionsDetail extends React.Component {
                     component="fieldset"
                     className={classes.formControl}
                   >
-                    <FormGroup>
+                    <FormGroup row>
                       <FormControlLabel
                         control={
                           <Checkbox
