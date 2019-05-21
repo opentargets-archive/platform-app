@@ -192,7 +192,7 @@ class InteractionsPlot extends React.Component {
                 let toX = ((diameter - circleRadius) / 2) * Math.sin(toAngle);
                 let toY = (-(diameter - circleRadius) / 2) * Math.cos(toAngle);
                 const d = `M${fromX},${fromY} Q0,0 ${toX},${toY}`;
-                return <path d={d} />;
+                return <path key={`${e.source}-${e.target}`} d={d} />;
               })}
             </g>
           )}
