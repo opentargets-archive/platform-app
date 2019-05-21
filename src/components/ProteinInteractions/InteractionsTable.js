@@ -3,6 +3,7 @@ import React from 'react';
 import { Link, OtTableRF, ListTooltip, PALETTE } from 'ot-ui';
 
 import SourceChip from './SourceChip';
+import { generateComparatorFromAccessor } from '../../utils/comparators';
 
 const columns = interactionTypes => [
   {
@@ -12,6 +13,7 @@ const columns = interactionTypes => [
       const { ensgId, symbol } = d.sourceNode;
       return <Link to={`target/${ensgId}`}>{symbol}</Link>;
     },
+    comparator: generateComparatorFromAccessor(d => d.sourceNode.symbol),
   },
   {
     id: 'target',
@@ -20,6 +22,7 @@ const columns = interactionTypes => [
       const { ensgId, symbol } = d.targetNode;
       return <Link to={`target/${ensgId}`}>{symbol}</Link>;
     },
+    comparator: generateComparatorFromAccessor(d => d.targetNode.symbol),
   },
   {
     id: 'sources',

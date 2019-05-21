@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import _ from 'lodash';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
