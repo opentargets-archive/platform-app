@@ -1,15 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 
-const styles = () => ({
-  inlineBlock: {
-    display: 'inline-block',
-  },
-});
+import { PALETTE } from 'ot-ui';
 
 const proteinLevel = level => {
   if (level === 0) {
@@ -36,7 +38,37 @@ const getMaxRnaValue = tissues => {
   return _.maxBy(tissues, tissue => tissue.rna.value).rna.value;
 };
 
-class SummaryRow extends Component {
+const rowStyles = theme => ({
+  parentRow: {
+    height: '10px',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: PALETTE.lightgrey,
+    },
+  },
+  row: {
+    height: '10px',
+    backgroundColor: PALETTE.lightgrey,
+  },
+  cell: {
+    border: 'none',
+    width: '230px',
+  },
+  tissueCell: {
+    textTransform: 'capitalize',
+  },
+  rnaCell: {
+    paddingRight: '8px',
+  },
+  proteinCell: {
+    paddingLeft: '8px',
+  },
+  naText: {
+    textAlign: 'right',
+  },
+});
+
+let SummaryRow = class extends Component {
   state = {
     collapsed: true,
   };
@@ -46,22 +78,21 @@ class SummaryRow extends Component {
   };
 
   render() {
-    const { parent, maxRnaValue } = this.props;
+    const { classes, parent, maxRnaValue } = this.props;
     const { collapsed } = this.state;
 
     return (
       <Fragment>
-        <tr
-          style={{ backgroundColor: 'papayawhip' }}
-          onClick={this.handleClick}
-        >
-          <td>{parent.parentLabel}</td>
-          <td>
+        <TableRow className={classes.parentRow} onClick={this.handleClick}>
+          <TableCell className={classNames(classes.cell, classes.tissueCell)}>
+            {parent.parentLabel}
+          </TableCell>
+          <TableCell className={classNames(classes.cell, classes.rnaCell)}>
             {parent.maxRnaLevel >= 0 ? (
               <div
                 title={`${parent.maxRnaValue} (normalized count)`}
                 style={{
-                  backgroundColor: 'blue',
+                  backgroundColor: PALETTE.darkblue,
                   width: `${rnaValueToPercent(
                     maxRnaValue,
                     parent.maxRnaValue
@@ -71,15 +102,15 @@ class SummaryRow extends Component {
                 }}
               />
             ) : (
-              <div>N/A</div>
+              <div className={classes.naText}>N/A</div>
             )}
-          </td>
-          <td>
+          </TableCell>
+          <TableCell className={classNames(classes.cell, classes.proteinCell)}>
             {parent.maxProteinLevel >= 0 ? (
               <div
                 title={proteinLevel(parent.maxProteinLevel)}
                 style={{
-                  backgroundColor: 'blue',
+                  backgroundColor: PALETTE.darkblue,
                   width: `${proteinLevelToPercent(parent.maxProteinLevel)}%`,
                   height: '12px',
                 }}
@@ -87,39 +118,48 @@ class SummaryRow extends Component {
             ) : (
               <div>N/A</div>
             )}
-          </td>
-        </tr>
+          </TableCell>
+        </TableRow>
         {parent.tissues.map(tissue => {
           const rnaPercent = rnaValueToPercent(maxRnaValue, tissue.rna.value);
           const proteinPercent = proteinLevelToPercent(tissue.protein.level);
 
           return (
-            <tr
+            <TableRow
+              className={classes.row}
               key={tissue.label}
               style={{ display: collapsed ? 'none' : 'table-row' }}
             >
-              <td>{tissue.label}</td>
-              <td>
+              <TableCell
+                className={classNames(classes.cell, classes.tissueCell)}
+              >
+                {tissue.label}
+              </TableCell>
+              <TableCell className={classNames(classes.cell, classes.rnaCell)}>
                 {tissue.rna.level >= 0 ? (
                   <div
                     title={`${tissue.rna.value} (normalized count)`}
                     style={{
-                      backgroundColor: 'blue',
+                      backgroundColor: PALETTE.blue,
                       width: `${rnaPercent}%`,
                       height: '12px',
                       float: 'right',
                     }}
                   />
                 ) : (
-                  <div title="No experimental data">N/A</div>
+                  <div className={classes.naText} title="No experimental data">
+                    N/A
+                  </div>
                 )}
-              </td>
-              <td>
+              </TableCell>
+              <TableCell
+                className={classNames(classes.cell, classes.proteinCell)}
+              >
                 {tissue.protein.level >= 0 ? (
                   <div
                     title={proteinLevel(tissue.protein.level)}
                     style={{
-                      backgroundColor: 'blue',
+                      backgroundColor: PALETTE.blue,
                       width: `${proteinPercent}%`,
                       height: '12px',
                     }}
@@ -127,14 +167,16 @@ class SummaryRow extends Component {
                 ) : (
                   <div>N/A</div>
                 )}
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           );
         })}
       </Fragment>
     );
   }
-}
+};
+
+SummaryRow = withStyles(rowStyles)(SummaryRow);
 
 const groupTissues = (tissues, groupBy) => {
   const groupedTissues = {};
@@ -204,6 +246,24 @@ const sort = (parents, sortBy) => {
   return parents.sort(parentComparator(sortBy));
 };
 
+const styles = () => ({
+  inlineBlock: {
+    display: 'inline-block',
+  },
+  table: {
+    width: '680px',
+  },
+  headerCell: {
+    textAlign: 'center',
+  },
+  cell: {
+    width: '230px',
+  },
+  row: {
+    height: '10px',
+  },
+});
+
 class SummaryTable extends Component {
   state = { groupBy: 'organs', sortBy: 'rna' };
 
@@ -238,20 +298,34 @@ class SummaryTable extends Component {
             Anatomical Systems
           </ToggleButton>
         </ToggleButtonGroup>
-        <table>
-          <thead>
-            <tr>
-              <td>Tissue</td>
-              <td onClick={() => this.handleSort('rna')}>RNA</td>
-              <td onClick={() => this.handleSort('protein')}>Protein</td>
-            </tr>
-            <tr>
-              <td />
-              <td>High Low</td>
-              <td>Low High</td>
-            </tr>
-          </thead>
-          <tbody>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell
+                className={classNames(classes.headerCell, classes.tissueCell)}
+              >
+                Tissue
+              </TableCell>
+              <TableCell
+                className={classes.headerCell}
+                onClick={() => this.handleSort('rna')}
+              >
+                RNA
+              </TableCell>
+              <TableCell
+                className={classes.headerCell}
+                onClick={() => this.handleSort('protein')}
+              >
+                Protein
+              </TableCell>
+            </TableRow>
+            <TableRow className={classes.row}>
+              <TableCell className={classes.tissueCell} />
+              <TableCell>High Low</TableCell>
+              <TableCell>Low High</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {parents.map(parent => {
               return (
                 <SummaryRow
@@ -261,8 +335,8 @@ class SummaryTable extends Component {
                 />
               );
             })}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </Fragment>
     );
   }
