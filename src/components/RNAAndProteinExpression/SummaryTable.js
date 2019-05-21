@@ -79,8 +79,11 @@ const rowStyles = theme => ({
   proteinCell: {
     paddingLeft: '8px',
   },
-  naText: {
-    textAlign: 'right',
+  barContainer: {
+    height: '12px',
+    backgroundColor: PALETTE.mediumgrey,
+    fontSize: '10px',
+    textAlign: 'center',
   },
 });
 
@@ -115,10 +118,8 @@ let SummaryRow = class extends Component {
             {parent.parentLabel}
           </TableCell>
           <TableCell className={classNames(classes.cell, classes.rnaCell)}>
-            {parent.maxRnaLevel >= 0 ? (
-              <div
-                style={{ backgroundColor: PALETTE.mediumgrey, height: '12px' }}
-              >
+            <div className={classes.barContainer}>
+              {parent.maxRnaLevel >= 0 ? (
                 <div
                   title={`${parent.maxRnaValue} (normalized count)`}
                   style={{
@@ -131,24 +132,26 @@ let SummaryRow = class extends Component {
                     float: 'right',
                   }}
                 />
-              </div>
-            ) : (
-              <div className={classes.naText}>N/A</div>
-            )}
+              ) : (
+                'N/A'
+              )}
+            </div>
           </TableCell>
           <TableCell className={classNames(classes.cell, classes.proteinCell)}>
-            {parent.maxProteinLevel >= 0 ? (
-              <div
-                title={proteinLevel(parent.maxProteinLevel)}
-                style={{
-                  backgroundColor: PALETTE.darkblue,
-                  width: `${proteinLevelToPercent(parent.maxProteinLevel)}%`,
-                  height: '12px',
-                }}
-              />
-            ) : (
-              <div>N/A</div>
-            )}
+            <div className={classes.barContainer}>
+              {parent.maxProteinLevel >= 0 ? (
+                <div
+                  title={proteinLevel(parent.maxProteinLevel)}
+                  style={{
+                    backgroundColor: PALETTE.darkblue,
+                    width: `${proteinLevelToPercent(parent.maxProteinLevel)}%`,
+                    height: '12px',
+                  }}
+                />
+              ) : (
+                'N/A'
+              )}
+            </div>
           </TableCell>
         </TableRow>
         {parent.tissues.map((tissue, index, tissues) => {
@@ -169,13 +172,8 @@ let SummaryRow = class extends Component {
                 {tissue.label}
               </TableCell>
               <TableCell className={classNames(classes.cell, classes.rnaCell)}>
-                {tissue.rna.level >= 0 ? (
-                  <div
-                    style={{
-                      backgroundColor: PALETTE.mediumgrey,
-                      height: '12px',
-                    }}
-                  >
+                <div className={classes.barContainer}>
+                  {tissue.rna.level >= 0 ? (
                     <div
                       title={`${tissue.rna.value} (normalized count)`}
                       style={{
@@ -185,28 +183,28 @@ let SummaryRow = class extends Component {
                         float: 'right',
                       }}
                     />
-                  </div>
-                ) : (
-                  <div className={classes.naText} title="No experimental data">
-                    N/A
-                  </div>
-                )}
+                  ) : (
+                    'N/A'
+                  )}
+                </div>
               </TableCell>
               <TableCell
                 className={classNames(classes.cell, classes.proteinCell)}
               >
-                {tissue.protein.level >= 0 ? (
-                  <div
-                    title={proteinLevel(tissue.protein.level)}
-                    style={{
-                      backgroundColor: PALETTE.blue,
-                      width: `${proteinPercent}%`,
-                      height: '12px',
-                    }}
-                  />
-                ) : (
-                  <div>N/A</div>
-                )}
+                <div className={classes.barContainer}>
+                  {tissue.protein.level >= 0 ? (
+                    <div
+                      title={proteinLevel(tissue.protein.level)}
+                      style={{
+                        backgroundColor: PALETTE.blue,
+                        width: `${proteinPercent}%`,
+                        height: '12px',
+                      }}
+                    />
+                  ) : (
+                    'N/A'
+                  )}
+                </div>
               </TableCell>
             </TableRow>
           );
@@ -218,6 +216,16 @@ let SummaryRow = class extends Component {
 
 SummaryRow = withStyles(rowStyles)(SummaryRow);
 
+// function that transforms tissue data into an array of objects
+// where each object has the following shape and where tissues is
+// an array of tissues that belong to the parent category
+// {
+//   parentLabel: string
+//   tissues: []
+//   maxRnaValue: number
+//   maxRnaLevel: number
+//   maxProteinLevel: number
+// }
 const groupTissues = (tissues, groupBy) => {
   const groupedTissues = {};
 
@@ -309,6 +317,9 @@ const styles = () => ({
   proteinCell: {
     paddingLeft: '8px',
   },
+  highLow: {
+    border: 'none',
+  },
   row: {
     height: '24px',
   },
@@ -359,11 +370,7 @@ class SummaryTable extends Component {
           <Table className={classes.table}>
             <TableHead>
               <TableRow className={classes.row}>
-                <TableCell
-                  className={classNames(classes.headerCell, classes.tissueCell)}
-                >
-                  Tissue
-                </TableCell>
+                <TableCell className={classes.headerCell}>Tissue</TableCell>
                 <TableCell
                   className={classes.headerCell}
                   onClick={() => this.handleSort('rna')}
@@ -380,14 +387,18 @@ class SummaryTable extends Component {
                 </TableCell>
               </TableRow>
               <TableRow className={classes.row}>
-                <TableCell className={classes.tissueCell} />
-                <TableCell className={classes.rnaCell}>
+                <TableCell className={classes.highLow} />
+                <TableCell
+                  className={classNames(classes.highLow, classes.rnaCell)}
+                >
                   <Grid container justify="space-between">
                     <Grid item>High</Grid>
                     <Grid item>Low</Grid>
                   </Grid>
                 </TableCell>
-                <TableCell className={classes.proteinCell}>
+                <TableCell
+                  className={classNames(classes.highLow, classes.proteinCell)}
+                >
                   <Grid container justify="space-between">
                     <Grid item>Low</Grid>
                     <Grid item>High</Grid>
