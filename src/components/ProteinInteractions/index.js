@@ -39,7 +39,7 @@ const ProteinInteractionsWidget = ({
       sources={sources}
       detailHeader={{
         title: `${symbol} - Protein Interactions`,
-        description: `Summary of interactions for ${symbol} based on OmniPath DB data. When 2 targets are selected, details on the interaction (including publications) are shown.`,
+        description: `Summary of interactions for ${symbol} based on OmniPath DB data.`,
       }}
       hasData={hasData}
     >
