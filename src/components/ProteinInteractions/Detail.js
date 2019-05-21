@@ -45,9 +45,9 @@ const query = gql`
 `;
 
 const sourceTypeColors = {
-  enzymeSubstrate: PALETTE.red, //'#fcc',
-  pathways: PALETTE.green, //'#cfc',
-  ppi: PALETTE.purple, //'#ccf',
+  enzymeSubstrate: PALETTE.red,
+  pathways: PALETTE.green,
+  ppi: PALETTE.purple,
 };
 
 const styles = theme => ({
@@ -65,18 +65,12 @@ const styles = theme => ({
   },
   chipSourcePathways: {
     backgroundColor: sourceTypeColors.pathways,
-    // border: `1px solid black`,
-    // border: `1px solid ${sourceTypeColors.pathways}`,
   },
   chipSourcePPI: {
     backgroundColor: sourceTypeColors.ppi,
-    // border: `1px solid black`,
-    // border: `1px solid ${sourceTypeColors.ppi}`,
   },
   chipSourceEnzymeSubstrate: {
     backgroundColor: sourceTypeColors.enzymeSubstrate,
-    // border: `1px solid black`,
-    // border: `1px solid ${sourceTypeColors.enzymeSubstrate}`,
   },
   checked: {},
   checkboxPathways: {
