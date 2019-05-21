@@ -7,6 +7,7 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
@@ -116,17 +117,21 @@ let SummaryRow = class extends Component {
           <TableCell className={classNames(classes.cell, classes.rnaCell)}>
             {parent.maxRnaLevel >= 0 ? (
               <div
-                title={`${parent.maxRnaValue} (normalized count)`}
-                style={{
-                  backgroundColor: PALETTE.darkblue,
-                  width: `${rnaValueToPercent(
-                    maxRnaValue,
-                    parent.maxRnaValue
-                  )}%`,
-                  height: '12px',
-                  float: 'right',
-                }}
-              />
+                style={{ backgroundColor: PALETTE.mediumgrey, height: '12px' }}
+              >
+                <div
+                  title={`${parent.maxRnaValue} (normalized count)`}
+                  style={{
+                    backgroundColor: PALETTE.darkblue,
+                    width: `${rnaValueToPercent(
+                      maxRnaValue,
+                      parent.maxRnaValue
+                    )}%`,
+                    height: '12px',
+                    float: 'right',
+                  }}
+                />
+              </div>
             ) : (
               <div className={classes.naText}>N/A</div>
             )}
@@ -166,14 +171,21 @@ let SummaryRow = class extends Component {
               <TableCell className={classNames(classes.cell, classes.rnaCell)}>
                 {tissue.rna.level >= 0 ? (
                   <div
-                    title={`${tissue.rna.value} (normalized count)`}
                     style={{
-                      backgroundColor: PALETTE.blue,
-                      width: `${rnaPercent}%`,
+                      backgroundColor: PALETTE.mediumgrey,
                       height: '12px',
-                      float: 'right',
                     }}
-                  />
+                  >
+                    <div
+                      title={`${tissue.rna.value} (normalized count)`}
+                      style={{
+                        backgroundColor: PALETTE.blue,
+                        width: `${rnaPercent}%`,
+                        height: '12px',
+                        float: 'right',
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div className={classes.naText} title="No experimental data">
                     N/A
@@ -279,6 +291,9 @@ const styles = () => ({
     display: 'inline-block',
     marginRight: '7px',
   },
+  groupBy: {
+    marginBottom: '20px',
+  },
   table: {
     width: '678px',
   },
@@ -321,7 +336,12 @@ class SummaryTable extends Component {
 
     return (
       <Fragment>
-        <Grid container justify="center" alignItems="center">
+        <Grid
+          className={classes.groupBy}
+          container
+          justify="center"
+          alignItems="center"
+        >
           <Typography className={classes.inlineBlock}>Group by</Typography>
           <ToggleButtonGroup
             className={classes.inlineBlock}
@@ -348,13 +368,15 @@ class SummaryTable extends Component {
                   className={classes.headerCell}
                   onClick={() => this.handleSort('rna')}
                 >
-                  RNA
+                  <TableSortLabel active={sortBy === 'rna'}>RNA</TableSortLabel>
                 </TableCell>
                 <TableCell
                   className={classes.headerCell}
                   onClick={() => this.handleSort('protein')}
                 >
-                  Protein
+                  <TableSortLabel active={sortBy === 'protein'}>
+                    Protein
+                  </TableSortLabel>
                 </TableCell>
               </TableRow>
               <TableRow className={classes.row}>
