@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import Grid from '@material-ui/core/Grid';
 
 import { PALETTE } from 'ot-ui';
 
@@ -56,6 +57,7 @@ const rowStyles = theme => ({
   },
   tissueCell: {
     textTransform: 'capitalize',
+    paddingRight: '8px',
   },
   rnaCell: {
     paddingRight: '8px',
@@ -251,13 +253,19 @@ const styles = () => ({
     display: 'inline-block',
   },
   table: {
-    width: '680px',
+    width: '678px',
   },
   headerCell: {
     textAlign: 'center',
   },
   cell: {
     width: '230px',
+  },
+  rnaCell: {
+    paddingRight: '8px',
+  },
+  proteinCell: {
+    paddingLeft: '8px',
   },
   row: {
     height: '10px',
@@ -321,8 +329,18 @@ class SummaryTable extends Component {
             </TableRow>
             <TableRow className={classes.row}>
               <TableCell className={classes.tissueCell} />
-              <TableCell>High Low</TableCell>
-              <TableCell>Low High</TableCell>
+              <TableCell className={classes.rnaCell}>
+                <Grid container justify="space-between">
+                  <Grid item>High</Grid>
+                  <Grid item>Low</Grid>
+                </Grid>
+              </TableCell>
+              <TableCell className={classes.proteinCell}>
+                <Grid container justify="space-between">
+                  <Grid item>Low</Grid>
+                  <Grid item>High</Grid>
+                </Grid>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
