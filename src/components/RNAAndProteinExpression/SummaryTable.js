@@ -47,9 +47,19 @@ const rowStyles = theme => ({
       backgroundColor: PALETTE.lightgrey,
     },
   },
+  openedParentRow: {
+    borderTop: `1px solid ${PALETTE.darkgrey}`,
+    borderLeft: `1px solid ${PALETTE.darkgrey}`,
+    borderRight: `1px solid ${PALETTE.darkgrey}`,
+  },
   row: {
     height: '10px',
     backgroundColor: PALETTE.lightgrey,
+    borderLeft: `1px solid ${PALETTE.darkgrey}`,
+    borderRight: `1px solid ${PALETTE.darkgrey}`,
+  },
+  lastChildRow: {
+    borderBottom: `1px solid ${PALETTE.darkgrey}`,
   },
   cell: {
     border: 'none',
@@ -85,7 +95,12 @@ let SummaryRow = class extends Component {
 
     return (
       <Fragment>
-        <TableRow className={classes.parentRow} onClick={this.handleClick}>
+        <TableRow
+          className={classNames(classes.parentRow, {
+            [classes.openedParentRow]: !collapsed,
+          })}
+          onClick={this.handleClick}
+        >
           <TableCell className={classNames(classes.cell, classes.tissueCell)}>
             {parent.parentLabel}
           </TableCell>
@@ -122,13 +137,15 @@ let SummaryRow = class extends Component {
             )}
           </TableCell>
         </TableRow>
-        {parent.tissues.map(tissue => {
+        {parent.tissues.map((tissue, index, tissues) => {
           const rnaPercent = rnaValueToPercent(maxRnaValue, tissue.rna.value);
           const proteinPercent = proteinLevelToPercent(tissue.protein.level);
 
           return (
             <TableRow
-              className={classes.row}
+              className={classNames(classes.row, {
+                [classes.lastChildRow]: index === tissues.length - 1,
+              })}
               key={tissue.label}
               style={{ display: collapsed ? 'none' : 'table-row' }}
             >
