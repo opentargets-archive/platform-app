@@ -53,7 +53,7 @@ const rowStyles = theme => ({
     borderRight: `1px solid ${PALETTE.darkgrey}`,
   },
   row: {
-    height: '10px',
+    height: '24px',
     backgroundColor: PALETTE.lightgrey,
     borderLeft: `1px solid ${PALETTE.darkgrey}`,
     borderRight: `1px solid ${PALETTE.darkgrey}`,
@@ -64,6 +64,9 @@ const rowStyles = theme => ({
   cell: {
     border: 'none',
     width: '230px',
+  },
+  parentTissueCell: {
+    fontWeight: 'bold',
   },
   tissueCell: {
     textTransform: 'capitalize',
@@ -101,7 +104,13 @@ let SummaryRow = class extends Component {
           })}
           onClick={this.handleClick}
         >
-          <TableCell className={classNames(classes.cell, classes.tissueCell)}>
+          <TableCell
+            className={classNames(
+              classes.cell,
+              classes.parentTissueCell,
+              classes.tissueCell
+            )}
+          >
             {parent.parentLabel}
           </TableCell>
           <TableCell className={classNames(classes.cell, classes.rnaCell)}>
@@ -268,6 +277,7 @@ const sort = (parents, sortBy) => {
 const styles = () => ({
   inlineBlock: {
     display: 'inline-block',
+    marginRight: '7px',
   },
   table: {
     width: '678px',
@@ -285,7 +295,7 @@ const styles = () => ({
     paddingLeft: '8px',
   },
   row: {
-    height: '10px',
+    height: '24px',
   },
 });
 
@@ -311,67 +321,71 @@ class SummaryTable extends Component {
 
     return (
       <Fragment>
-        <Typography className={classes.inlineBlock}>Group by </Typography>
-        <ToggleButtonGroup
-          className={classes.inlineBlock}
-          value={groupBy}
-          exclusive
-          onChange={this.handleChange}
-        >
-          <ToggleButton value="organs">Organs</ToggleButton>
-          <ToggleButton value="anatomicalSystems">
-            Anatomical Systems
-          </ToggleButton>
-        </ToggleButtonGroup>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell
-                className={classNames(classes.headerCell, classes.tissueCell)}
-              >
-                Tissue
-              </TableCell>
-              <TableCell
-                className={classes.headerCell}
-                onClick={() => this.handleSort('rna')}
-              >
-                RNA
-              </TableCell>
-              <TableCell
-                className={classes.headerCell}
-                onClick={() => this.handleSort('protein')}
-              >
-                Protein
-              </TableCell>
-            </TableRow>
-            <TableRow className={classes.row}>
-              <TableCell className={classes.tissueCell} />
-              <TableCell className={classes.rnaCell}>
-                <Grid container justify="space-between">
-                  <Grid item>High</Grid>
-                  <Grid item>Low</Grid>
-                </Grid>
-              </TableCell>
-              <TableCell className={classes.proteinCell}>
-                <Grid container justify="space-between">
-                  <Grid item>Low</Grid>
-                  <Grid item>High</Grid>
-                </Grid>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {parents.map(parent => {
-              return (
-                <SummaryRow
-                  key={parent.parentLabel}
-                  maxRnaValue={maxRnaValue}
-                  parent={parent}
-                />
-              );
-            })}
-          </TableBody>
-        </Table>
+        <Grid container justify="center" alignItems="center">
+          <Typography className={classes.inlineBlock}>Group by</Typography>
+          <ToggleButtonGroup
+            className={classes.inlineBlock}
+            value={groupBy}
+            exclusive
+            onChange={this.handleChange}
+          >
+            <ToggleButton value="organs">Organs</ToggleButton>
+            <ToggleButton value="anatomicalSystems">
+              Anatomical Systems
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+        <Grid container justify="center">
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow className={classes.row}>
+                <TableCell
+                  className={classNames(classes.headerCell, classes.tissueCell)}
+                >
+                  Tissue
+                </TableCell>
+                <TableCell
+                  className={classes.headerCell}
+                  onClick={() => this.handleSort('rna')}
+                >
+                  RNA
+                </TableCell>
+                <TableCell
+                  className={classes.headerCell}
+                  onClick={() => this.handleSort('protein')}
+                >
+                  Protein
+                </TableCell>
+              </TableRow>
+              <TableRow className={classes.row}>
+                <TableCell className={classes.tissueCell} />
+                <TableCell className={classes.rnaCell}>
+                  <Grid container justify="space-between">
+                    <Grid item>High</Grid>
+                    <Grid item>Low</Grid>
+                  </Grid>
+                </TableCell>
+                <TableCell className={classes.proteinCell}>
+                  <Grid container justify="space-between">
+                    <Grid item>Low</Grid>
+                    <Grid item>High</Grid>
+                  </Grid>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {parents.map(parent => {
+                return (
+                  <SummaryRow
+                    key={parent.parentLabel}
+                    maxRnaValue={maxRnaValue}
+                    parent={parent}
+                  />
+                );
+              })}
+            </TableBody>
+          </Table>
+        </Grid>
       </Fragment>
     );
   }
