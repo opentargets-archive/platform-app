@@ -70,7 +70,8 @@ class InteractionsPlot extends React.Component {
             <text
               x={-10}
               y={10}
-              fill="#bbb"
+              fontSize="12px"
+              fill="#777"
               textAnchor="end"
               alignmentBaseline="central"
             >
@@ -84,17 +85,28 @@ class InteractionsPlot extends React.Component {
                 width={20}
                 height={20}
                 fill={colour(d + 1)}
-                stroke="#bbb"
+                stroke="#777"
               />
             ))}
             <text
               x={legendData.length * 20 + 10}
               y={10}
-              fill="#bbb"
+              fontSize="12px"
+              fill="#777"
               textAnchor="start"
               alignmentBaseline="central"
             >
               {maxNeighbourCount}
+            </text>
+            <text
+              x={(legendData.length * 20) / 2}
+              y={30}
+              fontSize="12px"
+              fill="#777"
+              textAnchor="middle"
+              alignmentBaseline="central"
+            >
+              Interactions (ignoring selection)
             </text>
           </g>
           <g transform={`translate(${20},${20})`}>
@@ -128,11 +140,11 @@ class InteractionsPlot extends React.Component {
               x="30"
               y="30"
               fill="#777"
-              fontSize="10px"
+              fontSize="12px"
               textAnchor="start"
               alignmentBaseline="central"
             >
-              Neighbour of selection
+              Interaction with selection
             </text>
             <circle
               cx="10"
@@ -145,11 +157,11 @@ class InteractionsPlot extends React.Component {
               x="30"
               y="50"
               fill="#ddd"
-              fontSize="10px"
+              fontSize="12px"
               textAnchor="start"
               alignmentBaseline="central"
             >
-              Not a neighbour of selection
+              No interaction with selection
             </text>
           </g>
           {selectedUniprotIds.length > 0 ? (
