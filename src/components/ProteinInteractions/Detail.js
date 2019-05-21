@@ -307,7 +307,30 @@ class ProteinInteractionsDetail extends React.Component {
 
           return (
             <Grid container>
-              <Grid item sm={12} md={6}>
+              <Grid id="interaction-plot-container" item sm={12} lg={6}>
+                <ListTooltip
+                  open={tooltip.open}
+                  anchorEl={tooltip.anchorEl}
+                  dataList={tooltip.data ? tooltip.data : []}
+                  container={document.getElementById(
+                    'interaction-plot-container'
+                  )}
+                />
+
+                <InteractionsPlot
+                  {...{
+                    nodes,
+                    selectedUniprotIds,
+                    edgesFiltered,
+                    edgesFilteredWithinSelectedUniprotIds,
+                    edgesFilteredWithoutSelectedUniprotIds,
+                    handleProteinClick: this.handleProteinClick,
+                    handleMouseOver: this.handleMouseOver,
+                    handleMouseLeave: this.handleMouseLeave,
+                  }}
+                />
+              </Grid>
+              <Grid item sm={12} lg={6}>
                 <div>
                   <Typography>Filter by interaction type</Typography>
 
@@ -501,29 +524,6 @@ class ProteinInteractionsDetail extends React.Component {
                         : edgesFilteredWithoutSelectedUniprotIds
                       : edgesFiltered
                   }
-                />
-              </Grid>
-              <Grid id="interaction-plot-container" item sm={12} md={6}>
-                <ListTooltip
-                  open={tooltip.open}
-                  anchorEl={tooltip.anchorEl}
-                  dataList={tooltip.data ? tooltip.data : []}
-                  container={document.getElementById(
-                    'interaction-plot-container'
-                  )}
-                />
-
-                <InteractionsPlot
-                  {...{
-                    nodes,
-                    selectedUniprotIds,
-                    edgesFiltered,
-                    edgesFilteredWithinSelectedUniprotIds,
-                    edgesFilteredWithoutSelectedUniprotIds,
-                    handleProteinClick: this.handleProteinClick,
-                    handleMouseOver: this.handleMouseOver,
-                    handleMouseLeave: this.handleMouseLeave,
-                  }}
                 />
               </Grid>
             </Grid>
