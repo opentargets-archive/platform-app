@@ -40,7 +40,7 @@ class BibliographyWidget extends Component {
 
   componentDidMount() {
     const { ensgId } = this.props;
-    fetch(API_URL + 'search?query=' + ensgId + '&aggs=true&size=0')
+    fetch(API_URL + 'search?query=' + ensgId + '&size=0')
       .then(res => res.json())
       .then(
         result => {
