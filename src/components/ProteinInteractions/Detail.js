@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 
@@ -16,7 +15,8 @@ import { Button, ListTooltip } from 'ot-ui';
 
 import InteractionsPlot from './InteractionsPlot';
 import InteractionsTable from './InteractionsTable';
-import SourceChip, { sourceTypeColors } from './SourceChip';
+import SourceChip from './SourceChip';
+import SourceCheckbox from './SourceCheckbox';
 
 const query = gql`
   query ProteinInteractionsQuery($ensgId: String!) {
@@ -54,22 +54,6 @@ const styles = theme => ({
   chip: {
     margin: theme.spacing.unit * 0.5,
   },
-  checked: {},
-  checkboxPathways: {
-    '&$checked': {
-      color: sourceTypeColors.pathways,
-    },
-  },
-  checkboxPPI: {
-    '&$checked': {
-      color: sourceTypeColors.ppi,
-    },
-  },
-  checkboxEnzymeSubstrate: {
-    '&$checked': {
-      color: sourceTypeColors.enzymeSubstrate,
-    },
-  },
 });
 
 class ProteinInteractionsDetail extends React.Component {
@@ -86,7 +70,6 @@ class ProteinInteractionsDetail extends React.Component {
       anchorEl: null,
     },
   };
-
   handleInteractionTypeChange = interactionType => event => {
     const { interactionTypes } = this.state;
     this.setState({
@@ -279,7 +262,6 @@ class ProteinInteractionsDetail extends React.Component {
                     'interaction-plot-container'
                   )}
                 />
-
                 <InteractionsPlot
                   {...{
                     nodes,
@@ -296,7 +278,6 @@ class ProteinInteractionsDetail extends React.Component {
               <Grid item sm={12} lg={6}>
                 <div>
                   <Typography>Filter by interaction type</Typography>
-
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
@@ -304,11 +285,8 @@ class ProteinInteractionsDetail extends React.Component {
                     <FormGroup row>
                       <FormControlLabel
                         control={
-                          <Checkbox
-                            classes={{
-                              root: classes.checkboxEnzymeSubstrate,
-                              checked: classes.checked,
-                            }}
+                          <SourceCheckbox
+                            sourceType="enzymeSubstrate"
                             checked={interactionTypes.enzymeSubstrate}
                             onChange={this.handleInteractionTypeChange(
                               'enzymeSubstrate'
@@ -324,11 +302,8 @@ class ProteinInteractionsDetail extends React.Component {
                       />
                       <FormControlLabel
                         control={
-                          <Checkbox
-                            classes={{
-                              root: classes.checkboxPathways,
-                              checked: classes.checked,
-                            }}
+                          <SourceCheckbox
+                            sourceType="pathways"
                             checked={interactionTypes.pathways}
                             onChange={this.handleInteractionTypeChange(
                               'pathways'
@@ -344,11 +319,8 @@ class ProteinInteractionsDetail extends React.Component {
                       />
                       <FormControlLabel
                         control={
-                          <Checkbox
-                            classes={{
-                              root: classes.checkboxPPI,
-                              checked: classes.checked,
-                            }}
+                          <SourceCheckbox
+                            sourceType="ppi"
                             checked={interactionTypes.ppi}
                             onChange={this.handleInteractionTypeChange('ppi')}
                             value="ppi"
