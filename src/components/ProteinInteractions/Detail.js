@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -130,10 +131,42 @@ class ProteinInteractionsDetail extends React.Component {
     }
   };
   handleMouseOver = d => {
+    const { classes } = this.props;
     const anchorEl = document.querySelector(`#node-${d.uniprotId}`);
     const data = [
       { label: 'Protein', value: d.symbol },
-      { label: 'Edges within selection', value: d.neighbourCountWithin },
+      {
+        label: 'Interactors',
+        value: d.interactorsCount,
+      },
+      {
+        label: 'Interactions by type',
+        value: (
+          <React.Fragment>
+            <Chip
+              className={classNames(
+                classes.chipSource,
+                classes.chipSourceEnzymeSubstrate
+              )}
+              label={`Enzyme-substrate (${d.interactionsEnzymeSubstrateCount})`}
+              color={sourceTypeColors.enzymeSubstrate}
+            />
+            <Chip
+              className={classNames(
+                classes.chipSource,
+                classes.chipSourcePathways
+              )}
+              label={`Pathways (${d.interactionsPathwaysCount})`}
+              color={sourceTypeColors.pathways}
+            />
+            <Chip
+              className={classNames(classes.chipSource, classes.chipSourcePPI)}
+              label={`PPI (${d.interactionsPPICount})`}
+              color={sourceTypeColors.ppi}
+            />
+          </React.Fragment>
+        ),
+      },
     ];
     this.setState({
       tooltip: {
@@ -207,11 +240,8 @@ class ProteinInteractionsDetail extends React.Component {
           const edgesFilteredWithoutSelectedUniprotIds = edgesFiltered.filter(
             e => e.isFilteredWithoutSelectedUniprotIds
           );
-          const edgesFilteredEitherWithinOrWithoutSelectedUniprotIds = edgesFiltered.filter(
-            e =>
-              e.isFilteredWithinSelectedUniprotIds ||
-              e.isFilteredWithoutSelectedUniprotIds
-          );
+
+          // edgesSelected ignores interactionType filter (for counts on interactionType filters)
           const edgesSelected =
             selectedUniprotIds.length > 0
               ? selectedUniprotIds.length > 1
@@ -224,24 +254,44 @@ class ProteinInteractionsDetail extends React.Component {
                       e.isFilteredWithoutSelectedUniprotIds
                   )
               : edgesWithFilterProperties;
-          const nodes = nodesRaw.map(n => ({
-            ...n,
-            neighbourCount: edgesFiltered.filter(
+
+          // edgesDisplayed takes all filters into account (interactionType and selection)
+          const edgesDisplayed = edgesSelected.filter(
+            e => e.isFilteredSourceType
+          );
+
+          const nodes = nodesRaw.map(n => {
+            const edgesForNode = edgesDisplayed.filter(
               e => e.source === n.uniprotId || e.target === n.uniprotId
-            ).length,
-            neighbourCountWithin: edgesFilteredWithinSelectedUniprotIds.filter(
-              e => e.source === n.uniprotId || e.target === n.uniprotId
-            ).length,
-            neighbourCountWithinOrWithout: edgesFilteredEitherWithinOrWithoutSelectedUniprotIds.filter(
-              e => e.source === n.uniprotId || e.target === n.uniprotId
-            ).length,
-            isSelected: selectedUniprotIds.indexOf(n.uniprotId) >= 0,
-            isNeighbourOfSelected:
-              selectedUniprotIds.indexOf(n.uniprotId) < 0 &&
-              edgesFilteredWithoutSelectedUniprotIds.filter(
+            );
+            return {
+              ...n,
+              neighbourCount: edgesFiltered.filter(
                 e => e.source === n.uniprotId || e.target === n.uniprotId
               ).length,
-          }));
+              neighbourCountWithin: edgesForNode.length,
+              interactorsCount: _.uniq(
+                edgesForNode.map(e =>
+                  e.source === n.uniprotId ? e.target : e.source
+                )
+              ).length,
+              interactionsPPICount: edgesForNode.filter(
+                e => e.ppiSources.length > 0
+              ).length,
+              interactionsPathwaysCount: edgesForNode.filter(
+                e => e.pathwaysSources.length > 0
+              ).length,
+              interactionsEnzymeSubstrateCount: edgesForNode.filter(
+                e => e.enzymeSubstrateSources.length > 0
+              ).length,
+              isSelected: selectedUniprotIds.indexOf(n.uniprotId) >= 0,
+              isNeighbourOfSelected:
+                selectedUniprotIds.indexOf(n.uniprotId) < 0 &&
+                edgesFilteredWithoutSelectedUniprotIds.filter(
+                  e => e.source === n.uniprotId || e.target === n.uniprotId
+                ).length,
+            };
+          });
 
           return (
             <Grid container>
