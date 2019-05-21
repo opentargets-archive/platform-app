@@ -503,13 +503,7 @@ class ProteinInteractionsDetail extends React.Component {
                   }
                 />
               </Grid>
-              <Grid
-                id="interaction-plot-container"
-                item
-                sm={12}
-                md={6}
-                onMouseLeave={() => this.handleMouseLeave()}
-              >
+              <Grid id="interaction-plot-container" item sm={12} md={6}>
                 <ListTooltip
                   open={tooltip.open}
                   anchorEl={tooltip.anchorEl}
@@ -528,6 +522,7 @@ class ProteinInteractionsDetail extends React.Component {
                     edgesFilteredWithoutSelectedUniprotIds,
                     handleProteinClick: this.handleProteinClick,
                     handleMouseOver: this.handleMouseOver,
+                    handleMouseLeave: this.handleMouseLeave,
                   }}
                 />
               </Grid>

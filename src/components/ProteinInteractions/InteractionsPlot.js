@@ -18,6 +18,7 @@ class InteractionsPlot extends React.Component {
       edgesFilteredWithoutSelectedUniprotIds,
       handleProteinClick,
       handleMouseOver,
+      handleMouseLeave,
     } = this.props;
     const { width } = this.state;
     const height = Math.min(width, 700);
@@ -211,7 +212,8 @@ class InteractionsPlot extends React.Component {
                   transform={`translate(${textRadius *
                     Math.sin(angleRad)},${-textRadius * Math.cos(angleRad)})`}
                   onClick={() => handleProteinClick(n.uniprotId)}
-                  onMouseOver={() => handleMouseOver(n)}
+                  onMouseMove={() => handleMouseOver(n)}
+                  onMouseLeave={() => handleMouseLeave()}
                 >
                   <circle
                     cx="0"
