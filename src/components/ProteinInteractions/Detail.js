@@ -147,7 +147,7 @@ class ProteinInteractionsDetail extends React.Component {
     this.setState({ selectedUniprotIds: [uniprotId] });
   }
   render() {
-    const { classes, ensgId } = this.props;
+    const { classes, ensgId, symbol } = this.props;
     const { interactionTypes, selectedUniprotIds, tooltip } = this.state;
     return (
       <Query query={query} variables={{ ensgId }} fetchPolicy="no-cache">
@@ -271,6 +271,7 @@ class ProteinInteractionsDetail extends React.Component {
                     handleProteinClick: this.handleProteinClick,
                     handleMouseOver: this.handleMouseOver,
                     handleMouseLeave: this.handleMouseLeave,
+                    filenameStem: `${symbol}-protein-interactions`,
                   }}
                 />
               </Grid>

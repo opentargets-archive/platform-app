@@ -33,9 +33,7 @@ const ProteinInteractionsWidget = ({
     <Widget
       title="Protein interactions"
       detailUrlStem="protein-interactions"
-      detail={
-        <ProteinInteractionsDetail ensgId={ensgId} uniprotId={uniprotId} />
-      }
+      detail={<ProteinInteractionsDetail {...{ ensgId, uniprotId, symbol }} />}
       sources={sources}
       detailHeader={{
         title: `${symbol} - Protein Interactions`,
