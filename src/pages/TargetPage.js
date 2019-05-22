@@ -9,7 +9,7 @@ import { Tabs, Tab } from 'ot-ui';
 import BasePage from './BasePage';
 import TargetAssociationsPage from './TargetAssociationsPage';
 import TargetSummary from '../components/TargetSummary';
-import OverviewTab from '../components/OverviewTab';
+import OverviewTab from '../components/OverviewTabLayout1';
 
 const targetQuery = gql`
   query TargetQuery($ensgId: String!) {
