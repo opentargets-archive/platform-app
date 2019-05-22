@@ -5,14 +5,20 @@ import Hidden from '@material-ui/core/Hidden';
 import DetailPanel from './DetailPanel';
 import SideMenu from './SideMenu';
 
-const DetailPanelsContainer = ({ data }) => (
+const DetailPanelsContainer = ({ data, onSideMenuItemClick }) => (
   <div style={{ paddingTop: 8, paddingBottom: 8 }}>
     <Grid container spacing={8}>
       <Hidden smDown>
         <Grid item md={2}>
           <StickyContainer style={{ height: '100%' }}>
             <Sticky>
-              {({ style }) => <SideMenu style={style} data={data} />}
+              {({ style }) => (
+                <SideMenu
+                  style={style}
+                  data={data}
+                  onSideMenuItemClick={onSideMenuItemClick}
+                />
+              )}
             </Sticky>
           </StickyContainer>
         </Grid>

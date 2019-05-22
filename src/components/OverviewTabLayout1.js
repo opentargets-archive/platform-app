@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { scroller } from 'react-scroll';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
@@ -174,220 +175,239 @@ const overviewQuery = gql`
   }
 `;
 
-const styles = () => ({
-  filterSection: {
-    paddingTop: '14px',
-    paddingBottom: '14px',
+// const styles = () => ({
+//   filterSection: {
+//     paddingTop: '14px',
+//     paddingBottom: '14px',
+//   },
+//   filterLabel: {
+//     display: 'flex',
+//     alignItems: 'center',
+//     marginRight: '8px',
+//   },
+// });
+
+const sections = [
+  { id: 'drugs', name: 'Known Drugs' },
+  { id: 'chemicalProbes', name: 'Chemical Probes' },
+  { id: 'relatedTargets', name: 'Related Targets' },
+  { id: 'pathways', name: 'Pathways' },
+  { id: 'protein', name: 'Protein Information' },
+  {
+    id: 'cancerBiomarkers',
+    name: 'Cancer Biomarkers',
   },
-  filterLabel: {
-    display: 'flex',
-    alignItems: 'center',
-    marginRight: '8px',
+  { id: 'geneOntology', name: 'Gene Ontology' },
+  {
+    id: 'proteinInteractions',
+    name: 'Protein Interactions',
   },
-});
+  {
+    id: 'rnaAndProteinExpression',
+    name: 'RNA and Protein Baseline Expression',
+  },
+  { id: 'mousePhenotypes', name: 'Mouse Phenotypes' },
+  { id: 'tractability', name: 'Tractability' },
+  { id: 'cancerHallmarks', name: 'Cancer Hallmarks' },
+  {
+    id: 'variation',
+    name: 'Variation and Genomic Context',
+  },
+  { id: 'homology', name: 'Gene Tree' },
+  // { id: 'bibliography', name: 'Bibliography', hasData: false },
+];
 
 class OverviewTab extends Component {
-  state = {
-    filterTerm: '',
+  // state = {
+  //   filterTerm: '',
+  // };
+  // handleChange = event => {
+  //   this.setState({
+  //     filterTerm: event.target.value,
+  //   });
+  // };
+  scrollToSection = sectionId => {
+    scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
   };
-
-  handleChange = event => {
-    this.setState({
-      filterTerm: event.target.value,
-    });
-  };
-
   render() {
-    const { ensgId, symbol, name, classes } = this.props;
-    const { filterTerm } = this.state;
-    const lowerCaseTerm = filterTerm.trim().toLowerCase();
-
     return (
-      <Query query={overviewQuery} variables={{ ensgId }}>
-        {({ loading, error, data }) => {
-          if (loading || error) {
-            return null;
-          }
-
-          const {
-            drugs,
-            chemicalProbes,
-            relatedTargets,
-            pathways,
-            protein,
-            cancerBiomarkers,
-            geneOntology,
-            proteinInteractions,
-            rnaAndProteinExpression,
-            mousePhenotypes,
-            tractability,
-            cancerHallmarks,
-            variation,
-            homology,
-          } = data.target.summaries;
-
-          const miniWidgetData = [
-            { id: 'drugs', name: 'Known Drugs', hasData: false },
-            { id: 'chemicalProbes', name: 'Chemical Probes', hasData: false },
-            { id: 'relatedTargets', name: 'Related Targets', hasData: false },
-            { id: 'pathways', name: 'Pathways', hasData: false },
-            { id: 'protein', name: 'Protein Information', hasData: false },
-            {
-              id: 'cancerBiomarkers',
-              name: 'Cancer Biomarkers',
-              hasData: false,
-            },
-            { id: 'geneOntology', name: 'Gene Ontology', hasData: false },
-            {
-              id: 'proteinInteractions',
-              name: 'Protein Interactions',
-              hasData: false,
-            },
-            {
-              id: 'rnaAndProteinExpression',
-              name: 'RNA and Protein Baseline Expression',
-              hasData: false,
-            },
-            { id: 'mousePhenotypes', name: 'Mouse Phenotypes', hasData: false },
-            { id: 'tractability', name: 'Tractability', hasData: false },
-            { id: 'cancerHallmarks', name: 'Cancer Hallmarks', hasData: false },
-            {
-              id: 'variation',
-              name: 'Variation and Genomic Context',
-              hasData: false,
-            },
-            { id: 'homology', name: 'Gene Tree', hasData: false },
-            // { id: 'bibliography', name: 'Bibliography', hasData: false },
-          ];
-
-          return (
-            <Fragment>
-              <MiniWidgetBar data={miniWidgetData} />
-              <DetailPanelsContainer data={miniWidgetData} />
-
-              {/* <Grid container className={classes.filterSection}>
-                <Typography className={classes.filterLabel} variant="subtitle2">
-                  Filter widgets by name:
-                </Typography>
-                <TextField
-                  value={filterTerm}
-                  onChange={this.handleChange}
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid container spacing={16}>
-                {KnownDrugsWidget.widgetName.includes(lowerCaseTerm) && (
-                  <KnownDrugsWidget
-                    ensgId={ensgId}
-                    symbol={symbol}
-                    drugs={drugs}
-                  />
-                )}
-                {ChemicalProbesWidget.widgetName.includes(lowerCaseTerm) && (
-                  <ChemicalProbesWidget
-                    ensgId={ensgId}
-                    symbol={symbol}
-                    chemicalProbes={chemicalProbes}
-                  />
-                )}
-                {RelatedTargetsWidget.widgetName.includes(lowerCaseTerm) && (
-                  <RelatedTargetsWidget
-                    ensgId={ensgId}
-                    symbol={symbol}
-                    relatedTargets={relatedTargets}
-                  />
-                )}
-                {PathwaysWidget.widgetName.includes(lowerCaseTerm) && (
-                  <PathwaysWidget
-                    ensgId={ensgId}
-                    symbol={symbol}
-                    pathways={pathways}
-                  />
-                )}
-                {ProteinInformationWidget.widgetName.includes(
-                  lowerCaseTerm
-                ) && (
-                  <ProteinInformationWidget
-                    ensgId={ensgId}
-                    symbol={symbol}
-                    protein={protein}
-                  />
-                )}
-                {CancerBiomarkersWidget.widgetName.includes(lowerCaseTerm) && (
-                  <CancerBiomarkersWidget
-                    ensgId={ensgId}
-                    symbol={symbol}
-                    cancerBiomarkers={cancerBiomarkers}
-                  />
-                )}
-                {GeneOntologyWidget.widgetName.includes(lowerCaseTerm) && (
-                  <GeneOntologyWidget
-                    ensgId={ensgId}
-                    symbol={symbol}
-                    geneOntology={geneOntology}
-                  />
-                )}
-                {ProteinInteractionsWidget.widgetName.includes(
-                  lowerCaseTerm
-                ) && (
-                  <ProteinInteractionsWidget
-                    symbol={symbol}
-                    proteinInteractions={proteinInteractions}
-                  />
-                )}
-                {RNAAndProteinExpressionWidget.widgetName.includes(
-                  lowerCaseTerm
-                ) && (
-                  <RNAAndProteinExpressionWidget
-                    rnaAndProteinExpression={rnaAndProteinExpression}
-                  />
-                )}
-                {MousePhenotypesWidget.widgetName.includes(lowerCaseTerm) && (
-                  <MousePhenotypesWidget
-                    mousePhenotypes={mousePhenotypes}
-                    ensgId={ensgId}
-                    symbol={symbol}
-                  />
-                )}
-                {TargetTractabilityWidget.widgetName.includes(
-                  lowerCaseTerm
-                ) && (
-                  <TargetTractabilityWidget
-                    ensgId={ensgId}
-                    tractability={tractability}
-                    symbol={symbol}
-                  />
-                )}
-                {VariationWidget.widgetName.includes(lowerCaseTerm) && (
-                  <VariationWidget
-                    ensgId={ensgId}
-                    symbol={symbol}
-                    name={name}
-                    variation={variation}
-                  />
-                )}
-                {HomologyWidget.widgetName.includes(lowerCaseTerm) && (
-                  <HomologyWidget
-                    ensgId={ensgId}
-                    symbol={symbol}
-                    homology={homology}
-                  />
-                )}
-
-                {CancerHallmarksWidget.widgetName.includes(lowerCaseTerm) && (
-                  <CancerHallmarksWidget
-                    ensgId={ensgId}
-                    symbol={symbol}
-                    cancerHallmarks={cancerHallmarks}
-                  />
-                )}
-              </Grid> */}
-            </Fragment>
-          );
-        }}
-      </Query>
+      <Fragment>
+        <MiniWidgetBar data={sections} onWidgetClick={this.scrollToSection} />
+        <DetailPanelsContainer
+          data={sections}
+          onSideMenuItemClick={this.scrollToSection}
+        />
+      </Fragment>
     );
   }
+
+  // render() {
+  //   const { ensgId, symbol, name, classes } = this.props;
+  //   const { filterTerm } = this.state;
+  //   const lowerCaseTerm = filterTerm.trim().toLowerCase();
+  //   const sectionsWithRefs = sections.map(d => ({
+  //     ...d,
+  //     detailRef: this.sectionDetailRefs[d.id],
+  //   }));
+
+  //   return (
+  //     <Query query={overviewQuery} variables={{ ensgId }}>
+  //       {({ loading, error, data }) => {
+  //         if (loading || error) {
+  //           return null;
+  //         }
+
+  //         const {
+  //           drugs,
+  //           chemicalProbes,
+  //           relatedTargets,
+  //           pathways,
+  //           protein,
+  //           cancerBiomarkers,
+  //           geneOntology,
+  //           proteinInteractions,
+  //           rnaAndProteinExpression,
+  //           mousePhenotypes,
+  //           tractability,
+  //           cancerHallmarks,
+  //           variation,
+  //           homology,
+  //         } = data.target.summaries;
+
+  //         return (
+  //           <Fragment>
+  //             <MiniWidgetBar
+  //               data={sections}
+  //               onWidgetClick={this.scrollToSection}
+  //             />
+  //             <DetailPanelsContainer
+  //               data={sectionsWithRefs}
+  //               onSideMenuItemClick={this.scrollToSection}
+  //             />
+
+  //             <Grid container className={classes.filterSection}>
+  //               <Typography className={classes.filterLabel} variant="subtitle2">
+  //                 Filter widgets by name:
+  //               </Typography>
+  //               <TextField
+  //                 value={filterTerm}
+  //                 onChange={this.handleChange}
+  //                 variant="outlined"
+  //               />
+  //             </Grid>
+  //             <Grid container spacing={16}>
+  //               {KnownDrugsWidget.widgetName.includes(lowerCaseTerm) && (
+  //                 <KnownDrugsWidget
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                   drugs={drugs}
+  //                 />
+  //               )}
+  //               {ChemicalProbesWidget.widgetName.includes(lowerCaseTerm) && (
+  //                 <ChemicalProbesWidget
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                   chemicalProbes={chemicalProbes}
+  //                 />
+  //               )}
+  //               {RelatedTargetsWidget.widgetName.includes(lowerCaseTerm) && (
+  //                 <RelatedTargetsWidget
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                   relatedTargets={relatedTargets}
+  //                 />
+  //               )}
+  //               {PathwaysWidget.widgetName.includes(lowerCaseTerm) && (
+  //                 <PathwaysWidget
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                   pathways={pathways}
+  //                 />
+  //               )}
+  //               {ProteinInformationWidget.widgetName.includes(
+  //                 lowerCaseTerm
+  //               ) && (
+  //                 <ProteinInformationWidget
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                   protein={protein}
+  //                 />
+  //               )}
+  //               {CancerBiomarkersWidget.widgetName.includes(lowerCaseTerm) && (
+  //                 <CancerBiomarkersWidget
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                   cancerBiomarkers={cancerBiomarkers}
+  //                 />
+  //               )}
+  //               {GeneOntologyWidget.widgetName.includes(lowerCaseTerm) && (
+  //                 <GeneOntologyWidget
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                   geneOntology={geneOntology}
+  //                 />
+  //               )}
+  //               {ProteinInteractionsWidget.widgetName.includes(
+  //                 lowerCaseTerm
+  //               ) && (
+  //                 <ProteinInteractionsWidget
+  //                   symbol={symbol}
+  //                   proteinInteractions={proteinInteractions}
+  //                 />
+  //               )}
+  //               {RNAAndProteinExpressionWidget.widgetName.includes(
+  //                 lowerCaseTerm
+  //               ) && (
+  //                 <RNAAndProteinExpressionWidget
+  //                   rnaAndProteinExpression={rnaAndProteinExpression}
+  //                 />
+  //               )}
+  //               {MousePhenotypesWidget.widgetName.includes(lowerCaseTerm) && (
+  //                 <MousePhenotypesWidget
+  //                   mousePhenotypes={mousePhenotypes}
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                 />
+  //               )}
+  //               {TargetTractabilityWidget.widgetName.includes(
+  //                 lowerCaseTerm
+  //               ) && (
+  //                 <TargetTractabilityWidget
+  //                   ensgId={ensgId}
+  //                   tractability={tractability}
+  //                   symbol={symbol}
+  //                 />
+  //               )}
+  //               {VariationWidget.widgetName.includes(lowerCaseTerm) && (
+  //                 <VariationWidget
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                   name={name}
+  //                   variation={variation}
+  //                 />
+  //               )}
+  //               {HomologyWidget.widgetName.includes(lowerCaseTerm) && (
+  //                 <HomologyWidget
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                   homology={homology}
+  //                 />
+  //               )}
+
+  //               {CancerHallmarksWidget.widgetName.includes(lowerCaseTerm) && (
+  //                 <CancerHallmarksWidget
+  //                   ensgId={ensgId}
+  //                   symbol={symbol}
+  //                   cancerHallmarks={cancerHallmarks}
+  //                 />
+  //               )}
+  //             </Grid>
+  //           </Fragment>
+  //         );
+  //       }}
+  //     </Query>
+  //   );
+  // }
 }
 
-export default withStyles(styles)(OverviewTab);
+export default OverviewTab;
