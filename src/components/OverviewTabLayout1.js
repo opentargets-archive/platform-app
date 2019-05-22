@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import { Link } from 'ot-ui';
+
 import KnownDrugsWidget from './KnownDrugs';
 import ChemicalProbesWidget from './ChemicalProbes';
 import RelatedTargetsWidget from './RelatedTargets';
@@ -29,6 +31,8 @@ const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
       id
+      uniprotId
+      symbol
       summaries {
         drugs {
           drugCount
@@ -175,45 +179,129 @@ const overviewQuery = gql`
   }
 `;
 
-// const styles = () => ({
-//   filterSection: {
-//     paddingTop: '14px',
-//     paddingBottom: '14px',
-//   },
-//   filterLabel: {
-//     display: 'flex',
-//     alignItems: 'center',
-//     marginRight: '8px',
-//   },
-// });
-
 const sections = [
-  { id: 'drugs', name: 'Known Drugs' },
-  { id: 'chemicalProbes', name: 'Chemical Probes' },
-  { id: 'relatedTargets', name: 'Related Targets' },
-  { id: 'pathways', name: 'Pathways' },
-  { id: 'protein', name: 'Protein Information' },
+  {
+    id: 'drugs',
+    name: 'Known Drugs',
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Drugs in clinical trials or approved for <strong>{symbol}</strong>.
+      </React.Fragment>
+    ),
+    renderDetail: () => null,
+  },
+  {
+    id: 'chemicalProbes',
+    name: 'Chemical Probes',
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Information on chemical probes that have been developed for{' '}
+        <strong>{symbol}</strong>.
+      </React.Fragment>
+    ),
+  },
+  {
+    id: 'relatedTargets',
+    name: 'Related Targets',
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Targets related to <strong>{symbol}</strong> based on shared disease
+        associations.
+      </React.Fragment>
+    ),
+  },
+  {
+    id: 'pathways',
+    name: 'Pathways',
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Pathway information for <strong>{symbol}</strong> from Reactome
+      </React.Fragment>
+    ),
+  },
+  {
+    id: 'protein',
+    name: 'Protein Information',
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        General information about <strong>{symbol}</strong> protein from UniProt
+        and PDBe.
+      </React.Fragment>
+    ),
+  },
   {
     id: 'cancerBiomarkers',
     name: 'Cancer Biomarkers',
+    renderDescription: () => (
+      <React.Fragment>
+        Genomic biomarkers of drug responses, and their levels of clinical
+        significance as described by{' '}
+        <Link external to="https://europepmc.org/articles/PMC5875005">
+          {' '}
+          Tamborero et al. (2018)
+        </Link>
+        . This data is manually curated by clinical and scientific communities
+        in the field of precision oncology.
+      </React.Fragment>
+    ),
   },
-  { id: 'geneOntology', name: 'Gene Ontology' },
+  {
+    id: 'geneOntology',
+    name: 'Gene Ontology',
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Gene Ontology terms related to <strong>{symbol}</strong>.
+      </React.Fragment>
+    ),
+  },
   {
     id: 'proteinInteractions',
     name: 'Protein Interactions',
+    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
   },
   {
     id: 'rnaAndProteinExpression',
     name: 'RNA and Protein Baseline Expression',
+    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
   },
-  { id: 'mousePhenotypes', name: 'Mouse Phenotypes' },
-  { id: 'tractability', name: 'Tractability' },
-  { id: 'cancerHallmarks', name: 'Cancer Hallmarks' },
+  {
+    id: 'mousePhenotypes',
+    name: 'Mouse Phenotypes',
+    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
+  },
+  {
+    id: 'tractability',
+    name: 'Tractability',
+    renderDescription: ({ symbol }) => (
+      <Fragment>
+        Summary of tractability assessment for <strong>{symbol}</strong> for
+        small molecule and antibody modalities. For more information on the
+        tractability assessment and descriptions of each bucket, please read{' '}
+        <Link
+          external
+          to="https://docs.targetvalidation.org/getting-started/target-tractability"
+        >
+          the tractability section of our documentation
+        </Link>
+        .
+      </Fragment>
+    ),
+  },
+  {
+    id: 'cancerHallmarks',
+    name: 'Cancer Hallmarks',
+    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
+  },
   {
     id: 'variation',
     name: 'Variation and Genomic Context',
+    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
   },
-  { id: 'homology', name: 'Gene Tree' },
+  {
+    id: 'homology',
+    name: 'Gene Tree',
+    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
+  },
   // { id: 'bibliography', name: 'Bibliography', hasData: false },
 ];
 

@@ -1,10 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
 import { Tabs, Tab } from 'ot-ui';
+
+import TargetSummaryContext from '../contexts/TargetSummaryContext';
 
 import BasePage from './BasePage';
 import TargetAssociationsPage from './TargetAssociationsPage';
@@ -67,8 +69,17 @@ class TargetPage extends Component {
               description,
             } = data.target;
 
+            const context = {
+              ensgId,
+              uniprotId,
+              symbol,
+              name,
+              synonyms,
+              description,
+            };
+
             return (
-              <Fragment>
+              <TargetSummaryContext.Provider value={context}>
                 <Helmet>
                   <title>{symbol}</title>
                 </Helmet>
@@ -99,7 +110,7 @@ class TargetPage extends Component {
                     render={() => <OverviewTab {...{ ensgId, symbol, name }} />}
                   />
                 </Switch>
-              </Fragment>
+              </TargetSummaryContext.Provider>
             );
           }}
         </Query>
