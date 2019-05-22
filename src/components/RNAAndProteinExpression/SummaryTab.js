@@ -4,7 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Link } from 'ot-ui';
+import { Link, DataDownloader } from 'ot-ui';
 
 import SummaryTable from './SummaryTable';
 
@@ -41,6 +41,24 @@ const styles = () => ({
   },
 });
 
+const headers = [
+  { id: 'label', label: 'Tissue' },
+  { id: 'organs', label: 'Organs' },
+  { id: 'anatomicalSystems', label: 'Anatomical Systems' },
+  { id: 'rna', label: 'RNA' },
+  { id: 'protein', label: 'Protein' },
+];
+
+const getDownloadRows = tissues => {
+  return tissues.map(tissue => ({
+    label: tissue.label,
+    organs: tissue.organs.join(','),
+    anatomicalSystems: tissue.anatomicalSystems.join(','),
+    rna: tissue.rna.value,
+    protein: tissue.protein.level,
+  }));
+};
+
 class SummaryTab extends Component {
   render() {
     const { ensgId, symbol, classes } = this.props;
@@ -69,8 +87,17 @@ class SummaryTab extends Component {
           {({ loading, error, data }) => {
             if (loading || error) return null;
 
+            const tissues = data.target.details.expression.rows;
+
             return (
-              <SummaryTable tissues={data.target.details.expression.rows} />
+              <Fragment>
+                <DataDownloader
+                  tableHeaders={headers}
+                  rows={getDownloadRows(tissues)}
+                  fileStem={`${symbol}-expression`}
+                />
+                <SummaryTable tissues={tissues} />
+              </Fragment>
             );
           }}
         </Query>
