@@ -3,9 +3,11 @@ import { Element } from 'react-scroll';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import SectionAvatar from './SectionAvatar';
+import DetailPanelLoader from './DetailPanelLoader';
 import TargetSummaryContext from '../contexts/TargetSummaryContext';
 
 const styles = theme => ({
@@ -26,7 +28,16 @@ const styles = theme => ({
 
 class DetailPanel extends React.Component {
   render() {
-    const { classes, id, name, icon, hasData, renderDescription } = this.props;
+    const {
+      classes,
+      id,
+      name,
+      icon,
+      hasData,
+      renderDescription,
+      query,
+      SectionComponent,
+    } = this.props;
     return (
       <Grid item xs={12} style={{ marginBottom: 8 }}>
         <Element name={id}>
@@ -40,6 +51,11 @@ class DetailPanel extends React.Component {
                 renderDescription ? renderDescription(this.context) : null
               }
             />
+            <CardContent>
+              <DetailPanelLoader
+                {...{ sectionId: id, query, SectionComponent }}
+              />
+            </CardContent>
           </Card>
         </Element>
       </Grid>
