@@ -351,6 +351,7 @@ class OverviewTab extends Component {
     return (
       <Fragment>
         <MiniWidgetBar data={sections} onWidgetClick={this.scrollToSection} />
+        <br />
         <DetailPanelsContainer
           data={sections}
           onSideMenuItemClick={this.scrollToSection}
