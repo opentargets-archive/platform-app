@@ -267,7 +267,12 @@ const sections = [
   {
     id: 'mousePhenotypes',
     name: 'Mouse Phenotypes',
-    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Mouse phenotypes by model associated with <strong>{symbol}</strong>{' '}
+        orthologues.
+      </React.Fragment>
+    ),
   },
   {
     id: 'tractability',
@@ -290,17 +295,42 @@ const sections = [
   {
     id: 'cancerHallmarks',
     name: 'Cancer Hallmarks',
-    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
+    renderDescription: () => (
+      <React.Fragment>
+        Essential alterations in cell physiology that dictate malignant growth.
+        Cancer hallmarks were originally described by{' '}
+        <Link external to="https://www.cell.com/abstract/S0092-8674(00)81683-9">
+          Hanahan and Weinberg (2000)
+        </Link>{' '}
+        and are manually curated by COSMIC and integrated into the Cancer Gene
+        Census.
+      </React.Fragment>
+    ),
   },
   {
     id: 'variation',
     name: 'Variation and Genomic Context',
-    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Genomic variants associated with <strong>{symbol}</strong>. Only variant
+        information associating <strong>{symbol}</strong> with any disease is
+        displayed. Click on any variant, gene or transcript to get more
+        information about it. Pan or zoom the browser to see neighbouring genes.
+        The number above gene variants means that more than 1 overlap the same
+        region at the current zoom level. Genomic coordinates are relative to
+        GRCh38.
+      </React.Fragment>
+    ),
   },
   {
     id: 'homology',
     name: 'Gene Tree',
-    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Homology and gene tree information for <strong>{symbol}</strong> across
+        selected species.
+      </React.Fragment>
+    ),
   },
   // { id: 'bibliography', name: 'Bibliography', hasData: false },
 ];
