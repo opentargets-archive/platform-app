@@ -27,6 +27,9 @@ import { Link } from 'ot-ui';
 import PathwaysSection from './Pathways/Section';
 import PathwaysQuery from './Pathways/query';
 
+import ProteinInformationSection from './ProteinInformation/Section';
+import ProteinInformationQuery from './ProteinInformation/query';
+
 import KnownDrugsSection from './KnownDrugs/Section';
 import KnownDrugsQuery from './KnownDrugs/query';
 
@@ -248,16 +251,18 @@ const sections = [
       </React.Fragment>
     ),
   },
-  // {
-  //   id: 'protein',
-  //   name: 'Protein Information',
-  //   renderDescription: ({ symbol }) => (
-  //     <React.Fragment>
-  //       General information about <strong>{symbol}</strong> protein from UniProt
-  //       and PDBe.
-  //     </React.Fragment>
-  //   ),
-  // },
+  {
+    id: 'protein',
+    name: 'Protein Information',
+    query: ProteinInformationQuery,
+    SectionComponent: ProteinInformationSection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        General information about <strong>{symbol}</strong> protein from UniProt
+        and PDBe.
+      </React.Fragment>
+    ),
+  },
   {
     id: 'cancerBiomarkers',
     name: 'Cancer Biomarkers',

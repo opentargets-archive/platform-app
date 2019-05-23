@@ -18,9 +18,9 @@ const defaultOrder = [
   {
     id: 'pathways',
   },
-  // {
-  //   id: 'protein',
-  // },
+  {
+    id: 'protein',
+  },
   {
     id: 'cancerBiomarkers',
   },
