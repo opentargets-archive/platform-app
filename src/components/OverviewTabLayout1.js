@@ -33,6 +33,9 @@ import CancerHallmarksQuery from './CancerHallmarks/query';
 import ChemicalProbesSection from './ChemicalProbes/Section';
 import ChemicalProbesQuery from './ChemicalProbes/query';
 
+import GeneOntologySection from './GeneOntology/Section';
+import GeneOntologyQuery from './GeneOntology/query';
+
 import MiniWidgetBar from './MiniWidgetBar';
 import DetailPanelsContainer from './DetailPanelsContainer';
 
@@ -258,15 +261,17 @@ const sections = [
       </React.Fragment>
     ),
   },
-  // {
-  //   id: 'geneOntology',
-  //   name: 'Gene Ontology',
-  //   renderDescription: ({ symbol }) => (
-  //     <React.Fragment>
-  //       Gene Ontology terms related to <strong>{symbol}</strong>.
-  //     </React.Fragment>
-  //   ),
-  // },
+  {
+    id: 'geneOntology',
+    name: 'Gene Ontology',
+    query: GeneOntologyQuery,
+    SectionComponent: GeneOntologySection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Gene Ontology terms related to <strong>{symbol}</strong>.
+      </React.Fragment>
+    ),
+  },
   // {
   //   id: 'proteinInteractions',
   //   name: 'Protein Interactions',

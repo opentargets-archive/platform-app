@@ -24,9 +24,9 @@ const defaultOrder = [
   {
     id: 'cancerBiomarkers',
   },
-  // {
-  //   id: 'geneOntology',
-  // },
+  {
+    id: 'geneOntology',
+  },
   // {
   //   id: 'proteinInteractions',
   // },
