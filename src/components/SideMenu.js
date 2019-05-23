@@ -60,34 +60,14 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const grid = 8;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // // some basic styles to make the items look a bit nicer
-  // userSelect: 'none',
-  // padding: grid * 2,
-  // margin: `0 0 ${grid}px 0`,
-
-  // // change background colour if dragging
-  background: isDragging ? '#bbb' : 'none',
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
-});
-
-const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? '#ddd' : 'none',
-  // padding: grid,
-  // width: 250,
-});
+// Note: portalling seems to be necessary because of the sticky behaviour
+//       (see https://github.com/atlassian/react-beautiful-dnd/blob/master/stories/src/portal/portal-app.jsx)
 
 const portal = document.createElement('div');
-portal.classList.add('my-super-cool-portal');
-
+portal.classList.add('drag-n-drop-portal');
 if (!document.body) {
   throw new Error('body not ready for portal creation!');
 }
-
 document.body.appendChild(portal);
 
 class PortalAwareItem extends React.Component {
