@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 const styles = theme => ({
   modalContainer: {
     overflow: 'auto',
+    zIndex: 1040,
   },
   modalContents: {
     width: '90%',
