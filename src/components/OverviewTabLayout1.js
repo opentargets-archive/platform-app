@@ -30,6 +30,9 @@ import RelatedTargetsQuery from './RelatedTargets/query';
 import PathwaysSection from './Pathways/Section';
 import PathwaysQuery from './Pathways/query';
 
+import ProteinInteractionsSection from './ProteinInteractions/Section';
+import ProteinInteractionsQuery from './ProteinInteractions/query';
+
 import ProteinInformationSection from './ProteinInformation/Section';
 import ProteinInformationQuery from './ProteinInformation/query';
 
@@ -297,11 +300,18 @@ const sections = [
       </React.Fragment>
     ),
   },
-  // {
-  //   id: 'proteinInteractions',
-  //   name: 'Protein Interactions',
-  //   renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
-  // },
+  {
+    id: 'proteinInteractions',
+    name: 'Protein Interactions',
+    query: ProteinInteractionsQuery,
+    SectionComponent: ProteinInteractionsSection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Summary of interactions for <strong>{symbol}</strong> based on OmniPath
+        DB data.
+      </React.Fragment>
+    ),
+  },
   // {
   //   id: 'rnaAndProteinExpression',
   //   name: 'RNA and Protein Baseline Expression',

@@ -27,9 +27,9 @@ const defaultOrder = [
   {
     id: 'geneOntology',
   },
-  // {
-  //   id: 'proteinInteractions',
-  // },
+  {
+    id: 'proteinInteractions',
+  },
   // {
   //   id: 'rnaAndProteinExpression',
   // },
