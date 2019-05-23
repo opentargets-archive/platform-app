@@ -7,6 +7,10 @@ import { Link } from 'ot-ui';
 
 import targetGeneTree from 'cttv.targetGeneTree';
 
+// // TODO: update tntvis to use the latest version of d3 (not v3 as here)
+// // this file is a tweaked version of that in the `tnt.tooltip` dep
+// const d3 = window.d3;
+
 // TODO: Currently, when a resize occurs, we just
 // redraw the widget, meaning internal state is lost.
 // Ideally, this should use componentDidUpdate, but

@@ -24,6 +24,9 @@ import { Link } from 'ot-ui';
 // import VariationWidget from './Variation';
 // import HomologyWidget from './Homology';
 
+import KnownDrugsSection from './KnownDrugs/Section';
+import KnownDrugsQuery from './KnownDrugs/query';
+
 import CancerBiomarkersSection from './CancerBiomarkers/Section';
 import CancerBiomarkersQuery from './CancerBiomarkers/query';
 
@@ -35,6 +38,8 @@ import ChemicalProbesQuery from './ChemicalProbes/query';
 
 import GeneOntologySection from './GeneOntology/Section';
 import GeneOntologyQuery from './GeneOntology/query';
+
+import HomologySection from './Homology/Section';
 
 import MiniWidgetBar from './MiniWidgetBar';
 import DetailPanelsContainer from './DetailPanelsContainer';
@@ -192,16 +197,18 @@ const overviewQuery = gql`
 `;
 
 const sections = [
-  // {
-  //   id: 'drugs',
-  //   name: 'Known Drugs',
-  //   renderDescription: ({ symbol }) => (
-  //     <React.Fragment>
-  //       Drugs in clinical trials or approved for <strong>{symbol}</strong>.
-  //     </React.Fragment>
-  //   ),
-  //   renderDetail: () => null,
-  // },
+  {
+    id: 'drugs',
+    name: 'Known Drugs',
+    query: KnownDrugsQuery,
+    SectionComponent: KnownDrugsSection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Drugs in clinical trials or approved for <strong>{symbol}</strong>.
+      </React.Fragment>
+    ),
+    renderDetail: () => null,
+  },
   {
     id: 'chemicalProbes',
     name: 'Chemical Probes',
@@ -342,16 +349,18 @@ const sections = [
   //     </React.Fragment>
   //   ),
   // },
-  // {
-  //   id: 'homology',
-  //   name: 'Gene Tree',
-  //   renderDescription: ({ symbol }) => (
-  //     <React.Fragment>
-  //       Homology and gene tree information for <strong>{symbol}</strong> across
-  //       selected species.
-  //     </React.Fragment>
-  //   ),
-  // },
+  {
+    id: 'homology',
+    name: 'Gene Tree',
+    // query: CancerHallmarksQuery,
+    SectionComponent: HomologySection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Homology and gene tree information for <strong>{symbol}</strong> across
+        selected species.
+      </React.Fragment>
+    ),
+  },
   // { id: 'bibliography', name: 'Bibliography', hasData: false },
 ];
 

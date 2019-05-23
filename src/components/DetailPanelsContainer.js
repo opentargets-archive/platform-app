@@ -6,9 +6,9 @@ import DetailPanel from './DetailPanel';
 import SideMenu from './SideMenu';
 
 const defaultOrder = [
-  // {
-  //   id: 'drugs',
-  // },
+  {
+    id: 'drugs',
+  },
   {
     id: 'chemicalProbes',
   },
@@ -45,9 +45,9 @@ const defaultOrder = [
   // {
   //   id: 'variation',
   // },
-  // {
-  //   id: 'homology',
-  // },
+  {
+    id: 'homology',
+  },
   // { id: 'bibliography' },
 ];
 
