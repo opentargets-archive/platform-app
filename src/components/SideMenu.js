@@ -30,7 +30,7 @@ class PortalAwareItem extends React.Component {
         {...provided.draggableProps}
         {...provided.dragHandleProps}
       >
-        <SideMenuItem {...item} inPortal={usePortal} onClick={onClick} />
+        <SideMenuItem {...item} inDragState={usePortal} onClick={onClick} />
       </div>
     );
 
