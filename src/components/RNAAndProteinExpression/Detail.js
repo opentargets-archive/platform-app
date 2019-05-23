@@ -23,7 +23,7 @@ class RNAAndProteinExpressionDetail extends Component {
           <Tab value="gtex" label="GTEx variability" />
         </Tabs>
         {value === 'summary' && <SummaryTab ensgId={ensgId} symbol={symbol} />}
-        {value === 'atlas' && <AtlasTab />}
+        {value === 'atlas' && <AtlasTab ensgId={ensgId} />}
         {value === 'gtex' && <GtexTab />}
       </Fragment>
     );
