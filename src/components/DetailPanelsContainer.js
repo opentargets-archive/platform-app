@@ -12,9 +12,9 @@ const defaultOrder = [
   {
     id: 'chemicalProbes',
   },
-  // {
-  //   id: 'relatedTargets',
-  // },
+  {
+    id: 'relatedTargets',
+  },
   {
     id: 'pathways',
   },

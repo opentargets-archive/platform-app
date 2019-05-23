@@ -24,6 +24,9 @@ import { Link } from 'ot-ui';
 // import VariationWidget from './Variation';
 // import HomologyWidget from './Homology';
 
+import RelatedTargetsSection from './RelatedTargets/Section';
+import RelatedTargetsQuery from './RelatedTargets/query';
+
 import PathwaysSection from './Pathways/Section';
 import PathwaysQuery from './Pathways/query';
 
@@ -230,16 +233,18 @@ const sections = [
       </React.Fragment>
     ),
   },
-  // {
-  //   id: 'relatedTargets',
-  //   name: 'Related Targets',
-  //   renderDescription: ({ symbol }) => (
-  //     <React.Fragment>
-  //       Targets related to <strong>{symbol}</strong> based on shared disease
-  //       associations.
-  //     </React.Fragment>
-  //   ),
-  // },
+  {
+    id: 'relatedTargets',
+    name: 'Related Targets',
+    query: RelatedTargetsQuery,
+    SectionComponent: RelatedTargetsSection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Targets related to <strong>{symbol}</strong> based on shared disease
+        associations.
+      </React.Fragment>
+    ),
+  },
   {
     id: 'pathways',
     name: 'Pathways',

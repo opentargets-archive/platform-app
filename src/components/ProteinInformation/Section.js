@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
-import { Link, Tabs, Tab } from 'ot-ui';
 import withStyles from '@material-ui/core/styles/withStyles';
+
+import { Link, Tabs, Tab } from 'ot-ui';
 
 import Structure from './Structure';
 import ProtVistaRenderer from './ProtVistaRenderer';
@@ -15,7 +16,7 @@ const styles = () => ({
   },
 });
 
-class ProteinInformationModal extends React.Component {
+class Section extends React.Component {
   state = {
     value: 'sequenceAnnotation',
   };
@@ -27,7 +28,7 @@ class ProteinInformationModal extends React.Component {
     return `PMID: <a href="https://europepmc.org/abstract/med/${id}" target="_blank">${id}</a>`;
   };
   render() {
-    const { classes, ensgId, data } = this.props;
+    const { classes, data } = this.props;
     const { value } = this.state;
 
     const {
@@ -143,4 +144,4 @@ class ProteinInformationModal extends React.Component {
   }
 }
 
-export default withStyles(styles)(ProteinInformationModal);
+export default withStyles(styles)(Section);
