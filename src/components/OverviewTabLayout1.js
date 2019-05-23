@@ -1,28 +1,34 @@
 import React, { Component, Fragment } from 'react';
 import { scroller } from 'react-scroll';
-import { Query } from 'react-apollo';
+// import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
+// import Grid from '@material-ui/core/Grid';
+// import TextField from '@material-ui/core/TextField';
+// import Typography from '@material-ui/core/Typography';
+// import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Link } from 'ot-ui';
 
-import KnownDrugsWidget from './KnownDrugs';
-import ChemicalProbesWidget from './ChemicalProbes';
-import RelatedTargetsWidget from './RelatedTargets';
-import PathwaysWidget from './Pathways';
-import ProteinInformationWidget from './ProteinInformation';
-import CancerBiomarkersWidget from './CancerBiomarkers';
-import GeneOntologyWidget from './GeneOntology';
-import ProteinInteractionsWidget from './ProteinInteractions';
-import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
-import MousePhenotypesWidget from './MousePhenotypes';
-import TargetTractabilityWidget from './TargetTractability';
-import CancerHallmarksWidget from './CancerHallmarks';
-import VariationWidget from './Variation';
-import HomologyWidget from './Homology';
+// import KnownDrugsWidget from './KnownDrugs';
+// import ChemicalProbesWidget from './ChemicalProbes';
+// import RelatedTargetsWidget from './RelatedTargets';
+// import PathwaysWidget from './Pathways';
+// import ProteinInformationWidget from './ProteinInformation';
+// import CancerBiomarkersWidget from './CancerBiomarkers';
+// import GeneOntologyWidget from './GeneOntology';
+// import ProteinInteractionsWidget from './ProteinInteractions';
+// import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
+// import MousePhenotypesWidget from './MousePhenotypes';
+// import TargetTractabilityWidget from './TargetTractability';
+// import CancerHallmarksWidget from './CancerHallmarks';
+// import VariationWidget from './Variation';
+// import HomologyWidget from './Homology';
+
+import CancerBiomarkersSection from './CancerBiomarkers/Section';
+import CancerBiomarkersQuery from './CancerBiomarkers/query';
+
+import CancerHallmarksSection from './CancerHallmarks/Section';
+import CancerHallmarksQuery from './CancerHallmarks/query';
 
 import MiniWidgetBar from './MiniWidgetBar';
 import DetailPanelsContainer from './DetailPanelsContainer';
@@ -180,58 +186,60 @@ const overviewQuery = gql`
 `;
 
 const sections = [
-  {
-    id: 'drugs',
-    name: 'Known Drugs',
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Drugs in clinical trials or approved for <strong>{symbol}</strong>.
-      </React.Fragment>
-    ),
-    renderDetail: () => null,
-  },
-  {
-    id: 'chemicalProbes',
-    name: 'Chemical Probes',
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Information on chemical probes that have been developed for{' '}
-        <strong>{symbol}</strong>.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'relatedTargets',
-    name: 'Related Targets',
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Targets related to <strong>{symbol}</strong> based on shared disease
-        associations.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'pathways',
-    name: 'Pathways',
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Pathway information for <strong>{symbol}</strong> from Reactome
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'protein',
-    name: 'Protein Information',
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        General information about <strong>{symbol}</strong> protein from UniProt
-        and PDBe.
-      </React.Fragment>
-    ),
-  },
+  // {
+  //   id: 'drugs',
+  //   name: 'Known Drugs',
+  //   renderDescription: ({ symbol }) => (
+  //     <React.Fragment>
+  //       Drugs in clinical trials or approved for <strong>{symbol}</strong>.
+  //     </React.Fragment>
+  //   ),
+  //   renderDetail: () => null,
+  // },
+  // {
+  //   id: 'chemicalProbes',
+  //   name: 'Chemical Probes',
+  //   renderDescription: ({ symbol }) => (
+  //     <React.Fragment>
+  //       Information on chemical probes that have been developed for{' '}
+  //       <strong>{symbol}</strong>.
+  //     </React.Fragment>
+  //   ),
+  // },
+  // {
+  //   id: 'relatedTargets',
+  //   name: 'Related Targets',
+  //   renderDescription: ({ symbol }) => (
+  //     <React.Fragment>
+  //       Targets related to <strong>{symbol}</strong> based on shared disease
+  //       associations.
+  //     </React.Fragment>
+  //   ),
+  // },
+  // {
+  //   id: 'pathways',
+  //   name: 'Pathways',
+  //   renderDescription: ({ symbol }) => (
+  //     <React.Fragment>
+  //       Pathway information for <strong>{symbol}</strong> from Reactome
+  //     </React.Fragment>
+  //   ),
+  // },
+  // {
+  //   id: 'protein',
+  //   name: 'Protein Information',
+  //   renderDescription: ({ symbol }) => (
+  //     <React.Fragment>
+  //       General information about <strong>{symbol}</strong> protein from UniProt
+  //       and PDBe.
+  //     </React.Fragment>
+  //   ),
+  // },
   {
     id: 'cancerBiomarkers',
     name: 'Cancer Biomarkers',
+    query: CancerBiomarkersQuery,
+    SectionComponent: CancerBiomarkersSection,
     renderDescription: () => (
       <React.Fragment>
         Genomic biomarkers of drug responses, and their levels of clinical
@@ -245,56 +253,58 @@ const sections = [
       </React.Fragment>
     ),
   },
-  {
-    id: 'geneOntology',
-    name: 'Gene Ontology',
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Gene Ontology terms related to <strong>{symbol}</strong>.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'proteinInteractions',
-    name: 'Protein Interactions',
-    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
-  },
-  {
-    id: 'rnaAndProteinExpression',
-    name: 'RNA and Protein Baseline Expression',
-    renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
-  },
-  {
-    id: 'mousePhenotypes',
-    name: 'Mouse Phenotypes',
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Mouse phenotypes by model associated with <strong>{symbol}</strong>{' '}
-        orthologues.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'tractability',
-    name: 'Tractability',
-    renderDescription: ({ symbol }) => (
-      <Fragment>
-        Summary of tractability assessment for <strong>{symbol}</strong> for
-        small molecule and antibody modalities. For more information on the
-        tractability assessment and descriptions of each bucket, please read{' '}
-        <Link
-          external
-          to="https://docs.targetvalidation.org/getting-started/target-tractability"
-        >
-          the tractability section of our documentation
-        </Link>
-        .
-      </Fragment>
-    ),
-  },
+  // {
+  //   id: 'geneOntology',
+  //   name: 'Gene Ontology',
+  //   renderDescription: ({ symbol }) => (
+  //     <React.Fragment>
+  //       Gene Ontology terms related to <strong>{symbol}</strong>.
+  //     </React.Fragment>
+  //   ),
+  // },
+  // {
+  //   id: 'proteinInteractions',
+  //   name: 'Protein Interactions',
+  //   renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
+  // },
+  // {
+  //   id: 'rnaAndProteinExpression',
+  //   name: 'RNA and Protein Baseline Expression',
+  //   renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
+  // },
+  // {
+  //   id: 'mousePhenotypes',
+  //   name: 'Mouse Phenotypes',
+  //   renderDescription: ({ symbol }) => (
+  //     <React.Fragment>
+  //       Mouse phenotypes by model associated with <strong>{symbol}</strong>{' '}
+  //       orthologues.
+  //     </React.Fragment>
+  //   ),
+  // },
+  // {
+  //   id: 'tractability',
+  //   name: 'Tractability',
+  //   renderDescription: ({ symbol }) => (
+  //     <Fragment>
+  //       Summary of tractability assessment for <strong>{symbol}</strong> for
+  //       small molecule and antibody modalities. For more information on the
+  //       tractability assessment and descriptions of each bucket, please read{' '}
+  //       <Link
+  //         external
+  //         to="https://docs.targetvalidation.org/getting-started/target-tractability"
+  //       >
+  //         the tractability section of our documentation
+  //       </Link>
+  //       .
+  //     </Fragment>
+  //   ),
+  // },
   {
     id: 'cancerHallmarks',
     name: 'Cancer Hallmarks',
+    query: CancerHallmarksQuery,
+    SectionComponent: CancerHallmarksSection,
     renderDescription: () => (
       <React.Fragment>
         Essential alterations in cell physiology that dictate malignant growth.
@@ -307,31 +317,31 @@ const sections = [
       </React.Fragment>
     ),
   },
-  {
-    id: 'variation',
-    name: 'Variation and Genomic Context',
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Genomic variants associated with <strong>{symbol}</strong>. Only variant
-        information associating <strong>{symbol}</strong> with any disease is
-        displayed. Click on any variant, gene or transcript to get more
-        information about it. Pan or zoom the browser to see neighbouring genes.
-        The number above gene variants means that more than 1 overlap the same
-        region at the current zoom level. Genomic coordinates are relative to
-        GRCh38.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'homology',
-    name: 'Gene Tree',
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Homology and gene tree information for <strong>{symbol}</strong> across
-        selected species.
-      </React.Fragment>
-    ),
-  },
+  // {
+  //   id: 'variation',
+  //   name: 'Variation and Genomic Context',
+  //   renderDescription: ({ symbol }) => (
+  //     <React.Fragment>
+  //       Genomic variants associated with <strong>{symbol}</strong>. Only variant
+  //       information associating <strong>{symbol}</strong> with any disease is
+  //       displayed. Click on any variant, gene or transcript to get more
+  //       information about it. Pan or zoom the browser to see neighbouring genes.
+  //       The number above gene variants means that more than 1 overlap the same
+  //       region at the current zoom level. Genomic coordinates are relative to
+  //       GRCh38.
+  //     </React.Fragment>
+  //   ),
+  // },
+  // {
+  //   id: 'homology',
+  //   name: 'Gene Tree',
+  //   renderDescription: ({ symbol }) => (
+  //     <React.Fragment>
+  //       Homology and gene tree information for <strong>{symbol}</strong> across
+  //       selected species.
+  //     </React.Fragment>
+  //   ),
+  // },
   // { id: 'bibliography', name: 'Bibliography', hasData: false },
 ];
 
