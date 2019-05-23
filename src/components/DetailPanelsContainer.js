@@ -6,48 +6,48 @@ import DetailPanel from './DetailPanel';
 import SideMenu from './SideMenu';
 
 const defaultOrder = [
-  {
-    id: 'drugs',
-  },
-  {
-    id: 'chemicalProbes',
-  },
-  {
-    id: 'relatedTargets',
-  },
-  {
-    id: 'pathways',
-  },
-  {
-    id: 'protein',
-  },
+  // {
+  //   id: 'drugs',
+  // },
+  // {
+  //   id: 'chemicalProbes',
+  // },
+  // {
+  //   id: 'relatedTargets',
+  // },
+  // {
+  //   id: 'pathways',
+  // },
+  // {
+  //   id: 'protein',
+  // },
   {
     id: 'cancerBiomarkers',
   },
-  {
-    id: 'geneOntology',
-  },
-  {
-    id: 'proteinInteractions',
-  },
-  {
-    id: 'rnaAndProteinExpression',
-  },
-  {
-    id: 'mousePhenotypes',
-  },
-  {
-    id: 'tractability',
-  },
+  // {
+  //   id: 'geneOntology',
+  // },
+  // {
+  //   id: 'proteinInteractions',
+  // },
+  // {
+  //   id: 'rnaAndProteinExpression',
+  // },
+  // {
+  //   id: 'mousePhenotypes',
+  // },
+  // {
+  //   id: 'tractability',
+  // },
   {
     id: 'cancerHallmarks',
   },
-  {
-    id: 'variation',
-  },
-  {
-    id: 'homology',
-  },
+  // {
+  //   id: 'variation',
+  // },
+  // {
+  //   id: 'homology',
+  // },
   // { id: 'bibliography' },
 ];
 
