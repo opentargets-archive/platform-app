@@ -6,7 +6,7 @@ import { Link } from 'ot-ui';
 const AtlasTab = ({ ensgId }) => {
   return (
     <Fragment>
-      <Typography>
+      <Typography variant="caption">
         Sources:{' '}
         <Link
           external
