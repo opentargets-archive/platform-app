@@ -71,7 +71,7 @@ class SummaryTab extends Component {
           based on Human Protein Atlas normal tissue immunohistochemistry,
           RNA-seq expression data and Expression Atlas data.
         </Typography>
-        <Typography>
+        <Typography variant="caption">
           Sources:{' '}
           <Link external to="http://www.proteinatlas.org">
             Human Protein Atlas
