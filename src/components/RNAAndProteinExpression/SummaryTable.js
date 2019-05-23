@@ -301,6 +301,7 @@ const styles = () => ({
   },
   groupBy: {
     marginBottom: '20px',
+    marginTop: '40px',
   },
   table: {
     width: '678px',

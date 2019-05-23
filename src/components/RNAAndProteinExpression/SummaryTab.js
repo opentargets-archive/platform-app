@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -90,14 +91,16 @@ class SummaryTab extends Component {
             const tissues = data.target.details.expression.rows;
 
             return (
-              <Fragment>
-                <DataDownloader
-                  tableHeaders={headers}
-                  rows={getDownloadRows(tissues)}
-                  fileStem={`${symbol}-expression`}
-                />
-                <SummaryTable tissues={tissues} />
-              </Fragment>
+              <Grid container justify="center">
+                <Grid item md={6}>
+                  <DataDownloader
+                    tableHeaders={headers}
+                    rows={getDownloadRows(tissues)}
+                    fileStem={`${symbol}-expression`}
+                  />
+                  <SummaryTable tissues={tissues} />
+                </Grid>
+              </Grid>
             );
           }}
         </Query>
