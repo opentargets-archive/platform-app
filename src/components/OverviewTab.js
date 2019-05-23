@@ -17,6 +17,7 @@ import ProteinInteractionsWidget from './ProteinInteractions';
 import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
 import MousePhenotypesWidget from './MousePhenotypes';
 import TargetTractabilityWidget from './TargetTractability';
+import CancerHallmarksWidget from './CancerHallmarks';
 import VariationWidget from './Variation';
 import HomologyWidget from './Homology';
 
@@ -24,6 +25,7 @@ const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
       id
+      uniprotId
       summaries {
         drugs {
           drugCount
@@ -103,6 +105,10 @@ const overviewQuery = gql`
           ppi
           pathways
           enzymeSubstrate
+          sources {
+            name
+            url
+          }
         }
         rnaAndProteinExpression {
           rnaBaselineExpression
@@ -151,6 +157,20 @@ const overviewQuery = gql`
             name
           }
         }
+        cancerHallmarks {
+          roleInCancer {
+            name
+            pmId
+          }
+          sources {
+            name
+          }
+          promotionAndSuppressionByHallmark {
+            name
+            promotes
+            suppresses
+          }
+        }
       }
     }
   }
@@ -191,6 +211,7 @@ class OverviewTab extends Component {
             return null;
           }
 
+          const { uniprotId, summaries } = data.target;
           const {
             drugs,
             chemicalProbes,
@@ -203,9 +224,10 @@ class OverviewTab extends Component {
             rnaAndProteinExpression,
             mousePhenotypes,
             tractability,
+            cancerHallmarks,
             variation,
             homology,
-          } = data.target.summaries;
+          } = summaries;
 
           return (
             <Fragment>
@@ -275,7 +297,9 @@ class OverviewTab extends Component {
                   lowerCaseTerm
                 ) && (
                   <ProteinInteractionsWidget
+                    ensgId={ensgId}
                     symbol={symbol}
+                    uniprotId={uniprotId}
                     proteinInteractions={proteinInteractions}
                   />
                 )}
@@ -317,6 +341,14 @@ class OverviewTab extends Component {
                     ensgId={ensgId}
                     symbol={symbol}
                     homology={homology}
+                  />
+                )}
+
+                {CancerHallmarksWidget.widgetName.includes(lowerCaseTerm) && (
+                  <CancerHallmarksWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    cancerHallmarks={cancerHallmarks}
                   />
                 )}
               </Grid>
