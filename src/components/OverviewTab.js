@@ -25,6 +25,7 @@ const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
       id
+      uniprotId
       summaries {
         drugs {
           drugCount
@@ -104,6 +105,10 @@ const overviewQuery = gql`
           ppi
           pathways
           enzymeSubstrate
+          sources {
+            name
+            url
+          }
         }
         rnaAndProteinExpression {
           rnaBaselineExpression
@@ -206,6 +211,7 @@ class OverviewTab extends Component {
             return null;
           }
 
+          const { uniprotId, summaries } = data.target;
           const {
             drugs,
             chemicalProbes,
@@ -221,7 +227,7 @@ class OverviewTab extends Component {
             cancerHallmarks,
             variation,
             homology,
-          } = data.target.summaries;
+          } = summaries;
 
           return (
             <Fragment>
@@ -291,7 +297,9 @@ class OverviewTab extends Component {
                   lowerCaseTerm
                 ) && (
                   <ProteinInteractionsWidget
+                    ensgId={ensgId}
                     symbol={symbol}
+                    uniprotId={uniprotId}
                     proteinInteractions={proteinInteractions}
                   />
                 )}
@@ -299,6 +307,8 @@ class OverviewTab extends Component {
                   lowerCaseTerm
                 ) && (
                   <RNAAndProteinExpressionWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
                     rnaAndProteinExpression={rnaAndProteinExpression}
                   />
                 )}
