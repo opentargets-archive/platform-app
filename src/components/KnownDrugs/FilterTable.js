@@ -97,9 +97,11 @@ const getColumns = ({ filters }) => {
         <React.Fragment>
           {d.mechanismOfAction.name}
           <br />
-          <Link external to={d.mechanismOfAction.sourceUrl}>
-            {d.mechanismOfAction.sourceName}
-          </Link>
+          {d.mechanismOfAction.sourceUrl ? (
+            <Link external to={d.mechanismOfAction.sourceUrl}>
+              {d.mechanismOfAction.sourceName}
+            </Link>
+          ) : null}
         </React.Fragment>
       ),
       comparator: generateComparatorFromAccessor(
