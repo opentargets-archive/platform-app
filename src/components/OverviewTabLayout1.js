@@ -30,6 +30,9 @@ import CancerBiomarkersQuery from './CancerBiomarkers/query';
 import CancerHallmarksSection from './CancerHallmarks/Section';
 import CancerHallmarksQuery from './CancerHallmarks/query';
 
+import ChemicalProbesSection from './ChemicalProbes/Section';
+import ChemicalProbesQuery from './ChemicalProbes/query';
+
 import MiniWidgetBar from './MiniWidgetBar';
 import DetailPanelsContainer from './DetailPanelsContainer';
 
@@ -196,16 +199,18 @@ const sections = [
   //   ),
   //   renderDetail: () => null,
   // },
-  // {
-  //   id: 'chemicalProbes',
-  //   name: 'Chemical Probes',
-  //   renderDescription: ({ symbol }) => (
-  //     <React.Fragment>
-  //       Information on chemical probes that have been developed for{' '}
-  //       <strong>{symbol}</strong>.
-  //     </React.Fragment>
-  //   ),
-  // },
+  {
+    id: 'chemicalProbes',
+    name: 'Chemical Probes',
+    query: ChemicalProbesQuery,
+    SectionComponent: ChemicalProbesSection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Information on chemical probes that have been developed for{' '}
+        <strong>{symbol}</strong>.
+      </React.Fragment>
+    ),
+  },
   // {
   //   id: 'relatedTargets',
   //   name: 'Related Targets',

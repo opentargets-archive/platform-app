@@ -9,9 +9,9 @@ const defaultOrder = [
   // {
   //   id: 'drugs',
   // },
-  // {
-  //   id: 'chemicalProbes',
-  // },
+  {
+    id: 'chemicalProbes',
+  },
   // {
   //   id: 'relatedTargets',
   // },
