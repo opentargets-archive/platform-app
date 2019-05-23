@@ -33,9 +33,9 @@ const defaultOrder = [
   // {
   //   id: 'rnaAndProteinExpression',
   // },
-  // {
-  //   id: 'mousePhenotypes',
-  // },
+  {
+    id: 'mousePhenotypes',
+  },
   // {
   //   id: 'tractability',
   // },

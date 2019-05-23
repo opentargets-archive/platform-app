@@ -27,6 +27,9 @@ import { Link } from 'ot-ui';
 import KnownDrugsSection from './KnownDrugs/Section';
 import KnownDrugsQuery from './KnownDrugs/query';
 
+import MousePhenotypesSection from './MousePhenotypes/Section';
+import MousePhenotypesQuery from './MousePhenotypes/query';
+
 import CancerBiomarkersSection from './CancerBiomarkers/Section';
 import CancerBiomarkersQuery from './CancerBiomarkers/query';
 
@@ -289,16 +292,18 @@ const sections = [
   //   name: 'RNA and Protein Baseline Expression',
   //   renderDescription: ({ symbol }) => <React.Fragment>TODO</React.Fragment>,
   // },
-  // {
-  //   id: 'mousePhenotypes',
-  //   name: 'Mouse Phenotypes',
-  //   renderDescription: ({ symbol }) => (
-  //     <React.Fragment>
-  //       Mouse phenotypes by model associated with <strong>{symbol}</strong>{' '}
-  //       orthologues.
-  //     </React.Fragment>
-  //   ),
-  // },
+  {
+    id: 'mousePhenotypes',
+    name: 'Mouse Phenotypes',
+    query: MousePhenotypesQuery,
+    SectionComponent: MousePhenotypesSection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Mouse phenotypes by model associated with <strong>{symbol}</strong>{' '}
+        orthologues.
+      </React.Fragment>
+    ),
+  },
   // {
   //   id: 'tractability',
   //   name: 'Tractability',
