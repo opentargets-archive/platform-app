@@ -100,9 +100,9 @@ class DetailPanelsContainer extends React.Component {
             <Grid item md={2}>
               <StickyContainer style={{ height: '100%' }}>
                 <Sticky>
-                  {({ style }) => (
+                  {({ style, isSticky }) => (
                     <SideMenu
-                      style={style}
+                      style={{ ...style, marginTop: isSticky ? 200 : 0 }}
                       data={orderedData}
                       onSideMenuItemClick={onSideMenuItemClick}
                       onSideMenuItemDrag={this.onSideMenuItemDrag}
