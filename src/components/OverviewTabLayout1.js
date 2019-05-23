@@ -57,6 +57,8 @@ import GeneOntologyQuery from './GeneOntology/query';
 import TractabilitySection from './Tractability/Section';
 import TractabilityQuery from './Tractability/query';
 
+import VariationSection from './Variation/Section';
+
 import HomologySection from './Homology/Section';
 
 import MiniWidgetBar from './MiniWidgetBar';
@@ -369,25 +371,25 @@ const sections = [
       </React.Fragment>
     ),
   },
-  // {
-  //   id: 'variation',
-  //   name: 'Variation and Genomic Context',
-  //   renderDescription: ({ symbol }) => (
-  //     <React.Fragment>
-  //       Genomic variants associated with <strong>{symbol}</strong>. Only variant
-  //       information associating <strong>{symbol}</strong> with any disease is
-  //       displayed. Click on any variant, gene or transcript to get more
-  //       information about it. Pan or zoom the browser to see neighbouring genes.
-  //       The number above gene variants means that more than 1 overlap the same
-  //       region at the current zoom level. Genomic coordinates are relative to
-  //       GRCh38.
-  //     </React.Fragment>
-  //   ),
-  // },
+  {
+    id: 'variation',
+    name: 'Variation and Genomic Context',
+    SectionComponent: VariationSection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Genomic variants associated with <strong>{symbol}</strong>. Only variant
+        information associating <strong>{symbol}</strong> with any disease is
+        displayed. Click on any variant, gene or transcript to get more
+        information about it. Pan or zoom the browser to see neighbouring genes.
+        The number above gene variants means that more than 1 overlap the same
+        region at the current zoom level. Genomic coordinates are relative to
+        GRCh38.
+      </React.Fragment>
+    ),
+  },
   {
     id: 'homology',
     name: 'Gene Tree',
-    // query: CancerHallmarksQuery,
     SectionComponent: HomologySection,
     renderDescription: ({ symbol }) => (
       <React.Fragment>

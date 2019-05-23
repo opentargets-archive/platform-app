@@ -42,9 +42,9 @@ const defaultOrder = [
   {
     id: 'cancerHallmarks',
   },
-  // {
-  //   id: 'variation',
-  // },
+  {
+    id: 'variation',
+  },
   {
     id: 'homology',
   },
