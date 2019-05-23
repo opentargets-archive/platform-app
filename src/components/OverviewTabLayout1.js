@@ -24,6 +24,9 @@ import { Link } from 'ot-ui';
 // import VariationWidget from './Variation';
 // import HomologyWidget from './Homology';
 
+import PathwaysSection from './Pathways/Section';
+import PathwaysQuery from './Pathways/query';
+
 import KnownDrugsSection from './KnownDrugs/Section';
 import KnownDrugsQuery from './KnownDrugs/query';
 
@@ -234,15 +237,17 @@ const sections = [
   //     </React.Fragment>
   //   ),
   // },
-  // {
-  //   id: 'pathways',
-  //   name: 'Pathways',
-  //   renderDescription: ({ symbol }) => (
-  //     <React.Fragment>
-  //       Pathway information for <strong>{symbol}</strong> from Reactome
-  //     </React.Fragment>
-  //   ),
-  // },
+  {
+    id: 'pathways',
+    name: 'Pathways',
+    query: PathwaysQuery,
+    SectionComponent: PathwaysSection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Pathway information for <strong>{symbol}</strong> from Reactome
+      </React.Fragment>
+    ),
+  },
   // {
   //   id: 'protein',
   //   name: 'Protein Information',

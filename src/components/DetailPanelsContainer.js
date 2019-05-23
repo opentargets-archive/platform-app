@@ -15,9 +15,9 @@ const defaultOrder = [
   // {
   //   id: 'relatedTargets',
   // },
-  // {
-  //   id: 'pathways',
-  // },
+  {
+    id: 'pathways',
+  },
   // {
   //   id: 'protein',
   // },
