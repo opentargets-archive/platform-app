@@ -5,61 +5,6 @@ import Card from '@material-ui/core/Card';
 
 import SideMenuItem from './SideMenuItem';
 
-const defaultOrder = [
-  {
-    id: 'drugs',
-  },
-  {
-    id: 'chemicalProbes',
-  },
-  {
-    id: 'relatedTargets',
-  },
-  {
-    id: 'pathways',
-  },
-  {
-    id: 'protein',
-  },
-  {
-    id: 'cancerBiomarkers',
-  },
-  {
-    id: 'geneOntology',
-  },
-  {
-    id: 'proteinInteractions',
-  },
-  {
-    id: 'rnaAndProteinExpression',
-  },
-  {
-    id: 'mousePhenotypes',
-  },
-  {
-    id: 'tractability',
-  },
-  {
-    id: 'cancerHallmarks',
-  },
-  {
-    id: 'variation',
-  },
-  {
-    id: 'homology',
-  },
-  // { id: 'bibliography' },
-];
-
-// a little function to help us with reordering the result
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
 // Note: portalling seems to be necessary because of the sticky behaviour
 //       (see https://github.com/atlassian/react-beautiful-dnd/blob/master/stories/src/portal/portal-app.jsx)
 
@@ -99,44 +44,15 @@ class PortalAwareItem extends React.Component {
 }
 
 class SideMenu extends React.PureComponent {
-  state = { order: defaultOrder };
-  static getDerivedStateFromProps(props, state) {
-    const { data } = props;
-    const { order } = state;
-    const orderedData = order.map(d => data.find(e => e.id === d.id));
-    return { orderedData };
-  }
-  onDragEnd = result => {
-    // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
-
-    // no movement
-    if (result.destination.index === result.source.index) {
-      return;
-    }
-
-    const order = reorder(
-      this.state.order,
-      result.source.index,
-      result.destination.index
-    );
-
-    this.setState({
-      order,
-    });
-  };
   render() {
-    const { style, onSideMenuItemClick } = this.props;
-    const { orderedData } = this.state;
+    const { data, style, onSideMenuItemClick, onSideMenuItemDrag } = this.props;
     return (
       <Card style={{ ...style, overflow: 'auto' }}>
-        <DragDropContext onDragEnd={this.onDragEnd}>
+        <DragDropContext onDragEnd={onSideMenuItemDrag}>
           <Droppable droppableId="droppableSections">
             {(provided, snapshot) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
-                {orderedData.map((d, index) => (
+                {data.map((d, index) => (
                   <Draggable key={d.id} draggableId={d.id} index={index}>
                     {(provided, snapshot) => (
                       <PortalAwareItem
