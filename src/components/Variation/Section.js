@@ -4,17 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import * as d3 from 'd3';
 
 import { Link } from 'ot-ui';
-import tnt from 'tntvis';
-import utils from 'tnt.utils';
-import rest from 'tnt.rest';
 
 import board from 'tnt.genome';
 import cttvApi from 'cttv.api';
 import targetGenomeBrowser from 'cttv.genome';
-
-import tooltip from './tooltip';
-
-window.tnt.tooltip = tooltip;
 
 // TODO: Currently, when a resize occurs, we just
 // redraw the widget, meaning internal state is lost.
