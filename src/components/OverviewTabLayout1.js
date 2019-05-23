@@ -54,6 +54,9 @@ import ChemicalProbesQuery from './ChemicalProbes/query';
 import GeneOntologySection from './GeneOntology/Section';
 import GeneOntologyQuery from './GeneOntology/query';
 
+import TractabilitySection from './Tractability/Section';
+import TractabilityQuery from './Tractability/query';
+
 import HomologySection from './Homology/Section';
 
 import MiniWidgetBar from './MiniWidgetBar';
@@ -329,24 +332,26 @@ const sections = [
       </React.Fragment>
     ),
   },
-  // {
-  //   id: 'tractability',
-  //   name: 'Tractability',
-  //   renderDescription: ({ symbol }) => (
-  //     <Fragment>
-  //       Summary of tractability assessment for <strong>{symbol}</strong> for
-  //       small molecule and antibody modalities. For more information on the
-  //       tractability assessment and descriptions of each bucket, please read{' '}
-  //       <Link
-  //         external
-  //         to="https://docs.targetvalidation.org/getting-started/target-tractability"
-  //       >
-  //         the tractability section of our documentation
-  //       </Link>
-  //       .
-  //     </Fragment>
-  //   ),
-  // },
+  {
+    id: 'tractability',
+    name: 'Tractability',
+    query: TractabilityQuery,
+    SectionComponent: TractabilitySection,
+    renderDescription: ({ symbol }) => (
+      <Fragment>
+        Summary of tractability assessment for <strong>{symbol}</strong> for
+        small molecule and antibody modalities. For more information on the
+        tractability assessment and descriptions of each bucket, please read{' '}
+        <Link
+          external
+          to="https://docs.targetvalidation.org/getting-started/target-tractability"
+        >
+          the tractability section of our documentation
+        </Link>
+        .
+      </Fragment>
+    ),
+  },
   {
     id: 'cancerHallmarks',
     name: 'Cancer Hallmarks',

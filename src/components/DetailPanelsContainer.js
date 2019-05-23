@@ -36,9 +36,9 @@ const defaultOrder = [
   {
     id: 'mousePhenotypes',
   },
-  // {
-  //   id: 'tractability',
-  // },
+  {
+    id: 'tractability',
+  },
   {
     id: 'cancerHallmarks',
   },
