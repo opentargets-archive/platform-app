@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Card from '@material-ui/core/Card';
 
@@ -80,6 +81,43 @@ const getListStyle = isDraggingOver => ({
   // width: 250,
 });
 
+const portal = document.createElement('div');
+portal.classList.add('my-super-cool-portal');
+
+if (!document.body) {
+  throw new Error('body not ready for portal creation!');
+}
+
+document.body.appendChild(portal);
+
+class PortalAwareItem extends React.Component {
+  render() {
+    const provided = this.props.provided;
+    const snapshot = this.props.snapshot;
+    const item = this.props.item;
+    const onClick = this.props.onClick;
+
+    const usePortal = snapshot.isDragging;
+
+    const child = (
+      <div
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+      >
+        <SideMenuItem {...item} inPortal={usePortal} onClick={onClick} />
+      </div>
+    );
+
+    if (!usePortal) {
+      return child;
+    }
+
+    // if dragging - put the item in a portal
+    return ReactDOM.createPortal(child, portal);
+  }
+}
+
 class SideMenu extends React.PureComponent {
   state = { order: defaultOrder };
   static getDerivedStateFromProps(props, state) {
@@ -91,6 +129,11 @@ class SideMenu extends React.PureComponent {
   onDragEnd = result => {
     // dropped outside the list
     if (!result.destination) {
+      return;
+    }
+
+    // no movement
+    if (result.destination.index === result.source.index) {
       return;
     }
 
@@ -108,32 +151,22 @@ class SideMenu extends React.PureComponent {
     const { style, onSideMenuItemClick } = this.props;
     const { orderedData } = this.state;
     return (
-      <Card style={style}>
+      <Card style={{ ...style, overflow: 'auto' }}>
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="droppableSections">
             {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
+              <div {...provided.droppableProps} ref={provided.innerRef}>
                 {orderedData.map((d, index) => (
                   <Draggable key={d.id} draggableId={d.id} index={index}>
                     {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        <SideMenuItem
-                          {...d}
-                          onClick={() => onSideMenuItemClick(d.id)}
-                        />
-                      </div>
+                      <PortalAwareItem
+                        {...{
+                          provided,
+                          snapshot,
+                          item: d,
+                          onClick: () => onSideMenuItemClick(d.id),
+                        }}
+                      />
                     )}
                   </Draggable>
                 ))}
