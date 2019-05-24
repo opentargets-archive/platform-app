@@ -1,20 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'dc/dc.min.css';
-import './index.css';
-import './index.scss';
-
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 
+import tnt from 'tntvis';
+import utils from 'tnt.utils';
+import rest from 'tnt.rest';
+
+import tooltip from './utils/tooltip';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+
+// styling
+import 'dc/dc.min.css';
+import './index.css';
+import './index.scss';
+
+// set up tntvis with modified tooltip script (breaks otherwise)
+// window.tnt = tnt;
+window.tnt.tooltip = tooltip;
+
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://platform-api.now.sh/graphql',
+    // uri: 'https://platform-api.now.sh/graphql',
+    // uri: 'http://localhost:4000/graphql',
+    uri: 'http://gpeat-ml:4000/graphql',
   }),
   cache: new InMemoryCache(),
 });
