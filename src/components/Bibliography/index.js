@@ -7,7 +7,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
 
 import Widget from '../Widget';
-import BibliographyOverview from './Overview';
 import BibliographyDetail from './Detail';
 import BibliographyWidgetIcon from '../../icons/BibliographyWidgetIcon';
 
