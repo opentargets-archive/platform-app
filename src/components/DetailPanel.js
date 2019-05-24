@@ -53,7 +53,7 @@ class DetailPanel extends React.Component {
             />
             <CardContent>
               <DetailPanelLoader
-                {...{ sectionId: id, query, SectionComponent }}
+                {...{ sectionId: id, hasData, query, SectionComponent }}
               />
             </CardContent>
           </Card>
