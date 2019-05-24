@@ -9,19 +9,17 @@ const styles = theme => ({
     color: theme.palette.grey[500],
     '&:hover': {
       background: '#eee',
-      fontWeight: 'bold',
     },
     '&:active': {
       background: '#ddd',
-      fontWeight: 'bold',
     },
   },
   textHasData: {
     color: theme.palette.primary.main,
+    fontWeight: 'bold',
   },
   textInDragState: {
     background: '#ddd',
-    fontWeight: 'bold',
   },
 });
 

@@ -1,17 +1,25 @@
 import React from 'react';
+import classNames from 'classnames';
 import Avatar from '@material-ui/core/Avatar';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
   avatar: {
-    color: theme.palette.primary.main,
-    border: `1px solid ${theme.palette.primary.main}`,
-    backgroundColor: '#eee',
+    color: 'white',
+    backgroundColor: theme.palette.grey[300],
+  },
+  avatarHasData: {
+    backgroundColor: theme.palette.primary.main,
   },
 });
 
 const SectionAvatar = ({ classes, name, icon, hasData }) => (
-  <Avatar className={classes.avatar}>
+  <Avatar
+    className={classNames({
+      [classes.avatar]: true,
+      [classes.avatarHasData]: hasData,
+    })}
+  >
     {name
       .split(' ')
       .map(d => d[0].toUpperCase())
