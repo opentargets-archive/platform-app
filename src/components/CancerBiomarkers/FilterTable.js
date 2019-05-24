@@ -519,7 +519,7 @@ class FilterTable extends Component {
           <Grid item className="dcChartOverflow">
             <DCContainer id="biomarkers-by-association" title="Association" />
           </Grid>
-          <Grid className="dcChartOverflow">
+          <Grid item className="dcChartOverflow">
             <DCContainer id="biomarkers-by-evidence" title="Evidence" />
           </Grid>
         </Grid>
