@@ -1,9 +1,11 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Element } from 'react-scroll';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import SectionAvatar from './SectionAvatar';
@@ -17,12 +19,20 @@ const styles = theme => ({
     backgroundColor: '#eee',
   },
   title: {
+    color: theme.palette.grey[400],
     fontWeight: 'bold',
     fontSize: '1.2rem',
   },
-  subheader: {
+  titleHasData: {
+    color: theme.palette.grey[700],
+  },
+  description: {
     fontStyle: 'italic',
     fontSize: '0.8rem',
+    color: theme.palette.grey[400],
+  },
+  descriptionHasData: {
+    color: theme.palette.grey[700],
   },
 });
 
@@ -43,12 +53,27 @@ class DetailPanel extends React.Component {
         <Element name={id}>
           <Card>
             <CardHeader
-              classes={{ title: classes.title, subheader: classes.subheader }}
               avatar={<SectionAvatar {...{ name, icon, hasData }} />}
               action={null}
-              title={name}
+              title={
+                <Typography
+                  className={classNames({
+                    [classes.title]: true,
+                    [classes.titleHasData]: hasData,
+                  })}
+                >
+                  {name}
+                </Typography>
+              }
               subheader={
-                renderDescription ? renderDescription(this.context) : null
+                <Typography
+                  className={classNames({
+                    [classes.description]: true,
+                    [classes.descriptionHasData]: hasData,
+                  })}
+                >
+                  {renderDescription ? renderDescription(this.context) : null}
+                </Typography>
               }
             />
             <CardContent>

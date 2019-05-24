@@ -1,18 +1,26 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import TargetSummaryContext from '../contexts/TargetSummaryContext';
 
+const styles = theme => ({
+  noDataMessage: {
+    color: theme.palette.grey[400],
+  },
+});
+
 class DetailPanelLoader extends React.Component {
   render() {
-    const { sectionId, hasData, query, SectionComponent } = this.props;
+    const { classes, sectionId, hasData, query, SectionComponent } = this.props;
     const targetContext = this.context;
     const { ensgId } = targetContext;
 
+    // display a sensible message
     if (!hasData) {
       return (
-        <Typography align="center">
+        <Typography align="center" className={classes.noDataMessage}>
           No data available for this target.
         </Typography>
       );
@@ -40,4 +48,4 @@ class DetailPanelLoader extends React.Component {
 }
 DetailPanelLoader.contextType = TargetSummaryContext;
 
-export default DetailPanelLoader;
+export default withStyles(styles)(DetailPanelLoader);
