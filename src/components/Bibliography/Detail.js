@@ -70,14 +70,20 @@ class BibliographyDetail extends Component {
   };
 
   // Get the data for the publications
-  getLiteratureData = ensgId => {
-    fetch(linkUrl + 'search?query=' + ensgId)
+  getLiteratureData = (ensgId, after, afterId) => {
+    const query =
+      linkUrl +
+      'search?query=' +
+      ensgId +
+      (after && afterId
+        ? '&search_after=' + after + '&search_after_id=' + afterId
+        : '');
+    fetch(query)
       .then(res => res.json())
       .then(
         resp => {
-          console.log('literature: ', resp.hits);
           this.setState({
-            hits: [resp.hits],
+            hits: this.state.hits.concat(resp.hits.hits),
           });
         },
         error => {
@@ -87,6 +93,15 @@ class BibliographyDetail extends Component {
           });
         }
       );
+  };
+
+  getMoreLiteratureData = () => {
+    const { ensgId } = this.props;
+    const { hits } = this.state;
+    const last = hits[hits.length - 1];
+    const after = last.sort[0];
+    const afterId = last._id;
+    this.getLiteratureData(ensgId, after, afterId);
   };
 
   componentDidMount() {
@@ -133,7 +148,7 @@ class BibliographyDetail extends Component {
 
         {/* Publications */}
         <Fragment>
-          {(hits[0] || { hits: [] }).hits.map((hit, i) => {
+          {hits.map((hit, i) => {
             return (
               <Publication
                 key={i}
@@ -152,7 +167,16 @@ class BibliographyDetail extends Component {
 
         {/* Load more */}
         <Fragment>
-          <Button>Load more papers</Button>
+          <Button
+            variant="contained"
+            size="medium"
+            color="primary"
+            onClick={() => {
+              this.getMoreLiteratureData();
+            }}
+          >
+            Load more papers
+          </Button>
         </Fragment>
       </Fragment>
     );
