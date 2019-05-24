@@ -3,7 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import Widget from '../Widget';
 import CheckboxList from '../CheckboxList';
-import RNAAndProteinExpressionDetail from './Detail';
+import ExpressionDetail from './Detail';
 
 const styles = theme => ({
   icon: {
@@ -16,18 +16,13 @@ const styles = theme => ({
   },
 });
 
-const RNAAndProteinExpressionWidget = ({
-  classes,
-  ensgId,
-  symbol,
-  rnaAndProteinExpression,
-}) => {
+const ExpressionWidget = ({ classes, ensgId, symbol, expression }) => {
   const {
     rnaBaselineExpression,
     proteinBaselineExpression,
     expressionAtlasExperiment,
     gtexData,
-  } = rnaAndProteinExpression;
+  } = expression;
 
   const items = [
     { value: rnaBaselineExpression, label: 'RNA baseline expression' },
@@ -42,7 +37,7 @@ const RNAAndProteinExpressionWidget = ({
     <Widget
       title="RNA and protein baseline expression"
       detailUrlStem="rna-and-protein-expression"
-      detail={<RNAAndProteinExpressionDetail ensgId={ensgId} symbol={symbol} />}
+      detail={<ExpressionDetail ensgId={ensgId} symbol={symbol} />}
       detailHeader={{
         title: `RNA and protein baseline expression`,
         description: `RNA and protein baseline expression`,
@@ -54,7 +49,6 @@ const RNAAndProteinExpressionWidget = ({
   );
 };
 
-RNAAndProteinExpressionWidget.widgetName =
-  'rna and protein baseline expression';
+ExpressionWidget.widgetName = 'rna and protein baseline expression';
 
-export default withStyles(styles)(RNAAndProteinExpressionWidget);
+export default withStyles(styles)(ExpressionWidget);

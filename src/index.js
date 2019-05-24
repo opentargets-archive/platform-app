@@ -14,7 +14,7 @@ import { HttpLink } from 'apollo-link-http';
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://platform-api.now.sh/graphql',
+    uri: 'http://localhost:4000/graphql',
   }),
   cache: new InMemoryCache(),
 });
