@@ -2,27 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { scroller } from 'react-scroll';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-// import Grid from '@material-ui/core/Grid';
-// import TextField from '@material-ui/core/TextField';
-// import Typography from '@material-ui/core/Typography';
-// import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Link } from 'ot-ui';
-
-// import KnownDrugsWidget from './KnownDrugs';
-// import ChemicalProbesWidget from './ChemicalProbes';
-// import RelatedTargetsWidget from './RelatedTargets';
-// import PathwaysWidget from './Pathways';
-// import ProteinInformationWidget from './ProteinInformation';
-// import CancerBiomarkersWidget from './CancerBiomarkers';
-// import GeneOntologyWidget from './GeneOntology';
-// import ProteinInteractionsWidget from './ProteinInteractions';
-// import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
-// import MousePhenotypesWidget from './MousePhenotypes';
-// import TargetTractabilityWidget from './TargetTractability';
-// import CancerHallmarksWidget from './CancerHallmarks';
-// import VariationWidget from './Variation';
-// import HomologyWidget from './Homology';
 
 import RelatedTargetsSection from './RelatedTargets/Section';
 import RelatedTargetsQuery from './RelatedTargets/query';
@@ -432,14 +413,6 @@ const sections = [
 ];
 
 class OverviewTab extends Component {
-  // state = {
-  //   filterTerm: '',
-  // };
-  // handleChange = event => {
-  //   this.setState({
-  //     filterTerm: event.target.value,
-  //   });
-  // };
   scrollToSection = sectionId => {
     scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
   };
@@ -473,174 +446,6 @@ class OverviewTab extends Component {
       </Query>
     );
   }
-
-  // render() {
-  //   const { ensgId, symbol, name, classes } = this.props;
-  //   const { filterTerm } = this.state;
-  //   const lowerCaseTerm = filterTerm.trim().toLowerCase();
-  //   const sectionsWithRefs = sections.map(d => ({
-  //     ...d,
-  //     detailRef: this.sectionDetailRefs[d.id],
-  //   }));
-
-  //   return (
-  //     <Query query={overviewQuery} variables={{ ensgId }}>
-  //       {({ loading, error, data }) => {
-  //         if (loading || error) {
-  //           return null;
-  //         }
-
-  //         const {
-  //           drugs,
-  //           chemicalProbes,
-  //           relatedTargets,
-  //           pathways,
-  //           protein,
-  //           cancerBiomarkers,
-  //           geneOntology,
-  //           proteinInteractions,
-  //           rnaAndProteinExpression,
-  //           mousePhenotypes,
-  //           tractability,
-  //           cancerHallmarks,
-  //           variation,
-  //           homology,
-  //         } = data.target.summaries;
-
-  //         return (
-  //           <Fragment>
-  //             <MiniWidgetBar
-  //               data={sections}
-  //               onWidgetClick={this.scrollToSection}
-  //             />
-  //             <DetailPanelsContainer
-  //               data={sectionsWithRefs}
-  //               onSideMenuItemClick={this.scrollToSection}
-  //             />
-
-  //             <Grid container className={classes.filterSection}>
-  //               <Typography className={classes.filterLabel} variant="subtitle2">
-  //                 Filter widgets by name:
-  //               </Typography>
-  //               <TextField
-  //                 value={filterTerm}
-  //                 onChange={this.handleChange}
-  //                 variant="outlined"
-  //               />
-  //             </Grid>
-  //             <Grid container spacing={16}>
-  //               {KnownDrugsWidget.widgetName.includes(lowerCaseTerm) && (
-  //                 <KnownDrugsWidget
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                   drugs={drugs}
-  //                 />
-  //               )}
-  //               {ChemicalProbesWidget.widgetName.includes(lowerCaseTerm) && (
-  //                 <ChemicalProbesWidget
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                   chemicalProbes={chemicalProbes}
-  //                 />
-  //               )}
-  //               {RelatedTargetsWidget.widgetName.includes(lowerCaseTerm) && (
-  //                 <RelatedTargetsWidget
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                   relatedTargets={relatedTargets}
-  //                 />
-  //               )}
-  //               {PathwaysWidget.widgetName.includes(lowerCaseTerm) && (
-  //                 <PathwaysWidget
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                   pathways={pathways}
-  //                 />
-  //               )}
-  //               {ProteinInformationWidget.widgetName.includes(
-  //                 lowerCaseTerm
-  //               ) && (
-  //                 <ProteinInformationWidget
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                   protein={protein}
-  //                 />
-  //               )}
-  //               {CancerBiomarkersWidget.widgetName.includes(lowerCaseTerm) && (
-  //                 <CancerBiomarkersWidget
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                   cancerBiomarkers={cancerBiomarkers}
-  //                 />
-  //               )}
-  //               {GeneOntologyWidget.widgetName.includes(lowerCaseTerm) && (
-  //                 <GeneOntologyWidget
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                   geneOntology={geneOntology}
-  //                 />
-  //               )}
-  //               {ProteinInteractionsWidget.widgetName.includes(
-  //                 lowerCaseTerm
-  //               ) && (
-  //                 <ProteinInteractionsWidget
-  //                   symbol={symbol}
-  //                   proteinInteractions={proteinInteractions}
-  //                 />
-  //               )}
-  //               {RNAAndProteinExpressionWidget.widgetName.includes(
-  //                 lowerCaseTerm
-  //               ) && (
-  //                 <RNAAndProteinExpressionWidget
-  //                   rnaAndProteinExpression={rnaAndProteinExpression}
-  //                 />
-  //               )}
-  //               {MousePhenotypesWidget.widgetName.includes(lowerCaseTerm) && (
-  //                 <MousePhenotypesWidget
-  //                   mousePhenotypes={mousePhenotypes}
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                 />
-  //               )}
-  //               {TargetTractabilityWidget.widgetName.includes(
-  //                 lowerCaseTerm
-  //               ) && (
-  //                 <TargetTractabilityWidget
-  //                   ensgId={ensgId}
-  //                   tractability={tractability}
-  //                   symbol={symbol}
-  //                 />
-  //               )}
-  //               {VariationWidget.widgetName.includes(lowerCaseTerm) && (
-  //                 <VariationWidget
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                   name={name}
-  //                   variation={variation}
-  //                 />
-  //               )}
-  //               {HomologyWidget.widgetName.includes(lowerCaseTerm) && (
-  //                 <HomologyWidget
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                   homology={homology}
-  //                 />
-  //               )}
-
-  //               {CancerHallmarksWidget.widgetName.includes(lowerCaseTerm) && (
-  //                 <CancerHallmarksWidget
-  //                   ensgId={ensgId}
-  //                   symbol={symbol}
-  //                   cancerHallmarks={cancerHallmarks}
-  //                 />
-  //               )}
-  //             </Grid>
-  //           </Fragment>
-  //         );
-  //       }}
-  //     </Query>
-  //   );
-  // }
 }
 
 export default OverviewTab;
