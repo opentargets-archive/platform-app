@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
+import DragIndicator from '@material-ui/icons/DragIndicator';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
@@ -13,6 +14,12 @@ const styles = theme => ({
     '&:active': {
       background: '#ddd',
     },
+    '&:hover $dragIndicator': {
+      display: 'inline-block',
+    },
+    '&:active $dragIndicator': {
+      display: 'inline-block',
+    },
   },
   textHasData: {
     color: theme.palette.primary.main,
@@ -20,6 +27,14 @@ const styles = theme => ({
   },
   textInDragState: {
     background: '#ddd',
+  },
+  dragIndicator: {
+    display: 'none',
+    fontSize: '1rem',
+    float: 'right',
+  },
+  dragIndicatorInDragState: {
+    display: 'inline-block',
   },
 });
 
@@ -33,6 +48,12 @@ const SideMenuItem = ({ classes, name, hasData, onClick, inDragState }) => (
     onClick={onClick}
   >
     {name}
+    <DragIndicator
+      className={classNames({
+        [classes.dragIndicator]: true,
+        [classes.dragIndicatorInDragState]: inDragState,
+      })}
+    />
   </Typography>
 );
 
