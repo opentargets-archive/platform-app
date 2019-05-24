@@ -14,7 +14,7 @@ import ProteinInformationWidget from './ProteinInformation';
 import CancerBiomarkersWidget from './CancerBiomarkers';
 import GeneOntologyWidget from './GeneOntology';
 import ProteinInteractionsWidget from './ProteinInteractions';
-import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
+import ExpressionWidget from './Expression';
 import MousePhenotypesWidget from './MousePhenotypes';
 import TargetTractabilityWidget from './TargetTractability';
 import CancerHallmarksWidget from './CancerHallmarks';
@@ -110,7 +110,7 @@ const overviewQuery = gql`
             url
           }
         }
-        rnaAndProteinExpression {
+        expression {
           rnaBaselineExpression
           proteinBaselineExpression
           expressionAtlasExperiment
@@ -221,7 +221,7 @@ class OverviewTab extends Component {
             cancerBiomarkers,
             geneOntology,
             proteinInteractions,
-            rnaAndProteinExpression,
+            expression,
             mousePhenotypes,
             tractability,
             cancerHallmarks,
@@ -303,13 +303,11 @@ class OverviewTab extends Component {
                     proteinInteractions={proteinInteractions}
                   />
                 )}
-                {RNAAndProteinExpressionWidget.widgetName.includes(
-                  lowerCaseTerm
-                ) && (
-                  <RNAAndProteinExpressionWidget
+                {ExpressionWidget.widgetName.includes(lowerCaseTerm) && (
+                  <ExpressionWidget
                     ensgId={ensgId}
                     symbol={symbol}
-                    rnaAndProteinExpression={rnaAndProteinExpression}
+                    expression={expression}
                   />
                 )}
                 {MousePhenotypesWidget.widgetName.includes(lowerCaseTerm) && (

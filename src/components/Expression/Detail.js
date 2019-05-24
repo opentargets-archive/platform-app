@@ -4,7 +4,7 @@ import SummaryTab from './SummaryTab';
 import AtlasTab from './AtlasTab';
 import GtexTab from './GtexTab';
 
-class RNAAndProteinExpressionDetail extends Component {
+class ExpressionDetail extends Component {
   state = { value: 'summary' };
 
   handleChange = (_, value) => {
@@ -30,4 +30,4 @@ class RNAAndProteinExpressionDetail extends Component {
   }
 }
 
-export default RNAAndProteinExpressionDetail;
+export default ExpressionDetail;
