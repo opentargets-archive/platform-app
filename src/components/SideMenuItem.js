@@ -1,18 +1,41 @@
 import React from 'react';
+import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 
-const SideMenuItem = ({ name, hasData, onClick, inDragState }) => (
+const styles = theme => ({
+  text: {
+    padding: 4,
+    color: theme.palette.grey[500],
+    '&:hover': {
+      background: '#eee',
+      fontWeight: 'bold',
+    },
+    '&:active': {
+      background: '#ddd',
+      fontWeight: 'bold',
+    },
+  },
+  textHasData: {
+    color: theme.palette.primary.main,
+  },
+  textInDragState: {
+    background: '#ddd',
+    fontWeight: 'bold',
+  },
+});
+
+const SideMenuItem = ({ classes, name, hasData, onClick, inDragState }) => (
   <Typography
-    style={{
-      backgroundColor: inDragState ? '#ddd' : null,
-      padding: 4,
-      fontWeight: inDragState ? 'bold' : null,
-    }}
-    color={hasData ? 'primary' : 'lightgrey'}
+    className={classNames({
+      [classes.text]: true,
+      [classes.textHasData]: hasData,
+      [classes.textInDragState]: inDragState,
+    })}
     onClick={onClick}
   >
     {name}
   </Typography>
 );
 
-export default SideMenuItem;
+export default withStyles(styles)(SideMenuItem);
