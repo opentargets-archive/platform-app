@@ -12,10 +12,11 @@ const aggtype = [
   { value: 'top_chunks_significant_terms', label: 'Concepts' },
   { value: 'genes', label: 'Genes' },
   { value: 'diseases', label: 'Diseases' },
-  // {value: 'phenotypes', label: 'Phenotypes'}, // phenotypes don't return any hits at the moment, so leaving out...
   { value: 'drugs', label: 'Drugs' },
   { value: 'journal_abbr_significant_terms', label: 'Journal' },
   { value: 'authors_significant_terms', label: 'Authors' },
+  // the following are also valid aggregation types. but currently left out:
+  // {value: 'phenotypes', label: 'Phenotypes'}, // phenotypes don't return any hits at the moment
   // {value: 'pub_date_histogram', label: 'publication date'}
 ];
 const styles = theme => ({
@@ -82,8 +83,13 @@ class BibliographyDetail extends Component {
       .then(res => res.json())
       .then(
         resp => {
+          // if loading more data (after & afterId) append that, if not just reset hits
+          const hits =
+            after && afterId
+              ? this.state.hits.concat(resp.hits.hits)
+              : resp.hits.hits;
           this.setState({
-            hits: this.state.hits.concat(resp.hits.hits),
+            hits: hits,
           });
         },
         error => {
@@ -108,6 +114,9 @@ class BibliographyDetail extends Component {
     const { ensgId } = this.props;
 
     // we make 2 calls: one for chips and one for papers
+    // This is because aggregations can be computationally demanding (e.g. for neoplasm) and fail.
+    // By splitting the call we always have some papers to show
+
     // get aggregation data for chips
     this.getAggregationsData(ensgId);
 
