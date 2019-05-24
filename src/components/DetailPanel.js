@@ -41,7 +41,7 @@ class DetailPanel extends React.Component {
     return (
       <Grid item xs={12} style={{ marginBottom: 8 }}>
         <Element name={id}>
-          <Card style={{ minHeight: 200 }}>
+          <Card>
             <CardHeader
               classes={{ title: classes.title, subheader: classes.subheader }}
               avatar={<SectionAvatar {...{ name, icon, hasData }} />}

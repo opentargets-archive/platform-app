@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { scroller } from 'react-scroll';
-// import { Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 // import Grid from '@material-ui/core/Grid';
 // import TextField from '@material-ui/core/TextField';
@@ -150,7 +150,7 @@ const overviewQuery = gql`
           pathways
           enzymeSubstrate
         }
-        rnaAndProteinExpression {
+        expression {
           rnaBaselineExpression
           proteinBaselineExpression
           expressionAtlasExperiment
@@ -220,6 +220,7 @@ const sections = [
   {
     id: 'drugs',
     name: 'Known Drugs',
+    getHasData: ({ drugCount }) => drugCount > 0,
     query: KnownDrugsQuery,
     SectionComponent: KnownDrugsSection,
     renderDescription: ({ symbol }) => (
@@ -232,6 +233,11 @@ const sections = [
   {
     id: 'chemicalProbes',
     name: 'Chemical Probes',
+    getHasData: data =>
+      data.hasStructuralGenomicsConsortium ||
+      data.hasChemicalProbesPortal ||
+      data.hasOpenScienceProbes ||
+      data.hasProbeMiner,
     query: ChemicalProbesQuery,
     SectionComponent: ChemicalProbesSection,
     renderDescription: ({ symbol }) => (
@@ -244,6 +250,7 @@ const sections = [
   {
     id: 'relatedTargets',
     name: 'Related Targets',
+    getHasData: ({ relatedTargetsCount }) => relatedTargetsCount > 0,
     query: RelatedTargetsQuery,
     SectionComponent: RelatedTargetsSection,
     renderDescription: ({ symbol }) => (
@@ -256,6 +263,7 @@ const sections = [
   {
     id: 'pathways',
     name: 'Pathways',
+    getHasData: ({ count }) => count > 0,
     query: PathwaysQuery,
     SectionComponent: PathwaysSection,
     renderDescription: ({ symbol }) => (
@@ -267,6 +275,12 @@ const sections = [
   {
     id: 'protein',
     name: 'Protein Information',
+    getHasData: data =>
+      data.hasSequenceAnnotationVisualisation ||
+      data.hasProteinStructure ||
+      data.hasSubCellularLocation ||
+      data.hasSubUnitData ||
+      data.hasUniprotKeywords,
     query: ProteinInformationQuery,
     SectionComponent: ProteinInformationSection,
     renderDescription: ({ symbol }) => (
@@ -279,6 +293,7 @@ const sections = [
   {
     id: 'cancerBiomarkers',
     name: 'Cancer Biomarkers',
+    getHasData: ({ hasCancerBiomarkers }) => hasCancerBiomarkers,
     query: CancerBiomarkersQuery,
     SectionComponent: CancerBiomarkersSection,
     renderDescription: () => (
@@ -297,6 +312,10 @@ const sections = [
   {
     id: 'geneOntology',
     name: 'Gene Ontology',
+    getHasData: data =>
+      data.molecularFunctionTermsCount > 0 ||
+      data.biologicalProcessTermsCount > 0 ||
+      data.cellularComponentTermsCount > 0,
     query: GeneOntologyQuery,
     SectionComponent: GeneOntologySection,
     renderDescription: ({ symbol }) => (
@@ -308,6 +327,8 @@ const sections = [
   {
     id: 'proteinInteractions',
     name: 'Protein Interactions',
+    getHasData: data =>
+      data.ppi > 0 || data.pathways > 0 || data.proteinInteractions > 0,
     query: ProteinInteractionsQuery,
     SectionComponent: ProteinInteractionsSection,
     renderDescription: ({ symbol }) => (
@@ -325,6 +346,7 @@ const sections = [
   {
     id: 'mousePhenotypes',
     name: 'Mouse Phenotypes',
+    getHasData: data => data.phenotypeCount > 0 || data.categoryCount > 0,
     query: MousePhenotypesQuery,
     SectionComponent: MousePhenotypesSection,
     renderDescription: ({ symbol }) => (
@@ -337,6 +359,9 @@ const sections = [
   {
     id: 'tractability',
     name: 'Tractability',
+    getHasData: data =>
+      data.hasAntibodyTractabilityAssessment ||
+      data.hasSmallMoleculeTractabilityAssessment,
     query: TractabilityQuery,
     SectionComponent: TractabilitySection,
     renderDescription: ({ symbol }) => (
@@ -357,6 +382,7 @@ const sections = [
   {
     id: 'cancerHallmarks',
     name: 'Cancer Hallmarks',
+    getHasData: ({ roleInCancer }) => roleInCancer.length > 0,
     query: CancerHallmarksQuery,
     SectionComponent: CancerHallmarksSection,
     renderDescription: () => (
@@ -374,6 +400,8 @@ const sections = [
   {
     id: 'variation',
     name: 'Variation and Genomic Context',
+    getHasData: ({ common, rare }) =>
+      common.variantsCount > 0 || rare.mutationsCount > 0,
     SectionComponent: VariationSection,
     renderDescription: ({ symbol }) => (
       <React.Fragment>
@@ -390,6 +418,8 @@ const sections = [
   {
     id: 'homology',
     name: 'Gene Tree',
+    getHasData: ({ orthologuesBySpecies }) =>
+      orthologuesBySpecies.some(d => d.orthologuesCount > 0),
     SectionComponent: HomologySection,
     renderDescription: ({ symbol }) => (
       <React.Fragment>
@@ -414,15 +444,33 @@ class OverviewTab extends Component {
     scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
   };
   render() {
+    const { ensgId } = this.props;
     return (
-      <Fragment>
-        <MiniWidgetBar data={sections} onWidgetClick={this.scrollToSection} />
-        <br />
-        <DetailPanelsContainer
-          data={sections}
-          onSideMenuItemClick={this.scrollToSection}
-        />
-      </Fragment>
+      <Query query={overviewQuery} variables={{ ensgId }}>
+        {({ loading, error, data }) => {
+          if (loading || error) return null;
+
+          const sectionsWithHasData = sections.map(s => ({
+            hasData: s.getHasData
+              ? s.getHasData(data.target.summaries[s.id])
+              : false,
+            ...s,
+          }));
+          return (
+            <Fragment>
+              <MiniWidgetBar
+                data={sectionsWithHasData}
+                onWidgetClick={this.scrollToSection}
+              />
+              <br />
+              <DetailPanelsContainer
+                data={sectionsWithHasData}
+                onSideMenuItemClick={this.scrollToSection}
+              />
+            </Fragment>
+          );
+        }}
+      </Query>
     );
   }
 
