@@ -19,11 +19,12 @@ class DetailPanelLoader extends React.Component {
 
     // display a sensible message
     if (!hasData) {
-      return (
-        <Typography align="center" className={classes.noDataMessage}>
-          No data available for this target.
-        </Typography>
-      );
+      return null;
+      // return (
+      //   <Typography align="center" className={classes.noDataMessage}>
+      //     No data available for this target.
+      //   </Typography>
+      // );
     }
 
     // Some sections have multiple queries on different tabs, for example,

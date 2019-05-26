@@ -113,9 +113,11 @@ class DetailPanelsContainer extends React.Component {
             </Grid>
           </Hidden>
           <Grid item xs={12} md={10}>
-            {orderedData.map(d => (
-              <DetailPanel key={d.id} {...d} />
-            ))}
+            {orderedData
+              .filter(d => d.hasData)
+              .map(d => (
+                <DetailPanel key={d.id} {...d} />
+              ))}
           </Grid>
         </Grid>
       </div>
