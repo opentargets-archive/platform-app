@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import Chip from '@material-ui/core/Chip';
 import withStyles from '@material-ui/core/styles/withStyles';
+import classNames from 'classnames';
 
 import { Typography, Button } from 'ot-ui';
 
@@ -28,6 +29,10 @@ const styles = theme => ({
   iconNoData: {
     fill: '#e2dfdf',
   },
+  dropDown: {
+    maxWidth: '200px',
+    marginBottom: '20px',
+  },
 });
 
 class BibliographyDetail extends Component {
@@ -39,26 +44,48 @@ class BibliographyDetail extends Component {
       hasError: false,
       aggregations: {},
       selectedAggregation: aggtype[0],
-      hits: [],
+      hits: [], // the list of papers
+      selected: [this.props.searchTerm], // the selected chips (first item is the page gene or disease)
     };
   }
 
   // Handler for drop down menu
   aggtypeFilterHandler = selection => {
-    // console.log(selection);
     this.setState({ selectedAggregation: selection });
   };
 
-  // Get the aggregations, i.e. the data for the chips
-  getAggregationsData = ensgId => {
-    fetch(linkUrl + 'search?query=' + ensgId + '&aggs=true&size=0')
+  filterAggregations = aggs => {
+    const { selected } = this.state;
+    for (var i in aggs) {
+      aggs[i].buckets = aggs[i].buckets.filter(function(b) {
+        return (
+          selected.filter(function(a) {
+            // console.log('a: ', a.key, a.label);
+            // console.log('b: ', b.key, b.label);
+            a.label = a.label || a.key;
+            return (
+              a.key.toString().toLowerCase() ===
+                b.key.toString().toLowerCase() ||
+              a.label.toString().toLowerCase() ===
+                b.key.toString().toLowerCase()
+            );
+          }).length === 0
+        );
+      });
+    }
+    return aggs;
+  };
+
+  // Get the data for the chips
+  getAggregationsData = () => {
+    fetch(linkUrl + 'search?query=' + this.getQuery() + '&aggs=true&size=0')
       .then(res => res.json())
       .then(
         resp => {
           this.setState({
             bibliographyCount: resp.hits.total,
             hasData: resp.hits.total > 0,
-            aggregations: resp.aggregations,
+            aggregations: this.filterAggregations(resp.aggregations),
           });
         },
         error => {
@@ -71,11 +98,11 @@ class BibliographyDetail extends Component {
   };
 
   // Get the data for the publications
-  getLiteratureData = (ensgId, after, afterId) => {
+  getLiteratureData = (after, afterId) => {
     const query =
       linkUrl +
       'search?query=' +
-      ensgId +
+      this.getQuery() +
       (after && afterId
         ? '&search_after=' + after + '&search_after_id=' + afterId
         : '');
@@ -107,40 +134,92 @@ class BibliographyDetail extends Component {
     const last = hits[hits.length - 1];
     const after = last.sort[0];
     const afterId = last._id;
-    this.getLiteratureData(ensgId, after, afterId);
+    this.getLiteratureData(after, afterId);
   };
 
-  componentDidMount() {
-    const { ensgId } = this.props;
+  // Builds and returns the search query string for target AND all other terms
+  getQuery = () => {
+    const { selected } = this.state;
+    return selected
+      .map(function(s) {
+        return "'" + s.key + "'";
+      })
+      .join(' AND ');
+  };
 
-    // we make 2 calls: one for chips and one for papers
+  // Reset the selected list to only the first term (i.e. that passed in as a prop)
+  // This must be an object in format {key, label}
+  resetSelected = () => {
+    const { searchTerm } = this.props;
+    this.setState({ selected: [searchTerm] });
+  };
+
+  deselectChip = index => {
+    const { selected } = this.state;
+    if (index < selected.length) {
+      this.setState({ selected: selected.filter((sel, i) => i !== index) });
+    }
+  };
+
+  selectChip = chip => {
+    const selected = this.state.selected.concat([chip]);
+    this.setState({ selected: selected });
+  };
+
+  getData = () => {
+    // We make 2 calls: one for chips and one for papers
     // This is because aggregations can be computationally demanding (e.g. for neoplasm) and fail.
     // By splitting the call we always have some papers to show
 
     // get aggregation data for chips
-    this.getAggregationsData(ensgId);
+    this.getAggregationsData();
 
     // get papers
-    this.getLiteratureData(ensgId);
+    this.getLiteratureData();
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.selected.length !== prevState.selected.length) {
+      this.getData();
+    }
   }
 
   render() {
-    // console.log(this.props);
     const {
       bibliographyCount,
       aggregations,
       selectedAggregation,
       hits,
+      selected,
     } = this.state;
     const { classes } = this.props;
-    console.log('hits: ', this.state.hits);
+
     return (
       <Fragment>
         {/* Chips */}
         <Fragment>
+          {selected.map((sel, i) => {
+            return i > 0 ? (
+              <Chip
+                color="primary"
+                key={i}
+                label={sel.label || sel.key}
+                onClick={() => this.deselectChip(i)}
+              />
+            ) : null;
+          })}
           {aggregations[selectedAggregation.value]
             ? aggregations[selectedAggregation.value].buckets.map((agg, i) => (
-                <Chip color="secondary" key={i} label={agg.label || agg.key} />
+                <Chip
+                  color="secondary"
+                  key={i}
+                  label={agg.label || agg.key}
+                  onClick={() => this.selectChip(agg)}
+                />
               ))
             : null}
         </Fragment>
@@ -150,10 +229,14 @@ class BibliographyDetail extends Component {
           options={aggtype}
           defaultValue={selectedAggregation}
           onChange={this.aggtypeFilterHandler}
+          className={classNames(classes.dropDown)}
         />
 
         {/* Total result */}
-        <Typography>Showing 10 of {bibliographyCount} results</Typography>
+        <Typography>
+          Showing {Math.min(10, bibliographyCount)} of {bibliographyCount}{' '}
+          results
+        </Typography>
 
         {/* Publications */}
         <Fragment>
