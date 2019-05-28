@@ -91,7 +91,7 @@ class DetailPanelsContainer extends React.Component {
     });
   };
   render() {
-    const { onSideMenuItemClick } = this.props;
+    const { onSideMenuItemClick, onScrollToTopClick } = this.props;
     const { orderedData } = this.state;
     return (
       <div style={{ paddingTop: 8, paddingBottom: 8 }}>
@@ -103,10 +103,11 @@ class DetailPanelsContainer extends React.Component {
                   {({ style, isSticky }) =>
                     isSticky ? (
                       <SideMenu
-                        style={{ ...style, marginTop: isSticky ? 200 : 0 }}
+                        style={{ ...style, marginTop: isSticky ? 120 : 0 }}
                         data={orderedData}
                         onSideMenuItemClick={onSideMenuItemClick}
                         onSideMenuItemDrag={this.onSideMenuItemDrag}
+                        onScrollToTopClick={onScrollToTopClick}
                       />
                     ) : (
                       <div />

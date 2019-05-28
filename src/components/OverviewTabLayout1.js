@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { scroller } from 'react-scroll';
+import { scroller, animateScroll } from 'react-scroll';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -520,6 +520,9 @@ class OverviewTab extends Component {
   scrollToSection = sectionId => {
     scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
   };
+  scrollToTop = () => {
+    animateScroll.scrollTo(0, { duration: 500, delay: 100, smooth: true });
+  };
   render() {
     const { ensgId, description, synonyms } = this.props;
     return (
@@ -547,6 +550,7 @@ class OverviewTab extends Component {
               <DetailPanelsContainer
                 data={sectionsWithHasData}
                 onSideMenuItemClick={this.scrollToSection}
+                onScrollToTopClick={this.scrollToTop}
               />
             </Fragment>
           );

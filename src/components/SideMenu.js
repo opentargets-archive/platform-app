@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import SideMenuItem from './SideMenuItem';
 
@@ -43,9 +45,24 @@ class PortalAwareItem extends React.Component {
   }
 }
 
+const styles = theme => ({
+  scrollToTop: {
+    borderTop: `1px solid ${theme.palette.grey[300]}`,
+    padding: '8px',
+    cursor: 'pointer',
+  },
+});
+
 class SideMenu extends React.PureComponent {
   render() {
-    const { data, style, onSideMenuItemClick, onSideMenuItemDrag } = this.props;
+    const {
+      classes,
+      data,
+      style,
+      onSideMenuItemClick,
+      onSideMenuItemDrag,
+      onScrollToTopClick,
+    } = this.props;
     return (
       <Card style={{ ...style, overflow: 'auto' }}>
         <DragDropContext onDragEnd={onSideMenuItemDrag}>
@@ -71,9 +88,14 @@ class SideMenu extends React.PureComponent {
             )}
           </Droppable>
         </DragDropContext>
+        <div className={classes.scrollToTop} onClick={onScrollToTopClick}>
+          <Typography color="primary" align="center">
+            back to top
+          </Typography>
+        </div>
       </Card>
     );
   }
 }
 
-export default SideMenu;
+export default withStyles(styles)(SideMenu);
