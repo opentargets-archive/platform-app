@@ -63,7 +63,7 @@ class LongText extends Component {
           <span>
             {showMore ? '' : '... '}[{' '}
             <span className={classes.showMore} onClick={this.showMore}>
-              {showMore ? ' hide' : ' showMore'}
+              {showMore ? ' hide' : ' show more'}
             </span>{' '}
             ]
           </span>
