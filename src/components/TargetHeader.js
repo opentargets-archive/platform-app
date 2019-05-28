@@ -8,7 +8,7 @@ import TargetIcon from '../icons/TargetIcon';
 
 const summaryStyles = theme => ({
   titleContainer: {
-    marginBottom: '30px',
+    marginBottom: '10px',
   },
   targetIcon: {
     width: '40px',
@@ -22,10 +22,8 @@ const summaryStyles = theme => ({
   },
   name: {
     display: 'flex',
+    paddingLeft: '5px',
     alignItems: 'center',
-  },
-  titleLink: {
-    color: theme.palette.primary.main,
   },
   geneticsLink: {
     alignItems: 'center',
@@ -38,17 +36,6 @@ const summaryStyles = theme => ({
     color: 'white',
     padding: '0 10px',
     textDecoration: 'none',
-  },
-  associatedIcon: {
-    marginRight: '6px',
-    fill: 'white',
-  },
-  associatedDiseases: {
-    backgroundColor: '#7b196a',
-    color: 'white',
-    position: 'relative',
-    top: '14px',
-    height: '40px',
   },
 });
 
