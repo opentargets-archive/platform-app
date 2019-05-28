@@ -56,6 +56,10 @@ const summaryStyles = theme => ({
 const TargetDescriptionAndSynonyms = ({ classes, synonyms, description }) => (
   <Grid className={classes.description} container>
     <Grid item xs={12} md={6}>
+      <Typography className={classes.synonymText} variant="subtitle2">
+        Description
+      </Typography>
+      <br />
       <Typography variant="body2">
         {description ? (
           <LongText lineLimit={3}>{description}</LongText>
