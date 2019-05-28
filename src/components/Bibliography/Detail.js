@@ -129,12 +129,9 @@ class BibliographyDetail extends Component {
   };
 
   getMoreLiteratureData = () => {
-    const { ensgId } = this.props;
     const { hits } = this.state;
     const last = hits[hits.length - 1];
-    const after = last.sort[0];
-    const afterId = last._id;
-    this.getLiteratureData(after, afterId);
+    this.getLiteratureData(last.sort[0], last._id);
   };
 
   // Builds and returns the search query string for target AND all other terms
@@ -147,13 +144,7 @@ class BibliographyDetail extends Component {
       .join(' AND ');
   };
 
-  // Reset the selected list to only the first term (i.e. that passed in as a prop)
-  // This must be an object in format {key, label}
-  resetSelected = () => {
-    const { searchTerm } = this.props;
-    this.setState({ selected: [searchTerm] });
-  };
-
+  // Handler for when a chip is deselected
   deselectChip = index => {
     const { selected } = this.state;
     if (index < selected.length) {
@@ -161,6 +152,7 @@ class BibliographyDetail extends Component {
     }
   };
 
+  // Handler for when a chip is selected
   selectChip = chip => {
     const selected = this.state.selected.concat([chip]);
     this.setState({ selected: selected });
@@ -173,7 +165,6 @@ class BibliographyDetail extends Component {
 
     // get aggregation data for chips
     this.getAggregationsData();
-
     // get papers
     this.getLiteratureData();
   };
@@ -200,6 +191,14 @@ class BibliographyDetail extends Component {
 
     return (
       <Fragment>
+        {/* Dropdown menu */}
+        <Select
+          options={aggtype}
+          defaultValue={selectedAggregation}
+          onChange={this.aggtypeFilterHandler}
+          className={classNames(classes.dropDown)}
+        />
+
         {/* Chips */}
         <Fragment>
           {selected.map((sel, i) => {
@@ -224,18 +223,10 @@ class BibliographyDetail extends Component {
             : null}
         </Fragment>
 
-        {/* Dropdown menu */}
-        <Select
-          options={aggtype}
-          defaultValue={selectedAggregation}
-          onChange={this.aggtypeFilterHandler}
-          className={classNames(classes.dropDown)}
-        />
-
         {/* Total result */}
         <Typography>
-          Showing {Math.min(10, bibliographyCount)} of {bibliographyCount}{' '}
-          results
+          Showing {Math.min(hits.length, bibliographyCount)} of{' '}
+          {bibliographyCount} results
         </Typography>
 
         {/* Publications */}
@@ -257,8 +248,8 @@ class BibliographyDetail extends Component {
           })}
         </Fragment>
 
-        {/* Load more */}
-        <Fragment>
+        {/* Load more, if any */}
+        {hits.length < bibliographyCount ? (
           <Button
             variant="contained"
             size="medium"
@@ -269,7 +260,7 @@ class BibliographyDetail extends Component {
           >
             Load more papers
           </Button>
-        </Fragment>
+        ) : null}
       </Fragment>
     );
   }
