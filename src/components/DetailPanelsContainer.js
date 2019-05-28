@@ -10,22 +10,19 @@ const defaultOrder = [
     id: 'drugs',
   },
   {
-    id: 'chemicalProbes',
-  },
-  {
-    id: 'relatedTargets',
-  },
-  {
-    id: 'pathways',
+    id: 'tractability',
   },
   {
     id: 'protein',
   },
   {
-    id: 'cancerBiomarkers',
+    id: 'pathways',
   },
   {
-    id: 'geneOntology',
+    id: 'relatedTargets',
+  },
+  {
+    id: 'variation',
   },
   {
     id: 'proteinInteractions',
@@ -37,18 +34,21 @@ const defaultOrder = [
     id: 'mousePhenotypes',
   },
   {
-    id: 'tractability',
-  },
-  {
-    id: 'cancerHallmarks',
-  },
-  {
-    id: 'variation',
+    id: 'geneOntology',
   },
   {
     id: 'homology',
   },
   // { id: 'bibliography' },
+  {
+    id: 'cancerHallmarks',
+  },
+  {
+    id: 'cancerBiomarkers',
+  },
+  {
+    id: 'chemicalProbes',
+  },
 ];
 
 // a little function to help us with reordering the result
