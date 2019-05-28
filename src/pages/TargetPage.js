@@ -10,7 +10,8 @@ import TargetSummaryContext from '../contexts/TargetSummaryContext';
 
 import BasePage from './BasePage';
 import TargetAssociationsPage from './TargetAssociationsPage';
-import TargetSummary from '../components/TargetSummary';
+// import TargetSummary from '../components/TargetSummary';
+import TargetHeader from '../components/TargetHeader';
 import OverviewTab from '../components/OverviewTabLayout1';
 
 const targetQuery = gql`
@@ -83,13 +84,19 @@ class TargetPage extends Component {
                 <Helmet>
                   <title>{symbol}</title>
                 </Helmet>
-                <TargetSummary
+                {/* <TargetSummary
                   ensgId={ensgId}
                   symbol={symbol}
                   name={name}
                   uniprotId={uniprotId}
                   synonyms={synonyms}
                   description={description}
+                /> */}
+                <TargetHeader
+                  ensgId={ensgId}
+                  symbol={symbol}
+                  name={name}
+                  uniprotId={uniprotId}
                 />
                 <Tabs
                   value={value}
@@ -107,7 +114,11 @@ class TargetPage extends Component {
                   />
                   <Route
                     path={match.path}
-                    render={() => <OverviewTab {...{ ensgId, symbol, name }} />}
+                    render={() => (
+                      <OverviewTab
+                        {...{ ensgId, symbol, name, synonyms, description }}
+                      />
+                    )}
                   />
                 </Switch>
               </TargetSummaryContext.Provider>

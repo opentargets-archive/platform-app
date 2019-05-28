@@ -45,6 +45,8 @@ import HomologySection from './Homology/Section';
 import MiniWidgetBar from './MiniWidgetBar';
 import DetailPanelsContainer from './DetailPanelsContainer';
 
+import TargetDescriptionAndSynonyms from './TargetDescriptionAndSynonyms';
+
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
@@ -417,7 +419,7 @@ class OverviewTab extends Component {
     scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
   };
   render() {
-    const { ensgId } = this.props;
+    const { ensgId, description, synonyms } = this.props;
     return (
       <Query query={overviewQuery} variables={{ ensgId }}>
         {({ loading, error, data }) => {
@@ -431,6 +433,7 @@ class OverviewTab extends Component {
           }));
           return (
             <Fragment>
+              <TargetDescriptionAndSynonyms {...{ description, synonyms }} />
               <MiniWidgetBar
                 data={sectionsWithHasData}
                 onWidgetClick={this.scrollToSection}
