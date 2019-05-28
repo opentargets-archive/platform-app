@@ -7,13 +7,14 @@ import withStyles from '@material-ui/core/styles/withStyles';
 const styles = theme => ({
   text: {
     padding: 4,
+    cursor: 'default',
     color: theme.palette.grey[500],
-    '&:hover': {
-      background: '#eee',
-    },
-    '&:active': {
-      background: '#ddd',
-    },
+    // '&:hover': {
+    //   background: '#eee',
+    // },
+    // '&:active': {
+    //   background: '#ddd',
+    // },
     '&:hover $dragIndicator': {
       display: 'inline-block',
     },
@@ -23,12 +24,20 @@ const styles = theme => ({
   },
   textHasData: {
     color: theme.palette.primary.main,
+    cursor: 'pointer',
     fontWeight: 'bold',
+    '&:hover': {
+      background: '#eee',
+    },
+    '&:active': {
+      background: '#ddd',
+    },
   },
   textInDragState: {
     background: '#ddd',
   },
   dragIndicator: {
+    cursor: 'grab',
     display: 'none',
     fontSize: '1.2rem',
     float: 'right',
