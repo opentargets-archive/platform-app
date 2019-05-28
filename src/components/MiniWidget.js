@@ -10,19 +10,20 @@ import withStyles from '@material-ui/core/styles/withStyles';
 const styles = theme => ({
   card: {
     height: '100%',
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: theme.palette.grey[500],
-    },
-    '&:hover $title': {
-      color: 'white', // theme.palette.grey[600],
-    },
-    '&:hover $avatar': {
-      color: theme.palette.grey[500],
-      backgroundColor: 'white', // theme.palette.grey[400],
-    },
+    // cursor: 'pointer',
+    // '&:hover': {
+    //   backgroundColor: theme.palette.grey[500],
+    // },
+    // '&:hover $title': {
+    //   color: 'white', // theme.palette.grey[600],
+    // },
+    // '&:hover $avatar': {
+    //   color: theme.palette.grey[500],
+    //   backgroundColor: 'white', // theme.palette.grey[400],
+    // },
   },
   cardHasData: {
+    cursor: 'pointer',
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
     },
