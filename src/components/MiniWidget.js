@@ -10,6 +10,9 @@ import withStyles from '@material-ui/core/styles/withStyles';
 const styles = theme => ({
   card: {
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    // height: '100px',
     // cursor: 'pointer',
     // '&:hover': {
     //   backgroundColor: theme.palette.grey[500],
@@ -30,6 +33,9 @@ const styles = theme => ({
     '&:hover $titleHasData': {
       color: 'white',
     },
+    '&:hover $subheaderHasData': {
+      color: 'white',
+    },
     '&:hover $avatarHasData': {
       color: theme.palette.primary.main,
       backgroundColor: 'white',
@@ -42,6 +48,14 @@ const styles = theme => ({
     color: theme.palette.primary.main,
     fontWeight: 'bold',
   },
+  subheader: {
+    color: theme.palette.grey[500],
+    fontSize: '0.8rem',
+    fontStyle: 'italic',
+  },
+  subheaderHasData: {
+    color: theme.palette.primary.main,
+  },
   avatar: {
     color: 'white',
     backgroundColor: theme.palette.grey[300],
@@ -49,9 +63,28 @@ const styles = theme => ({
   avatarHasData: {
     backgroundColor: theme.palette.primary.main,
   },
+  cardHeader: {
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  // cardContent: {
+  //   borderTop: `1px solid ${theme.palette.grey[300]}`,
+  //   paddingTop: 4,
+  //   '&:last-child': {
+  //     paddingBottom: 4,
+  //   },
+  // },
+  content: {
+    height: '100%',
+    borderTop: `1px solid ${theme.palette.grey[300]}`,
+    paddingTop: 4,
+    '&:last-child': {
+      paddingBottom: 4,
+    },
+  },
 });
 
-const MiniWidget = ({ classes, name, icon, hasData, onClick }) => (
+const MiniWidget = ({ classes, name, icon, hasData, summary, onClick }) => (
   <Grid item xs={4} md={3} lg={2}>
     <Card
       className={classNames({
@@ -61,6 +94,7 @@ const MiniWidget = ({ classes, name, icon, hasData, onClick }) => (
       onClick={onClick}
     >
       <CardHeader
+        className={classes.cardHeader}
         avatar={
           <Avatar
             className={classNames({
@@ -86,6 +120,42 @@ const MiniWidget = ({ classes, name, icon, hasData, onClick }) => (
           </Typography>
         }
       />
+
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        className={classes.content}
+      >
+        <Grid item>
+          <Typography
+            align="center"
+            className={classNames({
+              [classes.subheader]: true,
+              [classes.subheaderHasData]: hasData,
+            })}
+          >
+            {hasData ? summary : '(no data)'}
+          </Typography>
+        </Grid>
+      </Grid>
+
+      {/* <CardContent classes={{ root: classes.cardContent }}>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Grid item>
+            <Typography
+              align="center"
+              className={classNames({
+                [classes.subheader]: true,
+                [classes.subheaderHasData]: hasData,
+              })}
+            >
+              {hasData ? summary : '(no data)'}
+            </Typography>
+          </Grid>
+        </Grid>
+      </CardContent> */}
     </Card>
   </Grid>
 );

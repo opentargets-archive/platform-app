@@ -132,6 +132,7 @@ const overviewQuery = gql`
           ppi
           pathways
           enzymeSubstrate
+          interactorsCount
         }
         expression {
           rnaBaselineExpression
@@ -204,6 +205,7 @@ const sections = [
     id: 'drugs',
     name: 'Known Drugs',
     getHasData: ({ drugCount }) => drugCount > 0,
+    getSummary: ({ drugCount }) => `${drugCount} drugs in clinical trials`,
     query: KnownDrugsQuery,
     SectionComponent: KnownDrugsSection,
     renderDescription: ({ symbol }) => (
@@ -221,6 +223,23 @@ const sections = [
       data.hasChemicalProbesPortal ||
       data.hasOpenScienceProbes ||
       data.hasProbeMiner,
+    getSummary: ({
+      hasStructuralGenomicsConsortium,
+      hasChemicalProbesPortal,
+      hasOpenScienceProbes,
+      hasProbeMiner,
+    }) => {
+      const sources = ['SGC', 'CPP', 'OSP', 'ProbeMiner'].filter(
+        (d, i) =>
+          [
+            hasStructuralGenomicsConsortium,
+            hasChemicalProbesPortal,
+            hasOpenScienceProbes,
+            hasProbeMiner,
+          ][i]
+      );
+      return sources.length > 0 ? sources.join(' • ') : null;
+    },
     query: ChemicalProbesQuery,
     SectionComponent: ChemicalProbesSection,
     renderDescription: ({ symbol }) => (
@@ -234,6 +253,13 @@ const sections = [
     id: 'relatedTargets',
     name: 'Related Targets',
     getHasData: ({ relatedTargetsCount }) => relatedTargetsCount > 0,
+    getSummary: ({ relatedTargetsCount }) => (
+      <React.Fragment>
+        {relatedTargetsCount} targets
+        <br />
+        (through shared diseases)
+      </React.Fragment>
+    ),
     query: RelatedTargetsQuery,
     SectionComponent: RelatedTargetsSection,
     renderDescription: ({ symbol }) => (
@@ -247,6 +273,7 @@ const sections = [
     id: 'pathways',
     name: 'Pathways',
     getHasData: ({ count }) => count > 0,
+    getSummary: ({ count }) => `${count} Reactome pathways`,
     query: PathwaysQuery,
     SectionComponent: PathwaysSection,
     renderDescription: ({ symbol }) => (
@@ -264,6 +291,15 @@ const sections = [
       data.hasSubCellularLocation ||
       data.hasSubUnitData ||
       data.hasUniprotKeywords,
+    getSummary: ({
+      hasSequenceAnnotationVisualisation,
+      hasProteinStructure,
+    }) => {
+      const sources = ['sequence annotation', 'structure'].filter(
+        (d, i) => [hasSequenceAnnotationVisualisation, hasProteinStructure][i]
+      );
+      return sources.length > 0 ? sources.join(' • ') : null;
+    },
     query: ProteinInformationQuery,
     SectionComponent: ProteinInformationSection,
     renderDescription: ({ symbol }) => (
@@ -277,6 +313,14 @@ const sections = [
     id: 'cancerBiomarkers',
     name: 'Cancer Biomarkers',
     getHasData: ({ hasCancerBiomarkers }) => hasCancerBiomarkers,
+    getSummary: ({ cancerBiomarkerCount, drugCount }) => (
+      <React.Fragment>
+        {cancerBiomarkerCount} biomarkers
+        <br />
+        (affecting {drugCount} drug{drugCount === 1 ? "'s" : "s'"}{' '}
+        responsiveness)
+      </React.Fragment>
+    ),
     query: CancerBiomarkersQuery,
     SectionComponent: CancerBiomarkersSection,
     renderDescription: () => (
@@ -299,6 +343,18 @@ const sections = [
       data.molecularFunctionTermsCount > 0 ||
       data.biologicalProcessTermsCount > 0 ||
       data.cellularComponentTermsCount > 0,
+    getSummary: data => (
+      <React.Fragment>
+        {data.molecularFunctionTermsCount +
+          data.biologicalProcessTermsCount +
+          data.cellularComponentTermsCount}{' '}
+        terms in total
+        <br />
+        {data.molecularFunctionTermsCount} MF •{' '}
+        {data.biologicalProcessTermsCount} BP •{' '}
+        {data.cellularComponentTermsCount} CC
+      </React.Fragment>
+    ),
     query: GeneOntologyQuery,
     SectionComponent: GeneOntologySection,
     renderDescription: ({ symbol }) => (
@@ -311,7 +367,12 @@ const sections = [
     id: 'proteinInteractions',
     name: 'Protein Interactions',
     getHasData: data =>
-      data.ppi > 0 || data.pathways > 0 || data.proteinInteractions > 0,
+      data.ppi > 0 || data.pathways > 0 || data.enzymeSubstrate > 0,
+    // getSummary: data =>
+    //   `${data.ppi} PPI • ${data.pathways} pathways • ${
+    //     data.enzymeSubstrate
+    //   } enzyme-subtrate`,
+    getSummary: data => `${data.interactorsCount} interactors`,
     query: ProteinInteractionsQuery,
     SectionComponent: ProteinInteractionsSection,
     renderDescription: ({ symbol }) => (
@@ -330,6 +391,7 @@ const sections = [
     id: 'mousePhenotypes',
     name: 'Mouse Phenotypes',
     getHasData: data => data.phenotypeCount > 0 || data.categoryCount > 0,
+    getSummary: ({ phenotypeCount }) => `${phenotypeCount} distinct phenotypes`,
     query: MousePhenotypesQuery,
     SectionComponent: MousePhenotypesSection,
     renderDescription: ({ symbol }) => (
@@ -345,6 +407,19 @@ const sections = [
     getHasData: data =>
       data.hasAntibodyTractabilityAssessment ||
       data.hasSmallMoleculeTractabilityAssessment,
+    getSummary: ({
+      hasAntibodyTractabilityAssessment,
+      hasSmallMoleculeTractabilityAssessment,
+    }) => {
+      const sources = ['antibody', 'small molecule'].filter(
+        (d, i) =>
+          [
+            hasAntibodyTractabilityAssessment,
+            hasSmallMoleculeTractabilityAssessment,
+          ][i]
+      );
+      return sources.length > 0 ? sources.join(' • ') : null;
+    },
     query: TractabilityQuery,
     SectionComponent: TractabilitySection,
     renderDescription: ({ symbol }) => (
@@ -366,6 +441,21 @@ const sections = [
     id: 'cancerHallmarks',
     name: 'Cancer Hallmarks',
     getHasData: ({ roleInCancer }) => roleInCancer.length > 0,
+    getSummary: ({ promotionAndSuppressionByHallmark }) => (
+      <React.Fragment>
+        {
+          promotionAndSuppressionByHallmark.filter(
+            d => d.promotes || d.suppresses
+          ).length
+        }{' '}
+        hallmarks
+        <br />
+        {promotionAndSuppressionByHallmark.filter(d => d.promotes).length}{' '}
+        promote •{' '}
+        {promotionAndSuppressionByHallmark.filter(d => d.suppresses).length}{' '}
+        suppress
+      </React.Fragment>
+    ),
     query: CancerHallmarksQuery,
     SectionComponent: CancerHallmarksSection,
     renderDescription: () => (
@@ -385,6 +475,13 @@ const sections = [
     name: 'Variation and Genomic Context',
     getHasData: ({ common, rare }) =>
       common.variantsCount > 0 || rare.mutationsCount > 0,
+    getSummary: ({ common, rare }) => (
+      <React.Fragment>
+        {`${common.variantsCount} variants (common diseases)`}
+        <br />
+        {`${rare.mutationsCount} mutations (rare diseases)`}
+      </React.Fragment>
+    ),
     SectionComponent: VariationSection,
     renderDescription: ({ symbol }) => (
       <React.Fragment>
@@ -403,6 +500,11 @@ const sections = [
     name: 'Gene Tree',
     getHasData: ({ orthologuesBySpecies }) =>
       orthologuesBySpecies.some(d => d.orthologuesCount > 0),
+    getSummary: ({ orthologuesBySpecies }) =>
+      `${orthologuesBySpecies.reduce(
+        (acc, d) => acc + d.orthologuesCount,
+        0
+      )} orthologues in ${orthologuesBySpecies.length} species`,
     SectionComponent: HomologySection,
     renderDescription: ({ symbol }) => (
       <React.Fragment>
@@ -429,6 +531,9 @@ class OverviewTab extends Component {
             hasData: s.getHasData
               ? s.getHasData(data.target.summaries[s.id])
               : false,
+            summary: s.getSummary
+              ? s.getSummary(data.target.summaries[s.id])
+              : null,
             ...s,
           }));
           return (
