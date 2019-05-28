@@ -69,6 +69,7 @@ class BibliographyWidget extends Component {
             ensgId={ensgId}
             symbol={symbol}
             sources={sources}
+            searchTerm={{ key: ensgId, label: symbol }}
           />
         }
         detailHeader={{
