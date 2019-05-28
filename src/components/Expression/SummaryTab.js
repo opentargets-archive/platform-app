@@ -79,7 +79,7 @@ class SummaryTab extends Component {
           ,{' '}
           <Link
             external
-            to=" https://docs.targetvalidation.org/data-sources/rna-expression#expression-atlas"
+            to="https://docs.targetvalidation.org/data-sources/rna-expression#expression-atlas"
           >
             Expression Atlas
           </Link>
