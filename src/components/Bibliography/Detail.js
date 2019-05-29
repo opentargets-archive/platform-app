@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import Chip from '@material-ui/core/Chip';
+import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 
@@ -33,6 +34,9 @@ const styles = theme => ({
     maxWidth: '200px',
     marginBottom: '20px',
   },
+  chip: {
+    margin: theme.spacing.unit / 4,
+  },
 });
 
 class BibliographyDetail extends Component {
@@ -51,29 +55,32 @@ class BibliographyDetail extends Component {
 
   // Handler for drop down menu
   aggtypeFilterHandler = selection => {
+    console.log(selection);
     this.setState({ selectedAggregation: selection });
   };
 
+  // Parse the aggregation data based on defined aggtypes
+  // and filter out all entries that are already selected
   filterAggregations = aggs => {
     const { selected } = this.state;
-    for (var i in aggs) {
-      aggs[i].buckets = aggs[i].buckets.filter(function(b) {
-        return (
-          selected.filter(function(a) {
-            // console.log('a: ', a.key, a.label);
-            // console.log('b: ', b.key, b.label);
-            a.label = a.label || a.key;
-            return (
-              a.key.toString().toLowerCase() ===
-                b.key.toString().toLowerCase() ||
-              a.label.toString().toLowerCase() ===
-                b.key.toString().toLowerCase()
-            );
-          }).length === 0
-        );
-      });
-    }
-    return aggs;
+    return aggtype.reduce((newaggs, agg) => {
+      newaggs[agg.value] = {
+        buckets: aggs[agg.value].buckets.filter(function(b) {
+          return (
+            selected.filter(function(a) {
+              a.label = a.label || a.key;
+              return (
+                a.key.toString().toLowerCase() ===
+                  b.key.toString().toLowerCase() ||
+                a.label.toString().toLowerCase() ===
+                  b.key.toString().toLowerCase()
+              );
+            }).length === 0
+          );
+        }),
+      };
+      return newaggs;
+    }, {});
   };
 
   // Get the data for the chips
@@ -129,6 +136,7 @@ class BibliographyDetail extends Component {
   };
 
   getMoreLiteratureData = () => {
+    // TODO: these could be refactored into getLiteratureData() directly by passing a simple flag
     const { hits } = this.state;
     const last = hits[hits.length - 1];
     this.getLiteratureData(last.sort[0], last._id);
@@ -158,11 +166,10 @@ class BibliographyDetail extends Component {
     this.setState({ selected: selected });
   };
 
+  // We make 2 calls: one for chips and one for papers
+  // This is because aggregations can be computationally demanding (e.g. for neoplasm) and fail.
+  // By splitting the call we always have some papers to show
   getData = () => {
-    // We make 2 calls: one for chips and one for papers
-    // This is because aggregations can be computationally demanding (e.g. for neoplasm) and fail.
-    // By splitting the call we always have some papers to show
-
     // get aggregation data for chips
     this.getAggregationsData();
     // get papers
@@ -174,6 +181,7 @@ class BibliographyDetail extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // If a chip has been added or removed, fetch new data
     if (this.state.selected.length !== prevState.selected.length) {
       this.getData();
     }
@@ -191,76 +199,101 @@ class BibliographyDetail extends Component {
 
     return (
       <Fragment>
-        {/* Dropdown menu */}
-        <Select
-          options={aggtype}
-          defaultValue={selectedAggregation}
-          onChange={this.aggtypeFilterHandler}
-          className={classNames(classes.dropDown)}
-        />
+        <Grid
+          container
+          direction="column"
+          justify="flex-start"
+          alignItems="stretch"
+          spacing={16}
+        >
+          <Grid item xs={12}>
+            {/* Dropdown menu */}
+            <Select
+              options={aggtype}
+              defaultValue={selectedAggregation}
+              onChange={this.aggtypeFilterHandler}
+              className={classNames(classes.dropDown)}
+            />
 
-        {/* Chips */}
-        <Fragment>
-          {selected.map((sel, i) => {
-            return i > 0 ? (
-              <Chip
+            {/* Chips */}
+            <Fragment>
+              {selected.map((sel, i) => {
+                return i > 0 ? (
+                  <Chip
+                    key={i}
+                    variant="outlined"
+                    label={sel.label || sel.key}
+                    onDelete={() => this.deselectChip(i)}
+                    className={classes.chip}
+                  />
+                ) : null;
+              })}
+              {aggregations[selectedAggregation.value]
+                ? aggregations[selectedAggregation.value].buckets.map(
+                    (agg, i) => (
+                      <Chip
+                        color="primary"
+                        key={i}
+                        label={agg.label || agg.key}
+                        onClick={() => this.selectChip(agg)}
+                        className={classes.chip}
+                      />
+                    )
+                  )
+                : null}
+            </Fragment>
+          </Grid>
+
+          <Grid item xs={12}>
+            {/* Total result */}
+            <Typography>
+              Showing {Math.min(hits.length, bibliographyCount)} of{' '}
+              {bibliographyCount} results
+            </Typography>
+
+            {/* Publications */}
+            <Grid
+              container
+              direction="column"
+              justify="flex-start"
+              alignItems="stretch"
+              spacing={16}
+            >
+              {hits.map((hit, i) => {
+                return (
+                  <Grid item xs={12} key={i}>
+                    <Publication
+                      pmId={hit._source.pub_id}
+                      title={hit._source.title}
+                      authors={hit._source.authors || []}
+                      journal={{
+                        title: hit._source.journal.title,
+                        date: hit._source.pub_date,
+                        ref: hit._source.journal_reference,
+                      }}
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Grid>
+
+          {/* Load more, if any */}
+          {hits.length < bibliographyCount ? (
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                size="medium"
                 color="primary"
-                key={i}
-                label={sel.label || sel.key}
-                onClick={() => this.deselectChip(i)}
-              />
-            ) : null;
-          })}
-          {aggregations[selectedAggregation.value]
-            ? aggregations[selectedAggregation.value].buckets.map((agg, i) => (
-                <Chip
-                  color="secondary"
-                  key={i}
-                  label={agg.label || agg.key}
-                  onClick={() => this.selectChip(agg)}
-                />
-              ))
-            : null}
-        </Fragment>
-
-        {/* Total result */}
-        <Typography>
-          Showing {Math.min(hits.length, bibliographyCount)} of{' '}
-          {bibliographyCount} results
-        </Typography>
-
-        {/* Publications */}
-        <Fragment>
-          {hits.map((hit, i) => {
-            return (
-              <Publication
-                key={i}
-                pmId={hit._source.pub_id}
-                title={hit._source.title}
-                authors={hit._source.authors || []}
-                journal={{
-                  title: hit._source.journal.title,
-                  date: hit._source.pub_date,
-                  ref: hit._source.journal_reference,
+                onClick={() => {
+                  this.getMoreLiteratureData();
                 }}
-              />
-            );
-          })}
-        </Fragment>
-
-        {/* Load more, if any */}
-        {hits.length < bibliographyCount ? (
-          <Button
-            variant="contained"
-            size="medium"
-            color="primary"
-            onClick={() => {
-              this.getMoreLiteratureData();
-            }}
-          >
-            Load more papers
-          </Button>
-        ) : null}
+              >
+                Load more papers
+              </Button>
+            </Grid>
+          ) : null}
+        </Grid>
       </Fragment>
     );
   }

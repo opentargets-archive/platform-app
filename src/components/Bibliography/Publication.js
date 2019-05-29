@@ -111,7 +111,6 @@ class Publication extends Component {
 
   render = () => {
     const { pmId, title, authors, journal, variant } = this.props;
-    console.log('variant: ', variant);
     const { showAbstract, showSimilar, abstract } = this.state;
 
     return (
@@ -131,25 +130,28 @@ class Publication extends Component {
               author.LastName
             }"&page=1`;
             return (
-              <Link key={i} external to={to}>
-                {author.ForeName} {author.LastName}
-              </Link>
+              <Fragment>
+                <Link key={i} external to={to}>
+                  {author.ForeName} {author.LastName}
+                </Link>{' '}
+              </Fragment>
             );
           })}
         </Typography>
 
         <Typography variant="body2">
           {/* journal, year, reference */}
-          <a
-            href={`https://europepmc.org/search?query=JOURNAL:%22${
+          <Link
+            external
+            to={`https://europepmc.org/search?query=JOURNAL:%22${
               journal.title
             }%22`}
           >
             {journal.title}
-          </a>{' '}
+          </Link>{' '}
           <span>
             <b>{journal.date.substring(0, 4)}</b>
-          </span>
+          </span>{' '}
           <span>{journal.ref.volume}</span>
           <span>({journal.ref.issue})</span>
           <span>:{journal.ref.pgn}</span>
@@ -167,7 +169,7 @@ class Publication extends Component {
                 }}
               >
                 {showAbstract ? 'Hide abstract' : 'Show abstract'}
-              </Button>
+              </Button>{' '}
               <Button
                 variant="outlined"
                 size="small"
