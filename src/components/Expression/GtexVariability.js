@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 
 const width = 500;
 const boxHeight = 10;
-const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+const margin = { top: 40, right: 20, bottom: 20, left: 100 };
 
 class GtexVariability extends Component {
   boxPlotRef = React.createRef();
@@ -12,7 +12,7 @@ class GtexVariability extends Component {
   xAxis = d3.axisTop();
   yAxis = d3.axisLeft();
   x = d3.scaleLinear();
-  y = d3.scaleLinear();
+  y = d3.scaleBand();
 
   render() {
     const { data } = this.props;
@@ -23,6 +23,9 @@ class GtexVariability extends Component {
 
     return (
       <svg height={height} width={width}>
+        <text x="35" y="15">
+          Normalised expression (RPKM)
+        </text>
         <g
           ref={this.boxPlotRef}
           transform={`translate(${margin.left}, ${margin.top})`}
@@ -44,6 +47,7 @@ class GtexVariability extends Component {
 
   _render() {
     const { data } = this.props;
+    const height = data.length * boxHeight;
     /* const boxPlot = d3.select(this.boxPlotRef.current);
 
     const boxContainer = boxPlot
@@ -58,13 +62,15 @@ class GtexVariability extends Component {
     boxContainer.append('line');
     */
 
-    this.x.domain().range();
-    this.y.domain().range();
+    // this.x.domain().range();
+    this.y
+      .domain(data.map(d => d.tissueSiteDetailId))
+      .range([0, height - margin.top - margin.bottom]);
 
-    const xAxis = d3.axisTop(this.x);
+    // const xAxis = d3.axisTop(this.x);
     const yAxis = d3.axisLeft(this.y);
 
-    d3.select(this.xAxisRef.current).call(xAxis);
+    // d3.select(this.xAxisRef.current).call(xAxis);
     d3.select(this.yAxisRef.current).call(yAxis);
   }
 }
