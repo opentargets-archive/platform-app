@@ -10,7 +10,6 @@ import { Typography, Button } from 'ot-ui';
 import Publication from './Publication';
 import { getAggregationsData, getPublicationsData } from './Api';
 
-const linkUrl = 'https://link.opentargets.io/';
 const aggtype = [
   { value: 'top_chunks_significant_terms', label: 'Concepts' },
   { value: 'genes', label: 'Genes' },

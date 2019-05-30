@@ -1,15 +1,21 @@
 import React, { Component, Fragment } from 'react';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 
-import { Link, Button } from 'ot-ui';
-
+import { Button } from 'ot-ui';
+import SimplePublication from './SimplePublication';
+import Abstract from './Abstract';
 import { getPublicationAbstract, getSimilarPublications } from './Api';
 
-const pmUrl = 'https://europepmc.org/';
-const pmTitleUrl = 'abstract/med/';
+const styles = theme => ({
+  detailPanel: {
+    paddingLeft: '15px',
+  },
+});
 
 /**
- * This renders a publication block in the bibliography details.
+ * This renders a full publication block in the bibliography details.
  * Props:
  *  - pmId: hits[].hits._source.pub_id
  *  - title: hits[].hits._source.title
@@ -19,7 +25,6 @@ const pmTitleUrl = 'abstract/med/';
  *      date: hits[].hits._source.pub_date,
  *      ref: hits[].hits._source.journal_reference,
  *    }
- *  - variant: "regular" or "small"; "small" has smaller titles and no abstract/similar items buttons
  */
 class Publication extends Component {
   constructor(props) {
@@ -39,12 +44,7 @@ class Publication extends Component {
       this.getAbstract();
       return null;
     }
-    return (
-      <Typography
-        variant="body2"
-        dangerouslySetInnerHTML={{ __html: this.state.abstract }}
-      />
-    );
+    return <Abstract abstract={this.state.abstract} />;
   };
 
   buildSimilar = () => {
@@ -53,22 +53,34 @@ class Publication extends Component {
       return null;
     }
     return (
-      <div>
-        {this.state.similar.map((hit, i) => (
-          <Publication
-            variant="small"
-            key={i}
-            pmId={hit._source.pub_id}
-            title={hit._source.title}
-            authors={hit._source.authors || []}
-            journal={{
-              title: hit._source.journal.title,
-              date: hit._source.pub_date,
-              ref: hit._source.journal_reference,
-            }}
-          />
-        ))}
-      </div>
+      <Fragment>
+        <Typography variant="subtitle2" gutterBottom>
+          Similar articles
+        </Typography>
+        <Grid
+          container
+          direction="column"
+          justify="flex-start"
+          alignItems="stretch"
+          spacing={16}
+        >
+          {this.state.similar.map((hit, i) => (
+            <Grid item xs={12} key={i}>
+              <SimplePublication
+                variant="small"
+                pmId={hit._source.pub_id}
+                title={hit._source.title}
+                authors={hit._source.authors || []}
+                journal={{
+                  title: hit._source.journal.title,
+                  date: hit._source.pub_date,
+                  ref: hit._source.journal_reference,
+                }}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Fragment>
     );
   };
 
@@ -107,91 +119,55 @@ class Publication extends Component {
   };
 
   render = () => {
-    const { pmId, title, authors, journal, variant } = this.props;
+    const { pmId, title, authors, journal, classes } = this.props;
     const { showAbstract, showSimilar, abstract } = this.state;
 
     return (
       <Fragment>
-        {/* paper title */}
-        <Typography variant="body1">
-          <Link external to={pmUrl + pmTitleUrl + pmId}>
-            {title}
-          </Link>
-        </Typography>
-
-        {/* paper data */}
-        <Typography variant="body2">
-          {/* authors */}
-          {authors.map((author, i) => {
-            const to = `${pmUrl}search?query=AUTH:"${author.ForeName} ${
-              author.LastName
-            }"&page=1`;
-            return (
-              <Fragment key={i}>
-                <Link external to={to}>
-                  {author.ForeName} {author.LastName}
-                </Link>{' '}
-              </Fragment>
-            );
-          })}
-        </Typography>
-
-        <Typography variant="body2">
-          {/* journal, year, reference */}
-          <Link
-            external
-            to={`https://europepmc.org/search?query=JOURNAL:%22${
-              journal.title
-            }%22`}
-          >
-            {journal.title}
-          </Link>{' '}
-          <span>
-            <b>{journal.date.substring(0, 4)}</b>
-          </span>{' '}
-          <span>{journal.ref.volume}</span>
-          <span>({journal.ref.issue})</span>
-          <span>:{journal.ref.pgn}</span>
-        </Typography>
+        {/* Publication basic details */}
+        <SimplePublication
+          pmId={pmId}
+          title={title}
+          authors={authors}
+          journal={journal}
+        />
 
         {/* Show more details */}
-        {variant !== 'small' ? (
+        <div>
           <div>
-            <div>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  this.setState({ showAbstract: !showAbstract });
-                }}
-              >
-                {showAbstract ? 'Hide abstract' : 'Show abstract'}
-              </Button>{' '}
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  this.setState({ showSimilar: !showSimilar });
-                }}
-              >
-                {showSimilar ? 'Hide similar' : 'Show similar'}
-              </Button>
-            </div>
-
-            {/* Abstract details */}
-            <div>{showAbstract ? this.buildAbstract() : null}</div>
-
-            {/* Similar papers details */}
-            <div>{showSimilar ? this.buildSimilar() : null}</div>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                this.setState({ showAbstract: !showAbstract });
+              }}
+            >
+              {showAbstract ? '- Hide abstract' : '+ Show abstract'}
+            </Button>{' '}
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                this.setState({ showSimilar: !showSimilar });
+              }}
+            >
+              {showSimilar ? '- Hide similar' : '+ Show similar'}
+            </Button>
           </div>
-        ) : null}
+
+          {/* Abstract details */}
+          <div className={classes.detailPanel}>
+            {showAbstract ? this.buildAbstract() : null}
+          </div>
+
+          {/* Similar papers details */}
+          <div className={classes.detailPanel}>
+            {showSimilar ? this.buildSimilar() : null}
+          </div>
+        </div>
       </Fragment>
     );
   };
 }
 
-Publication.defaultProps = {
-  variant: 'regular',
-};
-
-export default Publication;
+export default withStyles(styles)(Publication);
