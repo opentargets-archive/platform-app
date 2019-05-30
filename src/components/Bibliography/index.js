@@ -9,6 +9,7 @@ import { Link } from 'ot-ui';
 import Widget from '../Widget';
 import BibliographyDetail from './Detail';
 import BibliographyWidgetIcon from '../../icons/BibliographyWidgetIcon';
+import { getStats } from './Api';
 
 const styles = theme => ({
   icon: {
@@ -39,22 +40,20 @@ class BibliographyWidget extends Component {
 
   componentDidMount() {
     const { ensgId } = this.props;
-    fetch(API_URL + 'search?query=' + ensgId + '&size=0')
-      .then(res => res.json())
-      .then(
-        result => {
-          this.setState({
-            bibliographyCount: result.hits.total,
-            hasData: result.hits.total > 0,
-          });
-        },
-        error => {
-          this.setState({
-            bibliographyCount: 0,
-            hasData: false,
-          });
-        }
-      );
+    getStats([{ key: ensgId }]).then(
+      result => {
+        this.setState({
+          bibliographyCount: result.hits.total,
+          hasData: result.hits.total > 0,
+        });
+      },
+      error => {
+        this.setState({
+          bibliographyCount: 0,
+          hasData: false,
+        });
+      }
+    );
   }
 
   render() {

@@ -3,9 +3,10 @@ import Typography from '@material-ui/core/Typography';
 
 import { Link, Button } from 'ot-ui';
 
+import { getPublicationAbstract, getSimilarPublications } from './Api';
+
 const pmUrl = 'https://europepmc.org/';
 const pmTitleUrl = 'abstract/med/';
-const linkUrl = 'https://link.opentargets.io/';
 
 /**
  * This renders a publication block in the bibliography details.
@@ -73,40 +74,36 @@ class Publication extends Component {
 
   // Get the abstract data from API
   getAbstract = () => {
-    fetch(`${linkUrl}entity/markedtext/${this.props.pmId}`)
-      .then(res => res.json())
-      .then(
-        resp => {
-          this.setState({
-            abstract: resp.abstract,
-          });
-        },
-        error => {
-          this.setState({
-            abstract: '',
-            hasError: true,
-          });
-        }
-      );
+    getPublicationAbstract(this.props.pmId).then(
+      resp => {
+        this.setState({
+          abstract: resp.abstract,
+        });
+      },
+      error => {
+        this.setState({
+          abstract: '',
+          hasError: true,
+        });
+      }
+    );
   };
 
   // Get the abstract data from API
   getSimilar = () => {
-    fetch(`${linkUrl}document-more-like-this/${this.props.pmId}`)
-      .then(res => res.json())
-      .then(
-        resp => {
-          this.setState({
-            similar: resp.hits.hits,
-          });
-        },
-        error => {
-          this.setState({
-            similar: null,
-            hasError: true,
-          });
-        }
-      );
+    getSimilarPublications(this.props.pmId).then(
+      resp => {
+        this.setState({
+          similar: resp.hits.hits,
+        });
+      },
+      error => {
+        this.setState({
+          similar: null,
+          hasError: true,
+        });
+      }
+    );
   };
 
   render = () => {
@@ -130,8 +127,8 @@ class Publication extends Component {
               author.LastName
             }"&page=1`;
             return (
-              <Fragment>
-                <Link key={i} external to={to}>
+              <Fragment key={i}>
+                <Link external to={to}>
                   {author.ForeName} {author.LastName}
                 </Link>{' '}
               </Fragment>

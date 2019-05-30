@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { Typography, Button } from 'ot-ui';
 
 import Publication from './Publication';
+import { getAggregationsData, getPublicationsData } from './Api';
 
 const linkUrl = 'https://link.opentargets.io/';
 const aggtype = [
@@ -17,7 +18,7 @@ const aggtype = [
   { value: 'drugs', label: 'Drugs' },
   { value: 'journal_abbr_significant_terms', label: 'Journal' },
   { value: 'authors_significant_terms', label: 'Authors' },
-  // the following are also valid aggregation types. but currently left out:
+  // the following are also valid aggregation types in Link but we currently don't use them:
   // {value: 'phenotypes', label: 'Phenotypes'}, // phenotypes don't return any hits at the moment
   // {value: 'pub_date_histogram', label: 'publication date'}
 ];
@@ -55,7 +56,6 @@ class BibliographyDetail extends Component {
 
   // Handler for drop down menu
   aggtypeFilterHandler = selection => {
-    console.log(selection);
     this.setState({ selectedAggregation: selection });
   };
 
@@ -84,72 +84,48 @@ class BibliographyDetail extends Component {
   };
 
   // Get the data for the chips
-  getAggregationsData = () => {
-    fetch(linkUrl + 'search?query=' + this.getQuery() + '&aggs=true&size=0')
-      .then(res => res.json())
-      .then(
-        resp => {
-          this.setState({
-            bibliographyCount: resp.hits.total,
-            hasData: resp.hits.total > 0,
-            aggregations: this.filterAggregations(resp.aggregations),
-          });
-        },
-        error => {
-          this.setState({
-            aggregations: {},
-            hasError: true,
-          });
-        }
-      );
+  getAggregations = () => {
+    getAggregationsData(this.state.selected).then(
+      resp => {
+        this.setState({
+          bibliographyCount: resp.hits.total,
+          hasData: resp.hits.total > 0,
+          aggregations: this.filterAggregations(resp.aggregations),
+        });
+      },
+      error => {
+        this.setState({
+          aggregations: {},
+          hasError: true,
+        });
+      }
+    );
   };
 
   // Get the data for the publications
-  getLiteratureData = (after, afterId) => {
-    const query =
-      linkUrl +
-      'search?query=' +
-      this.getQuery() +
-      (after && afterId
-        ? '&search_after=' + after + '&search_after_id=' + afterId
-        : '');
-    fetch(query)
-      .then(res => res.json())
-      .then(
-        resp => {
-          // if loading more data (after & afterId) append that, if not just reset hits
-          const hits =
-            after && afterId
-              ? this.state.hits.concat(resp.hits.hits)
-              : resp.hits.hits;
-          this.setState({
-            hits: hits,
-          });
-        },
-        error => {
-          this.setState({
-            hits: [],
-            hasError: true,
-          });
-        }
-      );
-  };
-
-  getMoreLiteratureData = () => {
-    // TODO: these could be refactored into getLiteratureData() directly by passing a simple flag
+  getPublications = append => {
     const { hits } = this.state;
     const last = hits[hits.length - 1];
-    this.getLiteratureData(last.sort[0], last._id);
-  };
-
-  // Builds and returns the search query string for target AND all other terms
-  getQuery = () => {
-    const { selected } = this.state;
-    return selected
-      .map(function(s) {
-        return "'" + s.key + "'";
-      })
-      .join(' AND ');
+    const after = append ? last.sort[0] : undefined;
+    const afterId = append ? last._id : undefined;
+    getPublicationsData(this.state.selected, after, afterId).then(
+      resp => {
+        // if loading more data (after & afterId) append that, if not just reset hits
+        const hits =
+          after && afterId
+            ? this.state.hits.concat(resp.hits.hits)
+            : resp.hits.hits;
+        this.setState({
+          hits: hits,
+        });
+      },
+      error => {
+        this.setState({
+          hits: [],
+          hasError: true,
+        });
+      }
+    );
   };
 
   // Handler for when a chip is deselected
@@ -171,9 +147,9 @@ class BibliographyDetail extends Component {
   // By splitting the call we always have some papers to show
   getData = () => {
     // get aggregation data for chips
-    this.getAggregationsData();
+    this.getAggregations();
     // get papers
-    this.getLiteratureData();
+    this.getPublications();
   };
 
   componentDidMount() {
@@ -286,7 +262,7 @@ class BibliographyDetail extends Component {
                 size="medium"
                 color="primary"
                 onClick={() => {
-                  this.getMoreLiteratureData();
+                  this.getPublications(true);
                 }}
               >
                 Load more papers
