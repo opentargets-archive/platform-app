@@ -46,7 +46,10 @@ class GtexVariability extends Component {
   }
 
   _render() {
-    const { data } = this.props;
+    const data = this.props.data
+      .slice()
+      .sort((a, b) => b.data.median - a.data.median);
+
     const height = data.length * boxHeight;
     /* const boxPlot = d3.select(this.boxPlotRef.current);
 
