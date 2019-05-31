@@ -6,6 +6,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 
 import { Typography, Button } from 'ot-ui';
+import { PALETTE } from 'ot-ui';
 
 import Publication from './Publication';
 import { getAggregationsData, getPublicationsData } from './Api';
@@ -36,6 +37,15 @@ const styles = theme => ({
   },
   chip: {
     margin: theme.spacing.unit / 4,
+  },
+  linkChip: {
+    backgroundColor: PALETTE.purple,
+    '&:hover, &:focus': {
+      backgroundColor: PALETTE.purple,
+    },
+    '&:active': {
+      backgroundColor: PALETTE.purple,
+    },
   },
 });
 
@@ -211,7 +221,7 @@ class BibliographyDetail extends Component {
                         key={i}
                         label={agg.label || agg.key}
                         onClick={() => this.selectChip(agg)}
-                        className={classes.chip}
+                        className={classNames(classes.chip, classes.linkChip)}
                       />
                     )
                   )
@@ -263,6 +273,7 @@ class BibliographyDetail extends Component {
                 onClick={() => {
                   this.getPublications(true);
                 }}
+                className={classes.linkChip}
               >
                 Load more papers
               </Button>
