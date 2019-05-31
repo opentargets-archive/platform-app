@@ -16,7 +16,7 @@ const styles = theme => ({
 
 /**
  * This renders a full publication block in the bibliography details.
- * Props:
+ * Props and corresponding field in LINK response:
  *  - pmId: hits[].hits._source.pub_id
  *  - title: hits[].hits._source.title
  *  - authors: hits[].hits._source.authors
@@ -38,7 +38,7 @@ class Publication extends Component {
     };
   }
 
-  // build abstract
+  // Fetches abstract data as needed and return component
   buildAbstract = () => {
     if (!this.state.abstract) {
       this.getAbstract();
@@ -47,6 +47,7 @@ class Publication extends Component {
     return <Abstract abstract={this.state.abstract} />;
   };
 
+  // Fetches similar papers data as needed and return components
   buildSimilar = () => {
     if (!this.state.similar) {
       this.getSimilar();

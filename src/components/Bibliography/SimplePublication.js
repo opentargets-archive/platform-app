@@ -9,15 +9,15 @@ const pmTitleUrl = 'abstract/med/';
 /**
  * This renders a publication block in the bibliography details.
  * Props:
- *  - pmId: hits[].hits._source.pub_id
- *  - title: hits[].hits._source.title
- *  - authors: hits[].hits._source.authors
+ *  - pmId
+ *  - title
+ *  - authors
  *  - journal: {
- *      title: hits[].hits._source.journal.title,
- *      date: hits[].hits._source.pub_date,
- *      ref: hits[].hits._source.journal_reference,
+ *      title
+ *      date
+ *      ref
  *    }
- *  - variant: "regular" or "small"; "small" has smaller titles and no abstract/similar items buttons
+ *  - variant: "regular" (default) or "small" (has smaller titles)
  */
 class SimplePublication extends Component {
   constructor(props) {
