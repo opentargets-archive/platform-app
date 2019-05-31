@@ -31,7 +31,7 @@ class GtexVariability extends Component {
           transform={`translate(${margin.left}, ${margin.top})`}
         >
           <g ref={this.xAxisRef} />
-          <g ref={this.yAxisRef} />
+          <g ref={this.yAxisRef} transform={`translate(${margin.left}, 0)`} />
         </g>
       </svg>
     );
@@ -64,7 +64,7 @@ class GtexVariability extends Component {
 
     // this.x.domain().range();
     this.y
-      .domain(data.map(d => d.tissueSiteDetailId))
+      .domain(data.map(d => d.tissueSiteDetailId.replace(/_/g, ' ')))
       .range([0, height - margin.top - margin.bottom]);
 
     // const xAxis = d3.axisTop(this.x);
