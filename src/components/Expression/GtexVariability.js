@@ -98,6 +98,20 @@ class GtexVariability extends Component {
 
     boxContainer
       .append('line')
+      .attr('x1', d => x(d.data.median))
+      .attr('x2', d => x(d.data.median))
+      .attr(
+        'y1',
+        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
+      )
+      .attr(
+        'y2',
+        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
+      )
+      .attr('stroke', 'red');
+
+    boxContainer
+      .append('line')
       .attr('x1', d => x(d.data.lowerLimit))
       .attr('x2', d => x(d.data.lowerLimit))
       .attr(
