@@ -25,3 +25,66 @@ code {
 .dcChartOverflow svg {
   overflow: visible;
 }
+
+/* Rules for Bibliography abstract highlight */
+[data-entity='TARGET&DISEASE'],
+[data-entity='DISEASE'],
+[data-entity='DRUG'],
+[data-entity='GENE'] {
+  padding: 0.15em;
+  margin: 0 0.25em;
+  line-height: 1;
+  display: inline-block;
+  border-radius: 0.25em;
+  border: 1px solid;
+}
+
+[data-entity='TARGET&DISEASE']:after,
+[data-entity='DISEASE']:after,
+[data-entity='DRUG']:after,
+[data-entity='GENE']:after {
+  box-sizing: border-box;
+  font-size: 0.6em;
+  line-height: 1;
+  padding: 0.25em;
+  border-radius: 0.25em;
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0.1rem 0.5rem;
+}
+
+[data-entity][data-entity='DRUG'] {
+  background: #d8eddc;
+  border-color: #9ccca6;
+}
+
+[data-entity][data-entity='DRUG']:after {
+  background: #d8eddc;
+}
+
+[data-entity][data-entity='DISEASE'] {
+  background: #f3e1d9;
+  border-color: #e7b1a0;
+}
+
+[data-entity][data-entity='DISEASE']:after {
+  background: #f3e1d9;
+}
+
+[data-entity][data-entity='TARGET&DISEASE'] {
+  background: #d0ddeb;
+  border-color: #82b0ca;
+}
+
+[data-entity][data-entity='TARGET&DISEASE']:after {
+  background: #d0ddeb;
+}
+
+[data-entity][data-entity='GENE'] {
+  background: #e3d1e2;
+  border-color: #bc8cb5;
+}
+[data-entity][data-entity='GENE']:after {
+  background: #e3d1e2;
+}
