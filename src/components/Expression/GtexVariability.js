@@ -96,6 +96,34 @@ class GtexVariability extends Component {
       .attr('width', d => x(d.data.q3) - x(d.data.q1))
       .attr('height', rectHeight);
 
+    boxContainer
+      .append('line')
+      .attr('x1', d => x(d.data.lowerLimit))
+      .attr('x2', d => x(d.data.lowerLimit))
+      .attr(
+        'y1',
+        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
+      )
+      .attr(
+        'y2',
+        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
+      )
+      .attr('stroke', 'black');
+
+    boxContainer
+      .append('line')
+      .attr('x1', d => x(d.data.upperLimit))
+      .attr('x2', d => x(d.data.upperLimit))
+      .attr(
+        'y1',
+        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
+      )
+      .attr(
+        'y2',
+        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
+      )
+      .attr('stroke', 'black');
+
     const xAxis = d3.axisTop(x);
     const yAxis = d3.axisLeft(y);
 
