@@ -24,7 +24,7 @@ class ExpressionDetail extends Component {
         </Tabs>
         {value === 'summary' && <SummaryTab ensgId={ensgId} symbol={symbol} />}
         {value === 'atlas' && <AtlasTab ensgId={ensgId} />}
-        {value === 'gtex' && <GtexTab />}
+        {value === 'gtex' && <GtexTab symbol={symbol} />}
       </Fragment>
     );
   }
