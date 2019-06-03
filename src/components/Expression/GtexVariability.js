@@ -74,8 +74,7 @@ class GtexVariability extends Component {
     const boxContainer = boxPlot
       .selectAll('g')
       .data(data)
-      .enter()
-      .append('g');
+      .join('g');
 
     boxContainer
       .append('line')
@@ -145,8 +144,7 @@ class GtexVariability extends Component {
           outlier,
         }));
       })
-      .enter()
-      .append('circle')
+      .join('circle')
       .attr('r', outlierRadius)
       .attr('cx', d => x(d.outlier))
       .attr('cy', d => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
