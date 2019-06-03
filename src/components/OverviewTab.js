@@ -20,6 +20,7 @@ import TargetTractabilityWidget from './TargetTractability';
 import CancerHallmarksWidget from './CancerHallmarks';
 import VariationWidget from './Variation';
 import HomologyWidget from './Homology';
+import BibliographyWidget from './Bibliography';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -341,7 +342,9 @@ class OverviewTab extends Component {
                     homology={homology}
                   />
                 )}
-
+                {BibliographyWidget.widgetName.includes(lowerCaseTerm) && (
+                  <BibliographyWidget ensgId={ensgId} symbol={symbol} />
+                )}
                 {CancerHallmarksWidget.widgetName.includes(lowerCaseTerm) && (
                   <CancerHallmarksWidget
                     ensgId={ensgId}
