@@ -22,6 +22,8 @@ import {
   DC_PIE_WIDTH,
 } from './../config/dc';
 
+const chartColour = lighten(0.3, '#3489ca');
+
 const getColumns = ({
   biomarkerOptions,
   diseaseOptions,
@@ -143,13 +145,13 @@ const styles = theme => ({
     textAlign: 'center',
   },
   countLabelDrug: {
-    backgroundColor: '#38954C',
+    backgroundColor: theme.palette.primary.main,
   },
   countLabelBiomarker: {
-    backgroundColor: '#7b196a',
+    backgroundColor: theme.palette.primary.main,
   },
   countLabelDisease: {
-    backgroundColor: '#d36141',
+    backgroundColor: theme.palette.primary.main,
   },
 });
 
@@ -218,7 +220,8 @@ const getDownloadRows = rows => {
 
 const getPieColors = items => {
   return items.reduce((acc, item, i) => {
-    acc[item.label] = lighten(0.1 * i, PALETTE.lightpurple);
+    // acc[item.label] = lighten(0.1 * i, PALETTE.lightpurple);
+    acc[item.label] = chartColour;
     return acc;
   }, {});
 };

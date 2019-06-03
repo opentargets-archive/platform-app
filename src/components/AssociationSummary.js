@@ -6,17 +6,17 @@ import classNames from 'classnames';
 
 import { PALETTE } from 'ot-ui';
 
-const styles = () => ({
+const styles = theme => ({
   item: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    border: '1px solid black',
+    border: `1px solid ${theme.palette.grey[500]}`,
     minHeight: '1.8rem',
     height: '100%',
   },
   highlight: {
-    backgroundColor: PALETTE.purple,
+    backgroundColor: theme.palette.primary.main,
     color: 'white',
   },
 });

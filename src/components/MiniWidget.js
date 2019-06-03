@@ -92,6 +92,7 @@ const MiniWidget = ({ classes, name, icon, hasData, summary, onClick }) => (
         [classes.cardHasData]: hasData,
       })}
       onClick={onClick}
+      elevation={0}
     >
       <CardHeader
         className={classes.cardHeader}

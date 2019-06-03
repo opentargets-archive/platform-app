@@ -64,7 +64,7 @@ class SideMenu extends React.PureComponent {
       onScrollToTopClick,
     } = this.props;
     return (
-      <Card style={{ ...style, overflow: 'auto' }}>
+      <Card style={{ ...style, overflow: 'auto' }} elevation={0}>
         <DragDropContext onDragEnd={onSideMenuItemDrag}>
           <Droppable droppableId="droppableSections">
             {(provided, snapshot) => (

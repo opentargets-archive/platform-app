@@ -2,19 +2,21 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { PALETTE } from 'ot-ui';
+// import { PALETTE } from 'ot-ui';
 
-const styles = () => ({
+const styles = theme => ({
   table: {
     borderCollapse: 'collapse',
     marginBottom: '8px',
   },
   cell: {
-    color: PALETTE.darkgrey,
-    border: '1px solid black',
+    padding: '4px',
+    color: theme.palette.grey[700],
+    border: `1px solid ${theme.palette.grey[700]}`,
   },
   purpleCell: {
-    backgroundColor: PALETTE.purple,
+    backgroundColor: theme.palette.primary.main,
+    fontWeight: 'bold',
     color: 'white',
   },
 });

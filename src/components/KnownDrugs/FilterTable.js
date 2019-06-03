@@ -7,7 +7,7 @@ import * as d3 from 'd3';
 import { lighten } from 'polished';
 
 import DCContainer from '../DCContainer';
-import { Link, OtTableRF, DataDownloader, PALETTE } from 'ot-ui';
+import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 import classNames from 'classnames';
 import {
   upReducerKeyCount,
@@ -17,6 +17,8 @@ import { generateComparatorFromAccessor } from '../../utils/comparators';
 import * as dcconfig from '../config/dc.js';
 import _ from 'lodash';
 import { Grid } from '@material-ui/core';
+
+const chartColour = lighten(0.3, '#3489ca');
 
 // Get list of options (i.e. drop-down content) for a column filter
 // render formats the label (similar to renderCell for cells content)
@@ -183,16 +185,16 @@ const styles = theme => ({
     fontSize: '0.9em',
   },
   countLabelDrug: {
-    backgroundColor: PALETTE.green,
+    backgroundColor: theme.palette.primary.main, // PALETTE.green,
   },
   countLabelTarget: {
-    backgroundColor: PALETTE.purple,
+    backgroundColor: theme.palette.primary.main, // PALETTE.purple,
   },
   countLabelDisease: {
-    backgroundColor: PALETTE.orange,
+    backgroundColor: theme.palette.primary.main, // PALETTE.orange,
   },
   countLabelTrials: {
-    backgroundColor: PALETTE.blue,
+    backgroundColor: theme.palette.primary.main, // PALETTE.blue,
   },
 });
 
@@ -200,7 +202,8 @@ const styles = theme => ({
 // Ideally this kinda thing will be replaced by a d3 scale of some sort?
 const getPieColors = items => {
   return items.reduce((acc, item, i) => {
-    acc[item] = lighten(0.1 * i, PALETTE.lightpurple);
+    // acc[item] = lighten(0.1 * i, PALETTE.lightpurple);
+    acc[item] = chartColour;
     return acc;
   }, {});
 };
@@ -321,7 +324,7 @@ class KnownDrugsDetail extends React.Component {
       .group(this.groupTrialByPhase)
       .dimension(this.dimPhase)
       .title(d => `Phase ${d.key}: ${Object.keys(d.value).length}`)
-      .colors([PALETTE.purple])
+      .colors([chartColour])
       .elasticX(true)
       .x(d3.scaleBand())
       .xUnits(dc.units.ordinal)

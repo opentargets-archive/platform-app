@@ -14,11 +14,11 @@ const summaryStyles = theme => ({
   targetIcon: {
     width: '40px',
     height: '65px',
-    fill: '#7b196a',
+    fill: theme.palette.primary.main,
     marginRight: '12px',
   },
   symbol: {
-    color: '#7b196a',
+    color: theme.palette.primary.main,
     fontWeight: 500,
   },
   name: {
@@ -35,7 +35,7 @@ const summaryStyles = theme => ({
     borderRadius: '3px',
     fontSize: '13px',
     fontWeight: '500',
-    backgroundColor: '#7b196a',
+    backgroundColor: theme.palette.primary.main,
     color: 'white',
     padding: '0 10px',
     textDecoration: 'none',
@@ -45,7 +45,7 @@ const summaryStyles = theme => ({
     fill: 'white',
   },
   associatedDiseases: {
-    backgroundColor: '#7b196a',
+    backgroundColor: theme.palette.primary.main,
     color: 'white',
     position: 'relative',
     top: '14px',

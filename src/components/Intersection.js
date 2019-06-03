@@ -33,14 +33,14 @@ const Intersection = ({ classes, id, a, ab, b }) => {
         r={RADIUS}
         cx={RADIUS + PADDING}
         cy={RADIUS + PADDING}
-        fill={PALETTE.purple}
+        fill={PALETTE.blue}
         clipPath={`url(#${id})`}
       />
       <circle
         r={RADIUS}
         cx={RADIUS + PADDING}
         cy={RADIUS + PADDING}
-        stroke={PALETTE.darkblue}
+        stroke={PALETTE.blue}
         strokeWidth="3"
         fill="none"
       />
@@ -48,7 +48,7 @@ const Intersection = ({ classes, id, a, ab, b }) => {
         r={RADIUS}
         cx={1.8 * RADIUS + PADDING}
         cy={RADIUS + PADDING}
-        stroke={PALETTE.darkblue}
+        stroke={PALETTE.blue}
         strokeWidth="3"
         fill="none"
       />
