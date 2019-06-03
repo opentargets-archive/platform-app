@@ -27,9 +27,9 @@ const defaultOrder = [
   {
     id: 'proteinInteractions',
   },
-  // {
-  //   id: 'rnaAndProteinExpression',
-  // },
+  {
+    id: 'expression',
+  },
   {
     id: 'mousePhenotypes',
   },

@@ -11,6 +11,8 @@ import RelatedTargetsQuery from './RelatedTargets/query';
 import PathwaysSection from './Pathways/Section';
 import PathwaysQuery from './Pathways/query';
 
+import ExpressionSection from './Expression/Section';
+
 import ProteinInteractionsSection from './ProteinInteractions/Section';
 import ProteinInteractionsQuery from './ProteinInteractions/query';
 
@@ -214,6 +216,24 @@ const sections = [
       </React.Fragment>
     ),
     renderDetail: () => null,
+  },
+  {
+    id: 'expression',
+    name: 'RNA and Protein Baseline Expression',
+    getHasData: ({ rnaBaselineExpression, proteinBaselineExpression }) =>
+      rnaBaselineExpression || proteinBaselineExpression,
+    getSummary: ({ rnaBaselineExpression, proteinBaselineExpression }) => {
+      const expressionTypes = ['RNA', 'Protein'].filter(
+        (d, i) => [rnaBaselineExpression, proteinBaselineExpression][i]
+      );
+      return expressionTypes.length > 0 ? expressionTypes.join(' • ') : null;
+    },
+    SectionComponent: ExpressionSection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        RNA and protein baseline expression for <strong>{symbol}</strong>.
+      </React.Fragment>
+    ),
   },
   {
     id: 'chemicalProbes',
