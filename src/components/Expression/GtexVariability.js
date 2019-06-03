@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 
-const width = 800;
+const width = 900;
 const boxHeight = 20;
 const boxPadding = boxHeight / 4;
 const margin = { top: 40, right: 20, bottom: 20, left: 220 };
