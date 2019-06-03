@@ -5,6 +5,7 @@ const width = 800;
 const boxHeight = 20;
 const boxPadding = boxHeight / 4;
 const margin = { top: 40, right: 20, bottom: 20, left: 220 };
+const outlierRadius = 2;
 
 class GtexVariability extends Component {
   boxPlotRef = React.createRef();
@@ -55,8 +56,6 @@ class GtexVariability extends Component {
     const data = this.props.data
       .slice()
       .sort((a, b) => b.data.median - a.data.median);
-
-    console.log('data', data);
 
     const height = data.length * boxHeight + margin.top + margin.bottom;
     const rectHeight = boxHeight - 2 * boxPadding;
@@ -136,6 +135,22 @@ class GtexVariability extends Component {
         'y2',
         d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
       )
+      .attr('stroke', 'black');
+
+    boxContainer
+      .selectAll('circle')
+      .data(d => {
+        return d.data.outliers.map(outlier => ({
+          tissueSiteDetailId: d.tissueSiteDetailId,
+          outlier,
+        }));
+      })
+      .enter()
+      .append('circle')
+      .attr('r', outlierRadius)
+      .attr('cx', d => x(d.outlier))
+      .attr('cy', d => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
+      .attr('fill', 'none')
       .attr('stroke', 'black');
 
     const xAxis = d3.axisTop(x);
