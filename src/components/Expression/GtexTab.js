@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 
-import { Link } from 'ot-ui';
+import { Link, DownloadSVGPlot } from 'ot-ui';
 
 import GtexVariability from './GtexVariability';
 
 class GtexTab extends Component {
+  gtexVariability = React.createRef();
+
   state = {
     loading: true,
   };
@@ -29,6 +31,7 @@ class GtexTab extends Component {
   }
 
   render() {
+    const { symbol } = this.props;
     const { loading, data } = this.state;
 
     return (
@@ -42,7 +45,14 @@ class GtexTab extends Component {
             GTEx
           </Link>
         </Typography>
-        {!loading && <GtexVariability data={data} />}
+        {!loading && (
+          <DownloadSVGPlot
+            svgContainer={this.gtexVariability}
+            filenameStem={`${symbol}-gtex`}
+          >
+            <GtexVariability data={data} ref={this.gtexVariability} />
+          </DownloadSVGPlot>
+        )}
       </Fragment>
     );
   }
