@@ -12,6 +12,9 @@ const styles = () => ({
   helpIcon: {
     fontSize: '0.6rem',
   },
+  tepTooltip: {
+    backgroundColor: 'black',
+  },
 });
 
 const Tep = ({ classes, ensgId, symbol }) => {
@@ -20,8 +23,20 @@ const Tep = ({ classes, ensgId, symbol }) => {
       {' '}
       | Target Enabling Package
       <Tooltip
-        title="TEPs provide a critical mass of reagents and knowledge on a protein target to allow rapid biochemical and chemical exploration and characterisation of proteins with genetic linkage to key disease areas"
+        classes={{ tooltip: classes.tepTooltip }}
+        title={
+          <Fragment>
+            <Link external to="https://www.thesgc.org">
+              TEPs
+            </Link>{' '}
+            provide a critical mass of reagents and knowledge on a protein
+            target to allow rapid biochemical and chemical exploration and
+            characterisation of proteins with genetic linkage to key disease
+            areas.
+          </Fragment>
+        }
         placement="top"
+        interactive
       >
         <HelpIcon className={classes.helpIcon} />
       </Tooltip>
