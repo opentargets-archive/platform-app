@@ -6,6 +6,7 @@ import { Link } from 'ot-ui';
 
 import LongText from './LongText';
 import Tep from './Tep';
+import Crispr from './Crispr';
 import TargetIcon from '../icons/TargetIcon';
 
 const summaryStyles = theme => ({
@@ -109,7 +110,7 @@ const TargetSummary = ({
                   to={`https://www.uniprot.org/uniprot/${uniprotId}`}
                 >
                   {uniprotId}
-                </Link>
+                </Link>{' '}
                 | GeneCards:{' '}
                 <Link
                   external
@@ -117,6 +118,7 @@ const TargetSummary = ({
                 >
                   {symbol}
                 </Link>
+                <Crispr symbol={symbol} />
                 <Tep ensgId={ensgId} symbol={symbol} />
               </Typography>
             </Grid>
