@@ -110,6 +110,13 @@ const TargetSummary = ({
                 >
                   {uniprotId}
                 </Link>
+                | GeneCards:{' '}
+                <Link
+                  external
+                  to={`https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`}
+                >
+                  {symbol}
+                </Link>
                 <Tep ensgId={ensgId} symbol={symbol} />
               </Typography>
             </Grid>
