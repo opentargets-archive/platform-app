@@ -10,7 +10,9 @@ import { teps } from '../constants';
 
 const styles = () => ({
   helpIcon: {
-    fontSize: '0.6rem',
+    fontSize: '10px',
+    marginLeft: '2px',
+    marginBottom: '3px',
   },
   tepTooltip: {
     backgroundColor: 'black',
