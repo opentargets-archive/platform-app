@@ -11,8 +11,6 @@ import { teps } from '../constants';
 const styles = () => ({
   helpIcon: {
     fontSize: '10px',
-    marginLeft: '2px',
-    marginBottom: '3px',
   },
   tepTooltip: {
     backgroundColor: 'black',
@@ -40,7 +38,9 @@ const Tep = ({ classes, ensgId, symbol }) => {
         placement="top"
         interactive
       >
-        <HelpIcon className={classes.helpIcon} />
+        <sup>
+          <HelpIcon className={classes.helpIcon} />
+        </sup>
       </Tooltip>
       :{' '}
       <Link external to={`https://www.thesgc.org/tep/${symbol}`}>
