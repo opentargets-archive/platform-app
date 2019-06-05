@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'ot-ui';
 
 import LongText from './LongText';
+import Tep from './Tep';
 import TargetIcon from '../icons/TargetIcon';
 
 const summaryStyles = theme => ({
@@ -109,6 +110,7 @@ const TargetSummary = ({
                 >
                   {uniprotId}
                 </Link>
+                <Tep ensgId={ensgId} symbol={symbol} />
               </Typography>
             </Grid>
           </Grid>
