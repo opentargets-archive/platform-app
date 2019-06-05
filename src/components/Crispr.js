@@ -8,6 +8,9 @@ const styles = () => ({
   helpIcon: {
     fontSize: '10px',
   },
+  tooltip: {
+    backgroundColor: 'black',
+  },
 });
 
 class Crispr extends Component {
@@ -34,6 +37,7 @@ class Crispr extends Component {
         {' '}
         | CRISPR depmap
         <Tooltip
+          classes={{ tooltip: classes.tooltip }}
           title="CRISPR-Cas9 cancer cell line dependency data from Project Score"
           placement="top"
           interactive
