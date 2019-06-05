@@ -36,7 +36,7 @@
     "litemol": "https://github.com/dsehnal/LiteMol",
     "lodash": "^4.17.11",
     "node-sass": "^4.12.0",
-    "ot-ui": "^0.0.85",
+    "ot-ui": "^0.0.86",
     "polished": "^2.3.0",
     "react": "^16.8.6",
     "react-apollo": "^2.2.4",

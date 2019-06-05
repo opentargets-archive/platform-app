@@ -8712,9 +8712,10 @@ osenv@0, osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-ot-ui@^0.0.85:
-  version "0.0.85"
-  resolved "https://registry.yarnpkg.com/ot-ui/-/ot-ui-0.0.85.tgz#9c9efc769d2bde11fd68843a66159c83be0a6a1f"
+ot-ui@^0.0.86:
+  version "0.0.86"
+  resolved "https://registry.yarnpkg.com/ot-ui/-/ot-ui-0.0.86.tgz#6d78606c93fb25891adc2e6bff89be85dab9c807"
+  integrity sha512-y59EdvsS8YmrksVaWV/sh0zhRh17sNkpCpA48yKLsxY8MQvQ4F1MJVbmKSv2I5a2aeqGP2+n6kQKH8iz8wGjyg==
 
 p-defer@^1.0.0:
   version "1.0.0"
