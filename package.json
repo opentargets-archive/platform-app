@@ -46,6 +46,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
     "react-select": "^2.1.1",
+    "source-map-explorer": "^2.0.0",
     "tnt.api": "^0.1.1",
     "tnt.genome": "^0.1.10",
     "tnt.rest": "^0.1.1",
@@ -61,7 +62,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write",
-    "prettier:all": "prettier --write 'src/**/*.js'"
+    "prettier:all": "prettier --write 'src/**/*.js'",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": "react-app"
