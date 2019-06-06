@@ -1,24 +1,25 @@
 import React from 'react';
-import LiteMol from 'litemol';
 import 'litemol/dist/css/LiteMol-plugin.css';
 
 class LiteMolRenderer extends React.Component {
   componentDidMount() {
-    const { pdbId } = this.props;
-    const plugin = LiteMol.Plugin.create({
-      target: '#litemol',
-      viewportBackground: '#fff',
-      layoutState: {
-        hideControls: true,
-        isExpanded: false,
-      },
+    import('litemol').then(({ default: LiteMol }) => {
+      const { pdbId } = this.props;
+      const plugin = LiteMol.Plugin.create({
+        target: '#litemol',
+        viewportBackground: '#fff',
+        layoutState: {
+          hideControls: true,
+          isExpanded: false,
+        },
+      });
+      plugin.loadMolecule({
+        id: pdbId,
+        url: `https://www.ebi.ac.uk/pdbe/entry-files/download/pdb${pdbId}.ent`,
+        format: 'pdb',
+      });
+      this.plugin = plugin;
     });
-    plugin.loadMolecule({
-      id: pdbId,
-      url: `https://www.ebi.ac.uk/pdbe/entry-files/download/pdb${pdbId}.ent`,
-      format: 'pdb',
-    });
-    this.plugin = plugin;
   }
   componentDidUpdate(prevProps) {
     const { pdbId } = this.props;
