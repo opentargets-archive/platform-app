@@ -117,6 +117,13 @@ const TargetSummary = ({
                   to={`https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`}
                 >
                   {symbol}
+                </Link>{' '}
+                | HGNC:{' '}
+                <Link
+                  external
+                  to={`https://www.genenames.org/tools/search/#!/all?query=${symbol}`}
+                >
+                  {symbol}
                 </Link>
                 <Crispr symbol={symbol} />
                 <Tep ensgId={ensgId} symbol={symbol} />
