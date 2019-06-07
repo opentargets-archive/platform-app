@@ -61,8 +61,8 @@ const TargetTractabilityWidget = ({
       hasData={hasData}
       sources={sources}
     >
-      <Grid container>
-        <Grid item container md={6} justify="center">
+      <Grid container alignItems="flex-start" justify="space-around">
+        <Grid item container md={5} justify="center">
           <SmallMoleculeIcon
             className={classNames(classes.icon, {
               [classes.iconNoData]: !hasSmallMoleculeTractabilityAssessment,
@@ -78,13 +78,12 @@ const TargetTractabilityWidget = ({
             Small molecule tractability assessment available
           </Typography>
         </Grid>
-        <Grid item container md={6} justify="center">
+        <Grid item container md={5} justify="center">
           <AntibodyIcon
             className={classNames(classes.icon, {
               [classes.iconNoData]: !hasAntibodyTractabilityAssessment,
             })}
           />
-
           <Typography
             variant="body1"
             align="center"
