@@ -63,7 +63,7 @@ const ProteinInteractionsWidget = ({
           align="center"
           color={pathways > 0 ? 'default' : 'secondary'}
         >
-          <strong>{pathways}</strong> pathway interactins
+          <strong>{pathways}</strong> pathway interactions
         </Typography>
         <Typography
           variant="body1"
