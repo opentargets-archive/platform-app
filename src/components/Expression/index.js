@@ -28,7 +28,7 @@ const ExpressionWidget = ({ classes, ensgId, symbol, expression }) => {
     { value: rnaBaselineExpression, label: 'RNA baseline expression' },
     { value: proteinBaselineExpression, label: 'Protein baseline expression' },
     { value: expressionAtlasExperiment, label: 'Expression Atlas experiment' },
-    { value: gtexData, label: 'GTEx data' },
+    { value: gtexData, label: 'GTEx' },
   ];
 
   const hasData = rnaBaselineExpression || proteinBaselineExpression;
