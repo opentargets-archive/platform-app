@@ -3,7 +3,14 @@ import Select from 'react-select';
 import crossfilter from 'crossfilter2';
 import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { DataDownloader, OtTableRF, Link } from 'ot-ui';
+
+const styles = () => ({
+  allelicColumn: {
+    float: 'left',
+  },
+});
 
 const getColumns = (
   mouseGeneOptions,
@@ -11,7 +18,8 @@ const getColumns = (
   categoryOptions,
   categoryFilterHandler,
   phenotypeOptions,
-  phenotypeFilterHandler
+  phenotypeFilterHandler,
+  classes
 ) => {
   return [
     {
@@ -63,14 +71,14 @@ const getColumns = (
       label: 'Allelic composition',
       renderCell: row => {
         return (
-          <Fragment>
+          <div className={classes.allelicColumn}>
             <Typography align="center">
               {row.subjectAllelicComposition
                 .replace(/</g, '')
                 .replace(/>/g, '')}
             </Typography>
             <Typography align="center">{row.subjectBackground}</Typography>
-          </Fragment>
+          </div>
         );
       },
     },
@@ -181,7 +189,7 @@ class PhenotypesTable extends Component {
   }
 
   render() {
-    const { symbol, rows } = this.props;
+    const { symbol, rows, classes } = this.props;
     const { filteredRows } = this.state;
     const mouseGeneOptions = getMouseGeneOptions(rows);
     const categoryOptions = getCategoryOptions(rows);
@@ -195,7 +203,8 @@ class PhenotypesTable extends Component {
       categoryOptions,
       this.categoryFilterHandler,
       phenotypeOptions,
-      this.phenotypeFilterHandler
+      this.phenotypeFilterHandler,
+      classes
     );
 
     return (
@@ -211,4 +220,4 @@ class PhenotypesTable extends Component {
   }
 }
 
-export default PhenotypesTable;
+export default withStyles(styles)(PhenotypesTable);
