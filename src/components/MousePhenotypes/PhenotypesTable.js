@@ -70,12 +70,15 @@ const getColumns = (
       id: 'subjectAllelicComposition',
       label: 'Allelic composition',
       renderCell: row => {
+        const match = /(.*)<(.*)>\/(.*)<(.*)>/.exec(
+          row.subjectAllelicComposition
+        );
         return (
           <div className={classes.allelicColumn}>
             <Typography align="center">
-              {row.subjectAllelicComposition
-                .replace(/</g, '')
-                .replace(/>/g, '')}
+              {match[1]}
+              <sup>{match[2]}</sup>/{match[3]}
+              <sup>{match[4]}</sup>
             </Typography>
             <Typography align="center">{row.subjectBackground}</Typography>
           </div>
