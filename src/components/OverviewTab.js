@@ -21,6 +21,7 @@ import CancerHallmarksWidget from './CancerHallmarks';
 import VariationWidget from './Variation';
 import HomologyWidget from './Homology';
 import BibliographyWidget from './Bibliography';
+import Safety from './Safety';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -351,6 +352,9 @@ class OverviewTab extends Component {
                     symbol={symbol}
                     cancerHallmarks={cancerHallmarks}
                   />
+                )}
+                {Safety.widgetName.includes(lowerCaseTerm) && (
+                  <Safety ensgId={ensgId} symbol={symbol} />
                 )}
               </Grid>
             </Fragment>
