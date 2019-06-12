@@ -60,7 +60,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "REACT_APP_REVISION=\"$(git rev-parse --short HEAD)\" react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"$(git rev-parse --short HEAD)\" react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write",
