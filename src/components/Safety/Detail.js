@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { capitalize } from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 
@@ -36,18 +37,23 @@ const effectsColumns = [
   {
     id: 'inhibition_effects',
     label: 'Antagonism or inhibition effects',
-    renderCell: ({ inhibition_effects }) => {
-      return (
-        <ul>
-          {inhibition_effects.general.map((effect, i) => (
-            <li key={i}>
-              {effect.mapped_term.length > 0
-                ? effect.mapped_term
-                : effect.term_in_paper}
-            </li>
-          ))}
-        </ul>
-      );
+    renderCell: ({ inhibition_effects: inhibitionEffects }) => {
+      return Object.keys(inhibitionEffects).map(key => {
+        return (
+          <Fragment key={key}>
+            <Typography variant="subtitle2">{capitalize(key)}</Typography>
+            <ul>
+              {inhibitionEffects[key].map((effect, i) => (
+                <li key={i}>
+                  {effect.mapped_term.length > 0
+                    ? effect.mapped_term
+                    : effect.term_in_paper}
+                </li>
+              ))}
+            </ul>
+          </Fragment>
+        );
+      });
     },
   },
   {
@@ -104,9 +110,11 @@ const riskColumns = [
 const SafetyDetail = ({ safety }) => {
   return (
     <Fragment>
-      <Typography>Known safety effects</Typography>
+      <Typography variant="h6">Known safety effects</Typography>
+      <DataDownloader columns={effectsColumns} data={safety.adverse_effects} />
       <OtTableRF columns={effectsColumns} data={safety.adverse_effects} />
-      <Typography>Safety risk information</Typography>
+      <Typography variant="h6">Safety risk information</Typography>
+      <DataDownloader columns={riskColumns} data={safety.safety_risk_info} />
       <OtTableRF columns={riskColumns} data={safety.safety_risk_info} />
     </Fragment>
   );
