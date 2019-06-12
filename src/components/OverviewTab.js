@@ -14,18 +14,20 @@ import ProteinInformationWidget from './ProteinInformation';
 import CancerBiomarkersWidget from './CancerBiomarkers';
 import GeneOntologyWidget from './GeneOntology';
 import ProteinInteractionsWidget from './ProteinInteractions';
-import RNAAndProteinExpressionWidget from './RNAAndProteinExpression';
+import ExpressionWidget from './Expression';
 import MousePhenotypesWidget from './MousePhenotypes';
 import TargetTractabilityWidget from './TargetTractability';
 import CancerHallmarksWidget from './CancerHallmarks';
 import VariationWidget from './Variation';
 import HomologyWidget from './Homology';
 import BibliographyWidget from './Bibliography';
+import Safety from './Safety';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
       id
+      uniprotId
       summaries {
         drugs {
           drugCount
@@ -105,8 +107,12 @@ const overviewQuery = gql`
           ppi
           pathways
           enzymeSubstrate
+          sources {
+            name
+            url
+          }
         }
-        rnaAndProteinExpression {
+        expression {
           rnaBaselineExpression
           proteinBaselineExpression
           expressionAtlasExperiment
@@ -207,6 +213,7 @@ class OverviewTab extends Component {
             return null;
           }
 
+          const { uniprotId, summaries } = data.target;
           const {
             drugs,
             chemicalProbes,
@@ -216,13 +223,13 @@ class OverviewTab extends Component {
             cancerBiomarkers,
             geneOntology,
             proteinInteractions,
-            rnaAndProteinExpression,
+            expression,
             mousePhenotypes,
             tractability,
             cancerHallmarks,
             variation,
             homology,
-          } = data.target.summaries;
+          } = summaries;
 
           return (
             <Fragment>
@@ -292,15 +299,17 @@ class OverviewTab extends Component {
                   lowerCaseTerm
                 ) && (
                   <ProteinInteractionsWidget
+                    ensgId={ensgId}
                     symbol={symbol}
+                    uniprotId={uniprotId}
                     proteinInteractions={proteinInteractions}
                   />
                 )}
-                {RNAAndProteinExpressionWidget.widgetName.includes(
-                  lowerCaseTerm
-                ) && (
-                  <RNAAndProteinExpressionWidget
-                    rnaAndProteinExpression={rnaAndProteinExpression}
+                {ExpressionWidget.widgetName.includes(lowerCaseTerm) && (
+                  <ExpressionWidget
+                    ensgId={ensgId}
+                    symbol={symbol}
+                    expression={expression}
                   />
                 )}
                 {MousePhenotypesWidget.widgetName.includes(lowerCaseTerm) && (
@@ -343,6 +352,9 @@ class OverviewTab extends Component {
                     symbol={symbol}
                     cancerHallmarks={cancerHallmarks}
                   />
+                )}
+                {Safety.widgetName.includes(lowerCaseTerm) && (
+                  <Safety ensgId={ensgId} symbol={symbol} />
                 )}
               </Grid>
             </Fragment>

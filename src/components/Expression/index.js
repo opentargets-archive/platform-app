@@ -1,12 +1,9 @@
 import React from 'react';
-import classNames from 'classnames';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import Widget from '../Widget';
 import CheckboxList from '../CheckboxList';
-import RNAAndProteinExpressionDetail from './Detail';
+import ExpressionDetail from './Detail';
 
 const styles = theme => ({
   icon: {
@@ -19,31 +16,32 @@ const styles = theme => ({
   },
 });
 
-const RNAAndProteinExpressionWidget = ({
-  classes,
-  rnaAndProteinExpression,
-}) => {
+const ExpressionWidget = ({ classes, ensgId, symbol, expression }) => {
   const {
     rnaBaselineExpression,
     proteinBaselineExpression,
     expressionAtlasExperiment,
     gtexData,
-  } = rnaAndProteinExpression;
+  } = expression;
 
   const items = [
     { value: rnaBaselineExpression, label: 'RNA baseline expression' },
     { value: proteinBaselineExpression, label: 'Protein baseline expression' },
     { value: expressionAtlasExperiment, label: 'Expression Atlas experiment' },
-    { value: gtexData, label: 'GTEx data' },
+    { value: gtexData, label: 'GTEx' },
   ];
 
-  const hasData = rnaBaselineExpression || proteinBaselineExpression;
+  const hasData =
+    rnaBaselineExpression ||
+    proteinBaselineExpression ||
+    expressionAtlasExperiment ||
+    gtexData;
 
   return (
     <Widget
       title="RNA and protein baseline expression"
       detailUrlStem="rna-and-protein-expression"
-      detail={<RNAAndProteinExpressionDetail />}
+      detail={<ExpressionDetail ensgId={ensgId} symbol={symbol} />}
       detailHeader={{
         title: `RNA and protein baseline expression`,
         description: `RNA and protein baseline expression`,
@@ -55,7 +53,6 @@ const RNAAndProteinExpressionWidget = ({
   );
 };
 
-RNAAndProteinExpressionWidget.widgetName =
-  'rna and protein baseline expression';
+ExpressionWidget.widgetName = 'rna and protein baseline expression';
 
-export default withStyles(styles)(RNAAndProteinExpressionWidget);
+export default withStyles(styles)(ExpressionWidget);
