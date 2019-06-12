@@ -75,12 +75,12 @@ const getColumns = (
         );
         return (
           <div className={classes.allelicColumn}>
-            <Typography align="center">
+            <Typography>
               {match[1]}
               <sup>{match[2]}</sup>/{match[3]}
               <sup>{match[4]}</sup>
             </Typography>
-            <Typography align="center">{row.subjectBackground}</Typography>
+            <Typography variant="caption">{row.subjectBackground}</Typography>
           </div>
         );
       },
