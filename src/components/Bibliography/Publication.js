@@ -10,7 +10,9 @@ import { getPublicationAbstract, getSimilarPublications } from './Api';
 
 const styles = theme => ({
   detailPanel: {
-    paddingLeft: '15px',
+    background: '#F6F5F5',
+    marginTop: '10px',
+    padding: '20px',
   },
 });
 
@@ -44,7 +46,11 @@ class Publication extends Component {
       this.getAbstract();
       return null;
     }
-    return <Abstract abstract={this.state.abstract} />;
+    return (
+      <div className={this.props.classes.detailPanel}>
+        <Abstract abstract={this.state.abstract} />
+      </div>
+    );
   };
 
   // Fetches similar papers data as needed and return components
@@ -54,7 +60,7 @@ class Publication extends Component {
       return null;
     }
     return (
-      <Fragment>
+      <div className={this.props.classes.detailPanel}>
         <Typography variant="subtitle2" gutterBottom>
           Similar articles
         </Typography>
@@ -81,7 +87,7 @@ class Publication extends Component {
             </Grid>
           ))}
         </Grid>
-      </Fragment>
+      </div>
     );
   };
 
@@ -157,14 +163,10 @@ class Publication extends Component {
           </div>
 
           {/* Abstract details */}
-          <div className={classes.detailPanel}>
-            {showAbstract ? this.buildAbstract() : null}
-          </div>
+          {showAbstract ? this.buildAbstract() : null}
 
           {/* Similar papers details */}
-          <div className={classes.detailPanel}>
-            {showSimilar ? this.buildSimilar() : null}
-          </div>
+          {showSimilar ? this.buildSimilar() : null}
         </div>
       </Fragment>
     );

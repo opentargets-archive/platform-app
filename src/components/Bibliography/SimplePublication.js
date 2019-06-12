@@ -39,30 +39,16 @@ class SimplePublication extends Component {
         {/* paper data */}
         <Typography variant={variant === 'small' ? 'caption' : 'body2'}>
           {/* authors */}
-          {authors.map((author, i) => {
-            const to = `${pmUrl}search?query=AUTH:"${author.ForeName} ${
-              author.LastName
-            }"&page=1`;
-            return (
-              <Fragment key={i}>
-                <Link external to={to}>
-                  {author.ForeName} {author.LastName}
-                </Link>{' '}
-              </Fragment>
-            );
-          })}
+          {authors
+            .map((author, i) => {
+              return author.ForeName + ' ' + author.LastName;
+            })
+            .join(', ')}
         </Typography>
 
         <Typography variant={variant === 'small' ? 'caption' : 'body2'}>
           {/* journal, year, reference */}
-          <Link
-            external
-            to={`https://europepmc.org/search?query=JOURNAL:%22${
-              journal.title
-            }%22`}
-          >
-            {journal.title}
-          </Link>{' '}
+          {journal.title}{' '}
           <span>
             <b>{journal.date.substring(0, 4)}</b>
           </span>{' '}
