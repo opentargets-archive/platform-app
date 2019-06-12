@@ -8682,9 +8682,9 @@ osenv@0, osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-ot-ui@opentargets/ot-ui#gp-blue:
+"ot-ui@https://github.com/opentargets/ot-ui#gp-blue":
   version "0.0.85"
-  resolved "https://codeload.github.com/opentargets/ot-ui/tar.gz/fcb202e4c97ef86d93fbdd8621fe26780b17d3d0"
+  resolved "https://github.com/opentargets/ot-ui#fcb202e4c97ef86d93fbdd8621fe26780b17d3d0"
 
 p-defer@^1.0.0:
   version "1.0.0"
