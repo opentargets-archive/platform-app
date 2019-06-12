@@ -8684,7 +8684,7 @@ osenv@0, osenv@^0.1.4:
 
 "ot-ui@https://github.com/opentargets/ot-ui#gp-blue":
   version "0.0.85"
-  resolved "https://github.com/opentargets/ot-ui#fcb202e4c97ef86d93fbdd8621fe26780b17d3d0"
+  resolved "https://github.com/opentargets/ot-ui#6f8a09825f9bc00fdd74d14548e0792aeac52301"
 
 p-defer@^1.0.0:
   version "1.0.0"
