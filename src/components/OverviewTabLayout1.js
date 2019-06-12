@@ -436,23 +436,23 @@ const sections = [
       </React.Fragment>
     ),
   },
-  {
-    id: 'bibliography',
-    name: 'Bibliography',
-    getHasData: () => false,
-    // getSummary: ({ bibliographyCount }) =>
-    //   `${bibliographyCount ? bibliographyCount : 0} paper${
-    //     bibliographyCount !== 1 ? 's' : null
-    //   }`,
-    getSummary: () => '0 papers',
-    SectionComponent: BibliographySection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Scientific literature on {symbol}. The list of publications is generated
-        by text mining PubMed abstracts with Natural Language Processing (NLP).
-      </React.Fragment>
-    ),
-  },
+  // {
+  //   id: 'bibliography',
+  //   name: 'Bibliography',
+  //   getHasData: () => false,
+  //   // getSummary: ({ bibliographyCount }) =>
+  //   //   `${bibliographyCount ? bibliographyCount : 0} paper${
+  //   //     bibliographyCount !== 1 ? 's' : null
+  //   //   }`,
+  //   getSummary: () => '0 papers',
+  //   SectionComponent: BibliographySection,
+  //   renderDescription: ({ symbol }) => (
+  //     <React.Fragment>
+  //       Scientific literature on {symbol}. The list of publications is generated
+  //       by text mining PubMed abstracts with Natural Language Processing (NLP).
+  //     </React.Fragment>
+  //   ),
+  // },
   {
     id: 'cancerHallmarks',
     name: 'Cancer Hallmarks',

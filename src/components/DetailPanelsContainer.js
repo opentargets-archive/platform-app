@@ -39,7 +39,7 @@ const defaultOrder = [
   {
     id: 'homology',
   },
-  { id: 'bibliography' },
+  // { id: 'bibliography' },
   {
     id: 'cancerHallmarks',
   },
