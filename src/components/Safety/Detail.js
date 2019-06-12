@@ -1,8 +1,115 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import Typography from '@material-ui/core/Typography';
+import { Link, OtTableRF, DataDownloader } from 'ot-ui';
+
+const effectsColumns = [
+  {
+    id: 'organs_systems_affected',
+    label: 'Main organs & systems affected',
+    renderCell: ({ organs_systems_affected: organs }) => {
+      return (
+        <ul>
+          {organs.map(organ => (
+            <li key={organ.code}>{organ.mapped_term}</li>
+          ))}
+        </ul>
+      );
+    },
+  },
+  {
+    id: 'activation_effects',
+    label: 'Agonism or activation effects',
+    renderCell: ({ activation_effects: activationEffects }) => {
+      return (
+        <ul>
+          {activationEffects.general.map((effect, i) => (
+            <li key={i}>
+              {effect.mapped_term.length > 0
+                ? effect.mapped_term
+                : effect.term_in_paper}
+            </li>
+          ))}
+        </ul>
+      );
+    },
+  },
+  {
+    id: 'inhibition_effects',
+    label: 'Antagonism or inhibition effects',
+    renderCell: ({ inhibition_effects }) => {
+      return (
+        <ul>
+          {inhibition_effects.general.map((effect, i) => (
+            <li key={i}>
+              {effect.mapped_term.length > 0
+                ? effect.mapped_term
+                : effect.term_in_paper}
+            </li>
+          ))}
+        </ul>
+      );
+    },
+  },
+  {
+    id: 'references',
+    label: 'References',
+    renderCell: ({ references }) => {
+      return references.map((reference, i) => (
+        <Fragment key={i}>
+          <Link external to={reference.ref_link}>
+            {reference.ref_label}
+          </Link>{' '}
+        </Fragment>
+      ));
+    },
+  },
+];
+
+const riskColumns = [
+  {
+    id: 'organs_systems_affected',
+    label: 'Main organs & systems affected',
+    renderCell: ({ organs_systems_affected: organs }) => {
+      return (
+        <ul>
+          {organs.map((organ, i) => (
+            <li key={i}>{organ.mapped_term}</li>
+          ))}
+        </ul>
+      );
+    },
+  },
+  {
+    id: 'safety_liability',
+    label: 'Safety liability information',
+    renderCell: ({ safety_liability }) => {
+      return safety_liability;
+    },
+  },
+  {
+    id: 'references',
+    label: 'References',
+    renderCell: ({ references }) => {
+      return references.map((reference, i) => (
+        <Fragment key={i}>
+          <Link external to={reference.ref_link}>
+            {reference.ref_label}
+          </Link>{' '}
+        </Fragment>
+      ));
+    },
+  },
+];
 
 const SafetyDetail = ({ safety }) => {
-  console.log('data detail', safety);
-  return <div>Safety detail</div>;
+  return (
+    <Fragment>
+      <Typography>Known safety effects</Typography>
+      <OtTableRF columns={effectsColumns} data={safety.adverse_effects} />
+      <Typography>Safety risk information</Typography>
+      <OtTableRF columns={riskColumns} data={safety.safety_risk_info} />
+    </Fragment>
+  );
 };
 
 export default SafetyDetail;
