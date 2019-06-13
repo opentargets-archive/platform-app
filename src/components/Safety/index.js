@@ -25,7 +25,7 @@ class Safety extends Component {
       <Widget
         title="Target safety"
         detailUrlStem="safety"
-        detail={<Detail safety={safety} />}
+        detail={<Detail symbol={symbol} safety={safety} />}
         detailHeader={{
           title: `${symbol} - Safety`,
           description: `Known safety effects and safety risk information for ${symbol}`,

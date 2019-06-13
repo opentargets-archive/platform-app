@@ -21,17 +21,22 @@ const effectsColumns = [
     id: 'activation_effects',
     label: 'Agonism or activation effects',
     renderCell: ({ activation_effects: activationEffects }) => {
-      return (
-        <ul>
-          {activationEffects.general.map((effect, i) => (
-            <li key={i}>
-              {effect.mapped_term.length > 0
-                ? effect.mapped_term
-                : effect.term_in_paper}
-            </li>
-          ))}
-        </ul>
-      );
+      return Object.keys(activationEffects).map(key => {
+        return (
+          <Fragment key={key}>
+            <Typography variant="subtitle2">{capitalize(key)}</Typography>
+            <ul>
+              {activationEffects[key].map((effect, i) => (
+                <li key={i}>
+                  {effect.mapped_term.length > 0
+                    ? effect.mapped_term
+                    : effect.term_in_paper}
+                </li>
+              ))}
+            </ul>
+          </Fragment>
+        );
+      });
     },
   },
   {
@@ -108,14 +113,19 @@ const riskColumns = [
 ];
 
 const SafetyDetail = ({ safety }) => {
+  const {
+    adverse_effects: adverseEffects = [],
+    safety_risk_info: safetyRiskInfo = [],
+  } = safety;
+
   return (
     <Fragment>
       <Typography variant="h6">Known safety effects</Typography>
-      <DataDownloader columns={effectsColumns} data={safety.adverse_effects} />
-      <OtTableRF columns={effectsColumns} data={safety.adverse_effects} />
+      <DataDownloader columns={effectsColumns} data={adverseEffects} />
+      <OtTableRF columns={effectsColumns} data={adverseEffects} />
       <Typography variant="h6">Safety risk information</Typography>
-      <DataDownloader columns={riskColumns} data={safety.safety_risk_info} />
-      <OtTableRF columns={riskColumns} data={safety.safety_risk_info} />
+      <DataDownloader columns={riskColumns} data={safetyRiskInfo} />
+      <OtTableRF columns={riskColumns} data={safetyRiskInfo} />
     </Fragment>
   );
 };
