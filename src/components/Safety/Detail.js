@@ -55,7 +55,7 @@ const effectsColumns = [
   },
   {
     id: 'references',
-    label: 'References',
+    label: 'Publications',
     renderCell: ({ references }) => {
       return references.map((reference, i) => (
         <Fragment key={i}>
@@ -91,7 +91,7 @@ const riskColumns = [
   },
   {
     id: 'references',
-    label: 'References',
+    label: 'Publications',
     renderCell: ({ references }) => {
       return references.map((reference, i) => (
         <Fragment key={i}>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Typography from '@material-ui/core/Typography';
 import Widget from '../Widget';
 import Detail from './Detail';
 
@@ -20,6 +21,7 @@ class Safety extends Component {
   render() {
     const { symbol } = this.props;
     const { loading, safety } = this.state;
+    const hasData = safety === undefined ? false : true;
 
     return loading ? null : (
       <Widget
@@ -30,8 +32,16 @@ class Safety extends Component {
           title: `${symbol} - Safety`,
           description: `Known safety effects and safety risk information for ${symbol}`,
         }}
+        hasData={hasData}
       >
-        {safety ? 'There is safety data' : 'There is no safety data'}
+        <Typography
+          align="center"
+          variant="body1"
+          color={hasData ? 'default' : 'secondary'}
+        >
+          Drug target safety assessment data {!safety && 'not'} available for{' '}
+          {symbol}
+        </Typography>
       </Widget>
     );
   }
