@@ -1,7 +1,24 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
+import Grid from '@material-ui/core/Grid';
+import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
+import { PALETTE } from 'ot-ui';
+
 import Widget from '../Widget';
 import Detail from './Detail';
+
+const styles = () => ({
+  icon: {
+    color: PALETTE.purple,
+    fontSize: '54px',
+    width: '61px',
+  },
+  text: {
+    marginTop: '15px',
+  },
+});
 
 class Safety extends Component {
   state = { loading: true };
@@ -19,7 +36,7 @@ class Safety extends Component {
   }
 
   render() {
-    const { symbol } = this.props;
+    const { symbol, classes } = this.props;
     const { loading, safety } = this.state;
     const hasData = safety === undefined ? false : true;
 
@@ -34,14 +51,25 @@ class Safety extends Component {
         }}
         hasData={hasData}
       >
-        <Typography
-          align="center"
-          variant="body1"
-          color={hasData ? 'default' : 'secondary'}
-        >
-          Drug target safety assessment data {!safety && 'not'} available for{' '}
-          {symbol}
-        </Typography>
+        <Grid container direction="column">
+          <Grid item container justify="center">
+            <Icon
+              className={classNames(
+                'fas fa-exclamation-triangle',
+                classes.icon
+              )}
+            />
+          </Grid>
+          <Typography
+            align="center"
+            variant="body1"
+            color={hasData ? 'default' : 'secondary'}
+            className={classes.text}
+          >
+            Drug target safety assessment data {!safety && 'not'} available for{' '}
+            {symbol}
+          </Typography>
+        </Grid>
       </Widget>
     );
   }
@@ -49,4 +77,4 @@ class Safety extends Component {
 
 Safety.widgetName = 'target safety';
 
-export default Safety;
+export default withStyles(styles)(Safety);
