@@ -27,11 +27,7 @@ const effectsColumns = [
             <Typography variant="subtitle2">{capitalize(key)}</Typography>
             <ul>
               {activationEffects[key].map((effect, i) => (
-                <li key={i}>
-                  {effect.mapped_term.length > 0
-                    ? effect.mapped_term
-                    : effect.term_in_paper}
-                </li>
+                <li key={i}>{effect.mapped_term || effect.term_in_paper}</li>
               ))}
             </ul>
           </Fragment>
@@ -49,11 +45,7 @@ const effectsColumns = [
             <Typography variant="subtitle2">{capitalize(key)}</Typography>
             <ul>
               {inhibitionEffects[key].map((effect, i) => (
-                <li key={i}>
-                  {effect.mapped_term.length > 0
-                    ? effect.mapped_term
-                    : effect.term_in_paper}
-                </li>
+                <li key={i}>{effect.mapped_term || effect.term_in_paper}</li>
               ))}
             </ul>
           </Fragment>
@@ -84,7 +76,7 @@ const riskColumns = [
       return (
         <ul>
           {organs.map((organ, i) => (
-            <li key={i}>{organ.mapped_term}</li>
+            <li key={i}>{organ.mapped_term || organ.term_in_paper}</li>
           ))}
         </ul>
       );
@@ -112,7 +104,47 @@ const riskColumns = [
   },
 ];
 
-const SafetyDetail = ({ safety }) => {
+const getAdverseDownloadData = rows => {
+  return rows.map(row => {
+    const activationEffects = [];
+    const inhibitionEffects = [];
+
+    Object.keys(row.activation_effects).forEach(key => {
+      row.activation_effects[key].forEach(effect => {
+        activationEffects.push(effect.mapped_term || effect.term_in_paper);
+      });
+    });
+
+    Object.keys(row.inhibition_effects).forEach(key => {
+      row.inhibition_effects[key].forEach(effect => {
+        inhibitionEffects.push(effect.mapped_term || effect.term_in_paper);
+      });
+    });
+
+    return {
+      organs_systems_affected: row.organs_systems_affected
+        .map(organ => organ.mapped_term)
+        .join(', '),
+      activation_effects: activationEffects.join(', '),
+      inhibition_effects: inhibitionEffects.join(', '),
+      references: row.references.map(ref => ref.ref_link).join(', '),
+    };
+  });
+};
+
+const getRiskDownloadData = rows => {
+  return rows.map(row => {
+    return {
+      organs_systems_affected: row.organs_systems_affected
+        .map(organ => organ.mapped_term || organ.term_in_paper)
+        .join(', '),
+      safety_liability: row.safety_liability,
+      references: row.references.map(ref => ref.ref_link).join(', '),
+    };
+  });
+};
+
+const SafetyDetail = ({ symbol, safety }) => {
   const {
     adverse_effects: adverseEffects = [],
     safety_risk_info: safetyRiskInfo = [],
@@ -121,10 +153,18 @@ const SafetyDetail = ({ safety }) => {
   return (
     <Fragment>
       <Typography variant="h6">Known safety effects</Typography>
-      <DataDownloader columns={effectsColumns} data={adverseEffects} />
+      <DataDownloader
+        tableHeaders={effectsColumns}
+        rows={getAdverseDownloadData(adverseEffects)}
+        fileStem={`${symbol}-safety-effects`}
+      />
       <OtTableRF columns={effectsColumns} data={adverseEffects} />
       <Typography variant="h6">Safety risk information</Typography>
-      <DataDownloader columns={riskColumns} data={safetyRiskInfo} />
+      <DataDownloader
+        tableHeaders={riskColumns}
+        rows={getRiskDownloadData(safetyRiskInfo)}
+        fileStem={`${symbol}-risk-information`}
+      />
       <OtTableRF columns={riskColumns} data={safetyRiskInfo} />
     </Fragment>
   );
