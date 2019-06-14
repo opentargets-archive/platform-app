@@ -15,6 +15,9 @@ const styles = () => ({
     fontSize: '54px',
     width: '61px',
   },
+  iconNoData: {
+    color: PALETTE.lightgrey,
+  },
   text: {
     marginTop: '15px',
   },
@@ -56,7 +59,8 @@ class Safety extends Component {
             <Icon
               className={classNames(
                 'fas fa-exclamation-triangle',
-                classes.icon
+                classes.icon,
+                { [classes.iconNoData]: !hasData }
               )}
             />
           </Grid>
