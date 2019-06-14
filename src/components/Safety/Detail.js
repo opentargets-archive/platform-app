@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { capitalize } from 'lodash';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 
 const effectsColumns = [
@@ -57,13 +58,25 @@ const effectsColumns = [
     id: 'references',
     label: 'Publications',
     renderCell: ({ references }) => {
-      return references.map((reference, i) => (
-        <Fragment key={i}>
-          <Link external to={reference.ref_link}>
-            {reference.ref_label}
-          </Link>{' '}
-        </Fragment>
-      ));
+      return references.map((reference, i) => {
+        const isHecatos = reference.ref_link.indexOf('hecatos') !== -1;
+        return (
+          <Fragment key={i}>
+            <Link external to={reference.ref_link}>
+              <Tooltip
+                title={
+                  isHecatos
+                    ? "HeCaToS Deliverable D01.5 (2015) funded by 'EU 7th Framework Programme (HEALTH-F4-2013-602156).'"
+                    : ''
+                }
+                placement="top"
+              >
+                <span>{reference.ref_label}</span>
+              </Tooltip>
+            </Link>{' '}
+          </Fragment>
+        );
+      });
     },
   },
 ];
