@@ -9,10 +9,11 @@ const BasePage = ({ children }) => (
     header={<NavBar name="Platform" />}
     footer={<Footer externalLinks={externalLinks} />}
   >
-    <Helmet
+    {/*<Helmet
       defaultTitle="Open Targets Platform"
       titleTemplate="%s | Open Targets Platform"
-    />
+    />*/}
+    <Helmet defaultTitle="Version B" titleTemplate="Version B | %s" />
     {children}
   </Page>
 );
