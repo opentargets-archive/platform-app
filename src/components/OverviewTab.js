@@ -207,7 +207,7 @@ class OverviewTab extends Component {
     const lowerCaseTerm = filterTerm.trim().toLowerCase();
 
     return (
-      <Query query={overviewQuery} variables={{ ensgId }}>
+      <Query query={overviewQuery} variables={{ ensgId }} errorPolicy="all">
         {({ loading, error, data }) => {
           if (loading || error) {
             return null;
