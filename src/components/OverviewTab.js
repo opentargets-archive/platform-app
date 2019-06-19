@@ -209,7 +209,7 @@ class OverviewTab extends Component {
     return (
       <Query query={overviewQuery} variables={{ ensgId }} errorPolicy="all">
         {({ loading, error, data }) => {
-          if (loading || error) {
+          if (loading) {
             return null;
           }
 

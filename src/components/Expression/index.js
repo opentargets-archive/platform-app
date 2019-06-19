@@ -1,5 +1,6 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
 
 import Widget from '../Widget';
 import CheckboxList from '../CheckboxList';
@@ -17,40 +18,65 @@ const styles = theme => ({
 });
 
 const ExpressionWidget = ({ classes, ensgId, symbol, expression }) => {
-  const {
-    rnaBaselineExpression,
-    proteinBaselineExpression,
-    expressionAtlasExperiment,
-    gtexData,
-  } = expression;
+  if (expression) {
+    const {
+      rnaBaselineExpression,
+      proteinBaselineExpression,
+      expressionAtlasExperiment,
+      gtexData,
+    } = expression;
 
-  const items = [
-    { value: rnaBaselineExpression, label: 'RNA baseline expression' },
-    { value: proteinBaselineExpression, label: 'Protein baseline expression' },
-    { value: expressionAtlasExperiment, label: 'Expression Atlas experiment' },
-    { value: gtexData, label: 'GTEx' },
-  ];
+    const items = [
+      { value: rnaBaselineExpression, label: 'RNA baseline expression' },
+      {
+        value: proteinBaselineExpression,
+        label: 'Protein baseline expression',
+      },
+      {
+        value: expressionAtlasExperiment,
+        label: 'Expression Atlas experiment',
+      },
+      { value: gtexData, label: 'GTEx' },
+    ];
 
-  const hasData =
-    rnaBaselineExpression ||
-    proteinBaselineExpression ||
-    expressionAtlasExperiment ||
-    gtexData;
+    const hasData =
+      rnaBaselineExpression ||
+      proteinBaselineExpression ||
+      expressionAtlasExperiment ||
+      gtexData;
 
-  return (
-    <Widget
-      title="RNA and protein baseline expression"
-      detailUrlStem="rna-and-protein-expression"
-      detail={<ExpressionDetail ensgId={ensgId} symbol={symbol} />}
-      detailHeader={{
-        title: `RNA and protein baseline expression`,
-        description: `RNA and protein baseline expression`,
-      }}
-      hasData={hasData}
-    >
-      <CheckboxList items={items} />
-    </Widget>
-  );
+    return (
+      <Widget
+        title="RNA and protein baseline expression"
+        detailUrlStem="rna-and-protein-expression"
+        detail={<ExpressionDetail ensgId={ensgId} symbol={symbol} />}
+        detailHeader={{
+          title: `RNA and protein baseline expression`,
+          description: `RNA and protein baseline expression`,
+        }}
+        hasData={hasData}
+      >
+        <CheckboxList items={items} />
+      </Widget>
+    );
+  } else {
+    return (
+      <Widget
+        title="RNA and protein baseline expression"
+        detailUrlStem="rna-and-protein-expression"
+        detail={<ExpressionDetail ensgId={ensgId} symbol={symbol} />}
+        detailHeader={{
+          title: `RNA and protein baseline expression`,
+          description: `RNA and protein baseline expression`,
+        }}
+        hasData={false}
+      >
+        <Typography color="secondary" align="center">
+          No data
+        </Typography>
+      </Widget>
+    );
+  }
 };
 
 ExpressionWidget.widgetName = 'rna and protein baseline expression';
