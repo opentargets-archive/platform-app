@@ -35,6 +35,13 @@ const styles = theme => ({
   descriptionError: {
     color: theme.palette.secondary.main,
   },
+  cardHeader: {
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  content: {
+    borderTop: `1px solid ${theme.palette.grey[300]}`,
+  },
 });
 
 class DetailPanel extends React.Component {
@@ -56,6 +63,7 @@ class DetailPanel extends React.Component {
         <Element name={id}>
           <Card elevation={0}>
             <CardHeader
+              className={classes.cardHeader}
               avatar={<SectionAvatar {...{ name, icon, hasData, error }} />}
               action={null}
               title={
@@ -81,7 +89,7 @@ class DetailPanel extends React.Component {
                 </Typography>
               }
             />
-            <CardContent>
+            <CardContent className={classes.content}>
               <DetailPanelLoader
                 {...{
                   sectionId: id,
