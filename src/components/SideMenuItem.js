@@ -33,6 +33,9 @@ const styles = theme => ({
       background: '#ddd',
     },
   },
+  textError: {
+    color: theme.palette.secondary.main,
+  },
   textInDragState: {
     background: '#ddd',
   },
@@ -47,11 +50,20 @@ const styles = theme => ({
   },
 });
 
-const SideMenuItem = ({ classes, name, hasData, onClick, inDragState }) => (
+const SideMenuItem = ({
+  classes,
+  name,
+  hasData,
+  error,
+  loading,
+  onClick,
+  inDragState,
+}) => (
   <Typography
     className={classNames({
       [classes.text]: true,
       [classes.textHasData]: hasData,
+      [classes.textError]: error,
       [classes.textInDragState]: inDragState,
     })}
     onClick={onClick}
