@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'ot-ui';
 
 import LongText from './LongText';
+import Tep from './Tep';
+import Crispr from './Crispr';
 import TargetIcon from '../icons/TargetIcon';
 
 const summaryStyles = theme => ({
@@ -17,16 +19,20 @@ const summaryStyles = theme => ({
     fill: theme.palette.primary.main,
     marginRight: '12px',
   },
-  symbol: {
-    color: theme.palette.primary.main,
-    fontWeight: 500,
+  linksContainer: {
+    flexGrow: 1,
   },
-  name: {
+  namesContainer: {
     display: 'flex',
     alignItems: 'center',
   },
-  titleLink: {
+  symbol: {
     color: theme.palette.primary.main,
+    fontWeight: 500,
+    display: 'inline-block',
+  },
+  name: {
+    display: 'inline-block',
   },
   geneticsLink: {
     alignItems: 'center',
@@ -39,10 +45,6 @@ const summaryStyles = theme => ({
     color: 'white',
     padding: '0 10px',
     textDecoration: 'none',
-  },
-  associatedIcon: {
-    marginRight: '6px',
-    fill: 'white',
   },
   associatedDiseases: {
     backgroundColor: theme.palette.primary.main,
@@ -78,51 +80,62 @@ const TargetSummary = ({
   description,
 }) => (
   <Fragment>
-    <Grid className={classes.titleContainer} container justify="space-between">
+    <Grid className={classes.titleContainer} container>
       <Grid item>
-        <Grid container>
-          <Grid item>
-            <TargetIcon className={classes.targetIcon} />
+        <TargetIcon className={classes.targetIcon} />
+      </Grid>
+      <Grid item className={classes.linksContainer}>
+        <Grid container justify="space-between">
+          <Grid item className={classes.namesContainer}>
+            <Typography className={classes.symbol} variant="h4">
+              {symbol}
+            </Typography>
+            <Typography className={classes.name} variant="subtitle2">
+              {name}
+            </Typography>
           </Grid>
           <Grid item>
-            <Grid container>
-              <Typography className={classes.symbol} variant="h4">
-                {symbol}
-              </Typography>
-              <Typography className={classes.name} variant="subtitle2">
-                {name}
-              </Typography>
-            </Grid>
-            <Grid container>
-              <Typography>
-                Ensembl:{' '}
-                <Link
-                  external
-                  to={`http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`}
-                >
-                  {ensgId}
-                </Link>{' '}
-                | UniProt:{' '}
-                <Link
-                  external
-                  to={`https://www.uniprot.org/uniprot/${uniprotId}`}
-                >
-                  {uniprotId}
-                </Link>
-              </Typography>
-            </Grid>
+            <a
+              className={classes.geneticsLink}
+              href={`https://genetics.opentargets.org/gene/${ensgId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View {symbol} profile in Open Targets Genetics
+            </a>
           </Grid>
         </Grid>
-      </Grid>
-      <Grid item>
-        <a
-          className={classes.geneticsLink}
-          href={`https://genetics.opentargets.org/gene/${ensgId}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View {symbol} profile in Open Targets Genetics
-        </a>
+        <Grid container>
+          <Typography>
+            Ensembl:{' '}
+            <Link
+              external
+              to={`http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`}
+            >
+              {ensgId}
+            </Link>{' '}
+            | UniProt:{' '}
+            <Link external to={`https://www.uniprot.org/uniprot/${uniprotId}`}>
+              {uniprotId}
+            </Link>{' '}
+            | GeneCards:{' '}
+            <Link
+              external
+              to={`https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`}
+            >
+              {symbol}
+            </Link>{' '}
+            | HGNC:{' '}
+            <Link
+              external
+              to={`https://www.genenames.org/tools/search/#!/all?query=${symbol}`}
+            >
+              {symbol}
+            </Link>
+            <Crispr symbol={symbol} />
+            <Tep ensgId={ensgId} symbol={symbol} />
+          </Typography>
+        </Grid>
       </Grid>
     </Grid>
     <Grid className={classes.description} container>
