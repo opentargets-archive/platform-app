@@ -3,8 +3,10 @@ import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
@@ -76,9 +78,12 @@ const styles = theme => ({
     paddingTop: 8,
     paddingBottom: 8,
   },
+  cardContent: {
+    borderTop: `1px solid ${theme.palette.grey[300]}`,
+  },
   content: {
     height: '100%',
-    borderTop: `1px solid ${theme.palette.grey[300]}`,
+    // borderTop: `1px solid ${theme.palette.grey[300]}`,
     paddingTop: 4,
     '&:last-child': {
       paddingBottom: 4,
@@ -135,27 +140,29 @@ const MiniWidget = ({
           </Typography>
         }
       />
-
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-        className={classes.content}
-      >
-        <Grid item>
-          <Typography
-            align="center"
-            className={classNames({
-              [classes.subheader]: true,
-              [classes.subheaderHasData]: hasData,
-              [classes.subheaderError]: error,
-            })}
-          >
-            {hasData ? summary : error ? error : loading ? null : '(no data)'}
-          </Typography>
+      {loading ? <LinearProgress /> : null}
+      <CardContent className={classes.cardContent}>
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          className={classes.content}
+        >
+          <Grid item>
+            <Typography
+              align="center"
+              className={classNames({
+                [classes.subheader]: true,
+                [classes.subheaderHasData]: hasData,
+                [classes.subheaderError]: error,
+              })}
+            >
+              {hasData ? summary : error ? error : loading ? null : '(no data)'}
+            </Typography>
+          </Grid>
         </Grid>
-      </Grid>
+      </CardContent>
     </Card>
   </Grid>
 );

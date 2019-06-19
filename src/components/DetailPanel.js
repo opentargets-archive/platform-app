@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import SectionAvatar from './SectionAvatar';
@@ -39,7 +40,7 @@ const styles = theme => ({
     paddingTop: 8,
     paddingBottom: 8,
   },
-  content: {
+  cardContent: {
     borderTop: `1px solid ${theme.palette.grey[300]}`,
   },
 });
@@ -89,7 +90,8 @@ class DetailPanel extends React.Component {
                 </Typography>
               }
             />
-            <CardContent className={classes.content}>
+            {loading ? <LinearProgress /> : null}
+            <CardContent className={classes.cardContent}>
               <DetailPanelLoader
                 {...{
                   sectionId: id,
