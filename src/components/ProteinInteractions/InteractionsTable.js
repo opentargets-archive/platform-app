@@ -26,7 +26,7 @@ const columns = interactionTypes => [
   },
   {
     id: 'sources',
-    label: 'Sources',
+    label: 'Resources',
     renderCell: d => (
       <React.Fragment>
         {interactionTypes.enzymeSubstrate
@@ -49,7 +49,7 @@ const columns = interactionTypes => [
   },
   {
     id: 'pmIds',
-    label: 'Reference',
+    label: 'Publications',
     renderCell: d =>
       d.pmIds.length > 0 ? (
         <Link
