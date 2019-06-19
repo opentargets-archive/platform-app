@@ -18,7 +18,11 @@ class DetailPanelLoader extends React.Component {
     const { ensgId } = targetContext;
 
     if (error) {
-      return <Typography color="error">{error}</Typography>;
+      return (
+        <Typography color="error" align="center">
+          {error}
+        </Typography>
+      );
     } else if (loading) {
       return null;
     } else if (!hasData) {
@@ -31,7 +35,11 @@ class DetailPanelLoader extends React.Component {
           <Query query={query} variables={{ ensgId }}>
             {({ loading: loading2, error: error2, data }) => {
               if (error2) {
-                return <Typography color="error">{error2.message}</Typography>;
+                return (
+                  <Typography color="error" align="center">
+                    {error2.message}
+                  </Typography>
+                );
               } else if (loading2) {
                 return null;
               } else {
