@@ -48,6 +48,9 @@ const styles = theme => ({
     color: theme.palette.primary.main,
     fontWeight: 'bold',
   },
+  titleError: {
+    color: theme.palette.secondary.main,
+  },
   subheader: {
     color: theme.palette.grey[500],
     fontSize: '0.8rem',
@@ -56,6 +59,9 @@ const styles = theme => ({
   subheaderHasData: {
     color: theme.palette.primary.main,
   },
+  subheaderError: {
+    color: theme.palette.secondary.main,
+  },
   avatar: {
     color: 'white',
     backgroundColor: theme.palette.grey[300],
@@ -63,17 +69,13 @@ const styles = theme => ({
   avatarHasData: {
     backgroundColor: theme.palette.primary.main,
   },
+  avatarError: {
+    backgroundColor: theme.palette.secondary.main,
+  },
   cardHeader: {
     paddingTop: 8,
     paddingBottom: 8,
   },
-  // cardContent: {
-  //   borderTop: `1px solid ${theme.palette.grey[300]}`,
-  //   paddingTop: 4,
-  //   '&:last-child': {
-  //     paddingBottom: 4,
-  //   },
-  // },
   content: {
     height: '100%',
     borderTop: `1px solid ${theme.palette.grey[300]}`,
@@ -84,12 +86,22 @@ const styles = theme => ({
   },
 });
 
-const MiniWidget = ({ classes, name, icon, hasData, summary, onClick }) => (
+const MiniWidget = ({
+  classes,
+  name,
+  icon,
+  loading,
+  error,
+  hasData,
+  summary,
+  onClick,
+}) => (
   <Grid item xs={4} md={3} lg={2}>
     <Card
       className={classNames({
         [classes.card]: true,
         [classes.cardHasData]: hasData,
+        [classes.cardError]: error,
       })}
       onClick={onClick}
       elevation={0}
@@ -101,6 +113,7 @@ const MiniWidget = ({ classes, name, icon, hasData, summary, onClick }) => (
             className={classNames({
               [classes.avatar]: true,
               [classes.avatarHasData]: hasData,
+              [classes.avatarError]: error,
             })}
           >
             {name
@@ -115,6 +128,7 @@ const MiniWidget = ({ classes, name, icon, hasData, summary, onClick }) => (
             className={classNames({
               [classes.title]: true,
               [classes.titleHasData]: hasData,
+              [classes.titleError]: error,
             })}
           >
             {name}
@@ -135,28 +149,13 @@ const MiniWidget = ({ classes, name, icon, hasData, summary, onClick }) => (
             className={classNames({
               [classes.subheader]: true,
               [classes.subheaderHasData]: hasData,
+              [classes.subheaderError]: error,
             })}
           >
-            {hasData ? summary : '(no data)'}
+            {hasData ? summary : error ? error : loading ? null : '(no data)'}
           </Typography>
         </Grid>
       </Grid>
-
-      {/* <CardContent classes={{ root: classes.cardContent }}>
-        <Grid container direction="column" justify="center" alignItems="center">
-          <Grid item>
-            <Typography
-              align="center"
-              className={classNames({
-                [classes.subheader]: true,
-                [classes.subheaderHasData]: hasData,
-              })}
-            >
-              {hasData ? summary : '(no data)'}
-            </Typography>
-          </Grid>
-        </Grid>
-      </CardContent> */}
     </Card>
   </Grid>
 );

@@ -11,13 +11,17 @@ const styles = theme => ({
   avatarHasData: {
     backgroundColor: theme.palette.primary.main,
   },
+  avatarError: {
+    backgroundColor: theme.palette.secondary.main,
+  },
 });
 
-const SectionAvatar = ({ classes, name, icon, hasData }) => (
+const SectionAvatar = ({ classes, name, icon, hasData, error }) => (
   <Avatar
     className={classNames({
       [classes.avatar]: true,
       [classes.avatarHasData]: hasData,
+      [classes.avatarError]: error,
     })}
   >
     {name

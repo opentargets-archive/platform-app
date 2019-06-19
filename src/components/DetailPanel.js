@@ -13,11 +13,6 @@ import DetailPanelLoader from './DetailPanelLoader';
 import TargetSummaryContext from '../contexts/TargetSummaryContext';
 
 const styles = theme => ({
-  avatar: {
-    color: theme.palette.primary.main,
-    border: `1px solid ${theme.palette.primary.main}`,
-    backgroundColor: '#eee',
-  },
   title: {
     color: theme.palette.grey[400],
     fontWeight: 'bold',
@@ -26,6 +21,9 @@ const styles = theme => ({
   titleHasData: {
     color: theme.palette.grey[700],
   },
+  titleError: {
+    color: theme.palette.secondary.main,
+  },
   description: {
     fontStyle: 'italic',
     fontSize: '0.8rem',
@@ -33,6 +31,9 @@ const styles = theme => ({
   },
   descriptionHasData: {
     color: theme.palette.grey[700],
+  },
+  descriptionError: {
+    color: theme.palette.secondary.main,
   },
 });
 
@@ -44,6 +45,8 @@ class DetailPanel extends React.Component {
       name,
       icon,
       hasData,
+      error,
+      loading,
       renderDescription,
       query,
       SectionComponent,
@@ -53,13 +56,14 @@ class DetailPanel extends React.Component {
         <Element name={id}>
           <Card elevation={0}>
             <CardHeader
-              avatar={<SectionAvatar {...{ name, icon, hasData }} />}
+              avatar={<SectionAvatar {...{ name, icon, hasData, error }} />}
               action={null}
               title={
                 <Typography
                   className={classNames({
                     [classes.title]: true,
                     [classes.titleHasData]: hasData,
+                    [classes.titleError]: error,
                   })}
                 >
                   {name}
@@ -70,6 +74,7 @@ class DetailPanel extends React.Component {
                   className={classNames({
                     [classes.description]: true,
                     [classes.descriptionHasData]: hasData,
+                    [classes.descriptionError]: error,
                   })}
                 >
                   {renderDescription ? renderDescription(this.context) : null}
@@ -78,7 +83,14 @@ class DetailPanel extends React.Component {
             />
             <CardContent>
               <DetailPanelLoader
-                {...{ sectionId: id, hasData, query, SectionComponent }}
+                {...{
+                  sectionId: id,
+                  hasData,
+                  error,
+                  loading,
+                  query,
+                  SectionComponent,
+                }}
               />
             </CardContent>
           </Card>

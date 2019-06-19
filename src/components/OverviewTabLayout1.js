@@ -559,19 +559,32 @@ class OverviewTab extends Component {
   render() {
     const { ensgId, description, synonyms } = this.props;
     return (
-      <Query query={overviewQuery} variables={{ ensgId }}>
+      <Query query={overviewQuery} variables={{ ensgId }} errorPolicy="all">
         {({ loading, error, data }) => {
-          if (loading || error) return null;
+          const sectionsWithHasData = sections.map(s => {
+            const sectionHasError =
+              error &&
+              !(
+                data &&
+                data.target &&
+                data.target.summaries &&
+                data.target.summaries[s.id]
+              );
+            return {
+              loading: loading,
+              error: sectionHasError ? error.message : null,
+              hasData:
+                !sectionHasError && !loading && s.getHasData
+                  ? s.getHasData(data.target.summaries[s.id])
+                  : false,
+              summary:
+                !sectionHasError && !loading && s.getSummary
+                  ? s.getSummary(data.target.summaries[s.id])
+                  : null,
+              ...s,
+            };
+          });
 
-          const sectionsWithHasData = sections.map(s => ({
-            hasData: s.getHasData
-              ? s.getHasData(data.target.summaries[s.id])
-              : false,
-            summary: s.getSummary
-              ? s.getSummary(data.target.summaries[s.id])
-              : null,
-            ...s,
-          }));
           return (
             <Fragment>
               <TargetDescriptionAndSynonyms {...{ description, synonyms }} />
