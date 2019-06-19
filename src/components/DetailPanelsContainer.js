@@ -119,7 +119,7 @@ class DetailPanelsContainer extends React.Component {
           </Hidden>
           <Grid item xs={12} md={10}>
             {orderedData
-              .filter(d => d.loading || d.error || d.hasData)
+              .filter(d => d.loading || d.hasData)
               .map(d => (
                 <DetailPanel key={d.id} {...d} />
               ))}
