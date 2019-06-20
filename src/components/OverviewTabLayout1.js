@@ -572,7 +572,7 @@ class OverviewTab extends Component {
               );
             return {
               loading: loading,
-              error: sectionHasError ? error.message : null,
+              error: sectionHasError ? 'An API error occurred' : null,
               hasData:
                 !sectionHasError && !loading && s.getHasData
                   ? s.getHasData(data.target.summaries[s.id])

@@ -83,7 +83,7 @@ const styles = theme => ({
   },
   content: {
     height: '100%',
-    // borderTop: `1px solid ${theme.palette.grey[300]}`,
+    borderTop: `1px solid ${theme.palette.grey[300]}`,
     paddingTop: 4,
     '&:last-child': {
       paddingBottom: 4,
@@ -141,28 +141,34 @@ const MiniWidget = ({
         }
       />
       {loading ? <LinearProgress /> : null}
-      <CardContent className={classes.cardContent}>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          className={classes.content}
-        >
-          <Grid item>
-            <Typography
-              align="center"
-              className={classNames({
-                [classes.subheader]: true,
-                [classes.subheaderHasData]: hasData,
-                [classes.subheaderError]: error,
-              })}
-            >
-              {hasData ? summary : error ? error : loading ? null : '(no data)'}
-            </Typography>
-          </Grid>
+      {/* <CardContent className={classes.cardContent}> */}
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        className={classes.content}
+      >
+        <Grid item>
+          <Typography
+            align="center"
+            className={classNames({
+              [classes.subheader]: true,
+              [classes.subheaderHasData]: hasData,
+              [classes.subheaderError]: error,
+            })}
+          >
+            {hasData
+              ? summary
+              : error
+              ? 'An API error occurred'
+              : loading
+              ? null
+              : '(no data)'}
+          </Typography>
         </Grid>
-      </CardContent>
+      </Grid>
+      {/* </CardContent> */}
     </Card>
   </Grid>
 );
