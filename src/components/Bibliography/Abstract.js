@@ -7,10 +7,6 @@ import Typography from '@material-ui/core/Typography';
  *  - abstract: the abstract markup (html) as returned by LINK
  */
 class Abstract extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render = () => {
     const { abstract } = this.props;
 

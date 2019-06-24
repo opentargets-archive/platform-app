@@ -4,8 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 
-import { PALETTE } from 'ot-ui';
-
 const styles = theme => ({
   item: {
     display: 'flex',

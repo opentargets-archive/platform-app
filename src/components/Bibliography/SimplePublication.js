@@ -20,10 +20,6 @@ const pmTitleUrl = 'abstract/med/';
  *  - variant: "regular" (default) or "small" (has smaller titles)
  */
 class SimplePublication extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render = () => {
     const { pmId, title, authors, journal, variant } = this.props;
 

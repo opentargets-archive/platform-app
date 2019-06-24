@@ -1,5 +1,3 @@
-import React from 'react';
-
 const linkUrl = 'https://link.opentargets.io/';
 
 const getQuery = queryItems => {

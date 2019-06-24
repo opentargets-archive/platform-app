@@ -126,8 +126,8 @@ class Publication extends Component {
   };
 
   render = () => {
-    const { pmId, title, authors, journal, classes } = this.props;
-    const { showAbstract, showSimilar, abstract } = this.state;
+    const { pmId, title, authors, journal } = this.props;
+    const { showAbstract, showSimilar } = this.state;
 
     return (
       <Fragment>

@@ -8,7 +8,7 @@ import { lighten } from 'polished';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
-import { Link, OtTableRF, DataDownloader, PALETTE } from 'ot-ui';
+import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 
 import DCContainer from '../DCContainer';
 import {
