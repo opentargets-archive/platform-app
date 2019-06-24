@@ -2,15 +2,14 @@ import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'ot-ui';
 
 import TargetIcon from '../../icons/TargetIcon';
 import Ensembl from './externalLinks/Ensembl';
 import UniProt from './externalLinks/UniProt';
 import GeneCards from './externalLinks/GeneCards';
 import HGNC from './externalLinks/HGNC';
-import Tep from './externalLinks/Tep';
-import Crispr from './externalLinks/Crispr';
+import TEP from './externalLinks/TEP';
+import CRISPRdepmap from './externalLinks/CRISPRdepmap';
 
 const summaryStyles = theme => ({
   titleContainer: {
@@ -68,8 +67,8 @@ const TargetHeader = ({ classes, ensgId, symbol, name, uniprotId }) => (
                 <UniProt uniprotId={uniprotId} />
                 <GeneCards symbol={symbol} />
                 <HGNC symbol={symbol} />
-                <Crispr symbol={symbol} />
-                <Tep ensgId={ensgId} symbol={symbol} />
+                <CRISPRdepmap symbol={symbol} />
+                <TEP ensgId={ensgId} symbol={symbol} />
               </Typography>
             </Grid>
           </Grid>
