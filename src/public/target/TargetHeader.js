@@ -5,8 +5,12 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'ot-ui';
 
 import TargetIcon from '../../icons/TargetIcon';
-import Tep from './Tep';
-import Crispr from './Crispr';
+import Ensembl from './externalLinks/Ensembl';
+import UniProt from './externalLinks/UniProt';
+import GeneCards from './externalLinks/GeneCards';
+import HGNC from './externalLinks/HGNC';
+import Tep from './externalLinks/Tep';
+import Crispr from './externalLinks/Crispr';
 
 const summaryStyles = theme => ({
   titleContainer: {
@@ -60,34 +64,10 @@ const TargetHeader = ({ classes, ensgId, symbol, name, uniprotId }) => (
             </Grid>
             <Grid container>
               <Typography>
-                Ensembl:{' '}
-                <Link
-                  external
-                  to={`http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`}
-                >
-                  {ensgId}
-                </Link>{' '}
-                | UniProt:{' '}
-                <Link
-                  external
-                  to={`https://www.uniprot.org/uniprot/${uniprotId}`}
-                >
-                  {uniprotId}
-                </Link>{' '}
-                | GeneCards:{' '}
-                <Link
-                  external
-                  to={`https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`}
-                >
-                  {symbol}
-                </Link>{' '}
-                | HGNC:{' '}
-                <Link
-                  external
-                  to={`https://www.genenames.org/tools/search/#!/all?query=${symbol}`}
-                >
-                  {symbol}
-                </Link>
+                <Ensembl ensgId={ensgId} first />
+                <UniProt uniprotId={uniprotId} />
+                <GeneCards symbol={symbol} />
+                <HGNC symbol={symbol} />
                 <Crispr symbol={symbol} />
                 <Tep ensgId={ensgId} symbol={symbol} />
               </Typography>

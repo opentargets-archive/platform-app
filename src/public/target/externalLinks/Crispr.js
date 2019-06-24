@@ -29,13 +29,13 @@ class Crispr extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, first } = this.props;
     const { crisprId } = this.state;
 
     return crisprId ? (
       <Fragment>
-        {' '}
-        | CRISPR depmap
+        {first ? null : ' | '}
+        CRISPR depmap
         <Tooltip
           classes={{ tooltip: classes.tooltip }}
           title="CRISPR-Cas9 cancer cell line dependency data from Project Score"
