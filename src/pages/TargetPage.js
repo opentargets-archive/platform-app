@@ -12,7 +12,7 @@ import BasePage from './BasePage';
 import TargetAssociationsPage from './TargetAssociationsPage';
 // import TargetSummary from '../components/TargetSummary';
 import TargetHeader from '../components/TargetHeader';
-import OverviewTab from '../components/OverviewTabLayout1';
+import OverviewTab from '../components/OverviewTab';
 
 const targetQuery = gql`
   query TargetQuery($ensgId: String!) {
