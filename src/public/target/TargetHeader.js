@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'ot-ui';
 
 import TargetIcon from '../../icons/TargetIcon';
-import Tep from '../../components/Tep';
-import Crispr from '../../components/Crispr';
+import Tep from './Tep';
+import Crispr from './Crispr';
 
 const summaryStyles = theme => ({
   titleContainer: {
