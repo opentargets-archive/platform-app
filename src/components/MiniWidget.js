@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -14,18 +13,6 @@ const styles = theme => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    // height: '100px',
-    // cursor: 'pointer',
-    // '&:hover': {
-    //   backgroundColor: theme.palette.grey[500],
-    // },
-    // '&:hover $title': {
-    //   color: 'white', // theme.palette.grey[600],
-    // },
-    // '&:hover $avatar': {
-    //   color: theme.palette.grey[500],
-    //   backgroundColor: 'white', // theme.palette.grey[400],
-    // },
   },
   cardHasData: {
     cursor: 'pointer',
@@ -141,7 +128,6 @@ const MiniWidget = ({
         }
       />
       {loading ? <LinearProgress /> : null}
-      {/* <CardContent className={classes.cardContent}> */}
       <Grid
         container
         direction="column"
@@ -168,7 +154,6 @@ const MiniWidget = ({
           </Typography>
         </Grid>
       </Grid>
-      {/* </CardContent> */}
     </Card>
   </Grid>
 );
