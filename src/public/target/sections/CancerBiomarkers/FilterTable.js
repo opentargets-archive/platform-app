@@ -10,17 +10,17 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 
-import DCContainer from '../DCContainer';
+import DCContainer from '../../../../components/DCContainer';
 import {
   upReducerKeyCount,
   downReducerKeyCount,
-} from '../../utils/crossfilterReducers';
+} from '../../../../utils/crossfilterReducers';
 
 import {
   DC_PIE_INNER_RADIUS,
   DC_PIE_OUTER_RADIUS,
   DC_PIE_WIDTH,
-} from './../config/dc';
+} from '../../../../components/config/dc';
 
 const chartColour = lighten(0.3, '#3489ca');
 

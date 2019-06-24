@@ -7,7 +7,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Link, DataDownloader, OtTableRF } from 'ot-ui';
 
-import AssociationSummary from '../AssociationSummary';
+import AssociationSummary from '../../../common/AssociationSummary';
 
 const styles = () => ({
   panelTitle: {

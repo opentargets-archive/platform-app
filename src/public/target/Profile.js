@@ -5,51 +5,51 @@ import gql from 'graphql-tag';
 
 import { Link } from 'ot-ui';
 
-import RelatedTargetsSection from './RelatedTargets/Section';
-import RelatedTargetsQuery from './RelatedTargets/query';
+import RelatedTargetsSection from './sections/RelatedTargets/Section';
+import RelatedTargetsQuery from './sections/RelatedTargets/query';
 
-import PathwaysSection from './Pathways/Section';
-import PathwaysQuery from './Pathways/query';
+import PathwaysSection from './sections/Pathways/Section';
+import PathwaysQuery from './sections/Pathways/query';
 
-import ExpressionSection from './Expression/Section';
+import ExpressionSection from './sections/Expression/Section';
 
-import ProteinInteractionsSection from './ProteinInteractions/Section';
-import ProteinInteractionsQuery from './ProteinInteractions/query';
+import ProteinInteractionsSection from './sections/ProteinInteractions/Section';
+import ProteinInteractionsQuery from './sections/ProteinInteractions/query';
 
-import ProteinInformationSection from './ProteinInformation/Section';
-import ProteinInformationQuery from './ProteinInformation/query';
+import ProteinInformationSection from './sections/ProteinInformation/Section';
+import ProteinInformationQuery from './sections/ProteinInformation/query';
 
-import KnownDrugsSection from './KnownDrugs/Section';
-import KnownDrugsQuery from './KnownDrugs/query';
+import KnownDrugsSection from './sections/KnownDrugs/Section';
+import KnownDrugsQuery from './sections/KnownDrugs/query';
 
-import MousePhenotypesSection from './MousePhenotypes/Section';
-import MousePhenotypesQuery from './MousePhenotypes/query';
+import MousePhenotypesSection from './sections/MousePhenotypes/Section';
+import MousePhenotypesQuery from './sections/MousePhenotypes/query';
 
-import CancerBiomarkersSection from './CancerBiomarkers/Section';
-import CancerBiomarkersQuery from './CancerBiomarkers/query';
+import CancerBiomarkersSection from './sections/CancerBiomarkers/Section';
+import CancerBiomarkersQuery from './sections/CancerBiomarkers/query';
 
-import CancerHallmarksSection from './CancerHallmarks/Section';
-import CancerHallmarksQuery from './CancerHallmarks/query';
+import CancerHallmarksSection from './sections/CancerHallmarks/Section';
+import CancerHallmarksQuery from './sections/CancerHallmarks/query';
 
-import ChemicalProbesSection from './ChemicalProbes/Section';
-import ChemicalProbesQuery from './ChemicalProbes/query';
+import ChemicalProbesSection from './sections/ChemicalProbes/Section';
+import ChemicalProbesQuery from './sections/ChemicalProbes/query';
 
-import GeneOntologySection from './GeneOntology/Section';
-import GeneOntologyQuery from './GeneOntology/query';
+import GeneOntologySection from './sections/GeneOntology/Section';
+import GeneOntologyQuery from './sections/GeneOntology/query';
 
-import TractabilitySection from './Tractability/Section';
-import TractabilityQuery from './Tractability/query';
+import TractabilitySection from './sections/Tractability/Section';
+import TractabilityQuery from './sections/Tractability/query';
 
-import VariationSection from './Variation/Section';
+import VariationSection from './sections/Variation/Section';
 
-import HomologySection from './Homology/Section';
+import HomologySection from './sections/Homology/Section';
 
-import BibliographySection from './Bibliography/Section';
+import BibliographySection from './sections/Bibliography/Section';
 
-import SafetySection from './Safety/Section';
+import SafetySection from './sections/Safety/Section';
 
-import MiniWidgetBar from './MiniWidgetBar';
-import DetailPanelsContainer from './DetailPanelsContainer';
+import MiniWidgetBar from '../common/MiniWidgetBar';
+import SectionPanelsContainer from '../common/SectionPanelsContainer';
 
 import TargetDescriptionAndSynonyms from './TargetDescriptionAndSynonyms';
 
@@ -610,7 +610,7 @@ class OverviewTab extends Component {
                 onWidgetClick={this.scrollToSection}
               />
               <br />
-              <DetailPanelsContainer
+              <SectionPanelsContainer
                 data={sectionsWithHasData}
                 onSideMenuItemClick={this.scrollToSection}
                 onScrollToTopClick={this.scrollToTop}

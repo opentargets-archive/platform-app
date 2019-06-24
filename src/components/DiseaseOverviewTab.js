@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
+// import React, { Component } from 'react';
+// import Grid from '@material-ui/core/Grid';
 
-import ClassificationWidget from './Classification';
+// import ClassificationWidget from './Classification';
 
-class DiseaseOverviewTab extends Component {
-  render() {
-    const { efoId } = this.props;
-    return (
-      <Grid container spacing={16}>
-        <ClassificationWidget efoId={efoId} />
-      </Grid>
-    );
-  }
-}
+// class DiseaseOverviewTab extends Component {
+//   render() {
+//     const { efoId } = this.props;
+//     return (
+//       <Grid container spacing={16}>
+//         <ClassificationWidget efoId={efoId} />
+//       </Grid>
+//     );
+//   }
+// }
 
-export default DiseaseOverviewTab;
+// export default DiseaseOverviewTab;

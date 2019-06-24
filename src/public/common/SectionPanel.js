@@ -9,9 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import SectionAvatar from './SectionAvatar';
-import DetailPanelLoader from './DetailPanelLoader';
-import TargetSummaryContext from '../contexts/TargetSummaryContext';
+import SectionAvatar from '../../components/SectionAvatar';
+import SectionPanelLoader from './SectionPanelLoader';
+import TargetSummaryContext from '../../contexts/TargetSummaryContext';
 
 const styles = theme => ({
   title: {
@@ -92,7 +92,7 @@ class DetailPanel extends React.Component {
             />
             {loading ? <LinearProgress /> : null}
             <CardContent className={classes.cardContent}>
-              <DetailPanelLoader
+              <SectionPanelLoader
                 {...{
                   sectionId: id,
                   hasData,

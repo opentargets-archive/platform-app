@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, OtTableRF } from 'ot-ui';
 
 import SourceChip from './SourceChip';
-import { generateComparatorFromAccessor } from '../../utils/comparators';
+import { generateComparatorFromAccessor } from '../../../../utils/comparators';
 
 const columns = interactionTypes => [
   {

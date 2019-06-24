@@ -2,8 +2,8 @@ import React from 'react';
 import { StickyContainer, Sticky } from 'react-sticky';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
-import DetailPanel from './DetailPanel';
-import SideMenu from './SideMenu';
+import DetailPanel from './SectionPanel';
+import SideMenu from '../../components/SideMenu';
 
 const defaultOrder = [
   { id: 'drugs' },
@@ -33,7 +33,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-class DetailPanelsContainer extends React.Component {
+class SectionPanelsContainer extends React.Component {
   state = { order: defaultOrder };
   static getDerivedStateFromProps(props, state) {
     const { data } = props;
@@ -103,4 +103,4 @@ class DetailPanelsContainer extends React.Component {
   }
 }
 
-export default DetailPanelsContainer;
+export default SectionPanelsContainer;

@@ -2,9 +2,9 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import Typography from '@material-ui/core/Typography';
 
-import TargetSummaryContext from '../contexts/TargetSummaryContext';
+import TargetSummaryContext from '../../contexts/TargetSummaryContext';
 
-class DetailPanelLoader extends React.Component {
+class SectionPanelLoader extends React.Component {
   render() {
     const {
       sectionId,
@@ -59,6 +59,6 @@ class DetailPanelLoader extends React.Component {
     }
   }
 }
-DetailPanelLoader.contextType = TargetSummaryContext;
+SectionPanelLoader.contextType = TargetSummaryContext;
 
-export default DetailPanelLoader;
+export default SectionPanelLoader;

@@ -3,7 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import { OtTableRF, Link } from 'ot-ui';
 
-import Intersection from '../Intersection';
+import Intersection from '../../../../components/Intersection';
 
 const styles = () => ({
   container: {

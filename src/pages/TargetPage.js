@@ -10,9 +10,8 @@ import TargetSummaryContext from '../contexts/TargetSummaryContext';
 
 import BasePage from './BasePage';
 import TargetAssociationsPage from './TargetAssociationsPage';
-// import TargetSummary from '../components/TargetSummary';
-import TargetHeader from '../components/TargetHeader';
-import OverviewTab from '../components/OverviewTab';
+import TargetHeader from '../public/target/TargetHeader';
+import OverviewTab from '../public/target/Profile';
 
 const targetQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -84,14 +83,6 @@ class TargetPage extends Component {
                 <Helmet>
                   <title>{symbol}</title>
                 </Helmet>
-                {/* <TargetSummary
-                  ensgId={ensgId}
-                  symbol={symbol}
-                  name={name}
-                  uniprotId={uniprotId}
-                  synonyms={synonyms}
-                  description={description}
-                /> */}
                 <TargetHeader
                   ensgId={ensgId}
                   symbol={symbol}
