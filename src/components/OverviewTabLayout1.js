@@ -441,7 +441,7 @@ const sections = [
   {
     id: 'bibliography',
     name: 'Bibliography',
-    getHasData: () => false,
+    getHasData: () => false, // TODO: calculate properly
     // getSummary: ({ bibliographyCount }) =>
     //   `${bibliographyCount ? bibliographyCount : 0} paper${
     //     bibliographyCount !== 1 ? 's' : null
@@ -458,8 +458,8 @@ const sections = [
   {
     id: 'safety',
     name: 'Safety',
-    getHasData: () => true,
-    getSummary: () => 'TODO',
+    getHasData: () => true, // TODO: calculate properly
+    getSummary: () => 'TODO', // TODO: calculate properly
     SectionComponent: SafetySection,
     renderDescription: ({ symbol }) => (
       <React.Fragment>

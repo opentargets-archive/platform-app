@@ -199,7 +199,7 @@ class Section extends React.Component {
       safety_risk_info: safetyRiskInfo = [],
     } = safety;
 
-    return loading && safety ? (
+    return !loading ? (
       <React.Fragment>
         <Typography variant="h6">Known safety effects</Typography>
         <DataDownloader
