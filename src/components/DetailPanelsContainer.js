@@ -6,49 +6,22 @@ import DetailPanel from './DetailPanel';
 import SideMenu from './SideMenu';
 
 const defaultOrder = [
-  {
-    id: 'drugs',
-  },
-  {
-    id: 'tractability',
-  },
-  {
-    id: 'protein',
-  },
-  {
-    id: 'pathways',
-  },
-  {
-    id: 'relatedTargets',
-  },
-  {
-    id: 'variation',
-  },
-  {
-    id: 'proteinInteractions',
-  },
-  {
-    id: 'expression',
-  },
-  {
-    id: 'mousePhenotypes',
-  },
-  {
-    id: 'geneOntology',
-  },
-  {
-    id: 'homology',
-  },
-  // { id: 'bibliography' },
-  {
-    id: 'cancerHallmarks',
-  },
-  {
-    id: 'cancerBiomarkers',
-  },
-  {
-    id: 'chemicalProbes',
-  },
+  { id: 'drugs' },
+  { id: 'tractability' },
+  { id: 'protein' },
+  { id: 'pathways' },
+  { id: 'relatedTargets' },
+  { id: 'variation' },
+  { id: 'proteinInteractions' },
+  { id: 'expression' },
+  { id: 'mousePhenotypes' },
+  { id: 'geneOntology' },
+  { id: 'homology' },
+  { id: 'bibliography' },
+  { id: 'safety' },
+  { id: 'cancerHallmarks' },
+  { id: 'cancerBiomarkers' },
+  { id: 'chemicalProbes' },
 ];
 
 // a little function to help us with reordering the result

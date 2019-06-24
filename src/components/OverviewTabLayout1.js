@@ -46,6 +46,8 @@ import HomologySection from './Homology/Section';
 
 import BibliographySection from './Bibliography/Section';
 
+import SafetySection from './Safety/Section';
+
 import MiniWidgetBar from './MiniWidgetBar';
 import DetailPanelsContainer from './DetailPanelsContainer';
 
@@ -436,23 +438,35 @@ const sections = [
       </React.Fragment>
     ),
   },
-  // {
-  //   id: 'bibliography',
-  //   name: 'Bibliography',
-  //   getHasData: () => false,
-  //   // getSummary: ({ bibliographyCount }) =>
-  //   //   `${bibliographyCount ? bibliographyCount : 0} paper${
-  //   //     bibliographyCount !== 1 ? 's' : null
-  //   //   }`,
-  //   getSummary: () => '0 papers',
-  //   SectionComponent: BibliographySection,
-  //   renderDescription: ({ symbol }) => (
-  //     <React.Fragment>
-  //       Scientific literature on {symbol}. The list of publications is generated
-  //       by text mining PubMed abstracts with Natural Language Processing (NLP).
-  //     </React.Fragment>
-  //   ),
-  // },
+  {
+    id: 'bibliography',
+    name: 'Bibliography',
+    getHasData: () => false,
+    // getSummary: ({ bibliographyCount }) =>
+    //   `${bibliographyCount ? bibliographyCount : 0} paper${
+    //     bibliographyCount !== 1 ? 's' : null
+    //   }`,
+    getSummary: () => 'TODO',
+    SectionComponent: BibliographySection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Scientific literature on {symbol}. The list of publications is generated
+        by text mining PubMed abstracts with Natural Language Processing (NLP).
+      </React.Fragment>
+    ),
+  },
+  {
+    id: 'safety',
+    name: 'Safety',
+    getHasData: () => true,
+    getSummary: () => 'TODO',
+    SectionComponent: SafetySection,
+    renderDescription: ({ symbol }) => (
+      <React.Fragment>
+        Known safety effects and safety risk information for {symbol}.
+      </React.Fragment>
+    ),
+  },
   {
     id: 'cancerHallmarks',
     name: 'Cancer Hallmarks',
@@ -564,6 +578,9 @@ class OverviewTab extends Component {
           const sectionsWithHasData = sections.map(s => {
             const sectionHasError =
               error &&
+              (error.networkError ||
+                (error.graphQLErrors &&
+                  error.graphQLErrors.some(e => e.path[2] === s.id))) &&
               !(
                 data &&
                 data.target &&
