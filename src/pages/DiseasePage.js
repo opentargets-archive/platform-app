@@ -11,7 +11,7 @@ import { Tabs, Tab } from 'ot-ui';
 import BasePage from './BasePage';
 import DiseaseAssociationsPage from './DiseaseAssociationsPage';
 import DiseaseSummary from '../components/DiseaseSummary';
-// import DiseaseOverviewTab from '../components/DiseaseOverviewTab';
+import DiseaseOverviewTab from '../components/DiseaseOverviewTab';
 
 // const d3 = Object.assign({}, d3Bundle, d3Dag);
 
@@ -101,12 +101,7 @@ class DiseasePage extends Component {
                   />
                   <Route
                     path={match.path}
-                    render={() => (
-                      <div>
-                        overview content
-                        {/* <OverviewTab ensgId={ensgId} symbol={symbol} /> */}
-                      </div>
-                    )}
+                    render={() => <DiseaseOverviewTab efoId={efoId} />}
                   />
                 </Switch>
               </Fragment>

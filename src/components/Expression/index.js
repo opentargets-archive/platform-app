@@ -71,8 +71,8 @@ const ExpressionWidget = ({ classes, ensgId, symbol, expression }) => {
         }}
         hasData={false}
       >
-        <Typography color="secondary" align="center">
-          No data
+        <Typography color="error" align="center">
+          Error fetching data
         </Typography>
       </Widget>
     );
