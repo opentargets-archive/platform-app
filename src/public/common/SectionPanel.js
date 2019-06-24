@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import SectionAvatar from '../../components/SectionAvatar';
+import SectionAvatar from './SectionAvatar';
 import SectionPanelLoader from './SectionPanelLoader';
 import TargetSummaryContext from '../../contexts/TargetSummaryContext';
 

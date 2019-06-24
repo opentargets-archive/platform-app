@@ -3,7 +3,7 @@ import { StickyContainer, Sticky } from 'react-sticky';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import DetailPanel from './SectionPanel';
-import SideMenu from '../../components/SideMenu';
+import SideMenu from '../common/SideMenu';
 
 const defaultOrder = [
   { id: 'drugs' },
