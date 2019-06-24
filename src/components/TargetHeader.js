@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'ot-ui';
 
 import TargetIcon from '../icons/TargetIcon';
+import Tep from './Tep';
+import Crispr from './Crispr';
 
 const summaryStyles = theme => ({
   titleContainer: {
@@ -71,7 +73,23 @@ const TargetHeader = ({ classes, ensgId, symbol, name, uniprotId }) => (
                   to={`https://www.uniprot.org/uniprot/${uniprotId}`}
                 >
                   {uniprotId}
+                </Link>{' '}
+                | GeneCards:{' '}
+                <Link
+                  external
+                  to={`https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`}
+                >
+                  {symbol}
+                </Link>{' '}
+                | HGNC:{' '}
+                <Link
+                  external
+                  to={`https://www.genenames.org/tools/search/#!/all?query=${symbol}`}
+                >
+                  {symbol}
                 </Link>
+                <Crispr symbol={symbol} />
+                <Tep ensgId={ensgId} symbol={symbol} />
               </Typography>
             </Grid>
           </Grid>
