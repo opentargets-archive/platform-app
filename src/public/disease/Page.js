@@ -9,7 +9,7 @@ import { Tabs, Tab } from 'ot-ui';
 import BasePage from '../common/BasePage';
 import Associations from './Associations';
 import Header from './Header';
-import DiseaseOverviewTab from './DiseaseOverviewTab';
+import Profile from './Profile';
 
 // const diseaseQuery = gql`
 //   query DiseaseQuery($efoId: String!) {
@@ -92,10 +92,7 @@ class DiseasePage extends Component {
               path={`${match.path}/associations`}
               component={Associations}
             />
-            <Route
-              path={match.path}
-              render={() => <DiseaseOverviewTab efoId={efoId} />}
-            />
+            <Route path={match.path} render={() => <Profile efoId={efoId} />} />
           </Switch>
         </Fragment>
         {/* );
