@@ -19,7 +19,7 @@ const defaultOrder = [
   // { id: 'homology' },
   // { id: 'bibliography' },
   // { id: 'safety' },
-  // { id: 'cancerHallmarks' },
+  { id: 'cancerHallmarks' },
   { id: 'cancerBiomarkers' },
   // { id: 'chemicalProbes' },
 ];

@@ -1,7 +1,8 @@
 // TODO: see if this can be done dynamically
+//       or try @babel/plugin-proposal-export-namespace-from (may need eject)
+
 import * as cancerBiomarkersRaw from './sections/CancerBiomarkers';
-// import * as cancerBiomarkers from './sections/CancerBiomarkers';
-// import * as cancerHallmarks from './sections/CancerHallmarks';
+import * as cancerHallmarksRaw from './sections/CancerHallmarks';
 
 export const cancerBiomarkers = cancerBiomarkersRaw;
-// export const cancerHallmarks;
+export const cancerHallmarks = cancerHallmarksRaw;
