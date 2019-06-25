@@ -51,7 +51,7 @@ import SafetySection from './sections/Safety/Section';
 import MiniWidgetBar from '../common/MiniWidgetBar';
 import SectionPanelsContainer from '../common/SectionPanelsContainer';
 
-import TargetDescriptionAndSynonyms from './TargetDescriptionAndSynonyms';
+import DescriptionAndSynonyms from './DescriptionAndSynonyms';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -604,7 +604,7 @@ class OverviewTab extends Component {
 
           return (
             <Fragment>
-              <TargetDescriptionAndSynonyms {...{ description, synonyms }} />
+              <DescriptionAndSynonyms {...{ description, synonyms }} />
               <MiniWidgetBar
                 data={sectionsWithHasData}
                 onWidgetClick={this.scrollToSection}

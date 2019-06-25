@@ -34,7 +34,6 @@ const summaryStyles = theme => ({
     alignItems: 'center',
     display: 'flex',
     height: '35px',
-    // borderRadius: '3px',
     fontSize: '13px',
     fontWeight: '500',
     backgroundColor: theme.palette.primary.main,

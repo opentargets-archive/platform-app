@@ -10,7 +10,7 @@ import TargetSummaryContext from '../contexts/TargetSummaryContext';
 
 import BasePage from './BasePage';
 import TargetAssociationsPage from './TargetAssociationsPage';
-import TargetHeader from '../public/target/TargetHeader';
+import Header from '../public/target/Header';
 import OverviewTab from '../public/target/Profile';
 
 const targetQuery = gql`
@@ -83,7 +83,7 @@ class TargetPage extends Component {
                 <Helmet>
                   <title>{symbol}</title>
                 </Helmet>
-                <TargetHeader
+                <Header
                   ensgId={ensgId}
                   symbol={symbol}
                   name={name}
