@@ -10,7 +10,7 @@ const defaultOrder = [
   // { id: 'tractability' },
   { id: 'protein' },
   { id: 'pathways' },
-  // { id: 'relatedTargets' },
+  { id: 'relatedTargets' },
   // { id: 'variation' },
   { id: 'proteinInteractions' },
   { id: 'expression' },
