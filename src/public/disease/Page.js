@@ -8,10 +8,10 @@ import { Helmet } from 'react-helmet';
 
 import { Tabs, Tab } from 'ot-ui';
 
-import BasePage from './BasePage';
-import DiseaseAssociationsPage from './DiseaseAssociationsPage';
-import DiseaseSummary from '../components/DiseaseSummary';
-import DiseaseOverviewTab from '../components/DiseaseOverviewTab';
+import BasePage from '../../pages/BasePage';
+import Associations from './Associations';
+import DiseaseSummary from './DiseaseSummary';
+import DiseaseOverviewTab from './DiseaseOverviewTab';
 
 // const d3 = Object.assign({}, d3Bundle, d3Dag);
 
@@ -97,7 +97,7 @@ class DiseasePage extends Component {
                 <Switch>
                   <Route
                     path={`${match.path}/associations`}
-                    component={DiseaseAssociationsPage}
+                    component={Associations}
                   />
                   <Route
                     path={match.path}

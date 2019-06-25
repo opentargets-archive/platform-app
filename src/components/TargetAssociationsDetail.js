@@ -7,9 +7,7 @@
 // import dc from 'dc';
 // import * as d3 from 'd3';
 
-// import { OtTable } from 'ot-ui';
-
-// import ScoreCell from '../components/ScoreCell';
+// import { OtTable } from 'ot-ui../public/common/ScoreCell from '../components/ScoreCell';
 // import DCContainer from './DCContainer';
 
 // const styles = theme => ({
