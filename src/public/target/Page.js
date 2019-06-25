@@ -8,7 +8,7 @@ import { Tabs, Tab } from 'ot-ui';
 
 import TargetSummaryContext from './TargetSummaryContext';
 
-import BasePage from '../../pages/BasePage';
+import BasePage from '../common/BasePage';
 import Header from './Header';
 import Associations from './Associations';
 import Profile from './Profile';

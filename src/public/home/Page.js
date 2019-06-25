@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'ot-ui';
 
-import BasePage from '../../pages/BasePage';
+import BasePage from '../common/BasePage';
 
 const HomePage = () => {
   return (
