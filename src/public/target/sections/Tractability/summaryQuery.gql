@@ -1,0 +1,10 @@
+fragment tractabilityFragment on TargetSummaries {
+  tractability {
+    hasSmallMoleculeTractabilityAssessment
+    hasAntibodyTractabilityAssessment
+    sources {
+      url
+      name
+    }
+  }
+}

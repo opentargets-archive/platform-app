@@ -13,6 +13,7 @@ import * as pathwaysRaw from './sections/Pathways';
 import * as proteinRaw from './sections/ProteinInformation';
 import * as proteinInteractionsRaw from './sections/ProteinInteractions';
 import * as relatedTargetsRaw from './sections/RelatedTargets';
+import * as tractabilityRaw from './sections/Tractability';
 import * as variationRaw from './sections/Variation';
 
 export const cancerBiomarkers = cancerBiomarkersRaw;
@@ -28,3 +29,4 @@ export const protein = proteinRaw;
 export const proteinInteractions = proteinInteractionsRaw;
 export const relatedTargets = relatedTargetsRaw;
 export const variation = variationRaw;
+export const tractability = tractabilityRaw;

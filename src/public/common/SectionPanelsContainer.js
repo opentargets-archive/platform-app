@@ -7,7 +7,7 @@ import SideMenu from '../common/SideMenu';
 
 const defaultOrder = [
   { id: 'drugs' },
-  // { id: 'tractability' },
+  { id: 'tractability' },
   { id: 'protein' },
   { id: 'pathways' },
   { id: 'relatedTargets' },
