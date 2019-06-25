@@ -1,4 +1,4 @@
-// import React, { Fragment } from 'react';
+import React, { Fragment } from 'react';
 // import Grid from '@material-ui/core/Grid';
 // import withStyles from '@material-ui/core/styles/withStyles';
 // import Typography from '@material-ui/core/Typography';
@@ -139,3 +139,7 @@
 // );
 
 // export default withStyles(summaryStyles)(DiseaseSummary);
+
+const DiseaseHeader = () => <div>Disease X</div>;
+
+export default DiseaseHeader;

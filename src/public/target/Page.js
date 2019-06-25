@@ -9,9 +9,9 @@ import { Tabs, Tab } from 'ot-ui';
 import TargetSummaryContext from './TargetSummaryContext';
 
 import BasePage from '../../pages/BasePage';
-import Associations from './Associations';
 import Header from './Header';
-import OverviewTab from './Profile';
+import Associations from './Associations';
+import Profile from './Profile';
 
 const targetQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -83,12 +83,7 @@ class TargetPage extends Component {
                 <Helmet>
                   <title>{symbol}</title>
                 </Helmet>
-                <Header
-                  ensgId={ensgId}
-                  symbol={symbol}
-                  name={name}
-                  uniprotId={uniprotId}
-                />
+                <Header {...{ ensgId, uniprotId, symbol, name }} />
                 <Tabs
                   value={value}
                   onChange={this.handleChange}
@@ -106,7 +101,7 @@ class TargetPage extends Component {
                   <Route
                     path={match.path}
                     render={() => (
-                      <OverviewTab
+                      <Profile
                         {...{ ensgId, symbol, name, synonyms, description }}
                       />
                     )}
