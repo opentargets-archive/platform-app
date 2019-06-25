@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import { OtUiThemeProvider } from 'ot-ui';
 
-import HomePage from './pages/HomePage.js';
+import HomePage from './public/home/Page';
 import TargetPage from './public/target/Page';
 import DiseasePage from './pages/DiseasePage';
 

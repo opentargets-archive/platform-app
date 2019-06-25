@@ -1,6 +1,8 @@
 import React from 'react';
-import BasePage from './BasePage';
-import { Link } from 'react-router-dom';
+
+import { Link } from 'ot-ui';
+
+import BasePage from '../../pages/BasePage';
 
 const HomePage = () => {
   return (
