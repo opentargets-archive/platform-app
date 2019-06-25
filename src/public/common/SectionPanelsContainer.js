@@ -9,7 +9,7 @@ const defaultOrder = [
   { id: 'drugs' },
   // { id: 'tractability' },
   // { id: 'protein' },
-  // { id: 'pathways' },
+  { id: 'pathways' },
   // { id: 'relatedTargets' },
   // { id: 'variation' },
   // { id: 'proteinInteractions' },

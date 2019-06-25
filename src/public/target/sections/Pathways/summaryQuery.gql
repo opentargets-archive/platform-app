@@ -1,0 +1,9 @@
+fragment pathwaysFragment on TargetSummaries {
+  pathways {
+    count
+    sources {
+      name
+      url
+    }
+  }
+}

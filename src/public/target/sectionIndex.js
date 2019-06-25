@@ -9,6 +9,7 @@ import * as expressionRaw from './sections/Expression';
 import * as geneOntologyRaw from './sections/GeneOntology';
 import * as homologyRaw from './sections/Homology';
 import * as mousePhenotypesRaw from './sections/MousePhenotypes';
+import * as pathwaysRaw from './sections/Pathways';
 
 export const cancerBiomarkers = cancerBiomarkersRaw;
 export const cancerHallmarks = cancerHallmarksRaw;
@@ -18,3 +19,4 @@ export const expression = expressionRaw;
 export const geneOntology = geneOntologyRaw;
 export const homology = homologyRaw;
 export const mousePhenotypes = mousePhenotypesRaw;
+export const pathways = pathwaysRaw;
