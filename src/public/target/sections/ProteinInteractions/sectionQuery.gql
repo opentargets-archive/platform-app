@@ -1,0 +1,26 @@
+query ProteinInteractionsSectionQuery($ensgId: String!) {
+  target(ensgId: $ensgId) {
+    id
+    details {
+      proteinInteractions {
+        nodes {
+          uniprotId
+          ensgId
+          symbol
+        }
+        edges {
+          source
+          target
+          isDirected
+          isStimulation
+          isInhibition
+          pmIds
+          sources
+          pathwaysSources
+          enzymeSubstrateSources
+          ppiSources
+        }
+      }
+    }
+  }
+}

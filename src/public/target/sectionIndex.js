@@ -11,6 +11,7 @@ import * as homologyRaw from './sections/Homology';
 import * as mousePhenotypesRaw from './sections/MousePhenotypes';
 import * as pathwaysRaw from './sections/Pathways';
 import * as proteinRaw from './sections/ProteinInformation';
+import * as proteinInteractionsRaw from './sections/ProteinInteractions';
 
 export const cancerBiomarkers = cancerBiomarkersRaw;
 export const cancerHallmarks = cancerHallmarksRaw;
@@ -22,3 +23,4 @@ export const homology = homologyRaw;
 export const mousePhenotypes = mousePhenotypesRaw;
 export const pathways = pathwaysRaw;
 export const protein = proteinRaw;
+export const proteinInteractions = proteinInteractionsRaw;
