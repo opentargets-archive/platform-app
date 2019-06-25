@@ -155,13 +155,6 @@ const {
 } = dcconfig;
 
 const styles = theme => ({
-  modalContainer: {
-    overflow: 'auto',
-  },
-  modalContents: {
-    width: '90%',
-    margin: '0 auto',
-  },
   dcChartContainer: {
     padding: '8px', // this could perhaps be removed, and just use the Grid container
     marginTop: '20px',
