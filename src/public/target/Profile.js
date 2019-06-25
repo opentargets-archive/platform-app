@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { scroller, animateScroll } from 'react-scroll';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { print } from 'graphql/language/printer';
 
 import * as sectionsObject from './sectionIndex';
 
@@ -55,158 +56,158 @@ import SectionPanelsContainer from '../common/SectionPanelsContainer';
 
 import DescriptionAndSynonyms from '../common/DescriptionAndSynonyms';
 
-const overviewQuery = gql`
-  query TargetQuery($ensgId: String!) {
-    target(ensgId: $ensgId) {
-      id
-      uniprotId
-      symbol
-      summaries {
-        drugs {
-          drugCount
-          drugModalities {
-            antibody
-            enzyme
-            oligonucleotide
-            oligosaccharide
-            protein
-            smallMolecule
-            other
-          }
-          trialsByPhase {
-            phase
-            trialCount
-          }
-          sources {
-            name
-            url
-          }
-        }
-        chemicalProbes {
-          hasStructuralGenomicsConsortium
-          hasChemicalProbesPortal
-          hasOpenScienceProbes
-          hasProbeMiner
-          sources {
-            name
-            url
-          }
-        }
-        relatedTargets {
-          relatedTargetsCount
-          sources {
-            name
-            url
-          }
-        }
-        pathways {
-          count
-          sources {
-            name
-            url
-          }
-        }
-        protein {
-          hasSequenceAnnotationVisualisation
-          hasProteinStructure
-          hasSubCellularLocation
-          hasSubUnitData
-          hasUniprotKeywords
-          sources {
-            name
-            url
-          }
-        }
-        cancerBiomarkers {
-          hasCancerBiomarkers
-          cancerBiomarkerCount
-          diseaseCount
-          drugCount
-          sources {
-            name
-            url
-          }
-        }
-        geneOntology {
-          molecularFunctionTermsCount
-          biologicalProcessTermsCount
-          cellularComponentTermsCount
-          sources {
-            url
-            name
-          }
-        }
-        proteinInteractions {
-          ppi
-          pathways
-          enzymeSubstrate
-          interactorsCount
-        }
-        expression {
-          rnaBaselineExpression
-          proteinBaselineExpression
-          expressionAtlasExperiment
-          gtexData
-        }
-        mousePhenotypes {
-          phenotypeCount
-          categoryCount
-          sources {
-            url
-            name
-          }
-        }
-        tractability {
-          hasSmallMoleculeTractabilityAssessment
-          hasAntibodyTractabilityAssessment
-          sources {
-            url
-            name
-          }
-        }
-        variation {
-          common {
-            variantsCount
-            diseasesCount
-          }
-          rare {
-            mutationsCount
-            diseasesCount
-          }
-          sources {
-            url
-            name
-          }
-        }
-        homology {
-          orthologuesBySpecies {
-            species
-            speciesId
-            orthologuesCount
-          }
-          sources {
-            url
-            name
-          }
-        }
-        cancerHallmarks {
-          roleInCancer {
-            name
-            pmId
-          }
-          sources {
-            name
-          }
-          promotionAndSuppressionByHallmark {
-            name
-            promotes
-            suppresses
-          }
-        }
-      }
-    }
-  }
-`;
+// const overviewQuery = gql`
+//   query TargetQuery($ensgId: String!) {
+//     target(ensgId: $ensgId) {
+//       id
+//       uniprotId
+//       symbol
+//       summaries {
+//         drugs {
+//           drugCount
+//           drugModalities {
+//             antibody
+//             enzyme
+//             oligonucleotide
+//             oligosaccharide
+//             protein
+//             smallMolecule
+//             other
+//           }
+//           trialsByPhase {
+//             phase
+//             trialCount
+//           }
+//           sources {
+//             name
+//             url
+//           }
+//         }
+//         chemicalProbes {
+//           hasStructuralGenomicsConsortium
+//           hasChemicalProbesPortal
+//           hasOpenScienceProbes
+//           hasProbeMiner
+//           sources {
+//             name
+//             url
+//           }
+//         }
+//         relatedTargets {
+//           relatedTargetsCount
+//           sources {
+//             name
+//             url
+//           }
+//         }
+//         pathways {
+//           count
+//           sources {
+//             name
+//             url
+//           }
+//         }
+//         protein {
+//           hasSequenceAnnotationVisualisation
+//           hasProteinStructure
+//           hasSubCellularLocation
+//           hasSubUnitData
+//           hasUniprotKeywords
+//           sources {
+//             name
+//             url
+//           }
+//         }
+//         cancerBiomarkers {
+//           hasCancerBiomarkers
+//           cancerBiomarkerCount
+//           diseaseCount
+//           drugCount
+//           sources {
+//             name
+//             url
+//           }
+//         }
+//         geneOntology {
+//           molecularFunctionTermsCount
+//           biologicalProcessTermsCount
+//           cellularComponentTermsCount
+//           sources {
+//             url
+//             name
+//           }
+//         }
+//         proteinInteractions {
+//           ppi
+//           pathways
+//           enzymeSubstrate
+//           interactorsCount
+//         }
+//         expression {
+//           rnaBaselineExpression
+//           proteinBaselineExpression
+//           expressionAtlasExperiment
+//           gtexData
+//         }
+//         mousePhenotypes {
+//           phenotypeCount
+//           categoryCount
+//           sources {
+//             url
+//             name
+//           }
+//         }
+//         tractability {
+//           hasSmallMoleculeTractabilityAssessment
+//           hasAntibodyTractabilityAssessment
+//           sources {
+//             url
+//             name
+//           }
+//         }
+//         variation {
+//           common {
+//             variantsCount
+//             diseasesCount
+//           }
+//           rare {
+//             mutationsCount
+//             diseasesCount
+//           }
+//           sources {
+//             url
+//             name
+//           }
+//         }
+//         homology {
+//           orthologuesBySpecies {
+//             species
+//             speciesId
+//             orthologuesCount
+//           }
+//           sources {
+//             url
+//             name
+//           }
+//         }
+//         cancerHallmarks {
+//           roleInCancer {
+//             name
+//             pmId
+//           }
+//           sources {
+//             name
+//           }
+//           promotionAndSuppressionByHallmark {
+//             name
+//             promotes
+//             suppresses
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
 
 // const sections = [
 //   {
@@ -567,6 +568,23 @@ const overviewQuery = gql`
 
 const sections = Object.values(sectionsObject);
 
+// console.log(sections.map(s => s.id).join('\n'));
+// console.log(sections.map(s => print(s.summaryQuery)).join('\n'));
+const summariesQuery = gql`
+  query TargetSummaryQuery($ensgId: String!) {
+    target(ensgId: $ensgId) {
+      id
+      uniprotId
+      symbol
+      summaries {
+        ${sections.map(s => `...${s.id}Fragment`).join('\n')}
+      }
+    }
+  }
+  ${sections.map(s => print(s.summaryQuery)).join('\n')}
+`;
+// console.log(print(summariesQuery));
+
 class TargetProfile extends Component {
   scrollToSection = sectionId => {
     scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
@@ -577,7 +595,7 @@ class TargetProfile extends Component {
   render() {
     const { ensgId, description, synonyms } = this.props;
     return (
-      <Query query={overviewQuery} variables={{ ensgId }} errorPolicy="all">
+      <Query query={summariesQuery} variables={{ ensgId }} errorPolicy="all">
         {({ loading, error, data }) => {
           const sectionsWithHasData = sections.map(s => {
             const sectionHasError =
