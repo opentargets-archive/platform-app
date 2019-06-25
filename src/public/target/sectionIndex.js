@@ -3,6 +3,8 @@
 
 import * as cancerBiomarkersRaw from './sections/CancerBiomarkers';
 import * as cancerHallmarksRaw from './sections/CancerHallmarks';
+import * as chemicalProbesRaw from './sections/ChemicalProbes';
 
 export const cancerBiomarkers = cancerBiomarkersRaw;
 export const cancerHallmarks = cancerHallmarksRaw;
+export const chemicalProbes = chemicalProbesRaw;

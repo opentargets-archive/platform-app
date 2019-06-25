@@ -21,7 +21,7 @@ const defaultOrder = [
   // { id: 'safety' },
   { id: 'cancerHallmarks' },
   { id: 'cancerBiomarkers' },
-  // { id: 'chemicalProbes' },
+  { id: 'chemicalProbes' },
 ];
 
 // a little function to help us with reordering the result
