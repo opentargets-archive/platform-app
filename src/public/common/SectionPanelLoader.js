@@ -2,7 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import Typography from '@material-ui/core/Typography';
 
-// import TargetSummaryContext from '../../contexts/TargetSummaryContext';
+import TargetSummaryContext from '../target/TargetSummaryContext';
 
 class SectionPanelLoader extends React.Component {
   render() {
@@ -59,6 +59,6 @@ class SectionPanelLoader extends React.Component {
     }
   }
 }
-// SectionPanelLoader.contextType = TargetSummaryContext;
+SectionPanelLoader.contextType = TargetSummaryContext;
 
 export default SectionPanelLoader;
