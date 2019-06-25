@@ -1,0 +1,13 @@
+fragment homologyFragment on TargetSummaries {
+  homology {
+    orthologuesBySpecies {
+      species
+      speciesId
+      orthologuesCount
+    }
+    sources {
+      url
+      name
+    }
+  }
+}

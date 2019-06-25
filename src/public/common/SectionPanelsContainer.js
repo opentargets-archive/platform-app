@@ -16,7 +16,7 @@ const defaultOrder = [
   { id: 'expression' },
   // { id: 'mousePhenotypes' },
   { id: 'geneOntology' },
-  // { id: 'homology' },
+  { id: 'homology' },
   // { id: 'bibliography' },
   // { id: 'safety' },
   { id: 'cancerHallmarks' },
