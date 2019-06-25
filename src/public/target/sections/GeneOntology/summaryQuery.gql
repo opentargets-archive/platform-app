@@ -1,0 +1,11 @@
+fragment geneOntologyFragment on TargetSummaries {
+  geneOntology {
+    molecularFunctionTermsCount
+    biologicalProcessTermsCount
+    cellularComponentTermsCount
+    sources {
+      url
+      name
+    }
+  }
+}
