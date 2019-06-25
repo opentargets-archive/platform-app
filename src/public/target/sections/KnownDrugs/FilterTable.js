@@ -6,7 +6,7 @@ import dc from 'dc';
 import * as d3 from 'd3';
 import { lighten } from 'polished';
 
-import DCContainer from '../../../../components/DCContainer';
+import DCContainer from '../../../common/DCContainer';
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 import classNames from 'classnames';
 import {

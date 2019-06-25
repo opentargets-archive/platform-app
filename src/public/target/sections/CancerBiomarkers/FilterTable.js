@@ -10,7 +10,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 
-import DCContainer from '../../../../components/DCContainer';
+import DCContainer from '../../../common/DCContainer';
 import {
   upReducerKeyCount,
   downReducerKeyCount,
