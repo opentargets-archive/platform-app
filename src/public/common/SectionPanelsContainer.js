@@ -14,7 +14,7 @@ const defaultOrder = [
   // { id: 'variation' },
   // { id: 'proteinInteractions' },
   { id: 'expression' },
-  // { id: 'mousePhenotypes' },
+  { id: 'mousePhenotypes' },
   { id: 'geneOntology' },
   { id: 'homology' },
   // { id: 'bibliography' },
