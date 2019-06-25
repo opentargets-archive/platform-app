@@ -10,7 +10,7 @@ const summaryStyles = theme => ({
   description: {
     margin: '10px 0',
   },
-  synonymText: {
+  subheading: {
     display: 'inline-block',
   },
   synonym: {
@@ -24,10 +24,10 @@ const summaryStyles = theme => ({
   },
 });
 
-const TargetDescriptionAndSynonyms = ({ classes, synonyms, description }) => (
+const DescriptionAndSynonyms = ({ classes, synonyms, description }) => (
   <Grid className={classes.description} container>
     <Grid item xs={12} md={5}>
-      <Typography className={classes.synonymText} variant="subtitle2">
+      <Typography className={classes.subheading} variant="subtitle2">
         Description
       </Typography>
       <br />
@@ -43,7 +43,7 @@ const TargetDescriptionAndSynonyms = ({ classes, synonyms, description }) => (
       <Grid item md={1} />
     </Hidden>
     <Grid item xs={12} md={5}>
-      <Typography className={classes.synonymText} variant="subtitle2">
+      <Typography className={classes.subheading} variant="subtitle2">
         Synonyms
       </Typography>
       <br />
@@ -59,4 +59,4 @@ const TargetDescriptionAndSynonyms = ({ classes, synonyms, description }) => (
   </Grid>
 );
 
-export default withStyles(summaryStyles)(TargetDescriptionAndSynonyms);
+export default withStyles(summaryStyles)(DescriptionAndSynonyms);
