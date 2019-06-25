@@ -1,0 +1,8 @@
+fragment expressionFragment on TargetSummaries {
+  expression {
+    rnaBaselineExpression
+    proteinBaselineExpression
+    expressionAtlasExperiment
+    gtexData
+  }
+}

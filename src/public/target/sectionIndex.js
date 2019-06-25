@@ -4,7 +4,9 @@
 import * as cancerBiomarkersRaw from './sections/CancerBiomarkers';
 import * as cancerHallmarksRaw from './sections/CancerHallmarks';
 import * as chemicalProbesRaw from './sections/ChemicalProbes';
+import * as expressionRaw from './sections/Expression';
 
 export const cancerBiomarkers = cancerBiomarkersRaw;
 export const cancerHallmarks = cancerHallmarksRaw;
 export const chemicalProbes = chemicalProbesRaw;
+export const expression = expressionRaw;
