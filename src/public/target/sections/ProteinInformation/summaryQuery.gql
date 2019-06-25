@@ -1,0 +1,13 @@
+fragment proteinFragment on TargetSummaries {
+  protein {
+    hasSequenceAnnotationVisualisation
+    hasProteinStructure
+    hasSubCellularLocation
+    hasSubUnitData
+    hasUniprotKeywords
+    sources {
+      name
+      url
+    }
+  }
+}
