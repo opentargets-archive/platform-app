@@ -4,6 +4,7 @@
 import * as cancerBiomarkersRaw from './sections/CancerBiomarkers';
 import * as cancerHallmarksRaw from './sections/CancerHallmarks';
 import * as chemicalProbesRaw from './sections/ChemicalProbes';
+import * as drugsRaw from './sections/KnownDrugs';
 import * as expressionRaw from './sections/Expression';
 import * as geneOntologyRaw from './sections/GeneOntology';
 import * as homologyRaw from './sections/Homology';
@@ -11,6 +12,7 @@ import * as homologyRaw from './sections/Homology';
 export const cancerBiomarkers = cancerBiomarkersRaw;
 export const cancerHallmarks = cancerHallmarksRaw;
 export const chemicalProbes = chemicalProbesRaw;
+export const drugs = drugsRaw;
 export const expression = expressionRaw;
 export const geneOntology = geneOntologyRaw;
 export const homology = homologyRaw;

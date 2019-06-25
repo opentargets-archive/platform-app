@@ -6,7 +6,7 @@ import DetailPanel from './SectionPanel';
 import SideMenu from '../common/SideMenu';
 
 const defaultOrder = [
-  // { id: 'drugs' },
+  { id: 'drugs' },
   // { id: 'tractability' },
   // { id: 'protein' },
   // { id: 'pathways' },
