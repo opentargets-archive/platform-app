@@ -51,7 +51,7 @@ import SafetySection from './sections/Safety/Section';
 import MiniWidgetBar from '../common/MiniWidgetBar';
 import SectionPanelsContainer from '../common/SectionPanelsContainer';
 
-import DescriptionAndSynonyms from './DescriptionAndSynonyms';
+import DescriptionAndSynonyms from '../common/DescriptionAndSynonyms';
 
 const overviewQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -563,7 +563,7 @@ const sections = [
   },
 ];
 
-class OverviewTab extends Component {
+class TargetProfile extends Component {
   scrollToSection = sectionId => {
     scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
   };
@@ -623,4 +623,4 @@ class OverviewTab extends Component {
   }
 }
 
-export default OverviewTab;
+export default TargetProfile;

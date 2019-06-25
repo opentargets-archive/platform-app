@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 
+import DescriptionAndSynonyms from '../common/DescriptionAndSynonyms';
+
 class DiseaseProfile extends Component {
   render() {
-    return <div>TODO</div>;
+    const { description, synonyms } = this.props;
+    return <DescriptionAndSynonyms {...{ description, synonyms }} />;
   }
 }
 
