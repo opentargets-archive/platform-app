@@ -11,7 +11,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import SectionAvatar from './SectionAvatar';
 import SectionPanelLoader from './SectionPanelLoader';
-import TargetSummaryContext from '../../contexts/TargetSummaryContext';
+// import TargetSummaryContext from '../TargetSummaryContext';
 
 const styles = theme => ({
   title: {
@@ -109,6 +109,6 @@ class DetailPanel extends React.Component {
     );
   }
 }
-DetailPanel.contextType = TargetSummaryContext;
+// DetailPanel.contextType = TargetSummaryContext;
 
 export default withStyles(styles)(DetailPanel);

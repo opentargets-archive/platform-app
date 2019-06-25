@@ -2,7 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import TargetAssociationsDetail from '../components/TargetAssociationsDetail';
+// import TargetAssociationsDetail from '../components/TargetAssociationsDetail';
 
 const targetAssociationsQuery = gql`
   query TargetAssociationsQuery($ensgId: String!) {
@@ -33,18 +33,19 @@ const targetAssociationsQuery = gql`
 `;
 
 const TargetAssociationsPage = ({ match }) => {
-  const { ensgId } = match.params;
-  return (
-    <Query query={targetAssociationsQuery} variables={{ ensgId }}>
-      {({ loading, error, data }) => {
-        if (loading || error) {
-          return null;
-        }
+  return null;
+  // const { ensgId } = match.params;
+  // return (
+  //   <Query query={targetAssociationsQuery} variables={{ ensgId }}>
+  //     {({ loading, error, data }) => {
+  //       if (loading || error) {
+  //         return null;
+  //       }
 
-        return <TargetAssociationsDetail data={data} />;
-      }}
-    </Query>
-  );
+  //       return <TargetAssociationsDetail data={data} />;
+  //     }}
+  //   </Query>
+  // );
 };
 
 export default TargetAssociationsPage;

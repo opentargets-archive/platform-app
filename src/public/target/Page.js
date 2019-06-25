@@ -6,12 +6,12 @@ import { Helmet } from 'react-helmet';
 
 import { Tabs, Tab } from 'ot-ui';
 
-import TargetSummaryContext from '../contexts/TargetSummaryContext';
+import TargetSummaryContext from './TargetSummaryContext';
 
-import BasePage from './BasePage';
-import TargetAssociationsPage from './TargetAssociationsPage';
-import Header from '../public/target/Header';
-import OverviewTab from '../public/target/Profile';
+import BasePage from '../../pages/BasePage';
+import Associations from './Associations';
+import Header from './Header';
+import OverviewTab from './Profile';
 
 const targetQuery = gql`
   query TargetQuery($ensgId: String!) {
@@ -101,7 +101,7 @@ class TargetPage extends Component {
                 <Switch>
                   <Route
                     path={`${match.path}/associations`}
-                    component={TargetAssociationsPage}
+                    component={Associations}
                   />
                   <Route
                     path={match.path}
