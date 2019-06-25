@@ -11,7 +11,7 @@ const defaultOrder = [
   { id: 'protein' },
   { id: 'pathways' },
   { id: 'relatedTargets' },
-  // { id: 'variation' },
+  { id: 'variation' },
   { id: 'proteinInteractions' },
   { id: 'expression' },
   { id: 'mousePhenotypes' },

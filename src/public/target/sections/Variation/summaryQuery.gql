@@ -1,0 +1,16 @@
+fragment variationFragment on TargetSummaries {
+  variation {
+    common {
+      variantsCount
+      diseasesCount
+    }
+    rare {
+      mutationsCount
+      diseasesCount
+    }
+    sources {
+      url
+      name
+    }
+  }
+}
