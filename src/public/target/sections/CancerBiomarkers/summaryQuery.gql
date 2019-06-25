@@ -1,0 +1,17 @@
+query CancerBiomarkersSummaryQuery($ensgId: String!) {
+  target(ensgId: $ensgId) {
+    id
+    summaries {
+      cancerBiomarkers {
+        hasCancerBiomarkers
+        cancerBiomarkerCount
+        diseaseCount
+        drugCount
+        sources {
+          name
+          url
+        }
+      }
+    }
+  }
+}

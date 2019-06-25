@@ -55,8 +55,8 @@ class DetailPanel extends React.Component {
       hasData,
       error,
       loading,
-      renderDescription,
-      query,
+      DescriptionComponent,
+      sectionQuery,
       SectionComponent,
     } = this.props;
     return (
@@ -86,7 +86,9 @@ class DetailPanel extends React.Component {
                     [classes.descriptionError]: error,
                   })}
                 >
-                  {renderDescription ? renderDescription(this.context) : null}
+                  {DescriptionComponent ? (
+                    <DescriptionComponent {...this.context} />
+                  ) : null}
                 </Typography>
               }
             />
@@ -98,7 +100,7 @@ class DetailPanel extends React.Component {
                   hasData,
                   error,
                   loading,
-                  query,
+                  sectionQuery,
                   SectionComponent,
                 }}
               />

@@ -11,7 +11,7 @@ class SectionPanelLoader extends React.Component {
       error,
       loading,
       hasData,
-      query,
+      sectionQuery,
       SectionComponent,
     } = this.props;
     const targetContext = this.context;
@@ -30,9 +30,9 @@ class SectionPanelLoader extends React.Component {
     } else {
       // Some sections have multiple queries on different tabs, for example,
       // so manage this themselves.
-      if (query) {
+      if (sectionQuery) {
         return (
-          <Query query={query} variables={{ ensgId }}>
+          <Query query={sectionQuery} variables={{ ensgId }}>
             {({ loading: loading2, error: error2, data }) => {
               if (error2) {
                 return (

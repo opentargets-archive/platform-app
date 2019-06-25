@@ -3,50 +3,52 @@ import { scroller, animateScroll } from 'react-scroll';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Link } from 'ot-ui';
+import * as sectionsObject from './sectionIndex';
 
-import RelatedTargetsSection from './sections/RelatedTargets/Section';
-import RelatedTargetsQuery from './sections/RelatedTargets/query';
+// import { Link } from 'ot-ui';
 
-import PathwaysSection from './sections/Pathways/Section';
-import PathwaysQuery from './sections/Pathways/query';
+// import RelatedTargetsSection from './sections/RelatedTargets/Section';
+// import RelatedTargetsQuery from './sections/RelatedTargets/query';
 
-import ExpressionSection from './sections/Expression/Section';
+// import PathwaysSection from './sections/Pathways/Section';
+// import PathwaysQuery from './sections/Pathways/query';
 
-import ProteinInteractionsSection from './sections/ProteinInteractions/Section';
-import ProteinInteractionsQuery from './sections/ProteinInteractions/query';
+// import ExpressionSection from './sections/Expression/Section';
 
-import ProteinInformationSection from './sections/ProteinInformation/Section';
-import ProteinInformationQuery from './sections/ProteinInformation/query';
+// import ProteinInteractionsSection from './sections/ProteinInteractions/Section';
+// import ProteinInteractionsQuery from './sections/ProteinInteractions/query';
 
-import KnownDrugsSection from './sections/KnownDrugs/Section';
-import KnownDrugsQuery from './sections/KnownDrugs/query';
+// import ProteinInformationSection from './sections/ProteinInformation/Section';
+// import ProteinInformationQuery from './sections/ProteinInformation/query';
 
-import MousePhenotypesSection from './sections/MousePhenotypes/Section';
-import MousePhenotypesQuery from './sections/MousePhenotypes/query';
+// import KnownDrugsSection from './sections/KnownDrugs/Section';
+// import KnownDrugsQuery from './sections/KnownDrugs/query';
 
-import CancerBiomarkersSection from './sections/CancerBiomarkers/Section';
-import CancerBiomarkersQuery from './sections/CancerBiomarkers/query';
+// import MousePhenotypesSection from './sections/MousePhenotypes/Section';
+// import MousePhenotypesQuery from './sections/MousePhenotypes/query';
 
-import CancerHallmarksSection from './sections/CancerHallmarks/Section';
-import CancerHallmarksQuery from './sections/CancerHallmarks/query';
+// import CancerBiomarkersSection from './sections/CancerBiomarkers/Section';
+// import CancerBiomarkersQuery from './sections/CancerBiomarkers/query';
 
-import ChemicalProbesSection from './sections/ChemicalProbes/Section';
-import ChemicalProbesQuery from './sections/ChemicalProbes/query';
+// import CancerHallmarksSection from './sections/CancerHallmarks/Section';
+// import CancerHallmarksQuery from './sections/CancerHallmarks/query';
 
-import GeneOntologySection from './sections/GeneOntology/Section';
-import GeneOntologyQuery from './sections/GeneOntology/query';
+// import ChemicalProbesSection from './sections/ChemicalProbes/Section';
+// import ChemicalProbesQuery from './sections/ChemicalProbes/query';
 
-import TractabilitySection from './sections/Tractability/Section';
-import TractabilityQuery from './sections/Tractability/query';
+// import GeneOntologySection from './sections/GeneOntology/Section';
+// import GeneOntologyQuery from './sections/GeneOntology/query';
 
-import VariationSection from './sections/Variation/Section';
+// import TractabilitySection from './sections/Tractability/Section';
+// import TractabilityQuery from './sections/Tractability/query';
 
-import HomologySection from './sections/Homology/Section';
+// import VariationSection from './sections/Variation/Section';
 
-import BibliographySection from './sections/Bibliography/Section';
+// import HomologySection from './sections/Homology/Section';
 
-import SafetySection from './sections/Safety/Section';
+// import BibliographySection from './sections/Bibliography/Section';
+
+// import SafetySection from './sections/Safety/Section';
 
 import MiniWidgetBar from '../common/MiniWidgetBar';
 import SectionPanelsContainer from '../common/SectionPanelsContainer';
@@ -206,362 +208,364 @@ const overviewQuery = gql`
   }
 `;
 
-const sections = [
-  {
-    id: 'drugs',
-    name: 'Known Drugs',
-    getHasData: ({ drugCount }) => drugCount > 0,
-    getSummary: ({ drugCount }) => `${drugCount} drugs in clinical trials`,
-    query: KnownDrugsQuery,
-    SectionComponent: KnownDrugsSection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Drugs in clinical trials or approved for <strong>{symbol}</strong>.
-      </React.Fragment>
-    ),
-    renderDetail: () => null,
-  },
-  {
-    id: 'tractability',
-    name: 'Tractability',
-    getHasData: data =>
-      data.hasAntibodyTractabilityAssessment ||
-      data.hasSmallMoleculeTractabilityAssessment,
-    getSummary: ({
-      hasAntibodyTractabilityAssessment,
-      hasSmallMoleculeTractabilityAssessment,
-    }) => {
-      const sources = ['antibody', 'small molecule'].filter(
-        (d, i) =>
-          [
-            hasAntibodyTractabilityAssessment,
-            hasSmallMoleculeTractabilityAssessment,
-          ][i]
-      );
-      return sources.length > 0 ? sources.join(' • ') : null;
-    },
-    query: TractabilityQuery,
-    SectionComponent: TractabilitySection,
-    renderDescription: ({ symbol }) => (
-      <Fragment>
-        Summary of tractability assessment for <strong>{symbol}</strong> for
-        small molecule and antibody modalities. For more information on the
-        tractability assessment and descriptions of each bucket, please read{' '}
-        <Link
-          external
-          to="https://docs.targetvalidation.org/getting-started/target-tractability"
-        >
-          the tractability section of our documentation
-        </Link>
-        .
-      </Fragment>
-    ),
-  },
-  {
-    id: 'protein',
-    name: 'Protein Information',
-    getHasData: data =>
-      data.hasSequenceAnnotationVisualisation ||
-      data.hasProteinStructure ||
-      data.hasSubCellularLocation ||
-      data.hasSubUnitData ||
-      data.hasUniprotKeywords,
-    getSummary: ({
-      hasSequenceAnnotationVisualisation,
-      hasProteinStructure,
-    }) => {
-      const sources = ['sequence annotation', 'structure'].filter(
-        (d, i) => [hasSequenceAnnotationVisualisation, hasProteinStructure][i]
-      );
-      return sources.length > 0 ? sources.join(' • ') : null;
-    },
-    query: ProteinInformationQuery,
-    SectionComponent: ProteinInformationSection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        General information about <strong>{symbol}</strong> protein from UniProt
-        and PDBe.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'pathways',
-    name: 'Pathways',
-    getHasData: ({ count }) => count > 0,
-    getSummary: ({ count }) => `${count} Reactome pathways`,
-    query: PathwaysQuery,
-    SectionComponent: PathwaysSection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Pathway information for <strong>{symbol}</strong> from Reactome
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'relatedTargets',
-    name: 'Related Targets',
-    getHasData: ({ relatedTargetsCount }) => relatedTargetsCount > 0,
-    getSummary: ({ relatedTargetsCount }) => (
-      <React.Fragment>
-        {relatedTargetsCount} targets
-        <br />
-        (through shared diseases)
-      </React.Fragment>
-    ),
-    query: RelatedTargetsQuery,
-    SectionComponent: RelatedTargetsSection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Targets related to <strong>{symbol}</strong> based on shared disease
-        associations.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'variation',
-    name: 'Variation and Genomic Context',
-    getHasData: ({ common, rare }) =>
-      common.variantsCount > 0 || rare.mutationsCount > 0,
-    getSummary: ({ common, rare }) => (
-      <React.Fragment>
-        {`${common.variantsCount} variants (common diseases)`}
-        <br />
-        {`${rare.mutationsCount} mutations (rare diseases)`}
-      </React.Fragment>
-    ),
-    SectionComponent: VariationSection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Genomic variants associated with <strong>{symbol}</strong>. Only variant
-        information associating <strong>{symbol}</strong> with any disease is
-        displayed. Click on any variant, gene or transcript to get more
-        information about it. Pan or zoom the browser to see neighbouring genes.
-        The number above gene variants means that more than 1 overlap the same
-        region at the current zoom level. Genomic coordinates are relative to
-        GRCh38.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'proteinInteractions',
-    name: 'Protein Interactions',
-    getHasData: data =>
-      data.ppi > 0 || data.pathways > 0 || data.enzymeSubstrate > 0,
-    // getSummary: data =>
-    //   `${data.ppi} PPI • ${data.pathways} pathways • ${
-    //     data.enzymeSubstrate
-    //   } enzyme-subtrate`,
-    getSummary: data => `${data.interactorsCount} interactors`,
-    query: ProteinInteractionsQuery,
-    SectionComponent: ProteinInteractionsSection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Summary of interactions for <strong>{symbol}</strong> based on OmniPath
-        DB data.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'expression',
-    name: 'Baseline Expression',
-    getHasData: ({ rnaBaselineExpression, proteinBaselineExpression }) =>
-      rnaBaselineExpression || proteinBaselineExpression,
-    getSummary: ({ rnaBaselineExpression, proteinBaselineExpression }) => {
-      const expressionTypes = ['RNA', 'Protein'].filter(
-        (d, i) => [rnaBaselineExpression, proteinBaselineExpression][i]
-      );
-      return expressionTypes.length > 0 ? expressionTypes.join(' • ') : null;
-    },
-    SectionComponent: ExpressionSection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        RNA and protein baseline expression for <strong>{symbol}</strong>.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'mousePhenotypes',
-    name: 'Mouse Phenotypes',
-    getHasData: data => data.phenotypeCount > 0 || data.categoryCount > 0,
-    getSummary: ({ phenotypeCount }) => `${phenotypeCount} distinct phenotypes`,
-    query: MousePhenotypesQuery,
-    SectionComponent: MousePhenotypesSection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Mouse phenotypes by model associated with <strong>{symbol}</strong>{' '}
-        orthologues.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'geneOntology',
-    name: 'Gene Ontology',
-    getHasData: data =>
-      data.molecularFunctionTermsCount > 0 ||
-      data.biologicalProcessTermsCount > 0 ||
-      data.cellularComponentTermsCount > 0,
-    getSummary: data => (
-      <React.Fragment>
-        {data.molecularFunctionTermsCount +
-          data.biologicalProcessTermsCount +
-          data.cellularComponentTermsCount}{' '}
-        terms in total
-        <br />
-        {data.molecularFunctionTermsCount} MF •{' '}
-        {data.biologicalProcessTermsCount} BP •{' '}
-        {data.cellularComponentTermsCount} CC
-      </React.Fragment>
-    ),
-    query: GeneOntologyQuery,
-    SectionComponent: GeneOntologySection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Gene Ontology terms related to <strong>{symbol}</strong>.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'homology',
-    name: 'Gene Tree',
-    getHasData: ({ orthologuesBySpecies }) =>
-      orthologuesBySpecies.some(d => d.orthologuesCount > 0),
-    getSummary: ({ orthologuesBySpecies }) =>
-      `${orthologuesBySpecies.reduce(
-        (acc, d) => acc + d.orthologuesCount,
-        0
-      )} orthologues in ${orthologuesBySpecies.length} species`,
-    SectionComponent: HomologySection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Homology and gene tree information for <strong>{symbol}</strong> across
-        selected species.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'bibliography',
-    name: 'Bibliography',
-    getHasData: () => false, // TODO: calculate properly
-    // getSummary: ({ bibliographyCount }) =>
-    //   `${bibliographyCount ? bibliographyCount : 0} paper${
-    //     bibliographyCount !== 1 ? 's' : null
-    //   }`,
-    getSummary: () => 'TODO',
-    SectionComponent: BibliographySection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Scientific literature on {symbol}. The list of publications is generated
-        by text mining PubMed abstracts with Natural Language Processing (NLP).
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'safety',
-    name: 'Safety',
-    getHasData: () => true, // TODO: calculate properly
-    getSummary: () => 'TODO', // TODO: calculate properly
-    SectionComponent: SafetySection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Known safety effects and safety risk information for {symbol}.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'cancerHallmarks',
-    name: 'Cancer Hallmarks',
-    getHasData: ({ roleInCancer }) => roleInCancer.length > 0,
-    getSummary: ({ promotionAndSuppressionByHallmark }) => (
-      <React.Fragment>
-        {
-          promotionAndSuppressionByHallmark.filter(
-            d => d.promotes || d.suppresses
-          ).length
-        }{' '}
-        hallmarks
-        <br />
-        {promotionAndSuppressionByHallmark.filter(d => d.promotes).length}{' '}
-        promote •{' '}
-        {promotionAndSuppressionByHallmark.filter(d => d.suppresses).length}{' '}
-        suppress
-      </React.Fragment>
-    ),
-    query: CancerHallmarksQuery,
-    SectionComponent: CancerHallmarksSection,
-    renderDescription: () => (
-      <React.Fragment>
-        Essential alterations in cell physiology that dictate malignant growth.
-        Cancer hallmarks were originally described by{' '}
-        <Link external to="https://www.cell.com/abstract/S0092-8674(00)81683-9">
-          Hanahan and Weinberg (2000)
-        </Link>{' '}
-        and are manually curated by COSMIC and integrated into the Cancer Gene
-        Census.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'cancerBiomarkers',
-    name: 'Cancer Biomarkers',
-    getHasData: ({ hasCancerBiomarkers }) => hasCancerBiomarkers,
-    getSummary: ({ cancerBiomarkerCount, drugCount }) => (
-      <React.Fragment>
-        {cancerBiomarkerCount} biomarkers
-        <br />
-        (affecting {drugCount} drug{drugCount === 1 ? "'s" : "s'"}{' '}
-        responsiveness)
-      </React.Fragment>
-    ),
-    query: CancerBiomarkersQuery,
-    SectionComponent: CancerBiomarkersSection,
-    renderDescription: () => (
-      <React.Fragment>
-        Genomic biomarkers of drug responses, and their levels of clinical
-        significance as described by{' '}
-        <Link external to="https://europepmc.org/articles/PMC5875005">
-          {' '}
-          Tamborero et al. (2018)
-        </Link>
-        . This data is manually curated by clinical and scientific communities
-        in the field of precision oncology.
-      </React.Fragment>
-    ),
-  },
-  {
-    id: 'chemicalProbes',
-    name: 'Chemical Probes',
-    getHasData: data =>
-      data.hasStructuralGenomicsConsortium ||
-      data.hasChemicalProbesPortal ||
-      data.hasOpenScienceProbes ||
-      data.hasProbeMiner,
-    getSummary: ({
-      hasStructuralGenomicsConsortium,
-      hasChemicalProbesPortal,
-      hasOpenScienceProbes,
-      hasProbeMiner,
-    }) => {
-      const sources = ['SGC', 'CPP', 'OSP', 'ProbeMiner'].filter(
-        (d, i) =>
-          [
-            hasStructuralGenomicsConsortium,
-            hasChemicalProbesPortal,
-            hasOpenScienceProbes,
-            hasProbeMiner,
-          ][i]
-      );
-      return sources.length > 0 ? sources.join(' • ') : null;
-    },
-    query: ChemicalProbesQuery,
-    SectionComponent: ChemicalProbesSection,
-    renderDescription: ({ symbol }) => (
-      <React.Fragment>
-        Information on chemical probes that have been developed for{' '}
-        <strong>{symbol}</strong>.
-      </React.Fragment>
-    ),
-  },
-];
+// const sections = [
+//   {
+//     id: 'drugs',
+//     name: 'Known Drugs',
+//     getHasData: ({ drugCount }) => drugCount > 0,
+//     getSummary: ({ drugCount }) => `${drugCount} drugs in clinical trials`,
+//     query: KnownDrugsQuery,
+//     SectionComponent: KnownDrugsSection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Drugs in clinical trials or approved for <strong>{symbol}</strong>.
+//       </React.Fragment>
+//     ),
+//     renderDetail: () => null,
+//   },
+//   {
+//     id: 'tractability',
+//     name: 'Tractability',
+//     getHasData: data =>
+//       data.hasAntibodyTractabilityAssessment ||
+//       data.hasSmallMoleculeTractabilityAssessment,
+//     getSummary: ({
+//       hasAntibodyTractabilityAssessment,
+//       hasSmallMoleculeTractabilityAssessment,
+//     }) => {
+//       const sources = ['antibody', 'small molecule'].filter(
+//         (d, i) =>
+//           [
+//             hasAntibodyTractabilityAssessment,
+//             hasSmallMoleculeTractabilityAssessment,
+//           ][i]
+//       );
+//       return sources.length > 0 ? sources.join(' • ') : null;
+//     },
+//     query: TractabilityQuery,
+//     SectionComponent: TractabilitySection,
+//     renderDescription: ({ symbol }) => (
+//       <Fragment>
+//         Summary of tractability assessment for <strong>{symbol}</strong> for
+//         small molecule and antibody modalities. For more information on the
+//         tractability assessment and descriptions of each bucket, please read{' '}
+//         <Link
+//           external
+//           to="https://docs.targetvalidation.org/getting-started/target-tractability"
+//         >
+//           the tractability section of our documentation
+//         </Link>
+//         .
+//       </Fragment>
+//     ),
+//   },
+//   {
+//     id: 'protein',
+//     name: 'Protein Information',
+//     getHasData: data =>
+//       data.hasSequenceAnnotationVisualisation ||
+//       data.hasProteinStructure ||
+//       data.hasSubCellularLocation ||
+//       data.hasSubUnitData ||
+//       data.hasUniprotKeywords,
+//     getSummary: ({
+//       hasSequenceAnnotationVisualisation,
+//       hasProteinStructure,
+//     }) => {
+//       const sources = ['sequence annotation', 'structure'].filter(
+//         (d, i) => [hasSequenceAnnotationVisualisation, hasProteinStructure][i]
+//       );
+//       return sources.length > 0 ? sources.join(' • ') : null;
+//     },
+//     query: ProteinInformationQuery,
+//     SectionComponent: ProteinInformationSection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         General information about <strong>{symbol}</strong> protein from UniProt
+//         and PDBe.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'pathways',
+//     name: 'Pathways',
+//     getHasData: ({ count }) => count > 0,
+//     getSummary: ({ count }) => `${count} Reactome pathways`,
+//     query: PathwaysQuery,
+//     SectionComponent: PathwaysSection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Pathway information for <strong>{symbol}</strong> from Reactome
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'relatedTargets',
+//     name: 'Related Targets',
+//     getHasData: ({ relatedTargetsCount }) => relatedTargetsCount > 0,
+//     getSummary: ({ relatedTargetsCount }) => (
+//       <React.Fragment>
+//         {relatedTargetsCount} targets
+//         <br />
+//         (through shared diseases)
+//       </React.Fragment>
+//     ),
+//     query: RelatedTargetsQuery,
+//     SectionComponent: RelatedTargetsSection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Targets related to <strong>{symbol}</strong> based on shared disease
+//         associations.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'variation',
+//     name: 'Variation and Genomic Context',
+//     getHasData: ({ common, rare }) =>
+//       common.variantsCount > 0 || rare.mutationsCount > 0,
+//     getSummary: ({ common, rare }) => (
+//       <React.Fragment>
+//         {`${common.variantsCount} variants (common diseases)`}
+//         <br />
+//         {`${rare.mutationsCount} mutations (rare diseases)`}
+//       </React.Fragment>
+//     ),
+//     SectionComponent: VariationSection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Genomic variants associated with <strong>{symbol}</strong>. Only variant
+//         information associating <strong>{symbol}</strong> with any disease is
+//         displayed. Click on any variant, gene or transcript to get more
+//         information about it. Pan or zoom the browser to see neighbouring genes.
+//         The number above gene variants means that more than 1 overlap the same
+//         region at the current zoom level. Genomic coordinates are relative to
+//         GRCh38.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'proteinInteractions',
+//     name: 'Protein Interactions',
+//     getHasData: data =>
+//       data.ppi > 0 || data.pathways > 0 || data.enzymeSubstrate > 0,
+//     // getSummary: data =>
+//     //   `${data.ppi} PPI • ${data.pathways} pathways • ${
+//     //     data.enzymeSubstrate
+//     //   } enzyme-subtrate`,
+//     getSummary: data => `${data.interactorsCount} interactors`,
+//     query: ProteinInteractionsQuery,
+//     SectionComponent: ProteinInteractionsSection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Summary of interactions for <strong>{symbol}</strong> based on OmniPath
+//         DB data.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'expression',
+//     name: 'Baseline Expression',
+//     getHasData: ({ rnaBaselineExpression, proteinBaselineExpression }) =>
+//       rnaBaselineExpression || proteinBaselineExpression,
+//     getSummary: ({ rnaBaselineExpression, proteinBaselineExpression }) => {
+//       const expressionTypes = ['RNA', 'Protein'].filter(
+//         (d, i) => [rnaBaselineExpression, proteinBaselineExpression][i]
+//       );
+//       return expressionTypes.length > 0 ? expressionTypes.join(' • ') : null;
+//     },
+//     SectionComponent: ExpressionSection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         RNA and protein baseline expression for <strong>{symbol}</strong>.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'mousePhenotypes',
+//     name: 'Mouse Phenotypes',
+//     getHasData: data => data.phenotypeCount > 0 || data.categoryCount > 0,
+//     getSummary: ({ phenotypeCount }) => `${phenotypeCount} distinct phenotypes`,
+//     query: MousePhenotypesQuery,
+//     SectionComponent: MousePhenotypesSection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Mouse phenotypes by model associated with <strong>{symbol}</strong>{' '}
+//         orthologues.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'geneOntology',
+//     name: 'Gene Ontology',
+//     getHasData: data =>
+//       data.molecularFunctionTermsCount > 0 ||
+//       data.biologicalProcessTermsCount > 0 ||
+//       data.cellularComponentTermsCount > 0,
+//     getSummary: data => (
+//       <React.Fragment>
+//         {data.molecularFunctionTermsCount +
+//           data.biologicalProcessTermsCount +
+//           data.cellularComponentTermsCount}{' '}
+//         terms in total
+//         <br />
+//         {data.molecularFunctionTermsCount} MF •{' '}
+//         {data.biologicalProcessTermsCount} BP •{' '}
+//         {data.cellularComponentTermsCount} CC
+//       </React.Fragment>
+//     ),
+//     query: GeneOntologyQuery,
+//     SectionComponent: GeneOntologySection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Gene Ontology terms related to <strong>{symbol}</strong>.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'homology',
+//     name: 'Gene Tree',
+//     getHasData: ({ orthologuesBySpecies }) =>
+//       orthologuesBySpecies.some(d => d.orthologuesCount > 0),
+//     getSummary: ({ orthologuesBySpecies }) =>
+//       `${orthologuesBySpecies.reduce(
+//         (acc, d) => acc + d.orthologuesCount,
+//         0
+//       )} orthologues in ${orthologuesBySpecies.length} species`,
+//     SectionComponent: HomologySection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Homology and gene tree information for <strong>{symbol}</strong> across
+//         selected species.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'bibliography',
+//     name: 'Bibliography',
+//     getHasData: () => false, // TODO: calculate properly
+//     // getSummary: ({ bibliographyCount }) =>
+//     //   `${bibliographyCount ? bibliographyCount : 0} paper${
+//     //     bibliographyCount !== 1 ? 's' : null
+//     //   }`,
+//     getSummary: () => 'TODO',
+//     SectionComponent: BibliographySection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Scientific literature on {symbol}. The list of publications is generated
+//         by text mining PubMed abstracts with Natural Language Processing (NLP).
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'safety',
+//     name: 'Safety',
+//     getHasData: () => true, // TODO: calculate properly
+//     getSummary: () => 'TODO', // TODO: calculate properly
+//     SectionComponent: SafetySection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Known safety effects and safety risk information for {symbol}.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'cancerHallmarks',
+//     name: 'Cancer Hallmarks',
+//     getHasData: ({ roleInCancer }) => roleInCancer.length > 0,
+//     getSummary: ({ promotionAndSuppressionByHallmark }) => (
+//       <React.Fragment>
+//         {
+//           promotionAndSuppressionByHallmark.filter(
+//             d => d.promotes || d.suppresses
+//           ).length
+//         }{' '}
+//         hallmarks
+//         <br />
+//         {promotionAndSuppressionByHallmark.filter(d => d.promotes).length}{' '}
+//         promote •{' '}
+//         {promotionAndSuppressionByHallmark.filter(d => d.suppresses).length}{' '}
+//         suppress
+//       </React.Fragment>
+//     ),
+//     query: CancerHallmarksQuery,
+//     SectionComponent: CancerHallmarksSection,
+//     renderDescription: () => (
+//       <React.Fragment>
+//         Essential alterations in cell physiology that dictate malignant growth.
+//         Cancer hallmarks were originally described by{' '}
+//         <Link external to="https://www.cell.com/abstract/S0092-8674(00)81683-9">
+//           Hanahan and Weinberg (2000)
+//         </Link>{' '}
+//         and are manually curated by COSMIC and integrated into the Cancer Gene
+//         Census.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'cancerBiomarkers',
+//     name: 'Cancer Biomarkers',
+//     getHasData: ({ hasCancerBiomarkers }) => hasCancerBiomarkers,
+//     getSummary: ({ cancerBiomarkerCount, drugCount }) => (
+//       <React.Fragment>
+//         {cancerBiomarkerCount} biomarkers
+//         <br />
+//         (affecting {drugCount} drug{drugCount === 1 ? "'s" : "s'"}{' '}
+//         responsiveness)
+//       </React.Fragment>
+//     ),
+//     query: CancerBiomarkersQuery,
+//     SectionComponent: CancerBiomarkersSection,
+//     renderDescription: () => (
+//       <React.Fragment>
+//         Genomic biomarkers of drug responses, and their levels of clinical
+//         significance as described by{' '}
+//         <Link external to="https://europepmc.org/articles/PMC5875005">
+//           {' '}
+//           Tamborero et al. (2018)
+//         </Link>
+//         . This data is manually curated by clinical and scientific communities
+//         in the field of precision oncology.
+//       </React.Fragment>
+//     ),
+//   },
+//   {
+//     id: 'chemicalProbes',
+//     name: 'Chemical Probes',
+//     getHasData: data =>
+//       data.hasStructuralGenomicsConsortium ||
+//       data.hasChemicalProbesPortal ||
+//       data.hasOpenScienceProbes ||
+//       data.hasProbeMiner,
+//     getSummary: ({
+//       hasStructuralGenomicsConsortium,
+//       hasChemicalProbesPortal,
+//       hasOpenScienceProbes,
+//       hasProbeMiner,
+//     }) => {
+//       const sources = ['SGC', 'CPP', 'OSP', 'ProbeMiner'].filter(
+//         (d, i) =>
+//           [
+//             hasStructuralGenomicsConsortium,
+//             hasChemicalProbesPortal,
+//             hasOpenScienceProbes,
+//             hasProbeMiner,
+//           ][i]
+//       );
+//       return sources.length > 0 ? sources.join(' • ') : null;
+//     },
+//     query: ChemicalProbesQuery,
+//     SectionComponent: ChemicalProbesSection,
+//     renderDescription: ({ symbol }) => (
+//       <React.Fragment>
+//         Information on chemical probes that have been developed for{' '}
+//         <strong>{symbol}</strong>.
+//       </React.Fragment>
+//     ),
+//   },
+// ];
+
+const sections = Object.values(sectionsObject);
 
 class TargetProfile extends Component {
   scrollToSection = sectionId => {
@@ -591,13 +595,13 @@ class TargetProfile extends Component {
               loading: loading,
               error: sectionHasError ? 'An API error occurred' : null,
               hasData:
-                !sectionHasError && !loading && s.getHasData
-                  ? s.getHasData(data.target.summaries[s.id])
+                !sectionHasError && !loading && s.hasSummaryData
+                  ? s.hasSummaryData(data.target.summaries[s.id])
                   : false,
               summary:
-                !sectionHasError && !loading && s.getSummary
-                  ? s.getSummary(data.target.summaries[s.id])
-                  : null,
+                !sectionHasError && !loading && s.SummaryComponent ? (
+                  <s.SummaryComponent {...data.target.summaries[s.id]} />
+                ) : null,
               ...s,
             };
           });
