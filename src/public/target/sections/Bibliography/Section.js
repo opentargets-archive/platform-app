@@ -8,8 +8,8 @@ import classNames from 'classnames';
 import { Typography, Button } from 'ot-ui';
 import { PALETTE } from 'ot-ui';
 
-import Publication from './Publication';
-import { getAggregationsData, getPublicationsData } from './Api';
+import Publication from './custom/Publication';
+import { getAggregationsData, getPublicationsData } from './custom/Api';
 
 const aggtype = [
   { value: 'top_chunks_significant_terms', label: 'Concepts' },
@@ -52,6 +52,8 @@ const styles = theme => ({
 class Section extends Component {
   constructor(props) {
     super(props);
+    const { ensgId, symbol } = props;
+    const searchTerm = { key: ensgId, label: symbol };
     this.state = {
       bibliographyCount: 0,
       hasData: false,
@@ -59,7 +61,7 @@ class Section extends Component {
       aggregations: {},
       selectedAggregation: aggtype[0],
       hits: [], // the list of papers
-      selected: [this.props.searchTerm], // the selected chips (first item is the page gene or disease)
+      selected: [searchTerm], // the selected chips (first item is the page gene or disease)
     };
   }
 

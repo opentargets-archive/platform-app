@@ -15,6 +15,7 @@ import * as proteinInteractionsRaw from './sections/ProteinInteractions';
 import * as relatedTargetsRaw from './sections/RelatedTargets';
 import * as tractabilityRaw from './sections/Tractability';
 import * as variationRaw from './sections/Variation';
+import * as bibliographyRaw from './sections/Bibliography';
 
 export const cancerBiomarkers = cancerBiomarkersRaw;
 export const cancerHallmarks = cancerHallmarksRaw;
@@ -30,3 +31,4 @@ export const proteinInteractions = proteinInteractionsRaw;
 export const relatedTargets = relatedTargetsRaw;
 export const variation = variationRaw;
 export const tractability = tractabilityRaw;
+export const bibliography = bibliographyRaw;

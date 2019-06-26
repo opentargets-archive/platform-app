@@ -85,6 +85,7 @@ const MiniWidget = ({
   loading,
   error,
   hasData,
+  summaryQuery,
   summaryProps,
   SummaryComponent,
   onClick,
@@ -145,12 +146,20 @@ const MiniWidget = ({
               [classes.subheaderError]: error,
             })}
           >
-            {hasData ? (
-              <SummaryComponent {...summaryProps} />
+            {/* sections which don't use graphql queries
+          must be rendered to allow callbacks */}
+            {summaryQuery ? (
+              hasData ? (
+                <SummaryComponent {...summaryProps} />
+              ) : error ? (
+                'An API error occurred'
+              ) : loading ? null : (
+                '(no data)'
+              )
             ) : error ? (
               'An API error occurred'
             ) : loading ? null : (
-              '(no data)'
+              <SummaryComponent {...summaryProps} />
             )}
           </Typography>
         </Grid>

@@ -17,7 +17,7 @@ const defaultOrder = [
   { id: 'mousePhenotypes' },
   { id: 'geneOntology' },
   { id: 'homology' },
-  // { id: 'bibliography' },
+  { id: 'bibliography' },
   // { id: 'safety' },
   { id: 'cancerHallmarks' },
   { id: 'cancerBiomarkers' },

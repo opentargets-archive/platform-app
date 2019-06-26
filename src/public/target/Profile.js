@@ -7,23 +7,6 @@ import BaseProfile from '../common/Profile';
 
 // const sections = [
 //   {
-//     id: 'bibliography',
-//     name: 'Bibliography',
-//     getHasData: () => false, // TODO: calculate properly
-//     // getSummary: ({ bibliographyCount }) =>
-//     //   `${bibliographyCount ? bibliographyCount : 0} paper${
-//     //     bibliographyCount !== 1 ? 's' : null
-//     //   }`,
-//     getSummary: () => 'TODO',
-//     SectionComponent: BibliographySection,
-//     renderDescription: ({ symbol }) => (
-//       <React.Fragment>
-//         Scientific literature on {symbol}. The list of publications is generated
-//         by text mining PubMed abstracts with Natural Language Processing (NLP).
-//       </React.Fragment>
-//     ),
-//   },
-//   {
 //     id: 'safety',
 //     name: 'Safety',
 //     getHasData: () => true, // TODO: calculate properly
@@ -47,11 +30,17 @@ const summariesQuery = gql`
       uniprotId
       symbol
       summaries {
-        ${sections.map(s => `...${s.id}Fragment`).join('\n')}
+        ${sections
+          .filter(s => s.summaryQuery)
+          .map(s => `...${s.id}Fragment`)
+          .join('\n')}
       }
     }
   }
-  ${sections.map(s => print(s.summaryQuery)).join('\n')}
+  ${sections
+    .filter(s => s.summaryQuery)
+    .map(s => print(s.summaryQuery))
+    .join('\n')}
 `;
 
 class TargetProfile extends Component {
