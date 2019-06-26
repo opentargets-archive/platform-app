@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tabs, Tab } from 'ot-ui';
 
-import OverviewTab from './OverviewTab';
-import BrowserTab from './BrowserTab';
+import OverviewTab from './custom/OverviewTab';
+import BrowserTab from './custom/BrowserTab';
 
 class PathwaysDetail extends React.Component {
   state = {

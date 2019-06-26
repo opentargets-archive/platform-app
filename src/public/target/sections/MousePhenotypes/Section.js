@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import PhenotypesTable from './PhenotypesTable';
+import PhenotypesTable from './custom/PhenotypesTable';
 import AssociationSummary from '../../../common/AssociationSummary';
 
 const Section = ({ ensgId, symbol, data }) => (
