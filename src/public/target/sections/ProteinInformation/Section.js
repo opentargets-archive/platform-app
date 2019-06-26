@@ -4,8 +4,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Link, Tabs, Tab } from 'ot-ui';
 
-import Structure from './Structure';
-import ProtVistaRenderer from './ProtVistaRenderer';
+import Structure from './custom/Structure';
+import ProtVistaRenderer from './custom/ProtVistaRenderer';
 
 const styles = () => ({
   keywordCategory: {
