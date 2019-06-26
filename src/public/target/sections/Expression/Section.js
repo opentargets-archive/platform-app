@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Tabs, Tab } from 'ot-ui';
-import SummaryTab from './SummaryTab';
-import AtlasTab from './AtlasTab';
-import GtexTab from './GtexTab';
+import SummaryTab from './custom/SummaryTab';
+import AtlasTab from './custom/AtlasTab';
+import GtexTab from './custom/GtexTab';
 
 class Section extends Component {
   state = { tab: 'summary' };
