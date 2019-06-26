@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tabs, Tab } from 'ot-ui';
 
-import GeneTreeTab from './GeneTreeTab';
-import OrthologyTableTab from './OrthologyTableTab';
+import GeneTreeTab from './custom/GeneTreeTab';
+import OrthologyTableTab from './custom/OrthologyTableTab';
 
 class Section extends React.Component {
   state = {
