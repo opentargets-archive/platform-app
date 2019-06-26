@@ -57,8 +57,7 @@
     "tnt.tooltip": "^1.0.0",
     "tnt.utils": "^0.1.3",
     "tntvis": "^0.3.1",
-    "typeface-inter": "^3.3.0",
-    "venn.js": "^0.2.20"
+    "typeface-inter": "^3.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
