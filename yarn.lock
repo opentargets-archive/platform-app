@@ -8762,9 +8762,9 @@ osenv@0, osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-"ot-ui@https://github.com/opentargets/ot-ui#gp-blue":
-  version "0.0.85"
-  resolved "https://github.com/opentargets/ot-ui#6f8a09825f9bc00fdd74d14548e0792aeac52301"
+ot-ui@^0.0.91:
+  version "0.0.91"
+  resolved "https://registry.yarnpkg.com/ot-ui/-/ot-ui-0.0.91.tgz#4a408f2692f02d06d97e114787f34a146105500b"
 
 p-defer@^1.0.0:
   version "1.0.0"
