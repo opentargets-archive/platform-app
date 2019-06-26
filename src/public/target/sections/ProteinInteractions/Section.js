@@ -10,10 +10,10 @@ import Chip from '@material-ui/core/Chip';
 
 import { Button, ListTooltip } from 'ot-ui';
 
-import InteractionsPlot from './InteractionsPlot';
-import InteractionsTable from './InteractionsTable';
-import SourceChip from './SourceChip';
-import SourceCheckbox from './SourceCheckbox';
+import InteractionsPlot from './custom/InteractionsPlot';
+import InteractionsTable from './custom/InteractionsTable';
+import SourceChip from './custom/SourceChip';
+import SourceCheckbox from './custom/SourceCheckbox';
 
 const styles = theme => ({
   formControl: {
