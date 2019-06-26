@@ -6,15 +6,15 @@ import dc from 'dc';
 import * as d3 from 'd3';
 import { lighten } from 'polished';
 
-import DCContainer from '../../../common/DCContainer';
+import DCContainer from '../../../../common/DCContainer';
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 import classNames from 'classnames';
 import {
   upReducerKeyCount,
   downReducerKeyCount,
-} from '../../../../utils/crossfilterReducers';
-import { generateComparatorFromAccessor } from '../../../../utils/comparators';
-import * as dcconfig from '../../../common/dcConfig.js';
+} from '../../../../../utils/crossfilterReducers';
+import { generateComparatorFromAccessor } from '../../../../../utils/comparators';
+import * as dcconfig from '../../../../common/dcConfig.js';
 import _ from 'lodash';
 import { Grid } from '@material-ui/core';
 

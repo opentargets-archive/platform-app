@@ -1,13 +1,5 @@
 import pkg from '../package.json';
 
-export const PHASE_MAP = {
-  0: 0,
-  1: 'I',
-  2: 'II',
-  3: 'III',
-  4: 'IV',
-};
-
 export const externalLinks = {
   about: [
     {
