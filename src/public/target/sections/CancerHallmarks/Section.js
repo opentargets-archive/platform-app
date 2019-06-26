@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
 import { Link } from 'ot-ui';
-import HallmarksTable from './HallmarksTable';
+import HallmarksTable from './custom/HallmarksTable';
 
 const Section = ({ ensgId, symbol, data }) => (
   <React.Fragment>
