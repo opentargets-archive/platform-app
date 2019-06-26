@@ -64,7 +64,12 @@ class SectionPanelsContainer extends React.Component {
     });
   };
   render() {
-    const { onSideMenuItemClick, onScrollToTopClick, entity } = this.props;
+    const {
+      onSideMenuItemClick,
+      onScrollToTopClick,
+      entity,
+      entitySectionsAccessor,
+    } = this.props;
     const { orderedData } = this.state;
     return (
       <div style={{ paddingTop: 8, paddingBottom: 8 }}>
@@ -94,7 +99,12 @@ class SectionPanelsContainer extends React.Component {
             {orderedData
               .filter(d => d.loading || d.hasData)
               .map(d => (
-                <SectionPanel key={d.id} {...d} entity={entity} />
+                <SectionPanel
+                  key={d.id}
+                  {...d}
+                  entity={entity}
+                  entitySectionsAccessor={entitySectionsAccessor}
+                />
               ))}
           </Grid>
         </Grid>

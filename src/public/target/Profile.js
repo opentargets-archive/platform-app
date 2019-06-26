@@ -1,15 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import { scroller, animateScroll } from 'react-scroll';
-import { Query } from 'react-apollo';
+import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
 
 import * as sectionsObject from './sectionIndex';
-
-import MiniWidgetBar from '../common/MiniWidgetBar';
-import SectionPanelsContainer from '../common/SectionPanelsContainer';
-
-import DescriptionAndSynonyms from '../common/DescriptionAndSynonyms';
+import BaseProfile from '../common/Profile';
 
 // const sections = [
 //   {
@@ -61,12 +55,6 @@ const summariesQuery = gql`
 `;
 
 class TargetProfile extends Component {
-  scrollToSection = sectionId => {
-    scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
-  };
-  scrollToTop = () => {
-    animateScroll.scrollTo(0, { duration: 500, delay: 100, smooth: true });
-  };
   render() {
     const {
       ensgId,
@@ -77,54 +65,23 @@ class TargetProfile extends Component {
       description,
     } = this.props;
     const entity = { ensgId, uniprotId, symbol, name, synonyms, description };
+    const entitySummariesAccessor = data =>
+      data && data.target && data.target.summaries
+        ? data.target.summaries
+        : null;
+    const entitySectionsAccessor = data =>
+      data && data.target && data.target.details ? data.target.details : null;
     return (
-      <Query query={summariesQuery} variables={{ ensgId }} errorPolicy="all">
-        {({ loading, error, data }) => {
-          const sectionsWithHasData = sections.map(s => {
-            const summaryError =
-              error &&
-              (error.networkError ||
-                (error.graphQLErrors &&
-                  error.graphQLErrors.some(e => e.path[2] === s.id))) &&
-              !(
-                data &&
-                data.target &&
-                data.target.summaries &&
-                data.target.summaries[s.id]
-              );
-            const summaryProps =
-              !summaryError && !loading ? data.target.summaries[s.id] : {};
-            return {
-              loading: loading,
-              error: summaryError ? 'An API error occurred' : null,
-              hasData:
-                !summaryError && !loading && s.hasSummaryData
-                  ? s.hasSummaryData(data.target.summaries[s.id])
-                  : false,
-              summaryError,
-              summaryProps,
-              ...s,
-            };
-          });
-
-          return (
-            <Fragment>
-              <DescriptionAndSynonyms {...{ description, synonyms }} />
-              <MiniWidgetBar
-                data={sectionsWithHasData}
-                onWidgetClick={this.scrollToSection}
-              />
-              <br />
-              <SectionPanelsContainer
-                entity={entity}
-                data={sectionsWithHasData}
-                onSideMenuItemClick={this.scrollToSection}
-                onScrollToTopClick={this.scrollToTop}
-              />
-            </Fragment>
-          );
+      <BaseProfile
+        {...{
+          entity,
+          query: summariesQuery,
+          variables: { ensgId },
+          sections,
+          entitySummariesAccessor,
+          entitySectionsAccessor,
         }}
-      </Query>
+      />
     );
   }
 }

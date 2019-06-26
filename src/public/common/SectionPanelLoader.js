@@ -7,13 +7,13 @@ class SectionPanelLoader extends React.Component {
     const {
       sectionId,
       entity,
+      entitySectionsAccessor,
       error,
       loading,
       hasData,
       sectionQuery,
       SectionComponent,
     } = this.props;
-    console.log('SectionPanelLoader.entity', entity);
 
     if (error) {
       return (
@@ -41,9 +41,15 @@ class SectionPanelLoader extends React.Component {
               } else if (loading2) {
                 return null;
               } else {
-                const sectionData = data.target.details[sectionId];
+                const sectionsData = entitySectionsAccessor(data);
+                const sectionData = sectionsData[sectionId];
                 return (
-                  <SectionComponent {...{ ...entity, data: sectionData }} />
+                  <SectionComponent
+                    {...{
+                      ...entity,
+                      data: sectionData,
+                    }}
+                  />
                 );
               }
             }}

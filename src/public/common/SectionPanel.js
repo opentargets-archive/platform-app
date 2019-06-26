@@ -52,6 +52,7 @@ class SectionPanel extends React.Component {
       name,
       icon,
       entity,
+      entitySectionsAccessor,
       hasData,
       error,
       loading,
@@ -59,7 +60,6 @@ class SectionPanel extends React.Component {
       sectionQuery,
       SectionComponent,
     } = this.props;
-    console.log('SectionPanel.entity', entity);
     return (
       <Grid item xs={12} style={{ marginBottom: 8 }}>
         <Element name={id}>
@@ -98,6 +98,7 @@ class SectionPanel extends React.Component {
               <SectionPanelLoader
                 {...{
                   entity,
+                  entitySectionsAccessor,
                   sectionId: id,
                   hasData,
                   error,
