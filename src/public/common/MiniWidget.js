@@ -85,7 +85,8 @@ const MiniWidget = ({
   loading,
   error,
   hasData,
-  summary,
+  summaryProps,
+  SummaryComponent,
   onClick,
 }) => (
   <Grid item xs={4} md={3} lg={2}>
@@ -144,13 +145,13 @@ const MiniWidget = ({
               [classes.subheaderError]: error,
             })}
           >
-            {hasData
-              ? summary
-              : error
-              ? 'An API error occurred'
-              : loading
-              ? null
-              : '(no data)'}
+            {hasData ? (
+              <SummaryComponent {...summaryProps} />
+            ) : error ? (
+              'An API error occurred'
+            ) : loading ? null : (
+              '(no data)'
+            )}
           </Typography>
         </Grid>
       </Grid>

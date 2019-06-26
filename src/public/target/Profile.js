@@ -81,7 +81,7 @@ class TargetProfile extends Component {
       <Query query={summariesQuery} variables={{ ensgId }} errorPolicy="all">
         {({ loading, error, data }) => {
           const sectionsWithHasData = sections.map(s => {
-            const sectionHasError =
+            const summaryError =
               error &&
               (error.networkError ||
                 (error.graphQLErrors &&
@@ -92,17 +92,17 @@ class TargetProfile extends Component {
                 data.target.summaries &&
                 data.target.summaries[s.id]
               );
+            const summaryProps =
+              !summaryError && !loading ? data.target.summaries[s.id] : {};
             return {
               loading: loading,
-              error: sectionHasError ? 'An API error occurred' : null,
+              error: summaryError ? 'An API error occurred' : null,
               hasData:
-                !sectionHasError && !loading && s.hasSummaryData
+                !summaryError && !loading && s.hasSummaryData
                   ? s.hasSummaryData(data.target.summaries[s.id])
                   : false,
-              summary:
-                !sectionHasError && !loading && s.SummaryComponent ? (
-                  <s.SummaryComponent {...data.target.summaries[s.id]} />
-                ) : null,
+              summaryError,
+              summaryProps,
               ...s,
             };
           });
