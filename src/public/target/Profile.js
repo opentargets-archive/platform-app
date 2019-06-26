@@ -593,7 +593,15 @@ class TargetProfile extends Component {
     animateScroll.scrollTo(0, { duration: 500, delay: 100, smooth: true });
   };
   render() {
-    const { ensgId, description, synonyms } = this.props;
+    const {
+      ensgId,
+      uniprotId,
+      symbol,
+      name,
+      synonyms,
+      description,
+    } = this.props;
+    const entity = { ensgId, uniprotId, symbol, name, synonyms, description };
     return (
       <Query query={summariesQuery} variables={{ ensgId }} errorPolicy="all">
         {({ loading, error, data }) => {
@@ -633,6 +641,7 @@ class TargetProfile extends Component {
               />
               <br />
               <SectionPanelsContainer
+                entity={entity}
                 data={sectionsWithHasData}
                 onSideMenuItemClick={this.scrollToSection}
                 onScrollToTopClick={this.scrollToTop}

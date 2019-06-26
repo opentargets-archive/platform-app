@@ -2,7 +2,7 @@ import React from 'react';
 import { StickyContainer, Sticky } from 'react-sticky';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
-import DetailPanel from './SectionPanel';
+import SectionPanel from './SectionPanel';
 import SideMenu from '../common/SideMenu';
 
 const defaultOrder = [
@@ -64,7 +64,7 @@ class SectionPanelsContainer extends React.Component {
     });
   };
   render() {
-    const { onSideMenuItemClick, onScrollToTopClick } = this.props;
+    const { onSideMenuItemClick, onScrollToTopClick, entity } = this.props;
     const { orderedData } = this.state;
     return (
       <div style={{ paddingTop: 8, paddingBottom: 8 }}>
@@ -94,7 +94,7 @@ class SectionPanelsContainer extends React.Component {
             {orderedData
               .filter(d => d.loading || d.hasData)
               .map(d => (
-                <DetailPanel key={d.id} {...d} />
+                <SectionPanel key={d.id} {...d} entity={entity} />
               ))}
           </Grid>
         </Grid>

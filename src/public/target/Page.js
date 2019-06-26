@@ -6,8 +6,6 @@ import { Helmet } from 'react-helmet';
 
 import { Tabs, Tab } from 'ot-ui';
 
-import TargetSummaryContext from './TargetSummaryContext';
-
 import BasePage from '../common/BasePage';
 import Header from './Header';
 import Associations from './Associations';
@@ -69,17 +67,8 @@ class TargetPage extends Component {
               description,
             } = data.target;
 
-            const context = {
-              ensgId,
-              uniprotId,
-              symbol,
-              name,
-              synonyms,
-              description,
-            };
-
             return (
-              <TargetSummaryContext.Provider value={context}>
+              <React.Fragment>
                 <Helmet>
                   <title>{symbol}</title>
                 </Helmet>
@@ -102,12 +91,19 @@ class TargetPage extends Component {
                     path={match.path}
                     render={() => (
                       <Profile
-                        {...{ ensgId, symbol, name, synonyms, description }}
+                        {...{
+                          ensgId,
+                          uniprotId,
+                          symbol,
+                          name,
+                          synonyms,
+                          description,
+                        }}
                       />
                     )}
                   />
                 </Switch>
-              </TargetSummaryContext.Provider>
+              </React.Fragment>
             );
           }}
         </Query>

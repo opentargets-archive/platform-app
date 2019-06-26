@@ -2,20 +2,18 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import Typography from '@material-ui/core/Typography';
 
-import TargetSummaryContext from '../target/TargetSummaryContext';
-
 class SectionPanelLoader extends React.Component {
   render() {
     const {
       sectionId,
+      entity,
       error,
       loading,
       hasData,
       sectionQuery,
       SectionComponent,
     } = this.props;
-    const targetContext = this.context;
-    const { ensgId } = targetContext;
+    console.log('SectionPanelLoader.entity', entity);
 
     if (error) {
       return (
@@ -32,7 +30,7 @@ class SectionPanelLoader extends React.Component {
       // so manage this themselves.
       if (sectionQuery) {
         return (
-          <Query query={sectionQuery} variables={{ ensgId }}>
+          <Query query={sectionQuery} variables={{ ...entity }}>
             {({ loading: loading2, error: error2, data }) => {
               if (error2) {
                 return (
@@ -45,20 +43,17 @@ class SectionPanelLoader extends React.Component {
               } else {
                 const sectionData = data.target.details[sectionId];
                 return (
-                  <SectionComponent
-                    {...{ ...targetContext, data: sectionData }}
-                  />
+                  <SectionComponent {...{ ...entity, data: sectionData }} />
                 );
               }
             }}
           </Query>
         );
       } else {
-        return <SectionComponent {...targetContext} />;
+        return <SectionComponent {...entity} />;
       }
     }
   }
 }
-SectionPanelLoader.contextType = TargetSummaryContext;
 
 export default SectionPanelLoader;

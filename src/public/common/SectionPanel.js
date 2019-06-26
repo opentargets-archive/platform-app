@@ -11,7 +11,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import SectionAvatar from './SectionAvatar';
 import SectionPanelLoader from './SectionPanelLoader';
-// import TargetSummaryContext from '../TargetSummaryContext';
 
 const styles = theme => ({
   title: {
@@ -45,13 +44,14 @@ const styles = theme => ({
   },
 });
 
-class DetailPanel extends React.Component {
+class SectionPanel extends React.Component {
   render() {
     const {
       classes,
       id,
       name,
       icon,
+      entity,
       hasData,
       error,
       loading,
@@ -59,6 +59,7 @@ class DetailPanel extends React.Component {
       sectionQuery,
       SectionComponent,
     } = this.props;
+    console.log('SectionPanel.entity', entity);
     return (
       <Grid item xs={12} style={{ marginBottom: 8 }}>
         <Element name={id}>
@@ -87,7 +88,7 @@ class DetailPanel extends React.Component {
                   })}
                 >
                   {DescriptionComponent ? (
-                    <DescriptionComponent {...this.context} />
+                    <DescriptionComponent {...entity} />
                   ) : null}
                 </Typography>
               }
@@ -96,6 +97,7 @@ class DetailPanel extends React.Component {
             <CardContent className={classes.cardContent}>
               <SectionPanelLoader
                 {...{
+                  entity,
                   sectionId: id,
                   hasData,
                   error,
@@ -111,6 +113,5 @@ class DetailPanel extends React.Component {
     );
   }
 }
-// DetailPanel.contextType = TargetSummaryContext;
 
-export default withStyles(styles)(DetailPanel);
+export default withStyles(styles)(SectionPanel);
