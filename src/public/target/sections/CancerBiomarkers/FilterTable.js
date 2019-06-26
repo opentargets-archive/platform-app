@@ -20,7 +20,7 @@ import {
   DC_PIE_INNER_RADIUS,
   DC_PIE_OUTER_RADIUS,
   DC_PIE_WIDTH,
-} from '../../../../components/config/dc';
+} from '../../../common/dcConfig';
 
 const chartColour = lighten(0.3, '#3489ca');
 

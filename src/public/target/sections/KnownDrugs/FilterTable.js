@@ -14,7 +14,7 @@ import {
   downReducerKeyCount,
 } from '../../../../utils/crossfilterReducers';
 import { generateComparatorFromAccessor } from '../../../../utils/comparators';
-import * as dcconfig from '../../../../components/config/dc.js';
+import * as dcconfig from '../../../common/dcConfig.js';
 import _ from 'lodash';
 import { Grid } from '@material-ui/core';
 
