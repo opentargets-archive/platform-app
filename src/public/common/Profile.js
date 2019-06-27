@@ -106,6 +106,7 @@ class Profile extends Component {
             <Fragment>
               <DescriptionAndSynonyms {...{ description, synonyms }} />
               <MiniWidgetBar
+                entity={entity}
                 data={sectionsWithSummaryState}
                 onWidgetClick={this.scrollToSection}
               />

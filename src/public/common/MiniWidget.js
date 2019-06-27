@@ -84,6 +84,7 @@ const MiniWidget = ({
   icon,
   loading,
   error,
+  entity,
   hasData,
   summaryQuery,
   summaryProps,
@@ -150,7 +151,7 @@ const MiniWidget = ({
           must be rendered to allow callbacks */}
             {summaryQuery ? (
               hasData ? (
-                <SummaryComponent {...summaryProps} />
+                <SummaryComponent {...entity} {...summaryProps} />
               ) : error ? (
                 'An API error occurred'
               ) : loading ? null : (
@@ -159,7 +160,7 @@ const MiniWidget = ({
             ) : error ? (
               'An API error occurred'
             ) : loading ? null : (
-              <SummaryComponent {...summaryProps} />
+              <SummaryComponent {...entity} {...summaryProps} />
             )}
           </Typography>
         </Grid>

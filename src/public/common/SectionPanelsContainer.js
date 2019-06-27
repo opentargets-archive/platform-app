@@ -18,7 +18,7 @@ const defaultOrder = [
   { id: 'geneOntology' },
   { id: 'homology' },
   { id: 'bibliography' },
-  // { id: 'safety' },
+  { id: 'safety' },
   { id: 'cancerHallmarks' },
   { id: 'cancerBiomarkers' },
   { id: 'chemicalProbes' },
