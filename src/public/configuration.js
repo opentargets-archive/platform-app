@@ -16,3 +16,11 @@ export const targetSectionsDefaultOrder = [
   'cancerBiomarkers',
   'chemicalProbes',
 ];
+
+export const diseaseSectionsDefaultOrder = [
+  'relatedDiseases',
+  'phenotypes',
+  'drugs',
+  'bibliography',
+  'classification',
+];

@@ -94,7 +94,9 @@ class DiseasePage extends Component {
             />
             <Route
               path={match.path}
-              render={() => <Profile {...{ efoId, description, synonyms }} />}
+              render={() => (
+                <Profile {...{ efoId, name, description, synonyms }} />
+              )}
             />
           </Switch>
         </Fragment>
