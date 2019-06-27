@@ -52,6 +52,7 @@ class Profile extends Component {
       variables,
       query,
       sections,
+      defaultSectionsOrder,
       entitySummariesAccessor,
       entitySectionsAccessor,
     } = this.props;
@@ -115,6 +116,7 @@ class Profile extends Component {
                 entity={entity}
                 entitySectionsAccessor={entitySectionsAccessor}
                 data={sectionsWithSummaryState}
+                defaultSectionsOrder={defaultSectionsOrder}
                 onSideMenuItemClick={this.scrollToSection}
                 onScrollToTopClick={this.scrollToTop}
               />

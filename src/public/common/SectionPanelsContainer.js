@@ -5,25 +5,6 @@ import Hidden from '@material-ui/core/Hidden';
 import SectionPanel from './SectionPanel';
 import SideMenu from '../common/SideMenu';
 
-const defaultOrder = [
-  { id: 'drugs' },
-  { id: 'tractability' },
-  { id: 'protein' },
-  { id: 'pathways' },
-  { id: 'relatedTargets' },
-  { id: 'variation' },
-  { id: 'proteinInteractions' },
-  { id: 'expression' },
-  { id: 'mousePhenotypes' },
-  { id: 'geneOntology' },
-  { id: 'homology' },
-  { id: 'bibliography' },
-  { id: 'safety' },
-  { id: 'cancerHallmarks' },
-  { id: 'cancerBiomarkers' },
-  { id: 'chemicalProbes' },
-];
-
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -34,11 +15,16 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 class SectionPanelsContainer extends React.Component {
-  state = { order: defaultOrder };
+  constructor(props) {
+    super(props);
+    this.state = {
+      order: props.defaultSectionsOrder,
+    };
+  }
   static getDerivedStateFromProps(props, state) {
     const { data } = props;
     const { order } = state;
-    const orderedData = order.map(d => data.find(e => e.id === d.id));
+    const orderedData = order.map(d => data.find(e => e.id === d));
     return { orderedData };
   }
   onSideMenuItemDrag = result => {

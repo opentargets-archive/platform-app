@@ -2,24 +2,9 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
 
+import { targetSectionsDefaultOrder } from '../configuration';
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
-
-// const sections = [
-//   {
-//     id: 'safety',
-//     name: 'Safety',
-//     getHasData: () => true, // TODO: calculate properly
-//     getSummary: () => 'TODO', // TODO: calculate properly
-//     SectionComponent: SafetySection,
-//     renderDescription: ({ symbol }) => (
-//       <React.Fragment>
-//         Known safety effects and safety risk information for {symbol}.
-//       </React.Fragment>
-//     ),
-//   },
-//   {
-// ];
 
 const sections = Object.values(sectionsObject);
 
@@ -66,6 +51,7 @@ class TargetProfile extends Component {
           entity,
           query: summariesQuery,
           variables: { ensgId },
+          defaultSectionsOrder: targetSectionsDefaultOrder,
           sections,
           entitySummariesAccessor,
           entitySectionsAccessor,
