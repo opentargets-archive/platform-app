@@ -1,0 +1,12 @@
+fragment cancerBiomarkersFragment on TargetSummaries {
+  cancerBiomarkers {
+    hasCancerBiomarkers
+    cancerBiomarkerCount
+    diseaseCount
+    drugCount
+    sources {
+      name
+      url
+    }
+  }
+}

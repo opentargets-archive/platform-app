@@ -1,0 +1,12 @@
+fragment chemicalProbesFragment on TargetSummaries {
+  chemicalProbes {
+    hasStructuralGenomicsConsortium
+    hasChemicalProbesPortal
+    hasOpenScienceProbes
+    hasProbeMiner
+    sources {
+      name
+      url
+    }
+  }
+}

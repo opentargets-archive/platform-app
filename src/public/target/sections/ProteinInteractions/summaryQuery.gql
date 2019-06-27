@@ -1,0 +1,8 @@
+fragment proteinInteractionsFragment on TargetSummaries {
+  proteinInteractions {
+    ppi
+    pathways
+    enzymeSubstrate
+    interactorsCount
+  }
+}

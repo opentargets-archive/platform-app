@@ -1,22 +1,12 @@
 import React from 'react';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import withStyles from '@material-ui/core/styles/withStyles';
-import classNames from 'classnames';
 
-const styles = theme => ({
-  root: {
-    fill: theme.palette.primary.main,
-  },
-});
-
-const TargetIcon = ({ className, classes, ...rest }) => {
-  const iconClasses = classNames(classes.root, className);
+const TargetIcon = props => {
   return (
     <SvgIcon
-      className={iconClasses}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 194 301"
-      {...rest}
+      {...props}
     >
       <path
         d="M26.2 102.3a165.4 165.4 0 0 0 44.6 47.9A163.4 163.4 0 0 0 25.4
@@ -39,4 +29,4 @@ const TargetIcon = ({ className, classes, ...rest }) => {
   );
 };
 
-export default withStyles(styles)(TargetIcon);
+export default TargetIcon;

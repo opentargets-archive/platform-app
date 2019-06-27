@@ -1,0 +1,14 @@
+query GeneOntologySectionQuery($ensgId: String!) {
+  target(ensgId: $ensgId) {
+    id
+    details {
+      geneOntology {
+        rows {
+          id
+          term
+          category
+        }
+      }
+    }
+  }
+}

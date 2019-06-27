@@ -1,0 +1,16 @@
+fragment cancerHallmarksFragment on TargetSummaries {
+  cancerHallmarks {
+    roleInCancer {
+      name
+      pmId
+    }
+    sources {
+      name
+    }
+    promotionAndSuppressionByHallmark {
+      name
+      promotes
+      suppresses
+    }
+  }
+}
