@@ -1,7 +1,5 @@
 import React, { Fragment, Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-// import { Query } from 'react-apollo';
-// import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
 import { Tabs, Tab } from 'ot-ui';
@@ -11,16 +9,7 @@ import Associations from './Associations';
 import Header from './Header';
 import Profile from './Profile';
 
-// const diseaseQuery = gql`
-//   query DiseaseQuery($efoId: String!) {
-//     disease(efoId: $efoId) {
-//       id
-//       name
-//       description
-//       synonyms
-//     }
-//   }
-// `;
+// TODO: implement summaries in graphql api and use (like in target page)
 
 class DiseasePage extends Component {
   state = {};
