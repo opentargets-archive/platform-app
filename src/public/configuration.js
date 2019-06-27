@@ -24,3 +24,5 @@ export const diseaseSectionsDefaultOrder = [
   'bibliography',
   'classification',
 ];
+
+export const drugSectionsDefaultOrder = ['bibliography'];

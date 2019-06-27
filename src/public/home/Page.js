@@ -14,6 +14,9 @@ const HomePage = () => {
       <div>
         <Link to="/disease/EFO_0000384">Disease page</Link>
       </div>
+      <div>
+        <Link to="/drug/CHEMBL2111100">Drug page</Link>
+      </div>
     </BasePage>
   );
 };
