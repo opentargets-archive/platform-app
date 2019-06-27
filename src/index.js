@@ -24,7 +24,7 @@ window.tnt.tooltip = tooltip;
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://platform-graphql.opentargets.io/graphql',
+    uri: 'https://platform-api.now.sh/graphql',
   }),
   cache: new InMemoryCache(),
 });
