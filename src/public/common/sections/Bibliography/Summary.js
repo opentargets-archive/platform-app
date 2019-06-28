@@ -9,8 +9,8 @@ class Summary extends React.Component {
     bibliographyCount: 0,
   };
   componentDidMount() {
-    const { key, setHasSummaryData, setHasSummaryError } = this.props;
-    getStats([{ key }]).then(
+    const { keyword, setHasSummaryData, setHasSummaryError } = this.props;
+    getStats([{ key: keyword }]).then(
       result => {
         this.setState({
           bibliographyCount: result.hits.total,
