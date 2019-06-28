@@ -24,7 +24,7 @@ class DiseaseProfile extends Component {
     const entity = { efoId, name, synonyms, description };
     const entitySummariesAccessor = data =>
       data && data.disease && data.disease.summaries
-        ? data.target.summaries
+        ? data.disease.summaries
         : {};
     const entitySectionsAccessor = data =>
       data && data.disease && data.disease.details
