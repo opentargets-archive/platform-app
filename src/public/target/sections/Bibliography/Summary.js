@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { getStats } from './custom/Api';
+import { commaSeparate } from 'ot-ui';
+
+import { getStats } from '../../../common/sections/Bibliography/custom/Api';
 
 class Summary extends React.Component {
   state = {
@@ -24,7 +26,8 @@ class Summary extends React.Component {
     const { bibliographyCount } = this.state;
     return (
       <React.Fragment>
-        {bibliographyCount} publication{bibliographyCount === 1 ? '' : 's'}
+        {commaSeparate(bibliographyCount)} publication
+        {bibliographyCount === 1 ? '' : 's'}
       </React.Fragment>
     );
   }

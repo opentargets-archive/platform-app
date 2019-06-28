@@ -8,8 +8,11 @@ import classNames from 'classnames';
 import { Typography, Button } from 'ot-ui';
 import { PALETTE } from 'ot-ui';
 
-import Publication from './custom/Publication';
-import { getAggregationsData, getPublicationsData } from './custom/Api';
+import Publication from '../../../common/sections/Bibliography/custom/Publication';
+import {
+  getAggregationsData,
+  getPublicationsData,
+} from '../../../common/sections/Bibliography/custom/Api';
 
 const aggtype = [
   { value: 'top_chunks_significant_terms', label: 'Concepts' },
