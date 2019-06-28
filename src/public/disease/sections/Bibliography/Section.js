@@ -1,9 +1,12 @@
 import React from 'react';
+import BibliographySection from '../../../common/sections/Bibliography/Section';
 
-const Section = ({ name }) => (
-  <React.Fragment>
-    TODO: Write a section component for <strong>{name}</strong>.
-  </React.Fragment>
+const Section = ({ efoId, name, ...rest }) => (
+  <BibliographySection
+    keyword={efoId}
+    label={name}
+    {...{ efoId, name, ...rest }}
+  />
 );
 
 export default Section;
