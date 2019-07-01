@@ -1,0 +1,23 @@
+query RelatedDiseasesQuery($efoId: String!) {
+  disease(efoId: $efoId) {
+    id
+    details {
+      relatedDiseases {
+        rows {
+          A {
+            id
+            name
+          }
+          B {
+            id
+            name
+          }
+          targetCountA
+          targetCountB
+          targetCountAAndB
+          targetCountAOrB
+        }
+      }
+    }
+  }
+}

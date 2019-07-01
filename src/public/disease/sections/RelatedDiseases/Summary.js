@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Summary = ({ name }) => (
-  <React.Fragment>TODO: Write a summary</React.Fragment>
+const Summary = ({ relatedDiseasesCount }) => (
+  <React.Fragment>
+    {relatedDiseasesCount} diseases
+    <br />
+    (through shared targets)
+  </React.Fragment>
 );
 
 export default Summary;

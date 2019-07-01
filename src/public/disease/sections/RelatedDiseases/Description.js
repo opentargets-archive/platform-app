@@ -2,7 +2,8 @@ import React from 'react';
 
 const Description = ({ name }) => (
   <React.Fragment>
-    TODO: Write a description component for <strong>{name}</strong>.
+    Diseases related to <strong>{name}</strong> based on shared target
+    associations.
   </React.Fragment>
 );
 

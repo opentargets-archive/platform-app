@@ -14,8 +14,18 @@ const summariesQuery = gql`
     disease(efoId: $efoId) {
       id
       name
+      summaries {
+        ${sections
+          .filter(s => s.summaryQuery)
+          .map(s => `...${s.id}Fragment`)
+          .join('\n')}
+      }
     }
   }
+  ${sections
+    .filter(s => s.summaryQuery)
+    .map(s => print(s.summaryQuery))
+    .join('\n')}
 `;
 
 class DiseaseProfile extends Component {
