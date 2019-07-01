@@ -1,0 +1,14 @@
+query PhenotypesQuery($efoId: String!) {
+  disease(efoId: $efoId) {
+    id
+    details {
+      phenotypes {
+        rows {
+          id
+          name
+          url
+        }
+      }
+    }
+  }
+}
