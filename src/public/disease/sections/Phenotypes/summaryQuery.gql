@@ -1,0 +1,9 @@
+fragment phenotypesFragment on DiseaseSummaries {
+  phenotypes {
+    phenotypesCount
+    sources {
+      name
+      url
+    }
+  }
+}
