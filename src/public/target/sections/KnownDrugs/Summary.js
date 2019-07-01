@@ -1,3 +1,3 @@
-const Summary = ({ drugCount }) => `${drugCount} drugs in clinical trials`;
+import BaseSummary from '../../../common/sections/KnownDrugs/Summary';
 
-export default Summary;
+export default BaseSummary;

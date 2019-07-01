@@ -1,7 +1,3 @@
-import React from 'react';
+import BaseSummary from '../../../common/sections/KnownDrugs/Summary';
 
-const Summary = ({ name }) => (
-  <React.Fragment>TODO: Write a summary</React.Fragment>
-);
-
-export default Summary;
+export default BaseSummary;

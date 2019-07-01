@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Section = ({ name }) => (
-  <React.Fragment>
-    TODO: Write a section component for <strong>{name}</strong>.
-  </React.Fragment>
+import FilterTable from '../../../common/sections/KnownDrugs/custom/FilterTable';
+
+const Section = ({ efoId, data }) => (
+  <FilterTable rows={data.rows} fileStem={`${efoId}-known-drugs`} />
 );
 
 export default Section;

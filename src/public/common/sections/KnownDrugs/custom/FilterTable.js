@@ -399,7 +399,7 @@ class KnownDrugsDetail extends React.Component {
   }
 
   render() {
-    const { classes, symbol, rows } = this.props;
+    const { classes, fileStem, rows } = this.props;
     const { filteredRows } = this.state;
     // Setup filters for the columns that require it; cols identified by ID
     // options = array of {label, value} to populate filter dropdown; handler: on-select callback
@@ -546,7 +546,7 @@ class KnownDrugsDetail extends React.Component {
         <DataDownloader
           tableHeaders={getColumns({})}
           rows={filteredRows}
-          fileStem={`${symbol}-knowndrugs`}
+          fileStem={fileStem}
         />
         <OtTableRF
           columns={getColumns({ filters: colFilters })}
