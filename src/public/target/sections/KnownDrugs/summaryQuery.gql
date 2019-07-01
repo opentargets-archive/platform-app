@@ -1,19 +1,6 @@
 fragment drugsFragment on TargetSummaries {
   drugs {
     drugCount
-    drugModalities {
-      antibody
-      enzyme
-      oligonucleotide
-      oligosaccharide
-      protein
-      smallMolecule
-      other
-    }
-    trialsByPhase {
-      phase
-      trialCount
-    }
     sources {
       name
       url
