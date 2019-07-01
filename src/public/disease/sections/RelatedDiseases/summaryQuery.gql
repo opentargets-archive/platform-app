@@ -1,0 +1,9 @@
+fragment relatedDiseasesFragment on DiseaseSummaries {
+  relatedDiseases {
+    relatedDiseasesCount
+    sources {
+      name
+      url
+    }
+  }
+}
