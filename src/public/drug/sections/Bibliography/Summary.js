@@ -1,7 +1,9 @@
 import React from 'react';
 
-const Summary = ({ name }) => (
-  <React.Fragment>TODO: Write a summary</React.Fragment>
+import BibliographySummary from '../../../common/sections/Bibliography/Summary';
+
+const Summary = ({ name, ...rest }) => (
+  <BibliographySummary keyword={name} {...rest} />
 );
 
 export default Summary;
