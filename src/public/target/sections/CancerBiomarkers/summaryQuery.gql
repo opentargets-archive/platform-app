@@ -1,4 +1,4 @@
-fragment cancerBiomarkersFragment on TargetSummaries {
+fragment targetCancerBiomarkersFragment on TargetSummaries {
   cancerBiomarkers {
     hasCancerBiomarkers
     cancerBiomarkerCount

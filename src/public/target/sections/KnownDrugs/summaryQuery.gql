@@ -1,4 +1,4 @@
-fragment drugsFragment on TargetSummaries {
+fragment targetDrugsFragment on TargetSummaries {
   drugs {
     drugCount
     sources {

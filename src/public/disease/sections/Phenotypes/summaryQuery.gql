@@ -1,4 +1,4 @@
-fragment phenotypesFragment on DiseaseSummaries {
+fragment diseasePhenotypesFragment on DiseaseSummaries {
   phenotypes {
     phenotypesCount
     sources {

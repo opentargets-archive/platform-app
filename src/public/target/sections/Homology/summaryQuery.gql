@@ -1,4 +1,4 @@
-fragment homologyFragment on TargetSummaries {
+fragment targetHomologyFragment on TargetSummaries {
   homology {
     orthologuesBySpecies {
       species

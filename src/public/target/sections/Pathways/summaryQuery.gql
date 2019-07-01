@@ -1,4 +1,4 @@
-fragment pathwaysFragment on TargetSummaries {
+fragment targetPathwaysFragment on TargetSummaries {
   pathways {
     count
     sources {

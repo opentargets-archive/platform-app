@@ -1,4 +1,4 @@
-fragment expressionFragment on TargetSummaries {
+fragment targetExpressionFragment on TargetSummaries {
   expression {
     rnaBaselineExpression
     proteinBaselineExpression

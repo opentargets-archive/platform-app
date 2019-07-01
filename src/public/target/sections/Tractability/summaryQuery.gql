@@ -1,4 +1,4 @@
-fragment tractabilityFragment on TargetSummaries {
+fragment targetTractabilityFragment on TargetSummaries {
   tractability {
     hasSmallMoleculeTractabilityAssessment
     hasAntibodyTractabilityAssessment

@@ -1,4 +1,4 @@
-fragment relatedDiseasesFragment on DiseaseSummaries {
+fragment diseaseRelatedDiseasesFragment on DiseaseSummaries {
   relatedDiseases {
     relatedDiseasesCount
     sources {

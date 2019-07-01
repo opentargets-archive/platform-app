@@ -1,4 +1,4 @@
-fragment geneOntologyFragment on TargetSummaries {
+fragment targetGeneOntologyFragment on TargetSummaries {
   geneOntology {
     molecularFunctionTermsCount
     biologicalProcessTermsCount

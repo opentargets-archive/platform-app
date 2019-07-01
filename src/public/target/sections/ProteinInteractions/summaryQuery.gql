@@ -1,4 +1,4 @@
-fragment proteinInteractionsFragment on TargetSummaries {
+fragment targetProteinInteractionsFragment on TargetSummaries {
   proteinInteractions {
     ppi
     pathways

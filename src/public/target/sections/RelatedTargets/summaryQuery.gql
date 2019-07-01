@@ -1,4 +1,4 @@
-fragment relatedTargetsFragment on TargetSummaries {
+fragment targetRelatedTargetsFragment on TargetSummaries {
   relatedTargets {
     relatedTargetsCount
     sources {

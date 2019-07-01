@@ -1,4 +1,4 @@
-fragment variationFragment on TargetSummaries {
+fragment targetVariationFragment on TargetSummaries {
   variation {
     common {
       variantsCount

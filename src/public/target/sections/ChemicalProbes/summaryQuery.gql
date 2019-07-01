@@ -1,4 +1,4 @@
-fragment chemicalProbesFragment on TargetSummaries {
+fragment targetChemicalProbesFragment on TargetSummaries {
   chemicalProbes {
     hasStructuralGenomicsConsortium
     hasChemicalProbesPortal

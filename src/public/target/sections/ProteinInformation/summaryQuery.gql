@@ -1,4 +1,4 @@
-fragment proteinFragment on TargetSummaries {
+fragment targetProteinFragment on TargetSummaries {
   protein {
     hasSequenceAnnotationVisualisation
     hasProteinStructure

@@ -1,4 +1,4 @@
-fragment mousePhenotypesFragment on TargetSummaries {
+fragment targetMousePhenotypesFragment on TargetSummaries {
   mousePhenotypes {
     phenotypeCount
     categoryCount

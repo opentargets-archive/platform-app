@@ -1,4 +1,4 @@
-fragment cancerHallmarksFragment on TargetSummaries {
+fragment targetCancerHallmarksFragment on TargetSummaries {
   cancerHallmarks {
     roleInCancer {
       name

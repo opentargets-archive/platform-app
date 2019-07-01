@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
+import _ from 'lodash';
 
 import { targetSectionsDefaultOrder } from '../configuration';
 import * as sectionsObject from './sectionIndex';
@@ -17,7 +18,7 @@ const summariesQuery = gql`
       summaries {
         ${sections
           .filter(s => s.summaryQuery)
-          .map(s => `...${s.id}Fragment`)
+          .map(s => `...target${_.upperFirst(s.id)}Fragment`)
           .join('\n')}
       }
     }
