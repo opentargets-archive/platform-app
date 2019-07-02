@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import * as d3Dag from 'd3-dag';
 
+import OntologySubgraph from './custom/OntologySubgraph';
+
 const getSubgraph = ({ efoId, nodes, nodesById, upMethod, downMethod }) => {
   // handle up propagation
   const up = (acc, nodeId, depth) => {
@@ -77,11 +79,8 @@ const Section = ({ efoId, name, data }) => {
     downMethod,
   });
   const dag = d3Dag.dratify()(Object.values(subgraph));
-  return (
-    <React.Fragment>
-      TODO: Write a section component for <strong>{name}</strong>.
-    </React.Fragment>
-  );
+
+  return <OntologySubgraph dag={dag} />;
 };
 
 export default Section;
