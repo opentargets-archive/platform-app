@@ -1,0 +1,10 @@
+fragment diseaseOntologyFragment on DiseaseSummaries {
+  ontology {
+    isTherapeuticArea
+    isLeaf
+    sources {
+      name
+      url
+    }
+  }
+}

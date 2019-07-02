@@ -3524,9 +3524,9 @@ d3-contour@1:
   dependencies:
     d3-array "^1.1.1"
 
-d3-dag@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/d3-dag/-/d3-dag-0.1.2.tgz#abdeeef2fb3cde819832a325988fbfca9fc51eab"
+d3-dag@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/d3-dag/-/d3-dag-0.2.6.tgz#3c465caeca25bd5a6fe7ced5738c13f5ee181240"
   dependencies:
     d3-array "^1.2.1"
     fastpriorityqueue "^0.5.0"
