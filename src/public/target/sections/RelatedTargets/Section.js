@@ -1,47 +1,11 @@
 import React from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
+import * as d3 from 'd3';
 
 import { OtTableRF, Link } from 'ot-ui';
 
-import Intersection from '../../../common/Intersection';
+import LinearVenn from '../../../common/LinearVenn';
 
-const styles = () => ({
-  container: {
-    width: '204px',
-    margin: '8px 0',
-  },
-});
-
-let SharedDiseases = ({ d, classes }) => {
-  const ensemblIdRegexA = /ENSG(0)+/g;
-  ensemblIdRegexA.exec(d.A.id);
-  const compressedA = d.A.id.slice(ensemblIdRegexA.lastIndex);
-
-  const ensemblIdRegexB = /ENSG(0)+/g;
-  ensemblIdRegexB.exec(d.B.id);
-  const compressedB = d.B.id.slice(ensemblIdRegexB.lastIndex);
-
-  return (
-    <div className={classes.container}>
-      <Intersection
-        id={d.B.symbol}
-        a={d.diseaseCountANotB}
-        ab={d.diseaseCountAAndB}
-        b={d.diseaseCountBNotA}
-      />
-      <Link
-        external
-        to={`https://targetvalidation.org/summary?targets=${compressedA},${compressedB}`}
-      >
-        See all shared disease associations
-      </Link>
-    </div>
-  );
-};
-
-SharedDiseases = withStyles(styles)(SharedDiseases);
-
-const columns = symbol => [
+const columns = (symbol, maxDiseaseCountAOrB) => [
   {
     id: 'B.symbol',
     label: 'Related target',
@@ -54,24 +18,34 @@ const columns = symbol => [
     },
   },
   {
-    id: 'diseaseCountAAndB',
-    label: 'Number of shared disease associations',
-    renderCell: d => {
-      return <SharedDiseases d={d} />;
-    },
+    id: 'diseaseCountANotB',
+    label: `Diseases associated with ${symbol} but not the related target`,
   },
   {
-    id: 'diseaseCountANotB',
-    label: `Diseases associated with the related target but not ${symbol}`,
+    id: 'diseaseCountAAndB',
+    label: 'Shared disease associations',
   },
   {
     id: 'diseaseCountBNotA',
-    label: `Diseases associated with ${symbol} but not the related target`,
+    label: `Diseases associated with the related target but not ${symbol}`,
+  },
+  {
+    id: 'chart',
+    label: 'Venn diagram',
+    renderCell: d => (
+      <LinearVenn
+        aOnly={d.diseaseCountANotB}
+        bOnly={d.diseaseCountBNotA}
+        aAndB={d.diseaseCountAAndB}
+        max={maxDiseaseCountAOrB}
+      />
+    ),
   },
 ];
 
 const Section = ({ ensgId, symbol, data }) => {
   const { rows } = data;
+  const maxDiseaseCountAOrB = d3.max(rows, d => d.diseaseCountAOrB);
   const rowsMapped = rows.map(d => ({
     ...d,
     diseaseCountANotB: d.diseaseCountA - d.diseaseCountAAndB,
@@ -82,7 +56,7 @@ const Section = ({ ensgId, symbol, data }) => {
     <OtTableRF
       loading={false}
       error={false}
-      columns={columns(symbol)}
+      columns={columns(symbol, maxDiseaseCountAOrB)}
       data={rowsMapped}
     />
   );

@@ -1,33 +1,11 @@
 import React from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
+import * as d3 from 'd3';
 
 import { OtTableRF, Link } from 'ot-ui';
 
-import Intersection from '../../../common/Intersection';
+import LinearVenn from '../../../common/LinearVenn';
 
-const styles = () => ({
-  container: {
-    width: '204px',
-    margin: '8px 0',
-  },
-});
-
-let SharedTargets = ({ d, classes }) => {
-  return (
-    <div className={classes.container}>
-      <Intersection
-        id={d.B.name}
-        a={d.targetCountANotB}
-        ab={d.targetCountAAndB}
-        b={d.targetCountBNotA}
-      />
-    </div>
-  );
-};
-
-SharedTargets = withStyles(styles)(SharedTargets);
-
-const columns = name => [
+const columns = (name, maxTargetCountAOrB) => [
   {
     id: 'B.name',
     label: 'Related disease',
@@ -40,22 +18,34 @@ const columns = name => [
     },
   },
   {
-    id: 'targetCountAAndB',
-    label: 'Number of shared target associations',
-    renderCell: d => <SharedTargets d={d} />,
+    id: 'targetCountANotB',
+    label: `Targets associated with ${name} but not the related disease`,
   },
   {
-    id: 'targetCountANotB',
-    label: `Targets associated with the related disease but not ${name}`,
+    id: 'targetCountAAndB',
+    label: 'Shared target associations',
   },
   {
     id: 'targetCountBNotA',
-    label: `Targets associated with ${name} but not the related disease`,
+    label: `Targets associated with the related disease but not ${name}`,
+  },
+  {
+    id: 'chart',
+    label: 'Venn diagram',
+    renderCell: d => (
+      <LinearVenn
+        aOnly={d.targetCountANotB}
+        bOnly={d.targetCountBNotA}
+        aAndB={d.targetCountAAndB}
+        max={maxTargetCountAOrB}
+      />
+    ),
   },
 ];
 
 const Section = ({ efoId, name, data }) => {
   const { rows } = data;
+  const maxTargetCountAOrB = d3.max(rows, d => d.targetCountAOrB);
   const rowsMapped = rows.map(d => ({
     ...d,
     targetCountANotB: d.targetCountA - d.targetCountAAndB,
@@ -66,7 +56,7 @@ const Section = ({ efoId, name, data }) => {
     <OtTableRF
       loading={false}
       error={false}
-      columns={columns(name)}
+      columns={columns(name, maxTargetCountAOrB)}
       data={rowsMapped}
     />
   );
