@@ -1,7 +1,9 @@
 import React from 'react';
 import { withContentRect } from 'react-measure';
-import * as d3 from 'd3';
-import * as d3Dag from 'd3-dag';
+import * as d3Base from 'd3';
+import * as d3DagBase from 'd3-dag';
+
+const d3 = Object.assign({}, d3Base, d3DagBase);
 
 class DAGViewer extends React.Component {
   state = {};
@@ -12,26 +14,30 @@ class DAGViewer extends React.Component {
   }
 
   render() {
-    const { measureRef, dag } = this.props;
+    const { measureRef, efoId, subgraph } = this.props;
     const { width } = this.state;
     const height = Math.min(width, 700);
     const margin = { top: 50, right: 80, bottom: 50, left: 80 };
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
-    // compute layout
-    const layout = d3Dag
+    // create dag
+    let dag = d3.dagStratify()(Object.values(subgraph));
+
+    // create layout generator
+    let layout = d3
       .sugiyama()
       .size([innerWidth, innerHeight])
-      .layering(d3Dag.layeringLongestPath())
-      .decross(d3Dag.decrossTwoLayer())
-      .coord(d3Dag.coordGreedy());
+      .layering(d3.layeringLongestPath())
+      .decross(d3.decrossTwoLayer())
+      .coord(d3.coordGreedy());
+
+    // compute layout
     layout(dag);
 
     // edge generator
     const line = d3
       .line()
-      // .curve(d3.curveCatmullRom)
       .curve(d3.curveMonotoneY)
       .x(d => d.x)
       .y(d => d.y);
