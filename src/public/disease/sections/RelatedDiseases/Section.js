@@ -1,9 +1,9 @@
 import React from 'react';
 import * as d3 from 'd3';
 
-import { OtTableRF, Link } from 'ot-ui';
+import { OtTableRF, Link, significantFigures } from 'ot-ui';
 
-import LinearVenn from '../../../common/LinearVenn';
+import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
 
 const columns = (name, maxTargetCountAOrB) => [
   {
@@ -16,6 +16,11 @@ const columns = (name, maxTargetCountAOrB) => [
       }
       return 1;
     },
+  },
+  {
+    id: 'score',
+    label: 'Similarity score',
+    renderCell: d => significantFigures(d.score),
   },
   {
     id: 'targetCountANotB',
@@ -31,7 +36,13 @@ const columns = (name, maxTargetCountAOrB) => [
   },
   {
     id: 'chart',
-    label: 'Venn diagram',
+    label: (
+      <LinearVennLegend
+        a={`Targets associated with ${name} but not the related disease`}
+        b={`Targets associated with the related disease but not ${name}`}
+        aAndB="Shared target associations"
+      />
+    ),
     renderCell: d => (
       <LinearVenn
         aOnly={d.targetCountANotB}
@@ -58,6 +69,8 @@ const Section = ({ efoId, name, data }) => {
       error={false}
       columns={columns(name, maxTargetCountAOrB)}
       data={rowsMapped}
+      sortBy="score"
+      order="desc"
     />
   );
 };

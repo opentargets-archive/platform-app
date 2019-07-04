@@ -1,6 +1,5 @@
 import React from 'react';
 import withTheme from '@material-ui/core/styles/withTheme';
-import * as d3 from 'd3';
 
 const WIDTH = 400;
 const HEIGHT = 18;
@@ -13,18 +12,39 @@ const LinearVenn = ({ theme, aOnly, aAndB, bOnly, max }) => {
   const bOnlyStart = aAndBStart + aAndBWidth;
   const bOnlyWidth = (WIDTH * bOnly) / max;
 
-  const halfwayColour = d3.interpolateRgb(
-    d3.rgb(theme.palette.primary.main),
-    d3.rgb(theme.palette.secondary.main)
-  )(0.5);
-
   return (
     <svg width={WIDTH} height={HEIGHT}>
+      <defs>
+        <pattern
+          id="diagonalHatch"
+          width="4"
+          height="4"
+          patternTransform="rotate(45 0 0)"
+          patternUnits="userSpaceOnUse"
+        >
+          <line
+            x1="1"
+            y1="0"
+            x2="1"
+            y2="4"
+            strokeWidth="2"
+            stroke={theme.palette.primary.main}
+          />
+          <line
+            x1="3"
+            y1="0"
+            x2="3"
+            y2="4"
+            strokeWidth="2"
+            stroke={theme.palette.secondary.main}
+          />
+        </pattern>
+      </defs>
       <g>
         <rect
           x={aOnlyStart}
           y={0}
-          width={aOnlyWidth + aAndBWidth}
+          width={aOnlyWidth}
           height={HEIGHT}
           fill={theme.palette.primary.main}
           stroke={'white'}
@@ -34,7 +54,7 @@ const LinearVenn = ({ theme, aOnly, aAndB, bOnly, max }) => {
           y={0}
           width={aAndBWidth}
           height={HEIGHT}
-          fill={halfwayColour}
+          fill="url(#diagonalHatch)"
           stroke={'white'}
         />
         <rect
@@ -46,19 +66,99 @@ const LinearVenn = ({ theme, aOnly, aAndB, bOnly, max }) => {
           stroke={'white'}
         />
       </g>
-
-      <g>
-        <rect
-          x={0}
-          y={0}
-          width={WIDTH}
-          height={HEIGHT}
-          fill={'none'}
-          stroke={theme.palette.grey[700]}
-        />
-      </g>
     </svg>
   );
 };
+
+const LEGEND_SQUARE_SIZE = 15;
+const LEGEND_PADDING = 3;
+const Legend = ({ theme, a, b, aAndB }) => (
+  <svg width={WIDTH} height={LEGEND_SQUARE_SIZE * 3 + LEGEND_PADDING * 2}>
+    <defs>
+      <pattern
+        id="diagonalHatchLegend"
+        width="4"
+        height="4"
+        patternTransform="rotate(45 0 0)"
+        patternUnits="userSpaceOnUse"
+      >
+        <line
+          x1="1"
+          y1="0"
+          x2="1"
+          y2="4"
+          strokeWidth="2"
+          stroke={theme.palette.primary.main}
+        />
+        <line
+          x1="3"
+          y1="0"
+          x2="3"
+          y2="4"
+          strokeWidth="2"
+          stroke={theme.palette.secondary.main}
+        />
+      </pattern>
+    </defs>
+    <g>
+      <rect
+        x={0}
+        y={0}
+        width={LEGEND_SQUARE_SIZE}
+        height={LEGEND_SQUARE_SIZE}
+        fill={theme.palette.primary.main}
+        stroke={'white'}
+      />
+      <text
+        x={LEGEND_SQUARE_SIZE + LEGEND_PADDING}
+        y={LEGEND_SQUARE_SIZE / 2}
+        fill={theme.palette.text.primary}
+        dominantBaseline="middle"
+      >
+        {a}
+      </text>
+    </g>
+    <g transform={`translate(0,${LEGEND_SQUARE_SIZE + LEGEND_PADDING})`}>
+      <rect
+        x={0}
+        y={0}
+        width={LEGEND_SQUARE_SIZE}
+        height={LEGEND_SQUARE_SIZE}
+        fill="url(#diagonalHatchLegend)"
+        stroke={'white'}
+      />
+      <text
+        x={LEGEND_SQUARE_SIZE + LEGEND_PADDING}
+        y={LEGEND_SQUARE_SIZE / 2}
+        fill={theme.palette.text.primary}
+        dominantBaseline="middle"
+      >
+        {aAndB}
+      </text>
+    </g>
+    <g
+      transform={`translate(0,${LEGEND_SQUARE_SIZE * 2 + LEGEND_PADDING * 2})`}
+    >
+      <rect
+        x={0}
+        y={0}
+        width={LEGEND_SQUARE_SIZE}
+        height={LEGEND_SQUARE_SIZE}
+        fill={theme.palette.secondary.main}
+        stroke={'white'}
+      />
+      <text
+        x={LEGEND_SQUARE_SIZE + LEGEND_PADDING}
+        y={LEGEND_SQUARE_SIZE / 2}
+        fill={theme.palette.text.primary}
+        dominantBaseline="middle"
+      >
+        {b}
+      </text>
+    </g>
+  </svg>
+);
+
+export const LinearVennLegend = withTheme()(Legend);
 
 export default withTheme()(LinearVenn);
