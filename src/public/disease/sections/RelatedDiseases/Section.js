@@ -9,7 +9,7 @@ const columns = (name, maxTargetCountAOrB) => [
   {
     id: 'B.name',
     label: 'Related disease',
-    renderCell: d => <Link to={`../${d.B.id}`}>{d.B.name}</Link>,
+    renderCell: d => <Link to={`/disease/${d.B.id}`}>{d.B.name}</Link>,
     comparator: (a, b) => {
       if (a.B.name <= b.B.name) {
         return -1;

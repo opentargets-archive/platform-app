@@ -9,7 +9,7 @@ const columns = (symbol, maxDiseaseCountAOrB) => [
   {
     id: 'B.symbol',
     label: 'Related target',
-    renderCell: d => <Link to={`../${d.B.id}`}>{d.B.symbol}</Link>,
+    renderCell: d => <Link to={`/target/${d.B.id}`}>{d.B.symbol}</Link>,
     comparator: (a, b) => {
       if (a.B.symbol <= b.B.symbol) {
         return -1;
