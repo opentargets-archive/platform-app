@@ -30,3 +30,13 @@ export const drugSectionsDefaultOrder = [
   'adverseEvents',
   'bibliography',
 ];
+
+export const evidenceSectionsDefaultOrder = [
+  'genetic',
+  'somatic',
+  'drugs',
+  'pathways',
+  'differentialExpression',
+  'textMining',
+  'animalModels',
+];
