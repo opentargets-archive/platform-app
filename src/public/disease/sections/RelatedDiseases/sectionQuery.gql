@@ -16,6 +16,7 @@ query RelatedDiseasesQuery($efoId: String!) {
           targetCountB
           targetCountAAndB
           targetCountAOrB
+          score
         }
       }
     }
