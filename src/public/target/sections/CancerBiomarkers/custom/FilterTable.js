@@ -220,7 +220,6 @@ const getDownloadRows = rows => {
 
 const getPieColors = items => {
   return items.reduce((acc, item, i) => {
-    // acc[item.label] = lighten(0.1 * i, PALETTE.lightpurple);
     acc[item.label] = chartColour;
     return acc;
   }, {});
