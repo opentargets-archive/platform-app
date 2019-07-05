@@ -4,8 +4,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-import { PALETTE } from 'ot-ui';
-
 const proteinLevel = level => {
   if (level === 0) {
     return 'Under expressed';
@@ -32,22 +30,22 @@ const styles = theme => ({
     height: '10px',
     cursor: 'pointer',
     '&:hover': {
-      backgroundColor: PALETTE.lightgrey,
+      backgroundColor: theme.palette.grey[400],
     },
   },
   openedParentRow: {
-    borderTop: `1px solid ${PALETTE.darkgrey}`,
-    borderLeft: `1px solid ${PALETTE.darkgrey}`,
-    borderRight: `1px solid ${PALETTE.darkgrey}`,
+    borderTop: `1px solid ${theme.palette.grey[400]}`,
+    borderLeft: `1px solid ${theme.palette.grey[400]}`,
+    borderRight: `1px solid ${theme.palette.grey[400]}`,
   },
   row: {
     height: '24px',
-    backgroundColor: PALETTE.lightgrey,
-    borderLeft: `1px solid ${PALETTE.darkgrey}`,
-    borderRight: `1px solid ${PALETTE.darkgrey}`,
+    backgroundColor: theme.palette.grey[100],
+    borderLeft: `1px solid ${theme.palette.grey[400]}`,
+    borderRight: `1px solid ${theme.palette.grey[400]}`,
   },
   lastChildRow: {
-    borderBottom: `1px solid ${PALETTE.darkgrey}`,
+    borderBottom: `1px solid ${theme.palette.grey[400]}`,
   },
   cell: {
     border: 'none',
@@ -68,16 +66,16 @@ const styles = theme => ({
   },
   barContainer: {
     height: '12px',
-    backgroundColor: PALETTE.mediumgrey,
+    backgroundColor: theme.palette.grey[300],
     fontSize: '10px',
     textAlign: 'center',
   },
   barParent: {
-    backgroundColor: PALETTE.darkblue,
+    backgroundColor: theme.palette.primary.main,
     height: '12px',
   },
   barTissue: {
-    backgroundColor: PALETTE.blue,
+    backgroundColor: theme.palette.primary.light,
     height: '12px',
   },
 });
