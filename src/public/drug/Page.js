@@ -79,7 +79,7 @@ class DrugPage extends Component {
             variant="scrollable"
             scrollButtons="auto"
           >
-            <Tab value="overview" label="Drug Profile Overview" />
+            <Tab value="overview" label="Drug Profile" />
           </Tabs>
           <Switch>
             <Route
