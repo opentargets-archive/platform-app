@@ -72,6 +72,14 @@ const styles = theme => ({
     fontSize: '10px',
     textAlign: 'center',
   },
+  barParent: {
+    backgroundColor: PALETTE.darkblue,
+    height: '12px',
+  },
+  barTissue: {
+    backgroundColor: PALETTE.blue,
+    height: '12px',
+  },
 });
 
 let SummaryRow = class extends Component {
@@ -108,14 +116,13 @@ let SummaryRow = class extends Component {
             <div className={classes.barContainer}>
               {parent.maxRnaLevel >= 0 ? (
                 <div
+                  className={classes.barParent}
                   title={`${parent.maxRnaValue} (normalized count)`}
                   style={{
-                    backgroundColor: PALETTE.darkblue,
                     width: `${rnaValueToPercent(
                       maxRnaValue,
                       parent.maxRnaValue
                     )}%`,
-                    height: '12px',
                     float: 'right',
                   }}
                 />
@@ -128,11 +135,10 @@ let SummaryRow = class extends Component {
             <div className={classes.barContainer}>
               {parent.maxProteinLevel >= 0 ? (
                 <div
+                  className={classes.barParent}
                   title={proteinLevel(parent.maxProteinLevel)}
                   style={{
-                    backgroundColor: PALETTE.darkblue,
                     width: `${proteinLevelToPercent(parent.maxProteinLevel)}%`,
-                    height: '12px',
                   }}
                 />
               ) : (
@@ -162,11 +168,10 @@ let SummaryRow = class extends Component {
                 <div className={classes.barContainer}>
                   {tissue.rna.level >= 0 ? (
                     <div
+                      className={classes.barTissue}
                       title={`${tissue.rna.value} (normalized count)`}
                       style={{
-                        backgroundColor: PALETTE.blue,
                         width: `${rnaPercent}%`,
-                        height: '12px',
                         float: 'right',
                       }}
                     />
@@ -181,11 +186,10 @@ let SummaryRow = class extends Component {
                 <div className={classes.barContainer}>
                   {tissue.protein.level >= 0 ? (
                     <div
+                      className={classes.barTissue}
                       title={proteinLevel(tissue.protein.level)}
                       style={{
-                        backgroundColor: PALETTE.blue,
                         width: `${proteinPercent}%`,
-                        height: '12px',
                       }}
                     />
                   ) : (
