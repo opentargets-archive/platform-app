@@ -23,7 +23,7 @@ const GeneticsLink = ({ classes, ensgId, symbol }) => (
     target="_blank"
     rel="noopener noreferrer"
   >
-    View {symbol} profile in Open Targets Genetics
+    View {symbol} in Open Targets Genetics
   </a>
 );
 
