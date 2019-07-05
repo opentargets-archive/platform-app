@@ -70,16 +70,35 @@ const getColumns = (
       id: 'subjectAllelicComposition',
       label: 'Allelic composition',
       renderCell: row => {
-        const match = /(.*)<(.*)>\/(.*)<(.*)>/.exec(
+        const regex = /(.*)<(.*)>\/(.*)<(.*)>/;
+        /*const match = /(.*)<(.*)>\/(.*)<(.*)>/.exec(
           row.subjectAllelicComposition
-        );
+        ); */
+        /* console.log(
+          'row.subjectAllelicCompositions',
+          row.subjectAllelicCompositions
+        );*/
+        // console.log('row.subjectBackground', row.subjectBackground);
         return (
           <div className={classes.allelicColumn}>
-            <Typography>
-              {match[1]}
-              <sup>{match[2]}</sup>/{match[3]}
-              <sup>{match[4]}</sup>
-            </Typography>
+            {row.subjectAllelicComposition.map((composition, i) => {
+              const match = regex.exec(composition);
+              console.log('match', match);
+              if (match === null) {
+                console.log('composition', composition);
+              }
+              if (match) {
+                return (
+                  <Typography key={i}>
+                    {match[1]}
+                    <sup>{match[2]}</sup>/{match[3]}
+                    <sup>{match[4]}</sup>
+                  </Typography>
+                );
+              } else {
+                return null;
+              }
+            })}
             <Typography variant="caption">{row.subjectBackground}</Typography>
           </div>
         );
