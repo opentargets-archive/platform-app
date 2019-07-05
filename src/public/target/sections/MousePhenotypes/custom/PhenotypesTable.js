@@ -83,10 +83,6 @@ const getColumns = (
           <div className={classes.allelicColumn}>
             {row.subjectAllelicComposition.map((composition, i) => {
               const match = regex.exec(composition);
-              console.log('match', match);
-              if (match === null) {
-                console.log('composition', composition);
-              }
               if (match) {
                 return (
                   <Typography key={i}>
