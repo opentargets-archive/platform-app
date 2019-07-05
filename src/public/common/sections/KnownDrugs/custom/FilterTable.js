@@ -178,16 +178,16 @@ const styles = theme => ({
     fontSize: '0.9em',
   },
   countLabelDrug: {
-    backgroundColor: theme.palette.primary.main, // PALETTE.green,
+    backgroundColor: theme.palette.primary.main,
   },
   countLabelTarget: {
-    backgroundColor: theme.palette.primary.main, // PALETTE.purple,
+    backgroundColor: theme.palette.primary.main,
   },
   countLabelDisease: {
-    backgroundColor: theme.palette.primary.main, // PALETTE.orange,
+    backgroundColor: theme.palette.primary.main,
   },
   countLabelTrials: {
-    backgroundColor: theme.palette.primary.main, // PALETTE.blue,
+    backgroundColor: theme.palette.primary.main,
   },
 });
 
@@ -195,7 +195,6 @@ const styles = theme => ({
 // Ideally this kinda thing will be replaced by a d3 scale of some sort?
 const getPieColors = items => {
   return items.reduce((acc, item, i) => {
-    // acc[item] = lighten(0.1 * i, PALETTE.lightpurple);
     acc[item] = chartColour;
     return acc;
   }, {});

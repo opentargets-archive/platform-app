@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 
-import { Typography, Button, PALETTE } from 'ot-ui';
+import { Typography, Button } from 'ot-ui';
 
 import Publication from './custom/Publication';
 import { getAggregationsData, getPublicationsData } from './custom/Api';
@@ -39,12 +39,12 @@ const styles = theme => ({
     margin: theme.spacing.unit / 4,
   },
   linkChip: {
-    backgroundColor: PALETTE.purple,
+    backgroundColor: theme.palette.primary.main,
     '&:hover, &:focus': {
-      backgroundColor: PALETTE.purple,
+      backgroundColor: theme.palette.primary.main,
     },
     '&:active': {
-      backgroundColor: PALETTE.purple,
+      backgroundColor: theme.palette.primary.main,
     },
   },
 });
