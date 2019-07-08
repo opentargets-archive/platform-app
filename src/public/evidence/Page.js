@@ -63,7 +63,6 @@ class EvidencePage extends Component {
             if (loading || error) {
               return null;
             }
-            console.log(data);
             const { target, disease } = data;
 
             return (

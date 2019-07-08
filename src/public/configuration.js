@@ -35,7 +35,7 @@ export const evidenceSectionsDefaultOrder = [
   // 'genetic',
   // 'somatic',
   'drugs',
-  // 'pathways',
+  'pathways',
   // 'differentialExpression',
   // 'textMining',
   // 'animalModels',
