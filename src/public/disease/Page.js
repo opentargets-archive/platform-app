@@ -71,7 +71,7 @@ class DiseasePage extends Component {
                   scrollButtons="auto"
                 >
                   <Tab value="associations" label="Associations View" />
-                  <Tab value="overview" label="Disease Profile Overview" />
+                  <Tab value="overview" label="Disease Profile" />
                 </Tabs>
                 <Switch>
                   <Route

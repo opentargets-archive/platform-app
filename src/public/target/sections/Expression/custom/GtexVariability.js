@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-
-import { PALETTE } from 'ot-ui';
+import withTheme from '@material-ui/core/styles/withTheme';
 
 const width = 900;
 const boxHeight = 20;
 const boxPadding = boxHeight / 4;
 const margin = { top: 40, right: 20, bottom: 20, left: 220 };
 const outlierRadius = 2;
-
-const customAxis = (g, axis) => {
-  g.call(axis);
-  g.select('.domain').attr('stroke', PALETTE.darkgrey);
-  g.selectAll('.tick line').attr('stroke', PALETTE.darkgrey);
-  g.selectAll('.tick text').attr('fill', PALETTE.darkgrey);
-};
 
 class GtexVariability extends Component {
   boxPlotRef = React.createRef();
@@ -27,13 +19,18 @@ class GtexVariability extends Component {
   colour = d3.scaleOrdinal();
 
   render() {
-    const { data } = this.props;
+    const { theme, data } = this.props;
 
     const height = data.length * boxHeight + margin.top + margin.bottom;
 
     return (
       <svg xmlns="http://www.w3.org/2000/svg" height={height} width={width}>
-        <text x={margin.left} y="15" fill={PALETTE.darkgrey} fontSize="14">
+        <text
+          x={margin.left}
+          y="15"
+          fill={theme.palette.grey[700]}
+          fontSize="14"
+        >
           Normalised expression (RPKM)
         </text>
         <g
@@ -62,6 +59,7 @@ class GtexVariability extends Component {
   }
 
   _render() {
+    const { theme } = this.props;
     const { x, y, colour } = this;
     const data = this.props.data
       .slice()
@@ -96,7 +94,7 @@ class GtexVariability extends Component {
       .attr('x2', d => x(d.data.upperLimit))
       .attr('y1', d => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
       .attr('y2', d => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
-      .attr('stroke', PALETTE.darkgrey);
+      .attr('stroke', theme.palette.grey[700]);
 
     boxContainer
       .append('rect')
@@ -121,7 +119,7 @@ class GtexVariability extends Component {
         'y2',
         d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
       )
-      .attr('stroke', 'black')
+      .attr('stroke', theme.palette.grey[700])
       .attr('stroke-width', 2);
 
     boxContainer
@@ -136,7 +134,7 @@ class GtexVariability extends Component {
         'y2',
         d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
       )
-      .attr('stroke', PALETTE.darkgrey);
+      .attr('stroke', theme.palette.grey[700]);
 
     boxContainer
       .append('line')
@@ -150,7 +148,7 @@ class GtexVariability extends Component {
         'y2',
         d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
       )
-      .attr('stroke', PALETTE.darkgrey);
+      .attr('stroke', theme.palette.grey[700]);
 
     boxContainer
       .selectAll('circle')
@@ -165,14 +163,21 @@ class GtexVariability extends Component {
       .attr('cx', d => x(d.outlier))
       .attr('cy', d => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
       .attr('fill', 'none')
-      .attr('stroke', PALETTE.darkgrey);
+      .attr('stroke', theme.palette.grey[700]);
 
     const xAxis = d3.axisTop(x);
     const yAxis = d3.axisLeft(y);
+
+    const customAxis = (g, axis) => {
+      g.call(axis);
+      g.select('.domain').attr('stroke', theme.palette.grey[700]);
+      g.selectAll('.tick line').attr('stroke', theme.palette.grey[700]);
+      g.selectAll('.tick text').attr('fill', theme.palette.grey[700]);
+    };
 
     d3.select(this.xAxisRef.current).call(customAxis, xAxis);
     d3.select(this.yAxisRef.current).call(customAxis, yAxis);
   }
 }
 
-export default GtexVariability;
+export default withTheme()(GtexVariability);

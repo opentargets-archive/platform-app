@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-// import { PALETTE } from 'ot-ui';
 
 const styles = theme => ({
   table: {

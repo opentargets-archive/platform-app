@@ -80,7 +80,7 @@ class TargetPage extends Component {
                   scrollButtons="auto"
                 >
                   <Tab value="associations" label="Associations View" />
-                  <Tab value="overview" label="Target Profile Overview" />
+                  <Tab value="overview" label="Target Profile" />
                 </Tabs>
                 <Switch>
                   <Route
