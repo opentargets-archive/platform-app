@@ -7,6 +7,7 @@ import HomePage from './public/home/Page';
 import TargetPage from './public/target/Page';
 import DiseasePage from './public/disease/Page';
 import DrugPage from './public/drug/Page';
+import EvidencePage from './public/evidence/Page';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
             <Route path="/target/:ensgId" component={TargetPage} />
             <Route path="/disease/:efoId" component={DiseasePage} />
             <Route path="/drug/:chemblId" component={DrugPage} />
+            <Route path="/evidence/:ensgId/:efoId" component={EvidencePage} />
           </React.Fragment>
         </Router>
       </OtUiThemeProvider>
