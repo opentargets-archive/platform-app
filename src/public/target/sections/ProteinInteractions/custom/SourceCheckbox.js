@@ -2,23 +2,21 @@ import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { sourceTypeColors } from './SourceChip';
-
 const styles = theme => ({
   checked: {},
   pathways: {
     '&$checked': {
-      color: sourceTypeColors.pathways,
+      color: theme.palette.secondary.main,
     },
   },
   ppi: {
     '&$checked': {
-      color: sourceTypeColors.ppi,
+      color: theme.palette.secondary.light,
     },
   },
   enzymeSubstrate: {
     '&$checked': {
-      color: sourceTypeColors.enzymeSubstrate,
+      color: theme.palette.secondary.dark,
     },
   },
 });

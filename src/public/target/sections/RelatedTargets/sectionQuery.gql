@@ -16,6 +16,7 @@ query RelatedTargetsQuery($ensgId: String!) {
           diseaseCountB
           diseaseCountAAndB
           diseaseCountAOrB
+          score
         }
       }
     }
