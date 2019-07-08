@@ -54,12 +54,16 @@ class GeneTreeTab extends React.Component {
         <Typography>
           <i>
             Phylogenetic tree showing the history of the human gene {symbol}{' '}
-            based on protein sequences from Ensembl. All branches in this tree
-            have the same length (unscaled branches). You can also view the
-            branches in different lengths based on the number of evolutionary
-            changes in the tree (select scaled branches) All species are shown
-            by default, but you can prune it to a subset of species by unticking
-            the species accordingly. Learn more about{' '}
+            based on protein sequences from{' '}
+            <Link external to="https://www.ensembl.org">
+              Ensembl
+            </Link>
+            . All branches in this tree have the same length (unscaled
+            branches). You can also view the branches in different lengths based
+            on the number of evolutionary changes in the tree (select scaled
+            branches) All species are shown by default, but you can prune it to
+            a subset of species by unticking the species accordingly. Learn more
+            about{' '}
             <Link
               external
               to="https://www.ensembl.org/info/genome/compara/homology_method.html"
@@ -71,7 +75,7 @@ class GeneTreeTab extends React.Component {
               external
               to="https://www.ensembl.org/info/genome/compara/homology_types.html"
             >
-              orthologies
+              homology types
             </Link>
             .
           </i>
