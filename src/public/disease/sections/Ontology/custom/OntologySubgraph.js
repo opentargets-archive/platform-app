@@ -62,10 +62,10 @@ class DAGViewer extends React.Component {
   }
 
   render() {
-    const { measureRef, efoId, name, subgraph, theme } = this.props;
+    const { measureRef, name, subgraph, theme } = this.props;
     const { width } = this.state;
     // const height = Math.min(width, 700);
-    const margin = { top: 80, right: 80, bottom: 50, left: 80 };
+    const margin = { top: 70, right: 10, bottom: 10, left: 10 };
     const innerWidth = width - margin.left - margin.right;
 
     // create dag
@@ -89,7 +89,7 @@ class DAGViewer extends React.Component {
     };
     const nodeRadius = 6;
     const nodeStrokeColor = theme.palette.grey[300];
-    const edgeStrokeColor = theme.palette.grey[300];
+    const edgeStrokeColor = theme.palette.grey[200];
 
     // legend
     const yLegend = -15;
@@ -176,6 +176,7 @@ class DAGViewer extends React.Component {
                   key={`${d.source.id}-${d.target.id}`}
                   fill="none"
                   stroke={edgeStrokeColor}
+                  strokeWidth="2"
                   d={line(d.data.points)}
                 />
               ))}
