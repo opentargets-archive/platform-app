@@ -56,6 +56,9 @@ const getMaxLayerCount = (dag, edgeSeparation = false) => {
     : Math.max(...layerNodeCounts);
 };
 
+const textWithEllipsis = (text, threshold) =>
+  text.length <= threshold ? text : text.slice(0, threshold) + '...';
+
 class DAGViewer extends React.Component {
   state = {};
   svgContainer = React.createRef();
@@ -107,6 +110,7 @@ class DAGViewer extends React.Component {
       .filter(d => d.source.id !== 'EFO_ROOT');
     const maxDepth = d3.max(nodesExcludingRoot, d => d.layer);
     const xOffsetDueToExcludingRoot = innerWidth / maxDepth;
+    const textThreshold = xOffsetDueToExcludingRoot / 8;
 
     // edge generator
     const line = d3
@@ -260,7 +264,7 @@ class DAGViewer extends React.Component {
                   fill={theme.palette.text.primary}
                   fontSize={12}
                 >
-                  {d.data.name}
+                  {textWithEllipsis(d.data.name, textThreshold)}
                 </text>
               ))}
             </g>
