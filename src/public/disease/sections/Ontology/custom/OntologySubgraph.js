@@ -4,6 +4,8 @@ import * as d3Base from 'd3';
 import * as d3DagBase from 'd3-dag';
 import withTheme from '@material-ui/core/styles/withTheme';
 
+import { Link } from 'ot-ui';
+
 const d3 = Object.assign({}, d3Base, d3DagBase);
 
 const separatorIgnoreEdges = (a, b) =>
@@ -183,14 +185,15 @@ class DAGViewer extends React.Component {
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
               {nodesExcludingRoot.map(d => (
-                <circle
-                  key={d.id}
-                  fill={colorMap[d.data.nodeType]}
-                  stroke={nodeStrokeColor}
-                  cx={d.y - xOffsetDueToExcludingRoot}
-                  cy={d.x}
-                  r={nodeRadius}
-                />
+                <Link key={d.id} to={`/disease/${d.id}`}>
+                  <circle
+                    fill={colorMap[d.data.nodeType]}
+                    stroke={nodeStrokeColor}
+                    cx={d.y - xOffsetDueToExcludingRoot}
+                    cy={d.x}
+                    r={nodeRadius}
+                  />
+                </Link>
               ))}
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
