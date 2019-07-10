@@ -137,7 +137,7 @@ class DAGViewer extends React.Component {
                 refX="0.1"
                 refY="2"
               >
-                <path d="M0,0 V4 L2,2 Z" fill="black" />
+                <path d="M0,0 V4 L2,2 Z" fill={theme.palette.text.primary} />
               </marker>
             </defs>
             <g
