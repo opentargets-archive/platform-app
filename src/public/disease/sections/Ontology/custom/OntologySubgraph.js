@@ -72,7 +72,7 @@ class DAGViewer extends React.Component {
     let dag = d3.dagStratify()(Object.values(subgraph));
 
     // compute height (based on dag nodes per layer)
-    const height = margin.top + margin.bottom + getMaxLayerCount(dag) * 10;
+    const height = margin.top + margin.bottom + getMaxLayerCount(dag) * 15;
     const innerHeight = height - margin.top - margin.bottom;
 
     // create layout generator
@@ -81,26 +81,35 @@ class DAGViewer extends React.Component {
     // compute layout
     layout(dag);
 
-    // edge generator
-    const line = d3
-      .line()
-      .curve(d3.curveMonotoneX)
-      .x(d => d.y)
-      .y(d => d.x);
-
-    // colors
+    // constants
     const colorMap = {
       ancestor: theme.palette.primary.main,
       chosen: theme.palette.secondary.main,
       descendant: theme.palette.primary.light,
     };
-
-    const nodeRadius = 4;
+    const nodeRadius = 6;
     const nodeStrokeColor = theme.palette.grey[300];
     const edgeStrokeColor = theme.palette.grey[300];
 
     // legend
     const yLegend = -15;
+
+    // exclude EFO_ROOT
+    const nodesExcludingRoot = dag
+      .descendants()
+      .filter(d => d.id !== 'EFO_ROOT');
+    const linksExcludingRoot = dag
+      .links()
+      .filter(d => d.source.id !== 'EFO_ROOT');
+    const maxDepth = d3.max(nodesExcludingRoot, d => d.layer);
+    const xOffsetDueToExcludingRoot = innerWidth / maxDepth;
+
+    // edge generator
+    const line = d3
+      .line()
+      .curve(d3.curveMonotoneX)
+      .x(d => d.y - xOffsetDueToExcludingRoot)
+      .y(d => d.x);
 
     return (
       <div ref={measureRef}>
@@ -162,7 +171,7 @@ class DAGViewer extends React.Component {
               </text>
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
-              {dag.links().map(d => (
+              {linksExcludingRoot.map(d => (
                 <path
                   key={`${d.source.id}-${d.target.id}`}
                   fill="none"
@@ -172,15 +181,30 @@ class DAGViewer extends React.Component {
               ))}
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
-              {dag.descendants().map(d => (
+              {nodesExcludingRoot.map(d => (
                 <circle
                   key={d.id}
                   fill={colorMap[d.data.nodeType]}
                   stroke={nodeStrokeColor}
-                  cx={d.y}
+                  cx={d.y - xOffsetDueToExcludingRoot}
                   cy={d.x}
                   r={nodeRadius}
                 />
+              ))}
+            </g>
+            <g transform={`translate(${margin.left},${margin.top})`}>
+              {nodesExcludingRoot.map(d => (
+                <text
+                  key={d.id}
+                  x={d.y - xOffsetDueToExcludingRoot}
+                  y={d.x}
+                  dx={nodeRadius * 2}
+                  dominantBaseline="middle"
+                  fill={theme.palette.text.primary}
+                  fontSize={12}
+                >
+                  {d.data.name}
+                </text>
               ))}
             </g>
           </svg>
