@@ -130,7 +130,7 @@ class DAGViewer extends React.Component {
           >
             <defs>
               <marker
-                id="head"
+                id="ontology-arrowhead"
                 orient="auto"
                 markerWidth="2"
                 markerHeight="4"
@@ -260,8 +260,7 @@ class DAGViewer extends React.Component {
                 SPECIFIC
               </text>
               <path
-                id="arrow-line"
-                markerEnd="url(#head)"
+                markerEnd="url(#ontology-arrowhead)"
                 strokeWidth="2"
                 fill="none"
                 stroke={theme.palette.text.primary}
