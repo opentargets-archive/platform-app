@@ -78,7 +78,7 @@ const Section = ({ efoId, name, data }) => {
     downMethod,
   });
 
-  return <OntologySubgraph efoId={efoId} subgraph={subgraph} />;
+  return <OntologySubgraph efoId={efoId} name={name} subgraph={subgraph} />;
 };
 
 export default Section;

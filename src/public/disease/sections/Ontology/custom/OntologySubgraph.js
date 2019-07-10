@@ -62,10 +62,10 @@ class DAGViewer extends React.Component {
   }
 
   render() {
-    const { measureRef, efoId, subgraph, theme } = this.props;
+    const { measureRef, efoId, name, subgraph, theme } = this.props;
     const { width } = this.state;
     // const height = Math.min(width, 700);
-    const margin = { top: 50, right: 80, bottom: 50, left: 80 };
+    const margin = { top: 80, right: 80, bottom: 50, left: 80 };
     const innerWidth = width - margin.left - margin.right;
 
     // create dag
@@ -100,8 +100,7 @@ class DAGViewer extends React.Component {
     const edgeStrokeColor = theme.palette.grey[300];
 
     // legend
-    const xLegendSeparation = 80;
-    const yLegend = -20;
+    const yLegend = -15;
 
     return (
       <div ref={measureRef}>
@@ -112,7 +111,7 @@ class DAGViewer extends React.Component {
             height={height}
             viewBox={`0 0 ${width} ${height}`}
           >
-            <g transform={`translate(${margin.left},${margin.top})`}>
+            <g transform={`translate(${margin.left},${margin.top + yLegend})`}>
               <circle
                 cx={0}
                 cy={yLegend}
@@ -120,20 +119,47 @@ class DAGViewer extends React.Component {
                 fill={colorMap.chosen}
                 stroke={nodeStrokeColor}
               />
+              <text
+                x={nodeRadius * 2}
+                y={yLegend}
+                dominantBaseline="middle"
+                fill={theme.palette.text.primary}
+                fontSize={12}
+              >
+                {name}
+              </text>
               <circle
-                cx={xLegendSeparation}
-                cy={yLegend}
+                cx={0}
+                cy={yLegend * 2}
                 r={nodeRadius}
                 fill={colorMap.ancestor}
                 stroke={nodeStrokeColor}
               />
+              <text
+                x={nodeRadius * 2}
+                y={yLegend * 2}
+                dominantBaseline="middle"
+                fill={theme.palette.text.primary}
+                fontSize={12}
+              >
+                ancestors
+              </text>
               <circle
-                cx={xLegendSeparation * 2}
-                cy={yLegend}
+                cx={0}
+                cy={yLegend * 3}
                 r={nodeRadius}
                 fill={colorMap.descendant}
                 stroke={nodeStrokeColor}
               />
+              <text
+                x={nodeRadius * 2}
+                y={yLegend * 3}
+                dominantBaseline="middle"
+                fill={theme.palette.text.primary}
+                fontSize={12}
+              >
+                descendants
+              </text>
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
               {dag.links().map(d => (
