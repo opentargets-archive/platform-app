@@ -113,6 +113,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"$(git rev-parse --short HEAD)\" node scripts/build.js",
+    "prebuild:customise": "node customise.js",
+    "build:customise": "CUSTOMISE=true GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"$(git rev-parse --short HEAD)\" node scripts/build.js",
     "test": "node scripts/test.js",
     "prettier": "prettier --write",
     "prettier:all": "prettier --write 'src/**/*.js'",
