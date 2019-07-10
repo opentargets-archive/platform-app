@@ -3,7 +3,14 @@ import _ from 'lodash';
 
 import OntologySubgraph from './custom/OntologySubgraph';
 
-const getSubgraph = ({ efoId, nodes, nodesById, upMethod, downMethod }) => {
+const getSubgraph = ({
+  efoId,
+  nodes,
+  therapeuticAreas,
+  nodesById,
+  upMethod,
+  downMethod,
+}) => {
   // handle up propagation
   const up = (acc, nodeId, depth) => {
     if (upMethod === 'root' || depth <= upMethod) {
@@ -11,6 +18,7 @@ const getSubgraph = ({ efoId, nodes, nodesById, upMethod, downMethod }) => {
         const node = nodesById[nodeId];
         acc[node.id] = {
           ...node,
+          isTherapeuticArea: therapeuticAreas.indexOf(node.id) >= 0,
           nodeType: depth === 0 ? 'chosen' : 'ancestor',
         };
         node.parentIds.forEach(parentId => {
@@ -28,6 +36,7 @@ const getSubgraph = ({ efoId, nodes, nodesById, upMethod, downMethod }) => {
         const node = nodesById[nodeId];
         acc[node.id] = {
           ...node,
+          isTherapeuticArea: therapeuticAreas.indexOf(node.id) >= 0,
           nodeType: depth === 0 ? 'chosen' : 'descendant',
         };
         const childIds = nodes
@@ -63,7 +72,7 @@ const getSubgraph = ({ efoId, nodes, nodesById, upMethod, downMethod }) => {
 };
 
 const Section = ({ efoId, name, data }) => {
-  const { nodes } = data;
+  const { nodes, therapeuticAreas } = data;
   const nodesById = nodes.reduce((acc, d) => {
     acc[d.id] = d;
     return acc;
@@ -73,6 +82,7 @@ const Section = ({ efoId, name, data }) => {
   const subgraph = getSubgraph({
     efoId,
     nodes,
+    therapeuticAreas,
     nodesById,
     upMethod,
     downMethod,

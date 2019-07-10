@@ -17,7 +17,8 @@ const getLayoutGenerator = (innerWidth, innerHeight) =>
     .size([innerHeight, innerWidth])
     .layering(d3.layeringLongestPath().topDown(false))
     .decross(d3.decrossTwoLayer())
-    .coord(d3.coordGreedy())
+    // .coord(d3.coordGreedy())
+    .coord(d3.coordCenter())
     .separation(separatorIgnoreEdges);
 
 const getMaxLayerCount = (dag, edgeSeparation = false) => {
@@ -94,6 +95,7 @@ class DAGViewer extends React.Component {
     const edgeStrokeColor = theme.palette.grey[200];
 
     // legend
+    const xLegendOffset = 150;
     const yLegend = -15;
 
     // exclude EFO_ROOT
@@ -123,54 +125,94 @@ class DAGViewer extends React.Component {
             viewBox={`0 0 ${width} ${height}`}
           >
             <g transform={`translate(${margin.left},${margin.top + yLegend})`}>
-              <circle
-                cx={0}
-                cy={yLegend}
-                r={nodeRadius}
-                fill={colorMap.chosen}
-                stroke={nodeStrokeColor}
-              />
-              <text
-                x={nodeRadius * 2}
-                y={yLegend}
-                dominantBaseline="middle"
-                fill={theme.palette.text.primary}
-                fontSize={12}
-              >
-                {name}
-              </text>
-              <circle
-                cx={0}
-                cy={yLegend * 2}
-                r={nodeRadius}
-                fill={colorMap.ancestor}
-                stroke={nodeStrokeColor}
-              />
-              <text
-                x={nodeRadius * 2}
-                y={yLegend * 2}
-                dominantBaseline="middle"
-                fill={theme.palette.text.primary}
-                fontSize={12}
-              >
-                ancestors
-              </text>
-              <circle
-                cx={0}
-                cy={yLegend * 3}
-                r={nodeRadius}
-                fill={colorMap.descendant}
-                stroke={nodeStrokeColor}
-              />
-              <text
-                x={nodeRadius * 2}
-                y={yLegend * 3}
-                dominantBaseline="middle"
-                fill={theme.palette.text.primary}
-                fontSize={12}
-              >
-                descendants
-              </text>
+              <g transform={`translate(${xLegendOffset},0)`}>
+                <circle
+                  cx={0}
+                  cy={yLegend}
+                  r={nodeRadius}
+                  fill={colorMap.chosen}
+                  stroke={nodeStrokeColor}
+                />
+                <text
+                  x={nodeRadius * 2}
+                  y={yLegend}
+                  dominantBaseline="middle"
+                  fill={theme.palette.text.primary}
+                  fontSize={12}
+                >
+                  {name}
+                </text>
+                <circle
+                  cx={0}
+                  cy={yLegend * 2}
+                  r={nodeRadius}
+                  fill={colorMap.ancestor}
+                  stroke={nodeStrokeColor}
+                />
+                <text
+                  x={nodeRadius * 2}
+                  y={yLegend * 2}
+                  dominantBaseline="middle"
+                  fill={theme.palette.text.primary}
+                  fontSize={12}
+                >
+                  ancestors
+                </text>
+                <circle
+                  cx={0}
+                  cy={yLegend * 3}
+                  r={nodeRadius}
+                  fill={colorMap.descendant}
+                  stroke={nodeStrokeColor}
+                />
+                <text
+                  x={nodeRadius * 2}
+                  y={yLegend * 3}
+                  dominantBaseline="middle"
+                  fill={theme.palette.text.primary}
+                  fontSize={12}
+                >
+                  descendants
+                </text>
+              </g>
+
+              <g>
+                <circle
+                  cx={0}
+                  cy={yLegend}
+                  r={nodeRadius}
+                  fill="none"
+                  stroke={nodeStrokeColor}
+                  strokeWidth="2"
+                />
+                <text
+                  x={nodeRadius * 2}
+                  y={yLegend}
+                  dominantBaseline="middle"
+                  fill={theme.palette.text.primary}
+                  fontSize={12}
+                >
+                  disease
+                </text>
+                <rect
+                  x={-nodeRadius}
+                  y={yLegend * 2 - nodeRadius}
+                  width={nodeRadius * 2}
+                  height={nodeRadius * 2}
+                  fill="none"
+                  stroke={nodeStrokeColor}
+                  strokeWidth="2"
+                />
+                <text
+                  x={nodeRadius * 2}
+                  y={yLegend * 2}
+                  dominantBaseline="middle"
+                  fill={theme.palette.text.primary}
+                  fontSize={12}
+                >
+                  therapeutic area
+                </text>
+              </g>
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
               {linksExcludingRoot.map(d => (
@@ -186,13 +228,24 @@ class DAGViewer extends React.Component {
             <g transform={`translate(${margin.left},${margin.top})`}>
               {nodesExcludingRoot.map(d => (
                 <Link key={d.id} to={`/disease/${d.id}`}>
-                  <circle
-                    fill={colorMap[d.data.nodeType]}
-                    stroke={nodeStrokeColor}
-                    cx={d.y - xOffsetDueToExcludingRoot}
-                    cy={d.x}
-                    r={nodeRadius}
-                  />
+                  {d.data.isTherapeuticArea ? (
+                    <rect
+                      fill={colorMap[d.data.nodeType]}
+                      stroke={nodeStrokeColor}
+                      x={d.y - nodeRadius - xOffsetDueToExcludingRoot}
+                      y={d.x - nodeRadius}
+                      width={nodeRadius * 2}
+                      height={nodeRadius * 2}
+                    />
+                  ) : (
+                    <circle
+                      fill={colorMap[d.data.nodeType]}
+                      stroke={nodeStrokeColor}
+                      cx={d.y - xOffsetDueToExcludingRoot}
+                      cy={d.x}
+                      r={nodeRadius}
+                    />
+                  )}
                 </Link>
               ))}
             </g>

@@ -8,6 +8,7 @@ query OntologySectionQuery($efoId: String!) {
           name
           parentIds
         }
+        therapeuticAreas
       }
     }
   }
