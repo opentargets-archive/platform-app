@@ -29,6 +29,11 @@ const summariesQuery = gql`
     .join('\n')}
 `;
 
+const entitySummariesAccessor = data =>
+  data && data.target && data.target.summaries ? data.target.summaries : null;
+const entitySectionsAccessor = data =>
+  data && data.target && data.target.details ? data.target.details : null;
+
 class TargetProfile extends Component {
   render() {
     const {
@@ -40,12 +45,7 @@ class TargetProfile extends Component {
       description,
     } = this.props;
     const entity = { ensgId, uniprotId, symbol, name, synonyms, description };
-    const entitySummariesAccessor = data =>
-      data && data.target && data.target.summaries
-        ? data.target.summaries
-        : null;
-    const entitySectionsAccessor = data =>
-      data && data.target && data.target.details ? data.target.details : null;
+
     return (
       <BaseProfile
         {...{
