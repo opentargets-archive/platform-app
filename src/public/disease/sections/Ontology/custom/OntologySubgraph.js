@@ -71,7 +71,7 @@ class DAGViewer extends React.Component {
     const { measureRef, name, subgraph, theme } = this.props;
     const { width } = this.state;
     // const height = Math.min(width, 700);
-    const margin = { top: 70, right: 10, bottom: 10, left: 10 };
+    const margin = { top: 100, right: 10, bottom: 10, left: 10 };
     const innerWidth = width - margin.left - margin.right;
 
     // create dag
@@ -128,7 +128,22 @@ class DAGViewer extends React.Component {
             height={height}
             viewBox={`0 0 ${width} ${height}`}
           >
-            <g transform={`translate(${margin.left},${margin.top + yLegend})`}>
+            <defs>
+              <marker
+                id="head"
+                orient="auto"
+                markerWidth="2"
+                markerHeight="4"
+                refX="0.1"
+                refY="2"
+              >
+                <path d="M0,0 V4 L2,2 Z" fill="black" />
+              </marker>
+            </defs>
+            <g
+              transform={`translate(${margin.left},${margin.top +
+                yLegend * 3})`}
+            >
               <g transform={`translate(${xLegendOffset},0)`}>
                 <circle
                   cx={0}
@@ -217,6 +232,41 @@ class DAGViewer extends React.Component {
                   therapeutic area
                 </text>
               </g>
+            </g>
+            <g
+              transform={`translate(${margin.left +
+                innerWidth / 2},${margin.top + yLegend * 2})`}
+            >
+              <text
+                x={-100}
+                y={0}
+                dominantBaseline="middle"
+                textAnchor="end"
+                fill={theme.palette.text.primary}
+                fontWeight="bold"
+                fontSize={14}
+              >
+                GENERAL
+              </text>
+              <text
+                x={100}
+                y={0}
+                dominantBaseline="middle"
+                textAnchor="start"
+                fill={theme.palette.text.primary}
+                fontWeight="bold"
+                fontSize={14}
+              >
+                SPECIFIC
+              </text>
+              <path
+                id="arrow-line"
+                markerEnd="url(#head)"
+                strokeWidth="2"
+                fill="none"
+                stroke={theme.palette.text.primary}
+                d={`M-80,0 L80,0`}
+              />
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
               {linksExcludingRoot.map(d => (
