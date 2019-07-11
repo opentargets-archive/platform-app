@@ -62,6 +62,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"$(git rev-parse --short HEAD)\" react-scripts build",
+    "prebuild:customise": "cp -R src/ tmp/ && cp -R $CUSTOMISATIONS_DIR/ src/public/",
+    "build:customise": "yarn build",
+    "postbuild:customise": "rm -rf src && cp -R tmp/ src/ && rm -rf tmp",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write",
