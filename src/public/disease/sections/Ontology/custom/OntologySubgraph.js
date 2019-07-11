@@ -18,10 +18,10 @@ const getLayoutGenerator = (innerWidth, innerHeight) =>
     .layering(d3.layeringLongestPath().topDown(false))
     .decross(d3.decrossTwoLayer())
     // .coord(d3.coordGreedy())
-    .coord(d3.coordCenter())
-    .separation(separatorIgnoreEdges);
+    .coord(d3.coordCenter());
+//.separation(separatorIgnoreEdges);
 
-const getMaxLayerCount = (dag, edgeSeparation = false) => {
+const getMaxLayerCount = (dag, edgeSeparation = true) => {
   // use layout (but only to get layer counts, coords don't matter here)
   const layout = getLayoutGenerator(100, 100);
   layout(dag);
@@ -78,7 +78,7 @@ class DAGViewer extends React.Component {
     let dag = d3.dagStratify()(Object.values(subgraph));
 
     // compute height (based on dag nodes per layer)
-    const height = margin.top + margin.bottom + getMaxLayerCount(dag) * 15;
+    const height = margin.top + margin.bottom + getMaxLayerCount(dag) * 6;
     const innerHeight = height - margin.top - margin.bottom;
 
     // create layout generator
