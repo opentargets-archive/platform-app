@@ -89,7 +89,9 @@
     "lint-staged": "^8.0.4",
     "nightwatch": "^1.1.13",
     "prettier": "^1.15.1",
-    "serve": "^11.1.0"
+    "serve": "^11.1.0",
+    "prettier": "^1.15.1",
+    "rimraf": "^2.6.3"
   },
   "husky": {
     "hooks": {
