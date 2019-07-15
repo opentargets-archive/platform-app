@@ -9,9 +9,9 @@ language: node_js
 node_js:
   - 10
 
- before_script:
+before_script:
   - yarn build
   - yarn serve
 
- script:
+script:
   - yarn test:nightwatch
