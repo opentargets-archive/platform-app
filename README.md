@@ -55,7 +55,7 @@ The same structure is followed on the disease and drug pages. Any components tha
 
 # Special Thanks
 
-BrowserStack has allowed us to do cross-browser testing of the genetics app at no cost.
+BrowserStack has allowed us to do cross-browser testing of the platform app at no cost.
 
 <img src="./tools-icons/Browserstack-logo.svg" alt="BrowserStack" width="400">
 
