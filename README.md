@@ -53,6 +53,12 @@ export { default as SectionComponent } from './Section';
 
 The same structure is followed on the disease and drug pages. Any components that you want to reuse can be placed in the `common` directory.
 
+# Special Thanks
+
+BrowserStack has allowed us to do cross-browser testing of the genetics app at no cost.
+
+<img src="./tools-icons/Browserstack-logo.svg" alt="BrowserStack" width="400">
+
 # Copyright
 
 Copyright 2014-2018 Biogen, Celgene Corporation, EMBL - European Bioinformatics Institute, GlaxoSmithKline, Takeda Pharmaceutical Company and Wellcome Sanger Institute
