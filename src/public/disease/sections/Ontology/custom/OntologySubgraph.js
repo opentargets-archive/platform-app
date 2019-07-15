@@ -8,8 +8,9 @@ import { Link } from 'ot-ui';
 
 const d3 = Object.assign({}, d3Base, d3DagBase);
 
-const separatorIgnoreEdges = (a, b) =>
+/*const separatorIgnoreEdges = (a, b) =>
   (a.data !== undefined) + (b.data !== undefined);
+*/
 
 const getLayoutGenerator = (innerWidth, innerHeight) =>
   d3
