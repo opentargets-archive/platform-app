@@ -1,0 +1,15 @@
+query OntologySectionQuery($efoId: String!) {
+  disease(efoId: $efoId) {
+    id
+    details {
+      ontology {
+        nodes {
+          id
+          name
+          parentIds
+        }
+        therapeuticAreas
+      }
+    }
+  }
+}
