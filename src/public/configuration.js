@@ -22,7 +22,7 @@ export const diseaseSectionsDefaultOrder = [
   'phenotypes',
   'drugs',
   'bibliography',
-  'classification',
+  'ontology',
 ];
 
 export const drugSectionsDefaultOrder = [

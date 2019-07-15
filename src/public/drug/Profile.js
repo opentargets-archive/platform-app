@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { print } from 'graphql/language/printer';
 
 import { drugSectionsDefaultOrder } from '../configuration';
 import * as sectionsObject from './sectionIndex';
