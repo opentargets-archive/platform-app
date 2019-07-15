@@ -1,0 +1,17 @@
+addons:
+  browserstack:
+    forcelocal: true
+    # Placeholders
+    username: ${BROWSERSTACK_USERNAME}
+    access_key: ${BROWSERSTACK_ACCESS_KEY}
+
+language: node_js
+node_js:
+  - 10
+
+before_script:
+  - yarn build
+  - yarn serve
+
+script:
+  - yarn test:nightwatch

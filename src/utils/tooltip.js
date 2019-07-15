@@ -14,6 +14,7 @@ var tooltip = function() {
     allow_drag: true,
     show_closer: true,
     fill: function() {
+      // eslint-disable-next-line
       throw 'fill is not defined in the base object';
     },
     width: 180,

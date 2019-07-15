@@ -1,10 +1,10 @@
-import React from 'react';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+// import React from 'react';
+// import { Query } from 'react-apollo';
+// import gql from 'graphql-tag';
 
 // import TargetAssociationsDetail from '../components/TargetAssociationsDetail';
 
-const targetAssociationsQuery = gql`
+/* const targetAssociationsQuery = gql`
   query TargetAssociationsQuery($ensgId: String!) {
     dataTypes: __type(name: "DataType") {
       enumValues {
@@ -31,6 +31,7 @@ const targetAssociationsQuery = gql`
     }
   }
 `;
+*/
 
 const TargetAssociationsPage = ({ match }) => {
   return null;
