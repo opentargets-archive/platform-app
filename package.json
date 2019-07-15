@@ -66,7 +66,9 @@
     "eject": "react-scripts eject",
     "prettier": "prettier --write",
     "prettier:all": "prettier --write 'src/**/*.js'",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "test:nightwatch": "node end-to-end-test-runner.js",
+    "serve": "serve -s build -l 8000 &"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -78,9 +80,12 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "browserstack-local": "^1.4.0",
     "husky": "^1.1.3",
     "lint-staged": "^8.0.4",
-    "prettier": "^1.15.1"
+    "nightwatch": "^1.1.13",
+    "prettier": "^1.15.1",
+    "serve": "^11.1.0"
   },
   "husky": {
     "hooks": {
