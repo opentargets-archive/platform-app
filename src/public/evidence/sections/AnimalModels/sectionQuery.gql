@@ -10,10 +10,12 @@ query AnimalModelsSectionQuery($ensgId: String!, $efoId: String!) {
           humanPhenotypes {
             id
             name
+            url
           }
           modelPhenotypes {
             id
             name
+            url
           }
           modelId
           allelicComposition
