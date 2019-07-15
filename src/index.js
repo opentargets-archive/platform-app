@@ -5,8 +5,11 @@ import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 
+// eslint-disable-next-line
 import tnt from 'tntvis';
+// eslint-disable-next-line
 import utils from 'tnt.utils';
+// eslint-disable-next-line
 import rest from 'tnt.rest';
 
 import tooltip from './utils/tooltip';
