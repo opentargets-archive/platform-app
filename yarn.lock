@@ -2105,7 +2105,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.x, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+babel-runtime@6.x, babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.9.2:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -2740,7 +2740,7 @@ check-types@^7.3.0:
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/check-types/-/check-types-7.4.0.tgz#0378ec1b9616ec71f774931a3c6516fad8c152f4"
 
-chokidar@^1.6.1:
+chokidar@^1.6.0, chokidar@^1.6.1:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
   dependencies:
@@ -3222,6 +3222,23 @@ cosmiconfig@^5.0.0, cosmiconfig@^5.0.2, cosmiconfig@^5.0.5, cosmiconfig@^5.0.7, 
     is-directory "^0.3.1"
     js-yaml "^3.13.0"
     parse-json "^4.0.0"
+
+cpx@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/cpx/-/cpx-1.5.0.tgz#185be018511d87270dedccc293171e37655ab88f"
+  integrity sha1-GFvgGFEdhycN7czCkxceN2VauI8=
+  dependencies:
+    babel-runtime "^6.9.2"
+    chokidar "^1.6.0"
+    duplexer "^0.1.1"
+    glob "^7.0.5"
+    glob2base "^0.0.12"
+    minimatch "^3.0.2"
+    mkdirp "^0.5.1"
+    resolve "^1.1.7"
+    safe-buffer "^5.0.1"
+    shell-quote "^1.6.1"
+    subarg "^1.0.0"
 
 create-ecdh@^4.0.0:
   version "4.0.3"
@@ -8374,7 +8391,7 @@ minimatch@0.3:
     lru-cache "2"
     sigmund "~1.0.0"
 
-minimatch@3.0.4, minimatch@^3.0.3, minimatch@^3.0.4, minimatch@~3.0.2:
+minimatch@3.0.4, minimatch@^3.0.2, minimatch@^3.0.3, minimatch@^3.0.4, minimatch@~3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   dependencies:
@@ -11223,7 +11240,7 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
-rimraf@2, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@~2.6.2:
+rimraf@2, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3, rimraf@~2.6.2:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   dependencies:
@@ -11578,7 +11595,7 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
-shell-quote@1.6.1:
+shell-quote@1.6.1, shell-quote@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.6.1.tgz#f4781949cce402697127430ea3b3c5476f481767"
   dependencies:
@@ -12179,6 +12196,13 @@ subarg@0.0.1:
   resolved "https://registry.yarnpkg.com/subarg/-/subarg-0.0.1.tgz#3d56b07dacfbc45bbb63f7672b43b63e46368e3a"
   dependencies:
     minimist "~0.0.7"
+
+subarg@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/subarg/-/subarg-1.0.0.tgz#f62cf17581e996b48fc965699f54c06ae268b8d2"
+  integrity sha1-9izxdYHplrSPyWVpn1TAauJouNI=
+  dependencies:
+    minimist "^1.1.0"
 
 supports-color@1.2.0:
   version "1.2.0"
