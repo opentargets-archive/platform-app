@@ -24,6 +24,7 @@ query DifferentialExpressionSectionQuery($ensgId: String!, $efoId: String!) {
             url
             name
           }
+          pmIds
         }
       }
     }
