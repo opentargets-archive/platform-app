@@ -16,8 +16,12 @@ const initKey = (key, defaultValue) => {
 
 const initLocalStorage = () => {
   // clear the storage if the app version changed,
-  // to ensure any new defaults updated correctly
-  if (pkg.version !== ls.get('version')) {
+  // to ensure any new defaults updated correctly,
+  // or when in development mode
+  if (
+    process.env.NODE_ENV === 'development' ||
+    pkg.version !== ls.get('version')
+  ) {
     ls.clear();
   }
 
