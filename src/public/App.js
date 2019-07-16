@@ -12,6 +12,7 @@ import TargetPage from './target/Page';
 import DiseasePage from './disease/Page';
 import DrugPage from './drug/Page';
 import EvidencePage from './evidence/Page';
+import initLocalStorage from './common/initLocalStorage';
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -21,6 +22,9 @@ const client = new ApolloClient({
 });
 
 class App extends Component {
+  componentDidMount() {
+    initLocalStorage();
+  }
   render() {
     return (
       <ApolloProvider client={client}>

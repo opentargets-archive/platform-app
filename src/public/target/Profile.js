@@ -3,7 +3,6 @@ import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
 import _ from 'lodash';
 
-import { targetSectionsDefaultOrder } from '../configuration';
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
 
@@ -52,8 +51,8 @@ class TargetProfile extends Component {
           entity,
           query: summariesQuery,
           variables: { ensgId },
-          defaultSectionsOrder: targetSectionsDefaultOrder,
-          sections,
+          sectionsOrderKey: 'targetSectionsOrder',
+          unorderedSections: sections,
           entitySummariesAccessor,
           entitySectionsAccessor,
         }}

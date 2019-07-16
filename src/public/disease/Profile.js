@@ -3,7 +3,6 @@ import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
 import _ from 'lodash';
 
-import { diseaseSectionsDefaultOrder } from '../configuration';
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
 
@@ -47,8 +46,8 @@ class DiseaseProfile extends Component {
           entity,
           query: summariesQuery,
           variables: { efoId },
-          defaultSectionsOrder: diseaseSectionsDefaultOrder,
-          sections,
+          sectionsOrderKey: 'diseaseSectionsOrder',
+          unorderedSections: sections,
           entitySummariesAccessor,
           entitySectionsAccessor,
         }}
