@@ -53,13 +53,26 @@ export { default as SectionComponent } from './Section';
 
 The same structure is followed on the disease and drug pages. Any components that you want to reuse can be placed in the `common` directory.
 
-# Special Thanks
+## Customisation
+
+To customise the platform app:
+
+- Clone this repository.
+- Create a directory somewhere outside this repository where you will put your customisation files.
+- Add an environment variable called `$CUSTOMISATIONS_DIR` that points to the directory created in the step above.
+- Inside your customisation directory you can overwrite or add new files following the same directory structure as `src/public`.
+- When developing new customisations, you can use the `yarn start:customise` script inside this repository to see your customisations reflected
+  in the app while developing. When done developing customisations, run the `yarn reset` command.
+- For production, you can produce a build containing the customisations by running the `yarn build:customise` script. This will create a `build`
+  directory that you can deploy.
+
+## Special Thanks
 
 BrowserStack has allowed us to do cross-browser testing of the platform app at no cost.
 
 <img src="./tools-icons/Browserstack-logo.svg" alt="BrowserStack" width="400">
 
-# Copyright
+## Copyright
 
 Copyright 2014-2018 Biogen, Celgene Corporation, EMBL - European Bioinformatics Institute, GlaxoSmithKline, Takeda Pharmaceutical Company and Wellcome Sanger Institute
 
