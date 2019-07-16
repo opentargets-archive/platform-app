@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 
-import { drugSectionsDefaultOrder } from '../configuration';
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
 
@@ -49,8 +48,8 @@ class DrugProfile extends Component {
           entity,
           query: summariesQuery,
           variables: { chemblId },
-          defaultSectionsOrder: drugSectionsDefaultOrder,
-          sections,
+          sectionsOrderKey: 'drugSectionsOrder',
+          unorderedSections: sections,
           entitySummariesAccessor,
           entitySectionsAccessor,
         }}

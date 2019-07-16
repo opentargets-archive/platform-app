@@ -15,19 +15,10 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 class SectionPanelsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      order: props.defaultSectionsOrder,
-    };
-  }
-  static getDerivedStateFromProps(props, state) {
-    const { data } = props;
-    const { order } = state;
-    const orderedData = order.map(d => data.find(e => e.id === d));
-    return { orderedData };
-  }
   onSideMenuItemDrag = result => {
+    const { data, onSectionOrderChange } = this.props;
+    const currentOrder = data.map(d => d.id);
+
     // dropped outside the list
     if (!result.destination) {
       return;
@@ -39,24 +30,22 @@ class SectionPanelsContainer extends React.Component {
     }
 
     // new order
-    const order = reorder(
-      this.state.order,
+    const newOrder = reorder(
+      currentOrder,
       result.source.index,
       result.destination.index
     );
 
-    this.setState({
-      order,
-    });
+    onSectionOrderChange(newOrder);
   };
   render() {
     const {
+      data,
       onSideMenuItemClick,
       onScrollToTopClick,
       entity,
       entitySectionsAccessor,
     } = this.props;
-    const { orderedData } = this.state;
     return (
       <div style={{ paddingTop: 8, paddingBottom: 8 }}>
         <Grid container spacing={8}>
@@ -68,7 +57,7 @@ class SectionPanelsContainer extends React.Component {
                     isSticky ? (
                       <SideMenu
                         style={{ ...style, marginTop: isSticky ? 120 : 0 }}
-                        data={orderedData}
+                        data={data}
                         onSideMenuItemClick={onSideMenuItemClick}
                         onSideMenuItemDrag={this.onSideMenuItemDrag}
                         onScrollToTopClick={onScrollToTopClick}
@@ -82,7 +71,7 @@ class SectionPanelsContainer extends React.Component {
             </Grid>
           </Hidden>
           <Grid item xs={12} md={10}>
-            {orderedData
+            {data
               .filter(d => d.loading || d.hasData)
               .map(d => (
                 <SectionPanel
