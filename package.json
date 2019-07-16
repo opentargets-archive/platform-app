@@ -64,7 +64,7 @@
     "start": "react-scripts start",
     "prestart:customise": "cpx 'src/**/*' tmp",
     "start:customise": "cpx \"$CUSTOMISATIONS_DIR/**/*\" src/public --watch & yarn start",
-    "build": "GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"$(git rev-parse --short HEAD)\" react-scripts build",
+    "build": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"$(git rev-parse --short HEAD)\" react-scripts build",
     "prebuild:customise": "cpx 'src/**/*' tmp && cpx \"$CUSTOMISATIONS_DIR/**/*\" src/public/",
     "build:customise": "yarn build",
     "postbuild:customise": "yarn reset",
@@ -91,11 +91,11 @@
     "cpx": "^1.5.0",
     "husky": "^1.1.3",
     "lint-staged": "^8.0.4",
+    "nanoid-cli": "^1.1.0",
     "nightwatch": "^1.1.13",
     "prettier": "^1.15.1",
-    "serve": "^11.1.0",
-    "prettier": "^1.15.1",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "serve": "^11.1.0"
   },
   "husky": {
     "hooks": {
