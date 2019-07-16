@@ -8,8 +8,12 @@ import TargetPage from './public/target/Page';
 import DiseasePage from './public/disease/Page';
 import DrugPage from './public/drug/Page';
 import EvidencePage from './public/evidence/Page';
+import initLocalStorage from './public/common/initLocalStorage';
 
 class App extends Component {
+  componentDidMount() {
+    initLocalStorage();
+  }
   render() {
     return (
       <OtUiThemeProvider>
