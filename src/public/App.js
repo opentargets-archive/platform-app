@@ -13,6 +13,7 @@ import DiseasePage from './disease/Page';
 import DrugPage from './drug/Page';
 import EvidencePage from './evidence/Page';
 import initLocalStorage from './common/initLocalStorage';
+import theme from './theme';
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -28,7 +29,7 @@ class App extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <OtUiThemeProvider>
+        <OtUiThemeProvider theme={theme}>
           <Router>
             <React.Fragment>
               <Route exact path="/" component={HomePage} />
