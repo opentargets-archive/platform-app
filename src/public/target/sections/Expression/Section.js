@@ -25,7 +25,7 @@ class Section extends Component {
         {tab === 'summary' && <SummaryTab ensgId={ensgId} symbol={symbol} />}
         {tab === 'atlas' && <AtlasTab ensgId={ensgId} />}
         {tab === 'gtex' && <GtexTab symbol={symbol} />}
-        {tab === 'tsne' && <TSNETab />}
+        {tab === 'tsne' && <TSNETab ensgId={ensgId} />}
       </Fragment>
     );
   }
