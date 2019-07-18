@@ -4430,10 +4430,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-ebi-scea-tsne-widget@^1.0.0-rc1:
-  version "1.0.0-rc1"
-  resolved "https://registry.yarnpkg.com/ebi-scea-tsne-widget/-/ebi-scea-tsne-widget-1.0.0-rc1.tgz#f5711795ea67402f3ee49544d5060fca406a54ad"
-  integrity sha512-S3xZ7MaCFABUybgJDN8uYx6/gpfcowwIvptmEV+zv+lN8UNPBDehIH21X05rqtcwLNILmPsKI5Icq9aBt98IqA==
+ebi-scea-tsne-widget@^1.0.0-rc2:
+  version "1.0.0-rc2"
+  resolved "https://registry.yarnpkg.com/ebi-scea-tsne-widget/-/ebi-scea-tsne-widget-1.0.0-rc2.tgz#131493847f39ed320070dc4f52a68d1db7d38843"
+  integrity sha512-vDnisIpdCw1Djr0LFgQBzNN7VadALqDSZfELOZ9TJWCk8ppajrfIs0iDzxilBq5PjMzsXUul7H0jm/BURmEkhw==
   dependencies:
     expression-atlas-autocomplete "^3.2.0"
     expression-atlas-experiment-page-tsne-plot "^4.3.0"
