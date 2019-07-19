@@ -1,7 +1,7 @@
 import { loader } from 'graphql.macro';
 
 export const id = 'linkedTargets';
-export const name = 'Linked Targets';
+export const name = 'Associated Targets';
 
 export const hasSummaryData = ({ linkedTargetCount }) => linkedTargetCount > 0;
 
