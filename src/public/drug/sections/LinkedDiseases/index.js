@@ -1,9 +1,10 @@
 import { loader } from 'graphql.macro';
 
-export const id = 'linkedTargets';
-export const name = 'Targets';
+export const id = 'linkedDiseases';
+export const name = 'Diseases';
 
-export const hasSummaryData = ({ linkedTargetCount }) => linkedTargetCount > 0;
+export const hasSummaryData = ({ linkedDiseaseCount }) =>
+  linkedDiseaseCount > 0;
 
 export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');
