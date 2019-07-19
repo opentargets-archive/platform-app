@@ -2,7 +2,7 @@ import React from 'react';
 
 const Description = ({ name }) => (
   <React.Fragment>
-    TODO: Write a description component for <strong>{name}</strong>.
+    Known mechanisms of action for <strong>{name}</strong>.
   </React.Fragment>
 );
 
