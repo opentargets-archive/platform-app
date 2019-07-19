@@ -1,0 +1,45 @@
+query TextMiningSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      textMining{
+        rows{
+          access
+          disease{
+            name
+            id
+          }
+          publication{
+            id
+            title
+            date
+          	authors{
+              firstName
+              lastName
+          	}
+            url
+            abstract
+            matches{
+              section
+              text
+              target{
+                start
+                end
+              }
+              disease{
+                start
+                end
+              }
+            }
+          }
+          journal{
+            title
+            volume
+            issue
+            page
+            year
+          }
+        }
+      }
+    }
+  }
+}
