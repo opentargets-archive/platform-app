@@ -1,11 +1,11 @@
-// import { loader } from 'graphql.macro';
+import { loader } from 'graphql.macro';
 
 export const id = 'textMining';
 export const name = 'Text Mining';
 
-export const hasSummaryData = () => true;
+export const hasSummaryData = ({ textMiningCount }) => textMiningCount > 0;
 
-// export const summaryQuery = loader('./summaryQuery.gql');
+export const summaryQuery = loader('./summaryQuery.gql');
 // export const sectionQuery = loader('./sectionQuery.gql');
 
 export { default as DescriptionComponent } from './Description';
