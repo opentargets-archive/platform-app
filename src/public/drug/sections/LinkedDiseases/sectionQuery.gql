@@ -6,6 +6,10 @@ query LinkedDiseasesSectionQuery($chemblId: String!) {
         rows {
           name
           id
+          therapeuticAreas {
+            id
+            name
+          }
         }
       }
     }
