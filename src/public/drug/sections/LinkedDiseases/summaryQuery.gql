@@ -1,0 +1,5 @@
+fragment drugLinkedDiseasesFragment on DrugSummaries {
+  linkedDiseases {
+    linkedDiseaseCount
+  }
+}

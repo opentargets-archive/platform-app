@@ -2,7 +2,7 @@ import React from 'react';
 
 const Description = ({ name }) => (
   <React.Fragment>
-    Known mechanisms of action for <strong>{name}</strong>.
+    Diseases associated with <strong>{name}</strong>.
   </React.Fragment>
 );
 
