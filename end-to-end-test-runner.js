@@ -10,7 +10,7 @@ var bs_local;
 try {
   // Code to run across several browsers in parallel (see nightwatch.conf.js)
   process.mainModule.filename =
-    './node_modules/.bin/nightwatch -e chrome,firefox,safari,ie';
+    './node_modules/.bin/nightwatch -c nightwatch.conf.js -e chrome,firefox,safari,ie';
 
   // Code to start browserstack local before start of test
   console.log('Connecting local');

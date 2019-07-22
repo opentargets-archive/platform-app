@@ -1,4 +1,3 @@
-const browserstack = require('browserstack-local');
 const BUILD_NUMBER = process.env.TRAVIS_JOB_NUMBER || 'local';
 
 let nightwatch_config = {
@@ -11,13 +10,13 @@ let nightwatch_config = {
   },
 
   common_capabilities: {
-    project: 'Test project',
+    project: 'platform-app tests',
     'browserstack.user': process.env.BROWSERSTACK_USERNAME,
     'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY,
     'browserstack.debug': true,
     'browserstack.local': true,
     'browserstack.networkLogs': true,
-    name: 'BrowserStack-[Nightwatch] Parallel Test',
+    name: 'BrowserStack-[Nightwatch] cross-browser parallel test',
   },
 
   test_settings: {
