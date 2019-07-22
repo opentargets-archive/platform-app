@@ -25,24 +25,36 @@ let nightwatch_config = {
       desiredCapabilities: {
         build: `Chrome ${BUILD_NUMBER}`,
         browser: 'chrome',
+        browser_version: '75.0',
+        os: 'OS X',
+        os_version: 'Mojave',
       },
     },
     firefox: {
       desiredCapabilities: {
         build: `FireFox ${BUILD_NUMBER}`,
         browser: 'firefox',
+        browser_version: '68.0',
+        os: 'OS X',
+        os_version: 'Mojave',
       },
     },
     ie: {
       desiredCapabilities: {
         build: `IE ${BUILD_NUMBER}`,
-        browser: 'internet explorer',
+        browser: 'IE',
+        browser_version: '11.0',
+        os: 'Windows',
+        os_version: '7',
       },
     },
     safari: {
       desiredCapabilities: {
         build: `Safari ${BUILD_NUMBER}`,
         browser: 'safari',
+        browser_version: '12.1',
+        os: 'OS X',
+        os_version: 'Mojave',
       },
     },
   },
