@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
+import DescriptionAndSynonyms from '../common/DescriptionAndSynonyms';
 
 const sections = Object.values(sectionsObject);
 
@@ -25,9 +26,23 @@ const summariesQuery = gql`
     .join('\n')}
 `;
 
+const entitySummariesAccessor = data =>
+  data && data.evidence && data.evidence.summaries
+    ? data.evidence.summaries
+    : null;
+const entitySectionsAccessor = data =>
+  data && data.evidence && data.evidence.details ? data.evidence.details : null;
+
 class EvidenceProfile extends Component {
   render() {
-    const { ensgId, efoId, target, disease } = this.props;
+    const {
+      ensgId,
+      efoId,
+      target,
+      disease,
+      description,
+      synonyms = [],
+    } = this.props;
     const entity = {
       ensgId,
       efoId,
@@ -36,14 +51,6 @@ class EvidenceProfile extends Component {
       description: null,
       synonyms: [],
     };
-    const entitySummariesAccessor = data =>
-      data && data.evidence && data.evidence.summaries
-        ? data.evidence.summaries
-        : null;
-    const entitySectionsAccessor = data =>
-      data && data.evidence && data.evidence.details
-        ? data.evidence.details
-        : null;
     return (
       <BaseProfile
         {...{
@@ -55,7 +62,9 @@ class EvidenceProfile extends Component {
           entitySummariesAccessor,
           entitySectionsAccessor,
         }}
-      />
+      >
+        <DescriptionAndSynonyms description={description} synonyms={synonyms} />
+      </BaseProfile>
     );
   }
 }
