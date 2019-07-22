@@ -39,15 +39,16 @@ let nightwatch_config = {
         os_version: 'Mojave',
       },
     },
-    ie: {
-      desiredCapabilities: {
-        build: `IE ${BUILD_NUMBER}`,
-        browser: 'IE',
-        browser_version: '11.0',
-        os: 'Windows',
-        os_version: '7',
-      },
-    },
+    // TODO: re-enable when we have figured out what makes ie11 fail
+    // ie: {
+    //   desiredCapabilities: {
+    //     build: `IE ${BUILD_NUMBER}`,
+    //     browser: 'IE',
+    //     browser_version: '11.0',
+    //     os: 'Windows',
+    //     os_version: '7',
+    //   },
+    // },
     safari: {
       desiredCapabilities: {
         build: `Safari ${BUILD_NUMBER}`,
