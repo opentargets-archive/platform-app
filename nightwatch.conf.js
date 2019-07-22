@@ -9,6 +9,10 @@ let nightwatch_config = {
     port: 80,
   },
 
+  globals: {
+    retryAssertionTimeout: 10000,
+  },
+
   common_capabilities: {
     project: 'platform-app tests',
     'browserstack.user': process.env.BROWSERSTACK_USERNAME,
