@@ -75,7 +75,7 @@
     "prettier": "prettier --write",
     "prettier:all": "prettier --write 'src/**/*.js'",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "test:nightwatch": "node end-to-end-test-runner.js -c nightwatch.conf.js -e chrome,firefox,safari",
+    "test:nightwatch": "node end-to-end-test-runner.js -c nightwatch.conf.js -e chrome,firefox,safari,ie",
     "serve": "serve -s build -l 8000 &"
   },
   "eslintConfig": {
