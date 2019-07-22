@@ -8,6 +8,7 @@ var browserstack = require('browserstack-local');
 var bs_local;
 
 try {
+  // Code to run across several browsers in parallel (see nightwatch.conf.js)
   process.mainModule.filename = './node_modules/.bin/nightwatch';
 
   // Code to start browserstack local before start of test
