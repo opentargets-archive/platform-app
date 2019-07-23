@@ -109,21 +109,19 @@ class DrugPage extends Component {
                   <Route
                     path={match.path}
                     render={() => (
-                      <React.Fragment>
-                        <Profile
-                          {...{
-                            chemblId,
-                            name,
-                            type,
-                            tradeNames,
-                            maximumClinicalTrialPhase,
-                            yearOfFirstApproval,
-                            molecularFormula,
-                            description: null,
-                            synonyms,
-                          }}
-                        />
-                      </React.Fragment>
+                      <Profile
+                        {...{
+                          chemblId,
+                          name,
+                          type,
+                          tradeNames,
+                          maximumClinicalTrialPhase,
+                          yearOfFirstApproval,
+                          molecularFormula,
+                          description: null,
+                          synonyms,
+                        }}
+                      />
                     )}
                   />
                 </Switch>
