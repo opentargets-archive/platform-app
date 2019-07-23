@@ -15,11 +15,9 @@ class ExpressionAtlasRenderer extends React.Component {
     const { ensgId } = this.props;
     const { ExpressionAtlasHeatmap } = this.state;
     return ExpressionAtlasHeatmap ? (
-      <div>
-        <ExpressionAtlasHeatmap
-          query={{ species: 'homo sapiens', gene: ensgId }}
-        />
-      </div>
+      <ExpressionAtlasHeatmap
+        query={{ species: 'homo sapiens', gene: ensgId }}
+      />
     ) : null;
   }
 }
