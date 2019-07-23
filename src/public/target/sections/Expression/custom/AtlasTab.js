@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
-import ExpressionAtlasHeatmap from 'expression-atlas-heatmap-highcharts';
+import ExpressionAtlasRenderer from './AtlasRenderer';
 import { Link } from 'ot-ui';
 
 const AtlasTab = ({ ensgId }) => {
@@ -15,9 +15,7 @@ const AtlasTab = ({ ensgId }) => {
           Expression Atlas
         </Link>
       </Typography>
-      <ExpressionAtlasHeatmap
-        query={{ species: 'homo sapiens', gene: ensgId }}
-      />
+      <ExpressionAtlasRenderer ensgId={ensgId} />
     </Fragment>
   );
 };
