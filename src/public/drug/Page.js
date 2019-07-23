@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 import { Tabs, Tab } from 'ot-ui';
 
 import BasePage from '../common/BasePage';
-import Header from './Header';
+import DrugHeader from './DrugHeader';
 import Profile from './Profile';
 
 // TODO: implement summaries in graphql api and use (like in target page)
@@ -75,7 +75,7 @@ class DrugPage extends Component {
                 <Helmet>
                   <title>{name}</title>
                 </Helmet>
-                <Header
+                <DrugHeader
                   {...{
                     chemblId,
                     name,

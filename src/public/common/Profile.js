@@ -5,7 +5,6 @@ import ls from 'local-storage';
 
 import MiniWidgetBar from '../common/MiniWidgetBar';
 import SectionPanelsContainer from '../common/SectionPanelsContainer';
-import DescriptionAndSynonyms from '../common/DescriptionAndSynonyms';
 
 class Profile extends Component {
   state = {
@@ -82,8 +81,8 @@ class Profile extends Component {
       unorderedSections,
       entitySummariesAccessor,
       entitySectionsAccessor,
+      children,
     } = this.props;
-    const { description, synonyms } = entity;
     const sections = sectionsOrder.map(d =>
       unorderedSections.find(e => e.id === d)
     );
@@ -135,7 +134,7 @@ class Profile extends Component {
 
           return (
             <Fragment>
-              <DescriptionAndSynonyms {...{ description, synonyms }} />
+              {children}
               <MiniWidgetBar
                 entity={entity}
                 data={sectionsWithSummaryState}

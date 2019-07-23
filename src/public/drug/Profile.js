@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
 import _ from 'lodash';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
+import Description from '../common/Description';
+import Synonyms from '../common/Synonyms';
+import Smiles from './Smiles';
 
 const sections = Object.values(sectionsObject);
 
@@ -27,6 +32,11 @@ const summariesQuery = gql`
     .join('\n')}
 `;
 
+const entitySummariesAccessor = data =>
+  data && data.drug && data.drug.summaries ? data.drug.summaries : {};
+const entitySectionsAccessor = data =>
+  data && data.drug && data.drug.details ? data.drug.details : {};
+
 class DrugProfile extends Component {
   render() {
     const {
@@ -37,6 +47,7 @@ class DrugProfile extends Component {
       yearOfFirstApproval,
       type,
       maximumClinicalTrialPhase,
+      description,
     } = this.props;
     const entity = {
       chemblId,
@@ -47,10 +58,6 @@ class DrugProfile extends Component {
       type,
       maximumClinicalTrialPhase,
     };
-    const entitySummariesAccessor = data =>
-      data && data.drug && data.drug.summaries ? data.drug.summaries : {};
-    const entitySectionsAccessor = data =>
-      data && data.drug && data.drug.details ? data.drug.details : {};
     return (
       <BaseProfile
         {...{
@@ -62,7 +69,25 @@ class DrugProfile extends Component {
           entitySummariesAccessor,
           entitySectionsAccessor,
         }}
-      />
+      >
+        <Grid container justify="space-between">
+          <Grid item xs={12} md={6}>
+            <Typography variant="subtitle2">Name</Typography>
+            <Typography variant="body2">{name}</Typography>
+            <Typography variant="subtitle2">Molecule type</Typography>
+            <Typography variant="body2">{type}</Typography>
+            <Typography variant="subtitle2">First approval</Typography>
+            <Typography variant="body2">{yearOfFirstApproval}</Typography>
+            <Typography variant="subtitle2">Max phase</Typography>
+            <Typography variant="body2">{maximumClinicalTrialPhase}</Typography>
+            <Description>{description}</Description>
+            <Synonyms synonyms={synonyms} />
+          </Grid>
+          <Grid item container xs={12} md={6} justify="flex-end">
+            <Smiles chemblId={chemblId} />
+          </Grid>
+        </Grid>
+      </BaseProfile>
     );
   }
 }

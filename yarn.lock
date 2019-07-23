@@ -11769,6 +11769,11 @@ smart-buffer@4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.0.2.tgz#5207858c3815cc69110703c6b94e46c15634395d"
 
+smiles-drawer@^1.1.22:
+  version "1.1.22"
+  resolved "https://registry.yarnpkg.com/smiles-drawer/-/smiles-drawer-1.1.22.tgz#fb42e30f661938a1f6ff9465f2004ae293250ab3"
+  integrity sha512-ySosRWTYDfttDp/+k8ikgukI45FmqPpiXVQm33Gv/ZpGAiyZSlRoD/rDvu2RKBhfs+pZGDl+a/WGd078s/lXfQ==
+
 snapdragon-node@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"
