@@ -9,6 +9,7 @@ import { Tabs, Tab } from 'ot-ui';
 import BasePage from '../common/BasePage';
 import Header from './Header';
 import Profile from './Profile';
+import WithdrawnNotice from './WithdrawnNotice';
 
 // TODO: implement summaries in graphql api and use (like in target page)
 const drugQuery = gql`
@@ -21,6 +22,13 @@ const drugQuery = gql`
       yearOfFirstApproval
       type
       maximumClinicalTrialPhase
+      hasBeenWithdrawn
+      withdrawnNotice {
+        classes
+        countries
+        reasons
+        year
+      }
     }
   }
 `;
@@ -68,6 +76,8 @@ class DrugPage extends Component {
               yearOfFirstApproval,
               type,
               maximumClinicalTrialPhase,
+              hasBeenWithdrawn,
+              withdrawnNotice,
             } = data.drug;
 
             return (
@@ -99,19 +109,24 @@ class DrugPage extends Component {
                   <Route
                     path={match.path}
                     render={() => (
-                      <Profile
-                        {...{
-                          chemblId,
-                          name,
-                          type,
-                          tradeNames,
-                          maximumClinicalTrialPhase,
-                          yearOfFirstApproval,
-                          molecularFormula,
-                          description: null,
-                          synonyms,
-                        }}
-                      />
+                      <React.Fragment>
+                        <WithdrawnNotice
+                          {...{ hasBeenWithdrawn, withdrawnNotice }}
+                        />
+                        <Profile
+                          {...{
+                            chemblId,
+                            name,
+                            type,
+                            tradeNames,
+                            maximumClinicalTrialPhase,
+                            yearOfFirstApproval,
+                            molecularFormula,
+                            description: null,
+                            synonyms,
+                          }}
+                        />
+                      </React.Fragment>
                     )}
                   />
                 </Switch>
