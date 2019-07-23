@@ -18,7 +18,10 @@ const styles = theme => {
       backgroundColor: theme.palette.secondary.main,
     },
     content: {
-      padding: '8px 16px !important',
+      padding: '8px 16px',
+      '&:last-child': {
+        paddingBottom: '8px',
+      },
     },
   };
 };
