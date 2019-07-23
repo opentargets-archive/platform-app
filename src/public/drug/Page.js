@@ -9,9 +9,7 @@ import { Tabs, Tab } from 'ot-ui';
 import BasePage from '../common/BasePage';
 import Header from './Header';
 import Profile from './Profile';
-import WithdrawnNotice from './WithdrawnNotice';
 
-// TODO: implement summaries in graphql api and use (like in target page)
 const drugQuery = gql`
   query DrugQuery($chemblId: String!) {
     drug(chemblId: $chemblId) {
@@ -95,6 +93,8 @@ class DrugPage extends Component {
                     yearOfFirstApproval,
                     molecularFormula,
                     synonyms,
+                    hasBeenWithdrawn,
+                    withdrawnNotice,
                   }}
                 />
                 <Tabs
@@ -110,9 +110,6 @@ class DrugPage extends Component {
                     path={match.path}
                     render={() => (
                       <React.Fragment>
-                        <WithdrawnNotice
-                          {...{ hasBeenWithdrawn, withdrawnNotice }}
-                        />
                         <Profile
                           {...{
                             chemblId,
