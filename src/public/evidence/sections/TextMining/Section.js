@@ -94,17 +94,22 @@ const getFormattedText = sentence => {
   return text;
 };
 
-const getFormattedAbstract = (abstract, matches) => {
-  let formattedAbstract = abstract;
-  const abstractMatches = matches.find(m => m[0].section === 'abstract');
-  if (abstractMatches) {
-    // process matches an return formatted abstract
-    abstractMatches.map(am => {
+// Format the text for the specfied section based on provided matches
+// This is used to process specifically abstract and title
+// section: string, e.g. 'abstract'
+// text: the text of the section
+// matches: the full list of matches for the publication
+const getFormattedSection = (section, text, matches) => {
+  let formattedText = text;
+  const sectionMatches = matches.find(m => m[0].section === section);
+  if (sectionMatches) {
+    // process matches an return formatted text for the section
+    sectionMatches.map(am => {
       const amf = getFormattedText(am);
-      formattedAbstract = formattedAbstract.replace(am.text, amf);
+      formattedText = formattedText.replace(am.text, amf);
     });
   }
-  return formattedAbstract;
+  return formattedText;
 };
 
 const columns = [
@@ -122,7 +127,11 @@ const columns = [
       <Fragment>
         <SimplePublication
           pmId={p.publication.id}
-          title={p.publication.title}
+          titleHtml={getFormattedSection(
+            'title',
+            p.publication.title,
+            p.publication.matches
+          )}
           authors={p.publication.authors.map(a => ({
             ForeName: a.firstName,
             LastName: a.lastName,
@@ -138,7 +147,8 @@ const columns = [
           }}
         />
         <Abstract
-          abstract={getFormattedAbstract(
+          abstract={getFormattedSection(
+            'abstract',
             p.publication.abstract,
             p.publication.matches
           )}
@@ -153,16 +163,18 @@ const columns = [
           .map((m, i) => {
             return (
               <Fragment key={i}>
-                <Typography variant="h6">
+                <Typography variant="subtitle2">
                   {m[0].section} {m.length} matched sentences
                 </Typography>
                 <ul>
                   {m.map((s, j) => {
                     return (
                       <li key={j}>
-                        <Abstract
-                          abstract={getFormattedText(s)}
-                          variant="simple"
+                        <Typography
+                          variant="body2"
+                          dangerouslySetInnerHTML={{
+                            __html: getFormattedText(s),
+                          }}
                         />
                       </li>
                     );
