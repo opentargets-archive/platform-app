@@ -100,16 +100,11 @@ const getFormattedText = sentence => {
 // text: the text of the section
 // matches: the full list of matches for the publication
 const getFormattedSection = (section, text, matches) => {
-  let formattedText = text;
   const sectionMatches = matches.find(m => m[0].section === section);
-  if (sectionMatches) {
-    // process matches an return formatted text for the section
-    sectionMatches.map(am => {
-      const amf = getFormattedText(am);
-      formattedText = formattedText.replace(am.text, amf);
-    });
-  }
-  return formattedText;
+  // process matches an return formatted text for the section or raw text
+  return (sectionMatches || []).reduce((acc, sm) => {
+    return acc.replace(sm.text, getFormattedText(sm));
+  }, text);
 };
 
 const columns = [
