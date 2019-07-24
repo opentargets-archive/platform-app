@@ -11,6 +11,7 @@ const pmTitleUrl = 'abstract/med/';
  * Props:
  *  - pmId
  *  - title
+ *  - titleHtml
  *  - authors
  *  - journal: {
  *      title
@@ -21,14 +22,18 @@ const pmTitleUrl = 'abstract/med/';
  */
 class SimplePublication extends Component {
   render = () => {
-    const { pmId, title, authors, journal, variant } = this.props;
+    const { pmId, title, titleHtml, authors, journal, variant } = this.props;
 
     return (
       <Fragment>
         {/* paper title */}
         <Typography variant={variant === 'small' ? 'subtitle2' : 'subtitle1'}>
           <Link external to={pmUrl + pmTitleUrl + pmId}>
-            {title}
+            {titleHtml ? (
+              <span dangerouslySetInnerHTML={{ __html: titleHtml }} />
+            ) : (
+              title
+            )}
           </Link>
         </Typography>
 
