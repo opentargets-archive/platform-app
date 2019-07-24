@@ -94,6 +94,19 @@ const getFormattedText = sentence => {
   return text;
 };
 
+const getFormattedAbstract = (abstract, matches) => {
+  let formattedAbstract = abstract;
+  const abstractMatches = matches.find(m => m[0].section === 'abstract');
+  if (abstractMatches) {
+    // process matches an return formatted abstract
+    abstractMatches.map(am => {
+      const amf = getFormattedText(am);
+      formattedAbstract = formattedAbstract.replace(am.text, amf);
+    });
+  }
+  return formattedAbstract;
+};
+
 const columns = [
   {
     id: 'disease.id',
@@ -101,7 +114,6 @@ const columns = [
     renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
-    width: '50%',
   },
   {
     id: 'publication.title',
@@ -125,7 +137,13 @@ const columns = [
             },
           }}
         />
-        <Abstract abstract={p.publication.abstract} variant="simple" />
+        <Abstract
+          abstract={getFormattedAbstract(
+            p.publication.abstract,
+            p.publication.matches
+          )}
+          variant="simple"
+        />
         {p.publication.matches
           .filter(
             m =>
