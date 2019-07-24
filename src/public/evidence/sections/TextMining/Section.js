@@ -19,6 +19,7 @@ import { Link, OtTableRF } from 'ot-ui';
 
 import SimplePublication from '../../../common/sections/Bibliography/custom/SimplePublication';
 import Abstract from '../../../common/sections/Bibliography/custom/Abstract';
+import BibliograhpyHtmlText from '../../../common/sections/Bibliography/custom/BibliograhpyHtmlText';
 
 const getFormattedText = sentence => {
   let breakpoints = [];
@@ -141,13 +142,12 @@ const columns = [
             },
           }}
         />
-        <Abstract
-          abstract={getFormattedSection(
+        <BibliograhpyHtmlText
+          text={getFormattedSection(
             'abstract',
             p.publication.abstract,
             p.publication.matches
           )}
-          variant="simple"
         />
         {p.publication.matches
           .filter(
@@ -165,12 +165,7 @@ const columns = [
                   {m.map((s, j) => {
                     return (
                       <li key={j}>
-                        <Typography
-                          variant="body2"
-                          dangerouslySetInnerHTML={{
-                            __html: getFormattedText(s),
-                          }}
-                        />
+                        <BibliograhpyHtmlText text={getFormattedText(s)} />
                       </li>
                     );
                   })}
