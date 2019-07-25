@@ -1,0 +1,17 @@
+query RelatedDiseasesExpansionQuery($pageEfoId: String!, $otherEfoId: String!) {
+  disease(efoId: $pageEfoId) {
+    id
+    details {
+      relatedDiseases {
+        expanded(otherEfoId: $otherEfoId) {
+          target {
+            id
+            symbol
+          }
+          associationScoreA
+          associationScoreB
+        }
+      }
+    }
+  }
+}

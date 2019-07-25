@@ -1,11 +1,14 @@
 import React from 'react';
 import * as d3 from 'd3';
+import { loader } from 'graphql.macro';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
 import { OtTableRF, Link, significantFigures } from 'ot-ui';
 
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
+import { Query } from 'react-apollo';
+const expansionQuery = loader('./expansionQuery.gql');
 
 const columns = (name, maxTargetCountAOrB) => [
   {
@@ -56,6 +59,40 @@ const columns = (name, maxTargetCountAOrB) => [
   },
 ];
 
+const expansionColumns = (A, B) => [
+  {
+    id: 'target.symbol',
+    label: 'Target',
+    renderCell: d => (
+      <Link to={`/target/${d.target.id}`}>{d.target.symbol}</Link>
+    ),
+    comparator: (a, b) => {
+      if (a.target.symbol <= b.target.symbbol) {
+        return -1;
+      }
+      return 1;
+    },
+  },
+  {
+    id: 'associationScoreA',
+    label: (
+      <React.Fragment>
+        Association score with <strong>{A.name}</strong>
+      </React.Fragment>
+    ),
+    renderCell: d => significantFigures(d.associationScoreA),
+  },
+  {
+    id: 'associationScoreB',
+    label: (
+      <React.Fragment>
+        Association score with <strong>{B.name}</strong>
+      </React.Fragment>
+    ),
+    renderCell: d => significantFigures(d.associationScoreB),
+  },
+];
+
 // It would be nice to have an animation when the row expands
 // like with Collapse or ExpansionPanels, but this seems to not
 // play well with tables (tried but errors seen).
@@ -70,15 +107,39 @@ class TableRowComponent extends React.Component {
     });
   };
   render() {
-    const { children } = this.props;
+    const { children, data } = this.props;
     const { expanded } = this.state;
+    const { A, B } = data;
+    const { id: pageEfoId } = A;
+    const { id: otherEfoId } = B;
     return (
       <React.Fragment>
         <TableRow onClick={this.handleClick}>{children}</TableRow>
         {expanded && (
           <TableRow>
             <TableCell colSpan="100%">
-              TODO: Fill me in with the targets and their association scores
+              <Query
+                query={expansionQuery}
+                variables={{ pageEfoId, otherEfoId }}
+              >
+                {({ loading: loading2, error: error2, data: data2 }) => {
+                  if (loading2 || error2) {
+                    return null;
+                  }
+                  const expansionRows =
+                    data2.disease.details.relatedDiseases.expanded;
+                  return (
+                    <OtTableRF
+                      loading={false}
+                      error={false}
+                      columns={expansionColumns(A, B)}
+                      data={expansionRows}
+                      sortBy="target.symbol"
+                      order="asc"
+                    />
+                  );
+                }}
+              </Query>
             </TableCell>
           </TableRow>
         )}
