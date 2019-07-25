@@ -6,7 +6,6 @@ import { Helmet } from 'react-helmet';
 
 import { Tabs, Tab } from 'ot-ui';
 
-import BasePage from '../common/BasePage';
 import Header from './Header';
 import Associations from './Associations';
 import Profile from './Profile';
@@ -52,62 +51,60 @@ class TargetPage extends Component {
     const { ensgId } = match.params;
 
     return (
-      <BasePage>
-        <Query query={targetQuery} variables={{ ensgId }}>
-          {({ loading, error, data }) => {
-            if (loading || error) {
-              return null;
-            }
+      <Query query={targetQuery} variables={{ ensgId }}>
+        {({ loading, error, data }) => {
+          if (loading || error) {
+            return null;
+          }
 
-            const {
-              symbol,
-              name,
-              uniprotId,
-              synonyms,
-              description,
-            } = data.target;
+          const {
+            symbol,
+            name,
+            uniprotId,
+            synonyms,
+            description,
+          } = data.target;
 
-            return (
-              <React.Fragment>
-                <Helmet>
-                  <title>{symbol}</title>
-                </Helmet>
-                <Header {...{ ensgId, uniprotId, symbol, name }} />
-                <Tabs
-                  value={value}
-                  onChange={this.handleChange}
-                  variant="scrollable"
-                  scrollButtons="auto"
-                >
-                  <Tab value="associations" label="Associations View" />
-                  <Tab value="overview" label="Target Profile" />
-                </Tabs>
-                <Switch>
-                  <Route
-                    path={`${match.path}/associations`}
-                    component={Associations}
-                  />
-                  <Route
-                    path={match.path}
-                    render={() => (
-                      <Profile
-                        {...{
-                          ensgId,
-                          uniprotId,
-                          symbol,
-                          name,
-                          synonyms,
-                          description,
-                        }}
-                      />
-                    )}
-                  />
-                </Switch>
-              </React.Fragment>
-            );
-          }}
-        </Query>
-      </BasePage>
+          return (
+            <React.Fragment>
+              <Helmet>
+                <title>{symbol}</title>
+              </Helmet>
+              <Header {...{ ensgId, uniprotId, symbol, name }} />
+              <Tabs
+                value={value}
+                onChange={this.handleChange}
+                variant="scrollable"
+                scrollButtons="auto"
+              >
+                <Tab value="associations" label="Associations View" />
+                <Tab value="overview" label="Target Profile" />
+              </Tabs>
+              <Switch>
+                <Route
+                  path={`${match.path}/associations`}
+                  component={Associations}
+                />
+                <Route
+                  path={match.path}
+                  render={() => (
+                    <Profile
+                      {...{
+                        ensgId,
+                        uniprotId,
+                        symbol,
+                        name,
+                        synonyms,
+                        description,
+                      }}
+                    />
+                  )}
+                />
+              </Switch>
+            </React.Fragment>
+          );
+        }}
+      </Query>
     );
   }
 }

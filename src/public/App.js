@@ -7,6 +7,7 @@ import { HttpLink } from 'apollo-link-http';
 
 import { OtUiThemeProvider } from 'ot-ui';
 import initLocalStorage from './common/initLocalStorage';
+import BasePage from './common/BasePage';
 import theme from './theme';
 
 const HomePage = lazy(() => import('./home/Page'));
@@ -31,18 +32,20 @@ class App extends Component {
       <ApolloProvider client={client}>
         <OtUiThemeProvider theme={theme}>
           <Router>
-            <Suspense fallback={<div>Loading...</div>}>
-              <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/target/:ensgId" component={TargetPage} />
-                <Route path="/disease/:efoId" component={DiseasePage} />
-                <Route path="/drug/:chemblId" component={DrugPage} />
-                <Route
-                  path="/evidence/:ensgId/:efoId"
-                  component={EvidencePage}
-                />
-              </Switch>
-            </Suspense>
+            <BasePage>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Switch>
+                  <Route exact path="/" component={HomePage} />
+                  <Route path="/target/:ensgId" component={TargetPage} />
+                  <Route path="/disease/:efoId" component={DiseasePage} />
+                  <Route path="/drug/:chemblId" component={DrugPage} />
+                  <Route
+                    path="/evidence/:ensgId/:efoId"
+                    component={EvidencePage}
+                  />
+                </Switch>
+              </Suspense>
+            </BasePage>
           </Router>
         </OtUiThemeProvider>
       </ApolloProvider>
