@@ -1,5 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 
 import { OtTableRF, Link, significantFigures } from 'ot-ui';
 
@@ -54,6 +56,37 @@ const columns = (name, maxTargetCountAOrB) => [
   },
 ];
 
+// It would be nice to have an animation when the row expands
+// like with Collapse or ExpansionPanels, but this seems to not
+// play well with tables (tried but errors seen).
+// https://github.com/mui-org/material-ui/issues/10052
+class TableRowComponent extends React.Component {
+  state = {
+    expanded: false,
+  };
+  handleClick = () => {
+    this.setState({
+      expanded: !this.state.expanded,
+    });
+  };
+  render() {
+    const { children } = this.props;
+    const { expanded } = this.state;
+    return (
+      <React.Fragment>
+        <TableRow onClick={this.handleClick}>{children}</TableRow>
+        {expanded && (
+          <TableRow>
+            <TableCell colSpan="100%">
+              TODO: Fill me in with the targets and their association scores
+            </TableCell>
+          </TableRow>
+        )}
+      </React.Fragment>
+    );
+  }
+}
+
 const Section = ({ efoId, name, data }) => {
   const { rows } = data;
   const maxTargetCountAOrB = d3.max(rows, d => d.targetCountAOrB);
@@ -71,6 +104,7 @@ const Section = ({ efoId, name, data }) => {
       data={rowsMapped}
       sortBy="score"
       order="desc"
+      tableRowComponent={TableRowComponent}
     />
   );
 };
