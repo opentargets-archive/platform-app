@@ -1,7 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Suspense, lazy } from 'react';
 import Typography from '@material-ui/core/Typography';
-import ExpressionAtlasRenderer from './AtlasRenderer';
 import { Link } from 'ot-ui';
+
+const ExpressionAtlasHeatmap = lazy(() =>
+  import('expression-atlas-heatmap-highcharts')
+);
 
 const AtlasTab = ({ ensgId }) => {
   return (
@@ -15,7 +18,11 @@ const AtlasTab = ({ ensgId }) => {
           Expression Atlas
         </Link>
       </Typography>
-      <ExpressionAtlasRenderer ensgId={ensgId} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ExpressionAtlasHeatmap
+          query={{ species: 'homo sapiens', gene: ensgId }}
+        />
+      </Suspense>
     </Fragment>
   );
 };

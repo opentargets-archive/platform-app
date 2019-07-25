@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { Link } from 'ot-ui';
 
-import BasePage from '../common/BasePage';
-
 const HomePage = () => {
   return (
-    <BasePage>
+    <Fragment>
       <div>Home</div>
       <div>
         <Link to="/target/ENSG00000091831">Target page</Link>
@@ -20,7 +18,7 @@ const HomePage = () => {
       <div>
         <Link to="/evidence/ENSG00000091831/EFO_0000305">Evidence page</Link>
       </div>
-    </BasePage>
+    </Fragment>
   );
 };
 

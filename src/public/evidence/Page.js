@@ -6,7 +6,6 @@ import { Helmet } from 'react-helmet';
 
 // import { Tabs, Tab } from 'ot-ui';
 
-import BasePage from '../common/BasePage';
 import Header from './Header';
 import Profile from './Profile';
 
@@ -57,36 +56,35 @@ class EvidencePage extends Component {
     const { ensgId, efoId } = match.params;
 
     return (
-      <BasePage>
-        <Query query={evidenceQuery} variables={{ ensgId, efoId }}>
-          {({ loading, error, data }) => {
-            if (loading || error) {
-              return null;
-            }
-            const { target, disease } = data;
+      <Query query={evidenceQuery} variables={{ ensgId, efoId }}>
+        {({ loading, error, data }) => {
+          if (loading || error) {
+            return null;
+          }
+          const { target, disease } = data;
 
-            return (
-              <Fragment>
-                <Helmet>
-                  <title>{`Evidence for ${target.symbol} in ${
-                    disease.name
-                  }`}</title>
-                </Helmet>
-                <Header
-                  {...{
-                    target,
-                    disease,
-                  }}
-                />
-                <Profile
-                  {...{
-                    ensgId,
-                    efoId,
-                    target,
-                    disease,
-                  }}
-                />
-                {/* <Tabs
+          return (
+            <Fragment>
+              <Helmet>
+                <title>{`Evidence for ${target.symbol} in ${
+                  disease.name
+                }`}</title>
+              </Helmet>
+              <Header
+                {...{
+                  target,
+                  disease,
+                }}
+              />
+              <Profile
+                {...{
+                  ensgId,
+                  efoId,
+                  target,
+                  disease,
+                }}
+              />
+              {/* <Tabs
             value={value}
             onChange={this.handleChange}
             variant="scrollable"
@@ -106,11 +104,10 @@ class EvidencePage extends Component {
               )}
             />
           </Switch> */}
-              </Fragment>
-            );
-          }}
-        </Query>
-      </BasePage>
+            </Fragment>
+          );
+        }}
+      </Query>
     );
   }
 }
