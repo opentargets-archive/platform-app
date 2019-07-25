@@ -30,7 +30,10 @@ class SimplePublication extends Component {
         <Typography variant={variant === 'small' ? 'subtitle2' : 'subtitle1'}>
           <Link external to={pmUrl + pmTitleUrl + pmId}>
             {titleHtml ? (
-              <span dangerouslySetInnerHTML={{ __html: titleHtml }} />
+              <span
+                dangerouslySetInnerHTML={{ __html: titleHtml }}
+                style={{ whiteSpace: 'normal' }}
+              />
             ) : (
               title
             )}
