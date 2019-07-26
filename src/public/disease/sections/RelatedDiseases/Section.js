@@ -67,7 +67,7 @@ const expansionColumns = (A, B) => [
       <Link to={`/target/${d.target.id}`}>{d.target.symbol}</Link>
     ),
     comparator: (a, b) => {
-      if (a.target.symbol <= b.target.symbbol) {
+      if (a.target.symbol <= b.target.symbol) {
         return -1;
       }
       return 1;
