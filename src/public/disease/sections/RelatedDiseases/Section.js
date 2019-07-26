@@ -1,17 +1,13 @@
 import React from 'react';
 import * as d3 from 'd3';
 import { loader } from 'graphql.macro';
-import withStyles from '@material-ui/core/styles/withStyles';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import IconButton from '@material-ui/core/IconButton';
+import { Query } from 'react-apollo';
 
 import { OtTableRF, Link, significantFigures } from 'ot-ui';
 
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
-import { Query } from 'react-apollo';
+import ExpandableTableRow from '../../../common/ExpandableTableRow';
+
 const expansionQuery = loader('./expansionQuery.gql');
 
 const columns = (name, maxTargetCountAOrB) => [
@@ -99,81 +95,38 @@ const expansionColumns = (A, B) => [
   },
 ];
 
-const TableRowContainer = withStyles(theme => ({
-  root: {
-    border: `2px solid ${theme.palette.primary.main}`,
-    margin: '16px 0',
-  },
-}))(({ classes, children }) => <div className={classes.root}>{children}</div>);
+const ExpandedComponent = ({ data }) => (
+  <Query
+    query={expansionQuery}
+    variables={{ pageEfoId: data.A.id, otherEfoId: data.B.id }}
+  >
+    {({ loading, error, data: data2 }) => {
+      if (loading || error) {
+        return null;
+      }
+      const expansionRows = data2.disease.details.relatedDiseases.expanded.map(
+        d => ({
+          ...d,
+          associationScoreProduct: d.associationScoreA * d.associationScoreB,
+        })
+      );
+      return (
+        <OtTableRF
+          loading={false}
+          error={false}
+          columns={expansionColumns(data.A, data.B)}
+          data={expansionRows}
+          sortBy="associationScoreProduct"
+          order="desc"
+        />
+      );
+    }}
+  </Query>
+);
 
-// It would be nice to have an animation when the row expands
-// like with Collapse or ExpansionPanels, but this seems to not
-// play well with tables (tried but errors seen).
-// https://github.com/mui-org/material-ui/issues/10052
-class TableRowComponent extends React.Component {
-  state = {
-    expanded: false,
-  };
-  handleClick = () => {
-    this.setState({
-      expanded: !this.state.expanded,
-    });
-  };
-  render() {
-    const { children, data } = this.props;
-    const { expanded } = this.state;
-    const { A, B } = data;
-    const { id: pageEfoId } = A;
-    const { id: otherEfoId } = B;
-    return (
-      <React.Fragment>
-        <TableRow>
-          {children}
-          <TableCell>
-            <IconButton onClick={this.handleClick}>
-              {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            </IconButton>
-          </TableCell>
-        </TableRow>
-        {expanded && (
-          <TableRow>
-            <TableCell colSpan="100%">
-              <Query
-                query={expansionQuery}
-                variables={{ pageEfoId, otherEfoId }}
-              >
-                {({ loading: loading2, error: error2, data: data2 }) => {
-                  if (loading2 || error2) {
-                    return null;
-                  }
-                  const expansionRows = data2.disease.details.relatedDiseases.expanded.map(
-                    d => ({
-                      ...d,
-                      associationScoreProduct:
-                        d.associationScoreA * d.associationScoreB,
-                    })
-                  );
-                  return (
-                    <TableRowContainer>
-                      <OtTableRF
-                        loading={false}
-                        error={false}
-                        columns={expansionColumns(A, B)}
-                        data={expansionRows}
-                        sortBy="associationScoreProduct"
-                        order="desc"
-                      />
-                    </TableRowContainer>
-                  );
-                }}
-              </Query>
-            </TableCell>
-          </TableRow>
-        )}
-      </React.Fragment>
-    );
-  }
-}
+const TableRowComponent = props => (
+  <ExpandableTableRow {...props} ExpandedComponent={ExpandedComponent} />
+);
 
 const Section = ({ name, data }) => {
   const { rows } = data;
