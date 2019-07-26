@@ -1,8 +1,12 @@
 import React from 'react';
 import * as d3 from 'd3';
 import { loader } from 'graphql.macro';
+import withStyles from '@material-ui/core/styles/withStyles';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import IconButton from '@material-ui/core/IconButton';
 
 import { OtTableRF, Link, significantFigures } from 'ot-ui';
 
@@ -77,7 +81,8 @@ const expansionColumns = (A, B) => [
     id: 'associationScoreA',
     label: (
       <React.Fragment>
-        Association score with <strong>{A.name}</strong>
+        Association score with <br />
+        <strong>{A.name}</strong>
       </React.Fragment>
     ),
     renderCell: d => significantFigures(d.associationScoreA),
@@ -86,12 +91,20 @@ const expansionColumns = (A, B) => [
     id: 'associationScoreB',
     label: (
       <React.Fragment>
-        Association score with <strong>{B.name}</strong>
+        Association score with <br />
+        <strong>{B.name}</strong>
       </React.Fragment>
     ),
     renderCell: d => significantFigures(d.associationScoreB),
   },
 ];
+
+const TableRowContainer = withStyles(theme => ({
+  root: {
+    border: `2px solid ${theme.palette.primary.main}`,
+    margin: '16px 0',
+  },
+}))(({ classes, children }) => <div className={classes.root}>{children}</div>);
 
 // It would be nice to have an animation when the row expands
 // like with Collapse or ExpansionPanels, but this seems to not
@@ -114,7 +127,14 @@ class TableRowComponent extends React.Component {
     const { id: otherEfoId } = B;
     return (
       <React.Fragment>
-        <TableRow onClick={this.handleClick}>{children}</TableRow>
+        <TableRow>
+          {children}
+          <TableCell>
+            <IconButton onClick={this.handleClick}>
+              {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </IconButton>
+          </TableCell>
+        </TableRow>
         {expanded && (
           <TableRow>
             <TableCell colSpan="100%">
@@ -126,17 +146,24 @@ class TableRowComponent extends React.Component {
                   if (loading2 || error2) {
                     return null;
                   }
-                  const expansionRows =
-                    data2.disease.details.relatedDiseases.expanded;
+                  const expansionRows = data2.disease.details.relatedDiseases.expanded.map(
+                    d => ({
+                      ...d,
+                      associationScoreProduct:
+                        d.associationScoreA * d.associationScoreB,
+                    })
+                  );
                   return (
-                    <OtTableRF
-                      loading={false}
-                      error={false}
-                      columns={expansionColumns(A, B)}
-                      data={expansionRows}
-                      sortBy="target.symbol"
-                      order="asc"
-                    />
+                    <TableRowContainer>
+                      <OtTableRF
+                        loading={false}
+                        error={false}
+                        columns={expansionColumns(A, B)}
+                        data={expansionRows}
+                        sortBy="associationScoreProduct"
+                        order="desc"
+                      />
+                    </TableRowContainer>
                   );
                 }}
               </Query>
@@ -148,7 +175,7 @@ class TableRowComponent extends React.Component {
   }
 }
 
-const Section = ({ efoId, name, data }) => {
+const Section = ({ name, data }) => {
   const { rows } = data;
   const maxTargetCountAOrB = d3.max(rows, d => d.targetCountAOrB);
   const rowsMapped = rows.map(d => ({
