@@ -83,7 +83,16 @@ class TargetPage extends Component {
               <Switch>
                 <Route
                   path={`${match.path}/associations`}
-                  component={Associations}
+                  render={() => (
+                    <Associations
+                      {...{
+                        ensgId,
+                        uniprotId,
+                        symbol,
+                        name,
+                      }}
+                    />
+                  )}
                 />
                 <Route
                   path={match.path}
