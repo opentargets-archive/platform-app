@@ -5,9 +5,8 @@ class SmilesHelper extends Component {
   componentDidMount() {
     const { smiles, chemblId } = this.props;
     const smilesDrawer = new SmilesDrawer.Drawer({
-      width: 400,
-      height: 200,
-      padding: 5,
+      width: 450,
+      height: 300,
     });
     SmilesDrawer.parse(
       smiles,
