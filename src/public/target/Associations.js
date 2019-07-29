@@ -9,7 +9,7 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 import withTheme from '@material-ui/core/styles/withTheme';
 
-import { Link } from 'ot-ui';
+import { Link, significantFigures } from 'ot-ui';
 import AssociationsTable from '../common/AssociationsTable';
 
 const targetAssociationsQuery = gql`
@@ -47,17 +47,25 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const HeatmapCell = ({ value, colorScale }) => (
-  <span
-    style={{
-      display: 'block',
-      width: '16px',
-      height: '16px',
-      background: colorScale(value),
-    }}
-    title={`Score: ${value}`}
-  />
-);
+const HeatmapCell = ({ value, colorScale }) => {
+  const a = 'white';
+  const b = '#E0E0E0';
+  return (
+    <span
+      style={{
+        display: 'block',
+        width: '16px',
+        height: '16px',
+        border: `1px solid ${b}`,
+        background:
+          value > 0
+            ? colorScale(value)
+            : `repeating-linear-gradient(45deg,${a},${a} 2px,${b} 2px,${b} 4px)`,
+      }}
+      title={`Score: ${value > 0 ? significantFigures(value) : 'N/A'}`}
+    />
+  );
+};
 
 const columns = (dataSources, colorScale) => [
   {
@@ -84,6 +92,50 @@ const columns = (dataSources, colorScale) => [
   })),
 ];
 
+// const dataTypes = [
+//   {
+//     name: 'Genetic associations',
+//     dataSources: [
+//       'ds__phewas_catalog',
+//       'ds__gwas_catalog',
+//       'ds__uniprot',
+//       'ds__genomics_england',
+//       'ds__eva',
+//       'ds__uniprot_literature',
+//     ],
+//   },
+//   {
+//     name: 'Somatic mutations',
+//     dataSources: [
+//       'ds__cancer_gene_census',
+//       'ds__intogen',
+//       'ds__eva_somatic',
+//       'ds__uniprot_somatic',
+//     ],
+//   },
+//   { name: 'Drugs', dataSources: ['ds__chembl'] },
+//   {
+//     name: 'Pathways and systems biology',
+//     dataSources: ['ds__slapenrich', 'ds__progeny', 'ds__reactome'],
+//   },
+//   { name: 'RNA expression', dataSources: ['ds__expression_atlas'] },
+//   { name: 'Text mining', dataSources: ['ds__europepmc'] },
+//   { name: 'Animal models', dataSources: ['ds__phenodigm'] },
+// ];
+
+// // TODO: datatypes to datasources mapping should come from api
+// const headerGroups = [
+//   { label: null, colspan: 2 },
+//   ...dataTypes.map(d => ({
+//     label: d.name,
+//     colspan: d.dataSources.length,
+//   })),
+// ];
+
+// const dataSourcesOrder = dataTypes.reduce((acc, dt) => {
+//   return acc.concat(dt.dataSources);
+// }, []);
+
 const TargetAssociationsPage = ({ ensgId, theme }) => {
   const colorScale = d3
     .scaleLinear()
@@ -106,6 +158,9 @@ const TargetAssociationsPage = ({ ensgId, theme }) => {
             name: _.startCase(d.id.split('__')[1]),
             position: i,
           }));
+          /* const dataSourcesOrdered = dataSourcesOrder.map(ds =>
+            dataSources.find(d => d.id === ds)
+          ); */
 
           return (
             <AssociationsTable
@@ -115,6 +170,16 @@ const TargetAssociationsPage = ({ ensgId, theme }) => {
               data={rows}
             />
           );
+
+          /* return (
+            <AssociationsTable
+              loading={false}
+              error={false}
+              columns={columns(dataSourcesOrdered, colorScale)}
+              headerGroups={headerGroups}
+              data={rows}
+            />
+          ); */
         }}
       </Query>
     </ApolloProvider>
