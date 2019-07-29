@@ -183,15 +183,69 @@ const columns = [
   },
 ];
 
-const Section = ({ ensgId, efoId, target, disease, data }) => (
-  <React.Fragment>
-    <OtTableRF
-      loading={false}
-      error={false}
-      columns={columns}
-      data={data.rows}
-    />
-  </React.Fragment>
-);
+const size = 10; // unlikely to change for now, so no need to go into state
+
+class Section extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      total: 0,
+      from: 0,
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { fetchMore } = this.props;
+    const { from } = this.state;
+
+    if (prevState.from !== from) {
+      fetchMore({
+        variables: { from: from, size: size },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult) {
+            return prev;
+          }
+          return Object.assign(prev, fetchMoreResult);
+        },
+      });
+    }
+  }
+
+  render = () => {
+    const {
+      ensgId,
+      efoId,
+      target,
+      disease,
+      data,
+      refetch,
+      fetchMore,
+    } = this.props;
+    const { from } = this.state;
+
+    return (
+      <React.Fragment>
+        <p>Data length: {data.textMiningCount}</p>
+        <OtTableRF
+          loading={false}
+          error={false}
+          columns={columns}
+          data={data.rows}
+        />
+
+        <button
+          onClick={() => this.setState({ from: Math.max(0, from - size) })}
+        >
+          {' '}
+          &lt;&lt;{' '}
+        </button>
+        <button onClick={() => this.setState({ from: from + size })}>
+          {' '}
+          &gt;&gt;{' '}
+        </button>
+      </React.Fragment>
+    );
+  };
+}
 
 export default Section;
