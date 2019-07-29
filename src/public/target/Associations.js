@@ -71,7 +71,12 @@ const columns = (dataSources, colorScale) => [
   {
     id: 'disease',
     label: 'Disease',
-    renderCell: d => <Link to={`/disease/${d.obj.id}`}>{d.obj.name}</Link>,
+    ellipsisWidth: '100px',
+    renderCell: d => (
+      <Link to={`/disease/${d.obj.id}`}>
+        <span style={{ textOverflow: 'ellipsis' }}>{d.obj.name}</span>
+      </Link>
+    ),
     comparator: (a, b) => d3.ascending(a.obj.name, b.obj.name),
   },
   {

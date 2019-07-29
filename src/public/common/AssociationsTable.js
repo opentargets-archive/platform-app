@@ -168,6 +168,11 @@ const tableStyles = theme => ({
     width: '24px',
     paddingRight: 0,
   },
+  tableCellEllipsis: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
   tableCellFill: {
     width: '100%',
   },
@@ -340,8 +345,10 @@ class AssociationsTable extends Component {
                     {columns.map(column => (
                       <TableCell
                         key={column.id}
+                        style={{ maxWidth: column.ellipsisWidth }}
                         className={classNames(classes.tableCell, {
                           [classes.tableCellVertical]: column.verticalHeader,
+                          [classes.tableCellEllipsis]: column.ellipsisWidth,
                         })}
                       >
                         {column.renderCell
