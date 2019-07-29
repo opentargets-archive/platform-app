@@ -1,7 +1,8 @@
-query TextMiningSectionQuery($ensgId: String!, $efoId: String!) {
-  evidence(ensgId: $ensgId, efoId: $efoId) {
+query TextMiningSectionQuery($ensgId: String!, $efoId: String!, $from: Int, $size:Int) {
+  evidence(ensgId: $ensgId, efoId: $efoId, from: $from, size: $size) {
     details {
       textMining{
+        textMiningCount
         rows{
           access
           disease{
