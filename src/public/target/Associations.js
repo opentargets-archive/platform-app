@@ -7,8 +7,10 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import * as d3 from 'd3';
+import withTheme from '@material-ui/core/styles/withTheme';
 
-import { Link, OtTableRF, significantFigures } from 'ot-ui';
+import { Link } from 'ot-ui';
+import AssociationsTable from '../common/AssociationsTable';
 
 const targetAssociationsQuery = gql`
   query TargetAssociationsQuery($ensgId: String!, $indirects: Boolean!) {
@@ -45,7 +47,19 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const columns = dataSources => [
+const HeatmapCell = ({ value, colorScale }) => (
+  <span
+    style={{
+      display: 'block',
+      width: '16px',
+      height: '16px',
+      background: colorScale(value),
+    }}
+    title={`Score: ${value}`}
+  />
+);
+
+const columns = (dataSources, colorScale) => [
   {
     id: 'disease',
     label: 'Disease',
@@ -55,18 +69,26 @@ const columns = dataSources => [
   {
     id: 'score',
     label: 'Score',
-    renderCell: d => significantFigures(d.score),
+    verticalHeader: true,
+    renderCell: d => <HeatmapCell value={d.score} colorScale={colorScale} />,
   },
   ...dataSources.map(c => ({
     id: c.id,
     label: c.name,
-    renderCell: d => significantFigures(d.dsScores[c.position]),
+    verticalHeader: true,
+    renderCell: d => (
+      <HeatmapCell value={d.dsScores[c.position]} colorScale={colorScale} />
+    ),
     comparator: (a, b) =>
       d3.ascending(a.dsScores[c.position], b.dsScores[c.position]),
   })),
 ];
 
-const TargetAssociationsPage = ({ ensgId }) => {
+const TargetAssociationsPage = ({ ensgId, theme }) => {
+  const colorScale = d3
+    .scaleLinear()
+    .domain([0, Math.PI ** 2 / 6])
+    .range(['#fff', theme.palette.primary.main]);
   return (
     <ApolloProvider client={client}>
       <Query
@@ -86,10 +108,10 @@ const TargetAssociationsPage = ({ ensgId }) => {
           }));
 
           return (
-            <OtTableRF
+            <AssociationsTable
               loading={false}
               error={false}
-              columns={columns(dataSources)}
+              columns={columns(dataSources, colorScale)}
               data={rows}
             />
           );
@@ -99,4 +121,4 @@ const TargetAssociationsPage = ({ ensgId }) => {
   );
 };
 
-export default TargetAssociationsPage;
+export default withTheme()(TargetAssociationsPage);
