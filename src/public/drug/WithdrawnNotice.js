@@ -41,10 +41,14 @@ const WithdrawnNotice = ({ classes, hasBeenWithdrawn, withdrawnNotice }) =>
       <CardContent className={classes.content}>
         <Typography>
           <strong>Class: </strong>
-          {withdrawnNotice.classes ? withdrawnNotice.classes.join(', ') : null}
+          {withdrawnNotice.classes
+            ? withdrawnNotice.classes.join(', ')
+            : 'Unknown'}
           <br />
           <strong>Reason: </strong>
-          {withdrawnNotice.reasons ? withdrawnNotice.reasons.join(', ') : null}
+          {withdrawnNotice.reasons
+            ? withdrawnNotice.reasons.join(', ')
+            : 'Unknown'}
           <br />
           <strong>Year first withdrawn: </strong>
           {withdrawnNotice.year}
