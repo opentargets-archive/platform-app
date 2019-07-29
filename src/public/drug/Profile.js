@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
-import Description from '../common/Description';
 import Synonyms from '../common/Synonyms';
 import Smiles from './Smiles';
 
@@ -80,7 +79,6 @@ class DrugProfile extends Component {
             <Typography variant="body2">{yearOfFirstApproval}</Typography>
             <Typography variant="subtitle2">Max phase</Typography>
             <Typography variant="body2">{maximumClinicalTrialPhase}</Typography>
-            <Description>{description}</Description>
             <Synonyms synonyms={synonyms} />
           </Grid>
           <Grid item container xs={12} md={6} justify="flex-end">
