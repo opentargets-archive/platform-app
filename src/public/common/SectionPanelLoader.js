@@ -31,7 +31,13 @@ class SectionPanelLoader extends React.Component {
       if (sectionQuery) {
         return (
           <Query query={sectionQuery} variables={{ ...entity }}>
-            {({ loading: loading2, error: error2, data }) => {
+            {({
+              loading: loading2,
+              error: error2,
+              data,
+              refetch,
+              fetchMore,
+            }) => {
               if (error2) {
                 return (
                   <Typography color="error" align="center">
@@ -48,6 +54,8 @@ class SectionPanelLoader extends React.Component {
                     {...{
                       ...entity,
                       data: sectionData,
+                      refetch: refetch,
+                      fetchMore: fetchMore,
                     }}
                   />
                 );
