@@ -69,7 +69,7 @@ class Publication extends Component {
           direction="column"
           justify="flex-start"
           alignItems="stretch"
-          spacing={16}
+          spacing={2}
         >
           {this.state.similar.map((hit, i) => (
             <Grid item xs={12} key={i}>
