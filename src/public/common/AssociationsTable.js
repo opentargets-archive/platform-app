@@ -125,7 +125,10 @@ const tableStyles = theme => ({
     marginRight: '4px',
   },
   tableRow: {
-    height: '31px',
+    height: '18px',
+    '&:hover': {
+      background: theme.palette.grey[100],
+    },
   },
   tableRowFixed: {
     background: theme.palette.grey[300],
@@ -135,6 +138,7 @@ const tableStyles = theme => ({
   },
   tableCell: {
     padding: '0 12px 0 0',
+    borderBottom: 'none',
     '&:first-child': {
       paddingLeft: '24px',
     },
@@ -153,7 +157,7 @@ const tableStyles = theme => ({
     },
   },
   tableCellSpanHeader: {
-    borderLeft: '1px solid #E0E0E0',
+    borderLeft: `1px solid ${theme.palette.grey[300]}`,
     paddingLeft: '5px',
     '&:first-child': {
       borderLeft: 'none',
@@ -172,6 +176,14 @@ const tableStyles = theme => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+  },
+  tableCellFirstInHeaderGroup: {
+    paddingLeft: '16px',
+    borderLeft: `1px solid ${theme.palette.grey[300]}`,
+  },
+  tableCellLastInHeaderGroup: {
+    paddingRight: '16px',
+    borderRight: `1px solid ${theme.palette.grey[300]}`,
   },
   tableCellFill: {
     width: '100%',
@@ -265,6 +277,10 @@ class AssociationsTable extends Component {
                     className={classNames(classes.tableCellHeader, {
                       [classes.tableCellHeaderVertical]: column.verticalHeader,
                       [classes.tableCellVertical]: column.verticalHeader,
+                      [classes.tableCellFirstInHeaderGroup]:
+                        column.firstInHeaderGroup,
+                      [classes.tableCellLastInHeaderGroup]:
+                        column.lastInHeaderGroup,
                     })}
                   >
                     <TableSortLabel
@@ -319,6 +335,7 @@ class AssociationsTable extends Component {
                           className={classNames(classes.tableCell, {
                             [classes.tableCellVertical]: column.verticalHeader,
                           })}
+                          align={column.align}
                         >
                           {column.renderCell
                             ? column.renderCell(row)
@@ -349,7 +366,12 @@ class AssociationsTable extends Component {
                         className={classNames(classes.tableCell, {
                           [classes.tableCellVertical]: column.verticalHeader,
                           [classes.tableCellEllipsis]: column.ellipsisWidth,
+                          [classes.tableCellFirstInHeaderGroup]:
+                            column.firstInHeaderGroup,
+                          [classes.tableCellLastInHeaderGroup]:
+                            column.lastInHeaderGroup,
                         })}
+                        align={column.align}
                       >
                         {column.renderCell
                           ? column.renderCell(row)

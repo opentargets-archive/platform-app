@@ -53,7 +53,7 @@ const HeatmapCell = ({ value, colorScale }) => {
   return (
     <span
       style={{
-        display: 'block',
+        display: 'inline-block',
         width: '16px',
         height: '16px',
         border: `1px solid ${b}`,
@@ -83,12 +83,20 @@ const columns = (dataSources, colorScale) => [
     id: 'score',
     label: 'Score',
     verticalHeader: true,
+    align: 'center',
+    firstInHeaderGroup: true,
+    lastInHeaderGroup: true,
     renderCell: d => <HeatmapCell value={d.score} colorScale={colorScale} />,
   },
   ...dataSources.map(c => ({
     id: c.id,
     label: c.name,
     verticalHeader: true,
+    align: 'center',
+    firstInHeaderGroup: dataTypes.some(dt => dt.dataSources[0] === c.id),
+    lastInHeaderGroup: dataTypes.some(
+      dt => dt.dataSources[dt.dataSources.length - 1] === c.id
+    ),
     renderCell: d => (
       <HeatmapCell value={d.dsScores[c.position]} colorScale={colorScale} />
     ),
@@ -97,49 +105,49 @@ const columns = (dataSources, colorScale) => [
   })),
 ];
 
-// const dataTypes = [
-//   {
-//     name: 'Genetic associations',
-//     dataSources: [
-//       'ds__phewas_catalog',
-//       'ds__gwas_catalog',
-//       'ds__uniprot',
-//       'ds__genomics_england',
-//       'ds__eva',
-//       'ds__uniprot_literature',
-//     ],
-//   },
-//   {
-//     name: 'Somatic mutations',
-//     dataSources: [
-//       'ds__cancer_gene_census',
-//       'ds__intogen',
-//       'ds__eva_somatic',
-//       'ds__uniprot_somatic',
-//     ],
-//   },
-//   { name: 'Drugs', dataSources: ['ds__chembl'] },
-//   {
-//     name: 'Pathways and systems biology',
-//     dataSources: ['ds__slapenrich', 'ds__progeny', 'ds__reactome'],
-//   },
-//   { name: 'RNA expression', dataSources: ['ds__expression_atlas'] },
-//   { name: 'Text mining', dataSources: ['ds__europepmc'] },
-//   { name: 'Animal models', dataSources: ['ds__phenodigm'] },
-// ];
+const dataTypes = [
+  {
+    name: 'Genetic associations',
+    dataSources: [
+      'ds__phewas_catalog',
+      'ds__gwas_catalog',
+      'ds__uniprot',
+      'ds__genomics_england',
+      'ds__eva',
+      'ds__uniprot_literature',
+    ],
+  },
+  {
+    name: 'Somatic mutations',
+    dataSources: [
+      'ds__cancer_gene_census',
+      'ds__intogen',
+      'ds__eva_somatic',
+      'ds__uniprot_somatic',
+    ],
+  },
+  { name: 'Drugs', dataSources: ['ds__chembl'] },
+  {
+    name: 'Pathways and systems biology',
+    dataSources: ['ds__slapenrich', 'ds__progeny', 'ds__reactome'],
+  },
+  { name: 'RNA expression', dataSources: ['ds__expression_atlas'] },
+  { name: 'Text mining', dataSources: ['ds__europepmc'] },
+  { name: 'Animal models', dataSources: ['ds__phenodigm'] },
+];
 
-// // TODO: datatypes to datasources mapping should come from api
-// const headerGroups = [
-//   { label: null, colspan: 2 },
-//   ...dataTypes.map(d => ({
-//     label: d.name,
-//     colspan: d.dataSources.length,
-//   })),
-// ];
+// TODO: datatypes to datasources mapping should come from api
+const headerGroups = [
+  { label: null, colspan: 2 },
+  ...dataTypes.map(d => ({
+    label: d.name,
+    colspan: d.dataSources.length,
+  })),
+];
 
-// const dataSourcesOrder = dataTypes.reduce((acc, dt) => {
-//   return acc.concat(dt.dataSources);
-// }, []);
+const dataSourcesOrder = dataTypes.reduce((acc, dt) => {
+  return acc.concat(dt.dataSources);
+}, []);
 
 const TargetAssociationsPage = ({ ensgId, theme }) => {
   const colorScale = d3
@@ -163,20 +171,20 @@ const TargetAssociationsPage = ({ ensgId, theme }) => {
             name: _.startCase(d.id.split('__')[1]),
             position: i,
           }));
-          /* const dataSourcesOrdered = dataSourcesOrder.map(ds =>
+          const dataSourcesOrdered = dataSourcesOrder.map(ds =>
             dataSources.find(d => d.id === ds)
-          ); */
+          );
 
-          return (
+          /* return (
             <AssociationsTable
               loading={false}
               error={false}
               columns={columns(dataSources, colorScale)}
               data={rows}
             />
-          );
+          ); */
 
-          /* return (
+          return (
             <AssociationsTable
               loading={false}
               error={false}
@@ -184,7 +192,7 @@ const TargetAssociationsPage = ({ ensgId, theme }) => {
               headerGroups={headerGroups}
               data={rows}
             />
-          ); */
+          );
         }}
       </Query>
     </ApolloProvider>
