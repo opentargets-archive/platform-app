@@ -137,28 +137,41 @@ const tableStyles = theme => ({
     verticalAlign: 'bottom',
   },
   tableCell: {
-    padding: '0 12px 0 0',
+    padding: 0,
+    // padding: '0 12px 0 0',
     borderBottom: 'none',
-    '&:first-child': {
-      paddingLeft: '24px',
-    },
+    // '&:first-child': {
+    //   paddingLeft: '24px',
+    // },
+    // '&:last-child': {
+    //   paddingRight: '24px',
+    // },
     '&:last-child': {
-      paddingRight: '24px',
+      paddingRight: 0,
     },
   },
   tableCellHeader: {
-    paddingRight: '12px',
-    paddingLeft: 0,
-    '&:first-child': {
-      paddingLeft: '24px',
-    },
+    padding: 0,
+    borderBottom: 'none',
+    // paddingRight: '12px',
+    // paddingLeft: 0,
+    // '&:first-child': {
+    //   paddingLeft: '24px',
+    // },
+    // '&:last-child': {
+    //   paddingRight: '24px',
+    // },
     '&:last-child': {
-      paddingRight: '24px',
+      paddingRight: 0,
     },
   },
   tableCellSpanHeader: {
-    borderLeft: `1px solid ${theme.palette.grey[300]}`,
-    paddingLeft: '5px',
+    padding: 0,
+    // borderLeft: `1px solid ${theme.palette.grey[300]}`,
+    // textAlign: 'center',
+    // paddingLeft: '5px',
+    // margin: '0 auto',
+    // marginBottom: '8px',
     '&:first-child': {
       borderLeft: 'none',
     },
@@ -168,8 +181,9 @@ const tableStyles = theme => ({
     verticalAlign: 'bottom',
   },
   tableCellVertical: {
-    minWidth: '24px',
-    width: '24px',
+    maxWidth: '32px',
+    minWidth: '32px',
+    width: '32px',
     paddingRight: 0,
   },
   tableCellEllipsis: {
@@ -178,12 +192,18 @@ const tableStyles = theme => ({
     whiteSpace: 'nowrap',
   },
   tableCellFirstInHeaderGroup: {
-    paddingLeft: '16px',
-    borderLeft: `1px solid ${theme.palette.grey[300]}`,
+    // paddingLeft: '16px',
+    // borderLeft: `1px solid ${theme.palette.grey[300]}`,
+    '&:first-child': {
+      borderLeft: 'none',
+    },
   },
   tableCellLastInHeaderGroup: {
-    paddingRight: '16px',
-    borderRight: `1px solid ${theme.palette.grey[300]}`,
+    // paddingRight: '16px',
+    // borderRight: `1px solid ${theme.palette.grey[300]}`,
+    '&:last-child': {
+      borderRight: 'none',
+    },
   },
   tableCellFill: {
     width: '100%',
@@ -243,7 +263,15 @@ class AssociationsTable extends Component {
     const filterRow = filters ? (
       <TableRow className={classes.tableRowFilters}>
         {columns.map(column => (
-          <TableCell key={column.id} className={classes.tableCellHeader}>
+          <TableCell
+            key={column.id}
+            className={classNames(classes.tableCellHeader, {
+              [classes.tableCellHeaderVertical]: column.verticalHeader,
+              [classes.tableCellVertical]: column.verticalHeader,
+              [classes.tableCellFirstInHeaderGroup]: column.firstInHeaderGroup,
+              [classes.tableCellLastInHeaderGroup]: column.lastInHeaderGroup,
+            })}
+          >
             {column.renderFilter ? column.renderFilter() : null}
           </TableCell>
         ))}
@@ -254,22 +282,6 @@ class AssociationsTable extends Component {
         <div className={classes.tableWrapper}>
           <Table>
             <TableHead>
-              {headerGroups ? (
-                <TableRow>
-                  {headerGroups.map((g, i) => (
-                    <TableCell
-                      colSpan={g.colspan}
-                      key={i}
-                      className={classNames(
-                        classes.tableCellHeader,
-                        classes.tableCellSpanHeader
-                      )}
-                    >
-                      {g.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ) : null}
               <TableRow>
                 {columns.map(column => (
                   <TableCell
@@ -315,6 +327,22 @@ class AssociationsTable extends Component {
                   <TableCell className={classes.tableCellFill} />
                 ) : null}
               </TableRow>
+              {headerGroups ? (
+                <TableRow>
+                  {headerGroups.map((g, i) => (
+                    <TableCell
+                      colSpan={g.colspan}
+                      key={i}
+                      className={classNames(
+                        classes.tableCellHeader,
+                        classes.tableCellSpanHeader
+                      )}
+                    >
+                      {g.renderCell()}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ) : null}
               {filterRow}
             </TableHead>
             <TableBody>

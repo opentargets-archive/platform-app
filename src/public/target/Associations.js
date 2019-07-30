@@ -8,6 +8,10 @@ import gql from 'graphql-tag';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import withTheme from '@material-ui/core/styles/withTheme';
+import { withStyles } from '@material-ui/core/styles';
+import Slider from '@material-ui/core/Slider';
+import { Checkbox } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 import { Link, significantFigures } from 'ot-ui';
 import AssociationsTable from '../common/AssociationsTable';
@@ -46,6 +50,21 @@ const client = new ApolloClient({
   }),
   cache: new InMemoryCache(),
 });
+
+const VerticalSlider = withStyles(theme => ({
+  root: {
+    height: '70px',
+    width: '24px',
+    maxWidth: '24px',
+    marginTop: '8px',
+    marginBottom: '16px',
+    display: 'inline-block',
+  },
+}))(({ classes, ...rest }) => (
+  <div className={classes.root}>
+    <Slider {...rest} />
+  </div>
+));
 
 const HeatmapCell = ({ value, colorScale }) => {
   const a = 'white';
@@ -100,6 +119,20 @@ const columns = (dataSources, colorScale) => [
     renderCell: d => (
       <HeatmapCell value={d.dsScores[c.position]} colorScale={colorScale} />
     ),
+    renderFilter: () => (
+      <React.Fragment>
+        <Checkbox checked={true} value={'checked'} color="primary" />
+        <VerticalSlider
+          orientation="vertical"
+          getAriaValueText={value => `Weight: ${significantFigures(value)}`}
+          defaultValue={0}
+          step={0.01}
+          min={0}
+          max={1}
+          aria-labelledby="vertical-slider"
+        />
+      </React.Fragment>
+    ),
     comparator: (a, b) =>
       d3.ascending(a.dsScores[c.position], b.dsScores[c.position]),
   })),
@@ -137,10 +170,21 @@ const dataTypes = [
 ];
 
 // TODO: datatypes to datasources mapping should come from api
+var dataTypesColorScale = d3
+  .scaleOrdinal(d3.schemeCategory10)
+  .domain(dataTypes.map(d => d.name));
 const headerGroups = [
-  { label: null, colspan: 2 },
+  { renderCell: () => null, colspan: 2 },
   ...dataTypes.map(d => ({
-    label: d.name,
+    renderCell: () => (
+      <div
+        style={{
+          width: '100%',
+          height: '8px',
+          background: dataTypesColorScale(d.name),
+        }}
+      />
+    ),
     colspan: d.dataSources.length,
   })),
 ];
@@ -148,6 +192,34 @@ const headerGroups = [
 const dataSourcesOrder = dataTypes.reduce((acc, dt) => {
   return acc.concat(dt.dataSources);
 }, []);
+
+const DataTypesLegend = ({ dataTypes }) => (
+  <div
+    style={{
+      marginTop: '8px',
+      marginBottom: '8px',
+    }}
+  >
+    <Typography variant="subtitle2">
+      {dataTypes.map(d => (
+        <React.Fragment>
+          <span
+            style={{
+              display: 'inline-block',
+              width: '16px',
+              height: '8px',
+              verticalAlign: 'middle',
+              background: dataTypesColorScale(d.name),
+            }}
+          />
+          <span style={{ marginLeft: '6px', marginRight: '20px' }}>
+            {d.name}
+          </span>
+        </React.Fragment>
+      ))}
+    </Typography>
+  </div>
+);
 
 const TargetAssociationsPage = ({ ensgId, theme }) => {
   const colorScale = d3
@@ -185,13 +257,17 @@ const TargetAssociationsPage = ({ ensgId, theme }) => {
           ); */
 
           return (
-            <AssociationsTable
-              loading={false}
-              error={false}
-              columns={columns(dataSourcesOrdered, colorScale)}
-              headerGroups={headerGroups}
-              data={rows}
-            />
+            <React.Fragment>
+              <DataTypesLegend dataTypes={dataTypes} />
+              <AssociationsTable
+                loading={false}
+                error={false}
+                columns={columns(dataSourcesOrdered, colorScale)}
+                headerGroups={headerGroups}
+                data={rows}
+                filters
+              />
+            </React.Fragment>
           );
         }}
       </Query>
@@ -199,4 +275,4 @@ const TargetAssociationsPage = ({ ensgId, theme }) => {
   );
 };
 
-export default withTheme()(TargetAssociationsPage);
+export default withTheme(TargetAssociationsPage);
