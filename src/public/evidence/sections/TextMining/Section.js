@@ -1,19 +1,11 @@
 import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+// import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
-
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 import { Link, OtTableRF } from 'ot-ui';
 
@@ -223,6 +215,10 @@ class Section extends React.Component {
     } = this.props;
     const { from } = this.state;
 
+    const paginationCallback = (page, pageSize) => {
+      this.setState({ from: page * (pageSize || size) });
+    };
+
     return (
       <React.Fragment>
         <p>Data length: {data.textMiningCount}</p>
@@ -231,18 +227,10 @@ class Section extends React.Component {
           error={false}
           columns={columns}
           data={data.rows}
+          serverPagination={true}
+          totalPagination={data.textMiningCount}
+          callPagination={paginationCallback}
         />
-
-        <button
-          onClick={() => this.setState({ from: Math.max(0, from - size) })}
-        >
-          {' '}
-          &lt;&lt;{' '}
-        </button>
-        <button onClick={() => this.setState({ from: from + size })}>
-          {' '}
-          &gt;&gt;{' '}
-        </button>
       </React.Fragment>
     );
   };
