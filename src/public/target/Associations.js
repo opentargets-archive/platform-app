@@ -13,11 +13,13 @@ const targetAssociationsQuery = gql`
     $ensgId: String!
     $indirects: Boolean!
     $harmonicOptions: HarmonicInput
+    $page: Pagination
   ) {
     associationsByTargetId(
       targetId: $ensgId
       indirects: $indirects
       harmonicOptions: $harmonicOptions
+      page: $page
     ) {
       metadata {
         options {
@@ -51,11 +53,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// TODO: when api returns total, use smaller page size
+const page = { index: 0, size: 10000 };
+
 const TargetAssociationsPage = ({ ensgId }) => (
   <ApolloProvider client={client}>
     <Query
       query={targetAssociationsQuery}
-      variables={{ ensgId, indirects: false }}
+      variables={{ ensgId, indirects: false, page }}
     >
       {({ loading, error, data, fetchMore }) => {
         const rows =
