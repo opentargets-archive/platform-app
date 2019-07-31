@@ -9,15 +9,15 @@ const styles = theme => ({
   },
 });
 
-const Synonyms = ({ synonyms, classes }) => {
+const ChipsField = ({ label, terms, classes }) => {
   return (
     <Fragment>
-      <Typography variant="subtitle2">Synonyms</Typography>
-      {synonyms.map(synonym => (
+      <Typography variant="subtitle2">{label}:</Typography>
+      {terms.map(term => (
         <Chip
           className={classes.chip}
-          key={synonym}
-          label={synonym}
+          key={term}
+          label={term}
           variant="outlined"
         />
       ))}
@@ -25,4 +25,4 @@ const Synonyms = ({ synonyms, classes }) => {
   );
 };
 
-export default withStyles(styles)(Synonyms);
+export default withStyles(styles)(ChipsField);

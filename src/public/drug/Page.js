@@ -1,10 +1,8 @@
 import React, { Fragment, Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
-
-import { Tabs, Tab } from 'ot-ui';
 
 import Header from './Header';
 import Profile from './Profile';
@@ -26,38 +24,14 @@ const drugQuery = gql`
         reasons
         year
       }
+      internalCompound
     }
   }
 `;
 
 class DrugPage extends Component {
-  state = {};
-
-  static getDerivedStateFromProps(props) {
-    const value = props.location.pathname.endsWith('/associations')
-      ? 'associations'
-      : 'overview';
-
-    return {
-      value,
-    };
-  }
-
-  // handleChange = (event, value) => {
-  //   const { history, match } = this.props;
-  //   this.setState({ value }, () => {
-  //     history.push(
-  //       `${match.url}${value === 'overview' ? '' : '/associations'}`
-  //     );
-  //   });
-  // };
-
   render() {
-    const { match } = this.props;
-    const { value } = this.state;
-    const { chemblId } = match.params;
-
-    const molecularFormula = null;
+    const { chemblId } = this.props.match.params;
 
     return (
       <Query query={drugQuery} variables={{ chemblId }}>
@@ -89,40 +63,23 @@ class DrugPage extends Component {
                   tradeNames,
                   maximumClinicalTrialPhase,
                   yearOfFirstApproval,
-                  molecularFormula,
                   synonyms,
                   hasBeenWithdrawn,
                   withdrawnNotice,
                 }}
               />
-              <Tabs
-                value={value}
-                onChange={this.handleChange}
-                variant="scrollable"
-                scrollButtons="auto"
-              >
-                <Tab value="overview" label="Drug Profile" />
-              </Tabs>
-              <Switch>
-                <Route
-                  path={match.path}
-                  render={() => (
-                    <Profile
-                      {...{
-                        chemblId,
-                        name,
-                        type,
-                        tradeNames,
-                        maximumClinicalTrialPhase,
-                        yearOfFirstApproval,
-                        molecularFormula,
-                        description: null,
-                        synonyms,
-                      }}
-                    />
-                  )}
-                />
-              </Switch>
+              <Profile
+                {...{
+                  chemblId,
+                  name,
+                  type,
+                  tradeNames,
+                  maximumClinicalTrialPhase,
+                  yearOfFirstApproval,
+                  description: null,
+                  synonyms,
+                }}
+              />
             </Fragment>
           );
         }}
@@ -131,4 +88,4 @@ class DrugPage extends Component {
   }
 }
 
-export default DrugPage;
+export default withRouter(DrugPage);

@@ -4,10 +4,12 @@ import { print } from 'graphql/language/printer';
 import _ from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
+import LockIcon from '@material-ui/icons/Lock';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
-import Synonyms from '../common/Synonyms';
+import ChipsField from '../common/ChipsField';
 import Smiles from './Smiles';
 
 const sections = Object.values(sectionsObject);
@@ -36,6 +38,17 @@ const entitySummariesAccessor = data =>
 const entitySectionsAccessor = data =>
   data && data.drug && data.drug.details ? data.drug.details : {};
 
+// TODO: when material-ui is upgraded to version >4 then remove this
+// style and use <Typography display="inline" /> instead
+const styles = () => ({
+  inline: {
+    display: 'inline',
+  },
+  lock: {
+    fontSize: '15px',
+  },
+});
+
 class DrugProfile extends Component {
   render() {
     const {
@@ -46,7 +59,8 @@ class DrugProfile extends Component {
       yearOfFirstApproval,
       type,
       maximumClinicalTrialPhase,
-      description,
+      internalCompound,
+      classes,
     } = this.props;
     const entity = {
       chemblId,
@@ -57,6 +71,7 @@ class DrugProfile extends Component {
       type,
       maximumClinicalTrialPhase,
     };
+
     return (
       <BaseProfile
         {...{
@@ -71,15 +86,40 @@ class DrugProfile extends Component {
       >
         <Grid container justify="space-between">
           <Grid item xs={12} md={6}>
-            <Typography variant="subtitle2">Name</Typography>
-            <Typography variant="body2">{name}</Typography>
-            <Typography variant="subtitle2">Molecule type</Typography>
-            <Typography variant="body2">{type}</Typography>
-            <Typography variant="subtitle2">First approval</Typography>
-            <Typography variant="body2">{yearOfFirstApproval}</Typography>
-            <Typography variant="subtitle2">Max phase</Typography>
-            <Typography variant="body2">{maximumClinicalTrialPhase}</Typography>
-            <Synonyms synonyms={synonyms} />
+            <Typography variant="subtitle2">
+              Name:{' '}
+              <Typography className={classes.inline} variant="body2">
+                {name}
+              </Typography>
+            </Typography>
+            <Typography variant="subtitle2">
+              Molecule type:{' '}
+              <Typography className={classes.inline} variant="body2">
+                {type}
+              </Typography>
+            </Typography>
+            <Typography variant="subtitle2">
+              First approval:{' '}
+              <Typography className={classes.inline} variant="body2">
+                {yearOfFirstApproval || 'N/A'}
+              </Typography>
+            </Typography>
+            <Typography variant="subtitle2">
+              Max phase:{' '}
+              <Typography className={classes.inline} variant="body2">
+                {maximumClinicalTrialPhase}
+              </Typography>
+            </Typography>
+            {internalCompound ? (
+              <Typography variant="subtitle2">
+                Visibility:{' '}
+                <Typography className={classes.inline} variant="body2">
+                  Internal compound <LockIcon className={classes.lock} />
+                </Typography>
+              </Typography>
+            ) : null}
+            <ChipsField label="Synonyms" terms={synonyms} />
+            <ChipsField label="Known trade names" terms={tradeNames} />
           </Grid>
           <Grid item container xs={12} md={6} justify="flex-end">
             <Smiles chemblId={chemblId} />
@@ -90,4 +130,4 @@ class DrugProfile extends Component {
   }
 }
 
-export default DrugProfile;
+export default withStyles(styles)(DrugProfile);

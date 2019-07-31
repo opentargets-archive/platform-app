@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import Description from './Description';
-import Synonyms from './Synonyms';
+import ChipsField from './ChipsField';
 
 const DescriptionAndSynonyms = ({ synonyms, description }) => (
   <Grid container>
@@ -10,7 +10,7 @@ const DescriptionAndSynonyms = ({ synonyms, description }) => (
       <Description>{description}</Description>
     </Grid>
     <Grid item xs={12} md={6}>
-      <Synonyms synonyms={synonyms} />
+      <ChipsField label="Synonyms" terms={synonyms} />
     </Grid>
   </Grid>
 );
