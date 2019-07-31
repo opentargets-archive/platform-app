@@ -26,6 +26,7 @@ const drugQuery = gql`
         reasons
         year
       }
+      internalCompound
     }
   }
 `;

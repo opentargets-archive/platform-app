@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import LockIcon from '@material-ui/icons/Lock';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
@@ -37,9 +38,14 @@ const entitySummariesAccessor = data =>
 const entitySectionsAccessor = data =>
   data && data.drug && data.drug.details ? data.drug.details : {};
 
+// TODO: when material-ui in upgrade to version >4 then remove this
+// style and use <Typography display="inline" /> instead
 const styles = () => ({
   inline: {
     display: 'inline',
+  },
+  lock: {
+    fontSize: '15px',
   },
 });
 
@@ -53,6 +59,7 @@ class DrugProfile extends Component {
       yearOfFirstApproval,
       type,
       maximumClinicalTrialPhase,
+      internalCompound,
       classes,
     } = this.props;
     const entity = {
@@ -64,6 +71,7 @@ class DrugProfile extends Component {
       type,
       maximumClinicalTrialPhase,
     };
+
     return (
       <BaseProfile
         {...{
@@ -102,6 +110,14 @@ class DrugProfile extends Component {
                 {maximumClinicalTrialPhase}
               </Typography>
             </Typography>
+            {internalCompound ? (
+              <Typography variant="subtitle2">
+                Visibility:{' '}
+                <Typography className={classes.inline} variant="body2">
+                  Internal compound <LockIcon className={classes.lock} />
+                </Typography>
+              </Typography>
+            ) : null}
             <ChipsField label="Synonyms" terms={synonyms} />
             <ChipsField label="Known trade names" terms={tradeNames} />
           </Grid>
