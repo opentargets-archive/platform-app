@@ -162,7 +162,7 @@ const DataTypesLegend = ({ dataTypes }) => (
   >
     <Typography variant="subtitle2">
       {dataTypes.map(d => (
-        <React.Fragment>
+        <React.Fragment key={d.id}>
           <span
             style={{
               display: 'inline-block',
@@ -192,7 +192,7 @@ const TopLevelControls = ({ indirects, onIndirectsChange }) => (
       <Checkbox
         checked={indirects}
         value={true}
-        onChange={onIndirectsChange}
+        onChange={(event, value) => onIndirectsChange(value)}
         color="primary"
       />
       <span style={{ marginLeft: '6px', marginRight: '20px' }}>
@@ -203,56 +203,63 @@ const TopLevelControls = ({ indirects, onIndirectsChange }) => (
 );
 
 class AssociationsTable extends React.Component {
-  state = {};
-  static getDerivedStateFromProps({ metadata }) {
-    const { dsOptions, options } = metadata || {};
+  handleWeightChange = (d, value) => {
+    const { metadata, onDataSourcesChange } = this.props;
 
-    let dataSources = [];
-    if (dsOptions) {
-      const dataSourcesUnordered = dsOptions.map((d, i) => ({
-        ...d,
-        name: _.startCase(d.id.split('__')[1]),
+    const newDataSourcesUnordered = metadata.dsOptions.map((ds, i) => {
+      const name = _.startCase(ds.id.split('__')[1]);
+      const position = i;
+      if (ds.id === d.id) {
+        return {
+          ...ds,
+          name,
+          position,
+          weight: value,
+        };
+      } else {
+        return {
+          ...ds,
+          name,
+          position,
+        };
+      }
+    });
+    const newDataSources = dataSourcesOrder.map(ds =>
+      newDataSourcesUnordered.find(d => d.id === ds)
+    );
+    const newOptions = metadata.options;
+
+    onDataSourcesChange({ dataSources: newDataSources, options: newOptions });
+  };
+  componentDidUpdate(prevProps) {
+    const { metadata, onDataSourcesChange } = this.props;
+
+    // only triggered on initial load
+    if (
+      // dataSources !== prevProps.dataSources &&
+      prevProps.dataSources.length === 0
+    ) {
+      const newDataSourcesUnordered = metadata.dsOptions.map((ds, i) => ({
+        ...ds,
+        name: _.startCase(ds.id.split('__')[1]),
         position: i,
       }));
-      dataSources = dataSourcesOrder.map(ds =>
-        dataSourcesUnordered.find(d => d.id === ds)
+      const newDataSources = dataSourcesOrder.map(ds =>
+        newDataSourcesUnordered.find(d => d.id === ds)
       );
+      const newOptions = metadata.options;
+
+      onDataSourcesChange({ dataSources: newDataSources, options: newOptions });
     }
-
-    return { dataSources, options };
   }
-  handleWeightChange = (d, value) => {
-    const { onUpdate } = this.props;
-    const { dataSources, options } = this.state;
-    const dsOptions = dataSources
-      .map(ds => {
-        if (ds.id === d.id) {
-          return {
-            ...ds,
-            weight: value,
-          };
-        } else {
-          return ds;
-        }
-      })
-      .map(({ id, weight, reduceFunc }) => ({ id, weight, reduceFunc }));
-
-    // have to strip __typename when using as input (__typename added by cache)
-    const { __typename, ...optionsMinusTypename } = options;
-    const harmonicOptions = {
-      dsOptions: dsOptions.map(({ __typename, ...rest }) => ({
-        ...rest,
-      })),
-      options: optionsMinusTypename,
-    };
-    onUpdate({ harmonicOptions });
-  };
-  onIndirectsChange = event => null;
-  // this.setState({ indirects: event.target.checked });
   render() {
-    const { rows, theme } = this.props;
-    const { dataSources } = this.state;
-    const indirects = true;
+    const {
+      theme,
+      rows,
+      indirects,
+      dataSources,
+      onIndirectsChange,
+    } = this.props;
 
     const colorScale = d3
       .scaleLinear()
@@ -262,7 +269,7 @@ class AssociationsTable extends React.Component {
       <React.Fragment>
         <TopLevelControls
           indirects={indirects}
-          onIndirectsChange={this.onIndirectsChange}
+          onIndirectsChange={onIndirectsChange}
         />
         <DataTypesLegend dataTypes={dataTypes} />
         <BaseAssociationsTable
@@ -277,13 +284,5 @@ class AssociationsTable extends React.Component {
     );
   }
 }
-
-/* dataSourcesOrder.reduce((acc, d) => {
-      acc[d] = {
-        weight: null,
-        isEnabled: true,
-      };
-      return acc;
-    }, {}), */
 
 export default withTheme(AssociationsTable);

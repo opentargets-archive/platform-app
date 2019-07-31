@@ -56,41 +56,64 @@ const client = new ApolloClient({
 // TODO: when api returns total, use smaller page size
 const page = { index: 0, size: 10000 };
 
-const TargetAssociationsPage = ({ ensgId }) => (
-  <ApolloProvider client={client}>
-    <Query
-      query={targetAssociationsQuery}
-      variables={{ ensgId, indirects: false, page }}
-    >
-      {({ loading, error, data, fetchMore }) => {
-        const rows =
-          (data &&
-            data.associationsByTargetId &&
-            data.associationsByTargetId.rows) ||
-          [];
-        const metadata =
-          (data &&
-            data.associationsByTargetId &&
-            data.associationsByTargetId.metadata) ||
-          null;
-        return (
-          <AssociationsTable
-            rows={rows}
-            metadata={metadata}
-            onUpdate={({ harmonicOptions }) =>
-              fetchMore({
-                variables: { harmonicOptions },
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult) return prev;
-                  return fetchMoreResult;
-                },
-              })
-            }
-          />
-        );
-      }}
-    </Query>
-  </ApolloProvider>
-);
+class TargetAssociationsPage extends React.Component {
+  state = {
+    indirects: true,
+    dataSources: [],
+    options: null,
+  };
+  handleIndirectsChange = indirects => {
+    this.setState({ indirects });
+  };
+  handleDataSourcesChange = ({ dataSources, options }) => {
+    this.setState({ dataSources, options });
+  };
+  render() {
+    const { ensgId } = this.props;
+    const { indirects, dataSources, options } = this.state;
+
+    // have to strip __typename when using as input (__typename added by apollo cache)
+    const dsOptions = dataSources.map(({ id, weight, reduceFunc }) => ({
+      id,
+      weight,
+      reduceFunc,
+    }));
+    const { __typename, ...optionsMinusTypename } = options || {};
+    const harmonicOptions =
+      dsOptions.length > 0 && options
+        ? { dsOptions, options: optionsMinusTypename }
+        : null;
+
+    // query variables
+    let variables = harmonicOptions
+      ? { ensgId, indirects, harmonicOptions, page }
+      : { ensgId, indirects, page };
+    return (
+      <ApolloProvider client={client}>
+        <Query query={targetAssociationsQuery} variables={variables}>
+          {({ loading, error, data }) => {
+            const rows =
+              (data &&
+                data.associationsByTargetId &&
+                data.associationsByTargetId.rows) ||
+              [];
+            const metadata =
+              (data &&
+                data.associationsByTargetId &&
+                data.associationsByTargetId.metadata) ||
+              {};
+            return (
+              <AssociationsTable
+                {...{ rows, indirects, dataSources, options, metadata }}
+                onIndirectsChange={this.handleIndirectsChange}
+                onDataSourcesChange={this.handleDataSourcesChange}
+              />
+            );
+          }}
+        </Query>
+      </ApolloProvider>
+    );
+  }
+}
 
 export default TargetAssociationsPage;
