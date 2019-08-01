@@ -185,16 +185,22 @@ class Section extends React.Component {
     this.state = {
       total: 0,
       from: 0,
+      sortBy: '', // fall back to API default (score, desc)
+      order: '',
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { fetchMore } = this.props;
-    const { from } = this.state;
+    const { from, sortBy, order } = this.state;
 
-    if (prevState.from !== from) {
+    if (
+      prevState.from !== from ||
+      prevState.sortBy !== sortBy ||
+      prevState.order !== order
+    ) {
       fetchMore({
-        variables: { from: from, size: size },
+        variables: { from: from, size: size, sortBy: sortBy, order: order },
         updateQuery: (prev, { fetchMoreResult }) => {
           if (!fetchMoreResult) {
             return prev;
@@ -221,6 +227,10 @@ class Section extends React.Component {
       this.setState({ from: page * (pageSize || size) });
     };
 
+    const onTableSort = (sortBy, order) => {
+      this.setState({ sortBy: sortBy, order: order });
+    };
+
     return (
       <React.Fragment>
         <p>Data length: {data.textMiningCount}</p>
@@ -232,6 +242,7 @@ class Section extends React.Component {
           serverPagination={true}
           totalPagination={data.textMiningCount}
           callPagination={paginationCallback}
+          reportTableSortEvent={onTableSort}
         />
       </React.Fragment>
     );
