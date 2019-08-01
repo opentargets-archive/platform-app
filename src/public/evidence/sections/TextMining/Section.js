@@ -223,12 +223,19 @@ class Section extends React.Component {
     } = this.props;
     const { from } = this.state;
 
-    const paginationCallback = (page, pageSize) => {
-      this.setState({ from: page * (pageSize || size) });
-    };
-
-    const onTableSort = (sortBy, order) => {
-      this.setState({ sortBy: sortBy, order: order });
+    const onPageSort = pe => {
+      console.log(pe);
+      const { page, pageSize, sortBy, order } = pe;
+      let ns = {};
+      if (page !== undefined) {
+        // accounts for page 0
+        ns.from = page * (pageSize || size);
+      }
+      if (sortBy) {
+        ns.sortBy = sortBy;
+        ns.order = order;
+      }
+      this.setState(ns);
     };
 
     return (
@@ -239,10 +246,9 @@ class Section extends React.Component {
           error={false}
           columns={columns}
           data={data.rows}
-          serverPagination={true}
-          totalPagination={data.textMiningCount}
-          callPagination={paginationCallback}
-          reportTableSortEvent={onTableSort}
+          serverSide={true}
+          totalRowsCount={data.textMiningCount}
+          onPageSort={onPageSort}
         />
       </React.Fragment>
     );
