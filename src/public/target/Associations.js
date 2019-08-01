@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
 
 import AssociationsTable from './AssociationsTable';
+import AssociationsEvidenceTable from './AssociationsEvidenceTable';
 
 const targetAssociationsQuery = gql`
   query TargetAssociationsQuery(
@@ -123,7 +124,14 @@ class TargetAssociationsPage extends React.Component {
                   {};
                 return (
                   <AssociationsTable
-                    {...{ rows, indirects, dataSources, options, metadata }}
+                    {...{
+                      rows,
+                      indirects,
+                      dataSources,
+                      options,
+                      metadata,
+                      evidence,
+                    }}
                     onIndirectsChange={this.handleIndirectsChange}
                     onDataSourcesChange={this.handleDataSourcesChange}
                     onCellClick={this.handleCellClick}
@@ -139,6 +147,14 @@ class TargetAssociationsPage extends React.Component {
                 evidence.dataSourceId
               }`
             : 'Click a cell to see the evidence behind it'}
+          {evidence ? (
+            <AssociationsEvidenceTable
+              ensgId={ensgId}
+              efoId={evidence.efoId}
+              dataSourceId={evidence.dataSourceId}
+              indirects={indirects}
+            />
+          ) : null}
         </Grid>
       </Grid>
     );

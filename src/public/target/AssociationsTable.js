@@ -28,9 +28,10 @@ const VerticalSlider = withStyles(theme => ({
 
 const hideEmptyColumns = true;
 
-const HeatmapCell = ({ value, colorScale, onClick }) => {
+const HeatmapCell = ({ value, colorScale, onClick, selected }) => {
   const a = 'white';
   const b = '#E0E0E0';
+  const c = 'red';
   return (
     <span
       onClick={onClick}
@@ -38,7 +39,7 @@ const HeatmapCell = ({ value, colorScale, onClick }) => {
         display: 'inline-block',
         width: '16px',
         height: '16px',
-        border: `1px solid ${b}`,
+        border: `${selected ? 2 : 1}px solid ${selected ? c : b}`,
         background:
           value > 0
             ? colorScale(value)
@@ -99,7 +100,8 @@ const columns = (
   colorScale,
   handleWeightChange,
   handleCellClick,
-  aggregates
+  aggregates,
+  evidence
 ) => [
   {
     id: 'disease',
@@ -139,6 +141,11 @@ const columns = (
         <HeatmapCell
           value={d.dsScores[c.position]}
           colorScale={colorScale}
+          selected={
+            evidence &&
+            c.id === evidence.dataSourceId &&
+            d.obj.id === evidence.efoId
+          }
           onClick={() =>
             handleCellClick({ efoId: d.obj.id, dataSourceId: c.id })
           }
@@ -331,6 +338,7 @@ class AssociationsTable extends React.Component {
       rows,
       indirects,
       dataSources,
+      evidence,
       onIndirectsChange,
       onCellClick,
     } = this.props;
@@ -377,7 +385,8 @@ class AssociationsTable extends React.Component {
             colorScale,
             this.handleWeightChange,
             onCellClick,
-            aggregates
+            aggregates,
+            evidence
           )}
           headerGroups={headerGroups(aggregates)}
           data={rows}
