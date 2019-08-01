@@ -152,7 +152,7 @@ const tableStyles = theme => ({
   },
   tableCellHeader: {
     padding: 0,
-    borderBottom: 'none',
+    // borderBottom: 'none',
     // paddingRight: '12px',
     // paddingLeft: 0,
     // '&:first-child': {
@@ -167,6 +167,8 @@ const tableStyles = theme => ({
   },
   tableCellSpanHeader: {
     padding: 0,
+    // paddingLeft: '4px',
+    // paddingRight: '4px',
     // borderLeft: `1px solid ${theme.palette.grey[300]}`,
     // textAlign: 'center',
     // paddingLeft: '5px',
@@ -179,12 +181,14 @@ const tableStyles = theme => ({
   tableCellHeaderVertical: {
     textAlign: 'center',
     verticalAlign: 'bottom',
+    paddingBottom: '4px',
   },
   tableCellVertical: {
-    maxWidth: '32px',
-    minWidth: '32px',
-    width: '32px',
+    maxWidth: '24px',
+    minWidth: '24px',
+    width: '24px',
     paddingRight: 0,
+
     position: 'relative',
   },
   tableCellEllipsis: {
@@ -193,15 +197,17 @@ const tableStyles = theme => ({
     whiteSpace: 'nowrap',
   },
   tableCellFirstInHeaderGroup: {
+    // paddingLeft: '4px',
     // paddingLeft: '16px',
-    // borderLeft: `1px solid ${theme.palette.grey[300]}`,
+    borderLeft: `1px solid ${theme.palette.grey[300]}`,
     '&:first-child': {
       borderLeft: 'none',
     },
   },
   tableCellLastInHeaderGroup: {
+    // paddingRight: '4px',
     // paddingRight: '16px',
-    // borderRight: `1px solid ${theme.palette.grey[300]}`,
+    borderRight: `1px solid ${theme.palette.grey[300]}`,
     '&:last-child': {
       borderRight: 'none',
     },

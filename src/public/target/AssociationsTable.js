@@ -147,7 +147,11 @@ const columns = (
             d.obj.id === evidence.efoId
           }
           onClick={() =>
-            handleCellClick({ efoId: d.obj.id, dataSourceId: c.id })
+            handleCellClick({
+              efoId: d.obj.id,
+              name: d.obj.name,
+              dataSourceId: c.id,
+            })
           }
         />
       ),

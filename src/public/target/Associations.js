@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -6,6 +7,11 @@ import { HttpLink } from 'apollo-link-http';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+
+import { commaSeparate } from 'ot-ui';
 
 import AssociationsTable from './AssociationsTable';
 import AssociationsEvidenceTable from './AssociationsEvidenceTableQ';
@@ -71,7 +77,7 @@ class TargetAssociationsPage extends React.Component {
   handleDataSourcesChange = ({ dataSources, options }) => {
     this.setState({ dataSources, options });
   };
-  handleCellClick = ({ efoId, dataSourceId }) => {
+  handleCellClick = ({ efoId, name, dataSourceId }) => {
     const { evidence } = this.state;
     if (
       evidence &&
@@ -82,12 +88,12 @@ class TargetAssociationsPage extends React.Component {
       this.setState({ evidence: null });
     } else {
       // set
-      const newEvidence = { efoId, dataSourceId };
+      const newEvidence = { efoId, name, dataSourceId };
       this.setState({ evidence: newEvidence });
     }
   };
   render() {
-    const { ensgId } = this.props;
+    const { ensgId, symbol } = this.props;
     const { indirects, dataSources, options, evidence } = this.state;
 
     // have to strip __typename when using as input (__typename added by apollo cache)
@@ -107,7 +113,7 @@ class TargetAssociationsPage extends React.Component {
       ? { ensgId, indirects, harmonicOptions, page }
       : { ensgId, indirects, page };
     return (
-      <Grid container spacing={2}>
+      <Grid style={{ marginTop: '8px' }} container spacing={2}>
         <Grid item xs={12} md={6}>
           <ApolloProvider client={client}>
             <Query query={targetAssociationsQuery} variables={variables}>
@@ -123,38 +129,66 @@ class TargetAssociationsPage extends React.Component {
                     data.associationsByTargetId.metadata) ||
                   {};
                 return (
-                  <AssociationsTable
-                    {...{
-                      rows,
-                      indirects,
-                      dataSources,
-                      options,
-                      metadata,
-                      evidence,
-                    }}
-                    onIndirectsChange={this.handleIndirectsChange}
-                    onDataSourcesChange={this.handleDataSourcesChange}
-                    onCellClick={this.handleCellClick}
-                  />
+                  <Card elevation={0}>
+                    <CardHeader
+                      title="Associations"
+                      subheader={
+                        <React.Fragment>
+                          <strong>{commaSeparate(rows.length)}</strong> diseases
+                          associated with <strong>{symbol}</strong>
+                        </React.Fragment>
+                      }
+                    />
+                    <CardContent>
+                      <AssociationsTable
+                        {...{
+                          rows,
+                          indirects,
+                          dataSources,
+                          options,
+                          metadata,
+                          evidence,
+                        }}
+                        onIndirectsChange={this.handleIndirectsChange}
+                        onDataSourcesChange={this.handleDataSourcesChange}
+                        onCellClick={this.handleCellClick}
+                      />
+                    </CardContent>
+                  </Card>
                 );
               }}
             </Query>
           </ApolloProvider>
         </Grid>
         <Grid item xs={12} md={6}>
-          {evidence
-            ? `Showing evidence for (${ensgId}, ${evidence.efoId}) from ${
-                evidence.dataSourceId
-              }`
-            : 'Click a cell to see the evidence behind it'}
-          {evidence ? (
-            <AssociationsEvidenceTable
-              ensgId={ensgId}
-              efoId={evidence.efoId}
-              dataSourceId={evidence.dataSourceId}
-              indirects={indirects}
+          <Card elevation={0}>
+            <CardHeader
+              title="Evidence"
+              subheader={
+                evidence ? (
+                  <React.Fragment>
+                    Showing evidence between <strong>{symbol}</strong> and{' '}
+                    <strong>{evidence.name}</strong> from{' '}
+                    <strong>
+                      {_.startCase(evidence.dataSourceId.split('__')[1])}
+                    </strong>
+                  </React.Fragment>
+                ) : (
+                  'Click a cell to see the evidence behind it'
+                )
+              }
             />
-          ) : null}
+            {evidence ? (
+              <CardContent>
+                <AssociationsEvidenceTable
+                  ensgId={ensgId}
+                  efoId={evidence.efoId}
+                  dataSourceId={evidence.dataSourceId}
+                  indirects={indirects}
+                />
+              </CardContent>
+            ) : null}
+          </Card>
         </Grid>
       </Grid>
     );
