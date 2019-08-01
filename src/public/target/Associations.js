@@ -54,7 +54,7 @@ const client = new ApolloClient({
 });
 
 // TODO: when api returns total, use smaller page size
-const page = { index: 0, size: 20 };
+const page = { index: 0, size: 10000 };
 
 class TargetAssociationsPage extends React.Component {
   state = {

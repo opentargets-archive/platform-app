@@ -185,6 +185,7 @@ const tableStyles = theme => ({
     minWidth: '32px',
     width: '32px',
     paddingRight: 0,
+    position: 'relative',
   },
   tableCellEllipsis: {
     overflow: 'hidden',
@@ -295,6 +296,9 @@ class AssociationsTable extends Component {
                         column.lastInHeaderGroup,
                     })}
                   >
+                    {column.renderLabelBackground
+                      ? column.renderLabelBackground()
+                      : null}
                     <TableSortLabel
                       active={column.id === sortBy}
                       direction={order}

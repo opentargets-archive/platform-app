@@ -26,6 +26,8 @@ const VerticalSlider = withStyles(theme => ({
   </div>
 ));
 
+const hideEmptyColumns = true;
+
 const HeatmapCell = ({ value, colorScale }) => {
   const a = 'white';
   const b = '#E0E0E0';
@@ -46,7 +48,52 @@ const HeatmapCell = ({ value, colorScale }) => {
   );
 };
 
-const columns = (dataSources, colorScale, handleWeightChange) => [
+class Histogram extends React.Component {
+  update = () => {
+    const { id, data } = this.props;
+    const maxLength = d3.max(data, d => d.length);
+    const barsContainer = d3.select(`#histogram-${id} g`);
+
+    const bars = barsContainer.selectAll('rect').data(data);
+
+    bars
+      .enter()
+      .append('rect')
+      .merge(bars)
+      .attr('x', d => 1 - (maxLength ? d.length / maxLength : 0))
+      .attr('y', d => 1 - d.x1)
+      .attr('width', d => (maxLength ? d.length / maxLength : 0))
+      .attr('height', d => d.x1 - d.x0);
+
+    bars.exit().remove();
+  };
+  componentDidMount() {
+    this.update();
+  }
+  componentDidUpdate() {
+    this.update();
+  }
+  render() {
+    const { id, color } = this.props;
+    return (
+      <svg
+        id={`histogram-${id}`}
+        style={{ position: 'absolute', bottom: 0, left: 0 }}
+        preserveAspectRatio="none"
+        width="100%"
+        height="100%"
+        viewBox="0 0 1 1"
+      >
+        <g fill={color} />
+        <g>
+          <line x1="1" y1="0" x2="1" y2="1" stroke="#ccc" strokeWidth="0.04" />
+        </g>
+      </svg>
+    );
+  }
+}
+
+const columns = (dataSources, colorScale, handleWeightChange, aggregates) => [
   {
     id: 'disease',
     label: 'Disease',
@@ -68,34 +115,45 @@ const columns = (dataSources, colorScale, handleWeightChange) => [
     lastInHeaderGroup: true,
     renderCell: d => <HeatmapCell value={d.score} colorScale={colorScale} />,
   },
-  ...dataSources.map(c => ({
-    id: c.id,
-    label: c.name,
-    verticalHeader: true,
-    align: 'center',
-    firstInHeaderGroup: dataTypes.some(dt => dt.dataSources[0] === c.id),
-    lastInHeaderGroup: dataTypes.some(
-      dt => dt.dataSources[dt.dataSources.length - 1] === c.id
-    ),
-    renderCell: d => (
-      <HeatmapCell value={d.dsScores[c.position]} colorScale={colorScale} />
-    ),
-    renderFilter: d => (
-      <VerticalSlider
-        orientation="vertical"
-        getAriaValueText={value => `Weight: ${significantFigures(value)}`}
-        valueLabelDisplay="auto"
-        defaultValue={c.weight}
-        step={0.01}
-        min={0}
-        max={1}
-        aria-labelledby="vertical-slider"
-        onChangeCommitted={(event, value) => handleWeightChange(c, value)}
-      />
-    ),
-    comparator: (a, b) =>
-      d3.ascending(a.dsScores[c.position], b.dsScores[c.position]),
-  })),
+  ...dataSources
+    .filter(c => (hideEmptyColumns ? aggregates[c.id].coverage > 0 : true))
+    .map(c => ({
+      id: c.id,
+      label: `${c.name} (${significantFigures(
+        aggregates[c.id].coverage * 100
+      )}%)`,
+      verticalHeader: true,
+      align: 'center',
+      firstInHeaderGroup: dataTypes.some(dt => dt.dataSources[0] === c.id),
+      lastInHeaderGroup: dataTypes.some(
+        dt => dt.dataSources[dt.dataSources.length - 1] === c.id
+      ),
+      renderCell: d => (
+        <HeatmapCell value={d.dsScores[c.position]} colorScale={colorScale} />
+      ),
+      renderFilter: () => (
+        <VerticalSlider
+          orientation="vertical"
+          getAriaValueText={value => `Weight: ${significantFigures(value)}`}
+          valueLabelDisplay="auto"
+          defaultValue={c.weight}
+          step={0.01}
+          min={0}
+          max={1}
+          aria-labelledby="vertical-slider"
+          onChangeCommitted={(event, value) => handleWeightChange(c, value)}
+        />
+      ),
+      // renderLabelBackground: () => (
+      //   <Histogram
+      //     id={c.id}
+      //     data={aggregates[c.id].histogram}
+      //     color={colorScale(0.5)}
+      //   />
+      // ),
+      comparator: (a, b) =>
+        d3.ascending(a.dsScores[c.position], b.dsScores[c.position]),
+    })),
 ];
 
 const dataTypes = [
@@ -133,7 +191,7 @@ const dataTypes = [
 var dataTypesColorScale = d3
   .scaleOrdinal(d3.schemeCategory10)
   .domain(dataTypes.map(d => d.name));
-const headerGroups = [
+const headerGroups = aggregates => [
   { renderCell: () => null, colspan: 2 },
   ...dataTypes.map(d => ({
     renderCell: () => (
@@ -145,7 +203,9 @@ const headerGroups = [
         }}
       />
     ),
-    colspan: d.dataSources.length,
+    colspan: d.dataSources.filter(ds =>
+      hideEmptyColumns ? aggregates[ds] && aggregates[ds].coverage > 0 : true
+    ).length,
   })),
 ];
 
@@ -265,6 +325,29 @@ class AssociationsTable extends React.Component {
       .scaleLinear()
       .domain([0, Math.PI ** 2 / 6])
       .range(['#fff', theme.palette.primary.main]);
+
+    const maxPossibleValue = (Math.PI * Math.PI) / 6;
+    const histogramBinCount = 20;
+    const histogramBins = _.range(0, 1, 1 / histogramBinCount);
+    const histogramGenerator = d3
+      .histogram()
+      .domain([0, 1])
+      .thresholds(histogramBins);
+
+    const aggregates = dataSources.reduce((acc, ds) => {
+      acc[ds.id] = {};
+      return acc;
+    }, {});
+    dataSources.forEach(ds => {
+      const dsRows = rows.map(d => d.dsScores[ds.position]);
+      const dsRowsNonZero = dsRows.filter(s => s > 0);
+      aggregates[ds.id].coverage = dsRowsNonZero.length / dsRows.length;
+      aggregates[ds.id].histogram = histogramGenerator(
+        dsRowsNonZero.map(s => s / maxPossibleValue)
+      );
+    });
+    // console.log(indirects, dataSources, aggregates);
+
     return (
       <React.Fragment>
         <TopLevelControls
@@ -275,8 +358,13 @@ class AssociationsTable extends React.Component {
         <BaseAssociationsTable
           loading={false}
           error={false}
-          columns={columns(dataSources, colorScale, this.handleWeightChange)}
-          headerGroups={headerGroups}
+          columns={columns(
+            dataSources,
+            colorScale,
+            this.handleWeightChange,
+            aggregates
+          )}
+          headerGroups={headerGroups(aggregates)}
           data={rows}
           filters
         />
