@@ -104,6 +104,7 @@ const columns = [
   {
     id: 'disease.id',
     label: 'Disease',
+    orderable: false,
     renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
@@ -111,6 +112,7 @@ const columns = [
   {
     id: 'publication.title',
     label: 'Publication',
+    orderable: false,
     renderCell: p => (
       <Fragment>
         <SimplePublication
