@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
 
 import AssociationsTable from './AssociationsTable';
-import AssociationsEvidenceTable from './AssociationsEvidenceTable';
+import AssociationsEvidenceTable from './AssociationsEvidenceTableQ';
 
 const targetAssociationsQuery = gql`
   query TargetAssociationsQuery(
