@@ -28,11 +28,12 @@ const VerticalSlider = withStyles(theme => ({
 
 const hideEmptyColumns = true;
 
-const HeatmapCell = ({ value, colorScale }) => {
+const HeatmapCell = ({ value, colorScale, onClick }) => {
   const a = 'white';
   const b = '#E0E0E0';
   return (
     <span
+      onClick={onClick}
       style={{
         display: 'inline-block',
         width: '16px',
@@ -93,7 +94,13 @@ class Histogram extends React.Component {
   }
 }
 
-const columns = (dataSources, colorScale, handleWeightChange, aggregates) => [
+const columns = (
+  dataSources,
+  colorScale,
+  handleWeightChange,
+  handleCellClick,
+  aggregates
+) => [
   {
     id: 'disease',
     label: 'Disease',
@@ -129,7 +136,13 @@ const columns = (dataSources, colorScale, handleWeightChange, aggregates) => [
         dt => dt.dataSources[dt.dataSources.length - 1] === c.id
       ),
       renderCell: d => (
-        <HeatmapCell value={d.dsScores[c.position]} colorScale={colorScale} />
+        <HeatmapCell
+          value={d.dsScores[c.position]}
+          colorScale={colorScale}
+          onClick={() =>
+            handleCellClick({ efoId: d.obj.id, dataSourceId: c.id })
+          }
+        />
       ),
       renderFilter: () => (
         <VerticalSlider
@@ -319,6 +332,7 @@ class AssociationsTable extends React.Component {
       indirects,
       dataSources,
       onIndirectsChange,
+      onCellClick,
     } = this.props;
 
     const colorScale = d3
@@ -362,6 +376,7 @@ class AssociationsTable extends React.Component {
             dataSources,
             colorScale,
             this.handleWeightChange,
+            onCellClick,
             aggregates
           )}
           headerGroups={headerGroups(aggregates)}
