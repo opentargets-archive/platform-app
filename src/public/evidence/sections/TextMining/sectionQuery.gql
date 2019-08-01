@@ -1,5 +1,5 @@
-query TextMiningSectionQuery($ensgId: String!, $efoId: String!, $from: Int, $size:Int) {
-  evidence(ensgId: $ensgId, efoId: $efoId, from: $from, size: $size) {
+query TextMiningSectionQuery($ensgId: String!, $efoId: String!, $from: Int, $size:Int, $sortBy: String, $order: String) {
+  evidence(ensgId: $ensgId, efoId: $efoId, from: $from, size: $size, sortBy: $sortBy, order: $order) {
     details {
       textMining{
         textMiningCount
