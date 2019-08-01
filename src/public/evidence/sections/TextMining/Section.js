@@ -224,7 +224,6 @@ class Section extends React.Component {
     const { from } = this.state;
 
     const onPageSort = pe => {
-      console.log(pe);
       const { page, pageSize, sortBy, order } = pe;
       let ns = {};
       if (page !== undefined) {
