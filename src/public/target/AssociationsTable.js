@@ -2,29 +2,14 @@ import React from 'react';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import withTheme from '@material-ui/core/styles/withTheme';
-import { withStyles } from '@material-ui/core/styles';
-import Slider from '@material-ui/core/Slider';
+
 import { Checkbox } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 import { Link, significantFigures } from 'ot-ui';
 
 import BaseAssociationsTable from '../common/AssociationsTable';
-
-const VerticalSlider = withStyles(theme => ({
-  root: {
-    height: '70px',
-    width: '24px',
-    maxWidth: '24px',
-    marginTop: '8px',
-    marginBottom: '16px',
-    display: 'inline-block',
-  },
-}))(({ classes, ...rest }) => (
-  <div className={classes.root}>
-    <Slider {...rest} />
-  </div>
-));
+import VerticalSlider from '../common/VerticalSlider';
 
 const hideEmptyColumns = true;
 
