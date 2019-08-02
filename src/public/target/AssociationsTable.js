@@ -3,20 +3,17 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 import withTheme from '@material-ui/core/styles/withTheme';
 
-import { Link, significantFigures } from 'ot-ui';
+// import { Link } from 'ot-ui';
 
 import {
-  dataTypes,
   dataSourcesOrder,
-  dataTypesColorScale,
   calculateAggregations,
 } from '../common/dynamicAssociations/configuration';
 import BaseAssociationsTable from '../common/AssociationsTable';
-import VerticalSlider from '../common/VerticalSlider';
-import HeatmapCell from '../common/HeatmapCell';
 import DataTypesLegend from '../common/dynamicAssociations/DataTypesLegend';
 import TopLevelControls from '../common/dynamicAssociations/TopLevelControls';
-// import Histogram from '../common/Histogram';
+import getDataSourcesColumns from '../common/dynamicAssociations/getDataSourcesColumns';
+import getHeaderGroups from '../common/dynamicAssociations/getHeaderGroups';
 
 const hideEmptyColumns = true;
 
@@ -40,87 +37,15 @@ const columns = (
     // ),
     comparator: (a, b) => d3.ascending(a.obj.name, b.obj.name),
   },
-  {
-    id: 'score',
-    label: 'Score',
-    verticalHeader: true,
-    align: 'center',
-    firstInHeaderGroup: true,
-    lastInHeaderGroup: true,
-    renderCell: d => <HeatmapCell value={d.score} colorScale={colorScale} />,
-  },
-  ...dataSources
-    .filter(c => (hideEmptyColumns ? aggregates[c.id].coverage > 0 : true))
-    .map(c => ({
-      id: c.id,
-      label: `${c.name} (${significantFigures(
-        aggregates[c.id].coverage * 100
-      )}%)`,
-      verticalHeader: true,
-      align: 'center',
-      firstInHeaderGroup: dataTypes.some(dt => dt.dataSources[0] === c.id),
-      lastInHeaderGroup: dataTypes.some(
-        dt => dt.dataSources[dt.dataSources.length - 1] === c.id
-      ),
-      renderCell: d => (
-        <HeatmapCell
-          value={d.dsScores[c.position]}
-          colorScale={colorScale}
-          selected={
-            evidence &&
-            c.id === evidence.dataSourceId &&
-            d.obj.id === evidence.efoId
-          }
-          onClick={() =>
-            handleCellClick({
-              efoId: d.obj.id,
-              name: d.obj.name,
-              dataSourceId: c.id,
-            })
-          }
-        />
-      ),
-      renderFilter: () => (
-        <VerticalSlider
-          orientation="vertical"
-          getAriaValueText={value => `Weight: ${significantFigures(value)}`}
-          valueLabelDisplay="auto"
-          defaultValue={c.weight}
-          step={0.01}
-          min={0}
-          max={1}
-          aria-labelledby="vertical-slider"
-          onChangeCommitted={(event, value) => handleWeightChange(c, value)}
-        />
-      ),
-      // renderLabelBackground: () => (
-      //   <Histogram
-      //     id={c.id}
-      //     data={aggregates[c.id].histogram}
-      //     color={colorScale(0.5)}
-      //   />
-      // ),
-      comparator: (a, b) =>
-        d3.ascending(a.dsScores[c.position], b.dsScores[c.position]),
-    })),
-];
-
-const headerGroups = aggregates => [
-  { renderCell: () => null, colspan: 2 },
-  ...dataTypes.map(d => ({
-    renderCell: () => (
-      <div
-        style={{
-          width: '100%',
-          height: '8px',
-          background: dataTypesColorScale(d.name),
-        }}
-      />
-    ),
-    colspan: d.dataSources.filter(ds =>
-      hideEmptyColumns ? aggregates[ds] && aggregates[ds].coverage > 0 : true
-    ).length,
-  })),
+  ...getDataSourcesColumns({
+    hideEmptyColumns,
+    dataSources,
+    colorScale,
+    handleWeightChange,
+    handleCellClick,
+    aggregates,
+    evidence,
+  }),
 ];
 
 class AssociationsTable extends React.Component {
@@ -209,7 +134,7 @@ class AssociationsTable extends React.Component {
             aggregates,
             evidence
           )}
-          headerGroups={headerGroups(aggregates)}
+          headerGroups={getHeaderGroups({ aggregates, hideEmptyColumns })}
           data={rows}
           filters
         />
