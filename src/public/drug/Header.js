@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Header from '../common/Header';
-import TargetIcon from '../../icons/TargetIcon';
+import DrugIcon from '../../icons/DrugIcon';
 import ChEMBL from './externalLinks/ChEMBL';
 import WithdrawnNotice from './WithdrawnNotice';
 
@@ -9,7 +9,7 @@ const DrugHeader = ({ chemblId, name, hasBeenWithdrawn, withdrawnNotice }) => (
   <Header
     title={name}
     subtitle={null}
-    Icon={TargetIcon}
+    Icon={DrugIcon}
     externalLinks={
       <React.Fragment>
         <ChEMBL chemblId={chemblId} first />
