@@ -9,6 +9,7 @@ import {
   dataTypes,
   dataSourcesOrder,
   dataTypesColorScale,
+  calculateAggregations,
 } from '../common/dynamicAssociations/configuration';
 import BaseAssociationsTable from '../common/AssociationsTable';
 import VerticalSlider from '../common/VerticalSlider';
@@ -188,27 +189,7 @@ class AssociationsTable extends React.Component {
       .domain([0, Math.PI ** 2 / 6])
       .range(['#fff', theme.palette.primary.main]);
 
-    const maxPossibleValue = (Math.PI * Math.PI) / 6;
-    const histogramBinCount = 20;
-    const histogramBins = _.range(0, 1, 1 / histogramBinCount);
-    const histogramGenerator = d3
-      .histogram()
-      .domain([0, 1])
-      .thresholds(histogramBins);
-
-    const aggregates = dataSources.reduce((acc, ds) => {
-      acc[ds.id] = {};
-      return acc;
-    }, {});
-    dataSources.forEach(ds => {
-      const dsRows = rows.map(d => d.dsScores[ds.position]);
-      const dsRowsNonZero = dsRows.filter(s => s > 0);
-      aggregates[ds.id].coverage = dsRowsNonZero.length / dsRows.length;
-      aggregates[ds.id].histogram = histogramGenerator(
-        dsRowsNonZero.map(s => s / maxPossibleValue)
-      );
-    });
-    // console.log(indirects, dataSources, aggregates);
+    const aggregates = calculateAggregations({ dataSources, rows });
 
     return (
       <React.Fragment>

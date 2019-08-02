@@ -39,3 +39,26 @@ export const dataSourcesOrder = dataTypes.reduce((acc, dt) => {
 export const dataTypesColorScale = d3
   .scaleOrdinal(d3.schemeCategory10)
   .domain(dataTypes.map(d => d.name));
+
+// const maxPossibleValue = (Math.PI * Math.PI) / 6;
+// const histogramBinCount = 20;
+//   const histogramBins = _.range(0, 1, 1 / histogramBinCount);
+// const histogramGenerator = d3
+//     .histogram()
+//     .domain([0, 1])
+//     .thresholds(histogramBins);
+export const calculateAggregations = ({ dataSources, rows }) => {
+  const aggregates = dataSources.reduce((acc, ds) => {
+    acc[ds.id] = {};
+    return acc;
+  }, {});
+  dataSources.forEach(ds => {
+    const dsRows = rows.map(d => d.dsScores[ds.position]);
+    const dsRowsNonZero = dsRows.filter(s => s > 0);
+    aggregates[ds.id].coverage = dsRowsNonZero.length / dsRows.length;
+    // aggregates[ds.id].histogram = histogramGenerator(
+    //   dsRowsNonZero.map(s => s / maxPossibleValue)
+    // );
+  });
+  return aggregates;
+};
