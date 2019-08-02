@@ -74,7 +74,14 @@ class DiseasePage extends Component {
               <Switch>
                 <Route
                   path={`${match.path}/associations`}
-                  component={Associations}
+                  render={() => (
+                    <Associations
+                      {...{
+                        efoId,
+                        name,
+                      }}
+                    />
+                  )}
                 />
                 <Route
                   path={match.path}

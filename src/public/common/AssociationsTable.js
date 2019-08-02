@@ -39,6 +39,7 @@ const columns = ({
     comparator: (a, b) => d3.ascending(a.obj.name, b.obj.name),
   },
   ...getDataSourcesColumns({
+    firstColumnName,
     hideEmptyColumns,
     dataSources,
     theme,

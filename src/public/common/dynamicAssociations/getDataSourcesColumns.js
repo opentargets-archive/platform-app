@@ -9,6 +9,7 @@ import HeatmapCell from '../HeatmapCell';
 // import Histogram from '../Histogram';
 
 const getDataSourcesColumns = ({
+  firstColumnName,
   hideEmptyColumns,
   dataSources,
   theme,
@@ -53,13 +54,21 @@ const getDataSourcesColumns = ({
               c.id === evidence.dataSourceId &&
               d.obj.id === evidence.efoId
             }
-            onClick={() =>
-              handleCellClick({
-                efoId: d.obj.id,
-                name: d.obj.name,
-                dataSourceId: c.id,
-              })
-            }
+            onClick={() => {
+              if (firstColumnName === 'Disease') {
+                handleCellClick({
+                  efoId: d.obj.id,
+                  name: d.obj.name,
+                  dataSourceId: c.id,
+                });
+              } else if (firstColumnName === 'Target') {
+                handleCellClick({
+                  ensgId: d.obj.id,
+                  name: d.obj.name,
+                  dataSourceId: c.id,
+                });
+              }
+            }}
           />
         ),
         renderFilter: () => (
