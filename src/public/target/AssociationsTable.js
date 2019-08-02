@@ -3,14 +3,18 @@ import _ from 'lodash';
 import * as d3 from 'd3';
 import withTheme from '@material-ui/core/styles/withTheme';
 
-import { Checkbox } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-
 import { Link, significantFigures } from 'ot-ui';
 
+import {
+  dataTypes,
+  dataSourcesOrder,
+  dataTypesColorScale,
+} from '../common/dynamicAssociations/configuration';
 import BaseAssociationsTable from '../common/AssociationsTable';
 import VerticalSlider from '../common/VerticalSlider';
 import HeatmapCell from '../common/HeatmapCell';
+import DataTypesLegend from '../common/dynamicAssociations/DataTypesLegend';
+import TopLevelControls from '../common/dynamicAssociations/TopLevelControls';
 // import Histogram from '../common/Histogram';
 
 const hideEmptyColumns = true;
@@ -100,41 +104,6 @@ const columns = (
     })),
 ];
 
-const dataTypes = [
-  {
-    name: 'Genetic associations',
-    dataSources: [
-      'ds__phewas_catalog',
-      'ds__gwas_catalog',
-      'ds__uniprot',
-      'ds__genomics_england',
-      'ds__eva',
-      'ds__uniprot_literature',
-    ],
-  },
-  {
-    name: 'Somatic mutations',
-    dataSources: [
-      'ds__cancer_gene_census',
-      'ds__intogen',
-      'ds__eva_somatic',
-      'ds__uniprot_somatic',
-    ],
-  },
-  { name: 'Drugs', dataSources: ['ds__chembl'] },
-  {
-    name: 'Pathways and systems biology',
-    dataSources: ['ds__slapenrich', 'ds__progeny', 'ds__reactome'],
-  },
-  { name: 'RNA expression', dataSources: ['ds__expression_atlas'] },
-  { name: 'Text mining', dataSources: ['ds__europepmc'] },
-  { name: 'Animal models', dataSources: ['ds__phenodigm'] },
-];
-
-// TODO: datatypes to datasources mapping should come from api
-var dataTypesColorScale = d3
-  .scaleOrdinal(d3.schemeCategory10)
-  .domain(dataTypes.map(d => d.name));
 const headerGroups = aggregates => [
   { renderCell: () => null, colspan: 2 },
   ...dataTypes.map(d => ({
@@ -152,59 +121,6 @@ const headerGroups = aggregates => [
     ).length,
   })),
 ];
-
-const dataSourcesOrder = dataTypes.reduce((acc, dt) => {
-  return acc.concat(dt.dataSources);
-}, []);
-
-const DataTypesLegend = ({ dataTypes }) => (
-  <div
-    style={{
-      marginTop: '8px',
-      marginBottom: '8px',
-    }}
-  >
-    <Typography variant="subtitle2">
-      {dataTypes.map(d => (
-        <React.Fragment key={d.id}>
-          <span
-            style={{
-              display: 'inline-block',
-              width: '16px',
-              height: '8px',
-              verticalAlign: 'middle',
-              background: dataTypesColorScale(d.name),
-            }}
-          />
-          <span style={{ marginLeft: '6px', marginRight: '20px' }}>
-            {d.name}
-          </span>
-        </React.Fragment>
-      ))}
-    </Typography>
-  </div>
-);
-
-const TopLevelControls = ({ indirects, onIndirectsChange }) => (
-  <div
-    style={{
-      marginTop: '8px',
-      marginBottom: '8px',
-    }}
-  >
-    <Typography variant="subtitle2">
-      <Checkbox
-        checked={indirects}
-        value={true}
-        onChange={(event, value) => onIndirectsChange(value)}
-        color="primary"
-      />
-      <span style={{ marginLeft: '6px', marginRight: '20px' }}>
-        Use indirect evidence
-      </span>
-    </Typography>
-  </div>
-);
 
 class AssociationsTable extends React.Component {
   handleWeightChange = (d, value) => {
@@ -300,7 +216,7 @@ class AssociationsTable extends React.Component {
           indirects={indirects}
           onIndirectsChange={onIndirectsChange}
         />
-        <DataTypesLegend dataTypes={dataTypes} />
+        <DataTypesLegend />
         <BaseAssociationsTable
           loading={false}
           error={false}
