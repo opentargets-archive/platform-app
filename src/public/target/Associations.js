@@ -14,7 +14,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { commaSeparate } from 'ot-ui';
 
 import AssociationsTable from './AssociationsTable';
-import AssociationsEvidenceTable from './AssociationsEvidenceTable';
+import AssociationsEvidenceTable from '../common/AssociationsEvidenceTable';
 
 const targetAssociationsQuery = gql`
   query TargetAssociationsQuery(
