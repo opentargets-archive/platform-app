@@ -1,4 +1,5 @@
 import React from 'react';
+import * as d3 from 'd3';
 import _ from 'lodash';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
@@ -97,11 +98,13 @@ class TargetAssociationsPage extends React.Component {
     const { indirects, dataSources, options, evidence } = this.state;
 
     // have to strip __typename when using as input (__typename added by apollo cache)
-    const dsOptions = dataSources.map(({ id, weight, reduceFunc }) => ({
-      id,
-      weight,
-      reduceFunc,
-    }));
+    const dsOptions = dataSources
+      .map(({ id, weight, reduceFunc }) => ({
+        id,
+        weight,
+        reduceFunc,
+      }))
+      .sort((a, b) => d3.ascending(a.id, b.id)); // must be in ascending order for query (!)
     const { __typename, ...optionsMinusTypename } = options || {};
     const harmonicOptions =
       dsOptions.length > 0 && options
