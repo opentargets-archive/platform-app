@@ -1,27 +1,41 @@
 import React from 'react';
+import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
 
 import { significantFigures } from 'ot-ui';
 
-const HeatmapCell = ({ value, colorScale, onClick, selected }) => {
-  const a = 'white';
-  const b = '#E0E0E0';
-  const c = 'red';
+const styles = theme => ({
+  cell: {
+    display: 'inline-block',
+    width: '16px',
+    height: '16px',
+    border: `1px solid ${theme.palette.grey[300]}`,
+    background: `repeating-linear-gradient(45deg,white,white 2px,${
+      theme.palette.grey[300]
+    } 2px,${theme.palette.grey[300]} 4px)`,
+  },
+  cellSelected: {
+    border: `2px solid ${theme.palette.secondary.main}`,
+  },
+});
+
+const HeatmapCell = ({ classes, value, colorScale, onClick, selected }) => {
+  const styles =
+    value > 0
+      ? {
+          background: colorScale(value),
+        }
+      : null;
   return (
     <span
       onClick={onClick}
-      style={{
-        display: 'inline-block',
-        width: '16px',
-        height: '16px',
-        border: `${selected ? 2 : 1}px solid ${selected ? c : b}`,
-        background:
-          value > 0
-            ? colorScale(value)
-            : `repeating-linear-gradient(45deg,${a},${a} 2px,${b} 2px,${b} 4px)`,
-      }}
+      className={classNames(classes.cell, {
+        [classes.cellSelected]: selected,
+      })}
+      style={styles}
       title={`Score: ${value > 0 ? significantFigures(value) : 'N/A'}`}
     />
   );
 };
 
-export default HeatmapCell;
+export default withStyles(styles)(HeatmapCell);
