@@ -17,14 +17,14 @@ import getHeaderGroups from '../common/dynamicAssociations/getHeaderGroups';
 
 const hideEmptyColumns = true;
 
-const columns = (
+const columns = ({
   dataSources,
-  colorScale,
+  theme,
   handleWeightChange,
   handleCellClick,
   aggregates,
-  evidence
-) => [
+  evidence,
+}) => [
   {
     id: 'disease',
     label: 'Disease',
@@ -40,7 +40,7 @@ const columns = (
   ...getDataSourcesColumns({
     hideEmptyColumns,
     dataSources,
-    colorScale,
+    theme,
     handleWeightChange,
     handleCellClick,
     aggregates,
@@ -109,11 +109,6 @@ class AssociationsTable extends React.Component {
       onCellClick,
     } = this.props;
 
-    const colorScale = d3
-      .scaleLinear()
-      .domain([0, Math.PI ** 2 / 6])
-      .range(['#fff', theme.palette.primary.main]);
-
     const aggregates = calculateAggregations({ dataSources, rows });
 
     return (
@@ -126,14 +121,14 @@ class AssociationsTable extends React.Component {
         <BaseAssociationsTable
           loading={false}
           error={false}
-          columns={columns(
+          columns={columns({
             dataSources,
-            colorScale,
-            this.handleWeightChange,
+            theme,
+            onWeightChange: this.handleWeightChange,
             onCellClick,
             aggregates,
-            evidence
-          )}
+            evidence,
+          })}
           headerGroups={getHeaderGroups({ aggregates, hideEmptyColumns })}
           data={rows}
           filters
