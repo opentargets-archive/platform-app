@@ -251,6 +251,8 @@ class Section extends React.Component {
           serverSide={true}
           totalRowsCount={data.textMiningCount}
           onPageSort={onPageSort}
+          sortBy={'score'}
+          order={'desc'}
         />
       </React.Fragment>
     );
