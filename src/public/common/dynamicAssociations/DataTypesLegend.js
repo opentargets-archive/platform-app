@@ -12,7 +12,7 @@ const DataTypesLegend = () => (
   >
     <Typography variant="subtitle2">
       {dataTypes.map(d => (
-        <React.Fragment key={d.id}>
+        <React.Fragment key={d.name}>
           <span
             style={{
               display: 'inline-block',
