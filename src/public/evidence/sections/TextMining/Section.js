@@ -1,10 +1,4 @@
 import React, { Fragment } from 'react';
-import Grid from '@material-ui/core/Grid';
-
-// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-// import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 
 import { Link, OtTableRF } from 'ot-ui';
@@ -12,6 +6,7 @@ import { Link, OtTableRF } from 'ot-ui';
 import SimplePublication from '../../../common/sections/Bibliography/custom/SimplePublication';
 import Abstract from '../../../common/sections/Bibliography/custom/Abstract';
 import BibliograhpyHtmlText from '../../../common/sections/Bibliography/custom/BibliograhpyHtmlText';
+import LevelBar from '../../../common/LevelBar';
 
 const getFormattedText = sentence => {
   let breakpoints = [];
@@ -105,6 +100,7 @@ const columns = [
     id: 'disease.id',
     label: 'Disease',
     orderable: false,
+    style: { verticalAlign: 'top', width: '15%' },
     renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
@@ -113,6 +109,7 @@ const columns = [
     id: 'publication.title',
     label: 'Publication',
     orderable: false,
+    style: { verticalAlign: 'top' },
     renderCell: p => (
       <Fragment>
         <SimplePublication
@@ -173,7 +170,14 @@ const columns = [
   {
     id: 'publication.date',
     label: 'Year',
+    style: { verticalAlign: 'top', width: '7%' },
     renderCell: d => d.publication.date,
+  },
+  {
+    id: 'score',
+    label: 'Relevance',
+    style: { verticalAlign: 'top', width: '10%', paddingTop: '5px' },
+    renderCell: d => <LevelBar value={d.score * 100} />,
   },
 ];
 
