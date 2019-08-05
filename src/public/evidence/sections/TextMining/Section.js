@@ -243,7 +243,6 @@ class Section extends React.Component {
 
     return (
       <React.Fragment>
-        <p>Data length: {data.textMiningCount}</p>
         <OtTableRF
           loading={false}
           error={false}
