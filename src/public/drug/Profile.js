@@ -87,12 +87,6 @@ class DrugProfile extends Component {
         <Grid container justify="space-between">
           <Grid item xs={12} md={6}>
             <Typography variant="subtitle2">
-              Name:{' '}
-              <Typography className={classes.inline} variant="body2">
-                {name}
-              </Typography>
-            </Typography>
-            <Typography variant="subtitle2">
               Molecule type:{' '}
               <Typography className={classes.inline} variant="body2">
                 {type}
