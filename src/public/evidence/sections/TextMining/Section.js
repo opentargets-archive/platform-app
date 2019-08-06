@@ -174,10 +174,10 @@ const columns = [
     renderCell: d => d.publication.date,
   },
   {
-    id: 'score',
+    id: 'relevance',
     label: 'Relevance',
     style: { verticalAlign: 'top', width: '10%', paddingTop: '5px' },
-    renderCell: d => <LevelBar value={d.score * 100} />,
+    renderCell: d => <LevelBar value={d.relevance * 100} />,
   },
 ];
 
@@ -251,7 +251,7 @@ class Section extends React.Component {
           serverSide={true}
           totalRowsCount={data.textMiningCount}
           onPageSort={onPageSort}
-          sortBy={'score'}
+          sortBy={'relevance'}
           order={'desc'}
         />
       </React.Fragment>
