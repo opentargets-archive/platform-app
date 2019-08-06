@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
-import BibliograhpyHtmlText from './BibliograhpyHtmlText';
+import BibliographyHtmlText from './BibliographyHtmlText';
 
 /**
  * This renders a publication abstract with highlighted matching content.
@@ -21,7 +21,7 @@ class Abstract extends Component {
           ''
         )}
 
-        <BibliograhpyHtmlText text={abstract} />
+        <BibliographyHtmlText text={abstract} />
 
         {/* Legend */}
         {variant === 'regular' ? (

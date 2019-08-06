@@ -5,7 +5,7 @@ import { Link, OtTableRF } from 'ot-ui';
 
 import SimplePublication from '../../../common/sections/Bibliography/custom/SimplePublication';
 import Abstract from '../../../common/sections/Bibliography/custom/Abstract';
-import BibliograhpyHtmlText from '../../../common/sections/Bibliography/custom/BibliograhpyHtmlText';
+import BibliographyHtmlText from '../../../common/sections/Bibliography/custom/BibliographyHtmlText';
 import LevelBar from '../../../common/LevelBar';
 
 const getFormattedText = sentence => {
@@ -133,7 +133,7 @@ const columns = [
             },
           }}
         />
-        <BibliograhpyHtmlText
+        <BibliographyHtmlText
           text={getFormattedSection(
             'abstract',
             p.publication.abstract,
@@ -156,7 +156,7 @@ const columns = [
                   {m.map((s, j) => {
                     return (
                       <li key={j}>
-                        <BibliograhpyHtmlText text={getFormattedText(s)} />
+                        <BibliographyHtmlText text={getFormattedText(s)} />
                       </li>
                     );
                   })}
