@@ -5,7 +5,7 @@ query TextMiningSectionQuery($ensgId: String!, $efoId: String!, $from: Int, $siz
         textMiningCount
         rows{
           access
-          score
+          relevance
           disease{
             name
             id
