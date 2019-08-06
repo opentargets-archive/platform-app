@@ -34,10 +34,12 @@ export const drugSectionsDefaultOrder = [
 ];
 
 export const evidenceSectionsDefaultOrder = [
-  'genetic',
-  'somatic',
+  'gwasCatalog',
+  'phewasCatalog',
+  // 'genetic',
+  // 'somatic',
   'drugs',
-  'pathways',
+  // 'pathways',
   'differentialExpression',
   'textMining',
   'animalModels',

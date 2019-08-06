@@ -5,6 +5,8 @@ import { loader } from 'graphql.macro';
 import expressionAtlasSection from '../evidence/sections/DifferentialExpression/Section';
 import phenodigmSection from '../evidence/sections/AnimalModels/Section';
 import chemblSection from '../evidence/sections/Drugs/Section';
+import gwasCatalogSection from '../evidence/sections/GWASCatalog/Section';
+import phewasCatalogSection from '../evidence/sections/PheWASCatalog/Section';
 
 const expressionAtlasQuery = loader(
   '../evidence/sections/DifferentialExpression/sectionQuery.gql'
@@ -13,6 +15,12 @@ const phenodigmQuery = loader(
   '../evidence/sections/AnimalModels/sectionQuery.gql'
 );
 const chemblQuery = loader('../evidence/sections/Drugs/sectionQuery.gql');
+const gwasCatalogQuery = loader(
+  '../evidence/sections/GWASCatalog/sectionQuery.gql'
+);
+const phewasCatalogQuery = loader(
+  '../evidence/sections/PheWASCatalog/sectionQuery.gql'
+);
 
 const dataSourceHandlers = {
   ds__cancer_gene_census: null,
@@ -32,14 +40,22 @@ const dataSourceHandlers = {
   },
   ds__gene2phenotype: null,
   ds__genomics_england: null,
-  ds__gwas_catalog: null,
+  ds__gwas_catalog: {
+    query: gwasCatalogQuery,
+    component: gwasCatalogSection,
+    accessor: data => data.evidence.details.gwasCatalog,
+  },
   ds__intogen: null,
   ds__phenodigm: {
     query: phenodigmQuery,
     component: phenodigmSection,
     accessor: data => data.evidence.details.animalModels,
   },
-  ds__phewas_catalog: null,
+  ds__phewas_catalog: {
+    query: phewasCatalogQuery,
+    component: phewasCatalogSection,
+    accessor: data => data.evidence.details.phewasCatalog,
+  },
   ds__progeny: null,
   ds__reactome: null,
   ds__slapenrich: null,
