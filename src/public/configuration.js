@@ -38,6 +38,7 @@ export const evidenceSectionsDefaultOrder = [
   'phewasCatalog',
   'reactome',
   'progeny',
+  'slapenrich',
   // 'genetic',
   // 'somatic',
   'drugs',
