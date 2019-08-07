@@ -9,12 +9,16 @@ const styles = theme => ({
     height: '20px',
   },
   showMore: {
+    display: 'inline',
+    whiteSpace: 'nowrap',
+  },
+  showMoreText: {
     color: theme.palette.primary.main,
     cursor: 'pointer',
   },
 });
 
-const MAX_TERMS = 8;
+const MAX_TERMS = 10;
 
 class ChipsField extends Component {
   state = {
@@ -36,8 +40,10 @@ class ChipsField extends Component {
     const hiddenTerms = terms.slice(MAX_TERMS);
 
     return (
-      <>
-        <Typography variant="subtitle2">{label}:</Typography>
+      <div>
+        <Typography style={{ display: 'inline' }} variant="subtitle2">
+          {label}:{' '}
+        </Typography>
         {shownTerms.map(term => (
           <Chip
             className={classes.chip}
@@ -56,15 +62,15 @@ class ChipsField extends Component {
             />
           ))}
         {hiddenTerms.length > 0 && (
-          <Typography onClick={this.showMore}>
+          <Typography className={classes.showMore} onClick={this.showMore}>
             {showMore ? '' : '... '}[
-            <span className={classes.showMore}>
+            <span className={classes.showMoreText}>
               {showMore ? ' hide ' : ' show more '}
             </span>
             ]
           </Typography>
         )}
-      </>
+      </div>
     );
   }
 }
