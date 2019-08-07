@@ -1,20 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Button } from 'ot-ui';
 import SimplePublication from './SimplePublication';
 import Abstract from './Abstract';
 import { getPublicationAbstract, getSimilarPublications } from './Api';
-
-const styles = theme => ({
-  detailPanel: {
-    background: '#F6F5F5',
-    marginTop: '10px',
-    padding: '20px',
-  },
-});
+import BibliographyDetailPanel from './BibliographyDetailPanel';
 
 /**
  * This renders a full publication block in the bibliography details.
@@ -47,9 +39,9 @@ class Publication extends Component {
       return null;
     }
     return (
-      <div className={this.props.classes.detailPanel}>
+      <BibliographyDetailPanel>
         <Abstract abstract={this.state.abstract} />
-      </div>
+      </BibliographyDetailPanel>
     );
   };
 
@@ -173,4 +165,4 @@ class Publication extends Component {
   };
 }
 
-export default withStyles(styles)(Publication);
+export default Publication;
