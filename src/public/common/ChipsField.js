@@ -11,6 +11,8 @@ const styles = theme => ({
 });
 
 const ChipsField = ({ label, terms, classes }) => {
+  if (terms.length === 0) return null;
+
   return (
     <Fragment>
       <Typography variant="subtitle2">{label}:</Typography>
