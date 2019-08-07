@@ -7,6 +7,9 @@ import phenodigmSection from '../evidence/sections/AnimalModels/Section';
 import chemblSection from '../evidence/sections/Drugs/Section';
 import gwasCatalogSection from '../evidence/sections/GWASCatalog/Section';
 import phewasCatalogSection from '../evidence/sections/PheWASCatalog/Section';
+import reactomeSection from '../evidence/sections/Reactome/Section';
+import slapenrichSection from '../evidence/sections/SLAPenrich/Section';
+import progenySection from '../evidence/sections/PROGENy/Section';
 
 const expressionAtlasQuery = loader(
   '../evidence/sections/DifferentialExpression/sectionQuery.gql'
@@ -21,6 +24,11 @@ const gwasCatalogQuery = loader(
 const phewasCatalogQuery = loader(
   '../evidence/sections/PheWASCatalog/sectionQuery.gql'
 );
+const reactomeQuery = loader('../evidence/sections/Reactome/sectionQuery.gql');
+const slapenrichQuery = loader(
+  '../evidence/sections/SLAPenrich/sectionQuery.gql'
+);
+const progenyQuery = loader('../evidence/sections/PROGENy/sectionQuery.gql');
 
 const dataSourceHandlers = {
   ds__cancer_gene_census: null,
@@ -56,9 +64,21 @@ const dataSourceHandlers = {
     component: phewasCatalogSection,
     accessor: data => data.evidence.details.phewasCatalog,
   },
-  ds__progeny: null,
-  ds__reactome: null,
-  ds__slapenrich: null,
+  ds__progeny: {
+    query: progenyQuery,
+    component: progenySection,
+    accessor: data => data.evidence.details.progeny,
+  },
+  ds__reactome: {
+    query: reactomeQuery,
+    component: reactomeSection,
+    accessor: data => data.evidence.details.reactome,
+  },
+  ds__slapenrich: {
+    query: slapenrichQuery,
+    component: slapenrichSection,
+    accessor: data => data.evidence.details.slapenrich,
+  },
   ds__sysbio: null,
   ds__uniprot: null,
   ds__uniprot_literature: null,
