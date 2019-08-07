@@ -15,7 +15,7 @@ let SmilesHelper = class extends Component {
     const smilesDrawer = new SmilesDrawer.Drawer({
       width: 450,
       height: 240,
-      padding: 5,
+      padding: 10,
     });
     SmilesDrawer.parse(
       smiles,
