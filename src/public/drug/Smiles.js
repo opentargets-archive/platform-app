@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import SmilesDrawer from 'smiles-drawer';
-import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
   container: {
     border: `1px solid ${theme.palette.grey[300]}`,
+    height: '240px',
   },
 });
 
@@ -31,9 +32,9 @@ let SmilesHelper = class extends Component {
   render() {
     const { chemblId, classes } = this.props;
     return (
-      <Card className={classes.container} elevation={0}>
+      <Paper className={classes.container} elevation={0}>
         <canvas id={chemblId} />
-      </Card>
+      </Paper>
     );
   }
 };
