@@ -4,13 +4,13 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import _ from 'lodash';
 
-import { Link, OtTableRF, Button } from 'ot-ui';
+import { Button } from 'ot-ui';
 
 import SimplePublication from '../../../../common/sections/Bibliography/custom/SimplePublication';
-import Abstract from '../../../../common/sections/Bibliography/custom/Abstract';
+// import Abstract from '../../../../common/sections/Bibliography/custom/Abstract';
 import BibliographyHtmlText from '../../../../common/sections/Bibliography/custom/BibliographyHtmlText';
 import BibliographyDetailPanel from '../../../../common/sections/Bibliography/custom/BibliographyDetailPanel';
-import LevelBar from '../../../../common/LevelBar';
+// import LevelBar from '../../../../common/LevelBar';
 
 const getFormattedText = sentence => {
   let breakpoints = [];
@@ -36,7 +36,7 @@ const getFormattedText = sentence => {
   // Format the text with HTML tags for highlights:
   // create breakpoints for unicodeChars, targets and diseases,
   // then sort the breakpoints by position
-  let formattedText = '';
+  // let formattedText = '';
 
   if (sentence.target && sentence.target.start !== sentence.target.end) {
     breakpoints.push({
@@ -75,8 +75,7 @@ const getFormattedText = sentence => {
     return bps;
   }, []);
 
-  text = sentence.text;
-  breakpoints.map(function(bp) {
+  breakpoints.forEach(function(bp) {
     if (bp.extra) {
       text =
         text.slice(0, bp.pos + bp.acc) + bp.extra + text.slice(bp.pos + bp.acc);

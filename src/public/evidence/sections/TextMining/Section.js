@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { Link, OtTableRF } from 'ot-ui';
 
@@ -10,7 +10,8 @@ const columns = [
     id: 'disease.id',
     label: 'Disease',
     orderable: false,
-    style: { verticalAlign: 'top', width: '15%', paddingTop: '7px' },
+    style: { verticalAlign: 'top', paddingTop: '7px' },
+    width: '15%',
     renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
@@ -25,13 +26,15 @@ const columns = [
   {
     id: 'publication.date',
     label: 'Year',
-    style: { verticalAlign: 'top', width: '7%', paddingTop: '7px' },
+    style: { verticalAlign: 'top', paddingTop: '7px' },
+    width: '7%',
     renderCell: d => d.publication.date,
   },
   {
     id: 'relevance',
     label: 'Relevance',
-    style: { verticalAlign: 'top', width: '10%', paddingTop: '7px' },
+    style: { verticalAlign: 'top', paddingTop: '7px' },
+    width: '10%',
     renderCell: d => <LevelBar value={d.relevance * 100} />,
   },
 ];
@@ -71,16 +74,7 @@ class Section extends React.Component {
   }
 
   render = () => {
-    const {
-      ensgId,
-      efoId,
-      target,
-      disease,
-      data,
-      refetch,
-      fetchMore,
-    } = this.props;
-    const { from } = this.state;
+    const { data } = this.props;
 
     const onPageSort = pe => {
       const { page, pageSize, sortBy, order } = pe;
@@ -97,19 +91,17 @@ class Section extends React.Component {
     };
 
     return (
-      <React.Fragment>
-        <OtTableRF
-          loading={false}
-          error={false}
-          columns={columns}
-          data={data.rows}
-          serverSide={true}
-          totalRowsCount={data.textMiningCount}
-          onPageSort={onPageSort}
-          sortBy={'relevance'}
-          order={'desc'}
-        />
-      </React.Fragment>
+      <OtTableRF
+        loading={false}
+        error={false}
+        columns={columns}
+        data={data.rows}
+        serverSide={true}
+        totalRowsCount={data.textMiningCount}
+        onPageSort={onPageSort}
+        sortBy={'relevance'}
+        order={'desc'}
+      />
     );
   };
 }

@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import Typography from '@material-ui/core/Typography';
+import React, { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
@@ -14,7 +13,7 @@ class BibliograhpyDetailPanel extends Component {
   render = () => {
     const { classes, children } = this.props;
 
-    return <div className={this.props.classes.detailPanel}>{children}</div>;
+    return <div className={classes.detailPanel}>{children}</div>;
   };
 }
 
