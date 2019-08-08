@@ -55,12 +55,7 @@ class DrugPage extends Component {
               <Helmet>
                 <title>{name}</title>
               </Helmet>
-              <Header
-                {...{
-                  chemblId,
-                  name,
-                }}
-              />
+              <Header chemblId={chemblId} name={name} />
               <Profile
                 {...{
                   chemblId,

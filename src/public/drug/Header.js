@@ -3,7 +3,6 @@ import React from 'react';
 import Header from '../common/Header';
 import DrugIcon from '../../icons/DrugIcon';
 import ChEMBL from './externalLinks/ChEMBL';
-import WithdrawnNotice from './WithdrawnNotice';
 
 const DrugHeader = ({ chemblId, name }) => (
   <Header

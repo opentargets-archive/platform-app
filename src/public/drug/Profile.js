@@ -43,7 +43,7 @@ const entitySectionsAccessor = data =>
 
 // TODO: when material-ui is upgraded to version >4 then remove this
 // style and use <Typography display="inline" /> instead
-const styles = () => ({
+const styles = theme => ({
   inline: {
     display: 'inline',
   },
@@ -55,6 +55,12 @@ const styles = () => ({
     top: '5px',
   },
 });
+
+const WarningTooltip = withStyles(theme => ({
+  tooltip: {
+    backgroundColor: theme.palette.secondary.main,
+  },
+}))(Tooltip);
 
 class DrugProfile extends Component {
   render() {
@@ -98,11 +104,12 @@ class DrugProfile extends Component {
             {hasBeenWithdrawn && (
               <Typography variant="subtitle2" color="secondary">
                 Withdrawn Drug{' '}
-                <Tooltip
+                <WarningTooltip
                   title={<WithdrawnNotice withdrawnNotice={withdrawnNotice} />}
+                  placement="right"
                 >
                   <WarningIcon className={classes.warningIcon} />
-                </Tooltip>
+                </WarningTooltip>
               </Typography>
             )}
             <Typography variant="subtitle2">
