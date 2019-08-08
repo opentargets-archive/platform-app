@@ -3,6 +3,7 @@ import SmilesDrawer from 'smiles-drawer';
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
 import withStyles from '@material-ui/core/styles/withStyles';
+import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
   container: {
@@ -17,6 +18,11 @@ const styles = theme => ({
   modalCanvas: {
     display: 'block',
     margin: '0 auto',
+  },
+  close: {
+    cursor: 'pointer',
+    float: 'right',
+    fill: theme.palette.grey[800],
   },
 });
 
@@ -84,6 +90,7 @@ let SmilesHelper = class extends Component {
         </Paper>
         <Modal open={open} onClose={this.toggleModal} keepMounted>
           <Paper className={classes.modal}>
+            <CloseIcon className={classes.close} onClick={this.toggleModal} />
             <canvas id={`${chemblId}-modal`} className={classes.modalCanvas} />
           </Paper>
         </Modal>
