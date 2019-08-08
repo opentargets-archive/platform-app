@@ -15,8 +15,8 @@ query TextMiningSectionQuery($ensgId: String!, $efoId: String!, $from: Int, $siz
             title
             date
           	authors{
-              firstName
               lastName
+              initials
           	}
             url
             abstract

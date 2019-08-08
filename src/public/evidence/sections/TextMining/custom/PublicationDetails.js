@@ -134,10 +134,7 @@ class PublicationDetails extends Component {
             data.publication.title,
             data.publication.matches
           )}
-          authors={data.publication.authors.map(a => ({
-            ForeName: a.firstName,
-            LastName: a.lastName,
-          }))}
+          authors={data.publication.authors}
           journal={{
             title: data.journal.title,
             date: '' + data.journal.year,
