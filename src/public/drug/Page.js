@@ -59,13 +59,6 @@ class DrugPage extends Component {
                 {...{
                   chemblId,
                   name,
-                  type,
-                  tradeNames,
-                  maximumClinicalTrialPhase,
-                  yearOfFirstApproval,
-                  synonyms,
-                  hasBeenWithdrawn,
-                  withdrawnNotice,
                 }}
               />
               <Profile
@@ -78,6 +71,8 @@ class DrugPage extends Component {
                   yearOfFirstApproval,
                   description: null,
                   synonyms,
+                  hasBeenWithdrawn,
+                  withdrawnNotice,
                 }}
               />
             </Fragment>

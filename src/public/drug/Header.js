@@ -5,19 +5,12 @@ import DrugIcon from '../../icons/DrugIcon';
 import ChEMBL from './externalLinks/ChEMBL';
 import WithdrawnNotice from './WithdrawnNotice';
 
-const DrugHeader = ({ chemblId, name, hasBeenWithdrawn, withdrawnNotice }) => (
+const DrugHeader = ({ chemblId, name }) => (
   <Header
     title={name}
     subtitle={null}
     Icon={DrugIcon}
-    externalLinks={
-      <React.Fragment>
-        <ChEMBL chemblId={chemblId} first />
-      </React.Fragment>
-    }
-    rightContent={
-      <WithdrawnNotice {...{ hasBeenWithdrawn, withdrawnNotice }} />
-    }
+    externalLinks={<ChEMBL chemblId={chemblId} first />}
   />
 );
 

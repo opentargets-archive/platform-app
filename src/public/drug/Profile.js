@@ -5,12 +5,15 @@ import _ from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import WarningIcon from '@material-ui/icons/Warning';
 import LockIcon from '@material-ui/icons/Lock';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
 import ChipsField from '../common/ChipsField';
 import Smiles from './Smiles';
+import WithdrawnNotice from './WithdrawnNotice';
 
 const sections = Object.values(sectionsObject);
 
@@ -47,11 +50,17 @@ const styles = () => ({
   lock: {
     fontSize: '15px',
   },
+  warningIcon: {
+    position: 'relative',
+    top: '5px',
+  },
 });
 
 class DrugProfile extends Component {
   render() {
     const {
+      hasBeenWithdrawn,
+      withdrawnNotice,
       chemblId,
       name,
       synonyms,
@@ -86,6 +95,16 @@ class DrugProfile extends Component {
       >
         <Grid container justify="space-between">
           <Grid item xs={12} md={6}>
+            {hasBeenWithdrawn && (
+              <Typography variant="subtitle2" color="secondary">
+                Withdrawn Drug{' '}
+                <Tooltip
+                  title={<WithdrawnNotice withdrawnNotice={withdrawnNotice} />}
+                >
+                  <WarningIcon className={classes.warningIcon} />
+                </Tooltip>
+              </Typography>
+            )}
             <Typography variant="subtitle2">
               Molecule type:{' '}
               <Typography className={classes.inline} variant="body2">
