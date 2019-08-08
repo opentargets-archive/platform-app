@@ -38,6 +38,7 @@ export const evidenceSectionsDefaultOrder = [
   'phewasCatalog',
   'eva',
   'gene2Phenotype',
+  'genomicsEngland',
   'reactome',
   'progeny',
   'slapenrich',
