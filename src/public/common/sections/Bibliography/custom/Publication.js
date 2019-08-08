@@ -52,7 +52,7 @@ class Publication extends Component {
       return null;
     }
     return (
-      <div className={this.props.classes.detailPanel}>
+      <BibliographyDetailPanel>
         <Typography variant="subtitle2" gutterBottom>
           Similar articles
         </Typography>
@@ -69,7 +69,12 @@ class Publication extends Component {
                 variant="small"
                 pmId={hit._source.pub_id}
                 title={hit._source.title}
-                authors={hit._source.authors || []}
+                authors={
+                  hit._source.authors.map(a => ({
+                    lastName: a.LastName,
+                    initials: a.Initials,
+                  })) || []
+                }
                 journal={{
                   title: hit._source.journal.title,
                   date: hit._source.pub_date,
@@ -79,7 +84,7 @@ class Publication extends Component {
             </Grid>
           ))}
         </Grid>
-      </div>
+      </BibliographyDetailPanel>
     );
   };
 

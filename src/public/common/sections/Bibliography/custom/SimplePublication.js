@@ -45,7 +45,9 @@ class SimplePublication extends Component {
           {/* authors */}
           {authors
             .map((author, i) => {
-              return author.ForeName + ' ' + author.LastName;
+              return (
+                author.lastName + (author.initials ? ' ' + author.initials : '')
+              );
             })
             .join(', ')}
         </Typography>
