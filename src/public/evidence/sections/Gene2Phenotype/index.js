@@ -3,7 +3,7 @@ import { loader } from 'graphql.macro';
 export const id = 'gene2Phenotype';
 export const name = 'Gene2Phenotype';
 
-export const hasSummaryData = ({ hasGene2Phenotype }) => hasGene2Phenotype;
+export const hasSummaryData = ({ hasPanel }) => hasPanel;
 
 export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');
