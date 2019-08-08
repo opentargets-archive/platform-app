@@ -40,6 +40,7 @@ export const evidenceSectionsDefaultOrder = [
   'progeny',
   'slapenrich',
   'crispr',
+  'sysBio',
   // 'genetic',
   // 'somatic',
   'drugs',
