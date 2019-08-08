@@ -3,6 +3,7 @@
 
 import * as gwasCatalogRaw from './sections/GWASCatalog';
 import * as phewasCatalogRaw from './sections/PheWASCatalog';
+import * as evaRaw from './sections/EVA';
 import * as reactomeRaw from './sections/Reactome';
 import * as progenyRaw from './sections/PROGENy';
 import * as slapenrichRaw from './sections/SLAPenrich';
@@ -18,6 +19,7 @@ import * as animalModelsRaw from './sections/AnimalModels';
 
 export const gwasCatalog = gwasCatalogRaw;
 export const phewasCatalog = phewasCatalogRaw;
+export const eva = evaRaw;
 export const reactome = reactomeRaw;
 export const progeny = progenyRaw;
 export const slapenrich = slapenrichRaw;

@@ -36,6 +36,7 @@ export const drugSectionsDefaultOrder = [
 export const evidenceSectionsDefaultOrder = [
   'gwasCatalog',
   'phewasCatalog',
+  'eva',
   'reactome',
   'progeny',
   'slapenrich',
