@@ -39,6 +39,7 @@ export const evidenceSectionsDefaultOrder = [
   'reactome',
   'progeny',
   'slapenrich',
+  'crispr',
   // 'genetic',
   // 'somatic',
   'drugs',

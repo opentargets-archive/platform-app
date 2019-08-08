@@ -1,0 +1,17 @@
+query CrisprSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      crispr {
+        rows {
+          disease {
+            id
+            name
+          }
+          score
+          method
+          pmId
+        }
+      }
+    }
+  }
+}
