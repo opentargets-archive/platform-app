@@ -1,0 +1,9 @@
+fragment evidenceGene2PhenotypeFragment on EvidenceSummaries {
+  gene2Phenotype {
+    hasGene2Phenotype
+    sources {
+      name
+      url
+    }
+  }
+}

@@ -1,0 +1,16 @@
+query Gene2PhenotypeSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      gene2Phenotype {
+        rows {
+          disease {
+            id
+            name
+          }
+          panelsUrl
+          pmId
+        }
+      }
+    }
+  }
+}
