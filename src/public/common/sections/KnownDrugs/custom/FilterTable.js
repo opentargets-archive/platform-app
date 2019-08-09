@@ -529,13 +529,19 @@ class KnownDrugsDetail extends React.Component {
               title="Clinical trials by phase"
             />
           </Grid>
-          <Grid item className={classes.dcChartSection}>
+          <Grid
+            item
+            className={classNames(classes.dcChartSection, 'dcChartOverflow')}
+          >
             <DCContainer
               id="dc-drug-by-type-chart"
               title="Unique drugs by type"
             />
           </Grid>
-          <Grid item className={classes.dcChartSection}>
+          <Grid
+            item
+            className={classNames(classes.dcChartSection, 'dcChartOverflow')}
+          >
             <DCContainer
               id="dc-drug-by-activity-chart"
               title="Unique drugs by activity"
