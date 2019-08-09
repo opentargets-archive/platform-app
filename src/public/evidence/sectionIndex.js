@@ -4,6 +4,7 @@
 import * as gwasCatalogRaw from './sections/GWASCatalog';
 import * as phewasCatalogRaw from './sections/PheWASCatalog';
 import * as evaRaw from './sections/EVA';
+import * as evaSomaticRaw from './sections/EVASomatic';
 import * as gene2PhenotypeRaw from './sections/Gene2Phenotype';
 import * as genomicsEnglandRaw from './sections/GenomicsEngland';
 import * as intogenRaw from './sections/IntOGen';
@@ -24,6 +25,7 @@ import * as animalModelsRaw from './sections/AnimalModels';
 export const gwasCatalog = gwasCatalogRaw;
 export const phewasCatalog = phewasCatalogRaw;
 export const eva = evaRaw;
+export const evaSomatic = evaSomaticRaw;
 export const gene2Phenotype = gene2PhenotypeRaw;
 export const genomicsEngland = genomicsEnglandRaw;
 export const intogen = intogenRaw;

@@ -41,6 +41,7 @@ export const evidenceSectionsDefaultOrder = [
   'genomicsEngland',
   'intogen',
   'cancerGeneCensus',
+  'evaSomatic',
   'reactome',
   'progeny',
   'slapenrich',
