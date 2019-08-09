@@ -54,7 +54,6 @@ class SectionPanelLoader extends React.Component {
                     {...{
                       ...entity,
                       data: sectionData,
-                      refetch: refetch,
                       fetchMore: fetchMore,
                     }}
                   />
