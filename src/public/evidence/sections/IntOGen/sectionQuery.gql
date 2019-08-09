@@ -1,0 +1,21 @@
+query IntogenSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      intogen {
+        rows {
+          disease {
+            id
+            name
+          }
+          activity
+          inheritancePattern
+          source {
+            url
+            name
+          }
+          pmId
+        }
+      }
+    }
+  }
+}

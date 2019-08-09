@@ -39,6 +39,7 @@ export const evidenceSectionsDefaultOrder = [
   'eva',
   'gene2Phenotype',
   'genomicsEngland',
+  'intogen',
   'reactome',
   'progeny',
   'slapenrich',
