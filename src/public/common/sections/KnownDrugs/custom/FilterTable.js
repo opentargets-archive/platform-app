@@ -195,7 +195,7 @@ const styles = theme => ({
 // Ideally this kinda thing will be replaced by a d3 scale of some sort?
 const getPieColors = items => {
   return items.reduce((acc, item, i) => {
-    acc[item] = darken(0.1 * i, chartColour);
+    acc[item] = darken(0.05 * i, chartColour);
     return acc;
   }, {});
 };
