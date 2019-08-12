@@ -2,8 +2,8 @@ import React from 'react';
 
 const Description = ({ target, disease }) => (
   <React.Fragment>
-    TODO: Write Description component for <strong>{target.symbol}</strong> and{' '}
-    <strong>{disease.name}</strong>.
+    Shown are the articles where target and disease are found in the same
+    sentence.
   </React.Fragment>
 );
 

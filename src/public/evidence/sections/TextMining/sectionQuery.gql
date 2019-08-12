@@ -1,0 +1,47 @@
+query TextMiningSectionQuery($ensgId: String!, $efoId: String!, $from: Int, $size:Int, $sortBy: String, $order: String) {
+  evidence(ensgId: $ensgId, efoId: $efoId, from: $from, size: $size, sortBy: $sortBy, order: $order) {
+    details {
+      textMining{
+        textMiningCount
+        rows{
+          access
+          relevance
+          disease{
+            name
+            id
+          }
+          publication{
+            id
+            title
+            date
+          	authors{
+              lastName
+              initials
+          	}
+            url
+            abstract
+            matches{
+              section
+              text
+              target{
+                start
+                end
+              }
+              disease{
+                start
+                end
+              }
+            }
+          }
+          journal{
+            title
+            volume
+            issue
+            page
+            year
+          }
+        }
+      }
+    }
+  }
+}

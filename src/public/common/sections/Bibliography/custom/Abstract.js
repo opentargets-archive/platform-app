@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
+import BibliographyHtmlText from './BibliographyHtmlText';
 
 /**
  * This renders a publication abstract with highlighted matching content.
@@ -8,29 +9,38 @@ import Typography from '@material-ui/core/Typography';
  */
 class Abstract extends Component {
   render = () => {
-    const { abstract } = this.props;
+    const { abstract, variant } = this.props;
 
     return (
       <Fragment>
-        <Typography variant="subtitle2" gutterBottom>
-          Abstract
-        </Typography>
+        {variant === 'regular' ? (
+          <Typography variant="subtitle2" gutterBottom>
+            Abstract
+          </Typography>
+        ) : (
+          ''
+        )}
 
-        <Typography
-          variant="body2"
-          dangerouslySetInnerHTML={{ __html: abstract }}
-        />
+        <BibliographyHtmlText text={abstract} />
 
         {/* Legend */}
-        <Typography variant="body2" gutterBottom>
-          <span data-entity="GENE">Gene</span>
-          <span data-entity="DISEASE">Disease</span>
-          <span data-entity="DRUG">Drug</span>
-          <span data-entity="TARGET&amp;DISEASE">Target and disease</span>
-        </Typography>
+        {variant === 'regular' ? (
+          <Typography variant="body2" gutterBottom>
+            <span data-entity="GENE">Gene</span>
+            <span data-entity="DISEASE">Disease</span>
+            <span data-entity="DRUG">Drug</span>
+            <span data-entity="TARGET&amp;DISEASE">Target and disease</span>
+          </Typography>
+        ) : (
+          ''
+        )}
       </Fragment>
     );
   };
 }
+
+Abstract.defaultProps = {
+  variant: 'regular',
+};
 
 export default Abstract;
