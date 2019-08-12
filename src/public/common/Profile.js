@@ -1,28 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { scroller, animateScroll } from 'react-scroll';
 import { Query } from 'react-apollo';
+import ls from 'local-storage';
 
 import MiniWidgetBar from '../common/MiniWidgetBar';
 import SectionPanelsContainer from '../common/SectionPanelsContainer';
-import DescriptionAndSynonyms from '../common/DescriptionAndSynonyms';
 
 class Profile extends Component {
-  constructor(props) {
-    super(props);
-
-    // set up boolean state for each section, so that they can be toggled
-    // on by a callback or valid graphql summary data
-    this.state = {
-      sectionHasSummaryData: props.sections.reduce((acc, d) => {
-        acc[d.id] = false;
-        return acc;
-      }, {}),
-      sectionHasSummaryError: props.sections.reduce((acc, d) => {
-        acc[d.id] = false;
-        return acc;
-      }, {}),
-    };
-  }
+  state = {
+    sectionsOrder: [],
+    sectionHasSummaryData: {},
+    sectionHasSummaryError: {},
+  };
   scrollToSection = sectionId => {
     scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
   };
@@ -45,22 +34,62 @@ class Profile extends Component {
       },
     });
   };
+  handleSectionOrderChange = sectionsOrder => {
+    const { sectionsOrderKey } = this.props;
+    ls.set(sectionsOrderKey, sectionsOrder);
+    this.setState({ sectionsOrder });
+  };
+  componentDidMount() {
+    const { unorderedSections, sectionsOrderKey } = this.props;
+
+    // get the sections order from local storage
+    // (only needs to be done once)
+    const sectionsOrder = ls.get(sectionsOrderKey);
+
+    // set up boolean state for each section, so that they can be toggled
+    // on by a callback or valid graphql summary data
+    // (needs to be done if page changes, eg. visit another target)
+    const sectionHasSummaryData = unorderedSections.reduce((acc, d) => {
+      acc[d.id] = false;
+      return acc;
+    }, {});
+    const sectionHasSummaryError = unorderedSections.reduce((acc, d) => {
+      acc[d.id] = false;
+      return acc;
+    }, {});
+
+    this.setState({
+      sectionsOrder,
+      sectionHasSummaryData,
+      sectionHasSummaryError,
+    });
+  }
+  // componentDidUpdate() {
+  //   // TODO: reset sections state if the page changed
+  //   this.setInitialSectionsState();
+  // }
   render() {
-    const { sectionHasSummaryData, sectionHasSummaryError } = this.state;
+    const {
+      sectionHasSummaryData,
+      sectionHasSummaryError,
+      sectionsOrder,
+    } = this.state;
     const {
       entity,
       variables,
       query,
-      sections,
-      defaultSectionsOrder,
+      unorderedSections,
       entitySummariesAccessor,
       entitySectionsAccessor,
+      children,
     } = this.props;
-    const { description, synonyms } = entity;
+    const sections = sectionsOrder.map(d =>
+      unorderedSections.find(e => e.id === d)
+    );
     return (
       <Query {...{ query, variables }} errorPolicy="all">
         {({ loading, error, data }) => {
-          const summariesData = entitySummariesAccessor(data);
+          const summariesData = loading ? {} : entitySummariesAccessor(data);
           const sectionsWithSummaryState = sections.map(s => {
             // an error could occur in graphql api (network or summary specific)
             // or be triggered from the component itself (eg. by external API)
@@ -105,7 +134,7 @@ class Profile extends Component {
 
           return (
             <Fragment>
-              <DescriptionAndSynonyms {...{ description, synonyms }} />
+              {children}
               <MiniWidgetBar
                 entity={entity}
                 data={sectionsWithSummaryState}
@@ -116,9 +145,9 @@ class Profile extends Component {
                 entity={entity}
                 entitySectionsAccessor={entitySectionsAccessor}
                 data={sectionsWithSummaryState}
-                defaultSectionsOrder={defaultSectionsOrder}
                 onSideMenuItemClick={this.scrollToSection}
                 onScrollToTopClick={this.scrollToTop}
+                onSectionOrderChange={this.handleSectionOrderChange}
               />
             </Fragment>
           );

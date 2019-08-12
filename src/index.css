@@ -19,7 +19,7 @@ code {
   fill: black;
 }
 .dc-chart .pie-slice path {
-  stroke: #afafaf;
+  stroke: #fff;
 }
 
 .dcChartOverflow svg {

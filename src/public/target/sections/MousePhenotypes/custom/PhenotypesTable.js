@@ -2,15 +2,10 @@ import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import crossfilter from 'crossfilter2';
 import _ from 'lodash';
-import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
+
 import { DataDownloader, OtTableRF, Link } from 'ot-ui';
 
-const styles = () => ({
-  allelicColumn: {
-    float: 'left',
-  },
-});
+import MouseModelAllelicComposition from '../../../../common/MouseModelAllelicComposition';
 
 const getColumns = (
   mouseGeneOptions,
@@ -69,30 +64,12 @@ const getColumns = (
     {
       id: 'subjectAllelicComposition',
       label: 'Allelic composition',
-      renderCell: row => {
-        const regex = /(.*)<(.*)>\/([^<]*)<?([^>]*)?>?/;
-        return (
-          <div className={classes.allelicColumn}>
-            {row.subjectAllelicComposition.map((composition, i) => {
-              const match = regex.exec(composition);
-              return (
-                <Typography key={i}>
-                  {match !== null ? (
-                    <Fragment>
-                      {match[1]}
-                      <sup>{match[2]}</sup>/{match[3]}
-                      <sup>{match[4]}</sup>
-                    </Fragment>
-                  ) : (
-                    composition
-                  )}
-                </Typography>
-              );
-            })}
-            <Typography variant="caption">{row.subjectBackground}</Typography>
-          </div>
-        );
-      },
+      renderCell: row => (
+        <MouseModelAllelicComposition
+          allelicComposition={row.subjectAllelicComposition}
+          geneticBackground={row.subjectBackground}
+        />
+      ),
     },
     {
       id: 'pmIds',
@@ -232,4 +209,4 @@ class PhenotypesTable extends Component {
   }
 }
 
-export default withStyles(styles)(PhenotypesTable);
+export default PhenotypesTable;

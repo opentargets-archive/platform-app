@@ -1,9 +1,14 @@
 import React from 'react';
 import * as d3 from 'd3';
+import { loader } from 'graphql.macro';
+import { Query } from 'react-apollo';
 
 import { OtTableRF, Link, significantFigures } from 'ot-ui';
 
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
+import ExpandableTableRow from '../../../common/ExpandableTableRow';
+
+const expansionQuery = loader('./expansionQuery.gql');
 
 const columns = (name, maxTargetCountAOrB) => [
   {
@@ -54,7 +59,76 @@ const columns = (name, maxTargetCountAOrB) => [
   },
 ];
 
-const Section = ({ efoId, name, data }) => {
+const expansionColumns = (A, B) => [
+  {
+    id: 'target.symbol',
+    label: 'Target',
+    renderCell: d => (
+      <Link to={`/target/${d.target.id}`}>{d.target.symbol}</Link>
+    ),
+    comparator: (a, b) => {
+      if (a.target.symbol <= b.target.symbol) {
+        return -1;
+      }
+      return 1;
+    },
+  },
+  {
+    id: 'associationScoreA',
+    label: (
+      <React.Fragment>
+        Association score with <br />
+        <strong>{A.name}</strong>
+      </React.Fragment>
+    ),
+    renderCell: d => significantFigures(d.associationScoreA),
+  },
+  {
+    id: 'associationScoreB',
+    label: (
+      <React.Fragment>
+        Association score with <br />
+        <strong>{B.name}</strong>
+      </React.Fragment>
+    ),
+    renderCell: d => significantFigures(d.associationScoreB),
+  },
+];
+
+const ExpandedComponent = ({ data }) => (
+  <Query
+    query={expansionQuery}
+    variables={{ pageEfoId: data.A.id, otherEfoId: data.B.id }}
+  >
+    {({ loading, error, data: data2 }) => {
+      if (loading || error) {
+        return null;
+      }
+      const expansionRows = data2.disease.details.relatedDiseases.expanded.map(
+        d => ({
+          ...d,
+          associationScoreProduct: d.associationScoreA * d.associationScoreB,
+        })
+      );
+      return (
+        <OtTableRF
+          loading={false}
+          error={false}
+          columns={expansionColumns(data.A, data.B)}
+          data={expansionRows}
+          sortBy="associationScoreProduct"
+          order="desc"
+        />
+      );
+    }}
+  </Query>
+);
+
+const TableRowComponent = props => (
+  <ExpandableTableRow {...props} ExpandedComponent={ExpandedComponent} />
+);
+
+const Section = ({ name, data }) => {
   const { rows } = data;
   const maxTargetCountAOrB = d3.max(rows, d => d.targetCountAOrB);
   const rowsMapped = rows.map(d => ({
@@ -71,6 +145,7 @@ const Section = ({ efoId, name, data }) => {
       data={rowsMapped}
       sortBy="score"
       order="desc"
+      tableRowComponent={TableRowComponent}
     />
   );
 };

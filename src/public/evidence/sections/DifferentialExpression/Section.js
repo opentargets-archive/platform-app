@@ -50,10 +50,31 @@ const columns = [
     id: 'experiment.url',
     label: 'Experiment overview and data',
     renderCell: d => (
-      <Link external to={d.experiment.url}>
+      <React.Fragment>
         {d.experiment.name}
-      </Link>
+        <br />
+        <Link external to={d.experiment.url}>
+          View
+        </Link>
+      </React.Fragment>
     ),
+  },
+  {
+    id: 'pmIds',
+    label: 'Publications',
+    renderCell: d =>
+      d.pmIds.length > 0 ? (
+        <Link
+          external
+          to={`https://europepmc.org/search?query=${d.pmIds
+            .map(l => `EXT_ID:${l}`)
+            .join('%20OR%20')}`}
+        >
+          {d.pmIds.length} publication{d.pmIds.length === 1 ? '' : 's'}
+        </Link>
+      ) : (
+        'N/A'
+      ),
   },
 ];
 

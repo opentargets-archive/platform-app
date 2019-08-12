@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Summary = ({ name }) => (
-  <React.Fragment>TODO: Write a summary</React.Fragment>
+const Summary = ({ uniqueActionTypes, uniqueTargetTypes }) => (
+  <React.Fragment>
+    {uniqueActionTypes.length > 0 ? uniqueActionTypes.join(' • ') : null}
+    <br />
+    {uniqueTargetTypes.length > 0 ? uniqueTargetTypes.join(' • ') : null}
+  </React.Fragment>
 );
 
 export default Summary;

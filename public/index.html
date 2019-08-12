@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#3489ca" />
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -27,7 +27,7 @@
       type="text/css"
       href="https://www.ebi.ac.uk/gxa/resources/css/customized-bootstrap-3.3.5.css"
     />
-    <title>React App</title>
+    <title>Open Targets Platform</title>
   </head>
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
@@ -42,6 +42,15 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <!-- d3 v3 (needed by tntvis, while v5 is used for newer components) -->
+    <script
+      type="text/javascript"
+      language="javascript"
+      src="https://d3js.org/d3.v3.min.js"
+    ></script>
+
+    <!-- reactome browser (no npm package, it seems) -->
     <script
       type="text/javascript"
       language="javascript"

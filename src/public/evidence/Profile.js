@@ -3,9 +3,9 @@ import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
 import _ from 'lodash';
 
-import { evidenceSectionsDefaultOrder } from '../configuration';
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
+import DescriptionAndSynonyms from '../common/DescriptionAndSynonyms';
 
 const sections = Object.values(sectionsObject);
 
@@ -26,9 +26,23 @@ const summariesQuery = gql`
     .join('\n')}
 `;
 
+const entitySummariesAccessor = data =>
+  data && data.evidence && data.evidence.summaries
+    ? data.evidence.summaries
+    : null;
+const entitySectionsAccessor = data =>
+  data && data.evidence && data.evidence.details ? data.evidence.details : null;
+
 class EvidenceProfile extends Component {
   render() {
-    const { ensgId, efoId, target, disease } = this.props;
+    const {
+      ensgId,
+      efoId,
+      target,
+      disease,
+      description,
+      synonyms = [],
+    } = this.props;
     const entity = {
       ensgId,
       efoId,
@@ -37,26 +51,20 @@ class EvidenceProfile extends Component {
       description: null,
       synonyms: [],
     };
-    const entitySummariesAccessor = data =>
-      data && data.evidence && data.evidence.summaries
-        ? data.evidence.summaries
-        : null;
-    const entitySectionsAccessor = data =>
-      data && data.evidence && data.evidence.details
-        ? data.evidence.details
-        : null;
     return (
       <BaseProfile
         {...{
           entity,
           query: summariesQuery,
           variables: { ensgId, efoId },
-          defaultSectionsOrder: evidenceSectionsDefaultOrder,
-          sections,
+          sectionsOrderKey: 'evidenceSectionsOrder',
+          unorderedSections: sections,
           entitySummariesAccessor,
           entitySectionsAccessor,
         }}
-      />
+      >
+        <DescriptionAndSynonyms description={description} synonyms={synonyms} />
+      </BaseProfile>
     );
   }
 }

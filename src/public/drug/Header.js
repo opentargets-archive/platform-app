@@ -1,19 +1,15 @@
 import React from 'react';
 
 import Header from '../common/Header';
-import TargetIcon from '../../icons/TargetIcon';
+import DrugIcon from '../../icons/DrugIcon';
 import ChEMBL from './externalLinks/ChEMBL';
 
 const DrugHeader = ({ chemblId, name }) => (
   <Header
     title={name}
     subtitle={null}
-    Icon={TargetIcon}
-    externalLinks={
-      <React.Fragment>
-        <ChEMBL chemblId={chemblId} first />
-      </React.Fragment>
-    }
+    Icon={DrugIcon}
+    externalLinks={<ChEMBL chemblId={chemblId} first />}
   />
 );
 
