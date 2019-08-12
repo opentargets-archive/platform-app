@@ -4,7 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
 import dc from 'dc';
 import * as d3 from 'd3';
-import { lighten } from 'polished';
+import { lighten, darken } from 'polished';
 
 import DCContainer from '../../../../common/DCContainer';
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';
@@ -195,7 +195,7 @@ const styles = theme => ({
 // Ideally this kinda thing will be replaced by a d3 scale of some sort?
 const getPieColors = items => {
   return items.reduce((acc, item, i) => {
-    acc[item] = chartColour;
+    acc[item] = darken(0.1 * i, chartColour);
     return acc;
   }, {});
 };
@@ -389,6 +389,7 @@ class KnownDrugsDetail extends React.Component {
     this.activityColors = getPieColors(
       _.uniq(this.props.rows.map(row => row.drug.activity))
     );
+    console.log('colors: ', this.typeColors, this.activityColors);
     this.setupGroups();
     this.setupCharts();
   }
