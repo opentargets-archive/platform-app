@@ -137,7 +137,16 @@ const getColumns = ({ filters }) => {
             isClearable
             options={f.options}
             onChange={f.handler}
-            placeholder="None"
+            theme={theme => ({
+              ...theme,
+              color: '#f00',
+              colors: {
+                ...theme.colors,
+                text: 'orangered',
+                primary25: 'hotpink',
+                primary: 'black',
+              },
+            })}
           />
         );
       }
