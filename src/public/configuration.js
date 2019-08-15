@@ -38,6 +38,7 @@ export const evidenceSectionsDefaultOrder = [
   'phewasCatalog',
   'eva',
   'uniProt',
+  'uniProtLiterature',
   'gene2Phenotype',
   'genomicsEngland',
   'intogen',

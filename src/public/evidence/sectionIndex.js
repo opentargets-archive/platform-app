@@ -23,6 +23,7 @@ import * as textMiningRaw from './sections/TextMining';
 import * as animalModelsRaw from './sections/AnimalModels';
 import * as uniProtRaw from './sections/UniProt';
 import * as uniProtSomaticRaw from './sections/UniProtSomatic';
+import * as uniProtLiteratureRaw from './sections/UniProtLiterature';
 
 export const gwasCatalog = gwasCatalogRaw;
 export const phewasCatalog = phewasCatalogRaw;
@@ -46,3 +47,4 @@ export const textMining = textMiningRaw;
 export const animalModels = animalModelsRaw;
 export const uniProt = uniProtRaw;
 export const uniProtSomatic = uniProtSomaticRaw;
+export const uniProtLiterature = uniProtLiteratureRaw;

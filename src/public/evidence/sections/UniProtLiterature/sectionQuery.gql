@@ -1,0 +1,19 @@
+query UniProtLiteratureSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      uniProtLiterature {
+        rows {
+          disease {
+            id
+            name
+          }
+          source {
+            name
+            url
+          }
+          pmIds
+        }
+      }
+    }
+  }
+}
