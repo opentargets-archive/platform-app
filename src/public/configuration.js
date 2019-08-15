@@ -42,6 +42,7 @@ export const evidenceSectionsDefaultOrder = [
   'intogen',
   'cancerGeneCensus',
   'evaSomatic',
+  'uniProtSomatic',
   'reactome',
   'progeny',
   'slapenrich',

@@ -1,0 +1,9 @@
+fragment evidenceUniProtSomaticFragment on EvidenceSummaries {
+  uniProtSomatic {
+    hasVariants
+    sources {
+      name
+      url
+    }
+  }
+}
