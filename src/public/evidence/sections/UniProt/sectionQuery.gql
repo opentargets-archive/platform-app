@@ -1,0 +1,21 @@
+query UniProtSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      uniProt {
+        rows {
+          disease {
+            id
+            name
+          }
+          rsId
+          vepConsequence
+          source {
+            name
+            url
+          }
+          pmIds
+        }
+      }
+    }
+  }
+}

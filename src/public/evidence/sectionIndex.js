@@ -21,6 +21,7 @@ import * as drugsRaw from './sections/Drugs';
 import * as differentialExpressionRaw from './sections/DifferentialExpression';
 import * as textMiningRaw from './sections/TextMining';
 import * as animalModelsRaw from './sections/AnimalModels';
+import * as uniProtRaw from './sections/UniProt';
 import * as uniProtSomaticRaw from './sections/UniProtSomatic';
 
 export const gwasCatalog = gwasCatalogRaw;
@@ -43,4 +44,5 @@ export const drugs = drugsRaw;
 export const differentialExpression = differentialExpressionRaw;
 export const textMining = textMiningRaw;
 export const animalModels = animalModelsRaw;
+export const uniProt = uniProtRaw;
 export const uniProtSomatic = uniProtSomaticRaw;
