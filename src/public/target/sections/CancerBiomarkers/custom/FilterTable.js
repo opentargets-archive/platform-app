@@ -4,7 +4,7 @@ import crossfilter from 'crossfilter2';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import dc from 'dc';
-import { lighten } from 'polished';
+import { lighten, darken } from 'polished';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
@@ -220,7 +220,7 @@ const getDownloadRows = rows => {
 
 const getPieColors = items => {
   return items.reduce((acc, item, i) => {
-    acc[item.label] = chartColour;
+    acc[item.label] = darken(0.05 * i, chartColour);
     return acc;
   }, {});
 };

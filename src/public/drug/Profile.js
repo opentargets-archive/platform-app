@@ -4,12 +4,16 @@ import { print } from 'graphql/language/printer';
 import _ from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
+import WarningIcon from '@material-ui/icons/Warning';
+import LockIcon from '@material-ui/icons/Lock';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
-import Description from '../common/Description';
-import Synonyms from '../common/Synonyms';
+import ChipsField from '../common/ChipsField';
 import Smiles from './Smiles';
+import WithdrawnNotice from './WithdrawnNotice';
 
 const sections = Object.values(sectionsObject);
 
@@ -37,9 +41,32 @@ const entitySummariesAccessor = data =>
 const entitySectionsAccessor = data =>
   data && data.drug && data.drug.details ? data.drug.details : {};
 
+// TODO: when material-ui is upgraded to version >4 then remove this
+// style and use <Typography display="inline" /> instead
+const styles = theme => ({
+  inline: {
+    display: 'inline',
+  },
+  lock: {
+    fontSize: '15px',
+  },
+  warningIcon: {
+    position: 'relative',
+    top: '5px',
+  },
+});
+
+const WarningTooltip = withStyles(theme => ({
+  tooltip: {
+    backgroundColor: theme.palette.secondary.main,
+  },
+}))(Tooltip);
+
 class DrugProfile extends Component {
   render() {
     const {
+      hasBeenWithdrawn,
+      withdrawnNotice,
       chemblId,
       name,
       synonyms,
@@ -47,7 +74,8 @@ class DrugProfile extends Component {
       yearOfFirstApproval,
       type,
       maximumClinicalTrialPhase,
-      description,
+      internalCompound,
+      classes,
     } = this.props;
     const entity = {
       chemblId,
@@ -58,6 +86,7 @@ class DrugProfile extends Component {
       type,
       maximumClinicalTrialPhase,
     };
+
     return (
       <BaseProfile
         {...{
@@ -72,16 +101,45 @@ class DrugProfile extends Component {
       >
         <Grid container justify="space-between">
           <Grid item xs={12} md={6}>
-            <Typography variant="subtitle2">Name</Typography>
-            <Typography variant="body2">{name}</Typography>
-            <Typography variant="subtitle2">Molecule type</Typography>
-            <Typography variant="body2">{type}</Typography>
-            <Typography variant="subtitle2">First approval</Typography>
-            <Typography variant="body2">{yearOfFirstApproval}</Typography>
-            <Typography variant="subtitle2">Max phase</Typography>
-            <Typography variant="body2">{maximumClinicalTrialPhase}</Typography>
-            <Description>{description}</Description>
-            <Synonyms synonyms={synonyms} />
+            {hasBeenWithdrawn && (
+              <Typography variant="subtitle2" color="secondary">
+                Withdrawn Drug{' '}
+                <WarningTooltip
+                  title={<WithdrawnNotice withdrawnNotice={withdrawnNotice} />}
+                  placement="right"
+                >
+                  <WarningIcon className={classes.warningIcon} />
+                </WarningTooltip>
+              </Typography>
+            )}
+            <Typography variant="subtitle2">
+              Molecule type:{' '}
+              <Typography className={classes.inline} variant="body2">
+                {type}
+              </Typography>
+            </Typography>
+            <Typography variant="subtitle2">
+              First approval:{' '}
+              <Typography className={classes.inline} variant="body2">
+                {yearOfFirstApproval || 'N/A'}
+              </Typography>
+            </Typography>
+            <Typography variant="subtitle2">
+              Max phase:{' '}
+              <Typography className={classes.inline} variant="body2">
+                {maximumClinicalTrialPhase}
+              </Typography>
+            </Typography>
+            {internalCompound ? (
+              <Typography variant="subtitle2">
+                Visibility:{' '}
+                <Typography className={classes.inline} variant="body2">
+                  Internal compound <LockIcon className={classes.lock} />
+                </Typography>
+              </Typography>
+            ) : null}
+            <ChipsField label="Synonyms" terms={synonyms} />
+            <ChipsField label="Known trade names" terms={tradeNames} />
           </Grid>
           <Grid item container xs={12} md={6} justify="flex-end">
             <Smiles chemblId={chemblId} />
@@ -92,4 +150,4 @@ class DrugProfile extends Component {
   }
 }
 
-export default DrugProfile;
+export default withStyles(styles)(DrugProfile);
