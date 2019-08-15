@@ -9223,10 +9223,10 @@ osenv@0, osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-ot-ui@^0.0.96:
-  version "0.0.96"
-  resolved "https://registry.yarnpkg.com/ot-ui/-/ot-ui-0.0.96.tgz#29f4c146767da6c3633cae538822609f5d007c3c"
-  integrity sha512-duw+TYb5sJ1OgWij16/qSWRQD1ZtkqLhiEZEL9qG9ls07B56f3e7vBtP7GlSMkBLTaU41Kz8bcJg6OyBFTupeA==
+ot-ui@^0.0.98:
+  version "0.0.98"
+  resolved "https://registry.yarnpkg.com/ot-ui/-/ot-ui-0.0.98.tgz#49e318f26e9ff20a76faf0dacbf53b0284e43096"
+  integrity sha512-+y7KORbqPaWOSkVYDbfir2yxdCPG30BcYh2taDuJ0jPucvhq/WY7/COoulZTN4qsUxxpRNoOOISjneVWsTpmeA==
 
 p-defer@^1.0.0:
   version "1.0.0"
