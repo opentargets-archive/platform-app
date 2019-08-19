@@ -1,5 +1,4 @@
 import React, { Fragment, Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
@@ -78,4 +77,4 @@ class DrugPage extends Component {
   }
 }
 
-export default withRouter(DrugPage);
+export default DrugPage;
