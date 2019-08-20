@@ -48,7 +48,7 @@ class SectionPanelsContainer extends React.Component {
     } = this.props;
     return (
       <div style={{ paddingTop: 8, paddingBottom: 8 }}>
-        <Grid container spacing={1}>
+        <Grid container spacing={8}>
           <Hidden smDown>
             <Grid item md={2}>
               <StickyContainer style={{ height: '100%' }}>

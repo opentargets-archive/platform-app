@@ -142,4 +142,4 @@ class AssociationsTable extends React.Component {
   }
 }
 
-export default withTheme(AssociationsTable);
+export default withTheme()(AssociationsTable);

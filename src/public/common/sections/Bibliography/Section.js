@@ -191,7 +191,7 @@ class Section extends Component {
           direction="column"
           justify="flex-start"
           alignItems="stretch"
-          spacing={2}
+          spacing={16}
         >
           <Grid item xs={12}>
             {/* Dropdown menu */}
@@ -244,7 +244,7 @@ class Section extends Component {
               direction="column"
               justify="flex-start"
               alignItems="stretch"
-              spacing={2}
+              spacing={16}
             >
               {hits.map((hit, i) => {
                 return (

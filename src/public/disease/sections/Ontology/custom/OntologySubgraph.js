@@ -326,4 +326,4 @@ class DAGViewer extends React.Component {
   }
 }
 
-export default withTheme(withContentRect('bounds')(DAGViewer));
+export default withTheme()(withContentRect('bounds')(DAGViewer));

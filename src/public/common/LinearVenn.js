@@ -161,4 +161,4 @@ const Legend = ({ theme, a, b, aAndB }) => (
 
 export const LinearVennLegend = withTheme(Legend);
 
-export default withTheme(LinearVenn);
+export default withTheme()(LinearVenn);

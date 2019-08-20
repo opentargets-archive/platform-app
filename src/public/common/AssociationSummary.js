@@ -21,7 +21,7 @@ const styles = theme => ({
 
 const AssociationSummary = ({ classes, data }) => {
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={8}>
       {data.map(datum => (
         <Grid item key={datum.id} xs={4} md={2}>
           <Typography

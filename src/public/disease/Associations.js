@@ -116,7 +116,7 @@ class DiseaseAssociationsPage extends React.Component {
       ? { efoId, indirects, harmonicOptions, page }
       : { efoId, indirects, page };
     return (
-      <Grid style={{ marginTop: '8px' }} container spacing={2}>
+      <Grid style={{ marginTop: '8px' }} container spacing={16}>
         <Grid item xs={12} md={6}>
           <ApolloProvider client={client}>
             <Query query={diseaseAssociationsQuery} variables={variables}>
