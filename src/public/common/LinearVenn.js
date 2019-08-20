@@ -159,6 +159,6 @@ const Legend = ({ theme, a, b, aAndB }) => (
   </svg>
 );
 
-export const LinearVennLegend = withTheme(Legend);
+export const LinearVennLegend = withTheme()(Legend);
 
 export default withTheme()(LinearVenn);
