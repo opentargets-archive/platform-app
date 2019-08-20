@@ -1,0 +1,9 @@
+fragment evidencePhewasCatalogFragment on EvidenceSummaries {
+  phewasCatalog {
+    variantCount
+    sources {
+      name
+      url
+    }
+  }
+}

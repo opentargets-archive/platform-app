@@ -1,0 +1,9 @@
+fragment evidenceReactomeFragment on EvidenceSummaries {
+  reactome {
+    pathwayCount
+    sources {
+      name
+      url
+    }
+  }
+}

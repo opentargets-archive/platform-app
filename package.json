@@ -47,7 +47,7 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
     "react-measure": "^2.1.2",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "5.0.1",
     "react-scripts": "2.1.5",
     "react-scroll": "^1.7.11",
     "react-select": "^2.1.1",

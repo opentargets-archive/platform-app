@@ -1,0 +1,19 @@
+query EvaSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      eva {
+        rows {
+          disease {
+            id
+            name
+          }
+          clinVarId
+          rsId
+          vepConsequence
+          clinicalSignificance
+          pmId
+        }
+      }
+    }
+  }
+}

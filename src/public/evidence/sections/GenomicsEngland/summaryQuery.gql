@@ -1,0 +1,9 @@
+fragment evidenceGenomicsEnglandFragment on EvidenceSummaries {
+  genomicsEngland {
+    hasPanel
+    sources {
+      name
+      url
+    }
+  }
+}

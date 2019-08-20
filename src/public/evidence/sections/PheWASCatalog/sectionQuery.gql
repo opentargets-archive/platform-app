@@ -1,0 +1,19 @@
+query PhewasCatalogSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      phewasCatalog {
+        rows {
+          disease {
+            id
+            name
+          }
+          rsId
+          pval
+          oddsRatio
+          confidenceInterval
+          vepConsequence
+        }
+      }
+    }
+  }
+}

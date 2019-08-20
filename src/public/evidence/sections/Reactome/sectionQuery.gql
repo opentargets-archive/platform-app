@@ -1,0 +1,24 @@
+query ReactomeSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      reactome {
+        rows {
+          activity
+          disease {
+            id
+            name
+          }
+          pathway {
+            id
+            name
+          }
+          mutations
+          source {
+            url
+            name
+          }
+        }
+      }
+    }
+  }
+}

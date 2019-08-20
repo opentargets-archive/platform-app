@@ -1,7 +1,7 @@
 import { loader } from 'graphql.macro';
 
 export const id = 'animalModels';
-export const name = 'Animal Models';
+export const name = 'PhenoDigm';
 
 export const hasSummaryData = ({ mouseModelCount }) => mouseModelCount > 0;
 
