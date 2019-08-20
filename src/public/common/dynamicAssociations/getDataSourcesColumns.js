@@ -74,14 +74,13 @@ const getDataSourcesColumns = ({
         renderFilter: () => (
           <VerticalSlider
             orientation="vertical"
-            getAriaValueText={value => `Weight: ${significantFigures(value)}`}
-            valueLabelDisplay="auto"
             defaultValue={c.weight}
+            value={c.weight}
             step={0.01}
             min={0}
             max={1}
             aria-labelledby="vertical-slider"
-            onChangeCommitted={(event, value) => handleWeightChange(c, value)}
+            onChange={(event, value) => handleWeightChange(c, value)}
           />
         ),
         // renderLabelBackground: () => (
