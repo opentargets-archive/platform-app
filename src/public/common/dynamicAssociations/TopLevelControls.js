@@ -12,7 +12,7 @@ const TopLevelControls = ({ indirects, onIndirectsChange }) => (
     <Typography variant="subtitle2">
       <Checkbox
         checked={indirects}
-        value={true}
+        value={'useIndirects'}
         onChange={(event, value) => onIndirectsChange(value)}
         color="primary"
       />
