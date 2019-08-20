@@ -11,6 +11,7 @@ export const dataTypes = [
       'ds__genomics_england',
       'ds__eva',
       'ds__uniprot_literature',
+      'ds__gene2phenotype',
     ],
   },
   {
@@ -25,7 +26,13 @@ export const dataTypes = [
   { name: 'Drugs', dataSources: ['ds__chembl'] },
   {
     name: 'Pathways and systems biology',
-    dataSources: ['ds__slapenrich', 'ds__progeny', 'ds__reactome'],
+    dataSources: [
+      'ds__slapenrich',
+      'ds__progeny',
+      'ds__reactome',
+      'ds__sysbio',
+      'ds__crispr',
+    ],
   },
   { name: 'RNA expression', dataSources: ['ds__expression_atlas'] },
   { name: 'Text mining', dataSources: ['ds__europepmc'] },
