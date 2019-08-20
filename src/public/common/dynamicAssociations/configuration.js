@@ -39,9 +39,15 @@ export const dataTypes = [
   { name: 'Animal models', dataSources: ['ds__phenodigm'] },
 ];
 
-export const dataSourcesOrder = dataTypes.reduce((acc, dt) => {
+export const dataSourcesOrderByDataType = dataTypes.reduce((acc, dt) => {
   return acc.concat(dt.dataSources);
 }, []);
+
+export const dataSourcesOrderAlphabetical = dataTypes
+  .reduce((acc, dt) => {
+    return acc.concat(dt.dataSources);
+  }, [])
+  .sort();
 
 export const dataTypesColorScale = d3
   .scaleOrdinal(d3.schemeCategory10)

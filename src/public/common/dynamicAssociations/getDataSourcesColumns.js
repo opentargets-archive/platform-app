@@ -3,7 +3,11 @@ import * as d3 from 'd3';
 
 import { significantFigures } from 'ot-ui';
 
-import { dataTypes } from './configuration';
+import {
+  dataSourcesOrderAlphabetical,
+  dataSourcesOrderByDataType,
+  dataTypes,
+} from './configuration';
 import VerticalSlider from '../VerticalSlider';
 import HeatmapCell from '../HeatmapCell';
 // import Histogram from '../Histogram';
@@ -32,7 +36,9 @@ const getDataSourcesColumns = ({
       lastInHeaderGroup: true,
       renderCell: d => <HeatmapCell value={d.score} colorScale={colorScale} />,
     },
-    ...dataSources
+    ...dataSourcesOrderByDataType
+      .map(ds => dataSources.find(c => c.id === ds))
+      .filter(c => c) // dataSources could be empty
       .filter(c => (hideEmptyColumns ? aggregates[c.id].coverage > 0 : true))
       .map(c => ({
         id: c.id,
