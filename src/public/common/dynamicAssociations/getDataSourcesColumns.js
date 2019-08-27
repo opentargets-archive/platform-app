@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import { significantFigures } from 'ot-ui';
 
 import {
-  dataSourcesOrderAlphabetical,
+  // dataSourcesOrderAlphabetical,
   dataSourcesOrderByDataType,
   dataTypes,
 } from './configuration';
