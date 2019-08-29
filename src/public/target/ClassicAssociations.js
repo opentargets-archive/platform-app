@@ -30,7 +30,7 @@ const associationsQuery = gql`
           }
           score
           scoresByDataType {
-            id
+            dataTypeId
             score
           }
         }
@@ -73,7 +73,9 @@ class ClassicAssociations extends React.Component {
             ...rest,
           }));
           const dataTypes =
-            rows.length > 0 ? rows[0].scoresByDataType.map(d => d.id) : [];
+            rows.length > 0
+              ? rows[0].scoresByDataType.map(d => d.dataTypeId)
+              : [];
           return (
             <Grid style={{ marginTop: '8px' }} container spacing={16}>
               <Grid item xs={12} md={3}>

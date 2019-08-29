@@ -11,21 +11,13 @@ const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
-  tableCellHeader: {
-    height: '200px',
-    whiteSpace: 'nowrap',
-    padding: '0 !important',
-  },
-  tableCellHeaderVerticalLabel: {
-    transform: 'rotate(-90deg)',
-    width: '30px',
-  },
   cell: {
     padding: '1px',
   },
   cellSwatch: {
+    minWidth: '20px',
     width: '100%',
-    height: '1rem',
+    height: '20px',
     padding: '1px',
   },
   cellEllipsis: {
@@ -37,7 +29,8 @@ const styles = theme => ({
     height: 0,
   },
   cellHeaderVertical: {
-    maxWidth: '50px',
+    minWidth: '20px',
+    maxWidth: '20px',
     height: '200px',
     verticalAlign: 'bottom',
     '& div': {
@@ -55,6 +48,8 @@ const styles = theme => ({
   },
 });
 const ClassicAssociationsTable = ({ classes, theme, rows, dataTypes }) => {
+  console.log(rows);
+
   const colorScale = d3
     .scaleLinear()
     .domain([0, 1])
@@ -65,6 +60,11 @@ const ClassicAssociationsTable = ({ classes, theme, rows, dataTypes }) => {
         <TableHead>
           <TableRow>
             <TableCell>Disease</TableCell>
+            <TableCell className={classes.cellHeaderVertical}>
+              <div>
+                <span>Overall</span>
+              </div>
+            </TableCell>
             {dataTypes.map(dataType => (
               <TableCell key={dataType} className={classes.cellHeaderVertical}>
                 <div>
@@ -81,11 +81,23 @@ const ClassicAssociationsTable = ({ classes, theme, rows, dataTypes }) => {
               padding="dense"
               className={classes.row}
             >
-              <TableCell padding="dense" className={classes.cellEllipsis}>
+              <TableCell
+                align="right"
+                padding="dense"
+                className={classes.cellEllipsis}
+              >
                 {row.disease.name}
               </TableCell>
+              <TableCell className={classes.cell}>
+                <div
+                  className={classes.cellSwatch}
+                  style={
+                    row.score ? { background: colorScale(row.score) } : null
+                  }
+                />
+              </TableCell>
               {row.scoresByDataType.map(dataType => (
-                <TableCell key={dataType.id} className={classes.cell}>
+                <TableCell key={dataType.dataTypeId} className={classes.cell}>
                   <div
                     className={classes.cellSwatch}
                     style={
