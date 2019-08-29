@@ -1,10 +1,12 @@
 import React from 'react';
+import _ from 'lodash';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
+import TextField from '@material-ui/core/TextField';
 
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 
@@ -14,10 +16,16 @@ const associationsQuery = gql`
     $first: Int
     $after: String
     $facets: TargetDiseasesConnectionFacetsInput
+    $search: String
   ) {
     target(ensgId: $ensgId) {
       id
-      diseasesConnection(first: $first, after: $after, facets: $facets) {
+      diseasesConnection(
+        first: $first
+        after: $after
+        facets: $facets
+        search: $search
+      ) {
         totalCount
         pageInfo {
           nextCursor
@@ -45,6 +53,8 @@ class ClassicAssociations extends React.Component {
     after: null,
     page: 1,
     facets: null,
+    search: '',
+    searchDebouced: '',
   };
   handlePaginationChange = () => {
     // TODO
@@ -52,22 +62,36 @@ class ClassicAssociations extends React.Component {
   handleSortByChange = () => {
     // TODO
   };
-  handleSearchChange = () => {
-    // TODO
+  handleSearchChange = search => {
+    this.setState({ search });
+    this.handleSearchDeboucedChange(search);
   };
+  handleSearchDeboucedChange = _.debounce(searchDebouced => {
+    this.setState({ searchDebouced });
+  }, 500);
   handleFacetChange = () => {
     // TODO
   };
   render() {
     const { ensgId, symbol } = this.props;
+    const { search, searchDebouced } = this.state;
     return (
-      <Query query={associationsQuery} variables={{ ensgId }}>
+      <Query
+        query={associationsQuery}
+        variables={{ ensgId, search: searchDebouced ? searchDebouced : null }}
+      >
         {({ loading, error, data }) => {
-          if (loading || error) {
+          if (error) {
             return null;
           }
-          console.log(data);
-          const { totalCount, edges } = data.target.diseasesConnection;
+
+          let edges;
+          if (loading) {
+            edges = [];
+          } else {
+            edges = data.target.diseasesConnection.edges;
+          }
+
           const rows = edges.map(({ node, ...rest }) => ({
             disease: node,
             ...rest,
@@ -88,6 +112,15 @@ class ClassicAssociations extends React.Component {
                 <Card elevation={0}>
                   <CardHeader title="Filter by" subheader={'blah'} />
                   <CardContent>
+                    <TextField
+                      id="associations-search"
+                      label="Search"
+                      value={search}
+                      onChange={event =>
+                        this.handleSearchChange(event.target.value)
+                      }
+                      margin="normal"
+                    />
                     <ClassicAssociationsTable
                       rows={rows}
                       dataTypes={dataTypes}
