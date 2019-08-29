@@ -16,6 +16,7 @@ const associationsQuery = gql`
     $first: Int
     $after: String
     $facets: TargetDiseasesConnectionFacetsInput
+    $sortBy: TargetDiseasesConnectionSortByInput
     $search: String
   ) {
     target(ensgId: $ensgId) {
@@ -24,6 +25,7 @@ const associationsQuery = gql`
         first: $first
         after: $after
         facets: $facets
+        sortBy: $sortBy
         search: $search
       ) {
         totalCount
@@ -55,12 +57,13 @@ class ClassicAssociations extends React.Component {
     facets: null,
     search: '',
     searchDebouced: '',
+    sortBy: { field: 'SCORE_OVERALL', ascending: false },
   };
   handlePaginationChange = () => {
     // TODO
   };
-  handleSortByChange = () => {
-    // TODO
+  handleSortByChange = sortBy => {
+    this.setState({ sortBy });
   };
   handleSearchChange = search => {
     this.setState({ search });
@@ -74,11 +77,15 @@ class ClassicAssociations extends React.Component {
   };
   render() {
     const { ensgId, symbol } = this.props;
-    const { search, searchDebouced } = this.state;
+    const { search, searchDebouced, sortBy } = this.state;
     return (
       <Query
         query={associationsQuery}
-        variables={{ ensgId, search: searchDebouced ? searchDebouced : null }}
+        variables={{
+          ensgId,
+          sortBy,
+          search: searchDebouced ? searchDebouced : null,
+        }}
       >
         {({ loading, error, data }) => {
           if (error) {
@@ -124,6 +131,8 @@ class ClassicAssociations extends React.Component {
                     <ClassicAssociationsTable
                       rows={rows}
                       dataTypes={dataTypes}
+                      sortBy={sortBy}
+                      onSortByChange={this.handleSortByChange}
                     />
                   </CardContent>
                 </Card>

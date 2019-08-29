@@ -6,6 +6,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const styles = theme => ({
   tableWrapper: {
@@ -33,6 +34,7 @@ const styles = theme => ({
     maxWidth: '20px',
     height: '200px',
     verticalAlign: 'bottom',
+    textAlign: 'center',
     '& div': {
       height: '1px',
       verticalAlign: 'top',
@@ -47,9 +49,14 @@ const styles = theme => ({
     },
   },
 });
-const ClassicAssociationsTable = ({ classes, theme, rows, dataTypes }) => {
-  console.log(rows);
-
+const ClassicAssociationsTable = ({
+  classes,
+  theme,
+  rows,
+  dataTypes,
+  sortBy,
+  onSortByChange,
+}) => {
   const colorScale = d3
     .scaleLinear()
     .domain([0, 1])
@@ -64,6 +71,25 @@ const ClassicAssociationsTable = ({ classes, theme, rows, dataTypes }) => {
               <div>
                 <span>Overall</span>
               </div>
+              <TableSortLabel
+                onClick={() =>
+                  onSortByChange({
+                    field: 'SCORE_OVERALL',
+                    ascending:
+                      sortBy.field === 'SCORE_OVERALL'
+                        ? !sortBy.ascending
+                        : false,
+                  })
+                }
+                direction={
+                  sortBy.field === 'SCORE_OVERALL'
+                    ? sortBy.ascending
+                      ? 'asc'
+                      : 'desc'
+                    : 'desc'
+                }
+                active={sortBy.field === 'SCORE_OVERALL'}
+              />
             </TableCell>
             {dataTypes.map(dataType => (
               <TableCell key={dataType} className={classes.cellHeaderVertical}>
