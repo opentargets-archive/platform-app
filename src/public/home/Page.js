@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Link } from 'ot-ui';
 
@@ -7,16 +8,24 @@ const HomePage = () => {
     <Fragment>
       <div>Home</div>
       <div>
-        <Link to="/target/ENSG00000091831">Target page</Link>
+        <Link component={RouterLink} to="/target/ENSG00000091831">
+          Target page
+        </Link>
       </div>
       <div>
-        <Link to="/disease/EFO_0000384">Disease page</Link>
+        <Link component={RouterLink} to="/disease/EFO_0000384">
+          Disease page
+        </Link>
       </div>
       <div>
-        <Link to="/drug/CHEMBL2111100">Drug page</Link>
+        <Link component={RouterLink} to="/drug/CHEMBL2111100">
+          Drug page
+        </Link>
       </div>
       <div>
-        <Link to="/evidence/ENSG00000091831/EFO_0000305">Evidence page</Link>
+        <Link component={RouterLink} to="/evidence/ENSG00000091831/EFO_0000305">
+          Evidence page
+        </Link>
       </div>
     </Fragment>
   );
