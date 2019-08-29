@@ -61,6 +61,13 @@ const ClassicAssociationsTable = ({
     .scaleLinear()
     .domain([0, 1])
     .range(['#fff', theme.palette.primary.main]);
+  const sortByUpdateForField = field => ({
+    field: field,
+    ascending: sortBy.field === field ? !sortBy.ascending : false,
+  });
+  const directionForField = field =>
+    sortBy.field === field ? (sortBy.ascending ? 'asc' : 'desc') : 'desc';
+  const activeForField = field => sortBy.field === field;
   return (
     <div className={classes.tableWrapper}>
       <Table padding="none">
@@ -73,22 +80,10 @@ const ClassicAssociationsTable = ({
               </div>
               <TableSortLabel
                 onClick={() =>
-                  onSortByChange({
-                    field: 'SCORE_OVERALL',
-                    ascending:
-                      sortBy.field === 'SCORE_OVERALL'
-                        ? !sortBy.ascending
-                        : false,
-                  })
+                  onSortByChange(sortByUpdateForField('SCORE_OVERALL'))
                 }
-                direction={
-                  sortBy.field === 'SCORE_OVERALL'
-                    ? sortBy.ascending
-                      ? 'asc'
-                      : 'desc'
-                    : 'desc'
-                }
-                active={sortBy.field === 'SCORE_OVERALL'}
+                direction={directionForField('SCORE_OVERALL')}
+                active={activeForField('SCORE_OVERALL')}
               />
             </TableCell>
             {dataTypes.map(dataType => (
@@ -96,6 +91,11 @@ const ClassicAssociationsTable = ({
                 <div>
                   <span>{dataType}</span>
                 </div>
+                <TableSortLabel
+                  onClick={() => onSortByChange(sortByUpdateForField(dataType))}
+                  direction={directionForField(dataType)}
+                  active={activeForField(dataType)}
+                />
               </TableCell>
             ))}
           </TableRow>
