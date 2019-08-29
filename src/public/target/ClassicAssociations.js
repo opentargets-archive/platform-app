@@ -8,6 +8,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 
+import { commaSeparate } from 'ot-ui';
+
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 
 const associationsQuery = gql`
@@ -93,10 +95,12 @@ class ClassicAssociations extends React.Component {
           }
 
           let edges;
+          let totalCount;
           if (loading) {
             edges = [];
           } else {
             edges = data.target.diseasesConnection.edges;
+            totalCount = data.target.diseasesConnection.totalCount;
           }
 
           const rows = edges.map(({ node, ...rest }) => ({
@@ -117,7 +121,14 @@ class ClassicAssociations extends React.Component {
               </Grid>
               <Grid item xs={12} md={9}>
                 <Card elevation={0}>
-                  <CardHeader title="Filter by" subheader={'blah'} />
+                  <CardHeader
+                    title={
+                      <React.Fragment>
+                        <strong>{commaSeparate(totalCount)} diseases</strong>{' '}
+                        associated with <strong>{symbol}</strong>
+                      </React.Fragment>
+                    }
+                  />
                   <CardContent>
                     <TextField
                       id="associations-search"
@@ -126,7 +137,6 @@ class ClassicAssociations extends React.Component {
                       onChange={event =>
                         this.handleSearchChange(event.target.value)
                       }
-                      margin="normal"
                     />
                     <ClassicAssociationsTable
                       rows={rows}

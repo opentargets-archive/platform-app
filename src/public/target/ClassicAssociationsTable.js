@@ -1,5 +1,6 @@
 import React from 'react';
 import * as d3 from 'd3';
+import _ from 'lodash';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -46,6 +47,7 @@ const styles = theme => ({
       marginLeft: '50%',
       transformOrigin: '0 0',
       transform: 'rotate(-60deg) translateY(-50%)',
+      whiteSpace: 'nowrap',
     },
   },
 });
@@ -89,7 +91,7 @@ const ClassicAssociationsTable = ({
             {dataTypes.map(dataType => (
               <TableCell key={dataType} className={classes.cellHeaderVertical}>
                 <div>
-                  <span>{dataType}</span>
+                  <span>{_.startCase(dataType.toLowerCase())}</span>
                 </div>
                 <TableSortLabel
                   onClick={() => onSortByChange(sortByUpdateForField(dataType))}
