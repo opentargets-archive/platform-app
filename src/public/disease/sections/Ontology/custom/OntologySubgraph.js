@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { withContentRect } from 'react-measure';
 import * as d3Base from 'd3';
 import * as d3DagBase from 'd3-dag';
@@ -281,7 +282,7 @@ class DAGViewer extends React.Component {
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
               {nodesExcludingRoot.map(d => (
-                <Link key={d.id} to={`/disease/${d.id}`}>
+                <Link component={RouterLink} key={d.id} to={`/disease/${d.id}`}>
                   {d.data.isTherapeuticArea ? (
                     <rect
                       fill={colorMap[d.data.nodeType]}

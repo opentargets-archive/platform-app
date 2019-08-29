@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import Select from 'react-select';
 import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
@@ -36,7 +37,7 @@ const getColumns = ({ filters }) => {
       id: 'disease',
       label: 'Disease',
       renderCell: d => (
-        <Link to={'/disease/' + d.disease.id}>
+        <Link component={RouterLink} to={'/disease/' + d.disease.id}>
           {_.capitalize(d.disease.name)}
         </Link>
       ),
@@ -77,7 +78,9 @@ const getColumns = ({ filters }) => {
       id: 'drug',
       label: 'Drug',
       renderCell: d => (
-        <Link to={'/drug/' + d.drug.id}>{_.capitalize(d.drug.name)}</Link>
+        <Link component={RouterLink} to={'/drug/' + d.drug.id}>
+          {_.capitalize(d.drug.name)}
+        </Link>
       ),
       comparator: generateComparatorFromAccessor(d => d.drug.name),
       export: d => d.drug.name,

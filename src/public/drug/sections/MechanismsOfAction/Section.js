@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Link, OtTableRF } from 'ot-ui';
 
@@ -18,7 +19,9 @@ const columns = [
       d.targets.map((t, i) => (
         <React.Fragment key={i}>
           {i > 0 ? ' ' : null}
-          <Link to={`/target/${t.id}`}>{t.symbol}</Link>
+          <Link component={RouterLink} to={`/target/${t.id}`}>
+            {t.symbol}
+          </Link>
         </React.Fragment>
       )),
   },

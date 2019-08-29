@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Link, OtTableRF } from 'ot-ui';
 
@@ -13,7 +14,9 @@ const columns = [
     style: { verticalAlign: 'top', paddingTop: '7px' },
     width: '15%',
     renderCell: d => (
-      <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
+      <Link component={RouterLink} to={`/disease/${d.disease.id}`}>
+        {d.disease.name}
+      </Link>
     ),
   },
   {

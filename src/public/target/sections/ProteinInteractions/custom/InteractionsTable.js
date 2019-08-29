@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Link, OtTableRF } from 'ot-ui';
 
@@ -11,7 +12,11 @@ const columns = interactionTypes => [
     label: 'Source',
     renderCell: d => {
       const { ensgId, symbol } = d.sourceNode;
-      return <Link to={`target/${ensgId}`}>{symbol}</Link>;
+      return (
+        <Link component={RouterLink} to={`target/${ensgId}`}>
+          {symbol}
+        </Link>
+      );
     },
     comparator: generateComparatorFromAccessor(d => d.sourceNode.symbol),
   },
@@ -20,7 +25,11 @@ const columns = interactionTypes => [
     label: 'Target',
     renderCell: d => {
       const { ensgId, symbol } = d.targetNode;
-      return <Link to={`target/${ensgId}`}>{symbol}</Link>;
+      return (
+        <Link component={RouterLink} to={`target/${ensgId}`}>
+          {symbol}
+        </Link>
+      );
     },
     comparator: generateComparatorFromAccessor(d => d.targetNode.symbol),
   },

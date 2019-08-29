@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import * as d3 from 'd3';
 import { loader } from 'graphql.macro';
 import { Query } from 'react-apollo';
@@ -14,7 +15,11 @@ const columns = (name, maxTargetCountAOrB) => [
   {
     id: 'B.name',
     label: 'Related disease',
-    renderCell: d => <Link to={`/disease/${d.B.id}`}>{d.B.name}</Link>,
+    renderCell: d => (
+      <Link component={RouterLink} to={`/disease/${d.B.id}`}>
+        {d.B.name}
+      </Link>
+    ),
     comparator: (a, b) => {
       if (a.B.name <= b.B.name) {
         return -1;
@@ -64,7 +69,9 @@ const expansionColumns = (A, B) => [
     id: 'target.symbol',
     label: 'Target',
     renderCell: d => (
-      <Link to={`/target/${d.target.id}`}>{d.target.symbol}</Link>
+      <Link component={RouterLink} to={`/target/${d.target.id}`}>
+        {d.target.symbol}
+      </Link>
     ),
     comparator: (a, b) => {
       if (a.target.symbol <= b.target.symbol) {

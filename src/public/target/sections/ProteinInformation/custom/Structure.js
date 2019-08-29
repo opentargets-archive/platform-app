@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -49,7 +50,11 @@ const columns = (pdbId, handleChangePdbId) => [
     id: 'view',
     label: 'Display',
     renderCell: d => (
-      <Link to="#" onClick={() => handleChangePdbId(d.pdbId)}>
+      <Link
+        component={RouterLink}
+        to="#"
+        onClick={() => handleChangePdbId(d.pdbId)}
+      >
         View
       </Link>
     ),
