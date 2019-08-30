@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import gql from 'graphql-tag';
+import { print } from 'graphql/language/printer';
 import { Query } from 'react-apollo';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -10,7 +11,10 @@ import TextField from '@material-ui/core/TextField';
 
 import { commaSeparate } from 'ot-ui';
 
+import * as facetsObject from './facetIndex';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
+
+const facets = Object.values(facetsObject);
 
 const associationsQuery = gql`
   query TargetAssociationsQuery(
@@ -46,10 +50,25 @@ const associationsQuery = gql`
             score
           }
         }
+        facets {
+          ${facets
+            .filter(f => f.facetQuery)
+            .map(
+              s => `...targetDiseasesConnection${_.upperFirst(s.id)}Fragment`
+            )
+            .join('\n')}
+        }
       }
     }
   }
+  ${facets
+    .filter(s => s.facetQuery)
+    .map(s => print(s.facetQuery))
+    .join('\n')}
 `;
+
+// const facetsAccessor = data =>
+//   data && data.target && data.target.diseasesConnection && data.target.diseasesConnection.facets ? data.target.diseasesConnection.facets : null;
 
 class ClassicAssociations extends React.Component {
   state = {
@@ -96,11 +115,13 @@ class ClassicAssociations extends React.Component {
 
           let edges;
           let totalCount;
+          let facetsData;
           if (loading) {
             edges = [];
           } else {
             edges = data.target.diseasesConnection.edges;
             totalCount = data.target.diseasesConnection.totalCount;
+            facetsData = data.target.diseasesConnection.facets;
           }
 
           const rows = edges.map(({ node, ...rest }) => ({
@@ -115,8 +136,17 @@ class ClassicAssociations extends React.Component {
             <Grid style={{ marginTop: '8px' }} container spacing={16}>
               <Grid item xs={12} md={3}>
                 <Card elevation={0}>
-                  <CardHeader title="Filter by" subheader={'blah'} />
-                  <CardContent></CardContent>
+                  <CardHeader title="Filter by" />
+                  <CardContent>
+                    {facetsData
+                      ? facets.map(f => (
+                          <f.FacetComponent
+                            key={f.id}
+                            data={facetsData[f.id]}
+                          />
+                        ))
+                      : null}
+                  </CardContent>
                 </Card>
               </Grid>
               <Grid item xs={12} md={9}>
