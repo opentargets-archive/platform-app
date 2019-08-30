@@ -1,6 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import _ from 'lodash';
+import classNames from 'classnames';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -8,6 +9,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+
+// TODO: Harmonise with HeatmapTable for component reuse
 
 const styles = theme => ({
   tableWrapper: {
@@ -50,6 +53,10 @@ const styles = theme => ({
       whiteSpace: 'nowrap',
     },
   },
+  cellDiseaseName: {
+    minWidth: '200px',
+    maxWidth: '400px',
+  },
 });
 const ClassicAssociationsTable = ({
   classes,
@@ -75,7 +82,7 @@ const ClassicAssociationsTable = ({
       <Table padding="none">
         <TableHead>
           <TableRow>
-            <TableCell>Disease</TableCell>
+            <TableCell className={classes.cellDiseaseName}>Disease</TableCell>
             <TableCell className={classes.cellHeaderVertical}>
               <div>
                 <span>Overall</span>
@@ -112,7 +119,10 @@ const ClassicAssociationsTable = ({
               <TableCell
                 align="right"
                 padding="dense"
-                className={classes.cellEllipsis}
+                className={classNames(
+                  classes.cellDiseaseName,
+                  classes.cellEllipsis
+                )}
               >
                 {row.disease.name}
               </TableCell>
