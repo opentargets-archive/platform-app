@@ -16,6 +16,10 @@ const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
+  table: {
+    marginRight: '20px',
+    width: 'calc(100% - 40px)',
+  },
   cell: {
     padding: '1px',
     borderBottom: 'none',
@@ -83,7 +87,7 @@ const ClassicAssociationsTable = ({
   const activeForField = field => sortBy.field === field;
   return (
     <div className={classes.tableWrapper}>
-      <Table padding="none">
+      <Table className={classes.table} padding="none">
         <TableHead>
           <TableRow>
             <TableCell className={classes.cellDiseaseName}>Disease</TableCell>
