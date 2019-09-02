@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+
+import FacetCheckbox from '../../common/FacetCheckbox';
 
 export const id = 'therapeuticArea';
 export const name = 'Therapeutic Area';
@@ -31,27 +31,23 @@ export const FacetComponent = ({ state, data, onFacetChange }) => (
       <FormLabel component="legend">{name}</FormLabel>
       <FormGroup>
         {data.items.map(item => (
-          <FormControlLabel
+          <FacetCheckbox
             key={item.id}
-            control={
-              <Checkbox
-                checked={state.indexOf(item.id) >= 0}
-                onChange={() => {
-                  let newState;
-                  if (state.indexOf(item.id) >= 0) {
-                    // switch off
-                    newState = state.filter(d => d !== item.id);
-                  } else {
-                    // switch on
-                    newState = [item.id, ...state];
-                  }
+            checked={state.indexOf(item.id) >= 0}
+            onChange={() => {
+              let newState;
+              if (state.indexOf(item.id) >= 0) {
+                // switch off
+                newState = state.filter(d => d !== item.id);
+              } else {
+                // switch on
+                newState = [item.id, ...state];
+              }
 
-                  // update
-                  onFacetChange(newState);
-                }}
-                value={item.id}
-              />
-            }
+              // update
+              onFacetChange(newState);
+            }}
+            value={item.id}
             label={`${item.name} (${item.count})`}
           />
         ))}
