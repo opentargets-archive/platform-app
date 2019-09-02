@@ -44,6 +44,7 @@ const styles = theme => ({
     height: '200px',
     verticalAlign: 'bottom',
     textAlign: 'center',
+    borderBottom: 'none',
     '& div': {
       height: '1px',
       verticalAlign: 'top',
