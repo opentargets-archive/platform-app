@@ -26,31 +26,29 @@ export const stateToInput = state =>
   state.length > 0 ? { efoIds: state } : null;
 
 export const FacetComponent = ({ state, data, onFacetChange }) => (
-  <div>
-    <FormControl component="fieldset">
-      <FormGroup>
-        {data.items.map(item => (
-          <FacetCheckbox
-            key={item.id}
-            checked={state.indexOf(item.id) >= 0}
-            onChange={() => {
-              let newState;
-              if (state.indexOf(item.id) >= 0) {
-                // switch off
-                newState = state.filter(d => d !== item.id);
-              } else {
-                // switch on
-                newState = [item.id, ...state];
-              }
+  <FormControl component="fieldset">
+    <FormGroup>
+      {data.items.map(item => (
+        <FacetCheckbox
+          key={item.id}
+          checked={state.indexOf(item.id) >= 0}
+          onChange={() => {
+            let newState;
+            if (state.indexOf(item.id) >= 0) {
+              // switch off
+              newState = state.filter(d => d !== item.id);
+            } else {
+              // switch on
+              newState = [item.id, ...state];
+            }
 
-              // update
-              onFacetChange(newState);
-            }}
-            value={item.id}
-            label={`${item.name} (${item.count})`}
-          />
-        ))}
-      </FormGroup>
-    </FormControl>
-  </div>
+            // update
+            onFacetChange(newState);
+          }}
+          value={item.id}
+          label={`${item.name} (${item.count})`}
+        />
+      ))}
+    </FormGroup>
+  </FormControl>
 );
