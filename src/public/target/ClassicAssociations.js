@@ -129,7 +129,10 @@ class ClassicAssociations extends React.Component {
           let edges;
           let totalCount;
           let facetsData;
-          if (loading) {
+          if (
+            loading &&
+            !(data && data.target && data.target.diseasesConnection)
+          ) {
             edges = [];
           } else {
             edges = data.target.diseasesConnection.edges;
