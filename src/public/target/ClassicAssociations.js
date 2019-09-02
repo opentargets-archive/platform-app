@@ -76,35 +76,54 @@ const facetsStateDefault = facets.reduce((acc, f) => {
 class ClassicAssociations extends React.Component {
   state = {
     first: 50,
-    after: null,
-    page: 1,
+    page: 0,
+    pageCursors: {},
     facets: facetsStateDefault,
     search: '',
     searchDebouced: '',
     sortBy: { field: 'SCORE_OVERALL', ascending: false },
   };
-  handlePaginationChange = () => {
-    // TODO
+  handlePaginationChange = (forward, nextPageCursor) => {
+    const { page, pageCursors } = this.state;
+    if (forward) {
+      // go to next page
+      this.setState({
+        page: page + 1,
+        pageCursors: { ...pageCursors, [page + 1]: nextPageCursor },
+      });
+    } else {
+      // go to previous page
+      this.setState({ page: page - 1 });
+    }
   };
   handleSortByChange = sortBy => {
-    this.setState({ sortBy });
+    this.setState({ sortBy, page: 0 });
   };
   handleSearchChange = search => {
     this.setState({ search });
     this.handleSearchDeboucedChange(search);
   };
   handleSearchDeboucedChange = _.debounce(searchDebouced => {
-    this.setState({ searchDebouced });
+    this.setState({ searchDebouced, page: 0 });
   }, 500);
   handleFacetChange = facetId => state => {
     const { facets: facetsState } = this.state;
     this.setState({
       facets: { ...facetsState, [facetId]: state },
+      page: 0,
     });
   };
   render() {
     const { ensgId, symbol } = this.props;
-    const { search, searchDebouced, sortBy, facets: facetsState } = this.state;
+    const {
+      search,
+      searchDebouced,
+      sortBy,
+      facets: facetsState,
+      page,
+      pageCursors,
+      first: rowsPerPage,
+    } = this.state;
     const facetsInput = facets
       .map(f => ({ ...f, input: f.stateToInput(facetsState[f.id]) }))
       .filter(f => f.input)
@@ -112,6 +131,7 @@ class ClassicAssociations extends React.Component {
         acc[f.id] = f.input;
         return acc;
       }, {});
+    const after = page > 0 ? pageCursors[page] : null;
     return (
       <Query
         query={associationsQuery}
@@ -120,6 +140,7 @@ class ClassicAssociations extends React.Component {
           sortBy,
           search: searchDebouced ? searchDebouced : null,
           facets: facetsInput,
+          after,
         }}
       >
         {({ loading, error, data }) => {
@@ -130,6 +151,7 @@ class ClassicAssociations extends React.Component {
           let edges;
           let totalCount;
           let facetsData;
+          let pageInfo;
           if (
             loading &&
             !(data && data.target && data.target.diseasesConnection)
@@ -139,6 +161,7 @@ class ClassicAssociations extends React.Component {
             edges = data.target.diseasesConnection.edges;
             totalCount = data.target.diseasesConnection.totalCount;
             facetsData = data.target.diseasesConnection.facets;
+            pageInfo = data.target.diseasesConnection.pageInfo;
           }
 
           const rows = edges.map(({ node, ...rest }) => ({
@@ -189,6 +212,11 @@ class ClassicAssociations extends React.Component {
                       dataTypes={dataTypes}
                       sortBy={sortBy}
                       onSortByChange={this.handleSortByChange}
+                      page={page}
+                      rowsPerPage={rowsPerPage}
+                      totalCount={totalCount}
+                      pageInfo={pageInfo}
+                      onPaginationChange={this.handlePaginationChange}
                     />
                   </CardContent>
                 </Card>

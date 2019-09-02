@@ -9,6 +9,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import TablePagination from '@material-ui/core/TablePagination';
 
 // TODO: Harmonise with HeatmapTable for component reuse
 
@@ -74,6 +75,11 @@ const ClassicAssociationsTable = ({
   dataTypes,
   sortBy,
   onSortByChange,
+  page,
+  rowsPerPage,
+  totalCount,
+  pageInfo,
+  onPaginationChange,
 }) => {
   const colorScale = d3
     .scaleLinear()
@@ -159,6 +165,25 @@ const ClassicAssociationsTable = ({
           ))}
         </TableBody>
       </Table>
+
+      <TablePagination
+        component="div"
+        rowsPerPageOptions={[]}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        count={totalCount ? totalCount : 0}
+        backIconButtonProps={{
+          'aria-label': 'Previous Page',
+        }}
+        nextIconButtonProps={{
+          'aria-label': 'Next Page',
+        }}
+        onChangePage={(event, newPage) => {
+          const { nextCursor } = pageInfo;
+          const forward = newPage > page;
+          onPaginationChange(forward, nextCursor);
+        }}
+      />
     </div>
   );
 };
