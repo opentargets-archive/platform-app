@@ -67,15 +67,17 @@ const associationsQuery = gql`
     .join('\n')}
 `;
 
-// const facetsAccessor = data =>
-//   data && data.target && data.target.diseasesConnection && data.target.diseasesConnection.facets ? data.target.diseasesConnection.facets : null;
+const facetsStateDefault = facets.reduce((acc, f) => {
+  acc[f.id] = f.stateDefault;
+  return acc;
+}, {});
 
 class ClassicAssociations extends React.Component {
   state = {
     first: 50,
     after: null,
     page: 1,
-    facets: null,
+    facets: facetsStateDefault,
     search: '',
     searchDebouced: '',
     sortBy: { field: 'SCORE_OVERALL', ascending: false },
@@ -93,12 +95,22 @@ class ClassicAssociations extends React.Component {
   handleSearchDeboucedChange = _.debounce(searchDebouced => {
     this.setState({ searchDebouced });
   }, 500);
-  handleFacetChange = () => {
-    // TODO
+  handleFacetChange = facetId => state => {
+    const { facets: facetsState } = this.state;
+    this.setState({
+      facets: { ...facetsState, [facetId]: state },
+    });
   };
   render() {
     const { ensgId, symbol } = this.props;
-    const { search, searchDebouced, sortBy } = this.state;
+    const { search, searchDebouced, sortBy, facets: facetsState } = this.state;
+    const facetsInput = facets
+      .map(f => ({ ...f, input: f.stateToInput(facetsState[f.id]) }))
+      .filter(f => f.input)
+      .reduce((acc, f) => {
+        acc[f.id] = f.input;
+        return acc;
+      }, {});
     return (
       <Query
         query={associationsQuery}
@@ -106,6 +118,7 @@ class ClassicAssociations extends React.Component {
           ensgId,
           sortBy,
           search: searchDebouced ? searchDebouced : null,
+          facets: facetsInput,
         }}
       >
         {({ loading, error, data }) => {
@@ -142,7 +155,9 @@ class ClassicAssociations extends React.Component {
                       ? facets.map(f => (
                           <f.FacetComponent
                             key={f.id}
+                            state={facetsState[f.id]}
                             data={facetsData[f.id]}
+                            onFacetChange={this.handleFacetChange(f.id)}
                           />
                         ))
                       : null}
