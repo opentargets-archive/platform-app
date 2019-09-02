@@ -18,11 +18,12 @@ const styles = theme => ({
   },
   cell: {
     padding: '1px',
+    borderBottom: 'none',
   },
   cellSwatch: {
     minWidth: '20px',
     width: '100%',
-    height: '20px',
+    height: '12px',
     padding: '1px',
   },
   cellEllipsis: {
@@ -54,8 +55,11 @@ const styles = theme => ({
     },
   },
   cellDiseaseName: {
+    fontSize: '0.75rem',
+    padding: '0 8px',
     minWidth: '200px',
     maxWidth: '400px',
+    borderBottom: 'none',
   },
 });
 const ClassicAssociationsTable = ({

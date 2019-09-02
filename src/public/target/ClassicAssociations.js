@@ -5,9 +5,9 @@ import { print } from 'graphql/language/printer';
 import { Query } from 'react-apollo';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 import { commaSeparate } from 'ot-ui';
 
@@ -153,8 +153,8 @@ class ClassicAssociations extends React.Component {
             <Grid style={{ marginTop: '8px' }} container spacing={16}>
               <Grid item xs={12} md={3}>
                 <Card elevation={0}>
-                  <CardHeader title="Filter by" />
                   <CardContent>
+                    <Typography variant="h6">Filter by</Typography>
                     {facetsData
                       ? facets.map(f => (
                           <FacetContainer key={f.id} name={f.name}>
@@ -171,15 +171,11 @@ class ClassicAssociations extends React.Component {
               </Grid>
               <Grid item xs={12} md={9}>
                 <Card elevation={0}>
-                  <CardHeader
-                    title={
-                      <React.Fragment>
-                        <strong>{commaSeparate(totalCount)} diseases</strong>{' '}
-                        associated with <strong>{symbol}</strong>
-                      </React.Fragment>
-                    }
-                  />
                   <CardContent>
+                    <Typography variant="h6">
+                      <strong>{commaSeparate(totalCount)} diseases</strong>{' '}
+                      associated with <strong>{symbol}</strong>
+                    </Typography>
                     <TextField
                       id="associations-search"
                       label="Search"
