@@ -28,7 +28,6 @@ export const stateToInput = state =>
 export const FacetComponent = ({ state, data, onFacetChange }) => (
   <div>
     <FormControl component="fieldset">
-      <FormLabel component="legend">{name}</FormLabel>
       <FormGroup>
         {data.items.map(item => (
           <FacetCheckbox

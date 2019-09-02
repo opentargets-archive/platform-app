@@ -13,6 +13,7 @@ import { commaSeparate } from 'ot-ui';
 
 import * as facetsObject from './facetIndex';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
+import FacetContainer from '../common/FacetContainer';
 
 const facets = Object.values(facetsObject);
 
@@ -156,12 +157,13 @@ class ClassicAssociations extends React.Component {
                   <CardContent>
                     {facetsData
                       ? facets.map(f => (
-                          <f.FacetComponent
-                            key={f.id}
-                            state={facetsState[f.id]}
-                            data={facetsData[f.id]}
-                            onFacetChange={this.handleFacetChange(f.id)}
-                          />
+                          <FacetContainer key={f.id} name={f.name}>
+                            <f.FacetComponent
+                              state={facetsState[f.id]}
+                              data={facetsData[f.id]}
+                              onFacetChange={this.handleFacetChange(f.id)}
+                            />
+                          </FacetContainer>
                         ))
                       : null}
                   </CardContent>
