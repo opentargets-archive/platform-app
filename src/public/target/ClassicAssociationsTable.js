@@ -41,7 +41,7 @@ const styles = theme => ({
   cellHeaderVertical: {
     minWidth: '20px',
     maxWidth: '20px',
-    height: '200px',
+    height: '160px',
     verticalAlign: 'bottom',
     textAlign: 'center',
     borderBottom: 'none',
