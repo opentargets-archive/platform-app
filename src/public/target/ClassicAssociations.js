@@ -174,10 +174,27 @@ class ClassicAssociations extends React.Component {
               : [];
           return (
             <Grid style={{ marginTop: '8px' }} container spacing={16}>
+              <Grid item xs={12}>
+                <Typography variant="h6">
+                  <strong>{commaSeparate(totalCount)} diseases</strong>{' '}
+                  associated with <strong>{symbol}</strong>
+                </Typography>
+              </Grid>
               <Grid item xs={12} md={3}>
                 <Card elevation={0}>
                   <CardContent>
                     <Typography variant="h6">Filter by</Typography>
+                    <FacetContainer name="Disease Name">
+                      <TextField
+                        id="associations-search"
+                        label="Search"
+                        value={search}
+                        onChange={event =>
+                          this.handleSearchChange(event.target.value)
+                        }
+                        fullWidth
+                      />
+                    </FacetContainer>
                     {facetsData
                       ? facets.map(f => (
                           <FacetContainer key={f.id} name={f.name}>
@@ -195,18 +212,6 @@ class ClassicAssociations extends React.Component {
               <Grid item xs={12} md={9}>
                 <Card elevation={0}>
                   <CardContent>
-                    <Typography variant="h6">
-                      <strong>{commaSeparate(totalCount)} diseases</strong>{' '}
-                      associated with <strong>{symbol}</strong>
-                    </Typography>
-                    <TextField
-                      id="associations-search"
-                      label="Search"
-                      value={search}
-                      onChange={event =>
-                        this.handleSearchChange(event.target.value)
-                      }
-                    />
                     <ClassicAssociationsTable
                       rows={rows}
                       dataTypes={dataTypes}
