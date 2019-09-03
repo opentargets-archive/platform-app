@@ -22,14 +22,13 @@ const styles = theme => ({
     width: 'calc(100% - 40px)',
   },
   cell: {
-    padding: '1px',
     borderBottom: 'none',
   },
   cellSwatch: {
     minWidth: '20px',
     width: '100%',
-    height: '12px',
-    padding: '1px',
+    height: '16px',
+    border: `1px solid ${theme.palette.grey[200]}`,
   },
   cellEllipsis: {
     overflow: 'hidden',
@@ -67,6 +66,10 @@ const styles = theme => ({
     maxWidth: '400px',
     borderBottom: 'none',
   },
+  cellHeaderDiseaseName: {
+    verticalAlign: 'bottom',
+    paddingBottom: '35px',
+  },
 });
 const ClassicAssociationsTable = ({
   classes,
@@ -97,7 +100,15 @@ const ClassicAssociationsTable = ({
       <Table className={classes.table} padding="none">
         <TableHead>
           <TableRow>
-            <TableCell className={classes.cellDiseaseName}>Disease</TableCell>
+            <TableCell
+              align="right"
+              className={classNames(
+                classes.cellDiseaseName,
+                classes.cellHeaderDiseaseName
+              )}
+            >
+              Disease
+            </TableCell>
             <TableCell className={classes.cellHeaderVertical}>
               <div>
                 <span>Overall</span>
