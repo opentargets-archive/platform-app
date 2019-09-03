@@ -61,14 +61,12 @@ class GtexVariability extends Component {
   _render() {
     const { theme } = this.props;
     const { x, y, colour } = this;
-    const data = this.props.data
-      .slice()
-      .sort((a, b) => b.data.median - a.data.median);
+    const data = this.props.data.slice().sort((a, b) => b.median - a.median);
 
     const height = data.length * boxHeight + margin.top + margin.bottom;
     const rectHeight = boxHeight - 2 * boxPadding;
     const xMax = d3.max(data, d => {
-      return d3.max(d.data.outliers);
+      return d3.max(d.outliers);
     });
 
     x.domain([0, xMax]).range([0, width - margin.left - margin.right]);
@@ -90,27 +88,27 @@ class GtexVariability extends Component {
 
     boxContainer
       .append('line')
-      .attr('x1', d => x(d.data.lowerLimit))
-      .attr('x2', d => x(d.data.upperLimit))
+      .attr('x1', d => x(d.lowerLimit))
+      .attr('x2', d => x(d.upperLimit))
       .attr('y1', d => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
       .attr('y2', d => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
       .attr('stroke', theme.palette.grey[700]);
 
     boxContainer
       .append('rect')
-      .attr('x', d => x(d.data.q1))
+      .attr('x', d => x(d.q1))
       .attr(
         'y',
         d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
       )
-      .attr('width', d => x(d.data.q3) - x(d.data.q1))
+      .attr('width', d => x(d.q3) - x(d.q1))
       .attr('height', rectHeight)
       .attr('fill', d => colour(d.tissueSiteDetailId));
 
     boxContainer
       .append('line')
-      .attr('x1', d => x(d.data.median))
-      .attr('x2', d => x(d.data.median))
+      .attr('x1', d => x(d.median))
+      .attr('x2', d => x(d.median))
       .attr(
         'y1',
         d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
@@ -124,8 +122,8 @@ class GtexVariability extends Component {
 
     boxContainer
       .append('line')
-      .attr('x1', d => x(d.data.lowerLimit))
-      .attr('x2', d => x(d.data.lowerLimit))
+      .attr('x1', d => x(d.lowerLimit))
+      .attr('x2', d => x(d.lowerLimit))
       .attr(
         'y1',
         d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
@@ -138,8 +136,8 @@ class GtexVariability extends Component {
 
     boxContainer
       .append('line')
-      .attr('x1', d => x(d.data.upperLimit))
-      .attr('x2', d => x(d.data.upperLimit))
+      .attr('x1', d => x(d.upperLimit))
+      .attr('x2', d => x(d.upperLimit))
       .attr(
         'y1',
         d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
@@ -153,7 +151,7 @@ class GtexVariability extends Component {
     boxContainer
       .selectAll('circle')
       .data(d => {
-        return d.data.outliers.map(outlier => ({
+        return d.outliers.map(outlier => ({
           tissueSiteDetailId: d.tissueSiteDetailId,
           outlier,
         }));
