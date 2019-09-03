@@ -25,7 +25,7 @@ target/
 
 The `index.js` file should have a structure as follows:
 
-```
+```js
 // helps to load graphql files
 import { loader } from 'graphql.macro';
 
