@@ -184,17 +184,18 @@ class ClassicAssociations extends React.Component {
                 <Card elevation={0}>
                   <CardContent>
                     <Typography variant="h6">Filter by</Typography>
-                    <FacetContainer name="Disease Name">
+                    <div style={{ paddingTop: '8px', paddingBottom: '4px' }}>
                       <TextField
                         id="associations-search"
-                        label="Search"
+                        label="Disease Name"
                         value={search}
                         onChange={event =>
                           this.handleSearchChange(event.target.value)
                         }
                         fullWidth
+                        variant="outlined"
                       />
-                    </FacetContainer>
+                    </div>
                     {facetsData
                       ? facets.map(f => (
                           <FacetContainer key={f.id} name={f.name}>
