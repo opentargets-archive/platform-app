@@ -12,11 +12,11 @@ export const facetQuery = gql`
   fragment diseaseTargetsConnectionPathwaysFragment on DiseaseTargetsConnectionFacets {
     pathways {
       items {
-        id
+        itemId
         name
         count
         children {
-          id
+          itemId
           name
           count
         }
@@ -40,12 +40,12 @@ export class FacetComponent extends React.Component {
   handleFacetChange = item => () => {
     const { state, onFacetChange } = this.props;
     let newPathwayIds;
-    if (state.pathwayIds.indexOf(item.id) >= 0) {
+    if (state.pathwayIds.indexOf(item.itemId) >= 0) {
       // switch off
-      newPathwayIds = state.pathwayIds.filter(d => d !== item.id);
+      newPathwayIds = state.pathwayIds.filter(d => d !== item.itemId);
     } else {
       // switch on
-      newPathwayIds = [item.id, ...state.pathwayIds];
+      newPathwayIds = [item.itemId, ...state.pathwayIds];
     }
     const newState = {
       ...state,
@@ -57,25 +57,38 @@ export class FacetComponent extends React.Component {
   };
   render() {
     const { state, data } = this.props;
+    // console.log('parents', data.items.length);
+    // console.log(
+    //   'children',
+    //   data.items.reduce((acc, d) => (acc += d.children.length), 0)
+    // );
+    // const uniqueItems = data.items.reduce((acc, d) => {
+    //   acc[d.id] = true;
+    //   d.children.forEach(c => {
+    //     acc[c.id] = true;
+    //   });
+    //   return acc;
+    // }, {});
+    // console.log('unique', Object.keys(uniqueItems).length);
     return (
       <FormControl component="fieldset">
         <FormGroup>
           {data.items.map(item => (
             <FacetCheckbox
-              key={item.id}
+              key={item.itemId}
               nested
-              checked={state.pathwayIds.indexOf(item.id) >= 0}
+              checked={state.pathwayIds.indexOf(item.itemId) >= 0}
               onChange={this.handleFacetChange(item)}
-              value={item.id}
+              value={item.itemId}
               label={`${item.name} (${item.count})`}
             >
               {item.children.map(childItem => (
                 <FacetCheckbox
-                  key={childItem.id}
+                  key={childItem.itemId}
                   nested
-                  checked={state.pathwayIds.indexOf(childItem.id) >= 0}
+                  checked={state.pathwayIds.indexOf(childItem.itemId) >= 0}
                   onChange={this.handleFacetChange(childItem)}
-                  value={childItem.id}
+                  value={childItem.itemId}
                   label={`${childItem.name} (${childItem.count})`}
                 />
               ))}

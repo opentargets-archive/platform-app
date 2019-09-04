@@ -12,7 +12,7 @@ export const facetQuery = gql`
   fragment targetDiseasesConnectionTherapeuticAreaFragment on TargetDiseasesConnectionFacets {
     therapeuticArea {
       items {
-        id
+        itemId
         name
         count
       }
@@ -29,22 +29,22 @@ export const FacetComponent = ({ state, data, onFacetChange }) => (
     <FormGroup>
       {data.items.map(item => (
         <FacetCheckbox
-          key={item.id}
-          checked={state.indexOf(item.id) >= 0}
+          key={item.itemId}
+          checked={state.indexOf(item.itemId) >= 0}
           onChange={() => {
             let newState;
-            if (state.indexOf(item.id) >= 0) {
+            if (state.indexOf(item.itemId) >= 0) {
               // switch off
-              newState = state.filter(d => d !== item.id);
+              newState = state.filter(d => d !== item.itemId);
             } else {
               // switch on
-              newState = [item.id, ...state];
+              newState = [item.itemId, ...state];
             }
 
             // update
             onFacetChange(newState);
           }}
-          value={item.id}
+          value={item.itemId}
           label={`${item.name} (${item.count})`}
         />
       ))}

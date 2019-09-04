@@ -12,11 +12,11 @@ export const facetQuery = gql`
   fragment diseaseTargetsConnectionDataTypeAndSourceFragment on DiseaseTargetsConnectionFacets {
     dataTypeAndSource {
       items {
-        id
+        itemId
         name
         count
         children {
-          id
+          itemId
           name
           count
         }
@@ -45,17 +45,17 @@ export const FacetComponent = ({ state, data, onFacetChange }) => (
     <FormGroup>
       {data.items.map(item => (
         <FacetCheckbox
-          key={item.id}
+          key={item.itemId}
           nested
-          checked={state.dataTypeIds.indexOf(item.id) >= 0}
+          checked={state.dataTypeIds.indexOf(item.itemId) >= 0}
           onChange={() => {
             let newDataTypeIds;
-            if (state.dataTypeIds.indexOf(item.id) >= 0) {
+            if (state.dataTypeIds.indexOf(item.itemId) >= 0) {
               // switch off
-              newDataTypeIds = state.dataTypeIds.filter(d => d !== item.id);
+              newDataTypeIds = state.dataTypeIds.filter(d => d !== item.itemId);
             } else {
               // switch on
-              newDataTypeIds = [item.id, ...state.dataTypeIds];
+              newDataTypeIds = [item.itemId, ...state.dataTypeIds];
             }
             const newState = {
               ...state,
@@ -65,24 +65,24 @@ export const FacetComponent = ({ state, data, onFacetChange }) => (
             // update
             onFacetChange(newState);
           }}
-          value={item.id}
+          value={item.itemId}
           label={`${item.name} (${item.count})`}
         >
           {item.children.map(childItem => (
             <FacetCheckbox
-              key={childItem.id}
+              key={childItem.itemId}
               nested
-              checked={state.dataSourceIds.indexOf(childItem.id) >= 0}
+              checked={state.dataSourceIds.indexOf(childItem.itemId) >= 0}
               onChange={() => {
                 let newDataSourceIds;
-                if (state.dataSourceIds.indexOf(childItem.id) >= 0) {
+                if (state.dataSourceIds.indexOf(childItem.itemId) >= 0) {
                   // switch off
                   newDataSourceIds = state.dataSourceIds.filter(
-                    d => d !== childItem.id
+                    d => d !== childItem.itemId
                   );
                 } else {
                   // switch on
-                  newDataSourceIds = [childItem.id, ...state.dataSourceIds];
+                  newDataSourceIds = [childItem.itemId, ...state.dataSourceIds];
                 }
                 const newState = {
                   ...state,
@@ -92,7 +92,7 @@ export const FacetComponent = ({ state, data, onFacetChange }) => (
                 // update
                 onFacetChange(newState);
               }}
-              value={childItem.id}
+              value={childItem.itemId}
               label={`${childItem.name} (${childItem.count})`}
             />
           ))}
