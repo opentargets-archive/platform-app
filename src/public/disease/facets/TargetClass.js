@@ -5,12 +5,12 @@ import FormGroup from '@material-ui/core/FormGroup';
 
 import FacetCheckbox from '../../common/FacetCheckbox';
 
-export const id = 'pathways';
-export const name = 'Pathways';
+export const id = 'targetClass';
+export const name = 'Target Class';
 
 export const facetQuery = gql`
-  fragment diseaseTargetsConnectionPathwaysFragment on DiseaseTargetsConnectionFacets {
-    pathways {
+  fragment diseaseTargetsConnectionTargetClassFragment on DiseaseTargetsConnectionFacets {
+    targetClass {
       items {
         itemId
         name
@@ -26,12 +26,12 @@ export const facetQuery = gql`
 `;
 
 export const stateDefault = {
-  pathwayIds: [],
+  targetClassIds: [],
 };
 export const stateToInput = state => {
   const input = {};
-  if (state.pathwayIds.length > 0) {
-    input.pathwayIds = state.pathwayIds;
+  if (state.targetClassIds.length > 0) {
+    input.targetClassIds = state.targetClassIds;
   }
   return input;
 };
@@ -39,17 +39,17 @@ export const stateToInput = state => {
 export class FacetComponent extends React.Component {
   handleFacetChange = item => () => {
     const { state, onFacetChange } = this.props;
-    let newPathwayIds;
-    if (state.pathwayIds.indexOf(item.itemId) >= 0) {
+    let newTargetClassIds;
+    if (state.targetClassIds.indexOf(item.itemId) >= 0) {
       // switch off
-      newPathwayIds = state.pathwayIds.filter(d => d !== item.itemId);
+      newTargetClassIds = state.targetClassIds.filter(d => d !== item.itemId);
     } else {
       // switch on
-      newPathwayIds = [item.itemId, ...state.pathwayIds];
+      newTargetClassIds = [item.itemId, ...state.targetClassIds];
     }
     const newState = {
       ...state,
-      pathwayIds: newPathwayIds,
+      targetClassIds: newTargetClassIds,
     };
 
     // update
@@ -64,7 +64,7 @@ export class FacetComponent extends React.Component {
             <FacetCheckbox
               key={item.itemId}
               nested
-              checked={state.pathwayIds.indexOf(item.itemId) >= 0}
+              checked={state.targetClassIds.indexOf(item.itemId) >= 0}
               onChange={this.handleFacetChange(item)}
               value={item.itemId}
               label={`${item.name} (${item.count})`}
@@ -73,7 +73,7 @@ export class FacetComponent extends React.Component {
                 <FacetCheckbox
                   key={childItem.itemId}
                   nested
-                  checked={state.pathwayIds.indexOf(childItem.itemId) >= 0}
+                  checked={state.targetClassIds.indexOf(childItem.itemId) >= 0}
                   onChange={this.handleFacetChange(childItem)}
                   value={childItem.itemId}
                   label={`${childItem.name} (${childItem.count})`}
