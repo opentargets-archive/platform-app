@@ -39,7 +39,7 @@ const tissueNameComparator = (a, b) => d3.ascending(a.name, b.name);
 
 export class FacetComponent extends React.Component {
   state = {
-    groupTissuesBy: 'organ',
+    groupTissuesBy: 'noGrouping',
   };
   handleGroupTissuesByChange = event => {
     this.setState({ groupTissuesBy: event.target.value });
@@ -97,19 +97,32 @@ export class FacetComponent extends React.Component {
               name="groupTissuesBy"
               value={this.state.groupTissuesBy}
               onChange={this.handleGroupTissuesByChange}
-              row
             >
+              <FacetRadio value="noGrouping" label="No Grouping" />
               <FacetRadio value="organ" label="Organ" />
               <FacetRadio value="anatomicalSystem" label="Anatomical System" />
             </RadioGroup>
           </FacetCheckbox>
 
+          {this.state.groupTissuesBy === 'noGrouping' ? (
+            <FacetCheckbox nested noCheckbox label="Tissues">
+              {data.items.sort(tissueNameComparator).map(item => (
+                <FacetCheckbox
+                  key={item.itemId}
+                  checked={state.tissueIds.indexOf(item.itemId) >= 0}
+                  onChange={this.handleFacetChange(item)}
+                  value={item.itemId}
+                  label={item.name}
+                />
+              ))}
+            </FacetCheckbox>
+          ) : null}
           {this.state.groupTissuesBy === 'organ' ? (
             <React.Fragment>
               {Object.keys(tissuesByOrgan)
                 .sort()
                 .map(organ => (
-                  <FacetCheckbox nested noCheckbox label={organ}>
+                  <FacetCheckbox key={organ} nested noCheckbox label={organ}>
                     {tissuesByOrgan[organ]
                       .sort(tissueNameComparator)
                       .map(item => (
@@ -124,12 +137,18 @@ export class FacetComponent extends React.Component {
                   </FacetCheckbox>
                 ))}
             </React.Fragment>
-          ) : (
+          ) : null}
+          {this.state.groupTissuesBy === 'anatomicalSystem' ? (
             <React.Fragment>
               {Object.keys(tissuesByAnatomicalSystem)
                 .sort()
                 .map(anatomicalSystem => (
-                  <FacetCheckbox nested noCheckbox label={anatomicalSystem}>
+                  <FacetCheckbox
+                    key={anatomicalSystem}
+                    nested
+                    noCheckbox
+                    label={anatomicalSystem}
+                  >
                     {tissuesByAnatomicalSystem[anatomicalSystem]
                       .sort(tissueNameComparator)
                       .map(item => (
@@ -144,7 +163,7 @@ export class FacetComponent extends React.Component {
                   </FacetCheckbox>
                 ))}
             </React.Fragment>
-          )}
+          ) : null}
         </FormGroup>
       </FormControl>
     );
