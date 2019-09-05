@@ -1,8 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
 
+import FacetFormGroup from '../../common/FacetFormGroup';
 import FacetCheckbox from '../../common/FacetCheckbox';
 
 export const id = 'tractability';
@@ -53,38 +52,34 @@ export class FacetComponent extends React.Component {
   render() {
     const { state, data } = this.props;
     return (
-      <FormControl component="fieldset">
-        <FormGroup>
-          <FacetCheckbox nested noCheckbox label="Small Molecule">
-            {data.items
-              .filter(item => item.itemId.startsWith('SMALLMOLECULE'))
-              .map(item => (
-                <FacetCheckbox
-                  key={item.itemId}
-                  nested
-                  checked={state.tractabilityIds.indexOf(item.itemId) >= 0}
-                  onChange={this.handleFacetChange(item)}
-                  value={item.itemId}
-                  label={`${item.name} (${item.count})`}
-                />
-              ))}
-          </FacetCheckbox>
-          <FacetCheckbox nested noCheckbox label="Antibody">
-            {data.items
-              .filter(item => item.itemId.startsWith('ANTIBODY'))
-              .map(item => (
-                <FacetCheckbox
-                  key={item.itemId}
-                  nested
-                  checked={state.tractabilityIds.indexOf(item.itemId) >= 0}
-                  onChange={this.handleFacetChange(item)}
-                  value={item.itemId}
-                  label={`${item.name} (${item.count})`}
-                />
-              ))}
-          </FacetCheckbox>
-        </FormGroup>
-      </FormControl>
+      <FacetFormGroup>
+        <FacetCheckbox nested noCheckbox label="Small Molecule">
+          {data.items
+            .filter(item => item.itemId.startsWith('SMALLMOLECULE'))
+            .map(item => (
+              <FacetCheckbox
+                key={item.itemId}
+                checked={state.tractabilityIds.indexOf(item.itemId) >= 0}
+                onChange={this.handleFacetChange(item)}
+                value={item.itemId}
+                label={`${item.name} (${item.count})`}
+              />
+            ))}
+        </FacetCheckbox>
+        <FacetCheckbox nested noCheckbox label="Antibody">
+          {data.items
+            .filter(item => item.itemId.startsWith('ANTIBODY'))
+            .map(item => (
+              <FacetCheckbox
+                key={item.itemId}
+                checked={state.tractabilityIds.indexOf(item.itemId) >= 0}
+                onChange={this.handleFacetChange(item)}
+                value={item.itemId}
+                label={`${item.name} (${item.count})`}
+              />
+            ))}
+        </FacetCheckbox>
+      </FacetFormGroup>
     );
   }
 }

@@ -14,6 +14,7 @@ const styles = theme => ({
   },
   childrenContainer: {
     paddingTop: '10px',
+    paddingRight: '16px',
   },
 });
 

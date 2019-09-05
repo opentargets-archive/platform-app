@@ -1,9 +1,8 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
 
 import FacetCheckbox from '../../common/FacetCheckbox';
+import FacetFormGroup from '../../common/FacetFormGroup';
 
 export const id = 'targetClass';
 export const name = 'Target Class';
@@ -58,31 +57,28 @@ export class FacetComponent extends React.Component {
   render() {
     const { state, data } = this.props;
     return (
-      <FormControl component="fieldset">
-        <FormGroup>
-          {data.items.map(item => (
-            <FacetCheckbox
-              key={item.itemId}
-              nested
-              checked={state.targetClassIds.indexOf(item.itemId) >= 0}
-              onChange={this.handleFacetChange(item)}
-              value={item.itemId}
-              label={`${item.name} (${item.count})`}
-            >
-              {item.children.map(childItem => (
-                <FacetCheckbox
-                  key={childItem.itemId}
-                  nested
-                  checked={state.targetClassIds.indexOf(childItem.itemId) >= 0}
-                  onChange={this.handleFacetChange(childItem)}
-                  value={childItem.itemId}
-                  label={`${childItem.name} (${childItem.count})`}
-                />
-              ))}
-            </FacetCheckbox>
-          ))}
-        </FormGroup>
-      </FormControl>
+      <FacetFormGroup>
+        {data.items.map(item => (
+          <FacetCheckbox
+            key={item.itemId}
+            nested
+            checked={state.targetClassIds.indexOf(item.itemId) >= 0}
+            onChange={this.handleFacetChange(item)}
+            value={item.itemId}
+            label={`${item.name} (${item.count})`}
+          >
+            {item.children.map(childItem => (
+              <FacetCheckbox
+                key={childItem.itemId}
+                checked={state.targetClassIds.indexOf(childItem.itemId) >= 0}
+                onChange={this.handleFacetChange(childItem)}
+                value={childItem.itemId}
+                label={`${childItem.name} (${childItem.count})`}
+              />
+            ))}
+          </FacetCheckbox>
+        ))}
+      </FacetFormGroup>
     );
   }
 }
