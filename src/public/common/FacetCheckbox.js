@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 const styles = theme => ({
   label: {
     margin: 0,
+    alignItems: 'start',
     '& span:last-child': {
       fontSize: '0.75rem',
     },
