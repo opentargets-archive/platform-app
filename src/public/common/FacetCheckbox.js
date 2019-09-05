@@ -62,6 +62,7 @@ class FacetCheckbox extends React.Component {
       nested = false,
       noCheckbox = false,
       alwaysExpanded = false,
+      indeterminate = false,
     } = this.props;
     const { expanded } = this.state;
 
@@ -80,7 +81,7 @@ class FacetCheckbox extends React.Component {
           control={
             <Checkbox
               className={classes.checkbox}
-              {...{ value, checked, disabled, onChange }}
+              {...{ value, checked, disabled, indeterminate, onChange }}
             />
           }
           label={label}

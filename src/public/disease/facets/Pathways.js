@@ -58,26 +58,37 @@ export class FacetComponent extends React.Component {
     const { state, data } = this.props;
     return (
       <FacetFormGroup>
-        {data.items.map(item => (
-          <FacetCheckbox
-            key={item.itemId}
-            nested
-            checked={state.pathwayIds.indexOf(item.itemId) >= 0}
-            onChange={this.handleFacetChange(item)}
-            value={item.itemId}
-            label={`${item.name} (${item.count})`}
-          >
-            {item.children.map(childItem => (
-              <FacetCheckbox
-                key={childItem.itemId}
-                checked={state.pathwayIds.indexOf(childItem.itemId) >= 0}
-                onChange={this.handleFacetChange(childItem)}
-                value={childItem.itemId}
-                label={`${childItem.name} (${childItem.count})`}
-              />
-            ))}
-          </FacetCheckbox>
-        ))}
+        {data.items.map(item => {
+          const checkedChildren = item.children.filter(
+            childItem => state.pathwayIds.indexOf(childItem.itemId) >= 0
+          );
+          const indeterminate =
+            item.children.length > 0 &&
+            checkedChildren.length > 0 &&
+            checkedChildren.length < item.children.length;
+          const nested = item.children.length > 0;
+          return (
+            <FacetCheckbox
+              key={item.itemId}
+              nested={nested}
+              indeterminate={indeterminate}
+              checked={state.pathwayIds.indexOf(item.itemId) >= 0}
+              onChange={this.handleFacetChange(item)}
+              value={item.itemId}
+              label={`${item.name} (${item.count})`}
+            >
+              {item.children.map(childItem => (
+                <FacetCheckbox
+                  key={childItem.itemId}
+                  checked={state.pathwayIds.indexOf(childItem.itemId) >= 0}
+                  onChange={this.handleFacetChange(childItem)}
+                  value={childItem.itemId}
+                  label={`${childItem.name} (${childItem.count})`}
+                />
+              ))}
+            </FacetCheckbox>
+          );
+        })}
       </FacetFormGroup>
     );
   }
