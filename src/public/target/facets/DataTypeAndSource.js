@@ -48,6 +48,7 @@ export const FacetComponent = ({ state, data, onFacetChange }) => (
           key={item.itemId}
           nested
           checked={state.dataTypeIds.indexOf(item.itemId) >= 0}
+          disabled={item.count === 0}
           onChange={() => {
             let newDataTypeIds;
             if (state.dataTypeIds.indexOf(item.itemId) >= 0) {

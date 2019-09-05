@@ -34,6 +34,7 @@ const FacetCheckbox = ({
   label,
   value,
   checked,
+  disabled = false,
   onChange,
   nested = false,
   noCheckbox = false,
@@ -50,7 +51,7 @@ const FacetCheckbox = ({
         control={
           <Checkbox
             className={classes.checkbox}
-            {...{ value, checked, onChange }}
+            {...{ value, checked, disabled, onChange }}
           />
         }
         label={label}
@@ -63,7 +64,7 @@ const FacetCheckbox = ({
       control={
         <Checkbox
           className={classes.checkbox}
-          {...{ value, checked, onChange }}
+          {...{ value, checked, disabled, onChange }}
         />
       }
       label={label}
