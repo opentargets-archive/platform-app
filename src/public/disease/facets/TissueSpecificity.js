@@ -1,12 +1,12 @@
 import React from 'react';
+import * as d3 from 'd3';
 import gql from 'graphql-tag';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
-import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import FacetCheckbox from '../../common/FacetCheckbox';
+import FacetRadio from '../../common/FacetRadio';
 
 export const id = 'tissueSpecificity';
 export const name = 'Tissue Specificity (Baseline RNA Expression)';
@@ -34,6 +34,8 @@ export const stateToInput = state => {
   }
   return input;
 };
+
+const tissueNameComparator = (a, b) => d3.ascending(a.name, b.name);
 
 export class FacetComponent extends React.Component {
   state = {
@@ -89,58 +91,58 @@ export class FacetComponent extends React.Component {
     return (
       <FormControl component="fieldset">
         <FormGroup>
-          <RadioGroup
-            aria-label="group tissues by"
-            name="groupTissuesBy"
-            value={this.state.groupTissuesBy}
-            onChange={this.handleGroupTissuesByChange}
-            row
-          >
-            <FormControlLabel
-              value="organ"
-              control={<Radio color="primary" />}
-              label="Organ"
-            />
-            <FormControlLabel
-              value="anatomicalSystem"
-              control={<Radio color="primary" />}
-              label="Anatomical System"
-            />
-          </RadioGroup>
+          <FacetCheckbox nested noCheckbox label="Group tissues by">
+            <RadioGroup
+              aria-label="group tissues by"
+              name="groupTissuesBy"
+              value={this.state.groupTissuesBy}
+              onChange={this.handleGroupTissuesByChange}
+              row
+            >
+              <FacetRadio value="organ" label="Organ" />
+              <FacetRadio value="anatomicalSystem" label="Anatomical System" />
+            </RadioGroup>
+          </FacetCheckbox>
 
           {this.state.groupTissuesBy === 'organ' ? (
             <React.Fragment>
-              {Object.entries(tissuesByOrgan).map(([organ, tissues]) => (
-                <FacetCheckbox nested noCheckbox label={organ}>
-                  {tissues.map(item => (
-                    <FacetCheckbox
-                      key={item.itemId}
-                      checked={state.tissueIds.indexOf(item.itemId) >= 0}
-                      onChange={this.handleFacetChange(item)}
-                      value={item.itemId}
-                      label={item.name}
-                    />
-                  ))}
-                </FacetCheckbox>
-              ))}
+              {Object.keys(tissuesByOrgan)
+                .sort()
+                .map(organ => (
+                  <FacetCheckbox nested noCheckbox label={organ}>
+                    {tissuesByOrgan[organ]
+                      .sort(tissueNameComparator)
+                      .map(item => (
+                        <FacetCheckbox
+                          key={item.itemId}
+                          checked={state.tissueIds.indexOf(item.itemId) >= 0}
+                          onChange={this.handleFacetChange(item)}
+                          value={item.itemId}
+                          label={item.name}
+                        />
+                      ))}
+                  </FacetCheckbox>
+                ))}
             </React.Fragment>
           ) : (
             <React.Fragment>
-              {Object.entries(tissuesByAnatomicalSystem).map(
-                ([anatomicalSystem, tissues]) => (
+              {Object.keys(tissuesByAnatomicalSystem)
+                .sort()
+                .map(anatomicalSystem => (
                   <FacetCheckbox nested noCheckbox label={anatomicalSystem}>
-                    {tissues.map(item => (
-                      <FacetCheckbox
-                        key={item.itemId}
-                        checked={state.tissueIds.indexOf(item.itemId) >= 0}
-                        onChange={this.handleFacetChange(item)}
-                        value={item.itemId}
-                        label={item.name}
-                      />
-                    ))}
+                    {tissuesByAnatomicalSystem[anatomicalSystem]
+                      .sort(tissueNameComparator)
+                      .map(item => (
+                        <FacetCheckbox
+                          key={item.itemId}
+                          checked={state.tissueIds.indexOf(item.itemId) >= 0}
+                          onChange={this.handleFacetChange(item)}
+                          value={item.itemId}
+                          label={item.name}
+                        />
+                      ))}
                   </FacetCheckbox>
-                )
-              )}
+                ))}
             </React.Fragment>
           )}
         </FormGroup>
