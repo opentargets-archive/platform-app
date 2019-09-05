@@ -1,26 +1,32 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = theme => ({
   facetContainer: {
     borderTop: `1px solid ${theme.palette.grey[500]}`,
-    marginTop: '4px',
-    marginBottom: '8px',
+    paddingTop: '8px',
+    paddingBottom: '8px',
   },
   childrenContainer: {
-    marginTop: '4px',
-    marginBottom: '4px',
+    paddingTop: '10px',
+    paddingRight: '16px',
   },
 });
 
 const FacetContainer = ({ classes, name, children }) => (
-  <div className={classes.facetContainer}>
-    <Typography>
-      <strong>{name}</strong>
-    </Typography>
-    <div className={classes.childrenContainer}>{children}</div>
-  </div>
+  <ExpansionPanel className={classes.facetContainer} elevation={0}>
+    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+      <Typography>{name}</Typography>
+    </ExpansionPanelSummary>
+    <ExpansionPanelDetails className={classes.childrenContainer}>
+      {children}
+    </ExpansionPanelDetails>
+  </ExpansionPanel>
 );
 
 export default withStyles(styles)(FacetContainer);

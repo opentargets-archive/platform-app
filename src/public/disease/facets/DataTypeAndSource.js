@@ -8,7 +8,7 @@ export const id = 'dataTypeAndSource';
 export const name = 'Data Type and Source';
 
 export const facetQuery = gql`
-  fragment targetDiseasesConnectionDataTypeAndSourceFragment on TargetDiseasesConnectionFacets {
+  fragment diseaseTargetsConnectionDataTypeAndSourceFragment on DiseaseTargetsConnectionFacets {
     dataTypeAndSource {
       items {
         itemId
