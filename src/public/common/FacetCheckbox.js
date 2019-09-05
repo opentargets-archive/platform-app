@@ -43,61 +43,92 @@ const styles = theme => ({
   },
 });
 
-const FacetCheckbox = ({
-  classes,
-  children,
-  label,
-  value,
-  checked,
-  disabled = false,
-  onChange,
-  nested = false,
-  noCheckbox = false,
-}) =>
-  noCheckbox ? (
-    <React.Fragment>
-      <FormLabel className={classes.childrenContainerLabel}>{label}</FormLabel>
-      <FormGroup className={classes.childrenContainer}>{children}</FormGroup>
-    </React.Fragment>
-  ) : nested ? (
-    <React.Fragment>
-      <Grid
-        className={classes.nested}
-        container
-        direction="row"
-        justify="space-between"
-      >
-        <Grid item>
-          <FormControlLabel
-            className={classes.label}
-            control={
-              <Checkbox
-                className={classes.checkbox}
-                {...{ value, checked, disabled, onChange }}
-              />
-            }
-            label={label}
-          />
-        </Grid>
-        <Grid item>
-          <IconButton className={classes.expandButton} aria-label="expand">
-            <ExpandMoreIcon />
-          </IconButton>
-        </Grid>
-      </Grid>
-      <FormGroup className={classes.childrenContainer}>{children}</FormGroup>
-    </React.Fragment>
-  ) : (
-    <FormControlLabel
-      className={classes.label}
-      control={
-        <Checkbox
-          className={classes.checkbox}
-          {...{ value, checked, disabled, onChange }}
+class FacetCheckbox extends React.Component {
+  state = {
+    expanded: false,
+  };
+  handleExpandClick = () => {
+    this.setState({ expanded: !this.state.expanded });
+  };
+  render() {
+    const {
+      classes,
+      children,
+      label,
+      value,
+      checked,
+      disabled = false,
+      onChange,
+      nested = false,
+      noCheckbox = false,
+      alwaysExpanded = false,
+    } = this.props;
+    const { expanded } = this.state;
+
+    // create basic checkbox control
+    let control;
+    if (noCheckbox) {
+      control = (
+        <FormLabel className={classes.childrenContainerLabel}>
+          {label}
+        </FormLabel>
+      );
+    } else {
+      control = (
+        <FormControlLabel
+          className={classes.label}
+          control={
+            <Checkbox
+              className={classes.checkbox}
+              {...{ value, checked, disabled, onChange }}
+            />
+          }
+          label={label}
         />
-      }
-      label={label}
-    />
-  );
+      );
+    }
+
+    // handle nesting
+    if (nested && alwaysExpanded) {
+      return (
+        <React.Fragment>
+          {control}
+          <FormGroup className={classes.childrenContainer}>
+            {children}
+          </FormGroup>
+        </React.Fragment>
+      );
+    } else if (nested && !alwaysExpanded) {
+      return (
+        <React.Fragment>
+          <Grid
+            className={classes.nested}
+            container
+            direction="row"
+            justify="space-between"
+          >
+            <Grid item>{control}</Grid>
+            <Grid item>
+              <IconButton
+                onClick={this.handleExpandClick}
+                className={classes.expandButton}
+                aria-label="expand"
+              >
+                {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </IconButton>
+            </Grid>
+          </Grid>
+          {expanded ? (
+            <FormGroup className={classes.childrenContainer}>
+              {children}
+            </FormGroup>
+          ) : null}
+        </React.Fragment>
+      );
+    } else {
+      return control;
+    }
+  }
+}
 
 export default withStyles(styles)(FacetCheckbox);
