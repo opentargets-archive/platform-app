@@ -1,5 +1,6 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
+import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -21,6 +22,10 @@ const styles = theme => ({
   childrenContainer: {
     marginLeft: '16px',
   },
+  childrenContainerLabel: {
+    fontSize: '0.75rem',
+    padding: '4px 0',
+  },
 });
 
 const FacetCheckbox = ({
@@ -31,8 +36,14 @@ const FacetCheckbox = ({
   checked,
   onChange,
   nested = false,
+  noCheckbox = false,
 }) =>
-  nested ? (
+  noCheckbox ? (
+    <React.Fragment>
+      <FormLabel className={classes.childrenContainerLabel}>{label}</FormLabel>
+      <FormGroup className={classes.childrenContainer}>{children}</FormGroup>
+    </React.Fragment>
+  ) : nested ? (
     <React.Fragment>
       <FormControlLabel
         className={classes.label}
