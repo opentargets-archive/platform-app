@@ -89,7 +89,12 @@ export class FacetComponent extends React.Component {
     }, {});
     return (
       <FacetFormGroup>
-        <FacetCheckbox nested noCheckbox label="Group tissues by">
+        <FacetCheckbox
+          nested
+          alwaysExpanded
+          noCheckbox
+          label="Group tissues by"
+        >
           <RadioGroup
             aria-label="group tissues by"
             name="groupTissuesBy"
@@ -103,7 +108,7 @@ export class FacetComponent extends React.Component {
         </FacetCheckbox>
 
         {this.state.groupTissuesBy === 'noGrouping' ? (
-          <FacetCheckbox nested noCheckbox label="Tissues">
+          <FacetCheckbox nested alwaysExpanded noCheckbox label="Tissues">
             {data.items.sort(tissueNameComparator).map(item => (
               <FacetCheckbox
                 key={item.itemId}

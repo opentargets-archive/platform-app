@@ -53,7 +53,7 @@ export class FacetComponent extends React.Component {
     const { state, data } = this.props;
     return (
       <FacetFormGroup>
-        <FacetCheckbox nested noCheckbox label="Small Molecule">
+        <FacetCheckbox nested alwaysExpanded noCheckbox label="Small Molecule">
           {data.items
             .filter(item => item.itemId.startsWith('SMALLMOLECULE'))
             .map(item => (
@@ -66,7 +66,7 @@ export class FacetComponent extends React.Component {
               />
             ))}
         </FacetCheckbox>
-        <FacetCheckbox nested noCheckbox label="Antibody">
+        <FacetCheckbox nested alwaysExpanded noCheckbox label="Antibody">
           {data.items
             .filter(item => item.itemId.startsWith('ANTIBODY'))
             .map(item => (
