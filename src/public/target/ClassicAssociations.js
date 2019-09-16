@@ -9,9 +9,10 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import { commaSeparate } from 'ot-ui';
+import { Tabs, Tab, commaSeparate } from 'ot-ui';
 
 import * as facetsObject from './facetIndex';
+import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import FacetContainer from '../common/FacetContainer';
 
@@ -82,6 +83,7 @@ class ClassicAssociations extends React.Component {
     search: '',
     searchDebouced: '',
     sortBy: { field: 'SCORE_OVERALL', ascending: false },
+    tab: 'table',
   };
   handlePaginationChange = (forward, nextPageCursor) => {
     const { page, pageCursors } = this.state;
@@ -113,6 +115,9 @@ class ClassicAssociations extends React.Component {
       page: 0,
     });
   };
+  handleTabChange = (event, tab) => {
+    this.setState({ tab });
+  };
   render() {
     const { ensgId, symbol } = this.props;
     const {
@@ -123,6 +128,7 @@ class ClassicAssociations extends React.Component {
       page,
       pageCursors,
       first: rowsPerPage,
+      tab,
     } = this.state;
     const facetsInput = facets
       .map(f => ({ ...f, input: f.stateToInput(facetsState[f.id]) }))
@@ -211,19 +217,46 @@ class ClassicAssociations extends React.Component {
                 </Card>
               </Grid>
               <Grid item xs={12} md={9}>
+                <Tabs
+                  value={tab}
+                  onChange={this.handleTabChange}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                >
+                  <Tab value="table" label="Table" />
+                  <Tab value="dag" label="Graph" />
+                </Tabs>
                 <Card elevation={0}>
                   <CardContent>
-                    <ClassicAssociationsTable
-                      rows={rows}
-                      dataTypes={dataTypes}
-                      sortBy={sortBy}
-                      onSortByChange={this.handleSortByChange}
-                      page={page}
-                      rowsPerPage={rowsPerPage}
-                      totalCount={totalCount}
-                      pageInfo={pageInfo}
-                      onPaginationChange={this.handlePaginationChange}
-                    />
+                    {/* table view */}
+                    {tab === 'table' && (
+                      <ClassicAssociationsTable
+                        rows={rows}
+                        dataTypes={dataTypes}
+                        sortBy={sortBy}
+                        onSortByChange={this.handleSortByChange}
+                        page={page}
+                        rowsPerPage={rowsPerPage}
+                        totalCount={totalCount}
+                        pageInfo={pageInfo}
+                        onPaginationChange={this.handlePaginationChange}
+                      />
+                    )}
+
+                    {/* dag view */}
+                    {tab === 'dag' && (
+                      <ClassicAssociationsDAG
+                        rows={rows}
+                        dataTypes={dataTypes}
+                        sortBy={sortBy}
+                        onSortByChange={this.handleSortByChange}
+                        page={page}
+                        rowsPerPage={rowsPerPage}
+                        totalCount={totalCount}
+                        pageInfo={pageInfo}
+                        onPaginationChange={this.handlePaginationChange}
+                      />
+                    )}
                   </CardContent>
                 </Card>
               </Grid>
