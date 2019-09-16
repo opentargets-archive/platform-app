@@ -13,6 +13,7 @@ import { Tabs, Tab, commaSeparate } from 'ot-ui';
 
 import * as facetsObject from './facetIndex';
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
+import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import FacetContainer from '../common/FacetContainer';
 
@@ -224,6 +225,7 @@ class ClassicAssociations extends React.Component {
                   scrollButtons="auto"
                 >
                   <Tab value="table" label="Table" />
+                  <Tab value="bubbles" label="Bubbles" />
                   <Tab value="dag" label="Graph" />
                 </Tabs>
                 <Card elevation={0}>
@@ -231,6 +233,21 @@ class ClassicAssociations extends React.Component {
                     {/* table view */}
                     {tab === 'table' && (
                       <ClassicAssociationsTable
+                        rows={rows}
+                        dataTypes={dataTypes}
+                        sortBy={sortBy}
+                        onSortByChange={this.handleSortByChange}
+                        page={page}
+                        rowsPerPage={rowsPerPage}
+                        totalCount={totalCount}
+                        pageInfo={pageInfo}
+                        onPaginationChange={this.handlePaginationChange}
+                      />
+                    )}
+
+                    {/* bubbles view */}
+                    {tab === 'bubbles' && (
+                      <ClassicAssociationsBubbles
                         rows={rows}
                         dataTypes={dataTypes}
                         sortBy={sortBy}
