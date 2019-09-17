@@ -18,12 +18,22 @@ const getInducedDAG = ({ data, efo }) => {
     score: d.score,
     isTherapeuticArea: efo.therapeuticAreas.indexOf(d.disease.id) >= 0,
   }));
-  const therapeuticAreas = dataAsNodes.filter(d => d.isTherapeuticArea);
-  const diseases = dataAsNodes.filter(d => !d.isTherapeuticArea);
+  const therapeuticAreasAll = efo.therapeuticAreas.map(taId => {
+    const ta = efoById.get(taId);
+    return {
+      id: ta.id,
+      name: ta.name,
+      score: null,
+      isTherapeuticArea: true,
+    };
+  });
+
+  // note: therapeutic areas with scores in dataAsNodes will overwrite therapeuticAreasAll,
+  //       but need all to prevent spurious links to EFO_ROOT
   const nodesById = new Map([
     ['EFO_ROOT', { id: 'EFO_ROOT', score: null }],
-    ...therapeuticAreas.map(d => [d.id, d]),
-    ...diseases.map(d => [d.id, d]),
+    ...therapeuticAreasAll.map(d => [d.id, d]),
+    ...dataAsNodes.map(d => [d.id, d]),
   ]);
   const nodeIds = new Set(nodesById.keys());
 
@@ -82,10 +92,11 @@ const getInducedDAG = ({ data, efo }) => {
 
   const subGraph = getInducedSubGraph(nodeIds);
   const subGraphData = [...subGraph.values()];
-  // compute layout
-  // layout(dag);
   return d3.dagStratify()(subGraphData);
 };
+
+const separatorIgnoreEdges = (a, b) =>
+  (a.data !== undefined) + (b.data !== undefined);
 
 const getLayoutGenerator = (innerWidth, innerHeight) =>
   d3
@@ -93,9 +104,8 @@ const getLayoutGenerator = (innerWidth, innerHeight) =>
     .size([innerHeight, innerWidth])
     .layering(d3.layeringLongestPath().topDown(false))
     .decross(d3.decrossTwoLayer())
-    // .coord(d3.coordGreedy())
-    .coord(d3.coordCenter());
-//.separation(separatorIgnoreEdges);
+    .coord(d3.coordCenter())
+    .separation(separatorIgnoreEdges);
 
 const getMaxLayerCount = (dag, edgeSeparation = true) => {
   // use layout (but only to get layer counts, coords don't matter here)
@@ -153,7 +163,8 @@ class ClassicAssociationsDAG extends React.Component {
     let dag = getInducedDAG({ data, efo });
 
     // compute height (based on dag nodes per layer)
-    const height = margin.top + margin.bottom + getMaxLayerCount(dag) * 6;
+    const height =
+      margin.top + margin.bottom + getMaxLayerCount(dag, false) * 10;
     const innerHeight = height - margin.top - margin.bottom;
 
     // create layout generator
@@ -169,7 +180,7 @@ class ClassicAssociationsDAG extends React.Component {
       .range(['#fff', theme.palette.primary.main]);
 
     // constants
-    const nodeRadius = 6;
+    const nodeRadius = 4;
     const nodeStrokeColor = theme.palette.grey[300];
     const edgeStrokeColor = theme.palette.grey[200];
 

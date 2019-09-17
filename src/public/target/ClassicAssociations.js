@@ -125,7 +125,19 @@ class ClassicAssociations extends React.Component {
     });
   };
   handleTabChange = (event, tab) => {
-    this.setState({ tab });
+    if (tab === 'table') {
+      // Heatmap table renders 50 rows.
+      this.setState({ tab, first: 50, page: 0 });
+    } else {
+      // Bubbles and dag render top 10000 by association score descending
+      // as there's no way to sort by columns. Facet should still work.
+      this.setState({
+        tab,
+        first: 10000,
+        page: 0,
+        sortBy: { field: 'SCORE_OVERALL', ascending: false },
+      });
+    }
   };
   render() {
     const { ensgId, symbol } = this.props;
@@ -155,6 +167,7 @@ class ClassicAssociations extends React.Component {
           sortBy,
           search: searchDebouced ? searchDebouced : null,
           facets: facetsInput,
+          first: rowsPerPage,
           after,
         }}
       >
