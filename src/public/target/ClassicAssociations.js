@@ -28,6 +28,14 @@ const associationsQuery = gql`
     $sortBy: TargetDiseasesConnectionSortByInput
     $search: String
   ) {
+    efo {
+      nodes {
+        id
+        name
+        parentIds 
+      }
+      therapeuticAreas
+    }
     target(ensgId: $ensgId) {
       id
       diseasesConnection(
@@ -159,16 +167,19 @@ class ClassicAssociations extends React.Component {
           let totalCount;
           let facetsData;
           let pageInfo;
+          let efo;
           if (
             loading &&
-            !(data && data.target && data.target.diseasesConnection)
+            !(data && data.efo && data.target && data.target.diseasesConnection)
           ) {
             edges = [];
+            efo = { nodes: [], therapeuticAreas: [] };
           } else {
             edges = data.target.diseasesConnection.edges;
             totalCount = data.target.diseasesConnection.totalCount;
             facetsData = data.target.diseasesConnection.facets;
             pageInfo = data.target.diseasesConnection.pageInfo;
+            efo = data.efo;
           }
 
           const rows = edges.map(({ node, ...rest }) => ({
@@ -263,7 +274,8 @@ class ClassicAssociations extends React.Component {
                     {/* dag view */}
                     {tab === 'dag' && (
                       <ClassicAssociationsDAG
-                        rows={rows}
+                        data={rows}
+                        efo={efo}
                         dataTypes={dataTypes}
                         sortBy={sortBy}
                         onSortByChange={this.handleSortByChange}
