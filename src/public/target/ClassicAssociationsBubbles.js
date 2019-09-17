@@ -120,7 +120,7 @@ class ClassicAssociationsBubbles extends React.Component {
             height={height}
             viewBox={`0 0 ${width} ${height}`}
             textAnchor="middle"
-            font="10px sans-serif"
+            style={{ font: '10px sans-serif' }}
             alignmentBaseline="center"
           >
             <g transform={`translate(${width / 2 - diameter / 2},0)`}>
@@ -169,15 +169,19 @@ class ClassicAssociationsBubbles extends React.Component {
                     </React.Fragment>
                   )}
 
-                  {/* diseases only (leaves) */}
-                  {!d.children && (
+                  {/* diseases only (leaves) with large radius */}
+                  {!d.children && d.r > 10 && (
                     <React.Fragment>
                       <clipPath id={`clip-${d.data.id}`}>
                         <circle cx={0} cy={0} r={d.r} />
                       </clipPath>
-                      <text clipPath={`url(#clip-${d.data.id})`}>
+                      <text x={0} y={0} clipPath={`url(#clip-${d.data.id})`}>
                         {d.data.name.split(' ').map((w, i, nodes) => (
-                          <tspan key={i} y={`${i - nodes.length / 2 + 0.8}em`}>
+                          <tspan
+                            key={i}
+                            x={0}
+                            y={`${i - nodes.length / 2 + 0.8}em`}
+                          >
                             {w}
                           </tspan>
                         ))}
