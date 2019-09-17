@@ -9,9 +9,11 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import { commaSeparate } from 'ot-ui';
+import { Tabs, Tab, commaSeparate } from 'ot-ui';
 
 import * as facetsObject from './facetIndex';
+import ClassicAssociationsDAG from './ClassicAssociationsDAG';
+import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import FacetContainer from '../common/FacetContainer';
 
@@ -26,6 +28,14 @@ const associationsQuery = gql`
     $sortBy: TargetDiseasesConnectionSortByInput
     $search: String
   ) {
+    efo {
+      nodes {
+        id
+        name
+        parentIds 
+      }
+      therapeuticAreas
+    }
     target(ensgId: $ensgId) {
       id
       diseasesConnection(
@@ -82,6 +92,7 @@ class ClassicAssociations extends React.Component {
     search: '',
     searchDebouced: '',
     sortBy: { field: 'SCORE_OVERALL', ascending: false },
+    tab: 'table',
   };
   handlePaginationChange = (forward, nextPageCursor) => {
     const { page, pageCursors } = this.state;
@@ -113,6 +124,21 @@ class ClassicAssociations extends React.Component {
       page: 0,
     });
   };
+  handleTabChange = (event, tab) => {
+    if (tab === 'table') {
+      // Heatmap table renders 50 rows.
+      this.setState({ tab, first: 50, page: 0 });
+    } else {
+      // Bubbles and dag render top 10000 by association score descending
+      // as there's no way to sort by columns. Facet should still work.
+      this.setState({
+        tab,
+        first: 10000,
+        page: 0,
+        sortBy: { field: 'SCORE_OVERALL', ascending: false },
+      });
+    }
+  };
   render() {
     const { ensgId, symbol } = this.props;
     const {
@@ -123,6 +149,7 @@ class ClassicAssociations extends React.Component {
       page,
       pageCursors,
       first: rowsPerPage,
+      tab,
     } = this.state;
     const facetsInput = facets
       .map(f => ({ ...f, input: f.stateToInput(facetsState[f.id]) }))
@@ -140,6 +167,7 @@ class ClassicAssociations extends React.Component {
           sortBy,
           search: searchDebouced ? searchDebouced : null,
           facets: facetsInput,
+          first: rowsPerPage,
           after,
         }}
       >
@@ -152,16 +180,19 @@ class ClassicAssociations extends React.Component {
           let totalCount;
           let facetsData;
           let pageInfo;
+          let efo;
           if (
             loading &&
-            !(data && data.target && data.target.diseasesConnection)
+            !(data && data.efo && data.target && data.target.diseasesConnection)
           ) {
             edges = [];
+            efo = { nodes: [], therapeuticAreas: [] };
           } else {
             edges = data.target.diseasesConnection.edges;
             totalCount = data.target.diseasesConnection.totalCount;
             facetsData = data.target.diseasesConnection.facets;
             pageInfo = data.target.diseasesConnection.pageInfo;
+            efo = data.efo;
           }
 
           const rows = edges.map(({ node, ...rest }) => ({
@@ -211,19 +242,42 @@ class ClassicAssociations extends React.Component {
                 </Card>
               </Grid>
               <Grid item xs={12} md={9}>
+                <Tabs
+                  value={tab}
+                  onChange={this.handleTabChange}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                >
+                  <Tab value="table" label="Table" />
+                  <Tab value="bubbles" label="Bubbles" />
+                  <Tab value="dag" label="Graph" />
+                </Tabs>
                 <Card elevation={0}>
                   <CardContent>
-                    <ClassicAssociationsTable
-                      rows={rows}
-                      dataTypes={dataTypes}
-                      sortBy={sortBy}
-                      onSortByChange={this.handleSortByChange}
-                      page={page}
-                      rowsPerPage={rowsPerPage}
-                      totalCount={totalCount}
-                      pageInfo={pageInfo}
-                      onPaginationChange={this.handlePaginationChange}
-                    />
+                    {/* table view */}
+                    {tab === 'table' && (
+                      <ClassicAssociationsTable
+                        rows={rows}
+                        dataTypes={dataTypes}
+                        sortBy={sortBy}
+                        onSortByChange={this.handleSortByChange}
+                        page={page}
+                        rowsPerPage={rowsPerPage}
+                        totalCount={totalCount}
+                        pageInfo={pageInfo}
+                        onPaginationChange={this.handlePaginationChange}
+                      />
+                    )}
+
+                    {/* bubbles view */}
+                    {tab === 'bubbles' && (
+                      <ClassicAssociationsBubbles data={rows} efo={efo} />
+                    )}
+
+                    {/* dag view */}
+                    {tab === 'dag' && (
+                      <ClassicAssociationsDAG data={rows} efo={efo} />
+                    )}
                   </CardContent>
                 </Card>
               </Grid>
