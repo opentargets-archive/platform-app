@@ -331,7 +331,7 @@ class ClassicAssociationsDAG extends React.Component {
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
               {nodesExcludingRoot.map(d => (
-                <Link key={d.id} to={`/disease/${d.id}`}>
+                <React.Fragment key={d.id}>
                   {d.data.isTherapeuticArea ? (
                     <rect
                       id={`dag-node-${d.id}`}
@@ -354,7 +354,7 @@ class ClassicAssociationsDAG extends React.Component {
                       onMouseOver={() => handleMouseover(d.data)}
                     />
                   )}
-                </Link>
+                </React.Fragment>
               ))}
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
