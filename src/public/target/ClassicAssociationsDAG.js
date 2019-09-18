@@ -1,11 +1,11 @@
 import React from 'react';
-import { Typography } from 'ot-ui';
 import { withContentRect } from 'react-measure';
 import * as d3Base from 'd3';
 import * as d3DagBase from 'd3-dag';
 import withTheme from '@material-ui/core/styles/withTheme';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
 import { Link, significantFigures } from 'ot-ui';
 

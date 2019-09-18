@@ -2,8 +2,15 @@ import React from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 import withTheme from '@material-ui/core/styles/withTheme';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
-const getTherapeuticAreaTree = ({ data, efo, diameter }) => {
+import { Link, significantFigures } from 'ot-ui';
+
+import withTooltip from '../common/withTooltip';
+
+const getTherapeuticAreaTree = ({ ensgId, symbol, data, efo, diameter }) => {
   const efoById = new Map(efo.nodes.map(d => [d.id, d]));
   const therapeuticAreasIds = new Set(efo.therapeuticAreas);
   const therapeuticAreas = efo.therapeuticAreas.map(taId => {
@@ -60,17 +67,20 @@ const getTherapeuticAreaTree = ({ data, efo, diameter }) => {
     uniqueId: 'EFO_ROOT',
     name: 'root',
     isTherapeuticArea: false,
+    target: { ensgId, symbol },
     children: therapeuticAreas.map(ta => ({
       id: ta.id,
       uniqueId: ta.id,
       name: ta.name,
       isTherapeuticArea: true,
+      target: { ensgId, symbol },
       children: [...wantedDiseaseIdsByTherapeuticAreaId.get(ta.id)]
         .map(d => nodesById.get(d))
         .map(d => ({
           ...d,
           uniqueId: `${ta.id}-${d.id}`, // need uniqueId as diseases can fall into multiple therapeutic areas
           isTherapeuticArea: false,
+          target: { ensgId, symbol },
           value: d.score,
           children: [],
         })),
@@ -97,12 +107,26 @@ class ClassicAssociationsBubbles extends React.Component {
   }
 
   render() {
-    const { measureRef, theme, data, efo } = this.props;
+    const {
+      measureRef,
+      ensgId,
+      symbol,
+      theme,
+      data,
+      efo,
+      handleMouseover,
+    } = this.props;
     const { width } = this.state;
     const height = 800;
     const diameter = Math.min(width, height); // TODO: replace 600 with eg page height / 2
 
-    const therapeuticAreaTree = getTherapeuticAreaTree({ data, efo, diameter });
+    const therapeuticAreaTree = getTherapeuticAreaTree({
+      ensgId,
+      symbol,
+      data,
+      efo,
+      diameter,
+    });
     const nodes = therapeuticAreaTree.descendants();
 
     // color scale
@@ -127,6 +151,7 @@ class ClassicAssociationsBubbles extends React.Component {
               {nodes.map(d => (
                 <g key={d.data.uniqueId} transform={`translate(${d.x},${d.y})`}>
                   <circle
+                    id={`tree-node-${d.data.uniqueId}`}
                     cx={0}
                     cy={0}
                     r={d.r}
@@ -142,6 +167,11 @@ class ClassicAssociationsBubbles extends React.Component {
                         ? 'none'
                         : color(d.data.score)
                     }
+                    onMouseOver={() => {
+                      if (d.data.id !== 'EFO_ROOT') {
+                        handleMouseover(d.data);
+                      }
+                    }}
                   />
 
                   {/* therapeutic areas only */}
@@ -175,7 +205,12 @@ class ClassicAssociationsBubbles extends React.Component {
                       <clipPath id={`clip-${d.data.id}`}>
                         <circle cx={0} cy={0} r={d.r} />
                       </clipPath>
-                      <text x={0} y={0} clipPath={`url(#clip-${d.data.id})`}>
+                      <text
+                        x={0}
+                        y={0}
+                        clipPath={`url(#clip-${d.data.id})`}
+                        pointerEvents="none"
+                      >
                         {d.data.name.split(' ').map((w, i, nodes) => (
                           <tspan
                             key={i}
@@ -198,6 +233,29 @@ class ClassicAssociationsBubbles extends React.Component {
   }
 }
 
-export default withTheme()(
-  withContentRect('bounds')(ClassicAssociationsBubbles)
+const tooltipElementFinder = ({ uniqueId }) =>
+  document.querySelector(`#tree-node-${uniqueId}`);
+
+const TooltipContent = ({ data }) => (
+  <Card>
+    <CardContent>
+      <Typography align="center">
+        <strong>{data.name}</strong>
+        <br />
+        association score: {significantFigures(data.score)}
+        <br />
+        <Link to={`/disease/${data.id}`}>Disease profile</Link>
+        <br />
+        <Link to={`/evidence/${data.target.ensgId}/${data.id}`}>
+          Association evidence
+        </Link>
+      </Typography>
+    </CardContent>
+  </Card>
+);
+
+export default withTooltip(
+  withTheme()(withContentRect('bounds')(ClassicAssociationsBubbles)),
+  TooltipContent,
+  tooltipElementFinder
 );
