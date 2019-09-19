@@ -271,12 +271,22 @@ class ClassicAssociations extends React.Component {
 
                     {/* bubbles view */}
                     {tab === 'bubbles' && (
-                      <ClassicAssociationsBubbles data={rows} efo={efo} />
+                      <ClassicAssociationsBubbles
+                        ensgId={ensgId}
+                        symbol={symbol}
+                        data={rows}
+                        efo={efo}
+                      />
                     )}
 
                     {/* dag view */}
                     {tab === 'dag' && (
-                      <ClassicAssociationsDAG data={rows} efo={efo} />
+                      <ClassicAssociationsDAG
+                        ensgId={ensgId}
+                        symbol={symbol}
+                        data={rows}
+                        efo={efo}
+                      />
                     )}
                   </CardContent>
                 </Card>

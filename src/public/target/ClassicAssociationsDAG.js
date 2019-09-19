@@ -3,12 +3,17 @@ import { withContentRect } from 'react-measure';
 import * as d3Base from 'd3';
 import * as d3DagBase from 'd3-dag';
 import withTheme from '@material-ui/core/styles/withTheme';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
-import { Link } from 'ot-ui';
+import { Link, significantFigures } from 'ot-ui';
+
+import withTooltip from '../common/withTooltip';
 
 const d3 = Object.assign({}, d3Base, d3DagBase);
 
-const getInducedDAG = ({ data, efo }) => {
+const getInducedDAG = ({ ensgId, symbol, data, efo }) => {
   const efoById = new Map(efo.nodes.map(d => [d.id, d]));
 
   // get just what is needed from associations
@@ -17,6 +22,7 @@ const getInducedDAG = ({ data, efo }) => {
     name: d.disease.name,
     score: d.score,
     isTherapeuticArea: efo.therapeuticAreas.indexOf(d.disease.id) >= 0,
+    target: { ensgId, symbol },
   }));
   const therapeuticAreasAll = efo.therapeuticAreas.map(taId => {
     const ta = efoById.get(taId);
@@ -25,13 +31,14 @@ const getInducedDAG = ({ data, efo }) => {
       name: ta.name,
       score: null,
       isTherapeuticArea: true,
+      target: { ensgId, symbol },
     };
   });
 
   // note: therapeutic areas with scores in dataAsNodes will overwrite therapeuticAreasAll,
   //       but need all to prevent spurious links to EFO_ROOT
   const nodesById = new Map([
-    ['EFO_ROOT', { id: 'EFO_ROOT', score: null }],
+    ['EFO_ROOT', { id: 'EFO_ROOT', score: null, target: { ensgId, symbol } }],
     ...therapeuticAreasAll.map(d => [d.id, d]),
     ...dataAsNodes.map(d => [d.id, d]),
   ]);
@@ -74,13 +81,14 @@ const getInducedDAG = ({ data, efo }) => {
     new Map(
       [...nodeIds].map(d => {
         const { parentIds: directParentIds, ...rest } = efoById.get(d);
-        const { score, isTherapeuticArea } = nodesById.get(d);
+        const { score, isTherapeuticArea, target } = nodesById.get(d);
         return [
           d,
           {
             id: d,
             score,
             isTherapeuticArea,
+            target,
             ...rest,
             parentIds: [
               ...getInducedParentIds(new Set(), new Set(directParentIds)),
@@ -154,13 +162,21 @@ class ClassicAssociationsDAG extends React.Component {
   }
 
   render() {
-    const { measureRef, theme, data, efo } = this.props;
+    const {
+      measureRef,
+      theme,
+      ensgId,
+      symbol,
+      data,
+      efo,
+      handleMouseover,
+    } = this.props;
     const { width } = this.state;
     const margin = { top: 100, right: 10, bottom: 10, left: 10 };
     const innerWidth = width - margin.left - margin.right;
 
     // create dag
-    let dag = getInducedDAG({ data, efo });
+    let dag = getInducedDAG({ ensgId, symbol, data, efo });
 
     // compute height (based on dag nodes per layer)
     const height =
@@ -315,26 +331,30 @@ class ClassicAssociationsDAG extends React.Component {
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
               {nodesExcludingRoot.map(d => (
-                <Link key={d.id} to={`/disease/${d.id}`}>
+                <React.Fragment key={d.id}>
                   {d.data.isTherapeuticArea ? (
                     <rect
+                      id={`dag-node-${d.id}`}
                       fill={color(d.data.score)}
                       stroke={nodeStrokeColor}
                       x={d.y - nodeRadius - xOffsetDueToExcludingRoot}
                       y={d.x - nodeRadius}
                       width={nodeRadius * 2}
                       height={nodeRadius * 2}
+                      onMouseOver={() => handleMouseover(d.data)}
                     />
                   ) : (
                     <circle
+                      id={`dag-node-${d.id}`}
                       fill={color(d.data.score)}
                       stroke={nodeStrokeColor}
                       cx={d.y - xOffsetDueToExcludingRoot}
                       cy={d.x}
                       r={nodeRadius}
+                      onMouseOver={() => handleMouseover(d.data)}
                     />
                   )}
-                </Link>
+                </React.Fragment>
               ))}
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
@@ -360,4 +380,29 @@ class ClassicAssociationsDAG extends React.Component {
   }
 }
 
-export default withTheme()(withContentRect('bounds')(ClassicAssociationsDAG));
+const tooltipElementFinder = ({ id }) =>
+  document.querySelector(`#dag-node-${id}`);
+
+const TooltipContent = ({ data }) => (
+  <Card>
+    <CardContent>
+      <Typography align="center">
+        <strong>{data.name}</strong>
+        <br />
+        association score: {significantFigures(data.score)}
+        <br />
+        <Link to={`/disease/${data.id}`}>Disease profile</Link>
+        <br />
+        <Link to={`/evidence/${data.target.ensgId}/${data.id}`}>
+          Association evidence
+        </Link>
+      </Typography>
+    </CardContent>
+  </Card>
+);
+
+export default withTooltip(
+  withTheme()(withContentRect('bounds')(ClassicAssociationsDAG)),
+  TooltipContent,
+  tooltipElementFinder
+);
