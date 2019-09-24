@@ -3,13 +3,9 @@ import { withContentRect } from 'react-measure';
 import * as d3Base from 'd3';
 import * as d3DagBase from 'd3-dag';
 import withTheme from '@material-ui/core/styles/withTheme';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-
-import { Link, significantFigures } from 'ot-ui';
 
 import withTooltip from '../common/withTooltip';
+import TooltipContent from './ClassicAssociationsTooltip';
 
 const d3 = Object.assign({}, d3Base, d3DagBase);
 
@@ -382,24 +378,6 @@ class ClassicAssociationsDAG extends React.Component {
 
 const tooltipElementFinder = ({ id }) =>
   document.querySelector(`#dag-node-${id}`);
-
-const TooltipContent = ({ data }) => (
-  <Card>
-    <CardContent>
-      <Typography align="center">
-        <strong>{data.name}</strong>
-        <br />
-        association score: {significantFigures(data.score)}
-        <br />
-        <Link to={`/disease/${data.id}`}>Disease profile</Link>
-        <br />
-        <Link to={`/evidence/${data.target.ensgId}/${data.id}`}>
-          Association evidence
-        </Link>
-      </Typography>
-    </CardContent>
-  </Card>
-);
 
 export default withTooltip(
   withTheme()(withContentRect('bounds')(ClassicAssociationsDAG)),

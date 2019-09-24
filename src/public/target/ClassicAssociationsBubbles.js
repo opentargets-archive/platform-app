@@ -2,13 +2,9 @@ import React from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 import withTheme from '@material-ui/core/styles/withTheme';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-
-import { Link, significantFigures } from 'ot-ui';
 
 import withTooltip from '../common/withTooltip';
+import TooltipContent from './ClassicAssociationsTooltip';
 
 const getTherapeuticAreaTree = ({ ensgId, symbol, data, efo, diameter }) => {
   const efoById = new Map(efo.nodes.map(d => [d.id, d]));
@@ -235,24 +231,6 @@ class ClassicAssociationsBubbles extends React.Component {
 
 const tooltipElementFinder = ({ uniqueId }) =>
   document.querySelector(`#tree-node-${uniqueId}`);
-
-const TooltipContent = ({ data }) => (
-  <Card>
-    <CardContent>
-      <Typography align="center">
-        <strong>{data.name}</strong>
-        <br />
-        association score: {significantFigures(data.score)}
-        <br />
-        <Link to={`/disease/${data.id}`}>Disease profile</Link>
-        <br />
-        <Link to={`/evidence/${data.target.ensgId}/${data.id}`}>
-          Association evidence
-        </Link>
-      </Typography>
-    </CardContent>
-  </Card>
-);
 
 export default withTooltip(
   withTheme()(withContentRect('bounds')(ClassicAssociationsBubbles)),
