@@ -149,23 +149,26 @@ const ClassicAssociationsTable = ({
               className={classes.row}
             >
               <TableCell
-                id={`disease-cell-${row.disease.id}`}
                 align="right"
                 padding="dense"
                 className={classNames(
                   classes.cellDiseaseName,
                   classes.cellEllipsis
                 )}
-                onMouseOver={() => {
-                  handleMouseover({
-                    id: row.disease.id,
-                    name: row.disease.name,
-                    score: row.score,
-                    target: { ensgId, symbol },
-                  });
-                }}
               >
-                {row.disease.name}
+                <span
+                  id={`disease-cell-${row.disease.id}`}
+                  onMouseOver={() => {
+                    handleMouseover({
+                      id: row.disease.id,
+                      name: row.disease.name,
+                      score: row.score,
+                      target: { ensgId, symbol },
+                    });
+                  }}
+                >
+                  {row.disease.name}
+                </span>
               </TableCell>
               <TableCell className={classes.cell}>
                 <div
