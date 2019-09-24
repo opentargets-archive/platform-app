@@ -11,6 +11,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 
+import withTooltip from '../common/withTooltip';
+import TooltipContent from './ClassicAssociationsTooltip';
+
 // TODO: Harmonise with HeatmapTable for component reuse
 
 const styles = theme => ({
@@ -74,6 +77,8 @@ const styles = theme => ({
 const ClassicAssociationsTable = ({
   classes,
   theme,
+  ensgId,
+  symbol,
   rows,
   dataTypes,
   sortBy,
@@ -83,6 +88,7 @@ const ClassicAssociationsTable = ({
   totalCount,
   pageInfo,
   onPaginationChange,
+  handleMouseover,
 }) => {
   const colorScale = d3
     .scaleLinear()
@@ -143,12 +149,21 @@ const ClassicAssociationsTable = ({
               className={classes.row}
             >
               <TableCell
+                id={`disease-cell-${row.disease.id}`}
                 align="right"
                 padding="dense"
                 className={classNames(
                   classes.cellDiseaseName,
                   classes.cellEllipsis
                 )}
+                onMouseOver={() => {
+                  handleMouseover({
+                    id: row.disease.id,
+                    name: row.disease.name,
+                    score: row.score,
+                    target: { ensgId, symbol },
+                  });
+                }}
               >
                 {row.disease.name}
               </TableCell>
@@ -199,6 +214,11 @@ const ClassicAssociationsTable = ({
   );
 };
 
-export default withStyles(styles, { withTheme: true })(
-  ClassicAssociationsTable
+const tooltipElementFinder = ({ id }) =>
+  document.querySelector(`#disease-cell-${id}`);
+
+export default withTooltip(
+  withStyles(styles, { withTheme: true })(ClassicAssociationsTable),
+  TooltipContent,
+  tooltipElementFinder
 );
