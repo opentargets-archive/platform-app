@@ -215,6 +215,8 @@ class ClassicAssociations extends React.Component {
                 <Card elevation={0}>
                   <CardContent>
                     <ClassicAssociationsTable
+                      efoId={efoId}
+                      name={name}
                       rows={rows}
                       dataTypes={dataTypes}
                       sortBy={sortBy}
