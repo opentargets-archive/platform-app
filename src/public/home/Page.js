@@ -14,9 +14,7 @@ const styles = theme => ({
 
 class HomePage extends Component {
   componentDidMount() {
-    window.particlesJS('splash', particlesConfig, function() {
-      console.log('particles.js config loaded');
-    });
+    window.particlesJS('splash', particlesConfig);
   }
 
   render() {
