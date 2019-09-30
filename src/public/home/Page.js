@@ -8,11 +8,16 @@ import { Link, HomeBox, NavBar, Footer } from 'ot-ui';
 import { externalLinks, particlesConfig } from '../../constants';
 
 const styles = theme => ({
+  splashContainer: {
+    height: '100vh',
+  },
   splash: {
     position: 'absolute',
+    left: 0,
+    top: 0,
     backgroundColor: theme.palette.primary.main,
     width: '100%',
-    height: '100vh',
+    height: '100%',
     zIndex: -1,
   },
 });
@@ -26,8 +31,10 @@ class HomePage extends Component {
     const { classes } = this.props;
     return (
       <Fragment>
-        <Grid container justify="center">
-          <div id="splash" className={classes.splash}></div>
+        <Grid container justify="center" alignItems="center">
+          <div className={classes.splashContainer}>
+            <div id="splash" className={classes.splash}></div>
+          </div>
           <NavBar name="Platform" homepage />
           <HomeBox name="Platform">
             <div>Home</div>
