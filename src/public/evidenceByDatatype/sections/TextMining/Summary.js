@@ -1,4 +1,4 @@
 const Summary = ({ textMiningCount }) =>
-  `${textMiningCount} publication${textMiningCount === 1 ? '' : 's'}`;
+  textMiningCount > 0 ? 'EuropePMC' : null;
 
 export default Summary;

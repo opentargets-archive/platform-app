@@ -1,3 +1,3 @@
-import BaseSummary from '../../../common/sections/KnownDrugs/Summary';
+const Summary = ({ drugCount }) => (drugCount > 0 ? 'ChEMBL' : null);
 
-export default BaseSummary;
+export default Summary;

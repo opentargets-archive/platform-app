@@ -1,4 +1,4 @@
 const Summary = ({ experimentCount }) =>
-  `${experimentCount} experiment${experimentCount === 1 ? '' : 's'}`;
+  experimentCount > 0 ? 'Expression Atlas' : null;
 
 export default Summary;

@@ -1,4 +1,4 @@
 const Summary = ({ mouseModelCount }) =>
-  `${mouseModelCount} mouse model${mouseModelCount === 1 ? '' : 's'}`;
+  mouseModelCount > 0 ? 'PhenoDigm' : null;
 
 export default Summary;
