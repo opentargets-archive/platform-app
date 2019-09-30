@@ -8,6 +8,7 @@ class SectionPanelLoader extends React.Component {
       sectionId,
       entity,
       entitySectionsAccessor,
+      getDetailFromDetails,
       error,
       loading,
       hasData,
@@ -48,7 +49,9 @@ class SectionPanelLoader extends React.Component {
                 return null;
               } else {
                 const sectionsData = entitySectionsAccessor(data);
-                const sectionData = sectionsData[sectionId];
+                const sectionData = getDetailFromDetails
+                  ? getDetailFromDetails(sectionsData)
+                  : sectionsData[sectionId];
                 return (
                   <SectionComponent
                     {...{

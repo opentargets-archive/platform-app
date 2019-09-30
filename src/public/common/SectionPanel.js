@@ -53,6 +53,7 @@ class SectionPanel extends React.Component {
       icon,
       entity,
       entitySectionsAccessor,
+      getDetailFromDetails,
       hasData,
       error,
       loading,
@@ -99,6 +100,7 @@ class SectionPanel extends React.Component {
                 {...{
                   entity,
                   entitySectionsAccessor,
+                  getDetailFromDetails,
                   sectionId: id,
                   hasData,
                   error,

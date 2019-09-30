@@ -17,12 +17,17 @@ export const getSummaryFromSummaries = summariesData =>
     acc[d] = summariesData[d];
     return acc;
   }, {});
+export const getDetailFromDetails = detailsData =>
+  datasources.reduce((acc, d) => {
+    acc[d] = detailsData[d];
+    return acc;
+  }, {});
 
 export const hasSummaryData = ({ gwasCatalog: { variantCount } }) =>
   variantCount > 0;
 
 export const summaryQuery = loader('./summaryQuery.gql');
-// export const sectionQuery = loader('./sectionQuery.gql');
+export const sectionQuery = loader('./sectionQuery.gql');
 
 export { default as DescriptionComponent } from './Description';
 export { default as SummaryComponent } from './Summary';
