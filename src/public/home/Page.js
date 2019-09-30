@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import 'particles.js';
 
@@ -53,6 +54,11 @@ class HomePage extends Component {
               </Link>
             </div>
           </HomeBox>
+        </Grid>
+        <Grid>
+          <Typography align="center">
+            Some text about the platform will go here
+          </Typography>
         </Grid>
         <Footer externalLinks={externalLinks} />
       </Fragment>
