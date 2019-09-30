@@ -5,6 +5,7 @@ import {
   diseaseSectionsDefaultOrder,
   drugSectionsDefaultOrder,
   evidenceSectionsDefaultOrder,
+  evidenceByDatatypeSectionsDefaultOrder,
 } from '../configuration';
 
 const initKey = (key, defaultValue) => {
@@ -31,6 +32,10 @@ const initLocalStorage = () => {
   initKey('diseaseSectionsOrder', diseaseSectionsDefaultOrder);
   initKey('drugSectionsOrder', drugSectionsDefaultOrder);
   initKey('evidenceSectionsOrder', evidenceSectionsDefaultOrder);
+  initKey(
+    'evidenceByDatatypeSectionsOrder',
+    evidenceByDatatypeSectionsDefaultOrder
+  );
 };
 
 export default initLocalStorage;
