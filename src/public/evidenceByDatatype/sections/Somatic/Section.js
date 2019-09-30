@@ -7,7 +7,7 @@ import CancerGeneCensusSection from '../../../evidence/sections/CancerGeneCensus
 import IntOGenSection from '../../../evidence/sections/IntOGen/Section';
 
 const Section = ({ ensgId, efoId, data }) => (
-  <div>
+  <React.Fragment>
     {data.uniProtSomatic && data.uniProtSomatic.rows.length > 0 ? (
       <React.Fragment>
         <Typography>
@@ -47,7 +47,7 @@ const Section = ({ ensgId, efoId, data }) => (
         <IntOGenSection {...{ ensgId, efoId, data: data.intogen }} />
       </React.Fragment>
     ) : null}
-  </div>
+  </React.Fragment>
 );
 
 export default Section;

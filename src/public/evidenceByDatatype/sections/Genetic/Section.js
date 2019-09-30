@@ -9,7 +9,7 @@ import GenomicsEnglandSection from '../../../evidence/sections/GenomicsEngland/S
 import Gene2PhenotypeSection from '../../../evidence/sections/Gene2Phenotype/Section';
 
 const Section = ({ ensgId, efoId, data }) => (
-  <div>
+  <React.Fragment>
     {data.gwasCatalog && data.gwasCatalog.rows.length > 0 ? (
       <React.Fragment>
         <Typography>
@@ -68,7 +68,7 @@ const Section = ({ ensgId, efoId, data }) => (
         />
       </React.Fragment>
     ) : null}
-  </div>
+  </React.Fragment>
 );
 
 export default Section;
