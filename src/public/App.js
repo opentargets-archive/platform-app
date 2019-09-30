@@ -9,8 +9,8 @@ import { OtUiThemeProvider } from 'ot-ui';
 import initLocalStorage from './common/initLocalStorage';
 import theme from './theme';
 
-const HomePage = lazy(() => import('./home/Page'));
-const TargetPage = lazy(() => import('./target/Page'));
+import HomePage from './home/Page';
+import TargetPage from './target/Page';
 const DiseasePage = lazy(() => import('./disease/Page'));
 const DrugPage = lazy(() => import('./drug/Page'));
 const EvidencePage = lazy(() => import('./evidence/Page'));
