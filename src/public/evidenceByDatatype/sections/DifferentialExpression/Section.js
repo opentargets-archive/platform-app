@@ -1,4 +1,5 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 import { Link, OtTableRF, significantFigures } from 'ot-ui';
 
@@ -69,7 +70,17 @@ const columns = [
 ];
 
 const Section = ({ ensgId, efoId, data }) => (
-  <OtTableRF loading={false} error={false} columns={columns} data={data.rows} />
+  <React.Fragment>
+    <Typography>
+      Evidence from <strong>Expression Atlas</strong>.
+    </Typography>
+    <OtTableRF
+      loading={false}
+      error={false}
+      columns={columns}
+      data={data.rows}
+    />
+  </React.Fragment>
 );
 
 export default Section;

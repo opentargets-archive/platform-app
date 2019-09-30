@@ -1,4 +1,5 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 import { Link, OtTableRF } from 'ot-ui';
 
@@ -91,17 +92,22 @@ class Section extends React.Component {
     };
 
     return (
-      <OtTableRF
-        loading={false}
-        error={false}
-        columns={columns}
-        data={data.rows}
-        serverSide={true}
-        totalRowsCount={data.textMiningCount}
-        onPageSort={onPageSort}
-        sortBy={'relevance'}
-        order={'desc'}
-      />
+      <React.Fragment>
+        <Typography>
+          Evidence from <strong>EuropePMC</strong>.
+        </Typography>
+        <OtTableRF
+          loading={false}
+          error={false}
+          columns={columns}
+          data={data.rows}
+          serverSide={true}
+          totalRowsCount={data.textMiningCount}
+          onPageSort={onPageSort}
+          sortBy={'relevance'}
+          order={'desc'}
+        />
+      </React.Fragment>
     );
   };
 }
