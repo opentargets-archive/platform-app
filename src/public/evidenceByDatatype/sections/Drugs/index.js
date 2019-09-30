@@ -1,7 +1,7 @@
 import { loader } from 'graphql.macro';
 
 export const id = 'drugs';
-export const name = 'ChEMBL';
+export const name = 'Known Drugs';
 
 export const hasSummaryData = ({ drugCount }) => drugCount > 0;
 

@@ -1,7 +1,7 @@
 import { loader } from 'graphql.macro';
 
 export const id = 'textMining';
-export const name = 'EuropePMC';
+export const name = 'Text Mining';
 
 export const hasSummaryData = ({ textMiningCount }) => textMiningCount > 0;
 
