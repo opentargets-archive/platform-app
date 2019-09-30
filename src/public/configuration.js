@@ -58,7 +58,7 @@ export const evidenceSectionsDefaultOrder = [
 
 export const evidenceByDatatypeSectionsDefaultOrder = [
   'genetic',
-  // 'somatic',
+  'somatic',
   'drugs',
   // 'pathways',
   'differentialExpression',
