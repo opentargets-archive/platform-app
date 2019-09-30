@@ -57,7 +57,7 @@ export const evidenceSectionsDefaultOrder = [
 ];
 
 export const evidenceByDatatypeSectionsDefaultOrder = [
-  // 'genetic',
+  'genetic',
   // 'somatic',
   'drugs',
   // 'pathways',
