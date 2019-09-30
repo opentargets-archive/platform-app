@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import 'particles.js';
 
@@ -21,20 +22,24 @@ class HomePage extends Component {
     const { classes } = this.props;
     return (
       <Fragment>
-        <div id="splash" className={classes.splash}></div>
-        <div>Home</div>
-        <div>
-          <Link to="/target/ENSG00000091831">Target page</Link>
-        </div>
-        <div>
-          <Link to="/disease/EFO_0000384">Disease page</Link>
-        </div>
-        <div>
-          <Link to="/drug/CHEMBL2111100">Drug page</Link>
-        </div>
-        <div>
-          <Link to="/evidence/ENSG00000091831/EFO_0000305">Evidence page</Link>
-        </div>
+        <Grid>
+          <div id="splash" className={classes.splash}></div>
+          <div>Home</div>
+          <div>
+            <Link to="/target/ENSG00000091831">Target page</Link>
+          </div>
+          <div>
+            <Link to="/disease/EFO_0000384">Disease page</Link>
+          </div>
+          <div>
+            <Link to="/drug/CHEMBL2111100">Drug page</Link>
+          </div>
+          <div>
+            <Link to="/evidence/ENSG00000091831/EFO_0000305">
+              Evidence page
+            </Link>
+          </div>
+        </Grid>
       </Fragment>
     );
   }

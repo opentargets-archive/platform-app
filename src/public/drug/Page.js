@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 
 import Header from './Header';
 import Profile from './Profile';
+import BasePage from '../common/BasePage';
 
 const drugQuery = gql`
   query DrugQuery($chemblId: String!) {
@@ -51,24 +52,26 @@ class DrugPage extends Component {
 
           return (
             <Fragment>
-              <Helmet>
-                <title>{name}</title>
-              </Helmet>
-              <Header chemblId={chemblId} name={name} />
-              <Profile
-                {...{
-                  chemblId,
-                  name,
-                  type,
-                  tradeNames,
-                  maximumClinicalTrialPhase,
-                  yearOfFirstApproval,
-                  description: null,
-                  synonyms,
-                  hasBeenWithdrawn,
-                  withdrawnNotice,
-                }}
-              />
+              <BasePage>
+                <Helmet>
+                  <title>{name}</title>
+                </Helmet>
+                <Header chemblId={chemblId} name={name} />
+                <Profile
+                  {...{
+                    chemblId,
+                    name,
+                    type,
+                    tradeNames,
+                    maximumClinicalTrialPhase,
+                    yearOfFirstApproval,
+                    description: null,
+                    synonyms,
+                    hasBeenWithdrawn,
+                    withdrawnNotice,
+                  }}
+                />
+              </BasePage>
             </Fragment>
           );
         }}
