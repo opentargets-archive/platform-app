@@ -23,8 +23,22 @@ export const getDetailFromDetails = detailsData =>
     return acc;
   }, {});
 
-export const hasSummaryData = ({ gwasCatalog: { variantCount } }) =>
-  variantCount > 0;
+export const hasSummaryData = ({
+  gwasCatalog,
+  uniProt,
+  uniProtLiterature,
+  eva,
+  genomicsEngland,
+  gene2Phenotype,
+}) =>
+  [
+    gwasCatalog && gwasCatalog.variantCount > 0,
+    uniProt && uniProt.variantCount > 0,
+    uniProtLiterature && uniProtLiterature.hasVariants,
+    eva && eva.variantCount > 0,
+    genomicsEngland && genomicsEngland.hasPanel,
+    gene2Phenotype && gene2Phenotype.hasPanel,
+  ].some(d => d);
 
 export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');
