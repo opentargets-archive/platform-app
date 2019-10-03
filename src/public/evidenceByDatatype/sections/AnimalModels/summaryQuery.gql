@@ -1,0 +1,9 @@
+fragment evidenceAnimalModelsFragment on EvidenceSummaries {
+  animalModels {
+    mouseModelCount
+    sources {
+      name
+      url
+    }
+  }
+}

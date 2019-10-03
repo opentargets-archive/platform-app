@@ -55,3 +55,13 @@ export const evidenceSectionsDefaultOrder = [
   'textMining',
   'animalModels',
 ];
+
+export const evidenceByDatatypeSectionsDefaultOrder = [
+  'genetic',
+  'somatic',
+  'drugs',
+  'pathways',
+  'differentialExpression',
+  'textMining',
+  'animalModels',
+];

@@ -6,6 +6,9 @@ import ls from 'local-storage';
 import MiniWidgetBar from '../common/MiniWidgetBar';
 import SectionPanelsContainer from '../common/SectionPanelsContainer';
 
+const defaultGetSummaryFromSummaries = (section, summariesData) =>
+  summariesData[section.id];
+
 class Profile extends Component {
   state = {
     sectionsOrder: [],
@@ -106,16 +109,19 @@ class Profile extends Component {
             // if non-null data was loaded through graphql api,
             // or the callback passed to SummaryComponent was used,
             // set flag so we load the detail section
+            const summaryData = s.getSummaryFromSummaries
+              ? s.getSummaryFromSummaries(summariesData)
+              : defaultGetSummaryFromSummaries(s, summariesData);
             const hasDataFromGraphQLAPI =
               !summaryErrorFromGraphQL && !loading && s.hasSummaryData
-                ? s.hasSummaryData(summariesData[s.id])
+                ? s.hasSummaryData(summaryData)
                 : false;
             const hasDataFromSummaryComponent = sectionHasSummaryData[s.id];
             const hasData =
               hasDataFromGraphQLAPI || hasDataFromSummaryComponent;
 
             const summaryDataProps =
-              !summaryError && !loading ? summariesData[s.id] : {};
+              !summaryError && !loading ? summaryData : {};
             const summaryProps = {
               ...summaryDataProps,
               setHasSummaryData: this.setSectionHasSummaryData(s.id),
