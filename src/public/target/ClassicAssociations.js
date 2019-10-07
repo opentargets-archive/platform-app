@@ -261,6 +261,8 @@ class ClassicAssociations extends React.Component {
                         symbol={symbol}
                         rows={rows}
                         dataTypes={dataTypes}
+                        search={search}
+                        facets={facetsInput}
                         sortBy={sortBy}
                         onSortByChange={this.handleSortByChange}
                         page={page}
