@@ -270,8 +270,8 @@ const DownloadsPage = () => {
           We provide downloads of all associations between targets and diseases
           calculated by the platform, as well as all the evidence used in
           calculating each association. These are the same objects returned by
-          the corresponding <tt>/public/associations</tt> and{' '}
-          <tt>/public/evidence</tt> API methods. See the{' '}
+          the corresponding <code>/public/associations</code> and{' '}
+          <code>/public/evidence</code> API methods. See the{' '}
           <Link
             external
             to="https://docs.targetvalidation.org/tutorials/rest-api"
