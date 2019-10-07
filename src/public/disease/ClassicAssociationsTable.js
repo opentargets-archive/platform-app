@@ -1,5 +1,6 @@
 import React from 'react';
 import * as d3 from 'd3';
+import gql from 'graphql-tag';
 import _ from 'lodash';
 import classNames from 'classnames';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -13,6 +14,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 
 import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
+import ClassicAssociationsDownload from '../common/ClassicAssociationsDownload';
 
 // TODO: Harmonise with HeatmapTable for component reuse
 
@@ -74,6 +76,46 @@ const styles = theme => ({
     paddingBottom: '35px',
   },
 });
+
+const associationsDownloadQuery = gql`
+  query DiseaseAssociationsDownloadQuery(
+    $efoId: String!
+    $first: Int
+    $after: String
+    $facets: DiseaseTargetsConnectionFacetsInput
+    $sortBy: DiseaseTargetsConnectionSortByInput
+    $search: String
+  ) {
+    disease(efoId: $efoId) {
+      id
+      targetsConnection(
+        first: $first
+        after: $after
+        facets: $facets
+        sortBy: $sortBy
+        search: $search
+      ) {
+        totalCount
+        pageInfo {
+          nextCursor
+          hasNextPage
+        }
+        edges {
+          node {
+            id
+            symbol
+          }
+          score
+          scoresByDataType {
+            dataTypeId
+            score
+          }
+        }
+      }
+    }
+  }
+`;
+
 const ClassicAssociationsTable = ({
   classes,
   theme,
@@ -82,6 +124,8 @@ const ClassicAssociationsTable = ({
   rows,
   dataTypes,
   sortBy,
+  search,
+  facets,
   onSortByChange,
   page,
   rowsPerPage,
@@ -103,6 +147,42 @@ const ClassicAssociationsTable = ({
   const activeForField = field => sortBy.field === field;
   return (
     <div className={classes.tableWrapper}>
+      <ClassicAssociationsDownload
+        fileStem={`${efoId}-associated-targets`}
+        query={associationsDownloadQuery}
+        variables={{ efoId, sortBy, search, facets }}
+        getAfter={response =>
+          response.data &&
+          response.data.disease &&
+          response.data.disease.targetsConnection &&
+          response.data.disease.targetsConnection.pageInfo &&
+          response.data.disease.targetsConnection.pageInfo.hasNextPage
+            ? response.data.disease.targetsConnection.pageInfo.nextCursor
+            : null
+        }
+        getRows={response =>
+          response.data &&
+          response.data.disease &&
+          response.data.disease.targetsConnection &&
+          response.data.disease.targetsConnection.edges
+            ? response.data.disease.targetsConnection.edges.map(d => ({
+                ensgId: d.node.id,
+                symbol: d.node.symbol,
+                overallScore: d.score,
+                ...d.scoresByDataType.reduce((acc, dt) => {
+                  acc[dt.dataTypeId] = dt.score;
+                  return acc;
+                }, {}),
+              }))
+            : []
+        }
+        headers={[
+          { id: 'ensgId', label: 'ensgId' },
+          { id: 'symbol', label: 'symbol' },
+          { id: 'overallScore', label: 'overallScore' },
+          ...dataTypes.map(dt => ({ id: dt, label: _.camelCase(dt) })),
+        ]}
+      />
       <Table className={classes.table} padding="none">
         <TableHead>
           <TableRow>
