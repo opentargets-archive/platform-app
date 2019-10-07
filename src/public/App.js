@@ -11,6 +11,7 @@ import BasePage from './common/BasePage';
 import theme from './theme';
 
 const HomePage = lazy(() => import('./home/Page'));
+const DownloadsPage = lazy(() => import('./downloads/Page'));
 const TargetPage = lazy(() => import('./target/Page'));
 const DiseasePage = lazy(() => import('./disease/Page'));
 const DrugPage = lazy(() => import('./drug/Page'));
@@ -36,6 +37,7 @@ class App extends Component {
               <Suspense fallback={<div>Loading...</div>}>
                 <Switch>
                   <Route exact path="/" component={HomePage} />
+                  <Route path="/downloads" component={DownloadsPage} />
                   <Route path="/target/:ensgId" component={TargetPage} />
                   <Route path="/disease/:efoId" component={DiseasePage} />
                   <Route path="/drug/:chemblId" component={DrugPage} />
