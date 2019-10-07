@@ -14,7 +14,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 
 import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
-import ClassicAssociationsDownload from './ClassicAssociationsDownload';
+import ClassicAssociationsDownload from '../common/ClassicAssociationsDownload';
 
 // TODO: Harmonise with HeatmapTable for component reuse
 
