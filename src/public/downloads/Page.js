@@ -258,15 +258,14 @@ const DownloadsPage = () => {
   return (
     <Grid container>
       <Grid item xs={12} md={6}>
-        <Typography variant="h5" component="h1">
+        <Typography variant="h5" component="h1" paragraph>
           Data Download
         </Typography>
-        <br />
-        <Typography>
+        <Typography paragraph>
           All data from targetvalidation.org is available for download as
           compressed JSON files.
-          <br />
-          <br />
+        </Typography>
+        <Typography paragraph>
           We provide downloads of all associations between targets and diseases
           calculated by the platform, as well as all the evidence used in
           calculating each association. These are the same objects returned by
@@ -279,13 +278,13 @@ const DownloadsPage = () => {
             API documentation
           </Link>{' '}
           for further details.
-          <br />
-          <br />
+        </Typography>
+        <Typography paragraph>
           <strong>NOTE</strong>: The files below are useful only if you want to
           analyze the data. They are not a database dump and cannot be easily
           used to replicate the platform locally/somewhere else.
         </Typography>
-        <br />
+
         {releases.map(release => (
           <React.Fragment key={release.version}>
             <Typography variant="h6" component="h2">
