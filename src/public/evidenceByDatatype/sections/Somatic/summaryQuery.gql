@@ -1,0 +1,30 @@
+fragment evidenceSomaticFragment on EvidenceSummaries {
+  uniProtSomatic {
+    hasVariants
+    sources {
+      name
+      url
+    }
+  }
+  evaSomatic {
+    variantCount
+    sources {
+      name
+      url
+    }
+  }
+  cancerGeneCensus {
+    hasMutations
+    sources {
+      name
+      url
+    }
+  }
+  intogen {
+    hasMutations
+    sources {
+      name
+      url
+    }
+  }
+}

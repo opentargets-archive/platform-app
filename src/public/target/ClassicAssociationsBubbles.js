@@ -2,13 +2,11 @@ import React from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 import withTheme from '@material-ui/core/styles/withTheme';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 
-import { Link, significantFigures } from 'ot-ui';
+import { DownloadSVGPlot } from 'ot-ui';
 
 import withTooltip from '../common/withTooltip';
+import TooltipContent from './ClassicAssociationsTooltip';
 
 const getTherapeuticAreaTree = ({ ensgId, symbol, data, efo, diameter }) => {
   const efoById = new Map(efo.nodes.map(d => [d.id, d]));
@@ -137,97 +135,106 @@ class ClassicAssociationsBubbles extends React.Component {
 
     return (
       <div ref={measureRef}>
-        <div ref={this.svgContainer}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={width}
-            height={height}
-            viewBox={`0 0 ${width} ${height}`}
-            textAnchor="middle"
-            style={{ font: '10px sans-serif' }}
-            alignmentBaseline="center"
-          >
-            <g transform={`translate(${width / 2 - diameter / 2},0)`}>
-              {nodes.map(d => (
-                <g key={d.data.uniqueId} transform={`translate(${d.x},${d.y})`}>
-                  <circle
-                    id={`tree-node-${d.data.uniqueId}`}
-                    cx={0}
-                    cy={0}
-                    r={d.r}
-                    stroke={
-                      d.data.id !== 'EFO_ROOT'
-                        ? theme.palette.grey[400]
-                        : 'none'
-                    }
-                    fill={
-                      d.data.id === 'EFO_ROOT'
-                        ? theme.palette.grey[50]
-                        : d.data.isTherapeuticArea
-                        ? 'none'
-                        : color(d.data.score)
-                    }
-                    onMouseOver={() => {
-                      if (d.data.id !== 'EFO_ROOT') {
-                        handleMouseover(d.data);
+        <DownloadSVGPlot
+          svgContainer={this.svgContainer}
+          filenameStem={`${symbol}-associated-diseases--bubbles`}
+        >
+          <div ref={this.svgContainer}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+              width={width}
+              height={height}
+              viewBox={`0 0 ${width} ${height}`}
+              textAnchor="middle"
+              style={{ font: '10px sans-serif' }}
+              alignmentBaseline="center"
+            >
+              <g transform={`translate(${width / 2 - diameter / 2},0)`}>
+                {nodes.map(d => (
+                  <g
+                    key={d.data.uniqueId}
+                    transform={`translate(${d.x},${d.y})`}
+                  >
+                    <circle
+                      id={`tree-node-${d.data.uniqueId}`}
+                      cx={0}
+                      cy={0}
+                      r={d.r}
+                      stroke={
+                        d.data.id !== 'EFO_ROOT'
+                          ? theme.palette.grey[400]
+                          : 'none'
                       }
-                    }}
-                  />
+                      fill={
+                        d.data.id === 'EFO_ROOT'
+                          ? theme.palette.grey[50]
+                          : d.data.isTherapeuticArea
+                          ? 'none'
+                          : color(d.data.score)
+                      }
+                      onMouseOver={() => {
+                        if (d.data.id !== 'EFO_ROOT') {
+                          handleMouseover(d.data);
+                        }
+                      }}
+                    />
 
-                  {/* therapeutic areas only */}
-                  {d.data.isTherapeuticArea && d.children && (
-                    <React.Fragment>
-                      <path
-                        id={`text-path-${d.data.id}`}
-                        fill="none"
-                        d={`M${-(d.r + 3)},${0} A${d.r + 3},${d.r +
-                          3} 0 0 1 ${d.r + 3},${0}`}
-                      />
-                      <text
-                        textAnchor="middle"
-                        fontWeight="bold"
-                        fontSize="12"
-                        fill={theme.palette.grey[400]}
-                      >
-                        <textPath
-                          startOffset="50%"
-                          xlinkHref={`#text-path-${d.data.id}`}
+                    {/* therapeutic areas only */}
+                    {d.data.isTherapeuticArea && d.children && (
+                      <React.Fragment>
+                        <path
+                          id={`text-path-${d.data.id}`}
+                          fill="none"
+                          d={`M${-(d.r + 3)},${0} A${d.r + 3},${d.r +
+                            3} 0 0 1 ${d.r + 3},${0}`}
+                        />
+                        <text
+                          textAnchor="middle"
+                          fontWeight="bold"
+                          fontSize="12"
+                          fill={theme.palette.grey[400]}
                         >
-                          {d.data.name}
-                        </textPath>
-                      </text>
-                    </React.Fragment>
-                  )}
-
-                  {/* diseases only (leaves) with large radius */}
-                  {!d.children && d.r > 10 && (
-                    <React.Fragment>
-                      <clipPath id={`clip-${d.data.id}`}>
-                        <circle cx={0} cy={0} r={d.r} />
-                      </clipPath>
-                      <text
-                        x={0}
-                        y={0}
-                        clipPath={`url(#clip-${d.data.id})`}
-                        pointerEvents="none"
-                      >
-                        {d.data.name.split(' ').map((w, i, nodes) => (
-                          <tspan
-                            key={i}
-                            x={0}
-                            y={`${i - nodes.length / 2 + 0.8}em`}
+                          <textPath
+                            startOffset="50%"
+                            xlinkHref={`#text-path-${d.data.id}`}
                           >
-                            {w}
-                          </tspan>
-                        ))}
-                      </text>
-                    </React.Fragment>
-                  )}
-                </g>
-              ))}
-            </g>
-          </svg>
-        </div>
+                            {d.data.name}
+                          </textPath>
+                        </text>
+                      </React.Fragment>
+                    )}
+
+                    {/* diseases only (leaves) with large radius */}
+                    {!d.children && d.r > 10 && (
+                      <React.Fragment>
+                        <clipPath id={`clip-${d.data.id}`}>
+                          <circle cx={0} cy={0} r={d.r} />
+                        </clipPath>
+                        <text
+                          x={0}
+                          y={0}
+                          clipPath={`url(#clip-${d.data.id})`}
+                          pointerEvents="none"
+                        >
+                          {d.data.name.split(' ').map((w, i, nodes) => (
+                            <tspan
+                              key={i}
+                              x={0}
+                              y={`${i - nodes.length / 2 + 0.8}em`}
+                            >
+                              {w}
+                            </tspan>
+                          ))}
+                        </text>
+                      </React.Fragment>
+                    )}
+                  </g>
+                ))}
+              </g>
+            </svg>
+          </div>
+        </DownloadSVGPlot>
       </div>
     );
   }
@@ -235,24 +242,6 @@ class ClassicAssociationsBubbles extends React.Component {
 
 const tooltipElementFinder = ({ uniqueId }) =>
   document.querySelector(`#tree-node-${uniqueId}`);
-
-const TooltipContent = ({ data }) => (
-  <Card>
-    <CardContent>
-      <Typography align="center">
-        <strong>{data.name}</strong>
-        <br />
-        association score: {significantFigures(data.score)}
-        <br />
-        <Link to={`/disease/${data.id}`}>Disease profile</Link>
-        <br />
-        <Link to={`/evidence/${data.target.ensgId}/${data.id}`}>
-          Association evidence
-        </Link>
-      </Typography>
-    </CardContent>
-  </Card>
-);
 
 export default withTooltip(
   withTheme()(withContentRect('bounds')(ClassicAssociationsBubbles)),

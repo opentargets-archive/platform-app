@@ -15,7 +15,7 @@ const DownloadsPage = lazy(() => import('./downloads/Page'));
 const TargetPage = lazy(() => import('./target/Page'));
 const DiseasePage = lazy(() => import('./disease/Page'));
 const DrugPage = lazy(() => import('./drug/Page'));
-const EvidencePage = lazy(() => import('./evidence/Page'));
+const EvidencePage = lazy(() => import('./evidenceByDatatype/Page'));
 
 const client = new ApolloClient({
   link: new HttpLink({

@@ -3,13 +3,11 @@ import { withContentRect } from 'react-measure';
 import * as d3Base from 'd3';
 import * as d3DagBase from 'd3-dag';
 import withTheme from '@material-ui/core/styles/withTheme';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 
-import { Link, significantFigures } from 'ot-ui';
+import { DownloadSVGPlot } from 'ot-ui';
 
 import withTooltip from '../common/withTooltip';
+import TooltipContent from './ClassicAssociationsTooltip';
 
 const d3 = Object.assign({}, d3Base, d3DagBase);
 
@@ -223,158 +221,163 @@ class ClassicAssociationsDAG extends React.Component {
 
     return (
       <div ref={measureRef}>
-        <div ref={this.svgContainer}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={width}
-            height={height}
-            viewBox={`0 0 ${width} ${height}`}
-          >
-            <defs>
-              <marker
-                id="ontology-arrowhead"
-                orient="auto"
-                markerWidth="2"
-                markerHeight="4"
-                refX="0.1"
-                refY="2"
-              >
-                <path d="M0,0 V4 L2,2 Z" fill={theme.palette.text.primary} />
-              </marker>
-            </defs>
-            <g
-              transform={`translate(${margin.left},${margin.top +
-                yLegend * 3})`}
+        <DownloadSVGPlot
+          svgContainer={this.svgContainer}
+          filenameStem={`${symbol}-associated-diseases--dag`}
+        >
+          <div ref={this.svgContainer}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={width}
+              height={height}
+              viewBox={`0 0 ${width} ${height}`}
             >
-              <g>
-                <circle
-                  cx={0}
-                  cy={yLegend}
-                  r={nodeRadius}
-                  fill="none"
-                  stroke={nodeStrokeColor}
-                  strokeWidth="2"
-                />
-                <text
-                  x={nodeRadius * 2}
-                  y={yLegend}
-                  dominantBaseline="middle"
-                  fill={theme.palette.text.primary}
-                  fontSize={12}
+              <defs>
+                <marker
+                  id="ontology-arrowhead"
+                  orient="auto"
+                  markerWidth="2"
+                  markerHeight="4"
+                  refX="0.1"
+                  refY="2"
                 >
-                  disease
-                </text>
-                <rect
-                  x={-nodeRadius}
-                  y={yLegend * 2 - nodeRadius}
-                  width={nodeRadius * 2}
-                  height={nodeRadius * 2}
-                  fill="none"
-                  stroke={nodeStrokeColor}
-                  strokeWidth="2"
-                />
-                <text
-                  x={nodeRadius * 2}
-                  y={yLegend * 2}
-                  dominantBaseline="middle"
-                  fill={theme.palette.text.primary}
-                  fontSize={12}
-                >
-                  therapeutic area
-                </text>
+                  <path d="M0,0 V4 L2,2 Z" fill={theme.palette.text.primary} />
+                </marker>
+              </defs>
+              <g
+                transform={`translate(${margin.left},${margin.top +
+                  yLegend * 3})`}
+              >
+                <g>
+                  <circle
+                    cx={0}
+                    cy={yLegend}
+                    r={nodeRadius}
+                    fill="none"
+                    stroke={nodeStrokeColor}
+                    strokeWidth="2"
+                  />
+                  <text
+                    x={nodeRadius * 2}
+                    y={yLegend}
+                    dominantBaseline="middle"
+                    fill={theme.palette.text.primary}
+                    fontSize={12}
+                  >
+                    disease
+                  </text>
+                  <rect
+                    x={-nodeRadius}
+                    y={yLegend * 2 - nodeRadius}
+                    width={nodeRadius * 2}
+                    height={nodeRadius * 2}
+                    fill="none"
+                    stroke={nodeStrokeColor}
+                    strokeWidth="2"
+                  />
+                  <text
+                    x={nodeRadius * 2}
+                    y={yLegend * 2}
+                    dominantBaseline="middle"
+                    fill={theme.palette.text.primary}
+                    fontSize={12}
+                  >
+                    therapeutic area
+                  </text>
+                </g>
               </g>
-            </g>
-            <g
-              transform={`translate(${margin.left +
-                innerWidth / 2},${margin.top + yLegend * 2})`}
-            >
-              <text
-                x={-100}
-                y={0}
-                dominantBaseline="middle"
-                textAnchor="end"
-                fill={theme.palette.text.primary}
-                fontWeight="bold"
-                fontSize={14}
+              <g
+                transform={`translate(${margin.left +
+                  innerWidth / 2},${margin.top + yLegend * 2})`}
               >
-                GENERAL
-              </text>
-              <text
-                x={100}
-                y={0}
-                dominantBaseline="middle"
-                textAnchor="start"
-                fill={theme.palette.text.primary}
-                fontWeight="bold"
-                fontSize={14}
-              >
-                SPECIFIC
-              </text>
-              <path
-                markerEnd="url(#ontology-arrowhead)"
-                strokeWidth="2"
-                fill="none"
-                stroke={theme.palette.text.primary}
-                d={`M-80,0 L80,0`}
-              />
-            </g>
-            <g transform={`translate(${margin.left},${margin.top})`}>
-              {linksExcludingRoot.map(d => (
-                <path
-                  key={`${d.source.id}-${d.target.id}`}
-                  fill="none"
-                  stroke={edgeStrokeColor}
-                  strokeWidth="2"
-                  d={line(d.data.points)}
-                />
-              ))}
-            </g>
-            <g transform={`translate(${margin.left},${margin.top})`}>
-              {nodesExcludingRoot.map(d => (
-                <React.Fragment key={d.id}>
-                  {d.data.isTherapeuticArea ? (
-                    <rect
-                      id={`dag-node-${d.id}`}
-                      fill={color(d.data.score)}
-                      stroke={nodeStrokeColor}
-                      x={d.y - nodeRadius - xOffsetDueToExcludingRoot}
-                      y={d.x - nodeRadius}
-                      width={nodeRadius * 2}
-                      height={nodeRadius * 2}
-                      onMouseOver={() => handleMouseover(d.data)}
-                    />
-                  ) : (
-                    <circle
-                      id={`dag-node-${d.id}`}
-                      fill={color(d.data.score)}
-                      stroke={nodeStrokeColor}
-                      cx={d.y - xOffsetDueToExcludingRoot}
-                      cy={d.x}
-                      r={nodeRadius}
-                      onMouseOver={() => handleMouseover(d.data)}
-                    />
-                  )}
-                </React.Fragment>
-              ))}
-            </g>
-            <g transform={`translate(${margin.left},${margin.top})`}>
-              {nodesExcludingRoot.map(d => (
                 <text
-                  key={d.id}
-                  x={d.y - xOffsetDueToExcludingRoot}
-                  y={d.x}
-                  dx={nodeRadius * 2}
+                  x={-100}
+                  y={0}
                   dominantBaseline="middle"
+                  textAnchor="end"
                   fill={theme.palette.text.primary}
-                  fontSize={12}
+                  fontWeight="bold"
+                  fontSize={14}
                 >
-                  <title>{d.data.name}</title>
-                  {textWithEllipsis(d.data.name, textThreshold)}
+                  GENERAL
                 </text>
-              ))}
-            </g>
-          </svg>
-        </div>
+                <text
+                  x={100}
+                  y={0}
+                  dominantBaseline="middle"
+                  textAnchor="start"
+                  fill={theme.palette.text.primary}
+                  fontWeight="bold"
+                  fontSize={14}
+                >
+                  SPECIFIC
+                </text>
+                <path
+                  markerEnd="url(#ontology-arrowhead)"
+                  strokeWidth="2"
+                  fill="none"
+                  stroke={theme.palette.text.primary}
+                  d={`M-80,0 L80,0`}
+                />
+              </g>
+              <g transform={`translate(${margin.left},${margin.top})`}>
+                {linksExcludingRoot.map(d => (
+                  <path
+                    key={`${d.source.id}-${d.target.id}`}
+                    fill="none"
+                    stroke={edgeStrokeColor}
+                    strokeWidth="2"
+                    d={line(d.data.points)}
+                  />
+                ))}
+              </g>
+              <g transform={`translate(${margin.left},${margin.top})`}>
+                {nodesExcludingRoot.map(d => (
+                  <React.Fragment key={d.id}>
+                    {d.data.isTherapeuticArea ? (
+                      <rect
+                        id={`dag-node-${d.id}`}
+                        fill={color(d.data.score)}
+                        stroke={nodeStrokeColor}
+                        x={d.y - nodeRadius - xOffsetDueToExcludingRoot}
+                        y={d.x - nodeRadius}
+                        width={nodeRadius * 2}
+                        height={nodeRadius * 2}
+                        onMouseOver={() => handleMouseover(d.data)}
+                      />
+                    ) : (
+                      <circle
+                        id={`dag-node-${d.id}`}
+                        fill={color(d.data.score)}
+                        stroke={nodeStrokeColor}
+                        cx={d.y - xOffsetDueToExcludingRoot}
+                        cy={d.x}
+                        r={nodeRadius}
+                        onMouseOver={() => handleMouseover(d.data)}
+                      />
+                    )}
+                  </React.Fragment>
+                ))}
+              </g>
+              <g transform={`translate(${margin.left},${margin.top})`}>
+                {nodesExcludingRoot.map(d => (
+                  <text
+                    key={d.id}
+                    x={d.y - xOffsetDueToExcludingRoot}
+                    y={d.x}
+                    dx={nodeRadius * 2}
+                    dominantBaseline="middle"
+                    fill={theme.palette.text.primary}
+                    fontSize={12}
+                  >
+                    <title>{d.data.name}</title>
+                    {textWithEllipsis(d.data.name, textThreshold)}
+                  </text>
+                ))}
+              </g>
+            </svg>
+          </div>
+        </DownloadSVGPlot>
       </div>
     );
   }
@@ -382,24 +385,6 @@ class ClassicAssociationsDAG extends React.Component {
 
 const tooltipElementFinder = ({ id }) =>
   document.querySelector(`#dag-node-${id}`);
-
-const TooltipContent = ({ data }) => (
-  <Card>
-    <CardContent>
-      <Typography align="center">
-        <strong>{data.name}</strong>
-        <br />
-        association score: {significantFigures(data.score)}
-        <br />
-        <Link to={`/disease/${data.id}`}>Disease profile</Link>
-        <br />
-        <Link to={`/evidence/${data.target.ensgId}/${data.id}`}>
-          Association evidence
-        </Link>
-      </Typography>
-    </CardContent>
-  </Card>
-);
 
 export default withTooltip(
   withTheme()(withContentRect('bounds')(ClassicAssociationsDAG)),

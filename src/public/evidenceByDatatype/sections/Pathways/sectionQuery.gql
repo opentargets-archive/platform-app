@@ -1,0 +1,78 @@
+query PathwaysSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      reactome {
+        rows {
+          activity
+          disease {
+            id
+            name
+          }
+          pathway {
+            id
+            name
+          }
+          mutations
+          source {
+            url
+            name
+          }
+        }
+      }
+      slapenrich {
+        rows {
+          disease {
+            id
+            name
+          }
+          pathway {
+            id
+            name
+          }
+          source {
+            url
+            name
+          }
+        }
+      }
+      progeny {
+        rows {
+          disease {
+            id
+            name
+          }
+          pathway {
+            id
+            name
+          }
+          source {
+            url
+            name
+          }
+        }
+      }
+      crispr {
+        rows {
+          disease {
+            id
+            name
+          }
+          score
+          method
+          pmId
+        }
+      }
+      sysBio {
+        rows {
+          disease {
+            id
+            name
+          }
+          geneSet
+          method
+          pmId
+        }
+      }
+    }
+  }
+}

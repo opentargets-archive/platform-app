@@ -257,6 +257,8 @@ class ClassicAssociations extends React.Component {
                     {/* table view */}
                     {tab === 'table' && (
                       <ClassicAssociationsTable
+                        ensgId={ensgId}
+                        symbol={symbol}
                         rows={rows}
                         dataTypes={dataTypes}
                         sortBy={sortBy}
