@@ -10,6 +10,7 @@ import Associations from './Associations';
 import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
 import Profile from './Profile';
+import BasePage from '../common/BasePage';
 
 const diseaseQuery = gql`
   query DiseaseQuery($efoId: String!) {
@@ -62,66 +63,68 @@ class DiseasePage extends Component {
     const { efoId } = match.params;
 
     return (
-      <Query query={diseaseQuery} variables={{ efoId }}>
-        {({ loading, error, data }) => {
-          if (loading || error) {
-            return null;
-          }
-          const { name, description, synonyms } = data.disease;
+      <BasePage>
+        <Query query={diseaseQuery} variables={{ efoId }}>
+          {({ loading, error, data }) => {
+            if (loading || error) {
+              return null;
+            }
+            const { name, description, synonyms } = data.disease;
 
-          return (
-            <Fragment>
-              <Helmet>
-                <title>{name}</title>
-              </Helmet>
-              <Header {...{ efoId, name, description, synonyms }} />
-              <Tabs
-                value={value}
-                onChange={this.handleChange}
-                variant="scrollable"
-                scrollButtons="auto"
-              >
-                <Tab
-                  value="classicAssociations"
-                  label="Associations (classic)"
-                />
-                <Tab value="associations" label="Associations (dynamic)" />
-                <Tab value="overview" label="Profile" />
-              </Tabs>
-              <Switch>
-                <Route
-                  path={`${match.path}/classic-associations`}
-                  render={() => (
-                    <ClassicAssociations
-                      {...{
-                        efoId,
-                        name,
-                      }}
-                    />
-                  )}
-                />
-                <Route
-                  path={`${match.path}/associations`}
-                  render={() => (
-                    <Associations
-                      {...{
-                        efoId,
-                        name,
-                      }}
-                    />
-                  )}
-                />
-                <Route
-                  path={match.path}
-                  render={() => (
-                    <Profile {...{ efoId, name, description, synonyms }} />
-                  )}
-                />
-              </Switch>
-            </Fragment>
-          );
-        }}
-      </Query>
+            return (
+              <Fragment>
+                <Helmet>
+                  <title>{name}</title>
+                </Helmet>
+                <Header {...{ efoId, name, description, synonyms }} />
+                <Tabs
+                  value={value}
+                  onChange={this.handleChange}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                >
+                  <Tab
+                    value="classicAssociations"
+                    label="Associations (classic)"
+                  />
+                  <Tab value="associations" label="Associations (dynamic)" />
+                  <Tab value="overview" label="Profile" />
+                </Tabs>
+                <Switch>
+                  <Route
+                    path={`${match.path}/classic-associations`}
+                    render={() => (
+                      <ClassicAssociations
+                        {...{
+                          efoId,
+                          name,
+                        }}
+                      />
+                    )}
+                  />
+                  <Route
+                    path={`${match.path}/associations`}
+                    render={() => (
+                      <Associations
+                        {...{
+                          efoId,
+                          name,
+                        }}
+                      />
+                    )}
+                  />
+                  <Route
+                    path={match.path}
+                    render={() => (
+                      <Profile {...{ efoId, name, description, synonyms }} />
+                    )}
+                  />
+                </Switch>
+              </Fragment>
+            );
+          }}
+        </Query>
+      </BasePage>
     );
   }
 }
