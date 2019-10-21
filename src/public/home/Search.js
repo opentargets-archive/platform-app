@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
@@ -52,14 +53,32 @@ class Search extends Component {
       });
   };
 
+  handleSelectOption = (value, { action }) => {
+    const { history } = this.props;
+
+    if (action === 'select-option') {
+      switch (value.groupType) {
+        case 'target':
+          history.push(`/target/${value.id}`);
+          break;
+        case 'drug':
+          history.push(`/drug/${value.id}`);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   render() {
     return (
       <OtSearch
         optionComponent={SearchOption}
         onInputChange={this.handleInputChange}
+        onSelectOption={this.handleSelectOption}
       />
     );
   }
 }
 
-export default Search;
+export default withRouter(Search);
