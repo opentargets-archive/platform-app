@@ -15,21 +15,14 @@ const HomePage = () => {
         <NavBar name="platform" homepage />
         <HomeBox name="Platform">
           <Search />
-          <div>Home</div>
-          <div>
-            <Link to="/target/ENSG00000091831">Target page</Link>
-          </div>
-          <div>
-            <Link to="/disease/EFO_0000384">Disease page</Link>
-          </div>
-          <div>
-            <Link to="/drug/CHEMBL2111100">Drug page</Link>
-          </div>
-          <div>
+          <Grid container justify="space-around" style={{ marginTop: '12px' }}>
+            <Link to="/target/ENSG00000091831">ESR1</Link>
+            <Link to="/disease/EFO_0000384">Crohn's disease</Link>
+            <Link to="/drug/CHEMBL2111100">MIFAMURTIDE</Link>
             <Link to="/evidence/ENSG00000091831/EFO_0000305">
               Evidence page
             </Link>
-          </div>
+          </Grid>
         </HomeBox>
       </Grid>
       <Footer externalLinks={externalLinks} />
