@@ -5,6 +5,8 @@ import { HttpLink } from 'apollo-link-http';
 import { loader } from 'graphql.macro';
 import { Search as OtSearch } from 'ot-ui';
 
+import SearchOption from './SearchOption';
+
 const SEARCH_QUERY = loader('./SearchQuery.gql');
 
 const client = new ApolloClient({
@@ -13,6 +15,19 @@ const client = new ApolloClient({
   }),
   cache: new InMemoryCache(),
 });
+
+const asGroupedOptions = data => {
+  return [
+    {
+      label: 'Targets',
+      options: data.targets.map(target => ({ ...target, groupType: 'target' })),
+    },
+    {
+      label: 'Drugs',
+      options: data.drugs.map(drug => ({ ...drug, groupType: 'drug' })),
+    },
+  ];
+};
 
 class Search extends Component {
   handleInputChange = inputValue => {
@@ -26,12 +41,24 @@ class Search extends Component {
         variables: { queryString: inputValue },
       })
       .then(res => {
-        console.log('res', res);
+        if (res.data && res.data.search) {
+          return asGroupedOptions(res.data.search);
+        } else {
+          return asGroupedOptions({
+            targets: [],
+            drugs: [],
+          });
+        }
       });
   };
 
   render() {
-    return <OtSearch onInputChange={this.handleInputChange} />;
+    return (
+      <OtSearch
+        optionComponent={SearchOption}
+        onInputChange={this.handleInputChange}
+      />
+    );
   }
 }
 
