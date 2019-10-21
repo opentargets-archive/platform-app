@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { Link, HomeBox, NavBar, Footer } from 'ot-ui';
 
 import Splash from './Splash';
+import Search from './Search';
 import { externalLinks } from '../../constants';
 
 const HomePage = () => {
@@ -13,6 +14,7 @@ const HomePage = () => {
         <Splash />
         <NavBar name="platform" homepage />
         <HomeBox name="Platform">
+          <Search />
           <div>Home</div>
           <div>
             <Link to="/target/ENSG00000091831">Target page</Link>

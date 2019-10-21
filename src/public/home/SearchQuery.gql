@@ -1,0 +1,10 @@
+query SearchQuery($queryString: String!) {
+  search(queryString: $queryString) {
+    targets {
+      id
+    }
+    drugs {
+      id
+    }
+  }
+}
