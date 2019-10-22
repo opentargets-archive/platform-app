@@ -1,5 +1,6 @@
 import React from 'react';
 import * as d3 from 'd3';
+import { mix, complement } from 'polished';
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -12,11 +13,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
 import ClassicAssociationsDownload from '../common/ClassicAssociationsDownload';
-import { Typography } from '@material-ui/core';
 
 // TODO: Harmonise with HeatmapTable for component reuse
 
@@ -141,10 +142,13 @@ const ClassicAssociationsTable = ({
     .scaleLinear()
     .domain([0, 1])
     .range(['#fff', theme.palette.primary.main]);
+  const tractabilityColor = complement(
+    mix(0.3, theme.palette.primary.main, theme.palette.secondary.main)
+  );
   const colorScaleModality = d3
     .scalePow()
     .exponent(0.5)
-    .range(['#fff', theme.palette.secondary.main]);
+    .range(['#fff', tractabilityColor]);
   const legendWidth = 100;
   const legendHeight = 20;
   const tickWidth = legendWidth / 100;
