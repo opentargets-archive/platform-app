@@ -45,6 +45,20 @@ const associationsQuery = gql`
             id
             symbol
             name
+            details {
+              tractability {
+                smallMolecule {
+                  chemblBucket
+                  description
+                  value
+                }
+                antibody {
+                  chemblBucket
+                  description
+                  value
+                }
+              }
+            }
           }
           score
           scoresByDataType {
