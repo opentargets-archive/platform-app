@@ -11,10 +11,12 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TablePagination from '@material-ui/core/TablePagination';
+import Grid from '@material-ui/core/Grid';
 
 import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
 import ClassicAssociationsDownload from '../common/ClassicAssociationsDownload';
+import { Typography } from '@material-ui/core';
 
 // TODO: Harmonise with HeatmapTable for component reuse
 
@@ -143,6 +145,12 @@ const ClassicAssociationsTable = ({
     .scalePow()
     .exponent(0.5)
     .range(['#fff', theme.palette.secondary.main]);
+  const legendWidth = 100;
+  const legendHeight = 20;
+  const tickWidth = legendWidth / 100;
+  const ticks = d3
+    .range(0, 1, tickWidth / legendWidth)
+    .map(d => ({ value: d, x: d * legendWidth, width: tickWidth }));
   const sortByUpdateForField = field => ({
     field: field,
     ascending: sortBy.field === field ? !sortBy.ascending : false,
@@ -298,25 +306,93 @@ const ClassicAssociationsTable = ({
           ))}
         </TableBody>
       </Table>
+      <Grid container justify="space-between" alignItems="center">
+        <Grid item>
+          <Grid container justify="flex-start">
+            <Grid item>
+              <svg width={legendWidth} height={legendHeight}>
+                <g>
+                  {ticks.map((d, i) => (
+                    <rect
+                      key={i}
+                      x={d.x}
+                      y={0}
+                      width={d.width}
+                      height={legendHeight}
+                      fill={colorScale(d.value)}
+                    />
+                  ))}
+                  <rect
+                    x={0}
+                    y={0}
+                    width={legendWidth}
+                    height={legendHeight}
+                    fill="none"
+                    strokeWidth={2}
+                    stroke={theme.palette.grey[300]}
+                  />
+                </g>
+              </svg>
+            </Grid>
+            <Grid item style={{ marginLeft: 10, marginRight: 30 }}>
+              <Typography inline variant="caption">
+                Efficacy Score
+              </Typography>
+            </Grid>
 
-      <TablePagination
-        component="div"
-        rowsPerPageOptions={[]}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        count={totalCount ? totalCount : 0}
-        backIconButtonProps={{
-          'aria-label': 'Previous Page',
-        }}
-        nextIconButtonProps={{
-          'aria-label': 'Next Page',
-        }}
-        onChangePage={(event, newPage) => {
-          const { nextCursor } = pageInfo;
-          const forward = newPage > page;
-          onPaginationChange(forward, nextCursor);
-        }}
-      />
+            <Grid item>
+              <svg width={legendWidth} height={legendHeight}>
+                <g>
+                  {ticks.map((d, i) => (
+                    <rect
+                      key={i}
+                      x={d.x}
+                      y={0}
+                      width={d.width}
+                      height={legendHeight}
+                      fill={colorScaleModality(d.value)}
+                    />
+                  ))}
+                  <rect
+                    x={0}
+                    y={0}
+                    width={legendWidth}
+                    height={legendHeight}
+                    fill="none"
+                    strokeWidth={2}
+                    stroke={theme.palette.grey[300]}
+                  />
+                </g>
+              </svg>
+            </Grid>
+            <Grid item style={{ marginLeft: 10 }}>
+              <Typography inline variant="caption">
+                Tractability Score
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <TablePagination
+            component="div"
+            rowsPerPageOptions={[]}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            count={totalCount ? totalCount : 0}
+            backIconButtonProps={{
+              'aria-label': 'Previous Page',
+            }}
+            nextIconButtonProps={{
+              'aria-label': 'Next Page',
+            }}
+            onChangePage={(event, newPage) => {
+              const { nextCursor } = pageInfo;
+              const forward = newPage > page;
+              onPaginationChange(forward, nextCursor);
+            }}
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 };
