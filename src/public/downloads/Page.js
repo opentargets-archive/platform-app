@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
 import { Link } from 'ot-ui';
+import BasePage from '../common/BasePage';
 
 const releases = [
   {
@@ -256,67 +257,69 @@ const releases = [
 
 const DownloadsPage = () => {
   return (
-    <Grid container>
-      <Grid item xs={12} md={6}>
-        <Typography variant="h5" component="h1" paragraph>
-          Data Download
-        </Typography>
-        <Typography paragraph>
-          All data from targetvalidation.org is available for download as
-          compressed JSON files.
-        </Typography>
-        <Typography paragraph>
-          We provide downloads of all associations between targets and diseases
-          calculated by the platform, as well as all the evidence used in
-          calculating each association. These are the same objects returned by
-          the corresponding <code>/public/associations</code> and{' '}
-          <code>/public/evidence</code> API methods. See the{' '}
-          <Link
-            external
-            to="https://docs.targetvalidation.org/tutorials/rest-api"
-          >
-            API documentation
-          </Link>{' '}
-          for further details.
-        </Typography>
-        <Typography paragraph>
-          <strong>NOTE</strong>: The files below are useful only if you want to
-          analyze the data. They are not a database dump and cannot be easily
-          used to replicate the platform locally/somewhere else.
-        </Typography>
+    <BasePage>
+      <Grid container>
+        <Grid item xs={12} md={6}>
+          <Typography variant="h5" component="h1" paragraph>
+            Data Download
+          </Typography>
+          <Typography paragraph>
+            All data from targetvalidation.org is available for download as
+            compressed JSON files.
+          </Typography>
+          <Typography paragraph>
+            We provide downloads of all associations between targets and
+            diseases calculated by the platform, as well as all the evidence
+            used in calculating each association. These are the same objects
+            returned by the corresponding <code>/public/associations</code> and{' '}
+            <code>/public/evidence</code> API methods. See the{' '}
+            <Link
+              external
+              to="https://docs.targetvalidation.org/tutorials/rest-api"
+            >
+              API documentation
+            </Link>{' '}
+            for further details.
+          </Typography>
+          <Typography paragraph>
+            <strong>NOTE</strong>: The files below are useful only if you want
+            to analyze the data. They are not a database dump and cannot be
+            easily used to replicate the platform locally/somewhere else.
+          </Typography>
 
-        {releases.map(release => (
-          <React.Fragment key={release.version}>
-            <Typography variant="h6" component="h2">
-              {release.date}
-            </Typography>
+          {releases.map(release => (
+            <React.Fragment key={release.version}>
+              <Typography variant="h6" component="h2">
+                {release.date}
+              </Typography>
 
-            <ul>
-              {release.associations ? (
-                <li>
-                  <Typography>
-                    <Link external to={release.associations.url}>
-                      Associations objects
-                    </Link>{' '}
-                    ({release.associations.size})
-                  </Typography>
-                </li>
-              ) : null}
-              {release.evidence ? (
-                <li>
-                  <Typography>
-                    <Link external to={release.evidence.url}>
-                      Evidence objects
-                    </Link>{' '}
-                    ({release.evidence.size})
-                  </Typography>
-                </li>
-              ) : null}
-            </ul>
-          </React.Fragment>
-        ))}
+              <ul>
+                {release.associations ? (
+                  <li>
+                    <Typography>
+                      <Link external to={release.associations.url}>
+                        Associations objects
+                      </Link>{' '}
+                      ({release.associations.size})
+                    </Typography>
+                  </li>
+                ) : null}
+                {release.evidence ? (
+                  <li>
+                    <Typography>
+                      <Link external to={release.evidence.url}>
+                        Evidence objects
+                      </Link>{' '}
+                      ({release.evidence.size})
+                    </Typography>
+                  </li>
+                ) : null}
+              </ul>
+            </React.Fragment>
+          ))}
+        </Grid>
       </Grid>
-    </Grid>
+    </BasePage>
   );
 };
 
