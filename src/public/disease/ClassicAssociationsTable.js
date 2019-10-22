@@ -123,6 +123,7 @@ const ClassicAssociationsTable = ({
   name,
   rows,
   dataTypes,
+  modalities,
   sortBy,
   search,
   facets,
@@ -138,6 +139,10 @@ const ClassicAssociationsTable = ({
     .scaleLinear()
     .domain([0, 1])
     .range(['#fff', theme.palette.primary.main]);
+  const colorScaleModality = d3
+    .scalePow()
+    .exponent(0.5)
+    .range(['#fff', theme.palette.secondary.main]);
   const sortByUpdateForField = field => ({
     field: field,
     ascending: sortBy.field === field ? !sortBy.ascending : false,
@@ -219,6 +224,13 @@ const ClassicAssociationsTable = ({
                 />
               </TableCell>
             ))}
+            {modalities.map(modality => (
+              <TableCell key={modality} className={classes.cellHeaderVertical}>
+                <div>
+                  <span>{_.startCase(modality)}</span>
+                </div>
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -265,6 +277,18 @@ const ClassicAssociationsTable = ({
                     style={
                       dataType.score
                         ? { background: colorScale(dataType.score) }
+                        : null
+                    }
+                  />
+                </TableCell>
+              ))}
+              {row.tractabilityScoresByModality.map(modality => (
+                <TableCell key={modality.modalityId} className={classes.cell}>
+                  <div
+                    className={classes.cellSwatch}
+                    style={
+                      modality.score
+                        ? { background: colorScaleModality(modality.score) }
                         : null
                     }
                   />
