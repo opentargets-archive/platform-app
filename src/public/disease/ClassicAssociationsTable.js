@@ -1,6 +1,6 @@
 import React from 'react';
 import * as d3 from 'd3';
-import { mix, complement } from 'polished';
+import { mix, complement, lighten } from 'polished';
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -141,14 +141,17 @@ const ClassicAssociationsTable = ({
   const colorScale = d3
     .scaleLinear()
     .domain([0, 1])
-    .range(['#fff', theme.palette.primary.main]);
+    .range([
+      lighten(0.4, theme.palette.primary.main),
+      theme.palette.primary.main,
+    ]);
   const tractabilityColor = complement(
     mix(0.3, theme.palette.primary.main, theme.palette.secondary.main)
   );
   const colorScaleModality = d3
     .scalePow()
     .exponent(0.5)
-    .range(['#fff', tractabilityColor]);
+    .range([lighten(0.4, tractabilityColor), tractabilityColor]);
   const legendWidth = 100;
   const legendHeight = 20;
   const tickWidth = legendWidth / 100;
@@ -340,7 +343,7 @@ const ClassicAssociationsTable = ({
             </Grid>
             <Grid item style={{ marginLeft: 10, marginRight: 30 }}>
               <Typography inline variant="caption">
-                Efficacy Score
+                Efficacy
               </Typography>
             </Grid>
 
@@ -369,9 +372,30 @@ const ClassicAssociationsTable = ({
                 </g>
               </svg>
             </Grid>
+            <Grid item style={{ marginLeft: 10, marginRight: 30 }}>
+              <Typography inline variant="caption">
+                Tractability
+              </Typography>
+            </Grid>
+
+            <Grid item>
+              <svg width={legendHeight} height={legendHeight}>
+                <g>
+                  <rect
+                    x={0}
+                    y={0}
+                    width={legendHeight}
+                    height={legendHeight}
+                    fill="none"
+                    strokeWidth={2}
+                    stroke={theme.palette.grey[300]}
+                  />
+                </g>
+              </svg>
+            </Grid>
             <Grid item style={{ marginLeft: 10 }}>
               <Typography inline variant="caption">
-                Tractability Score
+                No data
               </Typography>
             </Grid>
           </Grid>
