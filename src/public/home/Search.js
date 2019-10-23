@@ -19,6 +19,7 @@ const client = new ApolloClient({
 
 const asGroupedOptions = data => {
   return [
+    { label: 'Top hit', options: [{ ...data.topHit, groupType: 'topHit' }] },
     {
       label: 'Targets',
       options: data.targets.map(target => ({ ...target, groupType: 'target' })),

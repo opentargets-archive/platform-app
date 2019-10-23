@@ -1,5 +1,9 @@
 query SearchQuery($queryString: String!) {
   search(queryString: $queryString) {
+    topHit {
+      id
+      name
+    }
     targets {
       id
       approvedSymbol
