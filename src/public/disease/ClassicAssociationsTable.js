@@ -78,6 +78,10 @@ const styles = theme => ({
     verticalAlign: 'bottom',
     paddingBottom: '35px',
   },
+  legendLabel: {
+    marginLeft: 10,
+    marginRight: 30,
+  },
 });
 
 const associationsDownloadQuery = gql`
@@ -341,7 +345,7 @@ const ClassicAssociationsTable = ({
                 </g>
               </svg>
             </Grid>
-            <Grid item style={{ marginLeft: 10, marginRight: 30 }}>
+            <Grid item className={classes.legendLabel}>
               <Typography inline variant="caption">
                 Efficacy
               </Typography>
@@ -372,7 +376,7 @@ const ClassicAssociationsTable = ({
                 </g>
               </svg>
             </Grid>
-            <Grid item style={{ marginLeft: 10, marginRight: 30 }}>
+            <Grid item className={classes.legendLabel}>
               <Typography inline variant="caption">
                 Tractability
               </Typography>
@@ -393,7 +397,7 @@ const ClassicAssociationsTable = ({
                 </g>
               </svg>
             </Grid>
-            <Grid item style={{ marginLeft: 10 }}>
+            <Grid item className={classes.legendLabel}>
               <Typography inline variant="caption">
                 No data
               </Typography>
