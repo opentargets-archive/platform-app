@@ -1,0 +1,14 @@
+query AdverseEventsSectionQuery($chemblId: String!) {
+  drug(chemblId: $chemblId) {
+    id
+    details{
+      adverseEvents{
+        rows{
+          event
+          count
+          llr
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+fragment drugAdverseEventsFragment on DrugSummaries {
+  adverseEvents{
+    critval
+    eventsCount
+    sources{
+      name
+      url
+    }
+  }
+}
