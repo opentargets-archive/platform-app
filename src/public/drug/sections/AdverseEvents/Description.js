@@ -2,7 +2,7 @@ import React from 'react';
 
 const Description = ({ name }) => (
   <React.Fragment>
-    TODO: Write a description component for <strong>{name}</strong>.
+    Adverse events for <strong>{name}</strong>.
   </React.Fragment>
 );
 
