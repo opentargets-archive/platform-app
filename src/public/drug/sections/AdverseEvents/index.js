@@ -1,7 +1,7 @@
 import { loader } from 'graphql.macro';
 
 export const id = 'adverseEvents';
-export const name = 'Adverse Events';
+export const name = 'Pharmacovigilance';
 
 export const hasSummaryData = ({ eventsCount }) => eventsCount > 0;
 
