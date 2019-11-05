@@ -1,6 +1,5 @@
 import React from 'react';
 import Select from 'react-select';
-// import { withTheme, withStyles } from '@material-ui/core/styles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
 import dc from 'dc';
@@ -18,8 +17,6 @@ import { generateComparatorFromAccessor } from '../../../../../utils/comparators
 import * as dcconfig from '../../../../common/dcConfig.js';
 import _ from 'lodash';
 import { Grid } from '@material-ui/core';
-
-// const chartColour = lighten(0.3, '#3489ca');
 
 // Get list of options (i.e. drop-down content) for a column filter
 // render formats the label (similar to renderCell for cells content)
