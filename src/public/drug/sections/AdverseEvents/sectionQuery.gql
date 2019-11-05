@@ -3,6 +3,7 @@ query AdverseEventsSectionQuery($chemblId: String!) {
     id
     details{
       adverseEvents{
+        critval
         rows{
           event
           count
