@@ -18,6 +18,8 @@ import Typography from '@material-ui/core/Typography';
 import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
 import ClassicAssociationsDownload from '../common/ClassicAssociationsDownload';
+import ClassicAssociationsTableCell from '../common/ClassicAssociationsTableCell';
+import withScaleAssociation from '../common/withScaleAssociation';
 
 // TODO: Harmonise with HeatmapTable for component reuse
 
@@ -28,15 +30,11 @@ const styles = theme => ({
   table: {
     marginRight: '20px',
     width: 'calc(100% - 40px)',
+    borderSpacing: '2px',
+    borderCollapse: 'separate',
   },
   cell: {
     borderBottom: 'none',
-  },
-  cellSwatch: {
-    minWidth: '20px',
-    width: '100%',
-    height: '16px',
-    border: `1px solid ${theme.palette.grey[200]}`,
   },
   cellEllipsis: {
     overflow: 'hidden',
@@ -141,14 +139,8 @@ const ClassicAssociationsTable = ({
   pageInfo,
   onPaginationChange,
   handleMouseover,
+  scaleAssociation,
 }) => {
-  const colorScale = d3
-    .scaleLinear()
-    .domain([0, 1])
-    .range([
-      lighten(0.4, theme.palette.primary.main),
-      theme.palette.primary.main,
-    ]);
   const tractabilityColor = complement(
     mix(0.3, theme.palette.primary.main, theme.palette.secondary.main)
   );
@@ -281,37 +273,28 @@ const ClassicAssociationsTable = ({
                   {row.target.symbol}
                 </span>
               </TableCell>
-              <TableCell className={classes.cell}>
-                <div
-                  className={classes.cellSwatch}
-                  style={
-                    row.score ? { background: colorScale(row.score) } : null
-                  }
+              <ClassicAssociationsTableCell
+                color={scaleAssociation(row.score > 0 ? row.score : NaN)}
+                left={true}
+                right={true}
+              />
+              {row.scoresByDataType.map((dataType, i) => (
+                <ClassicAssociationsTableCell
+                  key={dataType.dataTypeId}
+                  color={scaleAssociation(
+                    dataType.score > 0 ? dataType.score : NaN
+                  )}
+                  left={i === 0}
+                  right={i === row.scoresByDataType.length - 1}
                 />
-              </TableCell>
-              {row.scoresByDataType.map(dataType => (
-                <TableCell key={dataType.dataTypeId} className={classes.cell}>
-                  <div
-                    className={classes.cellSwatch}
-                    style={
-                      dataType.score
-                        ? { background: colorScale(dataType.score) }
-                        : null
-                    }
-                  />
-                </TableCell>
               ))}
-              {row.tractabilityScoresByModality.map(modality => (
-                <TableCell key={modality.modalityId} className={classes.cell}>
-                  <div
-                    className={classes.cellSwatch}
-                    style={
-                      modality.score
-                        ? { background: colorScaleModality(modality.score) }
-                        : null
-                    }
-                  />
-                </TableCell>
+              {row.tractabilityScoresByModality.map((modality, i) => (
+                <ClassicAssociationsTableCell
+                  key={modality.modalityId}
+                  color={colorScaleModality(modality.score)}
+                  left={i === 0}
+                  right={i === row.tractabilityScoresByModality.length - 1}
+                />
               ))}
             </TableRow>
           ))}
@@ -330,7 +313,7 @@ const ClassicAssociationsTable = ({
                       y={0}
                       width={d.width}
                       height={legendHeight}
-                      fill={colorScale(d.value)}
+                      fill={scaleAssociation(d.value)}
                     />
                   ))}
                   <rect
@@ -432,8 +415,10 @@ const ClassicAssociationsTable = ({
 const tooltipElementFinder = ({ id }) =>
   document.querySelector(`#target-cell-${id}`);
 
-export default withTooltip(
-  withStyles(styles, { withTheme: true })(ClassicAssociationsTable),
-  TooltipContent,
-  tooltipElementFinder
+export default withScaleAssociation(
+  withTooltip(
+    withStyles(styles, { withTheme: true })(ClassicAssociationsTable),
+    TooltipContent,
+    tooltipElementFinder
+  )
 );
