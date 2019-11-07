@@ -7,7 +7,6 @@ function withScaleAssociation(WrappedComponent) {
   return withTheme()(
     class extends Component {
       render() {
-        console.log(this.props);
         const { theme, ...rest } = this.props;
         const scaleAssociation = d3
           .scaleLinear()
