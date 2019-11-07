@@ -2,6 +2,7 @@ query SearchQuery($queryString: String!) {
   search(queryString: $queryString) {
     topHit {
       id
+      entity
       name
     }
     targets {

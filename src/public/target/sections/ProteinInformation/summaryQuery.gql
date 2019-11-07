@@ -1,7 +1,5 @@
 fragment targetProteinFragment on TargetSummaries {
   protein {
-    hasSequenceAnnotationVisualisation
-    hasProteinStructure
     hasSubCellularLocation
     hasSubUnitData
     hasUniprotKeywords

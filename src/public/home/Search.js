@@ -65,6 +65,9 @@ class Search extends Component {
         case 'drug':
           history.push(`/drug/${value.id}`);
           break;
+        case 'topHit':
+          history.push(`/${value.entity}/${value.id}`);
+          break;
         default:
           break;
       }
