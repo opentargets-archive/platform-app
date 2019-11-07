@@ -22,7 +22,7 @@ import {
   DC_PIE_WIDTH,
 } from '../../../../common/dcConfig';
 
-const chartColour = lighten(0.3, '#3489ca');
+// const chartColour = lighten(0.3, '#3489ca');
 
 const getColumns = ({
   biomarkerOptions,
@@ -218,7 +218,7 @@ const getDownloadRows = rows => {
   }));
 };
 
-const getPieColors = items => {
+const getPieColors = (items, chartColour) => {
   return items.reduce((acc, item, i) => {
     acc[item.label] = darken(0.05 * i, chartColour);
     return acc;
@@ -458,9 +458,16 @@ class FilterTable extends Component {
   }
 
   componentDidMount() {
-    this.evidenceColors = getPieColors(getEvidenceOptions(this.props.rows));
+    const { theme } = this.props;
+    const chartColour = lighten(0.3, theme.palette.primary.main);
+
+    this.evidenceColors = getPieColors(
+      getEvidenceOptions(this.props.rows),
+      chartColour
+    );
     this.associationColors = getPieColors(
-      getAssociationOptions(this.props.rows)
+      getAssociationOptions(this.props.rows),
+      chartColour
     );
     this.setupCharts();
   }
@@ -551,4 +558,4 @@ class FilterTable extends Component {
   }
 }
 
-export default withStyles(styles)(FilterTable);
+export default withStyles(styles, { withTheme: true })(FilterTable);
