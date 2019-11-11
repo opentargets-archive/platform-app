@@ -13,12 +13,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 
 import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
 import ClassicAssociationsDownload from '../common/ClassicAssociationsDownload';
 import ClassicAssociationsTableCell from '../common/ClassicAssociationsTableCell';
+import ClassicAssociationsLegend from '../common/ClassicAssociationsLegend';
 import withScaleAssociation from '../common/withScaleAssociation';
 
 // TODO: Harmonise with HeatmapTable for component reuse
@@ -75,10 +75,6 @@ const styles = theme => ({
   cellHeaderDiseaseName: {
     verticalAlign: 'bottom',
     paddingBottom: '35px',
-  },
-  legendLabel: {
-    marginLeft: 10,
-    marginRight: 30,
   },
 });
 
@@ -148,12 +144,6 @@ const ClassicAssociationsTable = ({
     .scalePow()
     .exponent(0.5)
     .range([lighten(0.4, tractabilityColor), tractabilityColor]);
-  const legendWidth = 100;
-  const legendHeight = 20;
-  const tickWidth = legendWidth / 100;
-  const ticks = d3
-    .range(0, 1, tickWidth / legendWidth)
-    .map(d => ({ value: d, x: d * legendWidth, width: tickWidth }));
   const sortByUpdateForField = field => ({
     field: field,
     ascending: sortBy.field === field ? !sortBy.ascending : false,
@@ -302,90 +292,9 @@ const ClassicAssociationsTable = ({
       </Table>
       <Grid container justify="space-between" alignItems="center">
         <Grid item>
-          <Grid container justify="flex-start">
-            <Grid item>
-              <svg width={legendWidth} height={legendHeight}>
-                <g>
-                  {ticks.map((d, i) => (
-                    <rect
-                      key={i}
-                      x={d.x}
-                      y={0}
-                      width={d.width}
-                      height={legendHeight}
-                      fill={scaleAssociation(d.value)}
-                    />
-                  ))}
-                  <rect
-                    x={0}
-                    y={0}
-                    width={legendWidth}
-                    height={legendHeight}
-                    fill="none"
-                    strokeWidth={2}
-                    stroke={theme.palette.grey[300]}
-                  />
-                </g>
-              </svg>
-            </Grid>
-            <Grid item className={classes.legendLabel}>
-              <Typography inline variant="caption">
-                Efficacy
-              </Typography>
-            </Grid>
-
-            <Grid item>
-              <svg width={legendWidth} height={legendHeight}>
-                <g>
-                  {ticks.map((d, i) => (
-                    <rect
-                      key={i}
-                      x={d.x}
-                      y={0}
-                      width={d.width}
-                      height={legendHeight}
-                      fill={colorScaleModality(d.value)}
-                    />
-                  ))}
-                  <rect
-                    x={0}
-                    y={0}
-                    width={legendWidth}
-                    height={legendHeight}
-                    fill="none"
-                    strokeWidth={2}
-                    stroke={theme.palette.grey[300]}
-                  />
-                </g>
-              </svg>
-            </Grid>
-            <Grid item className={classes.legendLabel}>
-              <Typography inline variant="caption">
-                Tractability
-              </Typography>
-            </Grid>
-
-            <Grid item>
-              <svg width={legendHeight} height={legendHeight}>
-                <g>
-                  <rect
-                    x={0}
-                    y={0}
-                    width={legendHeight}
-                    height={legendHeight}
-                    fill="none"
-                    strokeWidth={2}
-                    stroke={theme.palette.grey[300]}
-                  />
-                </g>
-              </svg>
-            </Grid>
-            <Grid item className={classes.legendLabel}>
-              <Typography inline variant="caption">
-                No data
-              </Typography>
-            </Grid>
-          </Grid>
+          <ClassicAssociationsLegend
+            {...{ scaleAssociation, scaleModality: colorScaleModality }}
+          />
         </Grid>
         <Grid item>
           <TablePagination
