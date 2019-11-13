@@ -1,0 +1,9 @@
+fragment evidenceSysBioFragment on EvidenceSummaries {
+  sysBio {
+    hasSysBio
+    sources {
+      name
+      url
+    }
+  }
+}

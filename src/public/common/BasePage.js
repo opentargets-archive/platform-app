@@ -3,10 +3,11 @@ import { Helmet } from 'react-helmet';
 import { Page, NavBar, Footer } from 'ot-ui';
 
 import { externalLinks } from '../../constants';
+import Search from '../home/Search';
 
 const BasePage = ({ children }) => (
   <Page
-    header={<NavBar name="Platform" />}
+    header={<NavBar name="Platform" search={<Search />} />}
     footer={<Footer externalLinks={externalLinks} />}
   >
     <Helmet

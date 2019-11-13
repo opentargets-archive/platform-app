@@ -1,9 +1,0 @@
-fragment evidencePathwaysFragment on EvidenceSummaries {
-  pathways {
-    pathwayCount
-    sources {
-      name
-      url
-    }
-  }
-}

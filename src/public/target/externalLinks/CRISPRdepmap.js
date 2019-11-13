@@ -22,7 +22,7 @@ class Crispr extends Component {
       .then(res => res.json())
       .then(res => {
         const crisprId =
-          res.genes && res.genes.count > 0 ? res.genes.hits[0].id : null;
+          res.genes && res.genes.hits.length > 0 ? res.genes.hits[0].id : null;
 
         this.setState({ crisprId });
       });

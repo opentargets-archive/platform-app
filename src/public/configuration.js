@@ -34,6 +34,29 @@ export const drugSectionsDefaultOrder = [
 ];
 
 export const evidenceSectionsDefaultOrder = [
+  'gwasCatalog',
+  'phewasCatalog',
+  'eva',
+  'uniProt',
+  'uniProtLiterature',
+  'gene2Phenotype',
+  'genomicsEngland',
+  'intogen',
+  'cancerGeneCensus',
+  'evaSomatic',
+  'uniProtSomatic',
+  'reactome',
+  'progeny',
+  'slapenrich',
+  'crispr',
+  'sysBio',
+  'drugs',
+  'differentialExpression',
+  'textMining',
+  'animalModels',
+];
+
+export const evidenceByDatatypeSectionsDefaultOrder = [
   'genetic',
   'somatic',
   'drugs',

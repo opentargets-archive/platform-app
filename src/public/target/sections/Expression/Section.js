@@ -21,7 +21,7 @@ class Section extends Component {
           <Tab value="gtex" label="GTEx variability" />
         </Tabs>
         {tab === 'summary' && <SummaryTab ensgId={ensgId} symbol={symbol} />}
-        {tab === 'atlas' && <AtlasTab ensgId={ensgId} />}
+        {tab === 'atlas' && <AtlasTab ensgId={ensgId} symbol={symbol} />}
         {tab === 'gtex' && <GtexTab symbol={symbol} />}
       </Fragment>
     );

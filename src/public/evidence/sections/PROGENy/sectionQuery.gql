@@ -1,0 +1,22 @@
+query ProgenySectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      progeny {
+        rows {
+          disease {
+            id
+            name
+          }
+          pathway {
+            id
+            name
+          }
+          source {
+            url
+            name
+          }
+        }
+      }
+    }
+  }
+}

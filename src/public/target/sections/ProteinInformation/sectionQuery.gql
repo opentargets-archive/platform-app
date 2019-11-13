@@ -4,16 +4,6 @@ query ProteinInfoSectionQuery($ensgId: String!) {
     details {
       protein {
         uniprotId
-        pdbId
-        pdbs {
-          pdbId
-          chain
-          start
-          end
-          coverage
-          resolution
-          method
-        }
         keywords {
           id
           name
@@ -24,12 +14,6 @@ query ProteinInfoSectionQuery($ensgId: String!) {
           name
         }
         subUnit
-        structuralFeatures {
-          type
-          start
-          end
-        }
-        sequenceLength
       }
     }
   }

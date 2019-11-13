@@ -1,11 +1,9 @@
-const Summary = ({
-  hasSequenceAnnotationVisualisation,
-  hasProteinStructure,
-}) => {
-  const sources = ['sequence annotation', 'structure'].filter(
-    (d, i) => [hasSequenceAnnotationVisualisation, hasProteinStructure][i]
-  );
-  return sources.length > 0 ? sources.join(' • ') : null;
+const Summary = ({ hasSubCellularLocation }) => {
+  // only need to check hasSubCellularLocation, since the widget is
+  // all or nothing as everything comes from UniProt
+  return hasSubCellularLocation
+    ? 'Positional, Structural and Functional Information'
+    : null;
 };
 
 export default Summary;

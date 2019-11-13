@@ -1,0 +1,23 @@
+query CancerGeneCensusSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      cancerGeneCensus {
+        rows {
+          disease {
+            id
+            name
+          }
+          mutationType
+          inheritancePattern
+          samplesWithMutationTypeCount
+          mutatedSamplesCount
+          source {
+            url
+            name
+          }
+          pmIds
+        }
+      }
+    }
+  }
+}

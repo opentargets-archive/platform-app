@@ -1,0 +1,9 @@
+fragment evidenceCancerGeneCensusFragment on EvidenceSummaries {
+  cancerGeneCensus {
+    hasMutations
+    sources {
+      name
+      url
+    }
+  }
+}

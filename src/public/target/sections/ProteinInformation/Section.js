@@ -4,7 +4,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Link, Tabs, Tab } from 'ot-ui';
 
-import Structure from './custom/Structure';
 import ProtVistaRenderer from './custom/ProtVistaRenderer';
 
 const styles = () => ({
@@ -18,7 +17,7 @@ const styles = () => ({
 
 class Section extends React.Component {
   state = {
-    value: 'sequenceAnnotation',
+    value: 'protvista',
   };
   handleChange = (_, value) => {
     this.setState({ value });
@@ -31,16 +30,7 @@ class Section extends React.Component {
     const { classes, data } = this.props;
     const { value } = this.state;
 
-    const {
-      uniprotId,
-      pdbId,
-      pdbs,
-      keywords,
-      subCellularLocations,
-      subUnit,
-      structuralFeatures,
-      sequenceLength,
-    } = data;
+    const { uniprotId, keywords, subCellularLocations, subUnit } = data;
 
     const keywordsGrouped = keywords.reduce((acc, d) => {
       if (!acc[d.category]) {
@@ -58,20 +48,14 @@ class Section extends React.Component {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab value="sequenceAnnotation" label="Sequence annotation" />
-          <Tab value="structure" label="Structure" />
+          <Tab value="protvista" label="Protvista" />
           <Tab value="subCellularLocation" label="Sub-cellular location" />
           <Tab value="subUnit" label="Subunit data" />
           <Tab value="keywords" label="UniProt keywords" />
         </Tabs>
         <div className={classes.tabPanel}>
-          {value === 'sequenceAnnotation' ? (
+          {value === 'protvista' ? (
             <ProtVistaRenderer uniprotId={uniprotId} />
-          ) : null}
-          {value === 'structure' ? (
-            <Structure
-              {...{ pdbId, pdbs, structuralFeatures, sequenceLength }}
-            />
           ) : null}
           {value === 'subCellularLocation' ? (
             <div>

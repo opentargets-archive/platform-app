@@ -1,0 +1,31 @@
+query AnimalModelsSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      animalModels {
+        rows {
+          disease {
+            id
+            name
+          }
+          humanPhenotypes {
+            id
+            name
+            url
+          }
+          modelPhenotypes {
+            id
+            name
+            url
+          }
+          modelId
+          allelicComposition
+          geneticBackground
+          source {
+            name
+            url
+          }
+        }
+      }
+    }
+  }
+}

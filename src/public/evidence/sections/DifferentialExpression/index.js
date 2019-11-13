@@ -1,7 +1,7 @@
 import { loader } from 'graphql.macro';
 
 export const id = 'differentialExpression';
-export const name = 'Differential Expression';
+export const name = 'Expression Atlas';
 
 export const hasSummaryData = ({ experimentCount }) => experimentCount > 0;
 

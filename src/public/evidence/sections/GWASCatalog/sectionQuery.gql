@@ -1,0 +1,19 @@
+query GwasCatalogSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      gwasCatalog {
+        rows {
+          disease {
+            id
+            name
+          }
+          rsId
+          pval
+          oddsRatio
+          confidenceInterval
+          vepConsequence
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+fragment evidencePathwaysFragment on EvidenceSummaries {
+  reactome {
+    pathwayCount
+    sources {
+      name
+      url
+    }
+  }
+  slapenrich {
+    pathwayCount
+    sources {
+      name
+      url
+    }
+  }
+  progeny {
+    pathwayCount
+    sources {
+      name
+      url
+    }
+  }
+  crispr {
+    hasCrispr
+    sources {
+      name
+      url
+    }
+  }
+  sysBio {
+    hasSysBio
+    sources {
+      name
+      url
+    }
+  }
+}

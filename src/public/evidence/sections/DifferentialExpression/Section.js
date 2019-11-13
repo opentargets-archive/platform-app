@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Link, OtTableRF, significantFigures } from 'ot-ui';
 
+import MultiplePmIdsLink from '../../../common/MultiplePmIdsLink';
+
 const columns = [
   {
     id: 'disease.id',
@@ -62,19 +64,7 @@ const columns = [
   {
     id: 'pmIds',
     label: 'Publications',
-    renderCell: d =>
-      d.pmIds.length > 0 ? (
-        <Link
-          external
-          to={`https://europepmc.org/search?query=${d.pmIds
-            .map(l => `EXT_ID:${l}`)
-            .join('%20OR%20')}`}
-        >
-          {d.pmIds.length} publication{d.pmIds.length === 1 ? '' : 's'}
-        </Link>
-      ) : (
-        'N/A'
-      ),
+    renderCell: d => <MultiplePmIdsLink pmIds={d.pmIds} />,
   },
 ];
 

@@ -5,7 +5,6 @@ import _ from 'lodash';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
-import DescriptionAndSynonyms from '../common/DescriptionAndSynonyms';
 
 const sections = Object.values(sectionsObject);
 
@@ -35,21 +34,12 @@ const entitySectionsAccessor = data =>
 
 class EvidenceProfile extends Component {
   render() {
-    const {
-      ensgId,
-      efoId,
-      target,
-      disease,
-      description,
-      synonyms = [],
-    } = this.props;
+    const { ensgId, efoId, target, disease } = this.props;
     const entity = {
       ensgId,
       efoId,
       target,
       disease,
-      description: null,
-      synonyms: [],
     };
     return (
       <BaseProfile
@@ -62,9 +52,7 @@ class EvidenceProfile extends Component {
           entitySummariesAccessor,
           entitySectionsAccessor,
         }}
-      >
-        <DescriptionAndSynonyms description={description} synonyms={synonyms} />
-      </BaseProfile>
+      />
     );
   }
 }

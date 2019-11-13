@@ -1,0 +1,9 @@
+fragment evidenceDrugsFragment on EvidenceSummaries {
+  drugs {
+    drugCount
+    sources {
+      name
+      url
+    }
+  }
+}

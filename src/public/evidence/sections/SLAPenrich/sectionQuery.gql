@@ -1,0 +1,22 @@
+query SlapenrichSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      slapenrich {
+        rows {
+          disease {
+            id
+            name
+          }
+          pathway {
+            id
+            name
+          }
+          source {
+            url
+            name
+          }
+        }
+      }
+    }
+  }
+}

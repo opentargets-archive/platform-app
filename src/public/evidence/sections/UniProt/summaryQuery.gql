@@ -1,0 +1,9 @@
+fragment evidenceUniProtFragment on EvidenceSummaries {
+  uniProt {
+    variantCount
+    sources {
+      name
+      url
+    }
+  }
+}

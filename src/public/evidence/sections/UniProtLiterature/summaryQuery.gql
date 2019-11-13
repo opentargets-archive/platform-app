@@ -1,0 +1,9 @@
+fragment evidenceUniProtLiteratureFragment on EvidenceSummaries {
+  uniProtLiterature {
+    hasVariants
+    sources {
+      name
+      url
+    }
+  }
+}

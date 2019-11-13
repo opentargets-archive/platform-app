@@ -1,0 +1,17 @@
+query SearchQuery($queryString: String!) {
+  search(queryString: $queryString) {
+    topHit {
+      id
+      entity
+      name
+    }
+    targets {
+      id
+      approvedSymbol
+    }
+    drugs {
+      id
+      name
+    }
+  }
+}
