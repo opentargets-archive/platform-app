@@ -50,6 +50,7 @@ class SectionPanel extends React.Component {
       classes,
       id,
       name,
+      shortName,
       icon,
       entity,
       entitySectionsAccessor,
@@ -67,7 +68,9 @@ class SectionPanel extends React.Component {
           <Card elevation={0}>
             <CardHeader
               className={classes.cardHeader}
-              avatar={<SectionAvatar {...{ name, icon, hasData, error }} />}
+              avatar={
+                <SectionAvatar {...{ name, shortName, icon, hasData, error }} />
+              }
               action={null}
               title={
                 <Typography
