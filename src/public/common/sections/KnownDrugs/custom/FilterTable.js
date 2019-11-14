@@ -131,12 +131,7 @@ const getColumns = ({ filters }) => {
       if (filters[c.id]) {
         const f = filters[c.id];
         c.renderFilter = d => (
-          <Select
-            isClearable
-            options={f.options}
-            onChange={f.handler}
-            placeholder="None"
-          />
+          <Select isClearable options={f.options} onChange={f.handler} />
         );
       }
     });
