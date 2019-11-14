@@ -31,7 +31,6 @@ const getColumns = (
       renderFilter: () => (
         <Select
           isClearable
-          placeholder="None"
           options={pathwayOptions}
           onChange={pathwayFilterHandler}
         />
@@ -46,12 +45,7 @@ const getColumns = (
         </Link>
       ),
       renderFilter: () => (
-        <Select
-          isClearable
-          placeholder="None"
-          options={idOptions}
-          onChange={idFilterHandler}
-        />
+        <Select isClearable options={idOptions} onChange={idFilterHandler} />
       ),
     },
     {
@@ -70,7 +64,6 @@ const getColumns = (
       renderFilter: () => (
         <Select
           isClearable
-          placeholder="None"
           options={parentOptions}
           onChange={parentFilterHandler}
         />

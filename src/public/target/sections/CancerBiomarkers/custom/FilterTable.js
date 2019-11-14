@@ -45,7 +45,6 @@ const getColumns = ({
           isClearable
           options={biomarkerOptions}
           onChange={biomarkerFilterHandler}
-          placeholder="None"
         />
       ),
     },
@@ -70,7 +69,6 @@ const getColumns = ({
           isClearable
           options={diseaseOptions}
           onChange={diseaseFilterHandler}
-          placeholder="None"
         />
       ),
     },
@@ -82,7 +80,6 @@ const getColumns = ({
           isClearable
           options={drugOptions}
           onChange={drugFilterHandler}
-          placeholder="None"
         />
       ),
     },
@@ -95,7 +92,6 @@ const getColumns = ({
           isClearable
           options={associationOptions}
           onChange={associationFilterHandler}
-          placeholder="None"
         />
       ),
     },
@@ -107,7 +103,6 @@ const getColumns = ({
           isClearable
           options={evidenceOptions}
           onChange={evidenceFilterHandler}
-          placeholder="None"
         />
       ),
     },

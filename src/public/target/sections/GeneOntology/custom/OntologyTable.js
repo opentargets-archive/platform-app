@@ -23,7 +23,6 @@ const getColumns = (
       renderFilter: () => (
         <Select
           isClearable
-          placeholder="None"
           options={categoryOptions}
           onChange={categoryFilterHandler}
         />
@@ -45,7 +44,6 @@ const getColumns = (
       renderFilter: () => (
         <Select
           isClearable
-          placeholder="None"
           options={termOptions}
           onChange={termFilterHandler}
         />
