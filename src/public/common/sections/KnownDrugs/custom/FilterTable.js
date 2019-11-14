@@ -131,21 +131,7 @@ const getColumns = ({ filters }) => {
       if (filters[c.id]) {
         const f = filters[c.id];
         c.renderFilter = d => (
-          <Select
-            isClearable
-            options={f.options}
-            onChange={f.handler}
-            theme={theme => ({
-              ...theme,
-              color: '#f00',
-              colors: {
-                ...theme.colors,
-                text: 'orangered',
-                primary25: 'hotpink',
-                primary: 'black',
-              },
-            })}
-          />
+          <Select isClearable options={f.options} onChange={f.handler} />
         );
       }
     });
