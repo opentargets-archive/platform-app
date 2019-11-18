@@ -2,6 +2,7 @@ import { loader } from 'graphql.macro';
 
 export const id = 'phenotypes';
 export const name = 'Phenotypes';
+export const shortName = 'Ph';
 
 export const hasSummaryData = ({ phenotypesCount }) => phenotypesCount > 0;
 

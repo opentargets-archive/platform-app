@@ -2,6 +2,7 @@ import { loader } from 'graphql.macro';
 
 export const id = 'pathways';
 export const name = 'Pathways';
+export const shortName = 'Pw';
 
 export const hasSummaryData = ({ count }) => count > 0;
 
