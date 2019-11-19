@@ -81,6 +81,7 @@ const styles = theme => ({
 const MiniWidget = ({
   classes,
   name,
+  shortName,
   icon,
   loading,
   error,
@@ -111,10 +112,11 @@ const MiniWidget = ({
               [classes.avatarError]: error,
             })}
           >
-            {name
-              .split(' ')
-              .map(d => d[0].toUpperCase())
-              .join('')}
+            {shortName ||
+              name
+                .split(' ')
+                .map(d => d[0].toUpperCase())
+                .join('')}
           </Avatar>
         }
         action={null}

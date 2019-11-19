@@ -2,6 +2,7 @@ import { loader } from 'graphql.macro';
 
 export const id = 'mechanismsOfAction';
 export const name = 'Mechanisms of Action';
+export const shortName = 'MA';
 
 export const hasSummaryData = ({ uniqueActionTypes, uniqueTargetTypes }) =>
   uniqueActionTypes.length > 0 && uniqueTargetTypes.length > 0;
