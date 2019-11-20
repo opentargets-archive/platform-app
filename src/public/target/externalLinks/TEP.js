@@ -183,7 +183,7 @@ const Tep = ({ classes, ensgId, symbol }) => {
         </sup>
       </Tooltip>
       :{' '}
-      <Link external to={`https://www.thesgc.org/tep/${symbol}`}>
+      <Link external to={teps[ensgId].link}>
         {symbol}
       </Link>
     </Fragment>
