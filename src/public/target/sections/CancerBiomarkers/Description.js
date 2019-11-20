@@ -4,7 +4,7 @@ import { Link } from 'ot-ui';
 
 const Description = () => (
   <React.Fragment>
-    Genomic biomarkers of drug responses, and their levels of clinical
+    Genomic biomarkers of drug responses and their levels of clinical
     significance as described by{' '}
     <Link external to="https://europepmc.org/articles/PMC5875005">
       {' '}
