@@ -6,7 +6,6 @@ class ReactomeRenderer extends React.Component {
   componentDidMount() {
     const { symbol, reactomeId } = this.props;
     const diagram = Reactome.Diagram.create({
-      proxyPrefix: 'https://www.reactome.org',
       placeHolder: 'reactome',
       width: 800,
       height: 600,
