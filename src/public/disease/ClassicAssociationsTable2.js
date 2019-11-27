@@ -1,7 +1,4 @@
 import React from 'react';
-import * as d3 from 'd3';
-import { mix, complement, lighten } from 'polished';
-import gql from 'graphql-tag';
 import _ from 'lodash';
 // import classNames from 'classnames';
 // import withStyles from '@material-ui/core/styles/withStyles';
