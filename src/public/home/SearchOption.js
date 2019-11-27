@@ -7,6 +7,8 @@ const Option = ({ data }) => {
       return <SearchOption heading={data.approvedSymbol} />;
     case 'drug':
       return <SearchOption heading={data.name} />;
+    case 'topHit':
+      return <SearchOption heading={data.name} />;
     default:
       throw Error('Unexpected group type');
   }

@@ -18,8 +18,6 @@ import * as dcconfig from '../../../../common/dcConfig.js';
 import _ from 'lodash';
 import { Grid } from '@material-ui/core';
 
-const chartColour = lighten(0.3, '#3489ca');
-
 // Get list of options (i.e. drop-down content) for a column filter
 // render formats the label (similar to renderCell for cells content)
 const getColFilterOptions = (rows, accessor, render) => {
@@ -133,12 +131,7 @@ const getColumns = ({ filters }) => {
       if (filters[c.id]) {
         const f = filters[c.id];
         c.renderFilter = d => (
-          <Select
-            isClearable
-            options={f.options}
-            onChange={f.handler}
-            placeholder="None"
-          />
+          <Select isClearable options={f.options} onChange={f.handler} />
         );
       }
     });
@@ -193,7 +186,7 @@ const styles = theme => ({
 
 // Get the colours for pie chart slices.
 // Ideally this kinda thing will be replaced by a d3 scale of some sort?
-const getPieColors = items => {
+const getPieColors = (items, chartColour) => {
   return items.reduce((acc, item, i) => {
     acc[item] = darken(0.05 * i, chartColour);
     return acc;
@@ -275,6 +268,9 @@ class KnownDrugsDetail extends React.Component {
   };
 
   setupCharts = () => {
+    const { theme } = this.props;
+    const chartColour = lighten(0.3, theme.palette.primary.main);
+
     // charts
     this.drugCountLabel = dc.numberDisplay('#unique-drugs-count');
     this.targetsCountLabel = dc.numberDisplay('#associated-targets-count');
@@ -383,13 +379,17 @@ class KnownDrugsDetail extends React.Component {
   };
 
   componentDidMount() {
+    const { theme } = this.props;
+    const chartColour = lighten(0.3, theme.palette.primary.main);
+
     this.typeColors = getPieColors(
-      _.uniq(this.props.rows.map(row => row.drug.type))
+      _.uniq(this.props.rows.map(row => row.drug.type)),
+      chartColour
     );
     this.activityColors = getPieColors(
-      _.uniq(this.props.rows.map(row => row.drug.activity))
+      _.uniq(this.props.rows.map(row => row.drug.activity)),
+      chartColour
     );
-    console.log('colors: ', this.typeColors, this.activityColors);
     this.setupGroups();
     this.setupCharts();
   }
@@ -401,6 +401,7 @@ class KnownDrugsDetail extends React.Component {
   render() {
     const { classes, fileStem, rows } = this.props;
     const { filteredRows } = this.state;
+
     // Setup filters for the columns that require it; cols identified by ID
     // options = array of {label, value} to populate filter dropdown; handler: on-select callback
     const colFilters = {
@@ -569,4 +570,4 @@ class KnownDrugsDetail extends React.Component {
   }
 }
 
-export default withStyles(styles)(KnownDrugsDetail);
+export default withStyles(styles, { withTheme: true })(KnownDrugsDetail);

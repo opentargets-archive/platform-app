@@ -36,7 +36,7 @@ const columns = [
     label: 'Relevance',
     style: { verticalAlign: 'top', paddingTop: '7px' },
     width: '10%',
-    renderCell: d => <LevelBar value={d.relevance * 100} />,
+    renderCell: d => <LevelBar value={Math.min(d.relevance, 1) * 100} />,
   },
 ];
 

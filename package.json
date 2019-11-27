@@ -39,7 +39,7 @@
     "node-sass": "^4.12.0",
     "ot-ui": "^0.0.99",
     "polished": "^2.3.0",
-    "protvista-uniprot": "^2.0.12",
+    "protvista-uniprot": "^2.0.15",
     "react": "^16.8.6",
     "react-apollo": "^2.2.4",
     "react-app-polyfill": "^1.0.1",

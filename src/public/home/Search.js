@@ -12,13 +12,14 @@ const SEARCH_QUERY = loader('./SearchQuery.gql');
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/graphql',
+    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
   }),
   cache: new InMemoryCache(),
 });
 
 const asGroupedOptions = data => {
   return [
+    { label: 'Top hit', options: [{ ...data.topHit, groupType: 'topHit' }] },
     {
       label: 'Targets',
       options: data.targets.map(target => ({ ...target, groupType: 'target' })),
@@ -63,6 +64,9 @@ class Search extends Component {
           break;
         case 'drug':
           history.push(`/drug/${value.id}`);
+          break;
+        case 'topHit':
+          history.push(`/${value.entity}/${value.id}`);
           break;
         default:
           break;
