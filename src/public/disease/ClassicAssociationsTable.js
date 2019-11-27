@@ -30,8 +30,9 @@ const styles = theme => ({
   table: {
     marginRight: '20px',
     width: 'calc(100% - 40px)',
-    borderSpacing: '2px',
-    borderCollapse: 'separate',
+    tableLayout: 'fixed',
+    // borderSpacing: '2px',
+    // borderCollapse: 'separate',
   },
   cell: {
     borderBottom: 'none',
@@ -45,8 +46,8 @@ const styles = theme => ({
     height: 0,
   },
   cellHeaderVertical: {
-    minWidth: '20px',
-    maxWidth: '20px',
+    // minWidth: '20px',
+    // maxWidth: '20px',
     height: '160px',
     verticalAlign: 'bottom',
     textAlign: 'center',
@@ -58,7 +59,7 @@ const styles = theme => ({
     },
     '& div span': {
       display: 'block',
-      maxWidth: '200px',
+      // maxWidth: '200px',
       marginLeft: '50%',
       transformOrigin: '0 0',
       transform: 'rotate(-60deg) translateY(-50%)',
@@ -68,8 +69,8 @@ const styles = theme => ({
   cellDiseaseName: {
     fontSize: '0.75rem',
     padding: '0 8px',
-    minWidth: '200px',
-    maxWidth: '400px',
+    // minWidth: '200px',
+    // maxWidth: '400px',
     borderBottom: 'none',
   },
   cellHeaderDiseaseName: {
@@ -151,6 +152,12 @@ const ClassicAssociationsTable = ({
   const directionForField = field =>
     sortBy.field === field ? (sortBy.ascending ? 'asc' : 'desc') : 'desc';
   const activeForField = field => sortBy.field === field;
+
+  const diseaseNameColumnWidth = '20%';
+  const cellColumnsCount = 1 + dataTypes.length + modalities.length;
+  const cellColumnsPadding = '10px';
+  // const cellColumnsWidth = `calc(80% - ${cellColumnsPadding} * 6)`;
+  const cellColumnWidth = `((80% - (${cellColumnsPadding} * 5)) / ${cellColumnsCount})`;
   return (
     <div className={classes.tableWrapper}>
       <ClassicAssociationsDownload
@@ -198,10 +205,22 @@ const ClassicAssociationsTable = ({
                 classes.cellDiseaseName,
                 classes.cellHeaderDiseaseName
               )}
+              style={{
+                width: diseaseNameColumnWidth,
+                /* maxWidth: diseaseNameColumnWidth, */
+              }}
             >
               Target
             </TableCell>
-            <TableCell className={classes.cellHeaderVertical}>
+            <TableCell
+              className={classes.cellHeaderVertical}
+              style={{
+                width: `calc(${cellColumnWidth} + 2 * ${cellColumnsPadding})`,
+                /*                 
+                minWidth: `calc(${cellColumnWidth} + 2 * ${cellColumnsPadding})`,
+                maxWidth: `calc(${cellColumnWidth} + 2 * ${cellColumnsPadding})`, */
+              }}
+            >
               <div>
                 <span>Overall</span>
               </div>
@@ -213,8 +232,19 @@ const ClassicAssociationsTable = ({
                 active={activeForField('SCORE_OVERALL')}
               />
             </TableCell>
-            {dataTypes.map(dataType => (
-              <TableCell key={dataType} className={classes.cellHeaderVertical}>
+            {dataTypes.map((dataType, i) => (
+              <TableCell
+                key={dataType}
+                className={classes.cellHeaderVertical}
+                style={{
+                  width: `calc(${cellColumnWidth} + ${(i === 0 ? 1 : 0) +
+                    (i === dataTypes.length ? 1 : 0)} * ${cellColumnsPadding})`,
+                  /* minWidth: `calc(${cellColumnWidth} + ${(i === 0 ? 1 : 0) +
+                    (i === dataTypes.length ? 1 : 0)} * ${cellColumnsPadding})`,
+                  maxWidth: `calc(${cellColumnWidth} + ${(i === 0 ? 1 : 0) +
+                    (i === dataTypes.length ? 1 : 0)} * ${cellColumnsPadding})`, */
+                }}
+              >
                 <div>
                   <span>{_.startCase(dataType.toLowerCase())}</span>
                 </div>
@@ -225,8 +255,25 @@ const ClassicAssociationsTable = ({
                 />
               </TableCell>
             ))}
-            {modalities.map(modality => (
-              <TableCell key={modality} className={classes.cellHeaderVertical}>
+            {modalities.map((modality, i) => (
+              <TableCell
+                key={modality}
+                className={classes.cellHeaderVertical}
+                style={{
+                  width: `calc(${cellColumnWidth} + ${(i === 0 ? 1 : 0) +
+                    (i === modalities.length
+                      ? 1
+                      : 0)} * ${cellColumnsPadding})`,
+                  /* minWidth: `calc(${cellColumnWidth} + ${(i === 0 ? 1 : 0) +
+                    (i === modalities.length
+                      ? 1
+                      : 0)} * ${cellColumnsPadding})`,
+                  maxWidth: `calc(${cellColumnWidth} + ${(i === 0 ? 1 : 0) +
+                    (i === modalities.length
+                      ? 1
+                      : 0)} * ${cellColumnsPadding})`, */
+                }}
+              >
                 <div>
                   <span>{_.startCase(modality)}</span>
                 </div>
@@ -248,6 +295,7 @@ const ClassicAssociationsTable = ({
                   classes.cellDiseaseName,
                   classes.cellEllipsis
                 )}
+                style={{ width: diseaseNameColumnWidth }}
               >
                 <span
                   id={`target-cell-${row.target.id}`}
@@ -267,6 +315,8 @@ const ClassicAssociationsTable = ({
                 color={scaleAssociation(row.score > 0 ? row.score : NaN)}
                 left={true}
                 right={true}
+                cellWidth={cellColumnWidth}
+                cellPadding={cellColumnsPadding}
               />
               {row.scoresByDataType.map((dataType, i) => (
                 <ClassicAssociationsTableCell
@@ -276,6 +326,8 @@ const ClassicAssociationsTable = ({
                   )}
                   left={i === 0}
                   right={i === row.scoresByDataType.length - 1}
+                  cellWidth={cellColumnWidth}
+                  cellPadding={cellColumnsPadding}
                 />
               ))}
               {row.tractabilityScoresByModality.map((modality, i) => (
@@ -284,6 +336,8 @@ const ClassicAssociationsTable = ({
                   color={colorScaleModality(modality.score)}
                   left={i === 0}
                   right={i === row.tractabilityScoresByModality.length - 1}
+                  cellWidth={cellColumnWidth}
+                  cellPadding={cellColumnsPadding}
                 />
               ))}
             </TableRow>

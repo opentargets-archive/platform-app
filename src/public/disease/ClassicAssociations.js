@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { commaSeparate } from 'ot-ui';
 
 import * as facetsObject from './facetIndex';
-import ClassicAssociationsTable from './ClassicAssociationsTable';
+import ClassicAssociationsTable from './ClassicAssociationsTable2';
 import FacetContainer from '../common/FacetContainer';
 
 const facets = Object.values(facetsObject);
