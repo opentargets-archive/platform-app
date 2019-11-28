@@ -31,7 +31,6 @@ const getColumns = (
       renderFilter: () => (
         <Select
           isClearable
-          placeholder="None"
           options={mouseGeneOptions}
           onChange={mouseGeneFilterHandler}
         />
@@ -43,7 +42,6 @@ const getColumns = (
       renderFilter: () => (
         <Select
           isClearable
-          placeholder="None"
           options={categoryOptions}
           onChange={categoryFilterHandler}
         />
@@ -55,7 +53,6 @@ const getColumns = (
       renderFilter: () => (
         <Select
           isClearable
-          placeholder="None"
           options={phenotypeOptions}
           onChange={phenotypeFilterHandler}
         />

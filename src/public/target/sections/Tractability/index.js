@@ -2,6 +2,7 @@ import { loader } from 'graphql.macro';
 
 export const id = 'tractability';
 export const name = 'Tractability';
+export const shortName = 'TR';
 
 export const hasSummaryData = data =>
   data.hasAntibodyTractabilityAssessment ||

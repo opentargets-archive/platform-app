@@ -19,7 +19,6 @@ const getColumns = (
       renderFilter: () => (
         <Select
           isClearable
-          placeholder="None"
           options={hallmarksOptions}
           onChange={hallmarksFilterHandler}
         />
@@ -32,7 +31,6 @@ const getColumns = (
       renderFilter: () => (
         <Select
           isClearable
-          placeholder="None"
           options={promotesOptions}
           onChange={promotesFilterHandler}
         />

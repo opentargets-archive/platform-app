@@ -12,7 +12,7 @@ const SEARCH_QUERY = loader('./SearchQuery.gql');
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/graphql',
+    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
   }),
   cache: new InMemoryCache(),
 });

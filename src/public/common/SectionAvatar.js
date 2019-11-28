@@ -16,7 +16,7 @@ const styles = theme => ({
   },
 });
 
-const SectionAvatar = ({ classes, name, icon, hasData, error }) => (
+const SectionAvatar = ({ classes, name, shortName, icon, hasData, error }) => (
   <Avatar
     className={classNames({
       [classes.avatar]: true,
@@ -24,10 +24,11 @@ const SectionAvatar = ({ classes, name, icon, hasData, error }) => (
       [classes.avatarError]: error,
     })}
   >
-    {name
-      .split(' ')
-      .map(d => d[0].toUpperCase())
-      .join('')}
+    {shortName ||
+      name
+        .split(' ')
+        .map(d => d[0].toUpperCase())
+        .join('')}
   </Avatar>
 );
 

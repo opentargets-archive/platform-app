@@ -2,6 +2,7 @@ import { loader } from 'graphql.macro';
 
 export const id = 'pathways';
 export const name = 'Pathways and Systems Biology';
+export const shortName = 'SB';
 
 const datasources = ['reactome', 'slapenrich', 'progeny', 'crispr', 'sysBio'];
 
