@@ -116,6 +116,18 @@ const ClassicAssociationsTable = ({
         },
       })),
     },
+    {
+      id: 'modalities',
+      columns: modalities.map(m => ({
+        label: m,
+        valueAccessor: d => {
+          const score = d.tractabilityScoresByModality.find(
+            s => s.modalityId === m
+          ).score;
+          return score > 0 ? score : NaN;
+        },
+      })),
+    },
   ];
   return (
     <div className={classes.tableWrapper}>
