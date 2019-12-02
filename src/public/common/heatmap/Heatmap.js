@@ -40,7 +40,9 @@ class Heatmap extends React.Component {
   }
   _render() {
     const {
+      rows,
       columnGroups,
+      labelAccessor,
       rowLabelWidth,
       columnGroupSeparatorWidth,
       heightPerRow,
@@ -56,115 +58,152 @@ class Heatmap extends React.Component {
       (heatmapWidth - (columnGroups.length - 1) * columnGroupSeparatorWidth) /
       heatmapCellCount;
 
-    this._renderRows({ heatmapCellWidth, heatmapCellHeight });
-  }
-  _renderRows({ heatmapCellWidth, heatmapCellHeight }) {
-    const { rows } = this.props;
-    const g = d3.select('.heatmap-rows');
+    const columnGroupsWithPosition = columnGroups.reduce((acc, cg, i) => {
+      const xStart =
+        i === 0 ? rowLabelWidth : acc[i - 1].xEnd + columnGroupSeparatorWidth;
+      const xEnd = xStart + cg.columns.length * heatmapCellWidth;
+      acc.push({
+        ...cg,
+        xStart,
+        xEnd,
+      });
+      return acc;
+    }, []);
+    const columnsWithPosition = columnGroupsWithPosition.reduce((acc, cg) => {
+      cg.columns.forEach((col, i) => {
+        const xStart = cg.xStart + i * heatmapCellWidth;
+        const xEnd = xStart + heatmapCellWidth;
+        acc.push({
+          ...col,
+          xStart,
+          xEnd,
+        });
+      });
+      return acc;
+    }, []);
+    // const rowsWithPosition = rows
 
-    const t = d3.transition().duration(2000);
-
-    // join
-    const row = g.selectAll('g').data(rows, d => d.id);
-
-    // exit
-    row
-      .exit()
-      .transition(t)
-      .attr('opacity', 0)
-      .remove();
-
-    // enter
-    const rowEnter = row
-      .enter()
-      .append('g')
-      .attr('transform', (d, i) => `translate(0,${i * heatmapCellHeight})`)
-      .attr('opacity', 0);
-
-    // enter transition
-    rowEnter.transition(t).attr('opacity', 1);
-
-    // update transition
-    row
-      .transition(t)
-      .attr('transform', (d, i) => `translate(0,${i * heatmapCellHeight})`);
-
-    // merge (new and updated)
-    const rowMerge = rowEnter.merge(row);
-
-    // ------------- per row -------------
-
-    this._renderRowLabels({
-      rowEnter,
-      rowMerge,
-      heatmapCellHeight,
-    });
-    this._renderRowHeatmapCells({
-      rowEnter,
-      rowMerge,
+    this._renderColumnLabels({ columnsWithPosition, margin });
+    this._renderRows({
+      rows,
+      margin,
+      rowLabelWidth,
       heatmapCellWidth,
       heatmapCellHeight,
+      labelAccessor,
+      columnsWithPosition,
     });
-    // renderGeneLabels(rowEnter, rowMerge);
-    // renderCells(rowEnter, rowMerge, row, g);
   }
-  _renderRowLabels({ rowEnter, rowMerge, heatmapCellHeight }) {
-    const { rowLabelAccessor } = this.props;
+  _renderColumnLabels({ columnsWithPosition, margin }) {
+    const g = d3
+      .select('.heatmap-column-labels')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    rowEnter
-      .append('text')
-      .attr('x', -5)
-      .attr('y', heatmapCellHeight / 2)
-      .attr('text-anchor', 'end')
-      .attr('alignment-baseline', 'middle')
-      .attr('font-size', '10px')
-      .attr('font-family', 'sans-serif');
+    const columnLabel = g.selectAll('text').data(columnsWithPosition);
 
-    rowMerge.select('text').text(rowLabelAccessor);
+    columnLabel.join(
+      enter =>
+        enter
+          .append('text')
+          .attr('text-anchor', 'start')
+          .attr('alignment-baseline', 'middle')
+          .attr('font-size', '10px')
+          .attr('font-family', 'sans-serif')
+          .attr(
+            'transform',
+            d => `rotate(-90) translate(0,${(d.xStart + d.xEnd) / 2})`
+          )
+          .text(d => d.label),
+      update =>
+        update
+          .attr(
+            'transform',
+            d => `rotate(-90) translate(0,${(d.xStart + d.xEnd) / 2})`
+          )
+          .text(d => d.label),
+      exit => exit.remove()
+    );
   }
-  _renderRowHeatmapCells({
-    rowEnter,
-    rowMerge,
+  _renderRows({
+    rows,
+    margin,
+    rowLabelWidth,
     heatmapCellWidth,
     heatmapCellHeight,
+    labelAccessor,
+    columnsWithPosition,
   }) {
-    // ------------- overall -------------
-    rowEnter
-      .append('rect')
-      .classed('overall', true)
-      .attr('stroke', '#DDD')
-      .attr('x', 0)
-      .attr('y', 0)
-      .attr('width', heatmapCellWidth)
-      .attr('height', heatmapCellHeight);
+    const g = d3
+      .select('.heatmap-rows')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    rowMerge.select('rect.overall').attr('fill', d => color(d.score));
+    const row = g.selectAll('g').data(rows, d => d.id);
 
-    // ------------- per datasource -------------
-    const gDatasources = rowMerge
-      .append('g')
-      .classed('datasources', true)
-      .attr('transform', `translate(${2 * heatmapCellWidth},0)`);
+    const rowMerged = row.join(
+      enter => {
+        enter = enter
+          .append('g')
+          .attr('transform', (d, i) => `translate(0,${i * heatmapCellHeight})`);
 
-    const datasourceCell = gDatasources
+        // row label
+        enter
+          .append('text')
+          .attr('x', rowLabelWidth)
+          .attr('y', heatmapCellHeight / 2)
+          .attr('text-anchor', 'end')
+          .attr('alignment-baseline', 'middle')
+          .attr('font-size', '10px')
+          .attr('font-family', 'sans-serif');
+
+        // container for heatmap cells
+        enter.append('g').classed('heatmap-cells', true);
+
+        return enter;
+      },
+      update =>
+        update.attr(
+          'transform',
+          (d, i) => `translate(0,${i * heatmapCellHeight})`
+        ),
+      exit => exit.remove()
+    );
+
+    // row label
+    rowMerged.select('text').text(labelAccessor);
+
+    // row cells
+    const cell = rowMerged
+      .select('g.heatmap-cells')
       .selectAll('rect')
-      .data(d => d.scorePerDS);
-
-    const datasourceCellEnter = datasourceCell
-      .enter()
-      .append('rect')
-      .attr('stroke', '#DDD')
-      .attr('x', (d, i) => i * heatmapCellWidth)
-      .attr('y', 0)
-      .attr('width', heatmapCellWidth)
-      .attr('height', heatmapCellHeight);
-
-    datasourceCellEnter.merge(datasourceCell).attr('fill', d => color(d.score));
+      .data(d =>
+        columnsWithPosition.map(c => ({
+          xStart: c.xStart,
+          xEnd: c.xEnd,
+          value: c.valueAccessor(d),
+        }))
+      );
+    cell.join(
+      enter =>
+        enter
+          .append('rect')
+          .attr('x', d => d.xStart)
+          .attr('y', 0)
+          .attr('width', heatmapCellWidth)
+          .attr('height', heatmapCellHeight)
+          .attr('fill', d => color(d.value)),
+      update =>
+        update
+          .attr('x', d => d.xStart)
+          .attr('width', heatmapCellWidth)
+          .attr('height', heatmapCellHeight)
+          .attr('fill', d => color(d.value)),
+      exit => exit.remove()
+    );
   }
 }
 Heatmap.defaultProps = {
   rowsPerPage: 20,
-  heightPerRow: 50,
+  heightPerRow: 20,
   rowLabelWidth: 200,
   columnGroupSeparatorWidth: 20,
 };
