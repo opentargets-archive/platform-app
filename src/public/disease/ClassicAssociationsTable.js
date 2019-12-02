@@ -102,7 +102,7 @@ const ClassicAssociationsTable = ({
       columns: [
         {
           label: 'Overall',
-          valueAccessor: d => d.score,
+          valueAccessor: d => (d.score > 0 ? d.score : NaN),
         },
       ],
     },
@@ -110,8 +110,10 @@ const ClassicAssociationsTable = ({
       id: 'datasources',
       columns: dataTypes.map(dt => ({
         label: dt,
-        valueAccessor: d =>
-          d.scoresByDataType.find(s => s.dataTypeId === dt).score,
+        valueAccessor: d => {
+          const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
+          return score > 0 ? score : NaN;
+        },
       })),
     },
   ];

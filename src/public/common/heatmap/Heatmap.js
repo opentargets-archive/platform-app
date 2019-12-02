@@ -9,6 +9,8 @@ const color = d3
   .range(['#D4E6F4', '#3489CA'])
   .unknown('#FFF');
 
+const cellMargin = 1;
+
 class Heatmap extends React.Component {
   componentDidMount() {
     this._render();
@@ -201,16 +203,17 @@ class Heatmap extends React.Component {
       enter =>
         enter
           .append('rect')
-          .attr('x', d => d.xStart)
-          .attr('y', 0)
-          .attr('width', heatmapCellWidth)
-          .attr('height', heatmapCellHeight)
+          .attr('stroke', '#eee')
+          .attr('x', d => d.xStart - cellMargin)
+          .attr('y', cellMargin)
+          .attr('width', heatmapCellWidth - 2 * cellMargin)
+          .attr('height', heatmapCellHeight - 2 * cellMargin)
           .attr('fill', d => color(d.value)),
       update =>
         update
-          .attr('x', d => d.xStart)
-          .attr('width', heatmapCellWidth)
-          .attr('height', heatmapCellHeight)
+          .attr('x', d => d.xStart - cellMargin)
+          .attr('width', heatmapCellWidth - 2 * cellMargin)
+          .attr('height', heatmapCellHeight - 2 * cellMargin)
           .attr('fill', d => color(d.value)),
       exit => exit.remove()
     );
