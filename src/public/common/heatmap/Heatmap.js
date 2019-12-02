@@ -48,6 +48,12 @@ class Heatmap extends React.Component {
       heightPerRow,
     } = this.props;
     const { width, margin } = this._dimensions();
+
+    if (!width) {
+      // initial render should be skipped (no width value)
+      return;
+    }
+
     const heatmapWidth = width - rowLabelWidth - margin.left - margin.right;
     const heatmapCellCount = columnGroups.reduce(
       (acc, d) => acc + d.columns.length,
@@ -69,6 +75,7 @@ class Heatmap extends React.Component {
       });
       return acc;
     }, []);
+
     const columnsWithPosition = columnGroupsWithPosition.reduce((acc, cg) => {
       cg.columns.forEach((col, i) => {
         const xStart = cg.xStart + i * heatmapCellWidth;
@@ -92,6 +99,7 @@ class Heatmap extends React.Component {
       heatmapCellHeight,
       labelAccessor,
       columnsWithPosition,
+      columnGroupSeparatorWidth,
     });
   }
   _renderColumnLabels({ columnsWithPosition, margin }) {
@@ -132,23 +140,25 @@ class Heatmap extends React.Component {
     heatmapCellHeight,
     labelAccessor,
     columnsWithPosition,
+    columnGroupSeparatorWidth,
   }) {
     const g = d3
       .select('.heatmap-rows')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    const row = g.selectAll('g').data(rows, d => d.id);
+    const row = g.selectAll('g.heatmap-row').data(rows, d => d.target.id);
 
     const rowMerged = row.join(
       enter => {
         enter = enter
           .append('g')
+          .classed('heatmap-row', true)
           .attr('transform', (d, i) => `translate(0,${i * heatmapCellHeight})`);
 
         // row label
         enter
           .append('text')
-          .attr('x', rowLabelWidth)
+          .attr('x', rowLabelWidth - columnGroupSeparatorWidth)
           .attr('y', heatmapCellHeight / 2)
           .attr('text-anchor', 'end')
           .attr('alignment-baseline', 'middle')
@@ -175,12 +185,17 @@ class Heatmap extends React.Component {
     const cell = rowMerged
       .select('g.heatmap-cells')
       .selectAll('rect')
-      .data(d =>
-        columnsWithPosition.map(c => ({
-          xStart: c.xStart,
-          xEnd: c.xEnd,
-          value: c.valueAccessor(d),
-        }))
+      .data(
+        d => {
+          const cellDataForRow = columnsWithPosition.map(c => ({
+            id: c.label,
+            xStart: c.xStart,
+            xEnd: c.xEnd,
+            value: c.valueAccessor(d),
+          }));
+          return cellDataForRow;
+        },
+        d => d.id
       );
     cell.join(
       enter =>

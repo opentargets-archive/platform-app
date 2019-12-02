@@ -157,6 +157,7 @@ const ClassicAssociationsTable = ({
         labelAccessor={d => d.target.symbol}
         rows={rows}
         columnGroups={columnGroups}
+        rowsPerPage={rowsPerPage}
       />
       <Grid container justify="space-between" alignItems="center">
         <Grid item>
