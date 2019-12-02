@@ -218,9 +218,9 @@ class Heatmap extends React.Component {
 }
 Heatmap.defaultProps = {
   rowsPerPage: 20,
-  heightPerRow: 20,
+  heightPerRow: 12,
   rowLabelWidth: 200,
-  columnGroupSeparatorWidth: 20,
+  columnGroupSeparatorWidth: 10,
 };
 
 export default withContentRect('bounds')(Heatmap);
