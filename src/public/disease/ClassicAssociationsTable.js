@@ -113,7 +113,7 @@ const ClassicAssociationsTable = ({
     {
       id: 'datasources',
       columns: dataTypes.map(dt => ({
-        label: dt,
+        label: _.startCase(dt.toLowerCase()),
         valueAccessor: d => {
           const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
           return score > 0 ? score : NaN;
@@ -127,7 +127,7 @@ const ClassicAssociationsTable = ({
     {
       id: 'modalities',
       columns: modalities.map(m => ({
-        label: m,
+        label: _.startCase(m),
         valueAccessor: d => {
           const score = d.tractabilityScoresByModality.find(
             s => s.modalityId === m
