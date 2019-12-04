@@ -151,9 +151,10 @@ class Heatmap extends React.Component {
                   : ''
               }`
           )
-          .attr('stroke', d => (d.isSortActive ? '#777' : '#bbb'))
+          .attr('stroke', d => (d.isSortActive ? 'black' : '#bbb'))
           .attr('fill', 'none')
           .attr('stroke-width', 2)
+          .attr('cursor', 'pointer')
           .attr('d', 'M0,-5 L0,5 M-6,-1 L0,5 L6,-1')
           .on('click', d => d.onSort()),
       update =>
@@ -167,7 +168,7 @@ class Heatmap extends React.Component {
                   : ''
               }`
           )
-          .attr('stroke', d => (d.isSortActive ? '#777' : '#bbb'))
+          .attr('stroke', d => (d.isSortActive ? 'black' : '#bbb'))
           .attr('d', 'M0,-5 L0,5 M-6,-1 L0,5 L6,-1')
           .on('click', d => d.onSort()),
       exit => exit.remove()
