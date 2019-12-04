@@ -88,13 +88,13 @@ const ClassicAssociationsTable = ({
     .scalePow()
     .exponent(0.5)
     .range([lighten(0.4, tractabilityColor), tractabilityColor]);
-  // const sortByUpdateForField = field => ({
-  //   field: field,
-  //   ascending: sortBy.field === field ? !sortBy.ascending : false,
-  // });
-  // const directionForField = field =>
-  //   sortBy.field === field ? (sortBy.ascending ? 'asc' : 'desc') : 'desc';
-  // const activeForField = field => sortBy.field === field;
+  const sortByUpdateForField = field => ({
+    field: field,
+    ascending: sortBy.field === field ? !sortBy.ascending : false,
+  });
+  const directionForField = field =>
+    sortBy.field === field ? (sortBy.ascending ? 'asc' : 'desc') : 'desc';
+  const activeForField = field => sortBy.field === field;
 
   const columnGroups = [
     {
@@ -103,6 +103,10 @@ const ClassicAssociationsTable = ({
         {
           label: 'Overall',
           valueAccessor: d => (d.score > 0 ? d.score : NaN),
+          isSortable: true,
+          isSortActive: activeForField('SCORE_OVERALL'),
+          sortDirection: directionForField('SCORE_OVERALL'),
+          onSort: () => sortByUpdateForField('SCORE_OVERALL'),
         },
       ],
     },
@@ -114,6 +118,10 @@ const ClassicAssociationsTable = ({
           const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
           return score > 0 ? score : NaN;
         },
+        isSortable: true,
+        isSortActive: activeForField(dt),
+        sortDirection: directionForField(dt),
+        onSort: () => sortByUpdateForField(dt),
       })),
     },
     {
@@ -126,6 +134,7 @@ const ClassicAssociationsTable = ({
           ).score;
           return score > 0 ? score : NaN;
         },
+        isSortable: false,
       })),
     },
   ];

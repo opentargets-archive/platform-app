@@ -121,16 +121,55 @@ class Heatmap extends React.Component {
           .attr('font-family', 'sans-serif')
           .attr(
             'transform',
-            d => `rotate(-90) translate(0,${(d.xStart + d.xEnd) / 2})`
+            d => `rotate(-90) translate(20,${(d.xStart + d.xEnd) / 2})`
           )
           .text(d => d.label),
       update =>
         update
           .attr(
             'transform',
-            d => `rotate(-90) translate(0,${(d.xStart + d.xEnd) / 2})`
+            d => `rotate(-90) translate(20,${(d.xStart + d.xEnd) / 2})`
           )
           .text(d => d.label),
+      exit => exit.remove()
+    );
+
+    const columnSortIcons = g
+      .selectAll('path')
+      .data(columnsWithPosition.filter(c => c.isSortable));
+
+    columnSortIcons.join(
+      enter =>
+        enter
+          .append('path')
+          .attr(
+            'transform',
+            d =>
+              `translate(${(d.xStart + d.xEnd) / 2},-15)${
+                d.isSortActive && d.sortDirection === 'asc'
+                  ? 'rotate(180) '
+                  : ''
+              }`
+          )
+          .attr('stroke', d => (d.isSortActive ? '#777' : '#bbb'))
+          .attr('fill', 'none')
+          .attr('stroke-width', 2)
+          .attr('d', 'M0,0 L0,10 M-6,6 L0,10 L6,6')
+          .on('click', d => d.onSort()),
+      update =>
+        update
+          .attr(
+            'transform',
+            d =>
+              `translate(${(d.xStart + d.xEnd) / 2},-15)${
+                d.isSortActive && d.sortDirection === 'asc'
+                  ? 'rotate(180) '
+                  : ''
+              }`
+          )
+          .attr('stroke', d => (d.isSortActive ? '#777' : '#bbb'))
+          .attr('d', 'M0,0 L0,10 M-6,6 L0,10 L6,6')
+          .on('click', d => d.onSort()),
       exit => exit.remove()
     );
   }
