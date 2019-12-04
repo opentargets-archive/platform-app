@@ -2,13 +2,6 @@ import React from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 
-// TODO: make color scale a prop (per column? eg. tractability is distinct)
-const color = d3
-  .scaleLinear()
-  .domain([0, 1])
-  .range(['#D4E6F4', '#3489CA'])
-  .unknown('#FFF');
-
 const cellMargin = 1;
 
 class Heatmap extends React.Component {
@@ -234,6 +227,7 @@ class Heatmap extends React.Component {
             xStart: c.xStart,
             xEnd: c.xEnd,
             value: c.valueAccessor(d),
+            color: c.colorAccessor(d),
           }));
           return cellDataForRow;
         },
@@ -248,13 +242,13 @@ class Heatmap extends React.Component {
           .attr('y', cellMargin)
           .attr('width', heatmapCellWidth - 2 * cellMargin)
           .attr('height', heatmapCellHeight - 2 * cellMargin)
-          .attr('fill', d => color(d.value)),
+          .attr('fill', d => d.color),
       update =>
         update
           .attr('x', d => d.xStart - cellMargin)
           .attr('width', heatmapCellWidth - 2 * cellMargin)
           .attr('height', heatmapCellHeight - 2 * cellMargin)
-          .attr('fill', d => color(d.value)),
+          .attr('fill', d => d.color),
       exit => exit.remove()
     );
   }

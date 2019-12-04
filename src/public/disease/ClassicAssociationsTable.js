@@ -84,10 +84,11 @@ const ClassicAssociationsTable = ({
   const tractabilityColor = complement(
     mix(0.3, theme.palette.primary.main, theme.palette.secondary.main)
   );
-  const colorScaleModality = d3
+  const scaleModality = d3
     .scalePow()
     .exponent(0.5)
-    .range([lighten(0.4, tractabilityColor), tractabilityColor]);
+    .range([lighten(0.4, tractabilityColor), tractabilityColor])
+    .unknown('white');
   const sortByUpdateForField = field => ({
     field: field,
     ascending: sortBy.field === field ? !sortBy.ascending : false,
@@ -103,6 +104,7 @@ const ClassicAssociationsTable = ({
         {
           label: 'Overall',
           valueAccessor: d => (d.score > 0 ? d.score : NaN),
+          colorAccessor: d => scaleAssociation(d.score > 0 ? d.score : NaN),
           isSortable: true,
           isSortActive: activeForField('SCORE_OVERALL'),
           sortDirection: directionForField('SCORE_OVERALL'),
@@ -117,6 +119,10 @@ const ClassicAssociationsTable = ({
         valueAccessor: d => {
           const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
           return score > 0 ? score : NaN;
+        },
+        colorAccessor: d => {
+          const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
+          return scaleAssociation(score > 0 ? score : NaN);
         },
         isSortable: true,
         isSortActive: activeForField(dt),
@@ -133,6 +139,12 @@ const ClassicAssociationsTable = ({
             s => s.modalityId === m
           ).score;
           return score > 0 ? score : NaN;
+        },
+        colorAccessor: d => {
+          const score = d.tractabilityScoresByModality.find(
+            s => s.modalityId === m
+          ).score;
+          return scaleModality(score > 0 ? score : NaN);
         },
         isSortable: false,
       })),
@@ -184,9 +196,7 @@ const ClassicAssociationsTable = ({
       />
       <Grid container justify="space-between" alignItems="center">
         <Grid item>
-          <ClassicAssociationsLegend
-            {...{ scaleAssociation, scaleModality: colorScaleModality }}
-          />
+          <ClassicAssociationsLegend {...{ scaleAssociation, scaleModality }} />
         </Grid>
         <Grid item>
           <TablePagination
