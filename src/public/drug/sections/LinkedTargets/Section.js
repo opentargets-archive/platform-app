@@ -7,6 +7,11 @@ const columns = [
     id: 'symbol',
     label: 'Symbol',
     renderCell: d => <Link to={`/target/${d.id}`}>{d.symbol}</Link>,
+    width: '20%',
+  },
+  {
+    id: 'name',
+    label: 'Name',
   },
 ];
 
