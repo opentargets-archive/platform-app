@@ -1,7 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import _ from 'lodash';
-import withTheme from '@material-ui/core/styles/withTheme';
 import TablePagination from '@material-ui/core/TablePagination';
 import Grid from '@material-ui/core/Grid';
 
@@ -52,7 +51,6 @@ const associationsDownloadQuery = gql`
 `;
 
 const ClassicAssociationsTable = ({
-  theme,
   efoId,
   name,
   rows,
@@ -210,9 +208,5 @@ const tooltipElementFinder = ({ id }) =>
   document.querySelector(`#target-cell-${id}`);
 
 export default withScaleAssociation(
-  withTooltip(
-    withTheme()(ClassicAssociationsTable),
-    TooltipContent,
-    tooltipElementFinder
-  )
+  withTooltip(ClassicAssociationsTable, TooltipContent, tooltipElementFinder)
 );
