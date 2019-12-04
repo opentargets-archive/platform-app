@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import { Link, OtTableRF } from 'ot-ui';
+import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 
 const columns = [
   {
@@ -15,8 +15,20 @@ const columns = [
   },
 ];
 
-const Section = ({ data }) => (
-  <OtTableRF loading={false} error={false} columns={columns} data={data.rows} />
+const Section = ({ data, name }) => (
+  <Fragment>
+    <DataDownloader
+      tableHeaders={columns}
+      rows={data.rows}
+      fileStem={`${name}-targets`}
+    />
+    <OtTableRF
+      loading={false}
+      error={false}
+      columns={columns}
+      data={data.rows}
+    />
+  </Fragment>
 );
 
 export default Section;
