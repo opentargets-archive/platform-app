@@ -35,7 +35,7 @@ class Heatmap extends React.Component {
   _dimensions() {
     const { contentRect, rowsPerPage, heightPerRow } = this.props;
     const { width } = contentRect.bounds;
-    const margin = { left: 0, right: 0, top: 180, bottom: 0 };
+    const margin = { left: 0, right: 0, top: 140, bottom: 0 };
     const heatmapHeight = rowsPerPage * heightPerRow;
     const height = heatmapHeight + margin.top + margin.bottom;
     return { width, height, margin, heatmapHeight };
