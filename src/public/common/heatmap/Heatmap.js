@@ -176,12 +176,13 @@ class Heatmap extends React.Component {
     labelAccessor,
     columnsWithPosition,
     columnGroupSeparatorWidth,
+    rowIdAccessor,
   }) {
     const g = d3
       .select('.heatmap-rows')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    const row = g.selectAll('g.heatmap-row').data(rows, d => d.target.id);
+    const row = g.selectAll('g.heatmap-row').data(rows, rowIdAccessor);
 
     const rowMerged = row.join(
       enter => {

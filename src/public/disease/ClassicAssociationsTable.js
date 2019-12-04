@@ -54,7 +54,6 @@ const associationsDownloadQuery = gql`
 `;
 
 const ClassicAssociationsTable = ({
-  classes,
   theme,
   efoId,
   name,
@@ -181,6 +180,7 @@ const ClassicAssociationsTable = ({
         ]}
       />
       <Heatmap
+        rowIdAccessor={d => d.target.id}
         labelAccessor={d => d.target.symbol}
         rows={rows}
         columnGroups={columnGroups}
