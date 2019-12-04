@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { mix, complement, lighten } from 'polished';
 import gql from 'graphql-tag';
 import _ from 'lodash';
-import withStyles from '@material-ui/core/styles/withStyles';
+import withTheme from '@material-ui/core/styles/withTheme';
 import TablePagination from '@material-ui/core/TablePagination';
 import Grid from '@material-ui/core/Grid';
 
@@ -13,14 +13,6 @@ import ClassicAssociationsDownload from '../common/ClassicAssociationsDownload';
 import ClassicAssociationsLegend from '../common/ClassicAssociationsLegend';
 import withScaleAssociation from '../common/withScaleAssociation';
 import Heatmap from '../common/heatmap/Heatmap';
-
-// TODO: Harmonise with HeatmapTable for component reuse
-
-const styles = theme => ({
-  tableWrapper: {
-    overflowX: 'auto',
-  },
-});
 
 const associationsDownloadQuery = gql`
   query DiseaseAssociationsDownloadQuery(
@@ -151,7 +143,7 @@ const ClassicAssociationsTable = ({
     },
   ];
   return (
-    <div className={classes.tableWrapper}>
+    <React.Fragment>
       <ClassicAssociationsDownload
         fileStem={`${efoId}-associated-targets`}
         query={associationsDownloadQuery}
@@ -219,7 +211,7 @@ const ClassicAssociationsTable = ({
           />
         </Grid>
       </Grid>
-    </div>
+    </React.Fragment>
   );
 };
 
@@ -228,7 +220,7 @@ const tooltipElementFinder = ({ id }) =>
 
 export default withScaleAssociation(
   withTooltip(
-    withStyles(styles, { withTheme: true })(ClassicAssociationsTable),
+    withTheme()(ClassicAssociationsTable),
     TooltipContent,
     tooltipElementFinder
   )
