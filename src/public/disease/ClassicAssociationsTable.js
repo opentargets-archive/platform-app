@@ -1,6 +1,4 @@
 import React from 'react';
-import * as d3 from 'd3';
-import { mix, complement, lighten } from 'polished';
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import withTheme from '@material-ui/core/styles/withTheme';
@@ -71,15 +69,8 @@ const ClassicAssociationsTable = ({
   onPaginationChange,
   handleMouseover,
   scaleAssociation,
+  scaleModality,
 }) => {
-  const tractabilityColor = complement(
-    mix(0.3, theme.palette.primary.main, theme.palette.secondary.main)
-  );
-  const scaleModality = d3
-    .scalePow()
-    .exponent(0.5)
-    .range([lighten(0.4, tractabilityColor), tractabilityColor])
-    .unknown('white');
   const sortByUpdateForField = field => ({
     field: field,
     ascending: sortBy.field === field ? !sortBy.ascending : false,
