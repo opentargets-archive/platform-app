@@ -145,7 +145,7 @@ class Heatmap extends React.Component {
           .attr(
             'transform',
             d =>
-              `translate(${(d.xStart + d.xEnd) / 2},-15)${
+              `translate(${(d.xStart + d.xEnd) / 2},-10)${
                 d.isSortActive && d.sortDirection === 'asc'
                   ? 'rotate(180) '
                   : ''
@@ -154,21 +154,21 @@ class Heatmap extends React.Component {
           .attr('stroke', d => (d.isSortActive ? '#777' : '#bbb'))
           .attr('fill', 'none')
           .attr('stroke-width', 2)
-          .attr('d', 'M0,0 L0,10 M-6,6 L0,10 L6,6')
+          .attr('d', 'M0,-5 L0,5 M-6,-1 L0,5 L6,-1')
           .on('click', d => d.onSort()),
       update =>
         update
           .attr(
             'transform',
             d =>
-              `translate(${(d.xStart + d.xEnd) / 2},-15)${
+              `translate(${(d.xStart + d.xEnd) / 2},-10)${
                 d.isSortActive && d.sortDirection === 'asc'
                   ? 'rotate(180) '
                   : ''
               }`
           )
           .attr('stroke', d => (d.isSortActive ? '#777' : '#bbb'))
-          .attr('d', 'M0,0 L0,10 M-6,6 L0,10 L6,6')
+          .attr('d', 'M0,-5 L0,5 M-6,-1 L0,5 L6,-1')
           .on('click', d => d.onSort()),
       exit => exit.remove()
     );

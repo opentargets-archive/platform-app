@@ -106,7 +106,7 @@ const ClassicAssociationsTable = ({
           isSortable: true,
           isSortActive: activeForField('SCORE_OVERALL'),
           sortDirection: directionForField('SCORE_OVERALL'),
-          onSort: () => sortByUpdateForField('SCORE_OVERALL'),
+          onSort: () => onSortByChange(sortByUpdateForField('SCORE_OVERALL')),
         },
       ],
     },
@@ -121,7 +121,7 @@ const ClassicAssociationsTable = ({
         isSortable: true,
         isSortActive: activeForField(dt),
         sortDirection: directionForField(dt),
-        onSort: () => sortByUpdateForField(dt),
+        onSort: () => onSortByChange(sortByUpdateForField(dt)),
       })),
     },
     {
