@@ -41,6 +41,7 @@ class Heatmap extends React.Component {
       rowLabelWidth,
       columnGroupSeparatorWidth,
       heightPerRow,
+      rowIdAccessor,
     } = this.props;
     const { width, margin } = this._dimensions();
 
@@ -95,6 +96,7 @@ class Heatmap extends React.Component {
       labelAccessor,
       columnsWithPosition,
       columnGroupSeparatorWidth,
+      rowIdAccessor,
     });
   }
   _renderColumnLabels({ columnsWithPosition, margin }) {
@@ -178,6 +180,8 @@ class Heatmap extends React.Component {
     columnGroupSeparatorWidth,
     rowIdAccessor,
   }) {
+    const t = d3.transition().duration(1000);
+
     const g = d3
       .select('.heatmap-rows')
       .attr('transform', `translate(${margin.left},${margin.top})`);
@@ -190,6 +194,11 @@ class Heatmap extends React.Component {
           .append('g')
           .classed('heatmap-row', true)
           .attr('transform', (d, i) => `translate(0,${i * heatmapCellHeight})`);
+
+        enter
+          .attr('opacity', 0)
+          .transition(t)
+          .attr('opacity', 1);
 
         // row label
         enter
@@ -207,11 +216,14 @@ class Heatmap extends React.Component {
         return enter;
       },
       update =>
-        update.attr(
-          'transform',
-          (d, i) => `translate(0,${i * heatmapCellHeight})`
-        ),
-      exit => exit.remove()
+        update
+          .transition(t)
+          .attr('transform', (d, i) => `translate(0,${i * heatmapCellHeight})`),
+      exit =>
+        exit
+          .transition(t)
+          .attr('opacity', 0)
+          .remove()
     );
 
     // row label
@@ -224,7 +236,7 @@ class Heatmap extends React.Component {
       .data(
         d => {
           const cellDataForRow = columnsWithPosition.map(c => ({
-            id: c.label,
+            id: `${rowIdAccessor(d)}--${c.label}`,
             xStart: c.xStart,
             xEnd: c.xEnd,
             value: c.valueAccessor(d),
