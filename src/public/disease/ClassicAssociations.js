@@ -203,6 +203,7 @@ class ClassicAssociations extends React.Component {
 
           const rows = edges.map(({ node, ...rest }) => ({
             target: node,
+            efoId,
             tractabilityScoresByModality: getTractabilityScoresByModality(
               node.details.tractability
             ),

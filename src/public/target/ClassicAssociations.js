@@ -197,6 +197,7 @@ class ClassicAssociations extends React.Component {
 
           const rows = edges.map(({ node, ...rest }) => ({
             disease: node,
+            ensgId,
             ...rest,
           }));
           const dataTypes =

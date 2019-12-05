@@ -5,26 +5,29 @@ import Typography from '@material-ui/core/Typography';
 
 import { Link, significantFigures } from 'ot-ui';
 
-const TooltipContent = ({ data }) => (
-  <Card>
-    <CardContent>
-      <Typography align="center">
-        <strong>{data.name}</strong>
-        <br />
-        association score: {significantFigures(data.score)}
-        <br />
-        <Link to={`/disease/${data.id}`}>Disease profile</Link>
-        <br />
-        <Link to={`/disease/${data.id}/classic-associations`}>
-          Disease associations
-        </Link>
-        <br />
-        <Link to={`/evidence/${data.target.ensgId}/${data.id}`}>
-          Association evidence
-        </Link>
-      </Typography>
-    </CardContent>
-  </Card>
-);
+const TooltipContent = ({ data }) => {
+  const { disease, score, ensgId } = data;
+  return (
+    <Card>
+      <CardContent>
+        <Typography align="center">
+          <strong>{disease.name}</strong>
+          <br />
+          association score: {significantFigures(score)}
+          <br />
+          <Link to={`/disease/${disease.id}`}>Disease profile</Link>
+          <br />
+          <Link to={`/disease/${disease.id}/classic-associations`}>
+            Disease associations
+          </Link>
+          <br />
+          <Link to={`/evidence/${ensgId}/${disease.id}`}>
+            Association evidence
+          </Link>
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+};
 
 export default TooltipContent;
