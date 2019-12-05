@@ -1,7 +1,9 @@
 import React from 'react';
 
-const Summary = ({ name }) => (
-  <React.Fragment>TODO: Write a summary</React.Fragment>
+const Summary = ({ eventsCount }) => (
+  <React.Fragment>
+    {eventsCount} adverse event{eventsCount !== 1 ? 's' : ''}
+  </React.Fragment>
 );
 
 export default Summary;
