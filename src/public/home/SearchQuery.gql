@@ -1,13 +1,32 @@
 query SearchQuery($queryString: String!) {
   search(queryString: $queryString) {
     topHit {
-      id
-      entity
-      name
+      __typename
+      ... on Target {
+        id
+        approvedSymbol
+        approvedName
+        proteinAnnotations {
+          functions
+        }
+      }
+      ... on Drug {
+        id
+        name
+        drugType
+      }
+      ... on Disease {
+        id
+        name
+      }
     }
     targets {
       id
       approvedSymbol
+    }
+    diseases {
+      id
+      name
     }
     drugs {
       id

@@ -1,39 +1,79 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import {
+  InMemoryCache,
+  IntrospectionFragmentMatcher,
+} from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { loader } from 'graphql.macro';
-import { Search as OtSearch } from 'ot-ui';
+import AsyncSelect from 'react-select/lib/Async';
 
-import SearchOption from './SearchOption';
+import introspectionQueryResultData from './fragmentTypes.json';
 
 const SEARCH_QUERY = loader('./SearchQuery.gql');
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData,
+});
 
 const client = new ApolloClient({
   link: new HttpLink({
     uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
   }),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({ fragmentMatcher }),
 });
 
-const asGroupedOptions = data => {
+const groupOptions = (searchData, inputValue) => {
   return [
-    { label: 'Top hit', options: [{ ...data.topHit, groupType: 'topHit' }] },
+    {
+      label: 'Search: ',
+      options: [
+        {
+          value: inputValue,
+          label: inputValue,
+          entityType: 'search',
+        },
+      ],
+    },
     {
       label: 'Targets',
-      options: data.targets.map(target => ({ ...target, groupType: 'target' })),
+      options: searchData.targets.map(target => {
+        return {
+          value: target.id,
+          label: target.approvedSymbol,
+          entityType: 'target',
+        };
+      }),
+    },
+    {
+      label: 'Diseases',
+      options: searchData.diseases.map(disease => {
+        return {
+          value: disease.id,
+          label: disease.name,
+          entityType: 'disease',
+        };
+      }),
     },
     {
       label: 'Drugs',
-      options: data.drugs.map(drug => ({ ...drug, groupType: 'drug' })),
+      options: searchData.drugs.map(drug => {
+        return {
+          value: drug.id,
+          label: drug.name,
+          entityType: 'drug',
+        };
+      }),
     },
   ];
 };
 
 class Search extends Component {
-  handleInputChange = inputValue => {
-    if (!inputValue || inputValue.length < 3) {
+  selectRef = React.createRef();
+
+  loadOptions = inputValue => {
+    if (inputValue.length < 3) {
       return;
     }
 
@@ -42,44 +82,29 @@ class Search extends Component {
         query: SEARCH_QUERY,
         variables: { queryString: inputValue },
       })
-      .then(res => {
-        if (res.data && res.data.search) {
-          return asGroupedOptions(res.data.search);
-        } else {
-          return asGroupedOptions({
-            targets: [],
-            drugs: [],
-          });
-        }
-      });
+      .then(res => groupOptions(res.data.search, inputValue));
   };
 
-  handleSelectOption = (value, { action }) => {
-    const { history } = this.props;
-
+  handleOnChange = (data, { action }) => {
+    console.log('onChange action', data, action);
     if (action === 'select-option') {
-      switch (value.groupType) {
-        case 'target':
-          history.push(`/target/${value.id}`);
-          break;
-        case 'drug':
-          history.push(`/drug/${value.id}`);
-          break;
-        case 'topHit':
-          history.push(`/${value.entity}/${value.id}`);
-          break;
-        default:
-          break;
+      const { history } = this.props;
+
+      if (data.entityType === 'search') {
+        history.push(`/search`);
+      } else {
+        history.push(`/${data.entityType}/${data.value}`);
       }
     }
   };
 
   render() {
     return (
-      <OtSearch
-        optionComponent={SearchOption}
-        onInputChange={this.handleInputChange}
-        onSelectOption={this.handleSelectOption}
+      <AsyncSelect
+        cacheOptions
+        loadOptions={this.loadOptions}
+        onChange={this.handleOnChange}
+        ref={this.selectRef}
       />
     );
   }

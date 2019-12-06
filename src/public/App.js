@@ -10,6 +10,7 @@ import { OtUiThemeProvider } from 'ot-ui';
 import initLocalStorage from './common/initLocalStorage';
 import theme from './theme';
 import HomePage from './home/Page';
+import SearchPage from './search/Page';
 import DownloadsPage from './downloads/Page';
 import TargetPage from './target/Page';
 import DiseasePage from './disease/Page';
@@ -35,6 +36,7 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/" component={HomePage} />
+              <Route path="/search" component={SearchPage} />
               <Route path="/downloads" component={DownloadsPage} />
               <Route path="/target/:ensgId" component={TargetPage} />
               <Route path="/disease/:efoId" component={DiseasePage} />
