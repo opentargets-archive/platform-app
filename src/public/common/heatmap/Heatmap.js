@@ -2,8 +2,6 @@ import React from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 
-import withTooltip from '../withTooltip';
-
 const cellMargin = 1;
 
 class Heatmap extends React.Component {
@@ -44,7 +42,6 @@ class Heatmap extends React.Component {
       columnGroupSeparatorWidth,
       heightPerRow,
       rowIdAccessor,
-      handleMouseover,
     } = this.props;
     const { width, margin } = this._dimensions();
 
@@ -100,7 +97,6 @@ class Heatmap extends React.Component {
       columnsWithPosition,
       columnGroupSeparatorWidth,
       rowIdAccessor,
-      handleMouseover,
     });
   }
   _renderColumnLabels({ columnsWithPosition, margin }) {
@@ -183,7 +179,6 @@ class Heatmap extends React.Component {
     columnsWithPosition,
     columnGroupSeparatorWidth,
     rowIdAccessor,
-    handleMouseover,
   }) {
     const t = d3.transition().duration(1000);
 
@@ -208,7 +203,6 @@ class Heatmap extends React.Component {
         // row label
         enter
           .append('text')
-          .attr('id', d => `heatmap-row-label-${rowIdAccessor(d)}`)
           .attr('x', rowLabelWidth - columnGroupSeparatorWidth)
           .attr('y', heatmapCellHeight / 2)
           .attr('text-anchor', 'end')
@@ -233,10 +227,7 @@ class Heatmap extends React.Component {
     );
 
     // row label
-    rowMerged
-      .select('text')
-      .on('mouseover', handleMouseover)
-      .text(labelAccessor);
+    rowMerged.select('text').text(labelAccessor);
 
     // row cells
     const cell = rowMerged
@@ -282,15 +273,4 @@ Heatmap.defaultProps = {
   columnGroupSeparatorWidth: 20,
 };
 
-const HeatmapWithTooltip = ({ TooltipContent, rowIdAccessor, ...rest }) => {
-  const tooltipElementFinder = d =>
-    document.querySelector(`#heatmap-row-label-${rowIdAccessor(d)}`);
-  const Wrapped = withTooltip(
-    withContentRect('bounds')(Heatmap),
-    TooltipContent,
-    tooltipElementFinder
-  );
-  return <Wrapped rowIdAccessor={rowIdAccessor} {...rest} />;
-};
-
-export default HeatmapWithTooltip;
+export default withContentRect('bounds')(Heatmap);

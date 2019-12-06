@@ -4,6 +4,7 @@ import _ from 'lodash';
 import TablePagination from '@material-ui/core/TablePagination';
 import Grid from '@material-ui/core/Grid';
 
+import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
 import ClassicAssociationsDownload from '../common/ClassicAssociationsDownload';
 import ClassicAssociationsLegend from '../common/ClassicAssociationsLegend';
@@ -64,6 +65,7 @@ const ClassicAssociationsTable = ({
   totalCount,
   pageInfo,
   onPaginationChange,
+  handleMouseover,
   scaleAssociation,
   scaleModality,
 }) => {
@@ -172,7 +174,6 @@ const ClassicAssociationsTable = ({
         rows={rows}
         columnGroups={columnGroups}
         rowsPerPage={rowsPerPage}
-        TooltipContent={TooltipContent}
       />
       <Grid container justify="space-between" alignItems="center">
         <Grid item>
@@ -203,4 +204,9 @@ const ClassicAssociationsTable = ({
   );
 };
 
-export default withScaleAssociation(ClassicAssociationsTable);
+const tooltipElementFinder = ({ id }) =>
+  document.querySelector(`#target-cell-${id}`);
+
+export default withScaleAssociation(
+  withTooltip(ClassicAssociationsTable, TooltipContent, tooltipElementFinder)
+);
