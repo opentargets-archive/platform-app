@@ -45,6 +45,20 @@ const associationsQuery = gql`
             id
             symbol
             name
+            details {
+              tractability {
+                smallMolecule {
+                  chemblBucket
+                  description
+                  value
+                }
+                antibody {
+                  chemblBucket
+                  description
+                  value
+                }
+              }
+            }
           }
           score
           scoresByDataType {
@@ -73,6 +87,28 @@ const facetsStateDefault = facets.reduce((acc, f) => {
   acc[f.id] = f.stateDefault;
   return acc;
 }, {});
+
+const getTractabilityScoresByModality = ({ smallMolecule, antibody }) => {
+  // arrays come in descending order of importance (which is not
+  // the same as field chemblBucket), so use array index in scoring
+  // scheme
+  const smallMoleculeScore = smallMolecule
+    .map((d, i) => (d.value ? Math.pow(2, -(i + 1)) : 0))
+    .reduce((acc, d) => acc + d);
+  const antibodyScore = antibody
+    .map((d, i) => (d.value ? Math.pow(2, -(i + 1)) : 0))
+    .reduce((acc, d) => acc + d);
+  return [
+    {
+      modalityId: 'smallMolecule',
+      score: smallMoleculeScore,
+    },
+    {
+      modalityId: 'antibody',
+      score: antibodyScore,
+    },
+  ];
+};
 
 class ClassicAssociations extends React.Component {
   state = {
@@ -167,11 +203,24 @@ class ClassicAssociations extends React.Component {
 
           const rows = edges.map(({ node, ...rest }) => ({
             target: node,
+            tractabilityScoresByModality: getTractabilityScoresByModality(
+              node.details.tractability
+            ),
+            data: {
+              symbol: node.symbol,
+              id: node.id,
+              disease: { efoId },
+              score: rest.score,
+            }, // for tooltip
             ...rest,
           }));
           const dataTypes =
             rows.length > 0
               ? rows[0].scoresByDataType.map(d => d.dataTypeId)
+              : [];
+          const modalities =
+            rows.length > 0
+              ? rows[0].tractabilityScoresByModality.map(d => d.modalityId)
               : [];
           return (
             <Grid style={{ marginTop: '8px' }} container spacing={16}>
@@ -219,6 +268,7 @@ class ClassicAssociations extends React.Component {
                       name={name}
                       rows={rows}
                       dataTypes={dataTypes}
+                      modalities={modalities}
                       search={search}
                       facets={facetsInput}
                       sortBy={sortBy}

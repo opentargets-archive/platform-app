@@ -1,81 +1,15 @@
 import React from 'react';
-import * as d3 from 'd3';
 import gql from 'graphql-tag';
 import _ from 'lodash';
-import classNames from 'classnames';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TablePagination from '@material-ui/core/TablePagination';
+import Grid from '@material-ui/core/Grid';
 
 import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
 import ClassicAssociationsDownload from '../common/ClassicAssociationsDownload';
-
-// TODO: Harmonise with HeatmapTable for component reuse
-
-const styles = theme => ({
-  tableWrapper: {
-    overflowX: 'auto',
-  },
-  table: {
-    marginRight: '20px',
-    width: 'calc(100% - 40px)',
-  },
-  cell: {
-    borderBottom: 'none',
-  },
-  cellSwatch: {
-    minWidth: '20px',
-    width: '100%',
-    height: '16px',
-    border: `1px solid ${theme.palette.grey[200]}`,
-  },
-  cellEllipsis: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-  },
-  row: {
-    height: 0,
-  },
-  cellHeaderVertical: {
-    minWidth: '20px',
-    maxWidth: '20px',
-    height: '160px',
-    verticalAlign: 'bottom',
-    textAlign: 'center',
-    borderBottom: 'none',
-    '& div': {
-      height: '1px',
-      verticalAlign: 'top',
-      marginBottom: '20px',
-    },
-    '& div span': {
-      display: 'block',
-      maxWidth: '200px',
-      marginLeft: '50%',
-      transformOrigin: '0 0',
-      transform: 'rotate(-60deg) translateY(-50%)',
-      whiteSpace: 'nowrap',
-    },
-  },
-  cellDiseaseName: {
-    fontSize: '0.75rem',
-    padding: '0 8px',
-    minWidth: '200px',
-    maxWidth: '400px',
-    borderBottom: 'none',
-  },
-  cellHeaderDiseaseName: {
-    verticalAlign: 'bottom',
-    paddingBottom: '35px',
-  },
-});
+import ClassicAssociationsLegend from '../common/ClassicAssociationsLegend';
+import withScaleAssociation from '../common/withScaleAssociation';
+import Heatmap from '../common/Heatmap';
 
 const associationsDownloadQuery = gql`
   query DiseaseAssociationsDownloadQuery(
@@ -117,12 +51,11 @@ const associationsDownloadQuery = gql`
 `;
 
 const ClassicAssociationsTable = ({
-  classes,
-  theme,
   efoId,
   name,
   rows,
   dataTypes,
+  modalities,
   sortBy,
   search,
   facets,
@@ -133,11 +66,9 @@ const ClassicAssociationsTable = ({
   pageInfo,
   onPaginationChange,
   handleMouseover,
+  scaleAssociation,
+  scaleModality,
 }) => {
-  const colorScale = d3
-    .scaleLinear()
-    .domain([0, 1])
-    .range(['#fff', theme.palette.primary.main]);
   const sortByUpdateForField = field => ({
     field: field,
     ascending: sortBy.field === field ? !sortBy.ascending : false,
@@ -145,8 +76,62 @@ const ClassicAssociationsTable = ({
   const directionForField = field =>
     sortBy.field === field ? (sortBy.ascending ? 'asc' : 'desc') : 'desc';
   const activeForField = field => sortBy.field === field;
+
+  const columnGroups = [
+    {
+      id: 'overall',
+      columns: [
+        {
+          label: 'Overall',
+          valueAccessor: d => (d.score > 0 ? d.score : NaN),
+          colorAccessor: d => scaleAssociation(d.score > 0 ? d.score : NaN),
+          isSortable: true,
+          isSortActive: activeForField('SCORE_OVERALL'),
+          sortDirection: directionForField('SCORE_OVERALL'),
+          onSort: () => onSortByChange(sortByUpdateForField('SCORE_OVERALL')),
+        },
+      ],
+    },
+    {
+      id: 'datasources',
+      columns: dataTypes.map(dt => ({
+        label: _.startCase(dt.toLowerCase()),
+        valueAccessor: d => {
+          const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
+          return score > 0 ? score : NaN;
+        },
+        colorAccessor: d => {
+          const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
+          return scaleAssociation(score > 0 ? score : NaN);
+        },
+        isSortable: true,
+        isSortActive: activeForField(dt),
+        sortDirection: directionForField(dt),
+        onSort: () => onSortByChange(sortByUpdateForField(dt)),
+      })),
+    },
+    {
+      id: 'modalities',
+      columns: modalities.map(m => ({
+        label: _.startCase(m),
+        valueAccessor: d => {
+          const score = d.tractabilityScoresByModality.find(
+            s => s.modalityId === m
+          ).score;
+          return score > 0 ? score : NaN;
+        },
+        colorAccessor: d => {
+          const score = d.tractabilityScoresByModality.find(
+            s => s.modalityId === m
+          ).score;
+          return scaleModality(score > 0 ? score : NaN);
+        },
+        isSortable: false,
+      })),
+    },
+  ];
   return (
-    <div className={classes.tableWrapper}>
+    <React.Fragment>
       <ClassicAssociationsDownload
         fileStem={`${efoId}-associated-targets`}
         query={associationsDownloadQuery}
@@ -183,125 +168,46 @@ const ClassicAssociationsTable = ({
           ...dataTypes.map(dt => ({ id: dt, label: _.camelCase(dt) })),
         ]}
       />
-      <Table className={classes.table} padding="none">
-        <TableHead>
-          <TableRow>
-            <TableCell
-              align="right"
-              className={classNames(
-                classes.cellDiseaseName,
-                classes.cellHeaderDiseaseName
-              )}
-            >
-              Target
-            </TableCell>
-            <TableCell className={classes.cellHeaderVertical}>
-              <div>
-                <span>Overall</span>
-              </div>
-              <TableSortLabel
-                onClick={() =>
-                  onSortByChange(sortByUpdateForField('SCORE_OVERALL'))
-                }
-                direction={directionForField('SCORE_OVERALL')}
-                active={activeForField('SCORE_OVERALL')}
-              />
-            </TableCell>
-            {dataTypes.map(dataType => (
-              <TableCell key={dataType} className={classes.cellHeaderVertical}>
-                <div>
-                  <span>{_.startCase(dataType.toLowerCase())}</span>
-                </div>
-                <TableSortLabel
-                  onClick={() => onSortByChange(sortByUpdateForField(dataType))}
-                  direction={directionForField(dataType)}
-                  active={activeForField(dataType)}
-                />
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow
-              key={row.target.id}
-              padding="dense"
-              className={classes.row}
-            >
-              <TableCell
-                align="right"
-                padding="dense"
-                className={classNames(
-                  classes.cellDiseaseName,
-                  classes.cellEllipsis
-                )}
-              >
-                <span
-                  id={`target-cell-${row.target.id}`}
-                  onMouseOver={() => {
-                    handleMouseover({
-                      id: row.target.id,
-                      symbol: row.target.symbol,
-                      score: row.score,
-                      disease: { efoId, name },
-                    });
-                  }}
-                >
-                  {row.target.symbol}
-                </span>
-              </TableCell>
-              <TableCell className={classes.cell}>
-                <div
-                  className={classes.cellSwatch}
-                  style={
-                    row.score ? { background: colorScale(row.score) } : null
-                  }
-                />
-              </TableCell>
-              {row.scoresByDataType.map(dataType => (
-                <TableCell key={dataType.dataTypeId} className={classes.cell}>
-                  <div
-                    className={classes.cellSwatch}
-                    style={
-                      dataType.score
-                        ? { background: colorScale(dataType.score) }
-                        : null
-                    }
-                  />
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      <TablePagination
-        component="div"
-        rowsPerPageOptions={[]}
+      <Heatmap
+        rowIdAccessor={d => d.target.id}
+        labelAccessor={d => d.target.symbol}
+        rows={rows}
+        columnGroups={columnGroups}
         rowsPerPage={rowsPerPage}
-        page={page}
-        count={totalCount ? totalCount : 0}
-        backIconButtonProps={{
-          'aria-label': 'Previous Page',
-        }}
-        nextIconButtonProps={{
-          'aria-label': 'Next Page',
-        }}
-        onChangePage={(event, newPage) => {
-          const { nextCursor } = pageInfo;
-          const forward = newPage > page;
-          onPaginationChange(forward, nextCursor);
-        }}
+        onLabelMouseover={handleMouseover}
       />
-    </div>
+      <Grid container justify="space-between" alignItems="center">
+        <Grid item>
+          <ClassicAssociationsLegend {...{ scaleAssociation, scaleModality }} />
+        </Grid>
+        <Grid item>
+          <TablePagination
+            component="div"
+            rowsPerPageOptions={[]}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            count={totalCount ? totalCount : 0}
+            backIconButtonProps={{
+              'aria-label': 'Previous Page',
+            }}
+            nextIconButtonProps={{
+              'aria-label': 'Next Page',
+            }}
+            onChangePage={(event, newPage) => {
+              const { nextCursor } = pageInfo;
+              const forward = newPage > page;
+              onPaginationChange(forward, nextCursor);
+            }}
+          />
+        </Grid>
+      </Grid>
+    </React.Fragment>
   );
 };
 
 const tooltipElementFinder = ({ id }) =>
-  document.querySelector(`#target-cell-${id}`);
+  document.querySelector(`#heatmap-label-${id}`);
 
-export default withTooltip(
-  withStyles(styles, { withTheme: true })(ClassicAssociationsTable),
-  TooltipContent,
-  tooltipElementFinder
+export default withScaleAssociation(
+  withTooltip(ClassicAssociationsTable, TooltipContent, tooltipElementFinder)
 );
