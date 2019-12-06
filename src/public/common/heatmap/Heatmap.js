@@ -42,6 +42,7 @@ class Heatmap extends React.Component {
       columnGroupSeparatorWidth,
       heightPerRow,
       rowIdAccessor,
+      onLabelMouseover,
     } = this.props;
     const { width, margin } = this._dimensions();
 
@@ -97,6 +98,7 @@ class Heatmap extends React.Component {
       columnsWithPosition,
       columnGroupSeparatorWidth,
       rowIdAccessor,
+      onLabelMouseover,
     });
   }
   _renderColumnLabels({ columnsWithPosition, margin }) {
@@ -179,6 +181,7 @@ class Heatmap extends React.Component {
     columnsWithPosition,
     columnGroupSeparatorWidth,
     rowIdAccessor,
+    onLabelMouseover,
   }) {
     const t = d3.transition().duration(1000);
 
@@ -208,7 +211,9 @@ class Heatmap extends React.Component {
           .attr('text-anchor', 'end')
           .attr('alignment-baseline', 'middle')
           .attr('font-size', '10px')
-          .attr('font-family', 'sans-serif');
+          .attr('font-family', 'sans-serif')
+          .attr('id', d => `heatmap-label-${rowIdAccessor(d)}`)
+          .on('mouseover', d => onLabelMouseover(d.data));
 
         // container for heatmap cells
         enter.append('g').classed('heatmap-cells', true);

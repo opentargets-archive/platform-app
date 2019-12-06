@@ -206,6 +206,12 @@ class ClassicAssociations extends React.Component {
             tractabilityScoresByModality: getTractabilityScoresByModality(
               node.details.tractability
             ),
+            data: {
+              symbol: node.symbol,
+              id: node.id,
+              disease: { efoId },
+              score: rest.score,
+            }, // for tooltip
             ...rest,
           }));
           const dataTypes =

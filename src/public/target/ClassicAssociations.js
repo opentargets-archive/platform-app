@@ -197,6 +197,12 @@ class ClassicAssociations extends React.Component {
 
           const rows = edges.map(({ node, ...rest }) => ({
             disease: node,
+            data: {
+              name: node.name,
+              id: node.id,
+              target: { ensgId },
+              score: rest.score,
+            }, // for tooltip
             ...rest,
           }));
           const dataTypes =

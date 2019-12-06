@@ -174,6 +174,7 @@ const ClassicAssociationsTable = ({
         rows={rows}
         columnGroups={columnGroups}
         rowsPerPage={rowsPerPage}
+        onLabelMouseover={handleMouseover}
       />
       <Grid container justify="space-between" alignItems="center">
         <Grid item>
@@ -205,7 +206,7 @@ const ClassicAssociationsTable = ({
 };
 
 const tooltipElementFinder = ({ id }) =>
-  document.querySelector(`#target-cell-${id}`);
+  document.querySelector(`#heatmap-label-${id}`);
 
 export default withScaleAssociation(
   withTooltip(ClassicAssociationsTable, TooltipContent, tooltipElementFinder)
