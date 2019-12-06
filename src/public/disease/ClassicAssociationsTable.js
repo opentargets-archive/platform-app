@@ -9,7 +9,7 @@ import TooltipContent from './ClassicAssociationsTooltip';
 import ClassicAssociationsDownload from '../common/ClassicAssociationsDownload';
 import ClassicAssociationsLegend from '../common/ClassicAssociationsLegend';
 import withScaleAssociation from '../common/withScaleAssociation';
-import Heatmap from '../common/heatmap/Heatmap';
+import Heatmap from '../common/Heatmap';
 
 const associationsDownloadQuery = gql`
   query DiseaseAssociationsDownloadQuery(
