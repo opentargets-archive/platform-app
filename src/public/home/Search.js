@@ -37,6 +37,16 @@ const groupOptions = (searchData, inputValue) => {
       ],
     },
     {
+      label: 'Top Hit',
+      options: [
+        {
+          value: searchData.topHit.id,
+          label: searchData.topHit.id,
+          entityType: searchData.topHit.__typename.toLowerCase(),
+        },
+      ],
+    },
+    {
       label: 'Targets',
       options: searchData.targets.map(target => {
         return {
@@ -86,7 +96,6 @@ class Search extends Component {
   };
 
   handleOnChange = (data, { action }) => {
-    console.log('onChange action', data, action);
     if (action === 'select-option') {
       const { history } = this.props;
 
