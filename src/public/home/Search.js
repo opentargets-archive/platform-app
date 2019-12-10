@@ -8,6 +8,7 @@ import {
 import { HttpLink } from 'apollo-link-http';
 import { loader } from 'graphql.macro';
 import AsyncSelect from 'react-select/lib/Async';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import introspectionQueryResultData from './fragmentTypes.json';
 
@@ -41,8 +42,9 @@ const groupOptions = (searchData, inputValue) => {
       options: searchData.topHit
         ? [
             {
-              value: searchData.topHit.id,
-              label: searchData.topHit.id,
+              // value: searchData.topHit.id,
+              // label: searchData.topHit.id,
+              ...searchData.topHit,
               entityType: searchData.topHit.__typename.toLowerCase(),
             },
           ]
@@ -52,8 +54,7 @@ const groupOptions = (searchData, inputValue) => {
       label: 'Targets',
       options: searchData.targets.map(target => {
         return {
-          value: target.id,
-          label: target.approvedSymbol,
+          ...target,
           entityType: 'target',
         };
       }),
@@ -62,8 +63,7 @@ const groupOptions = (searchData, inputValue) => {
       label: 'Diseases',
       options: searchData.diseases.map(disease => {
         return {
-          value: disease.id,
-          label: disease.name,
+          ...disease,
           entityType: 'disease',
         };
       }),
@@ -72,8 +72,7 @@ const groupOptions = (searchData, inputValue) => {
       label: 'Drugs',
       options: searchData.drugs.map(drug => {
         return {
-          value: drug.id,
-          label: drug.name,
+          ...drug,
           entityType: 'drug',
         };
       }),
@@ -82,38 +81,52 @@ const groupOptions = (searchData, inputValue) => {
 };
 
 const Option = props => {
-  const { innerRef, innerProps, data } = props;
+  const { innerRef, innerProps, isFocused, data } = props;
 
   switch (data.entityType) {
     case 'search':
       return (
-        <div ref={innerRef} {...innerProps}>
+        <MenuItem
+          buttonRef={innerRef}
+          selected={isFocused}
+          component="div"
+          {...innerProps}
+        >
           {data.label}
-        </div>
+        </MenuItem>
       );
     case 'target':
       return (
-        <div ref={innerRef} {...innerProps}>
-          {data.label}
-        </div>
+        <MenuItem
+          buttonRef={innerRef}
+          selected={isFocused}
+          component="div"
+          {...innerProps}
+        >
+          {data.approvedSymbol}
+        </MenuItem>
       );
     case 'disease':
       return (
-        <div ref={innerRef} {...innerProps}>
-          {data.label}
-        </div>
-      );
-    case 'drug':
-      return (
-        <div ref={innerRef} {...innerProps}>
-          {data.label}
-        </div>
+        <MenuItem
+          buttonRef={innerRef}
+          selected={isFocused}
+          component="div"
+          {...innerProps}
+        >
+          {data.name}
+        </MenuItem>
       );
     default:
       return (
-        <div ref={innerRef} {...innerProps}>
-          default
-        </div>
+        <MenuItem
+          buttonRef={innerRef}
+          selected={isFocused}
+          component="div"
+          {...innerProps}
+        >
+          {data.name}
+        </MenuItem>
       );
   }
 };
@@ -150,6 +163,7 @@ class Search extends Component {
         cacheOptions
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}
+        components={{ Option }}
       />
     );
   }
