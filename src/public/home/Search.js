@@ -38,13 +38,15 @@ const groupOptions = (searchData, inputValue) => {
     },
     {
       label: 'Top Hit',
-      options: [
-        {
-          value: searchData.topHit.id,
-          label: searchData.topHit.id,
-          entityType: searchData.topHit.__typename.toLowerCase(),
-        },
-      ],
+      options: searchData.topHit
+        ? [
+            {
+              value: searchData.topHit.id,
+              label: searchData.topHit.id,
+              entityType: searchData.topHit.__typename.toLowerCase(),
+            },
+          ]
+        : [],
     },
     {
       label: 'Targets',
@@ -79,9 +81,44 @@ const groupOptions = (searchData, inputValue) => {
   ];
 };
 
-class Search extends Component {
-  selectRef = React.createRef();
+const Option = props => {
+  const { innerRef, innerProps, data } = props;
 
+  switch (data.entityType) {
+    case 'search':
+      return (
+        <div ref={innerRef} {...innerProps}>
+          {data.label}
+        </div>
+      );
+    case 'target':
+      return (
+        <div ref={innerRef} {...innerProps}>
+          {data.label}
+        </div>
+      );
+    case 'disease':
+      return (
+        <div ref={innerRef} {...innerProps}>
+          {data.label}
+        </div>
+      );
+    case 'drug':
+      return (
+        <div ref={innerRef} {...innerProps}>
+          {data.label}
+        </div>
+      );
+    default:
+      return (
+        <div ref={innerRef} {...innerProps}>
+          default
+        </div>
+      );
+  }
+};
+
+class Search extends Component {
   loadOptions = inputValue => {
     if (inputValue.length < 3) {
       return;
@@ -113,7 +150,6 @@ class Search extends Component {
         cacheOptions
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}
-        ref={this.selectRef}
       />
     );
   }
