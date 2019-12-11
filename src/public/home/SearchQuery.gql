@@ -13,11 +13,11 @@ query SearchQuery($queryString: String!) {
       ... on Drug {
         id
         name
-        drugType
       }
       ... on Disease {
         id
         name
+        description
       }
     }
     targets {

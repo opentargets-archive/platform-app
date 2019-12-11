@@ -43,10 +43,8 @@ const groupOptions = (searchData, inputValue) => {
       options: searchData.topHit
         ? [
             {
-              // value: searchData.topHit.id,
-              // label: searchData.topHit.id,
               ...searchData.topHit,
-              entityType: searchData.topHit.__typename.toLowerCase(),
+              entityType: 'topHit',
             },
           ]
         : [],
@@ -89,18 +87,16 @@ const TargetOption = ({ innerRef, innerProps, isFocused, data }) => {
       component="div"
       {...innerProps}
     >
-      <div>
-        <Typography variant="subtitle1" style={{ display: 'inline-block' }}>
-          {data.approvedSymbol}
-        </Typography>
-        <Typography
-          variant="subtitle2"
-          color="textSecondary"
-          style={{ display: 'inline-block', marginLeft: '8px' }}
-        >
-          {data.approvedName}
-        </Typography>
-      </div>
+      <Typography variant="subtitle1" style={{ display: 'inline-block' }}>
+        {data.approvedSymbol}
+      </Typography>
+      <Typography
+        variant="subtitle2"
+        color="textSecondary"
+        style={{ display: 'inline-block', marginLeft: '8px' }}
+      >
+        {data.approvedName}
+      </Typography>
     </MenuItem>
   );
 };
@@ -131,6 +127,57 @@ const DrugOption = ({ innerRef, innerProps, isFocused, data }) => {
   );
 };
 
+const TargetTopHit = ({ data }) => {
+  return (
+    <div>
+      <Typography variant="h6" color="primary">
+        {data.approvedSymbol}
+      </Typography>{' '}
+      <Typography>{data.approvedName}</Typography>
+      <Typography>{data.__typename}</Typography>
+      <div style={{ wordWrap: 'break-word', width: '200px' }}>
+        {data.proteinAnnotations.functions[0]}
+      </div>
+    </div>
+  );
+};
+
+const DiseaseTopHit = ({ data }) => {
+  return (
+    <div>
+      <Typography variant="h6" color="primary">
+        {data.name}
+      </Typography>
+      <Typography>Disease</Typography>
+      <Typography>{data.description}</Typography>
+    </div>
+  );
+};
+
+const DrugTopHit = () => {
+  return <div>Drug topHit</div>;
+};
+
+const TopHit = ({ innerRef, innerProps, isFocused, data }) => {
+  return (
+    <MenuItem
+      buttonRef={innerRef}
+      selected={isFocused}
+      component="div"
+      style={{ height: '80px' }}
+      {...innerProps}
+    >
+      {data.__typename === 'Target' ? (
+        <TargetTopHit data={data} />
+      ) : data.__typename === 'Disease' ? (
+        <DiseaseTopHit data={data} />
+      ) : (
+        <DrugTopHit data={data} />
+      )}
+    </MenuItem>
+  );
+};
+
 const Option = props => {
   const { innerRef, innerProps, isFocused, data } = props;
 
@@ -146,6 +193,8 @@ const Option = props => {
           {data.label}
         </MenuItem>
       );
+    case 'topHit':
+      return <TopHit {...props} />;
     case 'target':
       return <TargetOption {...props} />;
     case 'disease':
@@ -175,6 +224,8 @@ class Search extends Component {
 
       if (data.entityType === 'search') {
         history.push(`/search`);
+      } else if (data.entityType === 'topHit') {
+        history.push(`${data.__typename.toLowerCase()}/${data.id}`);
       } else {
         history.push(`/${data.entityType}/${data.id}`);
       }
