@@ -1,7 +1,8 @@
 import React from 'react';
+import BasePage from '../common/BasePage';
 
 const SearchPage = () => {
-  return <div>Search Page</div>;
+  return <BasePage>Search</BasePage>;
 };
 
 export default SearchPage;
