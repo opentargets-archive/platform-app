@@ -9,6 +9,7 @@ import { HttpLink } from 'apollo-link-http';
 import { loader } from 'graphql.macro';
 import AsyncSelect from 'react-select/lib/Async';
 import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
 
 import introspectionQueryResultData from './fragmentTypes.json';
 
@@ -80,6 +81,56 @@ const groupOptions = (searchData, inputValue) => {
   ];
 };
 
+const TargetOption = ({ innerRef, innerProps, isFocused, data }) => {
+  return (
+    <MenuItem
+      buttonRef={innerRef}
+      selected={isFocused}
+      component="div"
+      {...innerProps}
+    >
+      <div>
+        <Typography variant="subtitle1" style={{ display: 'inline-block' }}>
+          {data.approvedSymbol}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          color="textSecondary"
+          style={{ display: 'inline-block', marginLeft: '8px' }}
+        >
+          {data.approvedName}
+        </Typography>
+      </div>
+    </MenuItem>
+  );
+};
+
+const DiseaseOption = ({ innerRef, innerProps, isFocused, data }) => {
+  return (
+    <MenuItem
+      buttonRef={innerRef}
+      selected={isFocused}
+      component="div"
+      {...innerProps}
+    >
+      {data.name}
+    </MenuItem>
+  );
+};
+
+const DrugOption = ({ innerRef, innerProps, isFocused, data }) => {
+  return (
+    <MenuItem
+      buttonRef={innerRef}
+      selected={isFocused}
+      component="div"
+      {...innerProps}
+    >
+      {data.name}
+    </MenuItem>
+  );
+};
+
 const Option = props => {
   const { innerRef, innerProps, isFocused, data } = props;
 
@@ -96,38 +147,11 @@ const Option = props => {
         </MenuItem>
       );
     case 'target':
-      return (
-        <MenuItem
-          buttonRef={innerRef}
-          selected={isFocused}
-          component="div"
-          {...innerProps}
-        >
-          {data.approvedSymbol}
-        </MenuItem>
-      );
+      return <TargetOption {...props} />;
     case 'disease':
-      return (
-        <MenuItem
-          buttonRef={innerRef}
-          selected={isFocused}
-          component="div"
-          {...innerProps}
-        >
-          {data.name}
-        </MenuItem>
-      );
+      return <DiseaseOption {...props} />;
     default:
-      return (
-        <MenuItem
-          buttonRef={innerRef}
-          selected={isFocused}
-          component="div"
-          {...innerProps}
-        >
-          {data.name}
-        </MenuItem>
-      );
+      return <DrugOption {...props} />;
   }
 };
 
@@ -152,7 +176,7 @@ class Search extends Component {
       if (data.entityType === 'search') {
         history.push(`/search`);
       } else {
-        history.push(`/${data.entityType}/${data.value}`);
+        history.push(`/${data.entityType}/${data.id}`);
       }
     }
   };

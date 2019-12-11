@@ -23,6 +23,7 @@ query SearchQuery($queryString: String!) {
     targets {
       id
       approvedSymbol
+      approvedName
     }
     diseases {
       id
