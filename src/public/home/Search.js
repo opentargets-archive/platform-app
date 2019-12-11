@@ -205,6 +205,8 @@ const Option = props => {
 };
 
 class Search extends Component {
+  selectRef = React.createRef();
+
   loadOptions = inputValue => {
     if (inputValue.length < 3) {
       return;
@@ -223,7 +225,8 @@ class Search extends Component {
       const { history } = this.props;
 
       if (data.entityType === 'search') {
-        history.push(`/search`);
+        const { inputValue } = this.selectRef.current.state;
+        history.push(`/search?q=${inputValue}`);
       } else if (data.entityType === 'topHit') {
         history.push(`${data.__typename.toLowerCase()}/${data.id}`);
       } else {
@@ -235,6 +238,7 @@ class Search extends Component {
   render() {
     return (
       <AsyncSelect
+        ref={this.selectRef}
         cacheOptions
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}
