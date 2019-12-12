@@ -10,6 +10,7 @@ import { loader } from 'graphql.macro';
 import AsyncSelect from 'react-select/lib/Async';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
+import Clampy from '@clampy-js/react-clampy';
 
 import introspectionQueryResultData from './fragmentTypes.json';
 
@@ -135,9 +136,7 @@ const TargetTopHit = ({ data }) => {
       </Typography>{' '}
       <Typography>{data.approvedName}</Typography>
       <Typography>{data.__typename}</Typography>
-      <div style={{ wordWrap: 'break-word', width: '200px' }}>
-        {data.proteinAnnotations.functions[0]}
-      </div>
+      <Clampy clampSize="3">{data.proteinAnnotations.functions[0]}</Clampy>
     </div>
   );
 };
@@ -164,7 +163,7 @@ const TopHit = ({ innerRef, innerProps, isFocused, data }) => {
       buttonRef={innerRef}
       selected={isFocused}
       component="div"
-      style={{ height: '80px' }}
+      style={{ height: '150px', whiteSpace: 'normal' }}
       {...innerProps}
     >
       {data.__typename === 'Target' ? (
