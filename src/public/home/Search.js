@@ -214,7 +214,7 @@ class Search extends Component {
     return client
       .query({
         query: SEARCH_QUERY,
-        variables: { queryString: inputValue },
+        variables: { queryString: inputValue, page: { index: 0, size: 9 } },
       })
       .then(res => groupOptions(res.data.search, inputValue));
   };

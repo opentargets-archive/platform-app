@@ -1,5 +1,5 @@
-query SearchQuery($queryString: String!) {
-  search(queryString: $queryString) {
+query SearchQuery($queryString: String!, $page: Pagination) {
+  search(queryString: $queryString, page: $page) {
     topHit {
       __typename
       ... on Target {
