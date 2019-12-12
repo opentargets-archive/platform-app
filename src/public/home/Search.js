@@ -215,15 +215,13 @@ const DropdownIndicator = props => {
 };
 
 const customStyles = {
-  groupHeading: base => {
-    return {
-      ...base,
-      borderBottom: `1px solid ${defaultTheme.palette.secondary.main}`,
-      color: defaultTheme.palette.secondary.main,
-      padding: '0 0.5rem',
-      fontSize: '0.75rem',
-    };
-  },
+  groupHeading: base => ({
+    ...base,
+    borderBottom: `1px solid ${defaultTheme.palette.secondary.main}`,
+    color: defaultTheme.palette.secondary.main,
+    padding: '0 0.5rem',
+    fontSize: '0.75rem',
+  }),
 };
 
 class Search extends Component {
@@ -266,6 +264,10 @@ class Search extends Component {
         onChange={this.handleOnChange}
         components={{ Option, DropdownIndicator }}
         styles={customStyles}
+        theme={theme => ({
+          ...theme,
+          borderRadius: 0,
+        })}
         placeholder="Search for a target, disease, or drug..."
       />
     );
