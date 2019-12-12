@@ -269,6 +269,7 @@ class Search extends Component {
           borderRadius: 0,
         })}
         placeholder="Search for a target, disease, or drug..."
+        openMenuOnClick={false}
       />
     );
   }
