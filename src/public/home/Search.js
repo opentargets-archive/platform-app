@@ -8,8 +8,10 @@ import {
 import { HttpLink } from 'apollo-link-http';
 import { loader } from 'graphql.macro';
 import AsyncSelect from 'react-select/lib/Async';
+import { components } from 'react-select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
+import SearchIcon from '@material-ui/icons/Search';
 import Clampy from '@clampy-js/react-clampy';
 import { defaultTheme } from 'ot-ui';
 
@@ -204,6 +206,14 @@ const Option = props => {
   }
 };
 
+const DropdownIndicator = props => {
+  return (
+    <components.DropdownIndicator {...props}>
+      <SearchIcon />
+    </components.DropdownIndicator>
+  );
+};
+
 const customStyles = {
   groupHeading: base => {
     return {
@@ -254,8 +264,9 @@ class Search extends Component {
         cacheOptions
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}
-        components={{ Option }}
+        components={{ Option, DropdownIndicator }}
         styles={customStyles}
+        placeholder="Search for a target, disease, or drug..."
       />
     );
   }
