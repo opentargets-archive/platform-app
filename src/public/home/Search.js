@@ -11,6 +11,7 @@ import AsyncSelect from 'react-select/lib/Async';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Clampy from '@clampy-js/react-clampy';
+import { defaultTheme } from 'ot-ui';
 
 import introspectionQueryResultData from './fragmentTypes.json';
 
@@ -203,6 +204,18 @@ const Option = props => {
   }
 };
 
+const customStyles = {
+  groupHeading: base => {
+    return {
+      ...base,
+      borderBottom: `1px solid ${defaultTheme.palette.secondary.main}`,
+      color: defaultTheme.palette.secondary.main,
+      padding: '0 0.5rem',
+      fontSize: '0.75rem',
+    };
+  },
+};
+
 class Search extends Component {
   selectRef = React.createRef();
 
@@ -242,6 +255,7 @@ class Search extends Component {
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}
         components={{ Option }}
+        styles={customStyles}
       />
     );
   }
