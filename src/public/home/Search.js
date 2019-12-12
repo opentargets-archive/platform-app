@@ -222,6 +222,20 @@ const customStyles = {
     padding: '0 0.5rem',
     fontSize: '0.75rem',
   }),
+  control: (base, { isFocused }) => ({
+    ...base,
+    boxShadow: isFocused
+      ? `0 0 0 1px ${defaultTheme.palette.primary.main}`
+      : base.boxShadow,
+    '&:hover': {
+      borderColor: isFocused
+        ? defaultTheme.palette.primary.main
+        : base['&:hover'].borderColor,
+    },
+    borderColor: isFocused
+      ? defaultTheme.palette.primary.main
+      : base.borderColor,
+  }),
 };
 
 class Search extends Component {
