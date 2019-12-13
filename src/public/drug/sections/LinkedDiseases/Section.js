@@ -7,6 +7,7 @@ const columns = [
     id: 'name',
     label: 'Name',
     renderCell: d => <Link to={`/disease/${d.id}`}>{d.name}</Link>,
+    width: '20%',
   },
   {
     id: 'therapeuticAreas',
@@ -18,6 +19,11 @@ const columns = [
           <Link to={`/disease/${t.id}`}>{t.name}</Link>
         </React.Fragment>
       )),
+  },
+  {
+    id: 'maxPhase',
+    label: 'Max phase',
+    width: '15%',
   },
 ];
 
