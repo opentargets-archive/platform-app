@@ -116,18 +116,21 @@ class Heatmap extends React.Component {
           .attr('alignment-baseline', 'middle')
           .attr('font-size', '10px')
           .attr('font-family', 'sans-serif')
+          .style('cursor', 'pointer')
           .attr(
             'transform',
             d => `rotate(-90) translate(20,${(d.xStart + d.xEnd) / 2})`
           )
-          .text(d => d.label),
+          .text(d => d.label)
+          .on('click', d => d.onSort()),
       update =>
         update
           .attr(
             'transform',
             d => `rotate(-90) translate(20,${(d.xStart + d.xEnd) / 2})`
           )
-          .text(d => d.label),
+          .text(d => d.label)
+          .on('click', d => d.onSort()),
       exit => exit.remove()
     );
 
