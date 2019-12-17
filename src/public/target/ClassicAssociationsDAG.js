@@ -12,18 +12,32 @@ import Slider from './ClassicAssociationsSlider';
 
 const d3 = Object.assign({}, d3Base, d3DagBase);
 
-const getInducedDAG = ({ ensgId, symbol, data, efo }) => {
+const getInducedDAG = ({
+  ensgId,
+  symbol,
+  data,
+  efo,
+  selectedTherapeuticAreas,
+}) => {
   const efoById = new Map(efo.nodes.map(d => [d.id, d]));
+  // note: requested that we only show therapeutic area circles selected
+  //       when faceted by therapeutic area, even if a disease has other
+  //       therapeutic area ancestors; potentially confusing, but this is
+  //       how webapp works
+  const relevantTherapeuticAreas =
+    selectedTherapeuticAreas.length > 0
+      ? selectedTherapeuticAreas
+      : efo.therapeuticAreas;
 
   // get just what is needed from associations
   const dataAsNodes = data.map(d => ({
     id: d.disease.id,
     name: d.disease.name,
     score: d.score,
-    isTherapeuticArea: efo.therapeuticAreas.indexOf(d.disease.id) >= 0,
+    isTherapeuticArea: relevantTherapeuticAreas.indexOf(d.disease.id) >= 0,
     target: { ensgId, symbol },
   }));
-  const therapeuticAreasAll = efo.therapeuticAreas.map(taId => {
+  const therapeuticAreasAll = relevantTherapeuticAreas.map(taId => {
     const ta = efoById.get(taId);
     return {
       id: ta.id,
@@ -172,6 +186,7 @@ class ClassicAssociationsDAG extends React.Component {
       symbol,
       data,
       efo,
+      selectedTherapeuticAreas,
       handleMouseover,
     } = this.props;
     const { width, minimumScore } = this.state;
@@ -181,7 +196,13 @@ class ClassicAssociationsDAG extends React.Component {
     const filteredData = data.filter(d => d.score > minimumScore);
 
     // create dag
-    let dag = getInducedDAG({ ensgId, symbol, data: filteredData, efo });
+    let dag = getInducedDAG({
+      ensgId,
+      symbol,
+      data: filteredData,
+      efo,
+      selectedTherapeuticAreas,
+    });
 
     // compute height (based on dag nodes per layer)
     const height =

@@ -286,6 +286,7 @@ class ClassicAssociations extends React.Component {
                         symbol={symbol}
                         data={rows}
                         efo={efo}
+                        selectedTherapeuticAreas={facetsState.therapeuticArea} // hack!
                       />
                     )}
 
@@ -296,6 +297,7 @@ class ClassicAssociations extends React.Component {
                         symbol={symbol}
                         data={rows}
                         efo={efo}
+                        selectedTherapeuticAreas={facetsState.therapeuticArea} // hack!
                       />
                     )}
                   </CardContent>

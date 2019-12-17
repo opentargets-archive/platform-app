@@ -9,10 +9,25 @@ import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
 import Slider from './ClassicAssociationsSlider';
 
-const getTherapeuticAreaTree = ({ ensgId, symbol, data, efo, diameter }) => {
+const getTherapeuticAreaTree = ({
+  ensgId,
+  symbol,
+  data,
+  efo,
+  selectedTherapeuticAreas,
+  diameter,
+}) => {
   const efoById = new Map(efo.nodes.map(d => [d.id, d]));
-  const therapeuticAreasIds = new Set(efo.therapeuticAreas);
-  const therapeuticAreas = efo.therapeuticAreas.map(taId => {
+  // note: requested that we only show therapeutic area circles selected
+  //       when faceted by therapeutic area, even if a disease has other
+  //       therapeutic area ancestors; potentially confusing, but this is
+  //       how webapp works
+  const relevantTherapeuticAreas =
+    selectedTherapeuticAreas.length > 0
+      ? selectedTherapeuticAreas
+      : efo.therapeuticAreas;
+  const therapeuticAreasIds = new Set(relevantTherapeuticAreas);
+  const therapeuticAreas = relevantTherapeuticAreas.map(taId => {
     const { id, name } = efoById.get(taId);
     return { id, name };
   });
@@ -118,6 +133,7 @@ class ClassicAssociationsBubbles extends React.Component {
       data,
       efo,
       handleMouseover,
+      selectedTherapeuticAreas,
     } = this.props;
     const { width, minimumScore } = this.state;
     const height = 800;
@@ -129,6 +145,7 @@ class ClassicAssociationsBubbles extends React.Component {
       symbol,
       data: filteredData,
       efo,
+      selectedTherapeuticAreas,
       diameter,
     });
     const nodes = therapeuticAreaTree.descendants();
