@@ -8,6 +8,7 @@ import { DownloadSVGPlot } from 'ot-ui';
 
 import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
+import Slider from './ClassicAssociationsSlider';
 
 const d3 = Object.assign({}, d3Base, d3DagBase);
 
@@ -152,13 +153,17 @@ const textWithEllipsis = (text, threshold) =>
   text.length <= threshold ? text : text.slice(0, threshold) + '...';
 
 class ClassicAssociationsDAG extends React.Component {
-  state = {};
+  state = {
+    minimumScore: 0.1,
+  };
   svgContainer = React.createRef();
   static getDerivedStateFromProps(props) {
     const { width = 600 } = props.contentRect.bounds;
     return { width };
   }
-
+  onMinimumScoreChange = (_, value) => {
+    this.setState({ minimumScore: value });
+  };
   render() {
     const {
       measureRef,
@@ -169,12 +174,14 @@ class ClassicAssociationsDAG extends React.Component {
       efo,
       handleMouseover,
     } = this.props;
-    const { width } = this.state;
+    const { width, minimumScore } = this.state;
     const margin = { top: 100, right: 10, bottom: 10, left: 10 };
     const innerWidth = width - margin.left - margin.right;
 
+    const filteredData = data.filter(d => d.score > minimumScore);
+
     // create dag
-    let dag = getInducedDAG({ ensgId, symbol, data, efo });
+    let dag = getInducedDAG({ ensgId, symbol, data: filteredData, efo });
 
     // compute height (based on dag nodes per layer)
     const height =
@@ -225,6 +232,7 @@ class ClassicAssociationsDAG extends React.Component {
           svgContainer={this.svgContainer}
           filenameStem={`${symbol}-associated-diseases--dag`}
         >
+          <Slider value={minimumScore} onChange={this.onMinimumScoreChange} />
           <div ref={this.svgContainer}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

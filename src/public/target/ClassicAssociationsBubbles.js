@@ -7,6 +7,7 @@ import { DownloadSVGPlot } from 'ot-ui';
 
 import withTooltip from '../common/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
+import Slider from './ClassicAssociationsSlider';
 
 const getTherapeuticAreaTree = ({ ensgId, symbol, data, efo, diameter }) => {
   const efoById = new Map(efo.nodes.map(d => [d.id, d]));
@@ -97,13 +98,17 @@ const getTherapeuticAreaTree = ({ ensgId, symbol, data, efo, diameter }) => {
 };
 
 class ClassicAssociationsBubbles extends React.Component {
-  state = {};
+  state = {
+    minimumScore: 0.1,
+  };
   svgContainer = React.createRef();
   static getDerivedStateFromProps(props) {
     const { width = 600 } = props.contentRect.bounds;
     return { width };
   }
-
+  onMinimumScoreChange = (_, value) => {
+    this.setState({ minimumScore: value });
+  };
   render() {
     const {
       measureRef,
@@ -114,14 +119,15 @@ class ClassicAssociationsBubbles extends React.Component {
       efo,
       handleMouseover,
     } = this.props;
-    const { width } = this.state;
+    const { width, minimumScore } = this.state;
     const height = 800;
     const diameter = Math.min(width, height); // TODO: replace 600 with eg page height / 2
 
+    const filteredData = data.filter(d => d.score > minimumScore);
     const therapeuticAreaTree = getTherapeuticAreaTree({
       ensgId,
       symbol,
-      data,
+      data: filteredData,
       efo,
       diameter,
     });
@@ -139,6 +145,7 @@ class ClassicAssociationsBubbles extends React.Component {
           svgContainer={this.svgContainer}
           filenameStem={`${symbol}-associated-diseases--bubbles`}
         >
+          <Slider value={minimumScore} onChange={this.onMinimumScoreChange} />
           <div ref={this.svgContainer}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
