@@ -190,6 +190,7 @@ const Option = props => {
           buttonRef={innerRef}
           selected={isFocused}
           component="div"
+          style={{ padding: 0 }}
           {...innerProps}
         >
           {data.label}
@@ -222,20 +223,38 @@ const customStyles = {
     padding: '0 0.5rem',
     fontSize: '0.75rem',
   }),
-  control: (base, { isFocused }) => ({
-    ...base,
-    boxShadow: isFocused
-      ? `0 0 0 1px ${defaultTheme.palette.primary.main}`
-      : base.boxShadow,
-    '&:hover': {
+  control: (base, { isFocused }) => {
+    return {
+      ...base,
+      boxShadow: isFocused
+        ? `0 0 0 1px ${defaultTheme.palette.primary.main}`
+        : base.boxShadow,
+      '&:hover': {
+        borderColor: isFocused
+          ? defaultTheme.palette.primary.main
+          : base['&:hover'].borderColor,
+      },
       borderColor: isFocused
         ? defaultTheme.palette.primary.main
-        : base['&:hover'].borderColor,
-    },
-    borderColor: isFocused
-      ? defaultTheme.palette.primary.main
-      : base.borderColor,
-  }),
+        : base.borderColor,
+    };
+  },
+  container: base => {
+    return {
+      ...base,
+      // backgroundColor: 'red',
+      // height: '21px',
+      padding: 0,
+    };
+  },
+  valueContainer: base => {
+    return {
+      ...base,
+      // backgroundColor: 'red',
+      height: '21px',
+      padding: 0,
+    };
+  },
 };
 
 class Search extends Component {
