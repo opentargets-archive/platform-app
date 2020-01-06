@@ -7,8 +7,6 @@ import Splash from './Splash';
 import Search from '../common/search/Search';
 import { externalLinks } from '../../constants';
 
-console.log('Homepage Search', Search);
-
 const HomePage = () => {
   return (
     <Fragment>

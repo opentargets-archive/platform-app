@@ -8,16 +8,14 @@ import {
 import { HttpLink } from 'apollo-link-http';
 import { loader } from 'graphql.macro';
 import AsyncSelect from 'react-select/lib/Async';
-import { components } from 'react-select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
-import SearchIcon from '@material-ui/icons/Search';
-import TextField from '@material-ui/core/TextField';
-import withStyles from '@material-ui/core/styles/withStyles';
 import Clampy from '@clampy-js/react-clampy';
 import { defaultTheme } from 'ot-ui';
 
 import introspectionQueryResultData from './fragmentTypes.json';
+import Control from './Control';
+import DropdownIndicator from './DropdownIndicator';
 
 const SEARCH_QUERY = loader('./SearchQuery.gql');
 
@@ -209,45 +207,6 @@ const Option = props => {
   }
 };
 
-const DropdownIndicator = props => {
-  return (
-    <components.DropdownIndicator {...props}>
-      <SearchIcon />
-    </components.DropdownIndicator>
-  );
-};
-
-const InputComponent = ({ inputRef, ...rest }) => (
-  <div ref={inputRef} {...rest} />
-);
-
-const styles = {
-  input: {
-    display: 'flex',
-    padding: 0,
-  },
-};
-
-let Control = props => {
-  return (
-    <TextField
-      fullWidth
-      InputProps={{
-        inputComponent: InputComponent,
-        inputProps: {
-          className: props.classes.input,
-          inputRef: props.innerRef,
-          children: props.children,
-          ...props.innerProps,
-        },
-      }}
-      {...props.selectProps.textFieldProps}
-    />
-  );
-};
-
-Control = withStyles(styles)(Control);
-
 const customStyles = {
   groupHeading: base => ({
     ...base,
@@ -256,22 +215,6 @@ const customStyles = {
     padding: '0 0.5rem',
     fontSize: '0.75rem',
   }),
-  /* control: (base, { isFocused }) => {
-    return {
-      ...base,
-      boxShadow: isFocused
-        ? `0 0 0 1px ${defaultTheme.palette.primary.main}`
-        : base.boxShadow,
-      '&:hover': {
-        borderColor: isFocused
-          ? defaultTheme.palette.primary.main
-          : base['&:hover'].borderColor,
-      },
-      borderColor: isFocused
-        ? defaultTheme.palette.primary.main
-        : base.borderColor,
-    };
-  },*/
   container: base => {
     return {
       ...base,
