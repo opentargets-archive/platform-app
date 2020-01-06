@@ -55,17 +55,6 @@ const Section = ({ classes, data, name }) => {
 
   return (
     <React.Fragment>
-      A list of post-marketing adverse events submitted by healthcare
-      professionals to the FDA Adverse Event Reporting System (FAERS). The list
-      only contains adverse events with a log likelihood ratio above a critical
-      value (CV) threshold - see our{' '}
-      <Link
-        to="https://docs.targetvalidation.org/getting-started/getting-started/drug-summary/pharmacovigilance"
-        external
-      >
-        adverse event report documentation page
-      </Link>{' '}
-      for more information.
       <DataDownloader
         tableHeaders={columns}
         rows={data.rows}
