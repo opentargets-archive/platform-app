@@ -3,7 +3,6 @@ import _ from 'lodash';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';
-import LevelBar from '../../../common/LevelBar';
 
 const styles = theme => ({
   levelBarContainer: {

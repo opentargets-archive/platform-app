@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Page, NavBar, Footer } from 'ot-ui';
 
 import { externalLinks } from '../../constants';
-import Search from '../home/Search';
+import Search from './search/Search';
 
 const BasePage = ({ children }) => (
   <Page

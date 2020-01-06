@@ -12,6 +12,8 @@ import { components } from 'react-select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
+import TextField from '@material-ui/core/TextField';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Clampy from '@clampy-js/react-clampy';
 import { defaultTheme } from 'ot-ui';
 
@@ -215,6 +217,37 @@ const DropdownIndicator = props => {
   );
 };
 
+const InputComponent = ({ inputRef, ...rest }) => (
+  <div ref={inputRef} {...rest} />
+);
+
+const styles = {
+  input: {
+    display: 'flex',
+    padding: 0,
+  },
+};
+
+let Control = props => {
+  return (
+    <TextField
+      fullWidth
+      InputProps={{
+        inputComponent: InputComponent,
+        inputProps: {
+          className: props.classes.input,
+          inputRef: props.innerRef,
+          children: props.children,
+          ...props.innerProps,
+        },
+      }}
+      {...props.selectProps.textFieldProps}
+    />
+  );
+};
+
+Control = withStyles(styles)(Control);
+
 const customStyles = {
   groupHeading: base => ({
     ...base,
@@ -223,7 +256,7 @@ const customStyles = {
     padding: '0 0.5rem',
     fontSize: '0.75rem',
   }),
-  control: (base, { isFocused }) => {
+  /* control: (base, { isFocused }) => {
     return {
       ...base,
       boxShadow: isFocused
@@ -238,7 +271,7 @@ const customStyles = {
         ? defaultTheme.palette.primary.main
         : base.borderColor,
     };
-  },
+  },*/
   container: base => {
     return {
       ...base,
@@ -295,7 +328,7 @@ class Search extends Component {
         cacheOptions
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}
-        components={{ Option, DropdownIndicator }}
+        components={{ Option, DropdownIndicator, Control }}
         styles={customStyles}
         theme={theme => ({
           ...theme,
