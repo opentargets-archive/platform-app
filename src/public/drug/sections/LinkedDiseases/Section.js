@@ -14,10 +14,9 @@ const columns = [
     label: 'Therapeutic Areas',
     renderCell: d =>
       d.therapeuticAreas.map((t, i) => (
-        <React.Fragment key={i}>
-          {i > 0 ? <br /> : null}
+        <div key={i}>
           <Link to={`/disease/${t.id}`}>{t.name}</Link>
-        </React.Fragment>
+        </div>
       )),
   },
   {
