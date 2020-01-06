@@ -180,6 +180,8 @@ const TopHit = ({ innerRef, innerProps, isFocused, data }) => {
   );
 };
 
+const IndicatorSeparator = () => null;
+
 const Option = props => {
   const { innerRef, innerProps, isFocused, data } = props;
 
@@ -271,7 +273,7 @@ class Search extends Component {
         cacheOptions
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}
-        components={{ Option, DropdownIndicator, Control }}
+        components={{ Option, DropdownIndicator, Control, IndicatorSeparator }}
         styles={customStyles}
         theme={theme => ({
           ...theme,
