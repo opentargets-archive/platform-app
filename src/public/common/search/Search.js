@@ -15,6 +15,7 @@ import { defaultTheme } from 'ot-ui';
 
 import introspectionQueryResultData from './fragmentTypes.json';
 import Control from './Control';
+import Placeholder from './Placeholder';
 import DropdownIndicator from './DropdownIndicator';
 
 const SEARCH_QUERY = loader('./SearchQuery.gql');
@@ -273,7 +274,13 @@ class Search extends Component {
         cacheOptions
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}
-        components={{ Option, DropdownIndicator, Control, IndicatorSeparator }}
+        components={{
+          Option,
+          DropdownIndicator,
+          Control,
+          IndicatorSeparator,
+          Placeholder,
+        }}
         styles={customStyles}
         theme={theme => ({
           ...theme,
