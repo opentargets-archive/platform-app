@@ -10,12 +10,13 @@ const TargetOption = ({ innerRef, innerProps, isFocused, data }) => {
       selected={isFocused}
       component="div"
       {...innerProps}
+      style={{ padding: '0 8px 0 8px' }}
     >
-      <Typography variant="subtitle1" style={{ display: 'inline-block' }}>
+      <Typography variant="subtitle2" style={{ display: 'inline-block' }}>
         {data.approvedSymbol}
       </Typography>
       <Typography
-        variant="subtitle2"
+        variant="caption"
         color="textSecondary"
         style={{ display: 'inline-block', marginLeft: '8px' }}
       >
@@ -32,8 +33,9 @@ const DiseaseOption = ({ innerRef, innerProps, isFocused, data }) => {
       selected={isFocused}
       component="div"
       {...innerProps}
+      style={{ padding: '0 8px 0 8px' }}
     >
-      {data.name}
+      <Typography variant="subtitle2">{data.name}</Typography>
     </MenuItem>
   );
 };
@@ -45,9 +47,23 @@ const DrugOption = ({ innerRef, innerProps, isFocused, data }) => {
       selected={isFocused}
       component="div"
       {...innerProps}
+      style={{ padding: '0 8px 0 8px' }}
     >
-      {data.name}
+      <Typography variant="subtitle2">{data.name}</Typography>
     </MenuItem>
+  );
+};
+
+const TargetTopHit = ({ data }) => {
+  return (
+    <div>
+      <Typography variant="h6" color="primary">
+        {data.approvedSymbol}
+      </Typography>{' '}
+      <Typography>{data.approvedName}</Typography>
+      <Typography>{data.__typename}</Typography>
+      <Clampy clampSize="3">{data.proteinAnnotations.functions[0]}</Clampy>
+    </div>
   );
 };
 
@@ -67,26 +83,13 @@ const DrugTopHit = () => {
   return <div>Drug topHit</div>;
 };
 
-const TargetTopHit = ({ data }) => {
-  return (
-    <div>
-      <Typography variant="h6" color="primary">
-        {data.approvedSymbol}
-      </Typography>{' '}
-      <Typography>{data.approvedName}</Typography>
-      <Typography>{data.__typename}</Typography>
-      <Clampy clampSize="3">{data.proteinAnnotations.functions[0]}</Clampy>
-    </div>
-  );
-};
-
 const TopHit = ({ innerRef, innerProps, isFocused, data }) => {
   return (
     <MenuItem
       buttonRef={innerRef}
       selected={isFocused}
       component="div"
-      style={{ height: '150px', whiteSpace: 'normal' }}
+      style={{ height: '150px', whiteSpace: 'normal', padding: '0 8px 0 8px' }}
       {...innerProps}
     >
       {data.__typename === 'Target' ? (
@@ -110,7 +113,7 @@ const Option = props => {
           buttonRef={innerRef}
           selected={isFocused}
           component="div"
-          style={{ padding: 0 }}
+          style={{ padding: '0 8px 0 8px' }}
           {...innerProps}
         >
           {data.label}
