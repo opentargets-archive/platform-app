@@ -79,7 +79,6 @@ const TargetTopHit = ({ innerRef, innerProps, isFocused, data }) => {
             overflow: 'hidden',
           }}
         >
-          {/*<Clampy clampSize="3">{data.proteinAnnotations.functions[0]}</Clampy>*/}
           {data.proteinAnnotations.functions[0]}
         </Typography>
       </div>
@@ -94,7 +93,7 @@ const DiseaseTopHit = ({ innerRef, innerProps, isFocused, data }) => {
       selected={isFocused}
       component="div"
       style={{
-        height: '65px',
+        height: '68px',
         padding: '0 8px 0 8px',
       }}
       {...innerProps}
@@ -110,8 +109,24 @@ const DiseaseTopHit = ({ innerRef, innerProps, isFocused, data }) => {
   );
 };
 
-const DrugTopHit = () => {
-  return <div>Drug topHit</div>;
+const DrugTopHit = ({ innerRef, innerProps, isFocused, data }) => {
+  return (
+    <MenuItem
+      buttonRef={innerRef}
+      selected={isFocused}
+      component="div"
+      style={{
+        padding: '0 8px 0 8px',
+      }}
+      {...innerProps}
+    >
+      <div>
+        <Typography variant="h6" color="primary">
+          {data.name}
+        </Typography>
+      </div>
+    </MenuItem>
+  );
 };
 
 const TopHit = props => {
