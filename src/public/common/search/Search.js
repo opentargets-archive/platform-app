@@ -17,6 +17,7 @@ import introspectionQueryResultData from './fragmentTypes.json';
 import Control from './Control';
 import Placeholder from './Placeholder';
 import DropdownIndicator from './DropdownIndicator';
+import GroupHeading from './GroupHeading';
 
 const SEARCH_QUERY = loader('./SearchQuery.gql');
 
@@ -34,7 +35,7 @@ const client = new ApolloClient({
 const groupOptions = (searchData, inputValue) => {
   return [
     {
-      label: 'Search: ',
+      label: 'Search ',
       options: [
         {
           value: inputValue,
@@ -280,6 +281,7 @@ class Search extends Component {
           Control,
           IndicatorSeparator,
           Placeholder,
+          GroupHeading,
         }}
         styles={customStyles}
         theme={theme => ({
