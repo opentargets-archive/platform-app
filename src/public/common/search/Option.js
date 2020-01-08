@@ -1,7 +1,6 @@
 import React from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
-import Clampy from '@clampy-js/react-clampy';
 
 const TargetOption = ({ innerRef, innerProps, isFocused, data }) => {
   return (
@@ -54,28 +53,60 @@ const DrugOption = ({ innerRef, innerProps, isFocused, data }) => {
   );
 };
 
-const TargetTopHit = ({ data }) => {
+const TargetTopHit = ({ innerRef, innerProps, isFocused, data }) => {
   return (
-    <div>
-      <Typography variant="h6" color="primary">
-        {data.approvedSymbol}
-      </Typography>{' '}
-      <Typography>{data.approvedName}</Typography>
-      <Typography>{data.__typename}</Typography>
-      <Clampy clampSize="3">{data.proteinAnnotations.functions[0]}</Clampy>
-    </div>
+    <MenuItem
+      buttonRef={innerRef}
+      selected={isFocused}
+      component="div"
+      style={{
+        height: '136px',
+        padding: '0 8px 0 8px',
+      }}
+      {...innerProps}
+    >
+      <div>
+        <Typography variant="h6" color="primary">
+          {data.approvedSymbol}
+        </Typography>{' '}
+        <Typography>{data.approvedName}</Typography>
+        <Typography>{data.__typename}</Typography>
+        <Typography
+          variant="caption"
+          style={{
+            whiteSpace: 'normal',
+            height: '56px',
+            overflow: 'hidden',
+          }}
+        >
+          {/*<Clampy clampSize="3">{data.proteinAnnotations.functions[0]}</Clampy>*/}
+          {data.proteinAnnotations.functions[0]}
+        </Typography>
+      </div>
+    </MenuItem>
   );
 };
 
-const DiseaseTopHit = ({ data }) => {
+const DiseaseTopHit = ({ innerRef, innerProps, isFocused, data }) => {
   return (
-    <div>
-      <Typography variant="h6" color="primary">
-        {data.name}
-      </Typography>
-      <Typography>Disease</Typography>
-      <Typography>{data.description}</Typography>
-    </div>
+    <MenuItem
+      buttonRef={innerRef}
+      selected={isFocused}
+      component="div"
+      style={{
+        height: '65px',
+        padding: '0 8px 0 8px',
+      }}
+      {...innerProps}
+    >
+      <div>
+        <Typography variant="h6" color="primary">
+          {data.name}
+        </Typography>
+        <Typography>Disease</Typography>
+        <Typography variant="caption">{data.description}</Typography>
+      </div>
+    </MenuItem>
   );
 };
 
@@ -83,23 +114,18 @@ const DrugTopHit = () => {
   return <div>Drug topHit</div>;
 };
 
-const TopHit = ({ innerRef, innerProps, isFocused, data }) => {
+const TopHit = props => {
+  const { data } = props;
   return (
-    <MenuItem
-      buttonRef={innerRef}
-      selected={isFocused}
-      component="div"
-      style={{ height: '150px', whiteSpace: 'normal', padding: '0 8px 0 8px' }}
-      {...innerProps}
-    >
+    <>
       {data.__typename === 'Target' ? (
-        <TargetTopHit data={data} />
+        <TargetTopHit {...props} />
       ) : data.__typename === 'Disease' ? (
-        <DiseaseTopHit data={data} />
+        <DiseaseTopHit {...props} />
       ) : (
-        <DrugTopHit data={data} />
+        <DrugTopHit {...props} />
       )}
-    </MenuItem>
+    </>
   );
 };
 

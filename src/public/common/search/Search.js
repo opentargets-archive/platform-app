@@ -9,8 +9,6 @@ import { HttpLink } from 'apollo-link-http';
 import { loader } from 'graphql.macro';
 import AsyncSelect from 'react-select/lib/Async';
 
-import { defaultTheme } from 'ot-ui';
-
 import introspectionQueryResultData from './fragmentTypes.json';
 import Control from './Control';
 import Placeholder from './Placeholder';
@@ -87,29 +85,10 @@ const groupOptions = (searchData, inputValue) => {
 const IndicatorSeparator = () => null;
 
 const customStyles = {
-  groupHeading: base => ({
+  menuList: base => ({
     ...base,
-    borderBottom: `1px solid ${defaultTheme.palette.secondary.main}`,
-    color: defaultTheme.palette.secondary.main,
-    padding: '0 0.5rem',
-    fontSize: '0.75rem',
+    maxHeight: '500px',
   }),
-  container: base => {
-    return {
-      ...base,
-      // backgroundColor: 'red',
-      // height: '21px',
-      padding: 0,
-    };
-  },
-  valueContainer: base => {
-    return {
-      ...base,
-      // backgroundColor: 'red',
-      height: '21px',
-      padding: 0,
-    };
-  },
 };
 
 class Search extends Component {
