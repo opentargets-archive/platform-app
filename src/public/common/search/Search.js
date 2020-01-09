@@ -15,6 +15,7 @@ import Placeholder from './Placeholder';
 import DropdownIndicator from './DropdownIndicator';
 import GroupHeading from './GroupHeading';
 import Option from './Option';
+import ValueContainer from './ValueContainer';
 
 const SEARCH_QUERY = loader('./SearchQuery.gql');
 
@@ -131,11 +132,12 @@ class Search extends Component {
         onChange={this.handleOnChange}
         components={{
           Option,
-          DropdownIndicator,
           Control,
-          IndicatorSeparator,
           Placeholder,
+          DropdownIndicator,
           GroupHeading,
+          IndicatorSeparator,
+          ValueContainer,
         }}
         styles={customStyles}
         theme={theme => ({
