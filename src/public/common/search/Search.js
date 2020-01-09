@@ -71,7 +71,7 @@ const groupOptions = (searchData, inputValue) => {
       }),
     },
     {
-      label: 'Drugs',
+      label: 'Drugs (Generic Name)',
       options: searchData.drugs.map(drug => {
         return {
           ...drug,
