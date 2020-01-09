@@ -33,7 +33,7 @@ const client = new ApolloClient({
 const groupOptions = (searchData, inputValue) => {
   return [
     {
-      label: 'Search ',
+      label: 'Search Term',
       options: [
         {
           value: inputValue,
