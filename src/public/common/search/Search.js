@@ -90,6 +90,7 @@ const customStyles = {
     ...base,
     maxHeight: '500px',
   }),
+  group: base => ({ ...base, padding: 0 }),
 };
 
 class Search extends Component {
