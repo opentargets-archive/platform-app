@@ -89,7 +89,7 @@ const DiseaseTopHit = ({ innerRef, innerProps, isFocused, data }) => {
       selected={isFocused}
       component="div"
       style={{
-        height: '68px',
+        height: '70px',
         padding: '0 8px 0 8px',
       }}
       {...innerProps}
@@ -105,12 +105,15 @@ const DiseaseTopHit = ({ innerRef, innerProps, isFocused, data }) => {
 };
 
 const DrugTopHit = ({ innerRef, innerProps, isFocused, data }) => {
+  const { rows = [] } = data.mechanismsOfAction;
+
   return (
     <MenuItem
       buttonRef={innerRef}
       selected={isFocused}
       component="div"
       style={{
+        height: '70px',
         padding: '0 8px 0 8px',
       }}
       {...innerProps}
@@ -118,6 +121,10 @@ const DrugTopHit = ({ innerRef, innerProps, isFocused, data }) => {
       <div>
         <Typography variant="h6" color="primary">
           {data.name}
+        </Typography>
+        <Typography>{data.drugType}</Typography>
+        <Typography variant="caption">
+          {rows.map(row => row.mechanismOfAction).join(', ')}
         </Typography>
       </div>
     </MenuItem>

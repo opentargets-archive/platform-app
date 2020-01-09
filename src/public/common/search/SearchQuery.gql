@@ -13,6 +13,12 @@ query SearchQuery($queryString: String!, $page: Pagination) {
       ... on Drug {
         id
         name
+        drugType
+        mechanismsOfAction {
+          rows {
+            mechanismOfAction
+          }
+        }
       }
       ... on Disease {
         id
