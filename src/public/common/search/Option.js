@@ -1,16 +1,9 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-const TargetOption = ({ innerRef, innerProps, isFocused, data, theme }) => {
+const TargetOption = ({ data }) => {
   return (
-    <div
-      ref={innerRef}
-      {...innerProps}
-      style={{
-        backgroundColor: isFocused ? theme.colors.neutral10 : null,
-        padding: '0 8px 0 8px',
-      }}
-    >
+    <>
       <Typography variant="subtitle2" style={{ display: 'inline-block' }}>
         {data.approvedSymbol}
       </Typography>
@@ -21,38 +14,16 @@ const TargetOption = ({ innerRef, innerProps, isFocused, data, theme }) => {
       >
         {data.approvedName}
       </Typography>
-    </div>
+    </>
   );
 };
 
-const DiseaseOption = ({ innerRef, innerProps, isFocused, data, theme }) => {
-  return (
-    <div
-      ref={innerRef}
-      {...innerProps}
-      style={{
-        backgroundColor: isFocused ? theme.colors.neutral10 : null,
-        padding: '0 8px 0 8px',
-      }}
-    >
-      <Typography variant="subtitle2">{data.name}</Typography>
-    </div>
-  );
+const DiseaseOption = ({ data }) => {
+  return <Typography variant="subtitle2">{data.name}</Typography>;
 };
 
-const DrugOption = ({ innerRef, innerProps, isFocused, data, theme }) => {
-  return (
-    <div
-      ref={innerRef}
-      {...innerProps}
-      style={{
-        backgroundColor: isFocused ? theme.colors.neutral10 : null,
-        padding: '0 8px 0 8px',
-      }}
-    >
-      <Typography variant="subtitle2">{data.name}</Typography>
-    </div>
-  );
+const DrugOption = ({ data }) => {
+  return <Typography variant="subtitle2">{data.name}</Typography>;
 };
 
 const TargetTopHit = ({ data }) => {
@@ -97,7 +68,19 @@ const DrugTopHit = ({ data }) => {
   );
 };
 
-const TopHit = ({ data, innerRef, innerProps, isFocused, theme }) => {
+const TopHit = ({ data }) => {
+  return data.__typename === 'Target' ? (
+    <TargetTopHit data={data} />
+  ) : data.__typename === 'Disease' ? (
+    <DiseaseTopHit data={data} />
+  ) : (
+    <DrugTopHit data={data} />
+  );
+};
+
+const Option = props => {
+  const { innerRef, innerProps, isFocused, data, theme } = props;
+
   return (
     <div
       ref={innerRef}
@@ -105,45 +88,22 @@ const TopHit = ({ data, innerRef, innerProps, isFocused, theme }) => {
       style={{
         backgroundColor: isFocused ? theme.colors.neutral10 : null,
         padding: '0 8px 0 8px',
+        cursor: 'pointer',
       }}
     >
-      {data.__typename === 'Target' ? (
-        <TargetTopHit data={data} />
-      ) : data.__typename === 'Disease' ? (
-        <DiseaseTopHit data={data} />
+      {data.entityType === 'search' ? (
+        <Typography>{data.label}</Typography>
+      ) : data.entityType === 'topHit' ? (
+        <TopHit data={data} />
+      ) : data.entityType === 'target' ? (
+        <TargetOption data={data} />
+      ) : data.entityType === 'disease' ? (
+        <DiseaseOption data={data} />
       ) : (
-        <DrugTopHit data={data} />
+        <DrugOption data={data} />
       )}
     </div>
   );
-};
-
-const Option = props => {
-  const { innerRef, innerProps, isFocused, data, theme } = props;
-
-  switch (data.entityType) {
-    case 'search':
-      return (
-        <div
-          ref={innerRef}
-          {...innerProps}
-          style={{
-            backgroundColor: isFocused ? theme.colors.neutral10 : null,
-            padding: '0 8px 0 8px',
-          }}
-        >
-          {data.label}
-        </div>
-      );
-    case 'topHit':
-      return <TopHit {...props} />;
-    case 'target':
-      return <TargetOption {...props} />;
-    case 'disease':
-      return <DiseaseOption {...props} />;
-    default:
-      return <DrugOption {...props} />;
-  }
 };
 
 export default Option;
