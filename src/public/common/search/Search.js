@@ -94,6 +94,16 @@ const customStyles = {
   container: base => ({ ...base, minWidth: '450px' }),
 };
 
+const components = {
+  Option,
+  Control,
+  Placeholder,
+  DropdownIndicator,
+  GroupHeading,
+  IndicatorSeparator,
+  ValueContainer,
+};
+
 class Search extends Component {
   selectRef = React.createRef();
 
@@ -132,15 +142,7 @@ class Search extends Component {
         cacheOptions
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}
-        components={{
-          Option,
-          Control,
-          Placeholder,
-          DropdownIndicator,
-          GroupHeading,
-          IndicatorSeparator,
-          ValueContainer,
-        }}
+        components={components}
         styles={customStyles}
         theme={theme => ({
           ...theme,
