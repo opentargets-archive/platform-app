@@ -4,14 +4,10 @@ import Typography from '@material-ui/core/Typography';
 const TargetOption = ({ data }) => {
   return (
     <>
-      <Typography variant="subtitle2" style={{ display: 'inline-block' }}>
+      <Typography variant="subtitle2" inline>
         {data.approvedSymbol}
-      </Typography>
-      <Typography
-        variant="caption"
-        color="textSecondary"
-        style={{ display: 'inline-block', marginLeft: '8px' }}
-      >
+      </Typography>{' '}
+      <Typography variant="caption" color="textSecondary" inline>
         {data.approvedName}
       </Typography>
     </>
