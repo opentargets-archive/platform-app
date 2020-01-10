@@ -89,16 +89,18 @@ const DiseaseTopHit = ({ innerRef, innerProps, isFocused, data }) => {
       selected={isFocused}
       component="div"
       style={{
-        height: '70px',
+        height: '60px',
         padding: '0 8px 0 8px',
       }}
       {...innerProps}
     >
-      <div>
+      <div style={{ overflow: 'hidden' }}>
         <Typography variant="h6" color="primary">
           {data.name}
         </Typography>
-        <Typography variant="caption">{data.description}</Typography>
+        <Typography variant="caption" noWrap>
+          {data.description}
+        </Typography>
       </div>
     </MenuItem>
   );
@@ -113,17 +115,16 @@ const DrugTopHit = ({ innerRef, innerProps, isFocused, data }) => {
       selected={isFocused}
       component="div"
       style={{
-        height: '70px',
+        height: '60px',
         padding: '0 8px 0 8px',
       }}
       {...innerProps}
     >
-      <div>
+      <div style={{ overflow: 'hidden' }}>
         <Typography variant="h6" color="primary">
           {data.name}
         </Typography>
-        <Typography>{data.drugType}</Typography>
-        <Typography variant="caption">
+        <Typography variant="caption" noWrap>
           {rows.map(row => row.mechanismOfAction).join(', ')}
         </Typography>
       </div>
