@@ -11,6 +11,7 @@
     "email": "support@targetvalidation.org"
   },
   "dependencies": {
+    "@clampy-js/react-clampy": "^1.2.0",
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.1",
     "@material-ui/lab": "^3.0.0-alpha.30",
@@ -50,7 +51,7 @@
     "react-router-dom": "5.0.1",
     "react-scripts": "2.1.5",
     "react-scroll": "^1.7.11",
-    "react-select": "^2.1.1",
+    "react-select": "^2.4.3",
     "react-sticky": "^6.0.3",
     "smiles-drawer": "^1.1.22",
     "source-map-explorer": "^2.0.0",

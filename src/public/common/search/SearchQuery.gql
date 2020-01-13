@@ -1,0 +1,42 @@
+query SearchQuery($queryString: String!, $page: Pagination) {
+  search(queryString: $queryString, page: $page) {
+    topHit {
+      __typename
+      ... on Target {
+        id
+        approvedSymbol
+        approvedName
+        proteinAnnotations {
+          functions
+        }
+      }
+      ... on Drug {
+        id
+        name
+        mechanismsOfAction {
+          rows {
+            mechanismOfAction
+          }
+        }
+      }
+      ... on Disease {
+        id
+        name
+        description
+      }
+    }
+    targets {
+      id
+      approvedSymbol
+      approvedName
+    }
+    diseases {
+      id
+      name
+    }
+    drugs {
+      id
+      name
+    }
+  }
+}

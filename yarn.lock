@@ -923,6 +923,18 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@clampy-js/clampy@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@clampy-js/clampy/-/clampy-1.0.10.tgz#8161e7a6460b47d67b5ffaad47f41a23f3964f2b"
+  integrity sha512-ua5oFDKJaYhGomr2KkjIE+J7Lmcc0nb9aMD/AMVLMSnxTRYzYNcHJNMvLeWSgUxK83EdgXqRCsrtDrDugdttEw==
+
+"@clampy-js/react-clampy@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@clampy-js/react-clampy/-/react-clampy-1.2.0.tgz#71254497243f0fc5d9a88a1c92714cb29bd62ae2"
+  integrity sha512-oLKk7ialx+3ro7RrCLRi4yneNwGw1ff+lyWZmKqZqXuHFV/w6ynzrn0+vutXbaC3qFjrERVKsaV/u8fyRsQ0RA==
+  dependencies:
+    "@clampy-js/clampy" "^1.0.10"
+
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
@@ -12546,7 +12558,7 @@ react-scroll@^1.7.11:
     lodash.throttle "^4.1.1"
     prop-types "^15.5.8"
 
-react-select@^2.1.1:
+react-select@^2.4.3:
   version "2.4.4"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-2.4.4.tgz#ba72468ef1060c7d46fbb862b0748f96491f1f73"
   integrity sha512-C4QPLgy9h42J/KkdrpVxNmkY6p4lb49fsrbDk/hRcZpX7JvZPNb6mGj+c5SzyEtBv1DmQ9oPH4NmhAFvCrg8Jw==

@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { Link, HomeBox, NavBar, Footer } from 'ot-ui';
 
 import Splash from './Splash';
-import Search from './Search';
+import Search from '../common/search/Search';
 import { externalLinks } from '../../constants';
 
 const HomePage = () => {
