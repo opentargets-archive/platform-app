@@ -1,3 +1,6 @@
+// For the reason for the existence of this script, you can find more info here:
+// https://www.apollographql.com/docs/react/data/fragments/#fragments-on-unions-and-interfaces
+
 const fetch = require('node-fetch');
 const fs = require('fs');
 
@@ -31,7 +34,7 @@ fetch(`${API_HOST}/graphql`, {
 
     result.data.__schema.types = filteredData;
     fs.writeFile(
-      './src/public/home/fragmentTypes.json',
+      './src/public/fragmentTypes.json',
       JSON.stringify(result.data),
       err => {
         if (err) {

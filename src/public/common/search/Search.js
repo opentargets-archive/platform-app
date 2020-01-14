@@ -1,34 +1,16 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { ApolloClient } from 'apollo-client';
-import {
-  InMemoryCache,
-  IntrospectionFragmentMatcher,
-} from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
 import { loader } from 'graphql.macro';
 import AsyncSelect from 'react-select/lib/Async';
-
-import introspectionQueryResultData from './fragmentTypes.json';
 import Control from './Control';
 import Placeholder from './Placeholder';
 import DropdownIndicator from './DropdownIndicator';
 import GroupHeading from './GroupHeading';
 import Option from './Option';
 import ValueContainer from './ValueContainer';
+import { client2 } from '../../App.js';
 
 const SEARCH_QUERY = loader('./SearchQuery.gql');
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData,
-});
-
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
-  }),
-  cache: new InMemoryCache({ fragmentMatcher }),
-});
 
 const groupOptions = (searchData, inputValue) => {
   return [
@@ -112,7 +94,7 @@ class Search extends Component {
       return;
     }
 
-    return client
+    return client2
       .query({
         query: SEARCH_QUERY,
         variables: { queryString: inputValue, page: { index: 0, size: 9 } },
