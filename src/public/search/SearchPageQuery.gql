@@ -1,0 +1,20 @@
+query SearchPageQuery($queryString: String!) {
+  search(queryString: $queryString, page: { index: 0, size: 10 }) {
+    targets {
+      id
+      approvedSymbol
+      proteinAnnotations {
+        functions
+      }
+    }
+    diseases {
+      id
+      name
+      description
+    }
+    drugs {
+      id
+      name
+    }
+  }
+}
