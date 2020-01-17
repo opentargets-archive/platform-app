@@ -3,8 +3,14 @@ query SearchPageQuery($queryString: String!) {
     targets {
       id
       approvedSymbol
+      approvedName
       proteinAnnotations {
         functions
+      }
+      associationsOnTheFly(page: { index: 0, size: 5 }) {
+        rows {
+          id
+        }
       }
     }
     diseases {

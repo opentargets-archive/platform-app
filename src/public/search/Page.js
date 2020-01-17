@@ -3,6 +3,9 @@ import Clampy from '@clampy-js/react-clampy';
 import { Query } from 'react-apollo';
 import { loader } from 'graphql.macro';
 import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -35,6 +38,40 @@ const DiseaseResult = ({ data }) => {
 
 const DrugResult = ({ data }) => {
   return <Link to={`drug/${data.id}`}>{data.name}</Link>;
+};
+
+const TargetDetail = ({ data }) => {
+  return (
+    <>
+      <CardHeader title={data.approvedSymbol} subheader={data.approvedName} />
+      <CardContent>
+        <Typography>{data.proteinAnnotations.functions[0]}</Typography>
+      </CardContent>
+    </>
+  );
+};
+
+const DiseaseDetail = ({ data }) => {
+  return 'Disease detail';
+};
+
+const DrugDetail = ({ data }) => {
+  return 'Drug detail';
+};
+
+const TopHitDetails = ({ data }) => {
+  const { __typename } = data;
+  return (
+    <Card elevation={0}>
+      {__typename === 'Target' ? (
+        <TargetDetail data={data} />
+      ) : __typename === 'Disease' ? (
+        <DiseaseDetail />
+      ) : (
+        <DrugDetail />
+      )}
+    </Card>
+  );
 };
 
 const SearchPage = ({ location }) => {
@@ -87,7 +124,7 @@ const SearchPage = ({ location }) => {
                 })}
               </Grid>
               <Grid item md={3}>
-                Top Hit
+                <TopHitDetails data={results[0]} />
               </Grid>
             </Grid>
           );
