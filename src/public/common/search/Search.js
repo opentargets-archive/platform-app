@@ -128,7 +128,7 @@ class Search extends Component {
         const { inputValue } = this.selectRef.current.state;
         history.push(`/search?q=${inputValue}`);
       } else if (data.entityType === 'topHit') {
-        history.push(`${data.__typename.toLowerCase()}/${data.id}`);
+        history.push(`/${data.__typename.toLowerCase()}/${data.id}`);
       } else {
         history.push(`/${data.entityType}/${data.id}`);
       }
