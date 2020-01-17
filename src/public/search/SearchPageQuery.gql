@@ -4,8 +4,11 @@ query SearchPageQuery($queryString: String!) {
       id
       approvedSymbol
       approvedName
+      bioType
       proteinAnnotations {
+        id
         functions
+        accessions
       }
       associationsOnTheFly(page: { index: 0, size: 5 }) {
         rows {

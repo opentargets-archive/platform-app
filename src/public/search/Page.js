@@ -41,11 +41,39 @@ const DrugResult = ({ data }) => {
 };
 
 const TargetDetail = ({ data }) => {
+  const {
+    approvedSymbol,
+    approvedName,
+    proteinAnnotations: { functions, accessions },
+    associationsOnTheFly: { rows },
+  } = data;
   return (
     <>
-      <CardHeader title={data.approvedSymbol} subheader={data.approvedName} />
+      <CardHeader title={approvedSymbol} subheader={approvedName} />
       <CardContent>
-        <Typography>{data.proteinAnnotations.functions[0]}</Typography>
+        <Typography>{functions[0]}</Typography>
+        <Typography variant="h6">Top associated diseases</Typography>
+        {rows.map(({ id }) => {
+          return (
+            <Link key={id} to={`/disease/${id}`}>
+              {id}
+            </Link>
+          );
+        })}
+        <Typography variant="h6">Biotype</Typography>
+        <Typography>{data.bioType}</Typography>
+        <Typography variant="h6">Uniprot accessions</Typography>
+        {accessions.map(accession => {
+          return (
+            <Link
+              key={accession}
+              external
+              to={`http://www.uniprot.org/uniprot/${accession}`}
+            >
+              {accession}
+            </Link>
+          );
+        })}
       </CardContent>
     </>
   );
