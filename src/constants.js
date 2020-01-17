@@ -84,3 +84,58 @@ export const externalLinks = {
     },
   ],
 };
+
+// Configuration for the main hamburger menu
+export const mainMenuItems = [
+  // About
+  {
+    name: 'Open Targets Platform',
+    url: '/about',
+    external: false,
+  },
+  {
+    name: 'Open Targets Consortium',
+    url: '//www.opentargets.org/',
+    external: true,
+  },
+  // Help
+  {
+    name: 'Documentation & FAQs',
+    url: 'https://docs.targetvalidation.org/',
+    external: true,
+  },
+  {
+    name: 'support@targetvalidation.org',
+    url:
+      'mailto:support@targetvalidation.org?Subject=Target%20Validation%20Platform%20-%20help%20request',
+    external: true,
+  },
+  {
+    name: 'Outreach and tutorials',
+    url: '/outreach',
+    external: false,
+  },
+  // API
+  {
+    name: 'API documentation',
+    url: 'https://docs.targetvalidation.org/programmatic-access/rest-api',
+    external: true,
+  },
+  {
+    name: 'Python client',
+    url: 'https://docs.targetvalidation.org/programmatic-access/python-client',
+    external: true,
+  },
+  // Downloads
+  {
+    name: 'Downloads',
+    url: '/downloads',
+    external: false,
+  },
+  // Blog
+  {
+    name: 'Blog',
+    url: '//blog.opentargets.org/',
+    external: true,
+  },
+];
