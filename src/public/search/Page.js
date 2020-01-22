@@ -55,9 +55,11 @@ const TargetDetail = ({ data }) => {
         <Typography variant="h6">Top associated diseases</Typography>
         {rows.map(({ id }) => {
           return (
-            <Link key={id} to={`/disease/${id}`}>
-              {id}
-            </Link>
+            <>
+              <Link key={id} to={`/disease/${id}`}>
+                {id}
+              </Link>{' '}
+            </>
           );
         })}
         <Typography variant="h6">Biotype</Typography>
