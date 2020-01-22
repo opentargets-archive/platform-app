@@ -1,5 +1,8 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import TargetIcon from '../../../icons/TargetIcon';
+import DiseaseIcon from '../../../icons/DiseaseIcon';
+import DrugIcon from '../../../icons/DrugIcon';
 
 const TargetOption = ({ data }) => {
   return (
@@ -25,7 +28,8 @@ const DrugOption = ({ data }) => {
 const TargetTopHit = ({ data }) => {
   return (
     <>
-      <Typography variant="h6" color="primary">
+      <Typography variant="h4" color="primary">
+        <TargetIcon />
         {data.approvedSymbol}
       </Typography>{' '}
       <Typography>{data.approvedName}</Typography>
@@ -39,7 +43,8 @@ const TargetTopHit = ({ data }) => {
 const DiseaseTopHit = ({ data }) => {
   return (
     <>
-      <Typography variant="h6" color="primary">
+      <Typography variant="h4" color="primary">
+        <DiseaseIcon />
         {data.name}
       </Typography>
       <Typography variant="caption" noWrap>
@@ -54,7 +59,8 @@ const DrugTopHit = ({ data }) => {
 
   return (
     <>
-      <Typography variant="h6" color="primary">
+      <Typography variant="h4" color="primary">
+        <DrugIcon />
         {data.name}
       </Typography>
       <Typography variant="caption" noWrap>
