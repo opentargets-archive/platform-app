@@ -96,10 +96,10 @@ class Search extends Component {
       if (data.entityType === 'search') {
         const { inputValue } = this.selectRef.current.state;
         history.push(`/search?q=${inputValue}`);
-      } else if (data.entityType === 'topHit') {
-        history.push(`/${data.__typename.toLowerCase()}/${data.id}`);
+      } else if (data.entity === 'topHit') {
+        history.push(`/${data.object.__typename.toLowerCase()}/${data.id}`);
       } else {
-        history.push(`/${data.entityType}/${data.id}`);
+        history.push(`/${data.entity}/${data.id}`);
       }
     }
   };
