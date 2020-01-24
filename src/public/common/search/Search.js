@@ -93,9 +93,8 @@ class Search extends Component {
     if (action === 'select-option') {
       const { history } = this.props;
 
-      if (data.entityType === 'search') {
-        const { inputValue } = this.selectRef.current.state;
-        history.push(`/search?q=${inputValue}`);
+      if (data.entity === 'search') {
+        history.push(`/search?q=${data.value}`);
       } else if (data.entity === 'topHit') {
         history.push(`/${data.object.__typename.toLowerCase()}/${data.id}`);
       } else {
