@@ -20,7 +20,7 @@ const groupOptions = (searchData, inputValue) => {
         {
           value: inputValue,
           label: inputValue,
-          entityType: 'search',
+          entity: 'search',
         },
       ],
     },
@@ -29,38 +29,23 @@ const groupOptions = (searchData, inputValue) => {
       options: searchData.topHit
         ? [
             {
-              ...searchData.topHit,
-              entityType: 'topHit',
+              ...searchData.topHit.top,
+              entity: 'topHit',
             },
           ]
         : [],
     },
     {
       label: 'Targets',
-      options: searchData.targets.map(target => {
-        return {
-          ...target,
-          entityType: 'target',
-        };
-      }),
+      options: searchData.targets.hits,
     },
     {
       label: 'Diseases',
-      options: searchData.diseases.map(disease => {
-        return {
-          ...disease,
-          entityType: 'disease',
-        };
-      }),
+      options: searchData.diseases.hits,
     },
     {
       label: 'Drugs (Generic Name)',
-      options: searchData.drugs.map(drug => {
-        return {
-          ...drug,
-          entityType: 'drug',
-        };
-      }),
+      options: searchData.drugs.hits,
     },
   ];
 };
@@ -97,9 +82,11 @@ class Search extends Component {
     return client2
       .query({
         query: SEARCH_QUERY,
-        variables: { queryString: inputValue, page: { index: 0, size: 9 } },
+        variables: { queryString: inputValue },
       })
-      .then(res => groupOptions(res.data.search, inputValue));
+      .then(res => {
+        return groupOptions(res.data, inputValue);
+      });
   };
 
   handleOnChange = (data, { action }) => {

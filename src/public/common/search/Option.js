@@ -93,16 +93,16 @@ const Option = props => {
         cursor: 'pointer',
       }}
     >
-      {data.entityType === 'search' ? (
+      {data.entity === 'search' ? (
         <Typography>{data.label}</Typography>
-      ) : data.entityType === 'topHit' ? (
-        <TopHit data={data} />
-      ) : data.entityType === 'target' ? (
-        <TargetOption data={data} />
-      ) : data.entityType === 'disease' ? (
-        <DiseaseOption data={data} />
+      ) : data.entity === 'topHit' ? (
+        <TopHit data={data.object} />
+      ) : data.entity === 'target' ? (
+        <TargetOption data={data.object} />
+      ) : data.entity === 'disease' ? (
+        <DiseaseOption data={data.object} />
       ) : (
-        <DrugOption data={data} />
+        <DrugOption data={data.object} />
       )}
     </div>
   );
