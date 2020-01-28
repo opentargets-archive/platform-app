@@ -1,29 +1,73 @@
-query SearchPageQuery($queryString: String!) {
-  search(queryString: $queryString, page: { index: 0, size: 10 }) {
-    targets {
+query SearchPageQuery(
+  $queryString: String!
+  $index: Int!
+  $entityNames: [String!]!
+) {
+  search(
+    queryString: $queryString
+    entityNames: $entityNames
+    page: { index: $index, size: 10 }
+  ) {
+    hits {
       id
-      approvedSymbol
-      approvedName
-      bioType
-      proteinAnnotations {
-        id
-        functions
-        accessions
-      }
-      associationsOnTheFly(page: { index: 0, size: 5 }) {
-        rows {
+      object {
+        ... on Target {
           id
+          approvedSymbol
+          proteinAnnotations {
+            functions
+          }
+        }
+
+        ... on Disease {
+          id
+          name
+          description
+        }
+
+        ... on Drug {
+          id
+          name
         }
       }
     }
-    diseases {
+    top {
       id
-      name
-      description
-    }
-    drugs {
-      id
-      name
+      object {
+        ... on Target {
+          id
+          approvedSymbol
+          approvedName
+          bioType
+          proteinAnnotations {
+            functions
+            accessions
+          }
+          associationsOnTheFly(page: { index: 0, size: 5 }) {
+            rows {
+              id
+            }
+          }
+        }
+        ... on Disease {
+          id
+          name
+          description
+          associationsOnTheFly(page: { index: 0, size: 5 }) {
+            rows {
+              id
+            }
+          }
+          therapeuticAreas {
+            id
+            name
+          }
+        }
+        ... on Drug {
+          id
+          name
+        }
+      }
     }
   }
 }

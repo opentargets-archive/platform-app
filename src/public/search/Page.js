@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import Clampy from '@clampy-js/react-clampy';
 import { Query } from 'react-apollo';
 import { loader } from 'graphql.macro';
@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TablePagination from '@material-ui/core/TablePagination';
 import { Link } from 'ot-ui';
 import BasePage from '../common/BasePage';
 import { client2 } from '../App';
@@ -37,7 +38,11 @@ const DiseaseResult = ({ data }) => {
 };
 
 const DrugResult = ({ data }) => {
-  return <Link to={`drug/${data.id}`}>{data.name}</Link>;
+  return (
+    <div>
+      <Link to={`drug/${data.id}`}>{data.name}</Link>
+    </div>
+  );
 };
 
 const TargetDetail = ({ data }) => {
@@ -45,6 +50,7 @@ const TargetDetail = ({ data }) => {
     approvedSymbol,
     approvedName,
     proteinAnnotations: { functions, accessions },
+    bioType,
     associationsOnTheFly: { rows },
   } = data;
   return (
@@ -55,15 +61,13 @@ const TargetDetail = ({ data }) => {
         <Typography variant="h6">Top associated diseases</Typography>
         {rows.map(({ id }) => {
           return (
-            <>
-              <Link key={id} to={`/disease/${id}`}>
-                {id}
-              </Link>{' '}
-            </>
+            <Fragment key={id}>
+              <Link to={`/disease/${id}`}>{id}</Link>{' '}
+            </Fragment>
           );
         })}
         <Typography variant="h6">Biotype</Typography>
-        <Typography>{data.bioType}</Typography>
+        <Typography>{bioType}</Typography>
         <Typography variant="h6">Uniprot accessions</Typography>
         {accessions.map(accession => {
           return (
@@ -82,7 +86,36 @@ const TargetDetail = ({ data }) => {
 };
 
 const DiseaseDetail = ({ data }) => {
-  return 'Disease detail';
+  const {
+    name,
+    description,
+    associationsOnTheFly: { rows },
+    therapeuticAreas,
+  } = data;
+  return (
+    <>
+      <CardHeader title={name} />
+      <CardContent>
+        <Typography>{description}</Typography>
+        <Typography variant="h6">Top associated targets</Typography>
+        {rows.map(({ id }) => {
+          return (
+            <Fragment key={id}>
+              <Link to={`/target/${id}`}>{id}</Link>{' '}
+            </Fragment>
+          );
+        })}
+        <Typography variant="h6">Therapeutic areas</Typography>
+        {therapeuticAreas.map(area => {
+          return (
+            <Link key={area.id} to={`/disease/${area.id}`}>
+              {area.name}
+            </Link>
+          );
+        })}
+      </CardContent>
+    </>
+  );
 };
 
 const DrugDetail = ({ data }) => {
@@ -96,70 +129,107 @@ const TopHitDetails = ({ data }) => {
       {__typename === 'Target' ? (
         <TargetDetail data={data} />
       ) : __typename === 'Disease' ? (
-        <DiseaseDetail />
+        <DiseaseDetail data={data} />
       ) : (
-        <DrugDetail />
+        <DrugDetail data={data} />
       )}
     </Card>
   );
 };
 
 const SearchPage = ({ location }) => {
+  const [index, setIndex] = useState(0);
+  const [entities, setEntities] = useState({
+    target: false,
+    disease: false,
+    drug: false,
+  });
   const searchParams = new URLSearchParams(location.search);
   const queryString = searchParams.get('q');
+
+  const changePage = (event, page) => {
+    setIndex(page);
+  };
+
+  const setEntity = entity => (event, checked) => {
+    setEntities({ ...entities, [entity]: checked });
+  };
+
+  const entityNames = Object.keys(entities).filter(entity => entities[entity]);
+
   return (
     <BasePage>
       <Typography variant="h5">
         Search results for {searchParams.get('q')}
       </Typography>
-      <Query
-        client={client2}
-        query={SEARCH_PAGE_QUERY}
-        variables={{ queryString }}
-      >
-        {({ loading, error, data }) => {
-          if (loading) {
-            return 'Loading...';
-          }
+      <Grid container>
+        <Grid item md={2}>
+          <Typography>Refine by:</Typography>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={entities.target}
+                  onChange={setEntity('target')}
+                />
+              }
+              label="Target"
+            />
+            <FormControlLabel
+              control={<Checkbox onChange={setEntity('disease')} />}
+              label="Disease"
+            />
+            <FormControlLabel
+              control={<Checkbox onChange={setEntity('drug')} />}
+              label="Drug"
+            />
+          </FormGroup>
+        </Grid>
+        <Query
+          client={client2}
+          query={SEARCH_PAGE_QUERY}
+          variables={{ queryString, index, entityNames }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) {
+              return 'Loading...';
+            }
 
-          if (error) {
-            return 'Error';
-          }
+            if (error) {
+              return 'Error';
+            }
 
-          const results = [
-            ...data.search.targets,
-            ...data.search.diseases,
-            ...data.search.drugs,
-          ];
+            const results = data.search.hits;
 
-          return (
-            <Grid container>
-              <Grid item md={2}>
-                <Typography>Refine by:</Typography>
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox />} label="Target" />
-                  <FormControlLabel control={<Checkbox />} label="Disease" />
-                  <FormControlLabel control={<Checkbox />} label="Drug" />
-                </FormGroup>
-              </Grid>
-              <Grid item md={7}>
-                {results.map(data => {
-                  return data.__typename === 'Target' ? (
-                    <TargetResult key={data.id} data={data} />
-                  ) : data.__typename === 'Disease' ? (
-                    <DiseaseResult key={data.id} data={data} />
-                  ) : (
-                    <DrugResult key={data.id} data={data} />
-                  );
-                })}
-              </Grid>
-              <Grid item md={3}>
-                <TopHitDetails data={results[0]} />
-              </Grid>
-            </Grid>
-          );
-        }}
-      </Query>
+            return (
+              <>
+                <Grid item md={7}>
+                  {results.map(({ object }) => {
+                    return object.__typename === 'Target' ? (
+                      <TargetResult key={object.id} data={object} />
+                    ) : object.__typename === 'Disease' ? (
+                      <DiseaseResult key={object.id} data={object} />
+                    ) : (
+                      <DrugResult key={object.id} data={object} />
+                    );
+                  })}
+                  <TablePagination
+                    component="div"
+                    rowsPerPageOptions={[]}
+                    rowsPerPage={10}
+                    count={100}
+                    page={index}
+                    onChangePage={changePage}
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <TopHitDetails data={data.search.top.object} />
+                </Grid>
+              </>
+            );
+          }}
+        </Query>
+      </Grid>
     </BasePage>
   );
 };
