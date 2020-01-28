@@ -108,9 +108,9 @@ const DiseaseDetail = ({ data }) => {
         <Typography variant="h6">Therapeutic areas</Typography>
         {therapeuticAreas.map(area => {
           return (
-            <Link key={area.id} to={`/disease/${area.id}`}>
-              {area.name}
-            </Link>
+            <Fragment key={area.id}>
+              <Link to={`/disease/${area.id}`}>{area.name}</Link>{' '}
+            </Fragment>
           );
         })}
       </CardContent>
@@ -217,7 +217,7 @@ const SearchPage = ({ location }) => {
                     component="div"
                     rowsPerPageOptions={[]}
                     rowsPerPage={10}
-                    count={100}
+                    count={data.search.aggregations.total}
                     page={index}
                     onChangePage={changePage}
                   />

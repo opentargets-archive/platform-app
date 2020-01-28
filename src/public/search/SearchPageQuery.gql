@@ -8,6 +8,9 @@ query SearchPageQuery(
     entityNames: $entityNames
     page: { index: $index, size: 10 }
   ) {
+    aggregations {
+      total
+    }
     hits {
       id
       object {
