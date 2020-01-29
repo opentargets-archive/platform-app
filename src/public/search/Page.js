@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import Clampy from '@clampy-js/react-clampy';
-import { Query } from 'react-apollo';
+import { Query, useQuery } from 'react-apollo';
 import { loader } from 'graphql.macro';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -16,6 +16,7 @@ import BasePage from '../common/BasePage';
 import { client2 } from '../App';
 
 const SEARCH_PAGE_QUERY = loader('./SearchPageQuery.gql');
+const TOP_HIT_QUERY = loader('./TopHitQuery.gql');
 
 const TargetResult = ({ data }) => {
   return (
@@ -185,25 +186,25 @@ const SearchPage = ({ location }) => {
             />
           </FormGroup>
         </Grid>
-        <Query
-          client={client2}
-          query={SEARCH_PAGE_QUERY}
-          variables={{ queryString, index, entityNames }}
-        >
-          {({ loading, error, data }) => {
-            if (loading) {
-              return 'Loading...';
-            }
+        <Grid item md={7}>
+          <Query
+            client={client2}
+            query={SEARCH_PAGE_QUERY}
+            variables={{ queryString, index, entityNames }}
+          >
+            {({ loading, error, data }) => {
+              if (loading) {
+                return 'Loading...';
+              }
 
-            if (error) {
-              return 'Error';
-            }
+              if (error) {
+                return 'Error';
+              }
 
-            const results = data.search.hits;
+              const results = data.search.hits;
 
-            return (
-              <>
-                <Grid item md={7}>
+              return (
+                <>
                   {results.map(({ object }) => {
                     return object.__typename === 'Target' ? (
                       <TargetResult key={object.id} data={object} />
@@ -221,14 +222,30 @@ const SearchPage = ({ location }) => {
                     page={index}
                     onChangePage={changePage}
                   />
-                </Grid>
-                <Grid item md={3}>
-                  <TopHitDetails data={data.search.top.object} />
-                </Grid>
-              </>
-            );
-          }}
-        </Query>
+                </>
+              );
+            }}
+          </Query>
+        </Grid>
+        <Grid item md={3}>
+          <Query
+            client={client2}
+            query={TOP_HIT_QUERY}
+            variables={{ queryString }}
+          >
+            {({ loading, error, data }) => {
+              if (loading) {
+                return 'Loading...';
+              }
+
+              if (error) {
+                return 'Error...';
+              }
+
+              return <TopHitDetails data={data.search.hits[0].object} />;
+            }}
+          </Query>
+        </Grid>
       </Grid>
     </BasePage>
   );

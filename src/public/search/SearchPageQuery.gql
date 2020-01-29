@@ -34,43 +34,5 @@ query SearchPageQuery(
         }
       }
     }
-    top {
-      id
-      object {
-        ... on Target {
-          id
-          approvedSymbol
-          approvedName
-          bioType
-          proteinAnnotations {
-            functions
-            accessions
-          }
-          associationsOnTheFly(page: { index: 0, size: 5 }) {
-            rows {
-              id
-            }
-          }
-        }
-        ... on Disease {
-          id
-          name
-          description
-          associationsOnTheFly(page: { index: 0, size: 5 }) {
-            rows {
-              id
-            }
-          }
-          therapeuticAreas {
-            id
-            name
-          }
-        }
-        ... on Drug {
-          id
-          name
-        }
-      }
-    }
   }
 }
