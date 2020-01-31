@@ -4,7 +4,7 @@ query SearchQuery($queryString: String!) {
     entityNames: ["target", "disease", "drug"]
     page: { index: 0, size: 1 }
   ) {
-    top {
+    hits {
       id
       object {
         ... on Target {

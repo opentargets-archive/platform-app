@@ -29,7 +29,7 @@ const groupOptions = (searchData, inputValue) => {
       options: searchData.topHit
         ? [
             {
-              ...searchData.topHit.top,
+              ...searchData.topHit.hits[0],
               entity: 'topHit',
             },
           ]
