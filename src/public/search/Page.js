@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import Clampy from '@clampy-js/react-clampy';
-import { Query, useQuery } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { loader } from 'graphql.macro';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -231,7 +231,7 @@ const SearchPage = ({ location }) => {
           <Query
             client={client2}
             query={TOP_HIT_QUERY}
-            variables={{ queryString }}
+            variables={{ queryString, entityNames }}
           >
             {({ loading, error, data }) => {
               if (loading) {

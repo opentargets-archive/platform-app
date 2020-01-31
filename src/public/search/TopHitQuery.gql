@@ -1,5 +1,9 @@
-query TopHit($queryString: String!) {
-  search(queryString: $queryString, page: { index: 0, size: 1 }) {
+query TopHit($queryString: String!, $entityNames: [String!]!) {
+  search(
+    queryString: $queryString
+    entityNames: $entityNames
+    page: { index: 0, size: 1 }
+  ) {
     hits {
       id
       object {
