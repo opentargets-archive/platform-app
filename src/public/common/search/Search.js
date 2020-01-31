@@ -72,13 +72,7 @@ const components = {
 };
 
 class Search extends Component {
-  selectRef = React.createRef();
-
   loadOptions = inputValue => {
-    if (inputValue.length < 3) {
-      return;
-    }
-
     return client2
       .query({
         query: SEARCH_QUERY,
@@ -106,7 +100,6 @@ class Search extends Component {
   render() {
     return (
       <AsyncSelect
-        ref={this.selectRef}
         cacheOptions
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}

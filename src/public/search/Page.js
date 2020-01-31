@@ -242,7 +242,9 @@ const SearchPage = ({ location }) => {
                 return 'Error...';
               }
 
-              return <TopHitDetails data={data.search.hits[0].object} />;
+              return data.search.hits.length > 0 ? (
+                <TopHitDetails data={data.search.hits[0].object} />
+              ) : null;
             }}
           </Query>
         </Grid>
