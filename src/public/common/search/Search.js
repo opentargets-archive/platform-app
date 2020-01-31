@@ -26,7 +26,7 @@ const groupOptions = (searchData, inputValue) => {
     },
     {
       label: 'Top Hit',
-      options: searchData.topHit
+      options: searchData.topHit.hits[0]
         ? [
             {
               ...searchData.topHit.hits[0],
