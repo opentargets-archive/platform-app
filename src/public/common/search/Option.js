@@ -94,7 +94,7 @@ const Option = props => {
       }}
     >
       {data.entity === 'search' ? (
-        <Typography>{data.label}</Typography>
+        <Typography>Search for: {data.value}</Typography>
       ) : data.entity === 'topHit' ? (
         <TopHit data={data.object} />
       ) : data.entity === 'target' ? (

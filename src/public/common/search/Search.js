@@ -15,14 +15,8 @@ const SEARCH_QUERY = loader('./SearchQuery.gql');
 const groupOptions = (searchData, inputValue) => {
   return [
     {
-      label: 'Search Term',
-      options: [
-        {
-          value: inputValue,
-          label: inputValue,
-          entity: 'search',
-        },
-      ],
+      value: inputValue,
+      entity: 'search',
     },
     {
       label: 'Top Hit',
