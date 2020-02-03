@@ -39,6 +39,28 @@ query TopHit($queryString: String!, $entityNames: [String!]!) {
         ... on Drug {
           id
           name
+          drugType
+          maximumClinicalTrialPhase
+          hasBeenWithdrawn
+          withdrawnNotice {
+            classes
+            countries
+            reasons
+            year
+          }
+          linkedDiseases {
+            count
+            rows
+          }
+          linkedTargets {
+            count
+            rows {
+              id
+              approvedSymbol
+            }
+          }
+          synonyms
+          tradeNames
         }
       }
     }
