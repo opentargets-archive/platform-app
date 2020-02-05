@@ -15,6 +15,7 @@ import { Link } from 'ot-ui';
 import BasePage from '../common/BasePage';
 import { client2 } from '../App';
 
+const AGGS_QUERY = loader('./SearchPageAggsQuery.gql');
 const SEARCH_PAGE_QUERY = loader('./SearchPageQuery.gql');
 const TOP_HIT_QUERY = loader('./TopHitQuery.gql');
 
@@ -199,23 +200,63 @@ const SearchPage = ({ location }) => {
         <Grid item md={2}>
           <Typography>Refine by:</Typography>
           <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={entities.target}
-                  onChange={setEntity('target')}
-                />
-              }
-              label="Target"
-            />
-            <FormControlLabel
-              control={<Checkbox onChange={setEntity('disease')} />}
-              label="Disease"
-            />
-            <FormControlLabel
-              control={<Checkbox onChange={setEntity('drug')} />}
-              label="Drug"
-            />
+            <Query
+              client={client2}
+              query={AGGS_QUERY}
+              variables={{ queryString }}
+            >
+              {({ loading, error, data }) => {
+                if (loading) {
+                  return 'Loading...';
+                }
+
+                if (error) {
+                  return 'Error...';
+                }
+
+                const targetCount = data.search.aggregations.entities.find(
+                  entity => entity.name === 'target'
+                ).total;
+                const diseaseCount = data.search.aggregations.entities.find(
+                  entity => entity.name === 'disease'
+                ).total;
+                const drugCount = data.search.aggregations.entities.find(
+                  entity => entity.name === 'drug'
+                ).total;
+
+                return (
+                  <>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={entities.target}
+                          onChange={setEntity('target')}
+                        />
+                      }
+                      label={`Target (${targetCount})`}
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={entities.disease}
+                          onChange={setEntity('disease')}
+                        />
+                      }
+                      label={`Disease (${diseaseCount})`}
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={entities.drug}
+                          onChange={setEntity('drug')}
+                        />
+                      }
+                      label={`Drug (${drugCount})`}
+                    />
+                  </>
+                );
+              }}
+            </Query>
           </FormGroup>
         </Grid>
         <Grid item md={7}>
@@ -250,7 +291,7 @@ const SearchPage = ({ location }) => {
                     component="div"
                     rowsPerPageOptions={[]}
                     rowsPerPage={10}
-                    count={data.search.aggregations.total}
+                    count={data.search.total}
                     page={index}
                     onChangePage={changePage}
                   />
