@@ -1,7 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import Clampy from '@clampy-js/react-clampy';
 import { Query } from 'react-apollo';
 import { loader } from 'graphql.macro';
+import queryString from 'query-string';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -18,6 +19,11 @@ import { client2 } from '../App';
 const AGGS_QUERY = loader('./SearchPageAggsQuery.gql');
 const SEARCH_PAGE_QUERY = loader('./SearchPageQuery.gql');
 const TOP_HIT_QUERY = loader('./TopHitQuery.gql');
+const QS_OPTIONS = {
+  sort: false,
+  arrayFormat: 'comma',
+  skipNull: true,
+};
 
 const TargetResult = ({ data }) => {
   return (
@@ -171,31 +177,43 @@ const TopHitDetails = ({ data }) => {
   );
 };
 
-const SearchPage = ({ location }) => {
-  const [index, setIndex] = useState(0);
-  const [entities, setEntities] = useState({
-    target: false,
-    disease: false,
-    drug: false,
-  });
-  const searchParams = new URLSearchParams(location.search);
-  const queryString = searchParams.get('q');
+const parseQueryString = qs => {
+  const params = queryString.parse(qs, QS_OPTIONS);
+  if (!params.entities) {
+    params.entities = [];
+  } else if (typeof params.entities === 'string') {
+    params.entities = [params.entities];
+  }
+  return params;
+};
+
+const SearchPage = ({ location, history }) => {
+  const searchParams = parseQueryString(location.search);
+  const { q, page, entities } = searchParams;
 
   const changePage = (event, page) => {
-    setIndex(page);
+    const newSearchParams = { ...searchParams, page: page + 1 };
+    const qs = queryString.stringify(newSearchParams, QS_OPTIONS);
+    history.push(`/search?${qs}`);
   };
 
   const setEntity = entity => (event, checked) => {
-    setEntities({ ...entities, [entity]: checked });
-  };
+    const newSearchParams = { ...searchParams, page: 1 };
+    if (checked) {
+      newSearchParams.entities = [...newSearchParams.entities, entity];
+    } else {
+      newSearchParams.entities = newSearchParams.entities.filter(
+        e => e !== entity
+      );
+    }
 
-  const entityNames = Object.keys(entities).filter(entity => entities[entity]);
+    const qs = queryString.stringify(newSearchParams, QS_OPTIONS);
+    history.push(`/search?${qs}`);
+  };
 
   return (
     <BasePage>
-      <Typography variant="h5">
-        Search results for {searchParams.get('q')}
-      </Typography>
+      <Typography variant="h5">Search results for {q}</Typography>
       <Grid container>
         <Grid item md={2}>
           <Typography>Refine by:</Typography>
@@ -203,7 +221,7 @@ const SearchPage = ({ location }) => {
             <Query
               client={client2}
               query={AGGS_QUERY}
-              variables={{ queryString }}
+              variables={{ queryString: q }}
             >
               {({ loading, error, data }) => {
                 if (loading) {
@@ -229,7 +247,7 @@ const SearchPage = ({ location }) => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={entities.target}
+                          checked={entities.includes('target')}
                           onChange={setEntity('target')}
                         />
                       }
@@ -238,7 +256,7 @@ const SearchPage = ({ location }) => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={entities.disease}
+                          checked={entities.includes('disease')}
                           onChange={setEntity('disease')}
                         />
                       }
@@ -247,7 +265,7 @@ const SearchPage = ({ location }) => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={entities.drug}
+                          checked={entities.includes('drug')}
                           onChange={setEntity('drug')}
                         />
                       }
@@ -263,7 +281,11 @@ const SearchPage = ({ location }) => {
           <Query
             client={client2}
             query={SEARCH_PAGE_QUERY}
-            variables={{ queryString, index, entityNames }}
+            variables={{
+              queryString: q,
+              index: page - 1,
+              entityNames: entities,
+            }}
           >
             {({ loading, error, data }) => {
               if (loading) {
@@ -292,7 +314,7 @@ const SearchPage = ({ location }) => {
                     rowsPerPageOptions={[]}
                     rowsPerPage={10}
                     count={data.search.total}
-                    page={index}
+                    page={page - 1}
                     onChangePage={changePage}
                   />
                 </>
@@ -304,7 +326,7 @@ const SearchPage = ({ location }) => {
           <Query
             client={client2}
             query={TOP_HIT_QUERY}
-            variables={{ queryString, entityNames }}
+            variables={{ queryString: q, entityNames: entities }}
           >
             {({ loading, error, data }) => {
               if (loading) {

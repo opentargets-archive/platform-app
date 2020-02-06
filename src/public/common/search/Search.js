@@ -82,7 +82,7 @@ class Search extends Component {
       const { history } = this.props;
 
       if (data.entity === 'search') {
-        history.push(`/search?q=${data.value}`);
+        history.push(`/search?q=${data.value}&page=1`);
       } else if (data.entity === 'topHit') {
         history.push(`/${data.object.__typename.toLowerCase()}/${data.id}`);
       } else {
