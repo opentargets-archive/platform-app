@@ -188,26 +188,23 @@ const parseQueryString = qs => {
 };
 
 const SearchPage = ({ location, history }) => {
-  const searchParams = parseQueryString(location.search);
-  const { q, page, entities } = searchParams;
+  const { q, page, entities } = parseQueryString(location.search);
 
   const changePage = (event, page) => {
-    const newSearchParams = { ...searchParams, page: page + 1 };
-    const qs = queryString.stringify(newSearchParams, QS_OPTIONS);
+    const params = { q, page: page + 1, entities };
+    const qs = queryString.stringify(params, QS_OPTIONS);
     history.push(`/search?${qs}`);
   };
 
   const setEntity = entity => (event, checked) => {
-    const newSearchParams = { ...searchParams, page: 1 };
-    if (checked) {
-      newSearchParams.entities = [...newSearchParams.entities, entity];
-    } else {
-      newSearchParams.entities = newSearchParams.entities.filter(
-        e => e !== entity
-      );
-    }
-
-    const qs = queryString.stringify(newSearchParams, QS_OPTIONS);
+    const params = {
+      q,
+      page: 1, // reset to page 1
+      entities: checked
+        ? [...entities, entity]
+        : entities.filter(e => e !== entity),
+    };
+    const qs = queryString.stringify(params, QS_OPTIONS);
     history.push(`/search?${qs}`);
   };
 
