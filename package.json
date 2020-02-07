@@ -41,6 +41,7 @@
     "ot-ui": "^0.0.99",
     "polished": "^2.3.0",
     "protvista-uniprot": "^2.0.15",
+    "query-string": "^6.10.1",
     "react": "^16.8.6",
     "react-apollo": "^2.2.4",
     "react-app-polyfill": "^1.0.1",

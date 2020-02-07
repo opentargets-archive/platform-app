@@ -1,42 +1,86 @@
-query SearchQuery($queryString: String!, $page: Pagination) {
-  search(queryString: $queryString, page: $page) {
-    topHit {
-      __typename
-      ... on Target {
-        id
-        approvedSymbol
-        approvedName
-        proteinAnnotations {
-          functions
+query SearchQuery($queryString: String!) {
+  topHit: search(
+    queryString: $queryString
+    entityNames: ["target", "disease", "drug"]
+    page: { index: 0, size: 1 }
+  ) {
+    hits {
+      id
+      object {
+        ... on Target {
+          id
+          approvedSymbol
+          approvedName
+          proteinAnnotations {
+            functions
+          }
         }
-      }
-      ... on Drug {
-        id
-        name
-        mechanismsOfAction {
-          rows {
-            mechanismOfAction
+
+        ... on Disease {
+          id
+          name
+          description
+        }
+
+        ... on Drug {
+          id
+          name
+          mechanismsOfAction {
+            rows {
+              mechanismOfAction
+            }
           }
         }
       }
-      ... on Disease {
-        id
-        name
-        description
+    }
+  }
+  targets: search(
+    queryString: $queryString
+    entityNames: ["target"]
+    page: { index: 0, size: 3 }
+  ) {
+    hits {
+      id
+      entity
+      object {
+        ... on Target {
+          id
+          approvedSymbol
+          approvedName
+        }
       }
     }
-    targets {
+  }
+  diseases: search(
+    queryString: $queryString
+    entityNames: ["disease"]
+    page: { index: 0, size: 3 }
+  ) {
+    hits {
       id
-      approvedSymbol
-      approvedName
+      entity
+      object {
+        ... on Disease {
+          id
+          name
+        }
+      }
     }
-    diseases {
+  }
+  drugs: search(
+    queryString: $queryString
+    entityNames: ["drug"]
+    page: { index: 0, size: 3 }
+  ) {
+    hits {
       id
-      name
-    }
-    drugs {
-      id
-      name
+      entity
+      object {
+        ... on Drug {
+          id
+          name
+        }
+      }
     }
   }
 }

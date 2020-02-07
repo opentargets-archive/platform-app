@@ -1,0 +1,36 @@
+query SearchPageQuery(
+  $queryString: String!
+  $index: Int!
+  $entityNames: [String!]!
+) {
+  search(
+    queryString: $queryString
+    entityNames: $entityNames
+    page: { index: $index, size: 10 }
+  ) {
+    total
+    hits {
+      id
+      object {
+        ... on Target {
+          id
+          approvedSymbol
+          proteinAnnotations {
+            functions
+          }
+        }
+
+        ... on Disease {
+          id
+          name
+          description
+        }
+
+        ... on Drug {
+          id
+          name
+        }
+      }
+    }
+  }
+}
