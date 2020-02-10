@@ -14,6 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import { Link } from 'ot-ui';
 import BasePage from '../common/BasePage';
+import LongText from '../common/LongText';
 import { client2 } from '../App';
 
 const AGGS_QUERY = loader('./SearchPageAggsQuery.gql');
@@ -65,7 +66,7 @@ const TargetDetail = ({ data }) => {
     <>
       <CardHeader title={approvedSymbol} subheader={approvedName} />
       <CardContent>
-        <Typography>{functions[0]}</Typography>
+        <LongText lineLimit="4">{functions[0]}</LongText>
         <Typography variant="h6">Top associated diseases</Typography>
         {rows.map(({ id }) => {
           return (
@@ -104,7 +105,7 @@ const DiseaseDetail = ({ data }) => {
     <>
       <CardHeader title={name} />
       <CardContent>
-        <Typography>{description}</Typography>
+        <LongText lineLimit="4">{description}</LongText>
         <Typography variant="h6">Top associated targets</Typography>
         {rows.map(({ id }) => {
           return (
