@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { Link, OtTableRF, DataDownloader } from 'ot-ui';
+import { OtTableRF, DataDownloader } from 'ot-ui';
 
 const styles = theme => ({
   levelBarContainer: {

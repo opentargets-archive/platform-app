@@ -1,0 +1,10 @@
+query SearchPageAggsQuery($queryString: String!) {
+  search(queryString: $queryString) {
+    aggregations {
+      entities {
+        name
+        total
+      }
+    }
+  }
+}

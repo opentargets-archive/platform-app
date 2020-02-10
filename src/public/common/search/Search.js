@@ -1,84 +1,45 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { ApolloClient } from 'apollo-client';
-import {
-  InMemoryCache,
-  IntrospectionFragmentMatcher,
-} from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
 import { loader } from 'graphql.macro';
 import AsyncSelect from 'react-select/lib/Async';
-
-import introspectionQueryResultData from './fragmentTypes.json';
 import Control from './Control';
 import Placeholder from './Placeholder';
 import DropdownIndicator from './DropdownIndicator';
 import GroupHeading from './GroupHeading';
 import Option from './Option';
 import ValueContainer from './ValueContainer';
+import { client2 } from '../../App.js';
 
 const SEARCH_QUERY = loader('./SearchQuery.gql');
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData,
-});
-
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
-  }),
-  cache: new InMemoryCache({ fragmentMatcher }),
-});
 
 const groupOptions = (searchData, inputValue) => {
   return [
     {
-      label: 'Search Term',
-      options: [
-        {
-          value: inputValue,
-          label: inputValue,
-          entityType: 'search',
-        },
-      ],
+      value: inputValue,
+      entity: 'search',
     },
     {
       label: 'Top Hit',
-      options: searchData.topHit
+      options: searchData.topHit.hits[0]
         ? [
             {
-              ...searchData.topHit,
-              entityType: 'topHit',
+              ...searchData.topHit.hits[0],
+              entity: 'topHit',
             },
           ]
         : [],
     },
     {
       label: 'Targets',
-      options: searchData.targets.map(target => {
-        return {
-          ...target,
-          entityType: 'target',
-        };
-      }),
+      options: searchData.targets.hits,
     },
     {
       label: 'Diseases',
-      options: searchData.diseases.map(disease => {
-        return {
-          ...disease,
-          entityType: 'disease',
-        };
-      }),
+      options: searchData.diseases.hits,
     },
     {
       label: 'Drugs (Generic Name)',
-      options: searchData.drugs.map(drug => {
-        return {
-          ...drug,
-          entityType: 'drug',
-        };
-      }),
+      options: searchData.drugs.hits,
     },
   ];
 };
@@ -105,32 +66,27 @@ const components = {
 };
 
 class Search extends Component {
-  selectRef = React.createRef();
-
   loadOptions = inputValue => {
-    if (inputValue.length < 3) {
-      return;
-    }
-
-    return client
+    return client2
       .query({
         query: SEARCH_QUERY,
-        variables: { queryString: inputValue, page: { index: 0, size: 9 } },
+        variables: { queryString: inputValue },
       })
-      .then(res => groupOptions(res.data.search, inputValue));
+      .then(res => {
+        return groupOptions(res.data, inputValue);
+      });
   };
 
   handleOnChange = (data, { action }) => {
     if (action === 'select-option') {
       const { history } = this.props;
 
-      if (data.entityType === 'search') {
-        const { inputValue } = this.selectRef.current.state;
-        history.push(`/search?q=${inputValue}`);
-      } else if (data.entityType === 'topHit') {
-        history.push(`${data.__typename.toLowerCase()}/${data.id}`);
+      if (data.entity === 'search') {
+        history.push(`/search?q=${data.value}&page=1`);
+      } else if (data.entity === 'topHit') {
+        history.push(`/${data.object.__typename.toLowerCase()}/${data.id}`);
       } else {
-        history.push(`/${data.entityType}/${data.id}`);
+        history.push(`/${data.entity}/${data.id}`);
       }
     }
   };
@@ -138,7 +94,6 @@ class Search extends Component {
   render() {
     return (
       <AsyncSelect
-        ref={this.selectRef}
         cacheOptions
         loadOptions={this.loadOptions}
         onChange={this.handleOnChange}
