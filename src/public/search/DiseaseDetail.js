@@ -1,10 +1,21 @@
 import React, { Fragment } from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
 import LongText from '../common/LongText';
+import DiseaseIcon from '../../icons/DiseaseIcon';
 
-const DiseaseDetail = ({ data }) => {
+const styles = () => ({
+  subtitle: {
+    fontWeight: 500,
+  },
+  icon: {
+    verticalAlign: 'bottom',
+  },
+});
+
+const DiseaseDetail = ({ classes, data }) => {
   const {
     name,
     description,
@@ -13,9 +24,16 @@ const DiseaseDetail = ({ data }) => {
   } = data;
   return (
     <CardContent>
-      <Typography>{name}</Typography>
+      <Typography color="primary" variant="h5">
+        {name}
+      </Typography>
+      <Typography color="primary">
+        <DiseaseIcon className={classes.icon} /> Disease
+      </Typography>
       <LongText lineLimit="4">{description}</LongText>
-      <Typography variant="h6">Top associated targets</Typography>
+      <Typography className={classes.subtitle} variant="subtitle1">
+        Top associated targets
+      </Typography>
       {rows.map(({ id }) => {
         return (
           <Fragment key={id}>
@@ -23,7 +41,9 @@ const DiseaseDetail = ({ data }) => {
           </Fragment>
         );
       })}
-      <Typography variant="h6">Therapeutic areas</Typography>
+      <Typography className={classes.subtitle} variant="subtitle1">
+        Therapeutic areas
+      </Typography>
       {therapeuticAreas.map(area => {
         return (
           <Fragment key={area.id}>
@@ -35,4 +55,4 @@ const DiseaseDetail = ({ data }) => {
   );
 };
 
-export default DiseaseDetail;
+export default withStyles(styles)(DiseaseDetail);

@@ -54,13 +54,11 @@ const TargetDetail = ({ classes, data }) => {
         </Typography>
         {accessions.map(accession => {
           return (
-            <Link
-              key={accession}
-              external
-              to={`http://www.uniprot.org/uniprot/${accession}`}
-            >
-              {accession}
-            </Link>
+            <Fragment key={accession}>
+              <Link external to={`http://www.uniprot.org/uniprot/${accession}`}>
+                {accession}
+              </Link>{' '}
+            </Fragment>
           );
         })}
       </CardContent>
