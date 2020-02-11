@@ -1,5 +1,4 @@
 import React from 'react';
-import Clampy from '@clampy-js/react-clampy';
 import { Query } from 'react-apollo';
 import { loader } from 'graphql.macro';
 import queryString from 'query-string';
@@ -10,12 +9,14 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TablePagination from '@material-ui/core/TablePagination';
-import { Link } from 'ot-ui';
 import BasePage from '../common/BasePage';
 import { client2 } from '../App';
 import TargetDetail from './TargetDetail';
 import DiseaseDetail from './DiseaseDetail';
 import DrugDetail from './DrugDetail';
+import TargetResult from './TargetResult';
+import DiseaseResult from './DiseaseResult';
+import DrugResult from './DrugResult';
 
 const AGGS_QUERY = loader('./SearchPageAggsQuery.gql');
 const SEARCH_PAGE_QUERY = loader('./SearchPageQuery.gql');
@@ -26,49 +27,6 @@ const QS_OPTIONS = {
   skipNull: true,
 };
 
-const TargetResult = ({ data }) => {
-  return (
-    <>
-      <Link to={`/target/${data.id}`}>{data.approvedSymbol}</Link>
-      <Typography component="div">
-        <Clampy clampSize="4">{data.proteinAnnotations.functions[0]}</Clampy>
-      </Typography>
-    </>
-  );
-};
-
-const DiseaseResult = ({ data }) => {
-  return (
-    <>
-      <Link to={`/disease/${data.id}`}>{data.name}</Link>
-      <Typography>{data.description}</Typography>
-    </>
-  );
-};
-
-const DrugResult = ({ data }) => {
-  return (
-    <div>
-      <Link to={`drug/${data.id}`}>{data.name}</Link>
-    </div>
-  );
-};
-
-const TopHitDetails = ({ data }) => {
-  const { __typename } = data;
-  return (
-    <Card elevation={0}>
-      {__typename === 'Target' ? (
-        <TargetDetail data={data} />
-      ) : __typename === 'Disease' ? (
-        <DiseaseDetail data={data} />
-      ) : (
-        <DrugDetail data={data} />
-      )}
-    </Card>
-  );
-};
-
 const parseQueryString = qs => {
   const params = queryString.parse(qs, QS_OPTIONS);
   if (!params.entities) {
@@ -77,6 +35,20 @@ const parseQueryString = qs => {
     params.entities = [params.entities];
   }
   return params;
+};
+
+const getCounts = entities => {
+  const counts = {
+    target: 0,
+    disease: 0,
+    drug: 0,
+  };
+
+  entities.forEach(entity => {
+    counts[entity.name] = entity.total;
+  });
+
+  return counts;
 };
 
 const SearchPage = ({ location, history }) => {
@@ -121,22 +93,7 @@ const SearchPage = ({ location, history }) => {
                   return 'Error...';
                 }
 
-                const targetAggregation = data.search.aggregations.entities.find(
-                  entity => entity.name === 'target'
-                );
-                const targetCount = targetAggregation
-                  ? targetAggregation.total
-                  : 0;
-                const diseaseAggregation = data.search.aggregations.entities.find(
-                  entity => entity.name === 'disease'
-                );
-                const diseaseCount = diseaseAggregation
-                  ? diseaseAggregation.total
-                  : 0;
-                const drugAggregation = data.search.aggregations.entities.find(
-                  entity => entity.name === 'drug'
-                );
-                const drugCount = drugAggregation ? drugAggregation.total : 0;
+                const counts = getCounts(data.search.aggregations.entities);
 
                 return (
                   <>
@@ -147,7 +104,7 @@ const SearchPage = ({ location, history }) => {
                           onChange={setEntity('target')}
                         />
                       }
-                      label={`Target (${targetCount})`}
+                      label={`Target (${counts.target})`}
                     />
                     <FormControlLabel
                       control={
@@ -156,7 +113,7 @@ const SearchPage = ({ location, history }) => {
                           onChange={setEntity('disease')}
                         />
                       }
-                      label={`Disease (${diseaseCount})`}
+                      label={`Disease (${counts.disease})`}
                     />
                     <FormControlLabel
                       control={
@@ -165,7 +122,7 @@ const SearchPage = ({ location, history }) => {
                           onChange={setEntity('drug')}
                         />
                       }
-                      label={`Drug (${drugCount})`}
+                      label={`Drug (${counts.drug})`}
                     />
                   </>
                 );
@@ -233,8 +190,19 @@ const SearchPage = ({ location, history }) => {
                 return 'Error...';
               }
 
-              return data.search.hits.length > 0 ? (
-                <TopHitDetails data={data.search.hits[0].object} />
+              const topHit =
+                data.search.hits.length > 0 ? data.search.hits[0].object : null;
+
+              return topHit ? (
+                <Card elevation={0}>
+                  {topHit.__typename === 'Target' ? (
+                    <TargetDetail data={topHit} />
+                  ) : topHit.__typename === 'Disease' ? (
+                    <DiseaseDetail data={topHit} />
+                  ) : topHit.__typename === 'Drug' ? (
+                    <DrugDetail data={topHit} />
+                  ) : null}
+                </Card>
               ) : null;
             }}
           </Query>
