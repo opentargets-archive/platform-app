@@ -6,7 +6,7 @@ import { Link } from 'ot-ui';
 import LongText from '../common/LongText';
 import TargetIcon from '../../icons/TargetIcon';
 
-const styles = theme => ({
+const styles = () => ({
   subtitle: {
     fontWeight: 500,
   },

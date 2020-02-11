@@ -17,8 +17,6 @@ import TargetDetail from './TargetDetail';
 import DiseaseDetail from './DiseaseDetail';
 import DrugDetail from './DrugDetail';
 
-console.log('DiseaseDetail', DiseaseDetail);
-
 const AGGS_QUERY = loader('./SearchPageAggsQuery.gql');
 const SEARCH_PAGE_QUERY = loader('./SearchPageQuery.gql');
 const TOP_HIT_QUERY = loader('./TopHitQuery.gql');
