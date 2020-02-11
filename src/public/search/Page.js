@@ -121,15 +121,22 @@ const SearchPage = ({ location, history }) => {
                   return 'Error...';
                 }
 
-                const targetCount = data.search.aggregations.entities.find(
+                const targetAggregation = data.search.aggregations.entities.find(
                   entity => entity.name === 'target'
-                ).total;
-                const diseaseCount = data.search.aggregations.entities.find(
+                );
+                const targetCount = targetAggregation
+                  ? targetAggregation.total
+                  : 0;
+                const diseaseAggregation = data.search.aggregations.entities.find(
                   entity => entity.name === 'disease'
-                ).total;
-                const drugCount = data.search.aggregations.entities.find(
+                );
+                const diseaseCount = diseaseAggregation
+                  ? diseaseAggregation.total
+                  : 0;
+                const drugAggregation = data.search.aggregations.entities.find(
                   entity => entity.name === 'drug'
-                ).total;
+                );
+                const drugCount = drugAggregation ? drugAggregation.total : 0;
 
                 return (
                   <>
