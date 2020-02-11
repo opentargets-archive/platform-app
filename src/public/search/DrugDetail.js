@@ -1,34 +1,65 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
+import { Link } from 'ot-ui';
 
-const DrugDetail = ({ data }) => {
+const styles = () => ({
+  subtitle: {
+    fontWeight: 500,
+  },
+  icon: {
+    verticalAlign: 'bottom',
+  },
+});
+
+const DrugDetail = ({ classes, data }) => {
   return (
     <CardContent>
-      <Typography>{data.name}</Typography>
-      <Typography variant="h6">Drug Type</Typography>
+      <Typography color="primary" variant="h5">
+        {data.name}
+      </Typography>
+      <Typography className={classes.subtitle} variant="subtitle1">
+        Drug Type
+      </Typography>
       <Typography>{data.drugType}</Typography>
-      <Typography variant="h6">Maximum Clinical Trial Phase</Typography>
+      <Typography className={classes.subtitle} variant="subtitle1">
+        Maximum Clinical Trial Phase
+      </Typography>
       <Typography>{data.maximumClinicalTrialPhase}</Typography>
       {data.hasBeenWithdrawn && (
         <>
-          <Typography variant="h6">Withdrawn message</Typography>
+          <Typography variant="subtitle1">Withdrawn message</Typography>
           <Typography>{data.withdrawnNotice.year}</Typography>
         </>
       )}
-      <Typography variant="h6">Indications</Typography>
+      <Typography className={classes.subtitle} variant="subtitle1">
+        Indications
+      </Typography>
       {data.linkedDiseases.rows.map(disease => (
-        <span key={disease}>{disease}</span>
+        <Fragment key={disease}>
+          <Link to={`/disease/${disease}`}>{disease}</Link>{' '}
+        </Fragment>
       ))}
-      <Typography variant="h6">Drug targets</Typography>
+      <Typography className={classes.subtitle} variant="subtitle1">
+        Drug targets
+      </Typography>
       {data.linkedTargets.rows.map(target => (
-        <span key={target.id}>{target.approvedSymbol}</span>
+        <Fragment key={target.id}>
+          <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>{' '}
+        </Fragment>
       ))}
-      <Typography variant="h6">Synonyms</Typography>
+      <Typography className={classes.subtitle} variant="subtitle1">
+        Synonyms
+      </Typography>
       {data.synonyms.map(synonym => (
-        <span key={synonym}>{synonym}</span>
+        <Fragment key={synonym}>
+          <Typography inline>{synonym}</Typography>{' '}
+        </Fragment>
       ))}
-      <Typography variant="h6">Trade names</Typography>
+      <Typography className={classes.subtitle} variant="subtitle1">
+        Trade names
+      </Typography>
       {data.tradeNames.map(tradeName => (
         <span key={tradeName}>{tradeName}</span>
       ))}
@@ -36,4 +67,4 @@ const DrugDetail = ({ data }) => {
   );
 };
 
-export default DrugDetail;
+export default withStyles(styles)(DrugDetail);
