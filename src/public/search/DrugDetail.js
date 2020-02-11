@@ -3,6 +3,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
+import DrugIcon from '../../icons/DrugIcon';
 
 const styles = () => ({
   subtitle: {
@@ -18,6 +19,10 @@ const DrugDetail = ({ classes, data }) => {
     <CardContent>
       <Typography color="primary" variant="h5">
         {data.name}
+      </Typography>
+      <Typography color="primary">
+        <DrugIcon className={classes.icon} />
+        Drug
       </Typography>
       <Typography className={classes.subtitle} variant="subtitle1">
         Drug Type
