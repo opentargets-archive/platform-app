@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Chip from '@material-ui/core/Chip';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
 import DrugIcon from '../../icons/DrugIcon';
 
 const styles = () => ({
+  chip: { margin: '2px 2px', height: '20px' },
   subtitle: {
     fontWeight: 500,
   },
@@ -58,15 +60,23 @@ const DrugDetail = ({ classes, data }) => {
         Synonyms
       </Typography>
       {data.synonyms.map(synonym => (
-        <Fragment key={synonym}>
-          <Typography inline>{synonym}</Typography>{' '}
-        </Fragment>
+        <Chip
+          key={synonym}
+          className={classes.chip}
+          label={synonym}
+          variant="outlined"
+        />
       ))}
       <Typography className={classes.subtitle} variant="subtitle1">
         Trade names
       </Typography>
       {data.tradeNames.map(tradeName => (
-        <span key={tradeName}>{tradeName}</span>
+        <Chip
+          key={tradeName}
+          className={classes.chip}
+          label={tradeName}
+          variant="outlined"
+        />
       ))}
     </CardContent>
   );
