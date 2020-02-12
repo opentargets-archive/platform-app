@@ -2,6 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { loader } from 'graphql.macro';
 import queryString from 'query-string';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
@@ -51,7 +52,13 @@ const getCounts = entities => {
   return counts;
 };
 
-const SearchPage = ({ location, history }) => {
+const styles = () => ({
+  label: {
+    marginLeft: '-6px',
+  },
+});
+
+const SearchPage = ({ classes, location, history }) => {
   const { q, page, entities } = parseQueryString(location.search);
 
   const changePage = (event, page) => {
@@ -74,11 +81,13 @@ const SearchPage = ({ location, history }) => {
 
   return (
     <BasePage>
-      <Typography variant="h5">Search results for {q}</Typography>
+      <Typography variant="h5" gutterBottom>
+        Search results for {q}
+      </Typography>
       <Grid container spacing={24}>
         <Grid item md={2}>
           <Typography>Refine by:</Typography>
-          <FormGroup>
+          <FormGroup row>
             <Query
               client={client2}
               query={AGGS_QUERY}
@@ -98,6 +107,7 @@ const SearchPage = ({ location, history }) => {
                 return (
                   <>
                     <FormControlLabel
+                      className={classes.label}
                       control={
                         <Checkbox
                           checked={entities.includes('target')}
@@ -107,6 +117,7 @@ const SearchPage = ({ location, history }) => {
                       label={`Target (${counts.target})`}
                     />
                     <FormControlLabel
+                      className={classes.label}
                       control={
                         <Checkbox
                           checked={entities.includes('disease')}
@@ -116,6 +127,7 @@ const SearchPage = ({ location, history }) => {
                       label={`Disease (${counts.disease})`}
                     />
                     <FormControlLabel
+                      className={classes.label}
                       control={
                         <Checkbox
                           checked={entities.includes('drug')}
@@ -212,4 +224,4 @@ const SearchPage = ({ location, history }) => {
   );
 };
 
-export default SearchPage;
+export default withStyles(styles)(SearchPage);
