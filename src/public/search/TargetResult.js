@@ -19,9 +19,11 @@ const TargetResult = ({ classes, data }) => {
   return (
     <div className={classes.container}>
       <Link to={`/target/${data.id}`}>{data.approvedSymbol}</Link>
-      <Typography component="div">
-        <Clampy clampSize="4">{data.proteinAnnotations.functions[0]}</Clampy>
-      </Typography>
+      {data.proteinAnnotations ? (
+        <Typography component="div">
+          <Clampy clampSize="4">{data.proteinAnnotations.functions[0]}</Clampy>
+        </Typography>
+      ) : null}
       <Typography>
         <TargetIcon className={classes.icon} />
         Target
