@@ -87,7 +87,7 @@ const SearchPage = ({ classes, location, history }) => {
       <Grid container spacing={24}>
         <Grid item md={2}>
           <Typography>Refine by:</Typography>
-          <FormGroup row>
+          <FormGroup>
             <Query
               client={client2}
               query={AGGS_QUERY}
