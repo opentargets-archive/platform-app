@@ -55,17 +55,19 @@ const DiseaseTopHit = ({ data }) => {
 };
 
 const DrugTopHit = ({ data }) => {
-  const { rows = [] } = data.mechanismsOfAction;
-
   return (
     <>
       <Typography variant="h4" color="primary">
         <DrugIcon />
         {data.name}
       </Typography>
-      <Typography variant="caption" noWrap>
-        {rows.map(row => row.mechanismOfAction).join(', ')}
-      </Typography>
+      {data.mechanismsOfAction ? (
+        <Typography variant="caption" noWrap>
+          {data.mechanismsOfAction.rows
+            .map(row => row.mechanismOfAction)
+            .join(', ')}
+        </Typography>
+      ) : null}
     </>
   );
 };
