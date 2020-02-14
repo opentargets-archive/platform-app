@@ -14,13 +14,11 @@ const Description = ({ classes, children }) => {
   return (
     <div className={classes.description}>
       <Typography variant="subtitle2">Description</Typography>
-      <Typography variant="body2">
-        {children ? (
-          <LongText lineLimit={3}>{children}</LongText>
-        ) : (
-          'No description available'
-        )}
-      </Typography>
+      {children ? (
+        <LongText lineLimit="3">{children}</LongText>
+      ) : (
+        'No description available'
+      )}
     </div>
   );
 };
