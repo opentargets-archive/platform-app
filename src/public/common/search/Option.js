@@ -33,9 +33,11 @@ const TargetTopHit = ({ data }) => {
         {data.approvedSymbol}
       </Typography>{' '}
       <Typography>{data.approvedName}</Typography>
-      <Typography variant="caption" noWrap>
-        {data.proteinAnnotations.functions[0]}
-      </Typography>
+      {data.proteinAnnotations ? (
+        <Typography variant="caption" noWrap>
+          {data.proteinAnnotations.functions[0]}
+        </Typography>
+      ) : null}
     </>
   );
 };
