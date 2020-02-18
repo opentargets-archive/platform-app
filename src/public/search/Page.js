@@ -11,7 +11,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import BasePage from '../common/BasePage';
-import { client2 } from '../App';
+import { client2 } from '../client';
 import TargetDetail from './TargetDetail';
 import DiseaseDetail from './DiseaseDetail';
 import DrugDetail from './DrugDetail';
