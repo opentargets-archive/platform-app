@@ -38,7 +38,7 @@
     "local-storage": "^2.0.0",
     "lodash": "^4.17.11",
     "node-sass": "^4.12.0",
-    "ot-ui": "^0.0.99",
+    "ot-ui": "^0.1.0",
     "polished": "^2.3.0",
     "protvista-uniprot": "^2.0.15",
     "query-string": "^6.10.1",
