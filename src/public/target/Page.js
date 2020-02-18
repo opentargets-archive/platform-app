@@ -25,43 +25,18 @@ const targetQuery = gql`
   }
 `;
 
-const valueToUrlSuffixMap = {
-  classicAssociations: '/classic-associations',
-  associations: '/associations',
-  overview: '',
-};
-const urlSuffixToValueMap = Object.entries(valueToUrlSuffixMap).reduce(
-  (acc, [k, v]) => {
-    acc[v] = k;
-    return acc;
-  },
-  {}
-);
-
 class TargetPage extends Component {
-  state = {};
-
-  static getDerivedStateFromProps(props) {
-    const suffix = props.location.pathname.endsWith('associations')
-      ? `/${props.location.pathname.split('/').pop()}`
-      : '';
-    const value = urlSuffixToValueMap[suffix];
-    return {
-      value,
-    };
-  }
-
   handleChange = (event, value) => {
     const { history, match } = this.props;
-    this.setState({ value }, () => {
-      const suffix = valueToUrlSuffixMap[value];
-      history.push(`${match.url}${suffix}`);
-    });
+    const path = value === 'overview' ? match.url : `${match.url}/${value}`;
+    history.push(path);
   };
 
   render() {
-    const { match } = this.props;
-    const { value } = this.state;
+    const { location, match } = this.props;
+    const tab = location.pathname.endsWith('associations')
+      ? location.pathname.split('/').pop()
+      : 'overview';
     const { ensgId } = match.params;
 
     return (
@@ -87,13 +62,13 @@ class TargetPage extends Component {
                 </Helmet>
                 <Header {...{ ensgId, uniprotId, symbol, name }} />
                 <Tabs
-                  value={value}
+                  value={tab}
                   onChange={this.handleChange}
                   variant="scrollable"
                   scrollButtons="auto"
                 >
                   <Tab
-                    value="classicAssociations"
+                    value="classic-associations"
                     label="Associations (classic)"
                   />
                   <Tab value="associations" label="Associations (dynamic)" />
