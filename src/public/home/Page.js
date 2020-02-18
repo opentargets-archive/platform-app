@@ -5,14 +5,19 @@ import { Link, HomeBox, NavBar, Footer } from 'ot-ui';
 
 import Splash from './Splash';
 import Search from '../common/search/Search';
-import { externalLinks } from '../../constants';
+import { externalLinks, mainMenuItems } from '../../constants';
 
 const HomePage = () => {
   return (
     <Fragment>
       <Grid container justify="center" alignItems="center">
         <Splash />
-        <NavBar name="platform" homepage />
+        <NavBar
+          name="platform"
+          homepage
+          items={mainMenuItems}
+          placement="bottom-end"
+        />
         <HomeBox name="Platform">
           <Search />
           <Grid container justify="space-around" style={{ marginTop: '12px' }}>
