@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { scroller, animateScroll } from 'react-scroll';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import ls from 'local-storage';
 
 import MiniWidgetBar from '../common/MiniWidgetBar';

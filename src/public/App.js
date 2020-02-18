@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { ApolloClient } from 'apollo-client';
-import { ApolloProvider } from 'react-apollo';
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher,

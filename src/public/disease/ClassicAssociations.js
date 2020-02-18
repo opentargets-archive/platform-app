@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';

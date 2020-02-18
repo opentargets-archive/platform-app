@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 
 import { DataDownloader, OtTableRF, Link, significantFigures } from 'ot-ui';
@@ -43,9 +43,7 @@ const columns = [
         {d.targetGeneSymbol} (
         <Link
           external
-          to={`http://www.ensembl.org/${d.speciesId}/Gene/Summary?g=${
-            d.targetGeneId
-          }`}
+          to={`http://www.ensembl.org/${d.speciesId}/Gene/Summary?g=${d.targetGeneId}`}
         >
           {d.targetGeneId}
         </Link>

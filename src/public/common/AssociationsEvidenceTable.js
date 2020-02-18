@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { loader } from 'graphql.macro';
 
 // TODO: currently the dynamic associations api uses

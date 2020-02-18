@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 

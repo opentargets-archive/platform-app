@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import Typography from '@material-ui/core/Typography';
 
 class SectionPanelLoader extends React.Component {

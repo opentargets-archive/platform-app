@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import { loader } from 'graphql.macro';
 import queryString from 'query-string';
 import withStyles from '@material-ui/core/styles/withStyles';

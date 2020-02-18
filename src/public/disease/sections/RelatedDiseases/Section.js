@@ -1,7 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import { loader } from 'graphql.macro';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 
 import { OtTableRF, Link, significantFigures } from 'ot-ui';
 

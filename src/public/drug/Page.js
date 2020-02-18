@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
