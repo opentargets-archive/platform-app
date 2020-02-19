@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { useQuery } from '@apollo/react-hooks';
 import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
@@ -12,7 +13,7 @@ import Associations from './Associations';
 import Profile from './Profile';
 import BasePage from '../common/BasePage';
 
-const targetQuery = gql`
+const TARGET_QUERY = gql`
   query TargetQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
       id
@@ -36,88 +37,73 @@ const TargetPage = ({ history, location, match }) => {
     : 'overview';
   const { ensgId } = match.params;
 
+  const { loading, error, data } = useQuery(TARGET_QUERY, {
+    variables: { ensgId },
+  });
+
+  if (loading || error) return null;
+
+  const { symbol, name, uniprotId, synonyms, description } = data.target;
+
   return (
     <BasePage>
-      <Query query={targetQuery} variables={{ ensgId }}>
-        {({ loading, error, data }) => {
-          if (loading || error) {
-            return null;
-          }
-
-          const {
-            symbol,
-            name,
-            uniprotId,
-            synonyms,
-            description,
-          } = data.target;
-
-          return (
-            <React.Fragment>
-              <Helmet>
-                <title>{symbol}</title>
-              </Helmet>
-              <Header {...{ ensgId, uniprotId, symbol, name }} />
-              <Tabs
-                value={tab}
-                onChange={handleChange}
-                variant="scrollable"
-                scrollButtons="auto"
-              >
-                <Tab
-                  value="classic-associations"
-                  label="Associations (classic)"
-                />
-                <Tab value="associations" label="Associations (dynamic)" />
-                <Tab value="overview" label="Profile" />
-              </Tabs>
-              <Switch>
-                <Route
-                  path={`${match.path}/classic-associations`}
-                  render={() => (
-                    <ClassicAssociations
-                      {...{
-                        ensgId,
-                        uniprotId,
-                        symbol,
-                        name,
-                      }}
-                    />
-                  )}
-                />
-                <Route
-                  path={`${match.path}/associations`}
-                  render={() => (
-                    <Associations
-                      {...{
-                        ensgId,
-                        uniprotId,
-                        symbol,
-                        name,
-                      }}
-                    />
-                  )}
-                />
-                <Route
-                  path={match.path}
-                  render={() => (
-                    <Profile
-                      {...{
-                        ensgId,
-                        uniprotId,
-                        symbol,
-                        name,
-                        synonyms,
-                        description,
-                      }}
-                    />
-                  )}
-                />
-              </Switch>
-            </React.Fragment>
-          );
-        }}
-      </Query>
+      <Helmet>
+        <title>{symbol}</title>
+      </Helmet>
+      <Header {...{ ensgId, uniprotId, symbol, name }} />
+      <Tabs
+        value={tab}
+        onChange={handleChange}
+        variant="scrollable"
+        scrollButtons="auto"
+      >
+        <Tab value="classic-associations" label="Associations (classic)" />
+        <Tab value="associations" label="Associations (dynamic)" />
+        <Tab value="overview" label="Profile" />
+      </Tabs>
+      <Switch>
+        <Route
+          path={`${match.path}/classic-associations`}
+          render={() => (
+            <ClassicAssociations
+              {...{
+                ensgId,
+                uniprotId,
+                symbol,
+                name,
+              }}
+            />
+          )}
+        />
+        <Route
+          path={`${match.path}/associations`}
+          render={() => (
+            <Associations
+              {...{
+                ensgId,
+                uniprotId,
+                symbol,
+                name,
+              }}
+            />
+          )}
+        />
+        <Route
+          path={match.path}
+          render={() => (
+            <Profile
+              {...{
+                ensgId,
+                uniprotId,
+                symbol,
+                name,
+                synonyms,
+                description,
+              }}
+            />
+          )}
+        />
+      </Switch>
     </BasePage>
   );
 };
