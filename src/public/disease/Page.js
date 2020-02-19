@@ -1,6 +1,6 @@
-import React, { Fragment, Component } from 'react';
+import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import { Route, Switch } from 'react-router-dom';
-import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
@@ -12,7 +12,7 @@ import Header from './Header';
 import Profile from './Profile';
 import BasePage from '../common/BasePage';
 
-const diseaseQuery = gql`
+const DISEASE_QUERY = gql`
   query DiseaseQuery($efoId: String!) {
     disease(efoId: $efoId) {
       id
@@ -23,110 +23,57 @@ const diseaseQuery = gql`
   }
 `;
 
-const valueToUrlSuffixMap = {
-  classicAssociations: '/classic-associations',
-  associations: '/associations',
-  overview: '',
-};
-const urlSuffixToValueMap = Object.entries(valueToUrlSuffixMap).reduce(
-  (acc, [k, v]) => {
-    acc[v] = k;
-    return acc;
-  },
-  {}
-);
-
-class DiseasePage extends Component {
-  state = {};
-
-  static getDerivedStateFromProps(props) {
-    const suffix = props.location.pathname.endsWith('associations')
-      ? `/${props.location.pathname.split('/').pop()}`
-      : '';
-    const value = urlSuffixToValueMap[suffix];
-    return {
-      value,
-    };
-  }
-
-  handleChange = (event, value) => {
-    const { history, match } = this.props;
-    this.setState({ value }, () => {
-      const suffix = valueToUrlSuffixMap[value];
-      history.push(`${match.url}${suffix}`);
-    });
+const DiseasePage = ({ history, location, match }) => {
+  const handleChange = (event, value) => {
+    const path = value === 'overview' ? match.url : `${match.url}/${value}`;
+    history.push(path);
   };
 
-  render() {
-    const { match } = this.props;
-    const { value } = this.state;
-    const { efoId } = match.params;
+  const tab = location.pathname.endsWith('associations')
+    ? location.pathname.split('/').pop()
+    : 'overview';
+  const { efoId } = match.params;
 
-    return (
-      <BasePage>
-        <Query query={diseaseQuery} variables={{ efoId }}>
-          {({ loading, error, data }) => {
-            if (loading || error) {
-              return null;
-            }
-            const { name, description, synonyms } = data.disease;
+  const { loading, error, data } = useQuery(DISEASE_QUERY, {
+    variables: { efoId },
+  });
 
-            return (
-              <Fragment>
-                <Helmet>
-                  <title>{name}</title>
-                </Helmet>
-                <Header {...{ efoId, name, description, synonyms }} />
-                <Tabs
-                  value={value}
-                  onChange={this.handleChange}
-                  variant="scrollable"
-                  scrollButtons="auto"
-                >
-                  <Tab
-                    value="classicAssociations"
-                    label="Associations (classic)"
-                  />
-                  <Tab value="associations" label="Associations (dynamic)" />
-                  <Tab value="overview" label="Profile" />
-                </Tabs>
-                <Switch>
-                  <Route
-                    path={`${match.path}/classic-associations`}
-                    render={() => (
-                      <ClassicAssociations
-                        {...{
-                          efoId,
-                          name,
-                        }}
-                      />
-                    )}
-                  />
-                  <Route
-                    path={`${match.path}/associations`}
-                    render={() => (
-                      <Associations
-                        {...{
-                          efoId,
-                          name,
-                        }}
-                      />
-                    )}
-                  />
-                  <Route
-                    path={match.path}
-                    render={() => (
-                      <Profile {...{ efoId, name, description, synonyms }} />
-                    )}
-                  />
-                </Switch>
-              </Fragment>
-            );
-          }}
-        </Query>
-      </BasePage>
-    );
-  }
-}
+  if (loading || error) return null;
+
+  const { name, description, synonyms } = data.disease;
+
+  return (
+    <BasePage>
+      <Helmet>
+        <title>{name}</title>
+      </Helmet>
+      <Header {...{ efoId, name, description, synonyms }} />
+      <Tabs
+        value={tab}
+        onChange={handleChange}
+        variant="scrollable"
+        scrollButtons="auto"
+      >
+        <Tab value="classic-associations" label="Associations (classic)" />
+        <Tab value="associations" label="Associations (dynamic)" />
+        <Tab value="overview" label="Profile" />
+      </Tabs>
+      <Switch>
+        <Route
+          path={`${match.path}/classic-associations`}
+          render={() => <ClassicAssociations efoId={efoId} name={name} />}
+        />
+        <Route
+          path={`${match.path}/associations`}
+          render={() => <Associations efoId={efoId} name={name} />}
+        />
+        <Route
+          path={match.path}
+          render={() => <Profile {...{ efoId, name, description, synonyms }} />}
+        />
+      </Switch>
+    </BasePage>
+  );
+};
 
 export default DiseasePage;
