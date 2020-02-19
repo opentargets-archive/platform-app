@@ -1,15 +1,15 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 
 import { Link, DataDownloader } from 'ot-ui';
 
 import SummaryTable from './SummaryTable';
 
-const query = gql`
+const EXPRESSION_QUERY = gql`
   query ExpressionQuery($ensgId: String!) {
     target(ensgId: $ensgId) {
       id
@@ -37,9 +37,6 @@ const styles = () => ({
   description: {
     fontStyle: 'italic',
   },
-  inlineBlock: {
-    display: 'inline-block',
-  },
 });
 
 const headers = [
@@ -60,53 +57,53 @@ const getDownloadRows = tissues => {
   }));
 };
 
-class SummaryTab extends Component {
-  render() {
-    const { ensgId, symbol, classes } = this.props;
+const SummaryPanel = ({ ensgId, symbol }) => {
+  const { loading, error, data } = useQuery(EXPRESSION_QUERY, {
+    variables: { ensgId },
+  });
 
-    return (
-      <Fragment>
-        <Typography className={classes.description}>
-          Summary of {symbol} RNA and protein expression in normal human tissue,
-          based on Human Protein Atlas normal tissue immunohistochemistry,
-          RNA-seq expression data and Expression Atlas data.
-        </Typography>
-        <Typography variant="caption">
-          Sources:{' '}
-          <Link external to="http://www.proteinatlas.org">
-            Human Protein Atlas
-          </Link>
-          ,{' '}
-          <Link
-            external
-            to="https://docs.targetvalidation.org/data-sources/rna-expression#expression-atlas"
-          >
-            Expression Atlas
-          </Link>
-        </Typography>
-        <Query query={query} variables={{ ensgId }}>
-          {({ loading, error, data }) => {
-            if (loading || error) return null;
+  if (loading || error) return null;
 
-            const tissues = data.target.details.expression.rows;
+  const tissues = data.target.details.expression.rows;
 
-            return (
-              <Grid container justify="center">
-                <Grid item md={6}>
-                  <DataDownloader
-                    tableHeaders={headers}
-                    rows={getDownloadRows(tissues)}
-                    fileStem={`${symbol}-expression`}
-                  />
-                  <SummaryTable tissues={tissues} />
-                </Grid>
-              </Grid>
-            );
-          }}
-        </Query>
-      </Fragment>
-    );
-  }
-}
+  return (
+    <Grid container justify="center">
+      <Grid item md={6}>
+        <DataDownloader
+          tableHeaders={headers}
+          rows={getDownloadRows(tissues)}
+          fileStem={`${symbol}-expression`}
+        />
+        <SummaryTable tissues={tissues} />
+      </Grid>
+    </Grid>
+  );
+};
+
+const SummaryTab = ({ ensgId, symbol, classes }) => {
+  return (
+    <>
+      <Typography className={classes.description}>
+        Summary of {symbol} RNA and protein expression in normal human tissue,
+        based on Human Protein Atlas normal tissue immunohistochemistry, RNA-seq
+        expression data and Expression Atlas data.
+      </Typography>
+      <Typography variant="caption">
+        Sources:{' '}
+        <Link external to="http://www.proteinatlas.org">
+          Human Protein Atlas
+        </Link>
+        ,{' '}
+        <Link
+          external
+          to="https://docs.targetvalidation.org/data-sources/rna-expression#expression-atlas"
+        >
+          Expression Atlas
+        </Link>
+        <SummaryPanel ensgId={ensgId} symbol={symbol} />
+      </Typography>
+    </>
+  );
+};
 
 export default withStyles(styles)(SummaryTab);
