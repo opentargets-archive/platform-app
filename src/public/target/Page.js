@@ -1,10 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
-import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
-
 import { Tabs, Tab } from 'ot-ui';
 
 import Header from './Header';
@@ -50,7 +48,12 @@ const TargetPage = ({ history, location, match }) => {
       <Helmet>
         <title>{symbol}</title>
       </Helmet>
-      <Header {...{ ensgId, uniprotId, symbol, name }} />
+      <Header
+        ensgId={ensgId}
+        uniprotId={uniprotId}
+        symbol={symbol}
+        name={name}
+      />
       <Tabs
         value={tab}
         onChange={handleChange}
@@ -66,12 +69,10 @@ const TargetPage = ({ history, location, match }) => {
           path={`${match.path}/classic-associations`}
           render={() => (
             <ClassicAssociations
-              {...{
-                ensgId,
-                uniprotId,
-                symbol,
-                name,
-              }}
+              ensgId={ensgId}
+              uniprotId={uniprotId}
+              symbol={symbol}
+              name={name}
             />
           )}
         />
@@ -79,12 +80,10 @@ const TargetPage = ({ history, location, match }) => {
           path={`${match.path}/associations`}
           render={() => (
             <Associations
-              {...{
-                ensgId,
-                uniprotId,
-                symbol,
-                name,
-              }}
+              ensgId={ensgId}
+              uniprotId={uniprotId}
+              symbol={symbol}
+              name={name}
             />
           )}
         />
@@ -92,14 +91,12 @@ const TargetPage = ({ history, location, match }) => {
           path={match.path}
           render={() => (
             <Profile
-              {...{
-                ensgId,
-                uniprotId,
-                symbol,
-                name,
-                synonyms,
-                description,
-              }}
+              ensgId={ensgId}
+              uniprotId={uniprotId}
+              symbol={symbol}
+              name={name}
+              synonyms={synonyms}
+              description={description}
             />
           )}
         />
