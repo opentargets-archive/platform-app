@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from '@apollo/react-components';
+import { useQuery } from '@apollo/react-hooks';
 import { loader } from 'graphql.macro';
 
 // TODO: currently the dynamic associations api uses
@@ -177,6 +177,24 @@ const dataSourceHandlers = {
   },
 };
 
+const EvidenceHandler = ({ ensgId, efoId, handler }) => {
+  const { query, component: EvidenceComponent, accessor } = handler;
+  const { loading, error, data } = useQuery(query, {
+    variables: { ensgId, efoId },
+  });
+
+  if (loading) {
+    return 'Loading...';
+  }
+  if (error) {
+    return `Error: ${error.message}`;
+  }
+
+  return (
+    <EvidenceComponent ensgId={ensgId} efoId={efoId} data={accessor(data)} />
+  );
+};
+
 const AssociationsEvidenceTable = ({
   ensgId,
   efoId,
@@ -185,26 +203,7 @@ const AssociationsEvidenceTable = ({
 }) => {
   const handler = dataSourceHandlers[dataSourceId];
   if (handler) {
-    const { query, component: EvidenceComponent, accessor } = handler;
-    return (
-      <Query query={query} variables={{ ensgId, efoId }}>
-        {({ loading, error, data }) => {
-          if (loading) {
-            return 'Loading...';
-          }
-          if (error) {
-            return `Error: ${error.message}`;
-          }
-          return (
-            <EvidenceComponent
-              ensgId={ensgId}
-              efoId={efoId}
-              data={accessor(data)}
-            />
-          );
-        }}
-      </Query>
-    );
+    return <EvidenceHandler ensgId={ensgId} efoId={efoId} handler={handler} />;
   } else {
     return `TODO: Evidence handler for ${dataSourceId} coming soon!`;
   }
