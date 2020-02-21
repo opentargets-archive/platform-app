@@ -26,5 +26,12 @@ const client2 = new ApolloClient({
   cache: new InMemoryCache({ fragmentMatcher }),
 });
 
-export { client2 };
+const client3 = new ApolloClient({
+  link: new HttpLink({
+    uri: 'https://api-dora-dot-open-targets-eu-dev.appspot.com/graphql',
+  }),
+  cache: new InMemoryCache(),
+});
+
+export { client2, client3 };
 export default client;
