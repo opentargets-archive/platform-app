@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/react-hooks';
 import _ from 'lodash';
 import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
-import { Query } from '@apollo/react-components';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -169,121 +168,103 @@ const ClassicAssociations = ({ efoId, name }) => {
       after,
     },
   });
+
+  if (error) {
+    return null;
+  }
+
+  let edges;
+  let totalCount;
+  let facetsData;
+  let pageInfo;
+  if (loading && !(data && data.disease && data.disease.targetsConnection)) {
+    edges = [];
+  } else {
+    edges = data.disease.targetsConnection.edges;
+    totalCount = data.disease.targetsConnection.totalCount;
+    facetsData = data.disease.targetsConnection.facets;
+    pageInfo = data.disease.targetsConnection.pageInfo;
+  }
+
+  const rows = edges.map(({ node, ...rest }) => ({
+    target: node,
+    tractabilityScoresByModality: getTractabilityScoresByModality(
+      node.details.tractability
+    ),
+    data: {
+      symbol: node.symbol,
+      id: node.id,
+      disease: { efoId },
+      score: rest.score,
+    }, // for tooltip
+    ...rest,
+  }));
+  const dataTypes =
+    rows.length > 0 ? rows[0].scoresByDataType.map(d => d.dataTypeId) : [];
+  const modalities =
+    rows.length > 0
+      ? rows[0].tractabilityScoresByModality.map(d => d.modalityId)
+      : [];
+
   return (
-    <Query
-      query={associationsQuery}
-      variables={{
-        efoId,
-        sortBy,
-        search: searchDebouced ? searchDebouced : null,
-        facets: facetsInput,
-        after,
-      }}
-    >
-      {({ loading, error, data }) => {
-        if (error) {
-          return null;
-        }
-
-        let edges;
-        let totalCount;
-        let facetsData;
-        let pageInfo;
-        if (
-          loading &&
-          !(data && data.disease && data.disease.targetsConnection)
-        ) {
-          edges = [];
-        } else {
-          edges = data.disease.targetsConnection.edges;
-          totalCount = data.disease.targetsConnection.totalCount;
-          facetsData = data.disease.targetsConnection.facets;
-          pageInfo = data.disease.targetsConnection.pageInfo;
-        }
-
-        const rows = edges.map(({ node, ...rest }) => ({
-          target: node,
-          tractabilityScoresByModality: getTractabilityScoresByModality(
-            node.details.tractability
-          ),
-          data: {
-            symbol: node.symbol,
-            id: node.id,
-            disease: { efoId },
-            score: rest.score,
-          }, // for tooltip
-          ...rest,
-        }));
-        const dataTypes =
-          rows.length > 0
-            ? rows[0].scoresByDataType.map(d => d.dataTypeId)
-            : [];
-        const modalities =
-          rows.length > 0
-            ? rows[0].tractabilityScoresByModality.map(d => d.modalityId)
-            : [];
-        return (
-          <Grid style={{ marginTop: '8px' }} container spacing={16}>
-            <Grid item xs={12}>
-              <Typography variant="h6">
-                <strong>{commaSeparate(totalCount)} targets</strong> associated
-                with <strong>{name}</strong>
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Card elevation={0}>
-                <CardContent>
-                  <Typography variant="h6">Filter by</Typography>
-                  <div style={{ paddingTop: '8px', paddingBottom: '4px' }}>
-                    <TextField
-                      id="associations-search"
-                      label="Target Symbol"
-                      value={search}
-                      onChange={event => handleSearchChange(event.target.value)}
-                      fullWidth
-                      variant="outlined"
+    <Grid style={{ marginTop: '8px' }} container spacing={16}>
+      <Grid item xs={12}>
+        <Typography variant="h6">
+          <strong>{commaSeparate(totalCount)} targets</strong> associated with{' '}
+          <strong>{name}</strong>
+        </Typography>
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <Card elevation={0}>
+          <CardContent>
+            <Typography variant="h6">Filter by</Typography>
+            <div style={{ paddingTop: '8px', paddingBottom: '4px' }}>
+              <TextField
+                id="associations-search"
+                label="Target Symbol"
+                value={search}
+                onChange={event => handleSearchChange(event.target.value)}
+                fullWidth
+                variant="outlined"
+              />
+            </div>
+            {facetsData
+              ? facets.map(f => (
+                  <FacetContainer key={f.id} name={f.name}>
+                    <f.FacetComponent
+                      state={facetsState[f.id]}
+                      data={facetsData[f.id]}
+                      onFacetChange={handleFacetChange(f.id)}
                     />
-                  </div>
-                  {facetsData
-                    ? facets.map(f => (
-                        <FacetContainer key={f.id} name={f.name}>
-                          <f.FacetComponent
-                            state={facetsState[f.id]}
-                            data={facetsData[f.id]}
-                            onFacetChange={handleFacetChange(f.id)}
-                          />
-                        </FacetContainer>
-                      ))
-                    : null}
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={9}>
-              <Card elevation={0}>
-                <CardContent>
-                  <ClassicAssociationsTable
-                    efoId={efoId}
-                    name={name}
-                    rows={rows}
-                    dataTypes={dataTypes}
-                    modalities={modalities}
-                    search={search}
-                    facets={facetsInput}
-                    sortBy={sortBy}
-                    onSortByChange={handleSortByChange}
-                    page={page}
-                    rowsPerPage={ROWS_PER_PAGE}
-                    totalCount={totalCount}
-                    pageInfo={pageInfo}
-                    onPaginationChange={handlePaginationChange}
-                  />
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        );
-      }}
-    </Query>
+                  </FacetContainer>
+                ))
+              : null}
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} md={9}>
+        <Card elevation={0}>
+          <CardContent>
+            <ClassicAssociationsTable
+              efoId={efoId}
+              name={name}
+              rows={rows}
+              dataTypes={dataTypes}
+              modalities={modalities}
+              search={search}
+              facets={facetsInput}
+              sortBy={sortBy}
+              onSortByChange={handleSortByChange}
+              page={page}
+              rowsPerPage={ROWS_PER_PAGE}
+              totalCount={totalCount}
+              pageInfo={pageInfo}
+              onPaginationChange={handlePaginationChange}
+            />
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 };
 
