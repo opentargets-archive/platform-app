@@ -64,7 +64,7 @@ const DiseaseAssociationsPage = ({ efoId, name }) => {
   const [evidence, setEvidence] = useState(null);
 
   const handleIndirectsChange = indirects => {
-    setIndirects({ indirects });
+    setIndirects(indirects);
   };
   const handleDataSourcesChange = ({ dataSources, options }) => {
     setDataSourcesState({ dataSources, options });
