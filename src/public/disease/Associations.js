@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import * as d3 from 'd3';
 import _ from 'lodash';
-import { Query } from '@apollo/react-components';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -14,7 +14,7 @@ import AssociationsTable from './AssociationsTable';
 import AssociationsEvidenceTable from '../common/AssociationsEvidenceTable';
 import { client3 } from '../client';
 
-const diseaseAssociationsQuery = gql`
+const DISEASE_ASSOCIATIONS_QUERY = gql`
   query DiseaseAssociationsQuery(
     $efoId: String!
     $indirects: Boolean!
@@ -105,55 +105,51 @@ const DiseaseAssociationsPage = ({ efoId, name }) => {
     ? { efoId, indirects, harmonicOptions, page }
     : { efoId, indirects, page };
 
+  const { data } = useQuery(DISEASE_ASSOCIATIONS_QUERY, {
+    client: client3,
+    variables,
+  });
+
+  const rows =
+    (data &&
+      data.associationsByDiseaseId &&
+      data.associationsByDiseaseId.rows) ||
+    [];
+  const metadata =
+    (data &&
+      data.associationsByDiseaseId &&
+      data.associationsByDiseaseId.metadata) ||
+    {};
+
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={16}>
       <Grid item xs={12} md={6}>
-        <Query
-          client={client3}
-          query={diseaseAssociationsQuery}
-          variables={variables}
-        >
-          {({ loading, error, data }) => {
-            const rows =
-              (data &&
-                data.associationsByDiseaseId &&
-                data.associationsByDiseaseId.rows) ||
-              [];
-            const metadata =
-              (data &&
-                data.associationsByDiseaseId &&
-                data.associationsByDiseaseId.metadata) ||
-              {};
-            return (
-              <Card elevation={0}>
-                <CardHeader
-                  title="Associations"
-                  subheader={
-                    <React.Fragment>
-                      <strong>{commaSeparate(rows.length)}</strong> diseases
-                      associated with <strong>{name}</strong>
-                    </React.Fragment>
-                  }
-                />
-                <CardContent>
-                  <AssociationsTable
-                    {...{
-                      rows,
-                      indirects,
-                      dataSources,
-                      options,
-                      metadata,
-                      evidence,
-                    }}
-                    onIndirectsChange={handleIndirectsChange}
-                    onDataSourcesChange={handleDataSourcesChange}
-                    onCellClick={handleCellClick}
-                  />
-                </CardContent>
-              </Card>
-            );
-          }}
-        </Query>
+        <Card elevation={0}>
+          <CardHeader
+            title="Associations"
+            subheader={
+              <React.Fragment>
+                <strong>{commaSeparate(rows.length)}</strong> diseases
+                associated with <strong>{name}</strong>
+              </React.Fragment>
+            }
+          />
+          <CardContent>
+            <AssociationsTable
+              {...{
+                rows,
+                indirects,
+                dataSources,
+                options,
+                metadata,
+                evidence,
+              }}
+              onIndirectsChange={handleIndirectsChange}
+              onDataSourcesChange={handleDataSourcesChange}
+              onCellClick={handleCellClick}
+            />
+          </CardContent>
+        </Card>
       </Grid>
       <Grid item xs={12} md={6}>
         <Card elevation={0}>
