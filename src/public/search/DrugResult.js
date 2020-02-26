@@ -14,10 +14,19 @@ const styles = theme => ({
   },
 });
 
-const DrugResult = ({ classes, data }) => {
+const DrugResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
       <Link to={`drug/${data.id}`}>{data.name}</Link>
+      <Typography>
+        <Typography inline variant="subtitle2">
+          Highlights:
+        </Typography>{' '}
+        <span
+          className="highlights"
+          dangerouslySetInnerHTML={{ __html: highlights.join(', ') }}
+        ></span>
+      </Typography>
       <Typography>
         <DrugIcon className={classes.icon} />
         Drug

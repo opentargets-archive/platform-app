@@ -15,7 +15,7 @@ const styles = theme => ({
   },
 });
 
-const TargetResult = ({ classes, data }) => {
+const TargetResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
       <Link to={`/target/${data.id}`}>{data.approvedSymbol}</Link>
@@ -24,6 +24,15 @@ const TargetResult = ({ classes, data }) => {
           <Clampy clampSize="4">{data.proteinAnnotations.functions[0]}</Clampy>
         </Typography>
       ) : null}
+      <Typography>
+        <Typography inline variant="subtitle2">
+          Highlights:
+        </Typography>{' '}
+        <span
+          className="highlights"
+          dangerouslySetInnerHTML={{ __html: highlights.join(', ') }}
+        ></span>
+      </Typography>
       <Typography>
         <TargetIcon className={classes.icon} />
         Target

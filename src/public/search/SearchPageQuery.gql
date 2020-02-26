@@ -11,6 +11,7 @@ query SearchPageQuery(
     total
     hits {
       id
+      highlights
       object {
         ... on Target {
           id

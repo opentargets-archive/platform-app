@@ -126,13 +126,17 @@ const SearchResults = ({ q, page, entities, changePage }) => {
 
   return (
     <>
-      {results.map(({ object }) => {
+      {results.map(({ highlights, object }) => {
         return object.__typename === 'Target' ? (
-          <TargetResult key={object.id} data={object} />
+          <TargetResult key={object.id} data={object} highlights={highlights} />
         ) : object.__typename === 'Disease' ? (
-          <DiseaseResult key={object.id} data={object} />
+          <DiseaseResult
+            key={object.id}
+            data={object}
+            highlights={highlights}
+          />
         ) : (
-          <DrugResult key={object.id} data={object} />
+          <DrugResult key={object.id} data={object} highlights={highlights} />
         );
       })}
       <TablePagination

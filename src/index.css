@@ -88,3 +88,10 @@ code {
 [data-entity][data-entity='GENE']:after {
   background: #e3d1e2;
 }
+
+/* styles for highlights */
+.highlights em {
+  border: 1px solid #9ccca6;
+  border-radius: 0.25em;
+  background: #d8eddc;
+}
