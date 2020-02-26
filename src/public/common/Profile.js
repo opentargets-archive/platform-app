@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import { scroller, animateScroll } from 'react-scroll';
-import { Query } from '@apollo/react-components';
 import ls from 'local-storage';
 
 import MiniWidgetBar from '../common/MiniWidgetBar';
@@ -9,158 +9,127 @@ import SectionPanelsContainer from '../common/SectionPanelsContainer';
 const defaultGetSummaryFromSummaries = (section, summariesData) =>
   summariesData[section.id];
 
-class Profile extends Component {
-  state = {
-    sectionsOrder: [],
-    sectionHasSummaryData: {},
-    sectionHasSummaryError: {},
-  };
-  scrollToSection = sectionId => {
+const Profile = ({
+  entity,
+  variables,
+  query,
+  unorderedSections,
+  entitySummariesAccessor,
+  entitySectionsAccessor,
+  children,
+  sectionsOrderKey,
+}) => {
+  const [sectionsOrder, setSectionsOrder] = useState(ls.get(sectionsOrderKey));
+  const [sectionHasSummaryData, setSectionHasSummaryData] = useState(
+    unorderedSections.reduce((acc, d) => {
+      acc[d.id] = false;
+      return acc;
+    }, {})
+  );
+  const [sectionHasSummaryError, setSectionHasSummaryError] = useState(
+    unorderedSections.reduce((acc, d) => {
+      acc[d.id] = false;
+      return acc;
+    }, {})
+  );
+
+  const scrollToSection = sectionId => {
     scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
   };
-  scrollToTop = () => {
+  const scrollToTop = () => {
     animateScroll.scrollTo(0, { duration: 500, delay: 100, smooth: true });
   };
-  setSectionHasSummaryData = sectionId => value => {
-    this.setState({
-      sectionHasSummaryData: {
-        ...this.state.sectionHasSummaryData,
-        [sectionId]: value,
-      },
+  const setSectionHasSummaryDataHandler = sectionId => value => {
+    setSectionHasSummaryData({
+      ...sectionHasSummaryData,
+      [sectionId]: value,
     });
   };
-  setSectionHasSummaryError = sectionId => value => {
-    this.setState({
-      sectionHasSummaryError: {
-        ...this.state.sectionHasSummaryData,
-        [sectionId]: value,
-      },
+  const setSectionHasSummaryErrorHandler = sectionId => value => {
+    setSectionHasSummaryError({
+      ...sectionHasSummaryData,
+      [sectionId]: value,
     });
   };
-  handleSectionOrderChange = sectionsOrder => {
-    const { sectionsOrderKey } = this.props;
+
+  const handleSectionOrderChange = sectionsOrder => {
     ls.set(sectionsOrderKey, sectionsOrder);
-    this.setState({ sectionsOrder });
+    setSectionsOrder(sectionsOrder);
   };
-  componentDidMount() {
-    const { unorderedSections, sectionsOrderKey } = this.props;
 
-    // get the sections order from local storage
-    // (only needs to be done once)
-    const sectionsOrder = ls.get(sectionsOrderKey);
-
-    // set up boolean state for each section, so that they can be toggled
-    // on by a callback or valid graphql summary data
-    // (needs to be done if page changes, eg. visit another target)
-    const sectionHasSummaryData = unorderedSections.reduce((acc, d) => {
-      acc[d.id] = false;
-      return acc;
-    }, {});
-    const sectionHasSummaryError = unorderedSections.reduce((acc, d) => {
-      acc[d.id] = false;
-      return acc;
-    }, {});
-
-    this.setState({
-      sectionsOrder,
-      sectionHasSummaryData,
-      sectionHasSummaryError,
-    });
-  }
   // componentDidUpdate() {
   //   // TODO: reset sections state if the page changed
   //   this.setInitialSectionsState();
   // }
-  render() {
-    const {
-      sectionHasSummaryData,
-      sectionHasSummaryError,
-      sectionsOrder,
-    } = this.state;
-    const {
-      entity,
-      variables,
-      query,
-      unorderedSections,
-      entitySummariesAccessor,
-      entitySectionsAccessor,
-      children,
-    } = this.props;
-    const sections = sectionsOrder.map(d =>
-      unorderedSections.find(e => e.id === d)
-    );
-    return (
-      <Query {...{ query, variables }} errorPolicy="all">
-        {({ loading, error, data }) => {
-          const summariesData = loading ? {} : entitySummariesAccessor(data);
-          const sectionsWithSummaryState = sections.map(s => {
-            // an error could occur in graphql api (network or summary specific)
-            // or be triggered from the component itself (eg. by external API)
-            const summaryErrorFromGraphQL =
-              error &&
-              (error.networkError ||
-                (error.graphQLErrors &&
-                  error.graphQLErrors.some(e => e.path[2] === s.id)));
-            const summaryErrorFromSummaryComponent =
-              sectionHasSummaryError[s.id];
-            const summaryError =
-              summaryErrorFromGraphQL || summaryErrorFromSummaryComponent;
 
-            // if non-null data was loaded through graphql api,
-            // or the callback passed to SummaryComponent was used,
-            // set flag so we load the detail section
-            const summaryData = s.getSummaryFromSummaries
-              ? s.getSummaryFromSummaries(summariesData)
-              : defaultGetSummaryFromSummaries(s, summariesData);
-            const hasDataFromGraphQLAPI =
-              !summaryErrorFromGraphQL && !loading && s.hasSummaryData
-                ? s.hasSummaryData(summaryData)
-                : false;
-            const hasDataFromSummaryComponent = sectionHasSummaryData[s.id];
-            const hasData =
-              hasDataFromGraphQLAPI || hasDataFromSummaryComponent;
+  const sections = sectionsOrder.map(d =>
+    unorderedSections.find(e => e.id === d)
+  );
 
-            const summaryDataProps =
-              !summaryError && !loading ? summaryData : {};
-            const summaryProps = {
-              ...summaryDataProps,
-              setHasSummaryData: this.setSectionHasSummaryData(s.id),
-              setHasSummaryError: this.setSectionHasSummaryError(s.id),
-            };
+  const { loading, error, data } = useQuery(query, { variables });
 
-            return {
-              loading: loading,
-              error: summaryError ? 'An API error occurred' : null,
-              hasData,
-              summaryError,
-              summaryProps,
-              ...s,
-            };
-          });
+  const summariesData = loading ? {} : entitySummariesAccessor(data);
+  const sectionsWithSummaryState = sections.map(s => {
+    // an error could occur in graphql api (network or summary specific)
+    // or be triggered from the component itself (eg. by external API)
+    const summaryErrorFromGraphQL =
+      error &&
+      (error.networkError ||
+        (error.graphQLErrors &&
+          error.graphQLErrors.some(e => e.path[2] === s.id)));
+    const summaryErrorFromSummaryComponent = sectionHasSummaryError[s.id];
+    const summaryError =
+      summaryErrorFromGraphQL || summaryErrorFromSummaryComponent;
 
-          return (
-            <Fragment>
-              {children}
-              <MiniWidgetBar
-                entity={entity}
-                data={sectionsWithSummaryState}
-                onWidgetClick={this.scrollToSection}
-              />
-              <br />
-              <SectionPanelsContainer
-                entity={entity}
-                entitySectionsAccessor={entitySectionsAccessor}
-                data={sectionsWithSummaryState}
-                onSideMenuItemClick={this.scrollToSection}
-                onScrollToTopClick={this.scrollToTop}
-                onSectionOrderChange={this.handleSectionOrderChange}
-              />
-            </Fragment>
-          );
-        }}
-      </Query>
-    );
-  }
-}
+    // if non-null data was loaded through graphql api,
+    // or the callback passed to SummaryComponent was used,
+    // set flag so we load the detail section
+    const summaryData = s.getSummaryFromSummaries
+      ? s.getSummaryFromSummaries(summariesData)
+      : defaultGetSummaryFromSummaries(s, summariesData);
+    const hasDataFromGraphQLAPI =
+      !summaryErrorFromGraphQL && !loading && s.hasSummaryData
+        ? s.hasSummaryData(summaryData)
+        : false;
+    const hasDataFromSummaryComponent = sectionHasSummaryData[s.id];
+    const hasData = hasDataFromGraphQLAPI || hasDataFromSummaryComponent;
+
+    const summaryDataProps = !summaryError && !loading ? summaryData : {};
+    const summaryProps = {
+      ...summaryDataProps,
+      setHasSummaryData: setSectionHasSummaryDataHandler(s.id),
+      setHasSummaryError: setSectionHasSummaryErrorHandler(s.id),
+    };
+
+    return {
+      loading: loading,
+      error: summaryError ? 'An API error occurred' : null,
+      hasData,
+      summaryError,
+      summaryProps,
+      ...s,
+    };
+  });
+
+  return (
+    <>
+      {children}
+      <MiniWidgetBar
+        entity={entity}
+        data={sectionsWithSummaryState}
+        onWidgetClick={scrollToSection}
+      />
+      <br />
+      <SectionPanelsContainer
+        entity={entity}
+        entitySectionsAccessor={entitySectionsAccessor}
+        data={sectionsWithSummaryState}
+        onSideMenuItemClick={scrollToSection}
+        onScrollToTopClick={scrollToTop}
+        onSectionOrderChange={handleSectionOrderChange}
+      />
+    </>
+  );
+};
 
 export default Profile;
