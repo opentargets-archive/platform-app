@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import _ from 'lodash';
 import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';

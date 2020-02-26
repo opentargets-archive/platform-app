@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Route, Switch } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';

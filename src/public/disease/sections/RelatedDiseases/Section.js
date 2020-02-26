@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import * as d3 from 'd3';
 import { loader } from 'graphql.macro';
 

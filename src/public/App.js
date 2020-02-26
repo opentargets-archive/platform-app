@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import { OtUiThemeProvider } from 'ot-ui';
 
 import client from './client';

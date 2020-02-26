@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 import { Tabs, Tab } from 'ot-ui';
