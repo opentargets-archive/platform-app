@@ -20,7 +20,7 @@ const DrugResult = ({ classes, data, highlights }) => {
       <Link to={`drug/${data.id}`}>{data.name}</Link>
       <Typography>
         <Typography inline variant="subtitle2">
-          Highlights:
+          Matches:
         </Typography>{' '}
         <span
           className="highlights"

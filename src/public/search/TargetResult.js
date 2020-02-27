@@ -26,7 +26,7 @@ const TargetResult = ({ classes, data, highlights }) => {
       ) : null}
       <Typography>
         <Typography inline variant="subtitle2">
-          Highlights:
+          Matches:
         </Typography>{' '}
         <span
           className="highlights"

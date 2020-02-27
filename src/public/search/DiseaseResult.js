@@ -21,7 +21,7 @@ const DiseaseResult = ({ classes, data, highlights }) => {
       <Typography>{data.description}</Typography>
       <Typography>
         <Typography inline variant="subtitle2">
-          Highlights:
+          Matches:
         </Typography>{' '}
         <span
           className="highlights"

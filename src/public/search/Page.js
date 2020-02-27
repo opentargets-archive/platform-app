@@ -65,9 +65,8 @@ const SearchFilters = withStyles(styles)(
       variables: { queryString: q },
     });
 
-    if (loading) return 'Loading...';
-
-    if (error) return 'Error...';
+    // if (loading) return 'Loading...';
+    if (loading || error) return null;
 
     const counts = getCounts(data.search.aggregations.entities);
 
@@ -118,9 +117,7 @@ const SearchResults = ({ q, page, entities, changePage }) => {
     },
   });
 
-  if (loading) return 'Loading...';
-
-  if (error) return 'Error';
+  if (loading || error) return null;
 
   const results = data.search.hits;
 
@@ -157,9 +154,7 @@ const TopHitDetail = ({ q, entities }) => {
     variables: { queryString: q, entityNames: entities },
   });
 
-  if (loading) return 'Loading...';
-
-  if (error) return 'Error...';
+  if (loading || error) return null;
 
   const topHit =
     data.search.hits.length > 0 ? data.search.hits[0].object : null;
