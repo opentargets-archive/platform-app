@@ -18,25 +18,24 @@ const styles = theme => ({
 const TargetResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
-      <Link to={`/target/${data.id}`}>{data.approvedSymbol}</Link>
+      <Link to={`/target/${data.id}`}>
+        <TargetIcon className={classes.icon} /> {data.approvedSymbol}
+      </Link>
       {data.proteinAnnotations ? (
         <Typography component="div">
           <Clampy clampSize="4">{data.proteinAnnotations.functions[0]}</Clampy>
         </Typography>
       ) : null}
-      <Typography>
-        <Typography inline variant="subtitle2">
+      <div>
+        <Typography component="span" inline variant="subtitle2">
           Matches:
         </Typography>{' '}
-        <span
+        <Typography
+          inline
           className="highlights"
           dangerouslySetInnerHTML={{ __html: highlights.join(', ') }}
-        ></span>
-      </Typography>
-      <Typography>
-        <TargetIcon className={classes.icon} />
-        Target
-      </Typography>
+        />
+      </div>
     </div>
   );
 };

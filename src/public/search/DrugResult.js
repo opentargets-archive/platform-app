@@ -17,20 +17,19 @@ const styles = theme => ({
 const DrugResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
-      <Link to={`drug/${data.id}`}>{data.name}</Link>
-      <Typography>
+      <Link to={`drug/${data.id}`}>
+        <DrugIcon className={classes.icon} /> {data.name}
+      </Link>
+      <div>
         <Typography inline variant="subtitle2">
           Matches:
         </Typography>{' '}
-        <span
+        <Typography
+          inline
           className="highlights"
           dangerouslySetInnerHTML={{ __html: highlights.join(', ') }}
-        ></span>
-      </Typography>
-      <Typography>
-        <DrugIcon className={classes.icon} />
-        Drug
-      </Typography>
+        />
+      </div>
     </div>
   );
 };
