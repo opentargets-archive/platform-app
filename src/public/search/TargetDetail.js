@@ -17,6 +17,7 @@ const styles = () => ({
 
 const TargetDetail = ({ classes, data }) => {
   const {
+    id,
     approvedSymbol,
     approvedName,
     proteinAnnotations: { functions, accessions },
@@ -27,7 +28,7 @@ const TargetDetail = ({ classes, data }) => {
     <>
       <CardContent>
         <Typography color="primary" variant="h5">
-          {approvedSymbol}
+          <Link to={`/target/${id}`}>{approvedSymbol}</Link>
         </Typography>
         <Typography variant="subtitle2">{approvedName}</Typography>
         <Typography color="primary">

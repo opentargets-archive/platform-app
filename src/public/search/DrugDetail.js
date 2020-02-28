@@ -23,7 +23,7 @@ const DrugDetail = ({ classes, data }) => {
   return (
     <CardContent>
       <Typography color="primary" variant="h5">
-        {data.name}
+        <Link to={`/drug/${data.id}`}>{data.name}</Link>
       </Typography>
       <Typography color="primary">
         <DrugIcon className={classes.icon} />

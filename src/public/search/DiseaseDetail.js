@@ -17,6 +17,7 @@ const styles = () => ({
 
 const DiseaseDetail = ({ classes, data }) => {
   const {
+    id,
     name,
     description,
     associationsOnTheFly: { rows },
@@ -25,7 +26,7 @@ const DiseaseDetail = ({ classes, data }) => {
   return (
     <CardContent>
       <Typography color="primary" variant="h5">
-        {name}
+        <Link to={`/disease/${id}`}>{name}</Link>
       </Typography>
       <Typography color="primary">
         <DiseaseIcon className={classes.icon} /> Disease
