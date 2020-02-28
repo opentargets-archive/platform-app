@@ -2,8 +2,11 @@ import React, { Fragment } from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
+import WarningIcon from '@material-ui/icons/Warning';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
+import WarningTooltip from '../common/WarningTooltip';
+import WithdrawnNotice from '../common/WithdrawnNotice';
 import DrugIcon from '../../icons/DrugIcon';
 
 const styles = () => ({
@@ -12,7 +15,7 @@ const styles = () => ({
     fontWeight: 500,
   },
   icon: {
-    verticalAlign: 'bottom',
+    verticalAlign: 'text-bottom',
   },
 });
 
@@ -26,6 +29,16 @@ const DrugDetail = ({ classes, data }) => {
         <DrugIcon className={classes.icon} />
         Drug
       </Typography>
+      {data.hasBeenWithdrawn && (
+        <Typography className={classes.subtitle} color="error">
+          Withdrawn Drug{' '}
+          <WarningTooltip
+            title={<WithdrawnNotice withdrawnNotice={data.withdrawnNotice} />}
+          >
+            <WarningIcon className={classes.icon} />
+          </WarningTooltip>
+        </Typography>
+      )}
       <Typography className={classes.subtitle} variant="subtitle1">
         Drug Type
       </Typography>
@@ -34,12 +47,6 @@ const DrugDetail = ({ classes, data }) => {
         Maximum Clinical Trial Phase
       </Typography>
       <Typography>{data.maximumClinicalTrialPhase}</Typography>
-      {data.hasBeenWithdrawn && (
-        <>
-          <Typography variant="subtitle1">Withdrawn message</Typography>
-          <Typography>{data.withdrawnNotice.year}</Typography>
-        </>
-      )}
       {data.linkedDiseases.rows.length > 0 && (
         <>
           <Typography className={classes.subtitle} variant="subtitle1">
