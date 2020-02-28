@@ -40,44 +40,60 @@ const DrugDetail = ({ classes, data }) => {
           <Typography>{data.withdrawnNotice.year}</Typography>
         </>
       )}
-      <Typography className={classes.subtitle} variant="subtitle1">
-        Indications
-      </Typography>
-      {data.linkedDiseases.rows.map(disease => (
-        <Fragment key={disease}>
-          <Link to={`/disease/${disease}`}>{disease}</Link>{' '}
-        </Fragment>
-      ))}
-      <Typography className={classes.subtitle} variant="subtitle1">
-        Drug targets
-      </Typography>
-      {data.linkedTargets.rows.map(target => (
-        <Fragment key={target.id}>
-          <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>{' '}
-        </Fragment>
-      ))}
-      <Typography className={classes.subtitle} variant="subtitle1">
-        Synonyms
-      </Typography>
-      {data.synonyms.map(synonym => (
-        <Chip
-          key={synonym}
-          className={classes.chip}
-          label={synonym}
-          variant="outlined"
-        />
-      ))}
-      <Typography className={classes.subtitle} variant="subtitle1">
-        Trade names
-      </Typography>
-      {data.tradeNames.map(tradeName => (
-        <Chip
-          key={tradeName}
-          className={classes.chip}
-          label={tradeName}
-          variant="outlined"
-        />
-      ))}
+      {data.linkedDiseases.rows.length > 0 && (
+        <>
+          <Typography className={classes.subtitle} variant="subtitle1">
+            Indications
+          </Typography>
+          {data.linkedDiseases.rows.map(disease => (
+            <Fragment key={disease}>
+              <Link to={`/disease/${disease}`}>{disease}</Link>{' '}
+            </Fragment>
+          ))}
+        </>
+      )}
+      {data.linkedTargets.rows.length > 0 && (
+        <>
+          <Typography className={classes.subtitle} variant="subtitle1">
+            Drug targets
+          </Typography>
+          {data.linkedTargets.rows.map(target => (
+            <Fragment key={target.id}>
+              <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>{' '}
+            </Fragment>
+          ))}
+        </>
+      )}
+      {data.synonyms.length > 0 && (
+        <>
+          <Typography className={classes.subtitle} variant="subtitle1">
+            Synonyms
+          </Typography>
+          {data.synonyms.map(synonym => (
+            <Chip
+              key={synonym}
+              className={classes.chip}
+              label={synonym}
+              variant="outlined"
+            />
+          ))}
+        </>
+      )}
+      {data.tradeNames.length > 0 && (
+        <>
+          <Typography className={classes.subtitle} variant="subtitle1">
+            Trade names
+          </Typography>
+          {data.tradeNames.map(tradeName => (
+            <Chip
+              key={tradeName}
+              className={classes.chip}
+              label={tradeName}
+              variant="outlined"
+            />
+          ))}
+        </>
+      )}
     </CardContent>
   );
 };

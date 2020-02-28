@@ -35,32 +35,43 @@ const TargetDetail = ({ classes, data }) => {
           Target
         </Typography>
         <LongText lineLimit="4">{functions[0]}</LongText>
-        <Typography className={classes.subtitle} variant="subtitle1">
-          Top associated diseases
-        </Typography>
-        {rows.map(({ id }) => {
-          return (
-            <Fragment key={id}>
-              <Link to={`/disease/${id}`}>{id}</Link>{' '}
-            </Fragment>
-          );
-        })}
+        {rows.length > 0 && (
+          <>
+            <Typography className={classes.subtitle} variant="subtitle1">
+              Top associated diseases
+            </Typography>
+            {rows.map(({ id }) => {
+              return (
+                <Fragment key={id}>
+                  <Link to={`/disease/${id}`}>{id}</Link>{' '}
+                </Fragment>
+              );
+            })}
+          </>
+        )}
         <Typography className={classes.subtitle} variant="subtitle1">
           Biotype
         </Typography>
         <Typography>{bioType}</Typography>
-        <Typography className={classes.subtitle} variant="subtitle1">
-          Uniprot accessions
-        </Typography>
-        {accessions.map(accession => {
-          return (
-            <Fragment key={accession}>
-              <Link external to={`http://www.uniprot.org/uniprot/${accession}`}>
-                {accession}
-              </Link>{' '}
-            </Fragment>
-          );
-        })}
+        {accessions.length > 0 && (
+          <>
+            <Typography className={classes.subtitle} variant="subtitle1">
+              Uniprot accessions
+            </Typography>
+            {accessions.map(accession => {
+              return (
+                <Fragment key={accession}>
+                  <Link
+                    external
+                    to={`http://www.uniprot.org/uniprot/${accession}`}
+                  >
+                    {accession}
+                  </Link>{' '}
+                </Fragment>
+              );
+            })}
+          </>
+        )}
       </CardContent>
     </>
   );

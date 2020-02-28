@@ -31,26 +31,34 @@ const DiseaseDetail = ({ classes, data }) => {
         <DiseaseIcon className={classes.icon} /> Disease
       </Typography>
       <LongText lineLimit="4">{description}</LongText>
-      <Typography className={classes.subtitle} variant="subtitle1">
-        Top associated targets
-      </Typography>
-      {rows.map(({ id }) => {
-        return (
-          <Fragment key={id}>
-            <Link to={`/target/${id}`}>{id}</Link>{' '}
-          </Fragment>
-        );
-      })}
-      <Typography className={classes.subtitle} variant="subtitle1">
-        Therapeutic areas
-      </Typography>
-      {therapeuticAreas.map(area => {
-        return (
-          <Fragment key={area.id}>
-            <Link to={`/disease/${area.id}`}>{area.name}</Link>{' '}
-          </Fragment>
-        );
-      })}
+      {rows.length > 0 && (
+        <>
+          <Typography className={classes.subtitle} variant="subtitle1">
+            Top associated targets
+          </Typography>
+          {rows.map(({ id }) => {
+            return (
+              <Fragment key={id}>
+                <Link to={`/target/${id}`}>{id}</Link>{' '}
+              </Fragment>
+            );
+          })}
+        </>
+      )}
+      {therapeuticAreas.length > 0 && (
+        <>
+          <Typography className={classes.subtitle} variant="subtitle1">
+            Therapeutic areas
+          </Typography>
+          {therapeuticAreas.map(area => {
+            return (
+              <Fragment key={area.id}>
+                <Link to={`/disease/${area.id}`}>{area.name}</Link>{' '}
+              </Fragment>
+            );
+          })}
+        </>
+      )}
     </CardContent>
   );
 };
