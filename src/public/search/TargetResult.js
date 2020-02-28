@@ -13,6 +13,9 @@ const styles = theme => ({
     color: theme.palette.primary.main,
     verticalAlign: 'bottom',
   },
+  matches: {
+    marginTop: '9px',
+  },
 });
 
 const TargetResult = ({ classes, data, highlights }) => {
@@ -26,7 +29,7 @@ const TargetResult = ({ classes, data, highlights }) => {
           <Clampy clampSize="4">{data.proteinAnnotations.functions[0]}</Clampy>
         </Typography>
       ) : null}
-      <div>
+      <div className={classes.matches}>
         <Typography component="span" inline variant="subtitle2">
           Matches:
         </Typography>{' '}

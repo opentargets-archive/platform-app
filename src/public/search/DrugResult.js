@@ -12,6 +12,9 @@ const styles = theme => ({
     color: theme.palette.primary.main,
     verticalAlign: 'bottom',
   },
+  matches: {
+    marginTop: '9px',
+  },
 });
 
 const DrugResult = ({ classes, data, highlights }) => {
@@ -20,7 +23,7 @@ const DrugResult = ({ classes, data, highlights }) => {
       <Link to={`drug/${data.id}`}>
         <DrugIcon className={classes.icon} /> {data.name}
       </Link>
-      <div>
+      <div className={classes.matches}>
         <Typography inline variant="subtitle2">
           Matches:
         </Typography>{' '}

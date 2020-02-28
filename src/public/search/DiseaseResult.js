@@ -12,6 +12,9 @@ const styles = theme => ({
     color: theme.palette.primary.main,
     verticalAlign: 'bottom',
   },
+  matches: {
+    marginTop: '9px',
+  },
 });
 
 const DiseaseResult = ({ classes, data, highlights }) => {
@@ -21,7 +24,7 @@ const DiseaseResult = ({ classes, data, highlights }) => {
         <DiseaseIcon className={classes.icon} /> {data.name}
       </Link>
       <Typography>{data.description}</Typography>
-      <div>
+      <div className={classes.matches}>
         <Typography inline variant="subtitle2">
           Matches:
         </Typography>{' '}
