@@ -7,13 +7,13 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import WarningIcon from '@material-ui/icons/Warning';
 import LockIcon from '@material-ui/icons/Lock';
-import Tooltip from '@material-ui/core/Tooltip';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
 import ChipsField from '../common/ChipsField';
 import Smiles from './Smiles';
-import WithdrawnNotice from './WithdrawnNotice';
+import WarningTooltip from '../common/WarningTooltip';
+import WithdrawnNotice from '../common/WithdrawnNotice';
 
 const sections = Object.values(sectionsObject);
 
@@ -55,12 +55,6 @@ const styles = theme => ({
     top: '5px',
   },
 });
-
-const WarningTooltip = withStyles(theme => ({
-  tooltip: {
-    backgroundColor: theme.palette.secondary.main,
-  },
-}))(Tooltip);
 
 class DrugProfile extends Component {
   render() {

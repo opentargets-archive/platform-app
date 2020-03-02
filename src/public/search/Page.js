@@ -12,6 +12,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import BasePage from '../common/BasePage';
 import { client2 } from '../client';
+import TargetIcon from '../../icons/TargetIcon';
+import DiseaseIcon from '../../icons/DiseaseIcon';
+import DrugIcon from '../../icons/DrugIcon';
 import TargetDetail from './TargetDetail';
 import DiseaseDetail from './DiseaseDetail';
 import DrugDetail from './DrugDetail';
@@ -52,9 +55,13 @@ const getCounts = entities => {
   return counts;
 };
 
-const styles = () => ({
+const styles = theme => ({
   label: {
     marginLeft: '-6px',
+  },
+  icon: {
+    verticalAlign: 'bottom',
+    color: theme.palette.primary.main,
   },
 });
 
@@ -65,9 +72,7 @@ const SearchFilters = withStyles(styles)(
       variables: { queryString: q },
     });
 
-    if (loading) return 'Loading...';
-
-    if (error) return 'Error...';
+    if (loading || error) return null;
 
     const counts = getCounts(data.search.aggregations.entities);
 
@@ -81,7 +86,11 @@ const SearchFilters = withStyles(styles)(
               onChange={setEntity('target')}
             />
           }
-          label={`Target (${counts.target})`}
+          label={
+            <>
+              Target ({counts.target}) <TargetIcon className={classes.icon} />
+            </>
+          }
         />
         <FormControlLabel
           className={classes.label}
@@ -91,7 +100,12 @@ const SearchFilters = withStyles(styles)(
               onChange={setEntity('disease')}
             />
           }
-          label={`Disease (${counts.disease})`}
+          label={
+            <>
+              Disease ({counts.disease}){' '}
+              <DiseaseIcon className={classes.icon} />
+            </>
+          }
         />
         <FormControlLabel
           className={classes.label}
@@ -101,7 +115,11 @@ const SearchFilters = withStyles(styles)(
               onChange={setEntity('drug')}
             />
           }
-          label={`Drug (${counts.drug})`}
+          label={
+            <>
+              Drug ({counts.drug}) <DrugIcon className={classes.icon} />
+            </>
+          }
         />
       </>
     );
@@ -118,21 +136,23 @@ const SearchResults = ({ q, page, entities, changePage }) => {
     },
   });
 
-  if (loading) return 'Loading...';
-
-  if (error) return 'Error';
+  if (loading || error) return null;
 
   const results = data.search.hits;
 
   return (
     <>
-      {results.map(({ object }) => {
+      {results.map(({ highlights, object }) => {
         return object.__typename === 'Target' ? (
-          <TargetResult key={object.id} data={object} />
+          <TargetResult key={object.id} data={object} highlights={highlights} />
         ) : object.__typename === 'Disease' ? (
-          <DiseaseResult key={object.id} data={object} />
+          <DiseaseResult
+            key={object.id}
+            data={object}
+            highlights={highlights}
+          />
         ) : (
-          <DrugResult key={object.id} data={object} />
+          <DrugResult key={object.id} data={object} highlights={highlights} />
         );
       })}
       <TablePagination
@@ -153,9 +173,7 @@ const TopHitDetail = ({ q, entities }) => {
     variables: { queryString: q, entityNames: entities },
   });
 
-  if (loading) return 'Loading...';
-
-  if (error) return 'Error...';
+  if (loading || error) return null;
 
   const topHit =
     data.search.hits.length > 0 ? data.search.hits[0].object : null;

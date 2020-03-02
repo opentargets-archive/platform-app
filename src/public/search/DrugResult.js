@@ -12,16 +12,27 @@ const styles = theme => ({
     color: theme.palette.primary.main,
     verticalAlign: 'bottom',
   },
+  matches: {
+    marginTop: '9px',
+  },
 });
 
-const DrugResult = ({ classes, data }) => {
+const DrugResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
-      <Link to={`drug/${data.id}`}>{data.name}</Link>
-      <Typography>
-        <DrugIcon className={classes.icon} />
-        Drug
-      </Typography>
+      <Link to={`drug/${data.id}`}>
+        <DrugIcon className={classes.icon} /> {data.name}
+      </Link>
+      <div className={classes.matches}>
+        <Typography inline variant="subtitle2">
+          Matches:
+        </Typography>{' '}
+        <Typography
+          inline
+          className="highlights"
+          dangerouslySetInnerHTML={{ __html: highlights.join(', ') }}
+        />
+      </div>
     </div>
   );
 };
