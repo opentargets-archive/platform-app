@@ -12,6 +12,44 @@ const highlightStyles = theme => ({
   },
 });
 
+const Highlights2 = ({ classes, highlights }) => {
+  if (highlights.length === 0) return null;
+
+  const [showMore, setShowMore] = useState(false);
+  return (
+    <div className={classes.matches}>
+      <Typography component="span" inline variant="subtitle2">
+        Matches:
+      </Typography>{' '}
+      {(showMore ? highlights : [highlights[0]]).map(highlight => {
+        return (
+          <Typography
+            className="highlights"
+            dangerouslySetInnerHTML={{
+              __html: highlight,
+            }}
+          />
+        );
+      })}
+      {highlights.length > 1 && (
+        <>
+          {' '}
+          <Typography inline>
+            [{' '}
+            <span
+              className={classes.showMore}
+              onClick={() => setShowMore(!showMore)}
+            >
+              {showMore ? 'hide' : 'more'}
+            </span>{' '}
+            ]
+          </Typography>
+        </>
+      )}
+    </div>
+  );
+};
+
 const Highlights = ({ classes, highlights }) => {
   if (highlights.length === 0) return null;
 
@@ -37,7 +75,7 @@ const Highlights = ({ classes, highlights }) => {
               className={classes.showMore}
               onClick={() => setShowMore(!showMore)}
             >
-              {showMore ? 'hide' : 'show more'}
+              {showMore ? 'hide' : 'more'}
             </span>{' '}
             ]
           </Typography>
@@ -47,4 +85,5 @@ const Highlights = ({ classes, highlights }) => {
   );
 };
 
-export default withStyles(highlightStyles)(Highlights);
+// export default withStyles(highlightStyles)(Highlights);
+export default withStyles(highlightStyles)(Highlights2);
