@@ -1,10 +1,11 @@
 import React from 'react';
-import { withApollo } from 'react-apollo';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { downloadTable } from 'ot-ui';
+
+import client from '../client';
 
 const styles = () => ({
   container: {
@@ -16,7 +17,6 @@ const styles = () => ({
 });
 
 async function downloadBatch({
-  client,
   query,
   variables,
   getRows,
@@ -38,8 +38,8 @@ async function downloadBatch({
     .then(response => ({ rows: getRows(response), after: getAfter(response) }));
 }
 
-async function downloadAll({ client, query, variables, getRows, getAfter }) {
-  const first = downloadBatch({ client, query, variables, getRows, getAfter });
+async function downloadAll({ query, variables, getRows, getAfter }) {
+  const first = downloadBatch({ query, variables, getRows, getAfter });
   let prev = await first;
   let rows = [];
   while (true) {
@@ -47,7 +47,6 @@ async function downloadAll({ client, query, variables, getRows, getAfter }) {
     rows = [...rows, ...prev.rows];
     if (after) {
       prev = await downloadBatch({
-        client,
         query,
         variables,
         getRows,
@@ -64,7 +63,6 @@ async function downloadAll({ client, query, variables, getRows, getAfter }) {
 class ClassicAssociationsDownload extends React.Component {
   handleDownload = format => {
     const {
-      client,
       query,
       variables,
       getRows,
@@ -72,7 +70,7 @@ class ClassicAssociationsDownload extends React.Component {
       headers,
       fileStem,
     } = this.props;
-    downloadAll({ client, query, variables, getRows, getAfter }).then(rows => {
+    downloadAll({ query, variables, getRows, getAfter }).then(rows => {
       downloadTable({
         headerMap: headers,
         rows,
@@ -118,4 +116,4 @@ class ClassicAssociationsDownload extends React.Component {
   }
 }
 
-export default withStyles(styles)(withApollo(ClassicAssociationsDownload));
+export default withStyles(styles)(ClassicAssociationsDownload);

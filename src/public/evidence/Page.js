@@ -1,15 +1,12 @@
-import React, { Fragment, Component } from 'react';
-// import { Route, Switch } from 'react-router-dom';
-import { Query } from 'react-apollo';
+import React from 'react';
+import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
-
-// import { Tabs, Tab } from 'ot-ui';
 
 import Header from './Header';
 import Profile from './Profile';
 
-const evidenceQuery = gql`
+const EVIDENCE_QUERY = gql`
   query EvidenceQuery($ensgId: String!, $efoId: String!) {
     target(ensgId: $ensgId) {
       id
@@ -28,88 +25,32 @@ const evidenceQuery = gql`
   }
 `;
 
-class EvidencePage extends Component {
-  // state = {};
+const EvidencePage = () => {
+  const { match } = this.props;
+  const { ensgId, efoId } = match.params;
 
-  // static getDerivedStateFromProps(props) {
-  //   const value = props.location.pathname.endsWith('/associations')
-  //     ? 'associations'
-  //     : 'overview';
+  const { loading, error, data } = useQuery(EVIDENCE_QUERY, {
+    variables: { ensgId, efoId },
+  });
 
-  //   return {
-  //     value,
-  //   };
-  // }
+  if (loading || error) return null;
 
-  // handleChange = (event, value) => {
-  //   const { history, match } = this.props;
-  //   this.setState({ value }, () => {
-  //     history.push(
-  //       `${match.url}${value === 'overview' ? '' : '/associations'}`
-  //     );
-  //   });
-  // };
+  const { target, disease } = data;
 
-  render() {
-    const { match } = this.props;
-    // const { value } = this.state;
-    const { ensgId, efoId } = match.params;
-
-    return (
-      <Query query={evidenceQuery} variables={{ ensgId, efoId }}>
-        {({ loading, error, data }) => {
-          if (loading || error) {
-            return null;
-          }
-          const { target, disease } = data;
-
-          return (
-            <Fragment>
-              <Helmet>
-                <title>{`Evidence for ${target.symbol} in ${
-                  disease.name
-                }`}</title>
-              </Helmet>
-              <Header
-                {...{
-                  target,
-                  disease,
-                }}
-              />
-              <Profile
-                {...{
-                  ensgId,
-                  efoId,
-                  target,
-                  disease,
-                }}
-              />
-              {/* <Tabs
-            value={value}
-            onChange={this.handleChange}
-            variant="scrollable"
-            scrollButtons="auto"
-          >
-            <Tab value="overview" label="Evidence" />
-          </Tabs>
-          <Switch>
-            <Route
-              path={match.path}
-              render={() => (
-                <Profile
-                  {...{
-                    target, disease
-                  }}
-                />
-              )}
-            />
-          </Switch> */}
-            </Fragment>
-          );
-        }}
-      </Query>
-    );
-  }
-}
+  return (
+    <>
+      <Helmet>
+        <title>{`Evidence for ${target.symbol} in ${disease.name}`}</title>
+      </Helmet>
+      <Header target={target} disease={disease} />
+      <Profile
+        ensgId={ensgId}
+        efoId={efoId}
+        target={target}
+        disease={disease}
+      />
+    </>
+  );
+};
 
 export default EvidencePage;

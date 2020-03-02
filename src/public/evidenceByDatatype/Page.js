@@ -1,5 +1,5 @@
-import React, { Fragment, Component } from 'react';
-import { Query } from 'react-apollo';
+import React from 'react';
+import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
@@ -7,7 +7,7 @@ import Header from './Header';
 import Profile from './Profile';
 import BasePage from '../common/BasePage';
 
-const evidenceQuery = gql`
+const EVIDENCE_QUERY = gql`
   query EvidenceQuery($ensgId: String!, $efoId: String!) {
     target(ensgId: $ensgId) {
       id
@@ -26,46 +26,30 @@ const evidenceQuery = gql`
   }
 `;
 
-class EvidencePage extends Component {
-  render() {
-    const { match } = this.props;
-    const { ensgId, efoId } = match.params;
+const EvidencePage = ({ match }) => {
+  const { ensgId, efoId } = match.params;
 
-    return (
-      <BasePage>
-        <Query query={evidenceQuery} variables={{ ensgId, efoId }}>
-          {({ loading, error, data }) => {
-            if (loading || error) {
-              return null;
-            }
-            const { target, disease } = data;
+  const { loading, error, data } = useQuery(EVIDENCE_QUERY, {
+    variables: { ensgId, efoId },
+  });
 
-            return (
-              <Fragment>
-                <Helmet>
-                  <title>{`Evidence for ${target.symbol} in ${disease.name}`}</title>
-                </Helmet>
-                <Header
-                  {...{
-                    target,
-                    disease,
-                  }}
-                />
-                <Profile
-                  {...{
-                    ensgId,
-                    efoId,
-                    target,
-                    disease,
-                  }}
-                />
-              </Fragment>
-            );
-          }}
-        </Query>
-      </BasePage>
-    );
-  }
-}
+  if (loading || error) return null;
+
+  const { target, disease } = data;
+  return (
+    <BasePage>
+      <Helmet>
+        <title>{`Evidence for ${target.symbol} in ${disease.name}`}</title>
+      </Helmet>
+      <Header target={target} disease={disease} />
+      <Profile
+        ensgId={ensgId}
+        efoId={efoId}
+        target={target}
+        disease={disease}
+      />
+    </BasePage>
+  );
+};
 
 export default EvidencePage;

@@ -1,5 +1,5 @@
-import React, { Fragment, Component } from 'react';
-import { Query } from 'react-apollo';
+import React from 'react';
+import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
@@ -7,7 +7,7 @@ import Header from './Header';
 import Profile from './Profile';
 import BasePage from '../common/BasePage';
 
-const drugQuery = gql`
+const DRUG_QUERY = gql`
   query DrugQuery($chemblId: String!) {
     drug(chemblId: $chemblId) {
       id
@@ -29,55 +29,46 @@ const drugQuery = gql`
   }
 `;
 
-class DrugPage extends Component {
-  render() {
-    const { chemblId } = this.props.match.params;
+const DrugPage = ({ match }) => {
+  const { chemblId } = match.params;
 
-    return (
-      <BasePage>
-        <Query query={drugQuery} variables={{ chemblId }}>
-          {({ loading, error, data }) => {
-            if (loading || error) {
-              return null;
-            }
-            const {
-              name,
-              synonyms,
-              tradeNames,
-              yearOfFirstApproval,
-              type,
-              maximumClinicalTrialPhase,
-              hasBeenWithdrawn,
-              withdrawnNotice,
-            } = data.drug;
+  const { loading, error, data } = useQuery(DRUG_QUERY, {
+    variables: { chemblId },
+  });
 
-            return (
-              <Fragment>
-                <Helmet>
-                  <title>{name}</title>
-                </Helmet>
-                <Header chemblId={chemblId} name={name} />
-                <Profile
-                  {...{
-                    chemblId,
-                    name,
-                    type,
-                    tradeNames,
-                    maximumClinicalTrialPhase,
-                    yearOfFirstApproval,
-                    description: null,
-                    synonyms,
-                    hasBeenWithdrawn,
-                    withdrawnNotice,
-                  }}
-                />
-              </Fragment>
-            );
-          }}
-        </Query>
-      </BasePage>
-    );
-  }
-}
+  if (loading || error) return null;
+
+  const {
+    name,
+    synonyms,
+    tradeNames,
+    yearOfFirstApproval,
+    type,
+    maximumClinicalTrialPhase,
+    hasBeenWithdrawn,
+    withdrawnNotice,
+  } = data.drug;
+
+  return (
+    <BasePage>
+      <Helmet>
+        <title>{name}</title>
+      </Helmet>
+      <Header chemblId={chemblId} name={name} />
+      <Profile
+        chemblId={chemblId}
+        name={name}
+        type={type}
+        tradeNames={tradeNames}
+        maximumClinicalTrialPhase={maximumClinicalTrialPhase}
+        yearOfFirstApproval={yearOfFirstApproval}
+        description={null}
+        synonyms={synonyms}
+        hasBeenWithdrawn={hasBeenWithdrawn}
+        withdrawnNotice={withdrawnNotice}
+      />
+    </BasePage>
+  );
+};
 
 export default DrugPage;

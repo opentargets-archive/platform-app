@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@apollo/client';
 import _ from 'lodash';
 import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
-import { Query } from 'react-apollo';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -110,184 +110,162 @@ const getTractabilityScoresByModality = ({ smallMolecule, antibody }) => {
   ];
 };
 
-class ClassicAssociations extends React.Component {
-  state = {
-    first: 50,
-    page: 0,
-    pageCursors: {},
-    facets: facetsStateDefault,
-    search: '',
-    searchDebouced: '',
-    sortBy: { field: 'SCORE_OVERALL', ascending: false },
-  };
-  handlePaginationChange = (forward, nextPageCursor) => {
-    const { page, pageCursors } = this.state;
+const ROWS_PER_PAGE = 50;
+
+const ClassicAssociations = ({ efoId, name }) => {
+  const [page, setPage] = useState(0);
+  const [pageCursors, setPageCursors] = useState({});
+  const [sortBy, setSortBy] = useState({
+    field: 'SCORE_OVERALL',
+    ascending: false,
+  });
+  const [search, setSearch] = useState('');
+  const [searchDebouced, setSearchDebouced] = useState('');
+  const [facetsState, setFacetsState] = useState(facetsStateDefault);
+
+  const handlePaginationChange = (forward, nextPageCursor) => {
     if (forward) {
       // go to next page
-      this.setState({
-        page: page + 1,
-        pageCursors: { ...pageCursors, [page + 1]: nextPageCursor },
-      });
+      setPage(page + 1);
+      setPageCursors({ ...pageCursors, [page + 1]: nextPageCursor });
     } else {
       // go to previous page
-      this.setState({ page: page - 1 });
+      setPage(page - 1);
     }
   };
-  handleSortByChange = sortBy => {
-    this.setState({ sortBy, page: 0 });
+  const handleSortByChange = sortBy => {
+    setSortBy(sortBy);
+    setPage(0);
   };
-  handleSearchChange = search => {
-    this.setState({ search });
-    this.handleSearchDeboucedChange(search);
+  const handleSearchChange = search => {
+    setSearch(search);
+    handleSearchDeboucedChange(search);
   };
-  handleSearchDeboucedChange = _.debounce(searchDebouced => {
-    this.setState({ searchDebouced, page: 0 });
+  const handleSearchDeboucedChange = _.debounce(searchDebouced => {
+    setSearchDebouced(searchDebouced);
+    setPage(0);
   }, 500);
-  handleFacetChange = facetId => state => {
-    const { facets: facetsState } = this.state;
-    this.setState({
-      facets: { ...facetsState, [facetId]: state },
-      page: 0,
-    });
+  const handleFacetChange = facetId => state => {
+    setFacetsState({ ...facetsState, [facetId]: state });
+    setPage(0);
   };
-  render() {
-    const { efoId, name } = this.props;
-    const {
-      search,
-      searchDebouced,
+
+  const facetsInput = facets
+    .map(f => ({ ...f, input: f.stateToInput(facetsState[f.id]) }))
+    .filter(f => f.input)
+    .reduce((acc, f) => {
+      acc[f.id] = f.input;
+      return acc;
+    }, {});
+  const after = page > 0 ? pageCursors[page] : null;
+
+  const { loading, error, data } = useQuery(associationsQuery, {
+    variables: {
+      efoId,
       sortBy,
-      facets: facetsState,
-      page,
-      pageCursors,
-      first: rowsPerPage,
-    } = this.state;
-    const facetsInput = facets
-      .map(f => ({ ...f, input: f.stateToInput(facetsState[f.id]) }))
-      .filter(f => f.input)
-      .reduce((acc, f) => {
-        acc[f.id] = f.input;
-        return acc;
-      }, {});
-    const after = page > 0 ? pageCursors[page] : null;
-    return (
-      <Query
-        query={associationsQuery}
-        variables={{
-          efoId,
-          sortBy,
-          search: searchDebouced ? searchDebouced : null,
-          facets: facetsInput,
-          after,
-        }}
-      >
-        {({ loading, error, data }) => {
-          if (error) {
-            return null;
-          }
+      search: searchDebouced ? searchDebouced : null,
+      facets: facetsInput,
+      after,
+    },
+  });
 
-          let edges;
-          let totalCount;
-          let facetsData;
-          let pageInfo;
-          if (
-            loading &&
-            !(data && data.disease && data.disease.targetsConnection)
-          ) {
-            edges = [];
-          } else {
-            edges = data.disease.targetsConnection.edges;
-            totalCount = data.disease.targetsConnection.totalCount;
-            facetsData = data.disease.targetsConnection.facets;
-            pageInfo = data.disease.targetsConnection.pageInfo;
-          }
-
-          const rows = edges.map(({ node, ...rest }) => ({
-            target: node,
-            tractabilityScoresByModality: getTractabilityScoresByModality(
-              node.details.tractability
-            ),
-            data: {
-              symbol: node.symbol,
-              id: node.id,
-              disease: { efoId },
-              score: rest.score,
-            }, // for tooltip
-            ...rest,
-          }));
-          const dataTypes =
-            rows.length > 0
-              ? rows[0].scoresByDataType.map(d => d.dataTypeId)
-              : [];
-          const modalities =
-            rows.length > 0
-              ? rows[0].tractabilityScoresByModality.map(d => d.modalityId)
-              : [];
-          return (
-            <Grid style={{ marginTop: '8px' }} container spacing={16}>
-              <Grid item xs={12}>
-                <Typography variant="h6">
-                  <strong>{commaSeparate(totalCount)} targets</strong>{' '}
-                  associated with <strong>{name}</strong>
-                </Typography>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Card elevation={0}>
-                  <CardContent>
-                    <Typography variant="h6">Filter by</Typography>
-                    <div style={{ paddingTop: '8px', paddingBottom: '4px' }}>
-                      <TextField
-                        id="associations-search"
-                        label="Target Symbol"
-                        value={search}
-                        onChange={event =>
-                          this.handleSearchChange(event.target.value)
-                        }
-                        fullWidth
-                        variant="outlined"
-                      />
-                    </div>
-                    {facetsData
-                      ? facets.map(f => (
-                          <FacetContainer key={f.id} name={f.name}>
-                            <f.FacetComponent
-                              state={facetsState[f.id]}
-                              data={facetsData[f.id]}
-                              onFacetChange={this.handleFacetChange(f.id)}
-                            />
-                          </FacetContainer>
-                        ))
-                      : null}
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} md={9}>
-                <Card elevation={0}>
-                  <CardContent>
-                    <ClassicAssociationsTable
-                      efoId={efoId}
-                      name={name}
-                      rows={rows}
-                      dataTypes={dataTypes}
-                      modalities={modalities}
-                      search={search}
-                      facets={facetsInput}
-                      sortBy={sortBy}
-                      onSortByChange={this.handleSortByChange}
-                      page={page}
-                      rowsPerPage={rowsPerPage}
-                      totalCount={totalCount}
-                      pageInfo={pageInfo}
-                      onPaginationChange={this.handlePaginationChange}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          );
-        }}
-      </Query>
-    );
+  if (error) {
+    return null;
   }
-}
+
+  let edges;
+  let totalCount;
+  let facetsData;
+  let pageInfo;
+  if (loading && !(data && data.disease && data.disease.targetsConnection)) {
+    edges = [];
+  } else {
+    edges = data.disease.targetsConnection.edges;
+    totalCount = data.disease.targetsConnection.totalCount;
+    facetsData = data.disease.targetsConnection.facets;
+    pageInfo = data.disease.targetsConnection.pageInfo;
+  }
+
+  const rows = edges.map(({ node, ...rest }) => ({
+    target: node,
+    tractabilityScoresByModality: getTractabilityScoresByModality(
+      node.details.tractability
+    ),
+    data: {
+      symbol: node.symbol,
+      id: node.id,
+      disease: { efoId },
+      score: rest.score,
+    }, // for tooltip
+    ...rest,
+  }));
+  const dataTypes =
+    rows.length > 0 ? rows[0].scoresByDataType.map(d => d.dataTypeId) : [];
+  const modalities =
+    rows.length > 0
+      ? rows[0].tractabilityScoresByModality.map(d => d.modalityId)
+      : [];
+
+  return (
+    <Grid style={{ marginTop: '8px' }} container spacing={16}>
+      <Grid item xs={12}>
+        <Typography variant="h6">
+          <strong>{commaSeparate(totalCount)} targets</strong> associated with{' '}
+          <strong>{name}</strong>
+        </Typography>
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <Card elevation={0}>
+          <CardContent>
+            <Typography variant="h6">Filter by</Typography>
+            <div style={{ paddingTop: '8px', paddingBottom: '4px' }}>
+              <TextField
+                id="associations-search"
+                label="Target Symbol"
+                value={search}
+                onChange={event => handleSearchChange(event.target.value)}
+                fullWidth
+                variant="outlined"
+              />
+            </div>
+            {facetsData
+              ? facets.map(f => (
+                  <FacetContainer key={f.id} name={f.name}>
+                    <f.FacetComponent
+                      state={facetsState[f.id]}
+                      data={facetsData[f.id]}
+                      onFacetChange={handleFacetChange(f.id)}
+                    />
+                  </FacetContainer>
+                ))
+              : null}
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} md={9}>
+        <Card elevation={0}>
+          <CardContent>
+            <ClassicAssociationsTable
+              efoId={efoId}
+              name={name}
+              rows={rows}
+              dataTypes={dataTypes}
+              modalities={modalities}
+              search={search}
+              facets={facetsInput}
+              sortBy={sortBy}
+              onSortByChange={handleSortByChange}
+              page={page}
+              rowsPerPage={ROWS_PER_PAGE}
+              totalCount={totalCount}
+              pageInfo={pageInfo}
+              onPaginationChange={handlePaginationChange}
+            />
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+  );
+};
 
 export default ClassicAssociations;

@@ -1,14 +1,14 @@
 import React from 'react';
 import * as d3 from 'd3';
 import { loader } from 'graphql.macro';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/client';
 
 import { OtTableRF, Link, significantFigures } from 'ot-ui';
 
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
 import ExpandableTableRow from '../../../common/ExpandableTableRow';
 
-const expansionQuery = loader('./expansionQuery.gql');
+const EXPANSION_QUERY = loader('./expansionQuery.gql');
 
 const columns = (symbol, maxDiseaseCountAOrB) => [
   {
@@ -95,34 +95,29 @@ const expansionColumns = (A, B) => [
   },
 ];
 
-const ExpandedComponent = ({ data }) => (
-  <Query
-    query={expansionQuery}
-    variables={{ pageEnsgId: data.A.id, otherEnsgId: data.B.id }}
-  >
-    {({ loading, error, data: data2 }) => {
-      if (loading || error) {
-        return null;
-      }
-      const expansionRows = data2.target.details.relatedTargets.expanded.map(
-        d => ({
-          ...d,
-          associationScoreProduct: d.associationScoreA * d.associationScoreB,
-        })
-      );
-      return (
-        <OtTableRF
-          loading={false}
-          error={false}
-          columns={expansionColumns(data.A, data.B)}
-          data={expansionRows}
-          sortBy="associationScoreProduct"
-          order="desc"
-        />
-      );
-    }}
-  </Query>
-);
+const ExpandedComponent = ({ data }) => {
+  const { loading, error, data: data2 } = useQuery(EXPANSION_QUERY, {
+    variables: { pageEnsgId: data.A.id, otherEnsgId: data.B.id },
+  });
+
+  if (loading || error) return null;
+
+  const expansionRows = data2.target.details.relatedTargets.expanded.map(d => ({
+    ...d,
+    associationScoreProduct: d.associationScoreA * d.associationScoreB,
+  }));
+
+  return (
+    <OtTableRF
+      loading={false}
+      error={false}
+      columns={expansionColumns(data.A, data.B)}
+      data={expansionRows}
+      sortBy="associationScoreProduct"
+      order="desc"
+    />
+  );
+};
 
 const TableRowComponent = props => (
   <ExpandableTableRow {...props} ExpandedComponent={ExpandedComponent} />

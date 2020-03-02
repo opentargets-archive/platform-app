@@ -8,7 +8,7 @@ import DropdownIndicator from './DropdownIndicator';
 import GroupHeading from './GroupHeading';
 import Option from './Option';
 import ValueContainer from './ValueContainer';
-import { client2 } from '../../App.js';
+import { client2 } from '../../client.js';
 
 const SEARCH_QUERY = loader('./SearchQuery.gql');
 
