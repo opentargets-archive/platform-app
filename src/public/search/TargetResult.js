@@ -2,6 +2,7 @@ import React from 'react';
 import Clampy from '@clampy-js/react-clampy';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'ot-ui';
+import Highlights from '../common/Highlights';
 import TargetIcon from '../../icons/TargetIcon';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -12,9 +13,6 @@ const styles = theme => ({
   icon: {
     color: theme.palette.primary.main,
     verticalAlign: 'bottom',
-  },
-  matches: {
-    marginTop: '9px',
   },
 });
 
@@ -29,16 +27,7 @@ const TargetResult = ({ classes, data, highlights }) => {
           <Clampy clampSize="4">{data.proteinAnnotations.functions[0]}</Clampy>
         </Typography>
       ) : null}
-      <div className={classes.matches}>
-        <Typography component="span" inline variant="subtitle2">
-          Matches:
-        </Typography>{' '}
-        <Typography
-          inline
-          className="highlights"
-          dangerouslySetInnerHTML={{ __html: highlights.join(', ') }}
-        />
-      </div>
+      <Highlights highlights={highlights} />
     </div>
   );
 };
