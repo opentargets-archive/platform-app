@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
+import Highlights from '../common/Highlights';
 import DiseaseIcon from '../../icons/DiseaseIcon';
 
 const styles = theme => ({
@@ -24,16 +25,7 @@ const DiseaseResult = ({ classes, data, highlights }) => {
         <DiseaseIcon className={classes.icon} /> {data.name}
       </Link>
       <Typography>{data.description}</Typography>
-      <div className={classes.matches}>
-        <Typography inline variant="subtitle2">
-          Matches:
-        </Typography>{' '}
-        <Typography
-          inline
-          className="highlights"
-          dangerouslySetInnerHTML={{ __html: highlights.join(', ') }}
-        />
-      </div>
+      <Highlights highlights={highlights} />
     </div>
   );
 };

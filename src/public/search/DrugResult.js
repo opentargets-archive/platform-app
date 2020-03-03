@@ -1,7 +1,7 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Typography from '@material-ui/core/Typography';
 import { Link } from 'ot-ui';
+import Highlights from '../common/Highlights';
 import DrugIcon from '../../icons/DrugIcon';
 
 const styles = theme => ({
@@ -23,16 +23,7 @@ const DrugResult = ({ classes, data, highlights }) => {
       <Link to={`drug/${data.id}`}>
         <DrugIcon className={classes.icon} /> {data.name}
       </Link>
-      <div className={classes.matches}>
-        <Typography inline variant="subtitle2">
-          Matches:
-        </Typography>{' '}
-        <Typography
-          inline
-          className="highlights"
-          dangerouslySetInnerHTML={{ __html: highlights.join(', ') }}
-        />
-      </div>
+      <Highlights highlights={highlights} />
     </div>
   );
 };
