@@ -21,9 +21,10 @@ const Highlights2 = ({ classes, highlights }) => {
       <Typography component="span" inline variant="subtitle2">
         Matches:
       </Typography>{' '}
-      {(showMore ? highlights : [highlights[0]]).map(highlight => {
+      {(showMore ? highlights : [highlights[0]]).map((highlight, i) => {
         return (
           <Typography
+            key={i}
             className="highlights"
             dangerouslySetInnerHTML={{
               __html: highlight,
