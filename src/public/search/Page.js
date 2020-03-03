@@ -88,7 +88,8 @@ const SearchFilters = withStyles(styles)(
           }
           label={
             <>
-              Target ({counts.target}) <TargetIcon className={classes.icon} />
+              <TargetIcon className={classes.icon} />
+              Target ({counts.target})
             </>
           }
         />
@@ -102,8 +103,8 @@ const SearchFilters = withStyles(styles)(
           }
           label={
             <>
-              Disease ({counts.disease}){' '}
-              <DiseaseIcon className={classes.icon} />
+              <DiseaseIcon className={classes.icon} /> Disease ({counts.disease}
+              ){' '}
             </>
           }
         />
@@ -117,7 +118,8 @@ const SearchFilters = withStyles(styles)(
           }
           label={
             <>
-              Drug ({counts.drug}) <DrugIcon className={classes.icon} />
+              <DrugIcon className={classes.icon} />
+              Drug ({counts.drug})
             </>
           }
         />
