@@ -142,6 +142,14 @@ const SearchResults = ({ q, page, entities, changePage }) => {
 
   return (
     <>
+      <TablePagination
+        component="div"
+        rowsPerPageOptions={[]}
+        rowsPerPage={10}
+        count={data.search.total}
+        page={page - 1}
+        onChangePage={changePage}
+      />
       {results.map(({ highlights, object }) => {
         return object.__typename === 'Target' ? (
           <TargetResult key={object.id} data={object} highlights={highlights} />
