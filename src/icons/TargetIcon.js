@@ -1,5 +1,12 @@
 import React from 'react';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const styles = () => ({
+  root: {
+    width: 'unset',
+  },
+});
 
 const TargetIcon = props => {
   return (
@@ -10,4 +17,4 @@ const TargetIcon = props => {
   );
 };
 
-export default TargetIcon;
+export default withStyles(styles)(TargetIcon);

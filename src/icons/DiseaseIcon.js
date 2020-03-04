@@ -1,5 +1,12 @@
 import React from 'react';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const styles = () => ({
+  root: {
+    width: 'unset',
+  },
+});
 
 const DiseaseIcon = props => {
   return (
@@ -9,4 +16,4 @@ const DiseaseIcon = props => {
   );
 };
 
-export default DiseaseIcon;
+export default withStyles(styles)(DiseaseIcon);
