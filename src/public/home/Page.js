@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { Link, HomeBox, NavBar, Footer } from 'ot-ui';
 
 import Splash from './Splash';
+import Stats from './Stats';
 import Search from '../common/search/Search';
 import { externalLinks, mainMenuItems } from '../../constants';
 
@@ -30,6 +31,7 @@ const HomePage = () => {
           </Grid>
         </HomeBox>
       </Grid>
+      <Stats />
       <Footer externalLinks={externalLinks} />
     </Fragment>
   );
