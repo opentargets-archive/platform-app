@@ -8,10 +8,10 @@ const styles = theme => ({
     marginBottom: '10px',
   },
   mainIcon: {
-    width: '40px !important',
-    height: '65px !important',
-    fill: `${theme.palette.primary.main} !important`,
-    marginRight: '12px !important',
+    width: '40px',
+    height: '65px',
+    fill: theme.palette.primary.main,
+    marginRight: '12px',
   },
   title: {
     color: theme.palette.primary.main,
