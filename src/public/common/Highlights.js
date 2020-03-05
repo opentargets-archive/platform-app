@@ -62,6 +62,7 @@ const Highlights = ({ classes, highlights }) => {
       </Typography>{' '}
       <Typography
         inline
+        variant="caption"
         className="highlights"
         dangerouslySetInnerHTML={{
           __html: showMore
@@ -88,5 +89,4 @@ const Highlights = ({ classes, highlights }) => {
   );
 };
 
-// export default withStyles(highlightStyles)(Highlights);
 export default withStyles(highlightStyles)(Highlights);
