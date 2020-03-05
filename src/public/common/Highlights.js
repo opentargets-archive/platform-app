@@ -65,9 +65,7 @@ const Highlights = ({ classes, highlights }) => {
         variant="caption"
         className="highlights"
         dangerouslySetInnerHTML={{
-          __html: showMore
-            ? highlights.join(' <span class="separator">•</span> ')
-            : highlights[0],
+          __html: showMore ? highlights.join(' | ') : highlights[0],
         }}
       />
       {highlights.length > 1 && (
