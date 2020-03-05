@@ -95,3 +95,8 @@ code {
   border-radius: 0.25em;
   background: #d8eddc;
 }
+
+.highlights .separator {
+  font-size: 22px;
+  line-height: 12px;
+}

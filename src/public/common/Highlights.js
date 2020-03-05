@@ -8,50 +8,11 @@ const highlightStyles = theme => ({
     color: theme.palette.primary.main,
   },
   matches: {
-    marginTop: '9px',
+    marginTop: '4px',
   },
 });
 
-const Highlights2 = ({ classes, highlights }) => {
-  if (highlights.length === 0) return null;
-
-  const [showMore, setShowMore] = useState(false);
-  return (
-    <div className={classes.matches}>
-      <Typography component="span" inline variant="subtitle2">
-        Matches:
-      </Typography>{' '}
-      {(showMore ? highlights : [highlights[0]]).map((highlight, i) => {
-        return (
-          <Typography
-            key={i}
-            className="highlights"
-            dangerouslySetInnerHTML={{
-              __html: highlight,
-            }}
-          />
-        );
-      })}
-      {highlights.length > 1 && (
-        <>
-          {' '}
-          <Typography inline>
-            [{' '}
-            <span
-              className={classes.showMore}
-              onClick={() => setShowMore(!showMore)}
-            >
-              {showMore ? 'hide' : 'more'}
-            </span>{' '}
-            ]
-          </Typography>
-        </>
-      )}
-    </div>
-  );
-};
-
-// const Highlights = ({ classes, highlights }) => {
+// const Highlights2 = ({ classes, highlights }) => {
 //   if (highlights.length === 0) return null;
 
 //   const [showMore, setShowMore] = useState(false);
@@ -60,13 +21,17 @@ const Highlights2 = ({ classes, highlights }) => {
 //       <Typography component="span" inline variant="subtitle2">
 //         Matches:
 //       </Typography>{' '}
-//       <Typography
-//         inline
-//         className="highlights"
-//         dangerouslySetInnerHTML={{
-//           __html: showMore ? highlights.join('; ') : highlights[0],
-//         }}
-//       />
+//       {(showMore ? highlights : [highlights[0]]).map((highlight, i) => {
+//         return (
+//           <Typography
+//             key={i}
+//             className="highlights"
+//             dangerouslySetInnerHTML={{
+//               __html: highlight,
+//             }}
+//           />
+//         );
+//       })}
 //       {highlights.length > 1 && (
 //         <>
 //           {' '}
@@ -86,5 +51,42 @@ const Highlights2 = ({ classes, highlights }) => {
 //   );
 // };
 
+const Highlights = ({ classes, highlights }) => {
+  if (highlights.length === 0) return null;
+
+  const [showMore, setShowMore] = useState(false);
+  return (
+    <div className={classes.matches}>
+      <Typography component="span" inline variant="subtitle2">
+        Matches:
+      </Typography>{' '}
+      <Typography
+        inline
+        className="highlights"
+        dangerouslySetInnerHTML={{
+          __html: showMore
+            ? highlights.join(' <span class="separator">•</span> ')
+            : highlights[0],
+        }}
+      />
+      {highlights.length > 1 && (
+        <>
+          {' '}
+          <Typography inline>
+            [{' '}
+            <span
+              className={classes.showMore}
+              onClick={() => setShowMore(!showMore)}
+            >
+              {showMore ? 'hide' : 'more'}
+            </span>{' '}
+            ]
+          </Typography>
+        </>
+      )}
+    </div>
+  );
+};
+
 // export default withStyles(highlightStyles)(Highlights);
-export default withStyles(highlightStyles)(Highlights2);
+export default withStyles(highlightStyles)(Highlights);
