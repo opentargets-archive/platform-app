@@ -10,19 +10,20 @@ const styles = theme => ({
   container: {
     marginBottom: '20px',
   },
+  subtitle: {
+    fontSize: '20px',
+    fontWeight: 500,
+  },
   icon: {
     color: theme.palette.primary.main,
     verticalAlign: 'bottom',
-  },
-  matches: {
-    marginTop: '9px',
   },
 });
 
 const DiseaseResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
-      <Link to={`/disease/${data.id}`}>
+      <Link to={`/disease/${data.id}`} className={classes.subtitle}>
         <DiseaseIcon className={classes.icon} /> {data.name}
       </Link>
       {data.description && (

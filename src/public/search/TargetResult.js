@@ -10,6 +10,10 @@ const styles = theme => ({
   container: {
     marginBottom: '20px',
   },
+  subtitle: {
+    fontSize: '20px',
+    fontWeight: 500,
+  },
   icon: {
     color: theme.palette.primary.main,
     verticalAlign: 'bottom',
@@ -19,7 +23,7 @@ const styles = theme => ({
 const TargetResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
-      <Link to={`/target/${data.id}`}>
+      <Link to={`/target/${data.id}`} className={classes.subtitle}>
         <TargetIcon className={classes.icon} /> {data.approvedSymbol}
       </Link>
       {data.proteinAnnotations ? (

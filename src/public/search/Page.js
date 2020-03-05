@@ -59,9 +59,20 @@ const styles = theme => ({
   label: {
     marginLeft: '-6px',
   },
-  icon: {
+  targetIcon: {
     verticalAlign: 'bottom',
     color: theme.palette.primary.main,
+    marginRight: '14px',
+  },
+  diseaseIcon: {
+    verticalAlign: 'bottom',
+    color: theme.palette.primary.main,
+    marginRight: '3px',
+  },
+  drugIcon: {
+    verticalAlign: 'bottom',
+    color: theme.palette.primary.main,
+    marginRight: '8px',
   },
 });
 
@@ -88,7 +99,7 @@ const SearchFilters = withStyles(styles)(
           }
           label={
             <>
-              <TargetIcon className={classes.icon} />
+              <TargetIcon className={classes.targetIcon} />
               Target ({counts.target})
             </>
           }
@@ -103,8 +114,8 @@ const SearchFilters = withStyles(styles)(
           }
           label={
             <>
-              <DiseaseIcon className={classes.icon} /> Disease ({counts.disease}
-              ){' '}
+              <DiseaseIcon className={classes.diseaseIcon} />
+              Disease ({counts.disease}){' '}
             </>
           }
         />
@@ -118,7 +129,7 @@ const SearchFilters = withStyles(styles)(
           }
           label={
             <>
-              <DrugIcon className={classes.icon} />
+              <DrugIcon className={classes.drugIcon} />
               Drug ({counts.drug})
             </>
           }

@@ -8,19 +8,20 @@ const styles = theme => ({
   container: {
     marginBottom: '20px',
   },
+  subtitle: {
+    fontSize: '20px',
+    fontWeight: 500,
+  },
   icon: {
     color: theme.palette.primary.main,
     verticalAlign: 'bottom',
-  },
-  matches: {
-    marginTop: '9px',
   },
 });
 
 const DrugResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
-      <Link to={`drug/${data.id}`}>
+      <Link to={`drug/${data.id}`} className={classes.subtitle}>
         <DrugIcon className={classes.icon} /> {data.name}
       </Link>
       <Highlights highlights={highlights} />
