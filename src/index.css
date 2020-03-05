@@ -91,9 +91,12 @@ code {
 
 /* styles for highlights */
 .highlights em {
-  border: 1px solid #9ccca6;
+  border: 1px solid darkgray;
   border-radius: 0.25em;
-  background: #d8eddc;
+  background: #efefef;
+  padding-left: 2px;
+  padding-right: 2px;
+  font-weight: 500;
 }
 
 .highlights .separator {
