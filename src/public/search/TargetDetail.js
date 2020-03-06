@@ -32,8 +32,7 @@ const TargetDetail = ({ classes, data }) => {
         </Typography>
         <Typography variant="subtitle2">{approvedName}</Typography>
         <Typography color="primary">
-          <TargetIcon className={classes.icon} />
-          Target
+          <TargetIcon className={classes.icon} /> Target
         </Typography>
         <LongText lineLimit="4">{functions[0]}</LongText>
         {rows.length > 0 && (

@@ -26,8 +26,7 @@ const DrugDetail = ({ classes, data }) => {
         <Link to={`/drug/${data.id}`}>{data.name}</Link>
       </Typography>
       <Typography color="primary">
-        <DrugIcon className={classes.icon} />
-        Drug
+        <DrugIcon className={classes.icon} /> Drug
       </Typography>
       {data.hasBeenWithdrawn && (
         <Typography className={classes.subtitle} color="error">
