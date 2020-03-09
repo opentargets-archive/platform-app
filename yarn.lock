@@ -10801,6 +10801,11 @@ parseurl@~1.3.2, parseurl@~1.3.3:
   resolved "https://registry.yarnpkg.com/parseurl/-/parseurl-1.3.3.tgz#9da19e7bee8d12dff0513ed5b76957793bc2e8d4"
   integrity sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==
 
+particles.js@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/particles.js/-/particles.js-2.0.0.tgz#21386c4328d6c7f96780a201e96eedfc09c736f6"
+  integrity sha1-IThsQyjWx/lngKIB6W7t/AnHNvY=
+
 pascalcase@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"

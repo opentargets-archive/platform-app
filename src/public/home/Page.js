@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import { Link, HomeBox, NavBar, Footer } from 'ot-ui';
@@ -10,7 +10,7 @@ import { externalLinks, mainMenuItems } from '../../constants';
 
 const HomePage = () => {
   return (
-    <Fragment>
+    <>
       <Grid container justify="center" alignItems="center">
         <Splash />
         <NavBar
@@ -33,7 +33,7 @@ const HomePage = () => {
       </Grid>
       <Stats />
       <Footer externalLinks={externalLinks} />
-    </Fragment>
+    </>
   );
 };
 

@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
+
+import 'particles.js';
+
+import { particlesConfig } from '../../constants';
 
 const styles = theme => ({
   splashContainer: {
@@ -17,9 +21,13 @@ const styles = theme => ({
 });
 
 const Splash = ({ classes }) => {
+  useEffect(() => {
+    window.particlesJS('splash', particlesConfig);
+  }, []);
+
   return (
     <div className={classes.splashContainer}>
-      <div className={classes.splash} />
+      <div id="splash" className={classes.splash} />
     </div>
   );
 };
