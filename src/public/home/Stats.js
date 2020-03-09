@@ -3,12 +3,24 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { commaSeparate } from 'ot-ui';
+import TargetIcon from '../../icons/TargetIcon';
+import DiseaseIcon from '../../icons/DiseaseIcon';
 
-const styles = theme => ({
-  container: {
-    backgroundColor: theme.palette.grey[300],
-  },
-});
+const styles = theme => {
+  console.log('theme', theme);
+  return {
+    container: {
+      backgroundColor: theme.palette.grey[300],
+    },
+    title: {
+      fontWeight: 600,
+    },
+    icon: {
+      fill: theme.palette.grey[700],
+      height: '56px',
+    },
+  };
+};
 
 const Stats = ({ classes }) => {
   const [stats, setStats] = useState(null);
@@ -39,30 +51,40 @@ const Stats = ({ classes }) => {
 
   return (
     <Grid className={classes.container} container justify="center">
-      <Grid item md={6}>
-        <Typography variant="h5" align="center">
+      <Grid item md={8}>
+        <Typography className={classes.title} variant="h5" align="center">
           Platform Stats
         </Typography>
-        <Typography align="center">Data last updated September 2019</Typography>
+        <Typography align="center" variant="subtitle1">
+          Data last updated September 2019
+        </Typography>
         {stats && (
           <Grid container justify="space-around">
-            <Grid item>
-              <Typography>{commaSeparate(stats.numTargets)} targets</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>
-                {commaSeparate(stats.numDiseases)} diseases
+            <Grid item container md={3} direction="column" alignItems="center">
+              <TargetIcon className={classes.icon} />
+              <Typography variant="h6">
+                {commaSeparate(stats.numTargets)}
               </Typography>
+              <Typography> targets</Typography>
             </Grid>
-            <Grid item>
-              <Typography>
-                {commaSeparate(stats.numAssociations)} associations
+            <Grid item container md={3} direction="column" alignItems="center">
+              <DiseaseIcon className={classes.icon} />
+              <Typography variant="h6">
+                {commaSeparate(stats.numDiseases)}
               </Typography>
+              <Typography>diseases</Typography>
             </Grid>
-            <Grid item>
-              <Typography>
-                {commaSeparate(stats.numDataSources)} data sources
+            <Grid item container md={3} direction="column" alignItems="center">
+              <Typography variant="h6">
+                {commaSeparate(stats.numAssociations)}
               </Typography>
+              <Typography>associations</Typography>
+            </Grid>
+            <Grid item container md={3} direction="column" alignItems="center">
+              <Typography variant="h6">
+                {commaSeparate(stats.numDataSources)}
+              </Typography>
+              <Typography>data sources</Typography>
             </Grid>
           </Grid>
         )}
