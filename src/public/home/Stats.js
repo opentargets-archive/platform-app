@@ -27,6 +27,8 @@ const Stats = ({ classes }) => {
 
   useEffect(() => {
     let isCurrent = true;
+    // TODO: design GraphQL schema from stats and get this data from the
+    // GraphQL API
     fetch('https://platform-api.opentargets.io/v3/platform/public/utils/stats')
       .then(res => res.json())
       .then(data => {
