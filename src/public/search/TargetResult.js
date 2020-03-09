@@ -8,7 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
   container: {
-    marginBottom: '20px',
+    marginBottom: '30px',
   },
   subtitle: {
     fontSize: '20px',

@@ -6,7 +6,7 @@ import DrugIcon from '../../icons/DrugIcon';
 
 const styles = theme => ({
   container: {
-    marginBottom: '20px',
+    marginBottom: '30px',
   },
   subtitle: {
     fontSize: '20px',
