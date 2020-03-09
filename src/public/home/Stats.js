@@ -7,10 +7,10 @@ import TargetIcon from '../../icons/TargetIcon';
 import DiseaseIcon from '../../icons/DiseaseIcon';
 
 const styles = theme => {
-  console.log('theme', theme);
   return {
     container: {
       backgroundColor: theme.palette.grey[300],
+      height: '205px',
     },
     title: {
       fontWeight: 600,
@@ -51,7 +51,7 @@ const Stats = ({ classes }) => {
 
   return (
     <Grid className={classes.container} container justify="center">
-      <Grid item md={8}>
+      <Grid item container direction="column" md={7} justify="space-around">
         <Typography className={classes.title} variant="h5" align="center">
           Platform Stats
         </Typography>
