@@ -1,4 +1,6 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import Clampy from '@clampy-js/react-clampy';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
 import Highlights from '../common/Highlights';
