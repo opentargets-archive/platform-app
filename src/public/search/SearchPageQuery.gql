@@ -30,6 +30,7 @@ query SearchPageQuery(
         ... on Drug {
           id
           name
+          description
         }
       }
     }

@@ -25,6 +25,7 @@ query SearchQuery($queryString: String!) {
         ... on Drug {
           id
           name
+          description
           mechanismsOfAction {
             rows {
               mechanismOfAction

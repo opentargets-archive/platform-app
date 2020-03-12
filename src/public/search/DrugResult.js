@@ -1,4 +1,6 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import Clampy from '@clampy-js/react-clampy';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
 import Highlights from '../common/Highlights';
@@ -24,6 +26,11 @@ const DrugResult = ({ classes, data, highlights }) => {
       <Link to={`drug/${data.id}`} className={classes.subtitle}>
         <DrugIcon className={classes.icon} /> {data.name}
       </Link>
+      {data.description && (
+        <Typography component="div">
+          <Clampy clampSize="4">{data.description}</Clampy>
+        </Typography>
+      )}
       <Highlights highlights={highlights} />
     </div>
   );

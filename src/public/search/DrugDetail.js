@@ -5,6 +5,7 @@ import Chip from '@material-ui/core/Chip';
 import WarningIcon from '@material-ui/icons/Warning';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
+import LongText from '../common/LongText';
 import WarningTooltip from '../common/WarningTooltip';
 import WithdrawnNotice from '../common/WithdrawnNotice';
 import DrugIcon from '../../icons/DrugIcon';
@@ -46,6 +47,7 @@ const DrugDetail = ({ classes, data }) => {
         Maximum Clinical Trial Phase
       </Typography>
       <Typography>{data.maximumClinicalTrialPhase}</Typography>
+      <LongText lineLimit="4">{data.description}</LongText>
       {data.linkedDiseases.rows.length > 0 && (
         <>
           <Typography className={classes.subtitle} variant="subtitle1">
