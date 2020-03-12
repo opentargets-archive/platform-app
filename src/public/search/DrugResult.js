@@ -24,6 +24,11 @@ const DrugResult = ({ classes, data, highlights }) => {
       <Link to={`drug/${data.id}`} className={classes.subtitle}>
         <DrugIcon className={classes.icon} /> {data.name}
       </Link>
+      {data.description && (
+        <Typography component="div">
+          <Clampy clampSize="4">{data.description}</Clampy>
+        </Typography>
+      )}
       <Highlights highlights={highlights} />
     </div>
   );
