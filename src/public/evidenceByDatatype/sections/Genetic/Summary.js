@@ -1,5 +1,5 @@
 const Summary = ({
-  gwasCatalog,
+  otGenetics,
   uniProt,
   uniProtLiterature,
   eva,
@@ -7,7 +7,7 @@ const Summary = ({
   gene2Phenotype,
 }) =>
   [
-    gwasCatalog && gwasCatalog.variantCount > 0 ? 'GWAS Catalog' : null,
+    otGenetics && otGenetics.variantCount > 0 ? 'OT Genetics' : null,
     uniProt && uniProt.variantCount > 0 ? 'UniProt' : null,
     uniProtLiterature && uniProtLiterature.hasVariants
       ? 'UniProt Literature'

@@ -4,7 +4,7 @@ export const id = 'genetic';
 export const name = 'Genetic Associations';
 
 const datasources = [
-  'gwasCatalog',
+  'otGenetics',
   'uniProt',
   'uniProtLiterature',
   'eva',
@@ -24,7 +24,7 @@ export const getDetailFromDetails = detailsData =>
   }, {});
 
 export const hasSummaryData = ({
-  gwasCatalog,
+  otGenetics,
   uniProt,
   uniProtLiterature,
   eva,
@@ -32,7 +32,7 @@ export const hasSummaryData = ({
   gene2Phenotype,
 }) =>
   [
-    gwasCatalog && gwasCatalog.variantCount > 0,
+    otGenetics && otGenetics.variantCount > 0,
     uniProt && uniProt.variantCount > 0,
     uniProtLiterature && uniProtLiterature.hasVariants,
     eva && eva.variantCount > 0,

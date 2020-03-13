@@ -1,17 +1,32 @@
 query GeneticSectionQuery($ensgId: String!, $efoId: String!) {
   evidence(ensgId: $ensgId, efoId: $efoId) {
     details {
-      gwasCatalog {
+      otGenetics {
         rows {
-          disease {
+          disease{
             id
             name
           }
-          rsId
+          reportedTrait{
+            name
+            url
+          }
+          publications{
+            authors
+            year
+            url
+            pmId
+          }
+          variant{
+            id
+            url
+          }
           pval
-          oddsRatio
-          confidenceInterval
-          vepConsequence
+          genePrioritisationScore
+          source{
+            name
+            url
+          }
         }
       }
       uniProt {

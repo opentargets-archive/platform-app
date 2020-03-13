@@ -1,5 +1,5 @@
 fragment evidenceGeneticFragment on EvidenceSummaries {
-  gwasCatalog {
+  otGenetics {
     variantCount
     sources {
       name
