@@ -1,0 +1,30 @@
+query OtGeneticsSectionQuery($ensgId: String!, $efoId: String!) {
+  evidence(ensgId: $ensgId, efoId: $efoId) {
+    details {
+      otGenetics {
+        rows {
+          reportedTrait{
+            name
+            url
+          }
+          publications{
+            authors
+            year
+            url
+            pmId
+          }
+          variant{
+            id
+            url
+          }
+          pval
+          genePrioritisationScore
+          source{
+            name
+            url
+          }
+        }
+      }
+    }
+  }
+}
