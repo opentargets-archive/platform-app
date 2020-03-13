@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-import GWASCatalogSection from '../../../evidence/sections/GWASCatalog/Section';
+import OTGeneticsSection from '../../../evidence/sections/OTGenetics/Section';
 import UniProtSection from '../../../evidence/sections/UniProt/Section';
 import UniProtLiteratureSection from '../../../evidence/sections/UniProtLiterature/Section';
 import EVASection from '../../../evidence/sections/EVA/Section';
@@ -10,12 +10,12 @@ import Gene2PhenotypeSection from '../../../evidence/sections/Gene2Phenotype/Sec
 
 const Section = ({ ensgId, efoId, data }) => (
   <React.Fragment>
-    {data.gwasCatalog && data.gwasCatalog.rows.length > 0 ? (
+    {data.otGenetics && data.otGenetics.rows.length > 0 ? (
       <React.Fragment>
         <Typography>
-          Evidence from <strong>GWAS Catalog</strong>.
+          Evidence from <strong>Open Targets Genetics Portal</strong>.
         </Typography>
-        <GWASCatalogSection {...{ ensgId, efoId, data: data.gwasCatalog }} />
+        <OTGeneticsSection {...{ ensgId, efoId, data: data.otGenetics }} />
       </React.Fragment>
     ) : null}
     {data.uniProt && data.uniProt.rows.length > 0 ? (

@@ -1,0 +1,9 @@
+fragment evidenceOtGeneticsFragment on EvidenceSummaries {
+  otGenetics {
+    variantCount
+    sources {
+      name
+      url
+    }
+  }
+}
