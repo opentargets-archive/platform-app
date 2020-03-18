@@ -48,6 +48,10 @@ const columns = [
   {
     id: 'pval',
     label: 'Association p-value',
+    renderCell: d =>
+      d.pval.mantissa && d.pval.exponent
+        ? `${d.pval.mantissa}e${d.pval.exponent}`
+        : d.pval.value,
   },
   {
     id: 'genePrioritisationScore',

@@ -17,7 +17,11 @@ query OtGeneticsSectionQuery($ensgId: String!, $efoId: String!) {
             id
             url
           }
-          pval
+          pval{
+            mantissa
+            exponent
+            value
+          }
           genePrioritisationScore
           source{
             name
