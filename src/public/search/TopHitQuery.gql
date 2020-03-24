@@ -48,9 +48,13 @@ query TopHit($queryString: String!, $entityNames: [String!]!) {
             reasons
             year
           }
-          linkedDiseases {
-            count
-            rows
+          indications {
+            rows {
+              disease {
+                id
+                name
+              }
+            }
           }
           linkedTargets {
             count

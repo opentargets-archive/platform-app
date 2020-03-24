@@ -48,16 +48,20 @@ const DrugDetail = ({ classes, data }) => {
       </Typography>
       <Typography>{data.maximumClinicalTrialPhase}</Typography>
       <LongText lineLimit="4">{data.description}</LongText>
-      {data.linkedDiseases.rows.length > 0 && (
+      {data.indications.rows.length > 0 && (
         <>
           <Typography className={classes.subtitle} variant="subtitle1">
             Indications
           </Typography>
-          {data.linkedDiseases.rows.map(disease => (
-            <Fragment key={disease}>
-              <Link to={`/disease/${disease}`}>{disease}</Link>{' '}
-            </Fragment>
-          ))}
+          {data.indications.rows.map((indication, index) => {
+            return (
+              <Fragment key={index}>
+                <Link to={`/disease/${indication.disease.id}`}>
+                  {indication.disease.name}
+                </Link>{' '}
+              </Fragment>
+            );
+          })}
         </>
       )}
       {data.linkedTargets.rows.length > 0 && (
