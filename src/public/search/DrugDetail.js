@@ -48,7 +48,7 @@ const DrugDetail = ({ classes, data }) => {
       </Typography>
       <Typography>{data.maximumClinicalTrialPhase}</Typography>
       <LongText lineLimit="4">{data.description}</LongText>
-      {data.indications.rows.length > 0 && (
+      {data.indications && data.indications.rows.length > 0 && (
         <>
           <Typography className={classes.subtitle} variant="subtitle1">
             Indications
