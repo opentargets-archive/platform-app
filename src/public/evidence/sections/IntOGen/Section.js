@@ -1,6 +1,14 @@
 import React from 'react';
-
+import _ from 'lodash';
 import { Link, OtTableRF } from 'ot-ui';
+import Chip from '@material-ui/core/Chip';
+import { withStyles } from '@material-ui/core';
+
+const styles = theme => ({
+  chip: {
+    margin: theme.spacing.unit,
+  },
+});
 
 const columns = [
   {
@@ -12,30 +20,47 @@ const columns = [
   },
   {
     id: 'activity',
-    label: 'Activity',
+    label: 'Mutation type',
+    renderCell: d => _.lowerCase(d.activity).replace(/_/g, ' '),
   },
   {
-    id: 'inheritancePattern',
-    label: 'Inheritance Pattern',
+    id: 'samples',
+    label: 'Mutated samples / Total samples',
+    renderCell: d => `${d.mutationMetrics.value} / ${d.mutationMetrics.total}`,
   },
   {
-    id: 'source.name',
-    label: 'Source',
+    id: 'pval',
+    label: 'P-value',
+  },
+  {
+    id: 'analysisMethods',
+    label: 'Methods',
+    tooltip:
+      'The current version of the intOGen pipeline uses seven methods to identify cancer driver genes from somatic point mutations - HotMAPS, dNDScv, smRegions, CBaSE, FML, MutPanning, and CLUSTL. The pipeline also uses a combination of methods. For further information on the methods, please click here visit the intOGen FAQ.',
     renderCell: d => (
-      <Link external to={d.source.url}>
-        {d.source.name}
-      </Link>
+      <>
+        {d.analysisMethods.map(am => (
+          <Chip
+            color="primary"
+            label={am}
+            style={{ margin: '3px 5px 3px 0' }}
+          ></Chip>
+        ))}
+      </>
     ),
   },
   {
-    id: 'pmId',
-    label: 'Publication',
-    renderCell: d =>
-      d.pmId ? (
-        <Link external to={`http://europepmc.org/abstract/MED/${d.pmId}`}>
-          {d.pmId}
+    id: 'cohort',
+    label: 'Cohort information',
+    renderCell: d => (
+      <>
+        <Link to={d.source.url} external>
+          {d.cohort.name}
         </Link>
-      ) : null,
+        <br />
+        {d.cohort.description}
+      </>
+    ),
   },
 ];
 
@@ -43,4 +68,4 @@ const Section = ({ ensgId, efoId, data }) => (
   <OtTableRF loading={false} error={false} columns={columns} data={data.rows} />
 );
 
-export default Section;
+export default withStyles(styles)(Section);
