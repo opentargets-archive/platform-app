@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Link, OtTableRF } from 'ot-ui';
+import { Link, OtTableRF, significantFigures } from 'ot-ui';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -27,6 +27,7 @@ const columns = [
   {
     id: 'pval',
     label: 'P-value',
+    renderCell: d => significantFigures(d.pval),
   },
   {
     id: 'analysisMethods',
