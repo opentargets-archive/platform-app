@@ -29,6 +29,7 @@ const DrugDetail = ({ classes, data }) => {
       <Typography color="primary">
         <DrugIcon className={classes.icon} /> Drug
       </Typography>
+      <LongText lineLimit="4">{data.description}</LongText>
       {data.hasBeenWithdrawn && (
         <Typography className={classes.subtitle} color="error">
           Withdrawn Drug{' '}
@@ -47,7 +48,6 @@ const DrugDetail = ({ classes, data }) => {
         Maximum Clinical Trial Phase
       </Typography>
       <Typography>{data.maximumClinicalTrialPhase}</Typography>
-      <LongText lineLimit="4">{data.description}</LongText>
       {data.indications && data.indications.rows.length > 0 && (
         <>
           <Typography className={classes.subtitle} variant="subtitle1">

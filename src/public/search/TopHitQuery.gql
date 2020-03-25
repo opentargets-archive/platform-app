@@ -38,6 +38,7 @@ query TopHit($queryString: String!, $entityNames: [String!]!) {
         }
         ... on Drug {
           id
+          description
           name
           drugType
           maximumClinicalTrialPhase
