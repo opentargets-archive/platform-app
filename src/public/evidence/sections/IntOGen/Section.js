@@ -1,6 +1,10 @@
 import React from 'react';
+import _ from 'lodash';
+import { Link, OtTableRF, significantFigures } from 'ot-ui';
+import Chip from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
 
-import { Link, OtTableRF } from 'ot-ui';
+import Methods from './custom/Methods';
 
 const columns = [
   {
@@ -12,30 +16,65 @@ const columns = [
   },
   {
     id: 'activity',
-    label: 'Activity',
+    label: 'Mutation type',
+    renderCell: d => _.lowerCase(d.activity).replace(/_/g, ' '),
   },
   {
-    id: 'inheritancePattern',
-    label: 'Inheritance Pattern',
+    id: 'samples',
+    label: 'Mutated samples / Total samples',
+    renderCell: d => `${d.mutationMetrics.value} / ${d.mutationMetrics.total}`,
   },
   {
-    id: 'source.name',
-    label: 'Source',
+    id: 'pval',
+    label: 'P-value',
+    renderCell: d => significantFigures(d.pval),
+  },
+  {
+    id: 'analysisMethods',
+    label: 'Methods',
+    tooltip: (
+      <>
+        The current version of the intOGen pipeline uses seven methods to
+        identify cancer driver genes from somatic point mutations - HotMAPS,
+        dNDScv, smRegions, CBaSE, FML, MutPanning, and CLUSTL. The pipeline also
+        uses a combination of methods. For further information on the methods,
+        please{' '}
+        <Link to={Methods.columnTooltip.url} external>
+          click here
+        </Link>{' '}
+        visit the intOGen FAQ.
+      </>
+    ),
     renderCell: d => (
-      <Link external to={d.source.url}>
-        {d.source.name}
-      </Link>
+      <>
+        {d.analysisMethods.map(am => (
+          <Tooltip
+            title={(Methods[am] || {}).description}
+            placement="top"
+            interactive
+          >
+            <Chip
+              color="primary"
+              label={am}
+              style={{ margin: '3px 5px 3px 0' }}
+            ></Chip>
+          </Tooltip>
+        ))}
+      </>
     ),
   },
   {
-    id: 'pmId',
-    label: 'Publication',
-    renderCell: d =>
-      d.pmId ? (
-        <Link external to={`http://europepmc.org/abstract/MED/${d.pmId}`}>
-          {d.pmId}
+    id: 'cohort',
+    label: 'Cohort information',
+    renderCell: d => (
+      <>
+        <Link to={d.source.url} external>
+          {d.cohort.name}
         </Link>
-      ) : null,
+        <br />
+        {d.cohort.description}
+      </>
+    ),
   },
 ];
 

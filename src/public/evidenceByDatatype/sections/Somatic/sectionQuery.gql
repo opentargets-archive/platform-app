@@ -58,6 +58,16 @@ query SomaticSectionQuery($ensgId: String!, $efoId: String!) {
             name
           }
           pmId
+          pval
+          cohort{
+            name
+            description
+          }
+          analysisMethods
+          mutationMetrics{
+            value
+            total
+          }
         }
       }
     }
