@@ -2,13 +2,9 @@ import React from 'react';
 import _ from 'lodash';
 import { Link, OtTableRF } from 'ot-ui';
 import Chip from '@material-ui/core/Chip';
-import { withStyles } from '@material-ui/core';
+import Tooltip from '@material-ui/core/Tooltip';
 
-const styles = theme => ({
-  chip: {
-    margin: theme.spacing.unit,
-  },
-});
+import Methods from './custom/Methods';
 
 const columns = [
   {
@@ -35,16 +31,33 @@ const columns = [
   {
     id: 'analysisMethods',
     label: 'Methods',
-    tooltip:
-      'The current version of the intOGen pipeline uses seven methods to identify cancer driver genes from somatic point mutations - HotMAPS, dNDScv, smRegions, CBaSE, FML, MutPanning, and CLUSTL. The pipeline also uses a combination of methods. For further information on the methods, please click here visit the intOGen FAQ.',
+    tooltip: (
+      <>
+        The current version of the intOGen pipeline uses seven methods to
+        identify cancer driver genes from somatic point mutations - HotMAPS,
+        dNDScv, smRegions, CBaSE, FML, MutPanning, and CLUSTL. The pipeline also
+        uses a combination of methods. For further information on the methods,
+        please{' '}
+        <Link to={Methods.columnTooltip.url} external>
+          click here
+        </Link>{' '}
+        visit the intOGen FAQ.
+      </>
+    ),
     renderCell: d => (
       <>
         {d.analysisMethods.map(am => (
-          <Chip
-            color="primary"
-            label={am}
-            style={{ margin: '3px 5px 3px 0' }}
-          ></Chip>
+          <Tooltip
+            title={(Methods[am] || {}).description}
+            placement="top"
+            interactive
+          >
+            <Chip
+              color="primary"
+              label={am}
+              style={{ margin: '3px 5px 3px 0' }}
+            ></Chip>
+          </Tooltip>
         ))}
       </>
     ),
@@ -68,4 +81,4 @@ const Section = ({ ensgId, efoId, data }) => (
   <OtTableRF loading={false} error={false} columns={columns} data={data.rows} />
 );
 
-export default withStyles(styles)(Section);
+export default Section;
