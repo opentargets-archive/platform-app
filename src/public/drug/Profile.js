@@ -10,6 +10,7 @@ import LockIcon from '@material-ui/icons/Lock';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
+import Description from '../common/Description';
 import ChipsField from '../common/ChipsField';
 import Smiles from './Smiles';
 import WarningTooltip from '../common/WarningTooltip';
@@ -63,6 +64,7 @@ class DrugProfile extends Component {
       withdrawnNotice,
       chemblId,
       name,
+      description,
       synonyms,
       tradeNames,
       yearOfFirstApproval,
@@ -95,6 +97,7 @@ class DrugProfile extends Component {
       >
         <Grid container justify="space-between">
           <Grid item xs={12} md={6}>
+            <Description>{description}</Description>
             {hasBeenWithdrawn && (
               <Typography variant="subtitle2" color="secondary">
                 Withdrawn Drug{' '}
