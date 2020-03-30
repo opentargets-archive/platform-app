@@ -18,19 +18,19 @@ export const targetSectionsDefaultOrder = [
 ];
 
 export const diseaseSectionsDefaultOrder = [
-  'ontology',
-  'drugs',
-  'bibliography',
-  'phenotypes',
-  'relatedDiseases',
+  // 'ontology',
+  // 'drugs',
+  // 'bibliography',
+  // 'phenotypes',
+  // 'relatedDiseases',
 ];
 
 export const drugSectionsDefaultOrder = [
-  'mechanismsOfAction',
-  'adverseEvents',
-  'bibliography',
-  'linkedTargets',
-  'linkedDiseases',
+  // 'mechanismsOfAction',
+  // 'adverseEvents',
+  // 'bibliography',
+  // 'linkedTargets',
+  // 'linkedDiseases',
 ];
 
 export const evidenceSectionsDefaultOrder = [

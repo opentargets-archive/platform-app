@@ -6,16 +6,17 @@ import { Helmet } from 'react-helmet';
 import Header from './Header';
 import Profile from './Profile';
 import BasePage from '../common/BasePage';
+import { client2 } from '../client';
 
 const DRUG_QUERY = gql`
   query DrugQuery($chemblId: String!) {
     drug(chemblId: $chemblId) {
       id
       name
+      drugType
       synonyms
       tradeNames
       yearOfFirstApproval
-      type
       maximumClinicalTrialPhase
       hasBeenWithdrawn
       withdrawnNotice {
@@ -29,10 +30,33 @@ const DRUG_QUERY = gql`
   }
 `;
 
+// const DRUG_QUERY = gql`
+//   query DrugQuery($chemblId: String!) {
+//     drug(chemblId: $chemblId) {
+//       id
+//       name
+//       synonyms
+//       tradeNames
+//       yearOfFirstApproval
+//       type
+//       maximumClinicalTrialPhase
+//       hasBeenWithdrawn
+//       withdrawnNotice {
+//         classes
+//         countries
+//         reasons
+//         year
+//       }
+//       internalCompound
+//     }
+//   }
+// `;
+
 const DrugPage = ({ match }) => {
   const { chemblId } = match.params;
 
   const { loading, error, data } = useQuery(DRUG_QUERY, {
+    client: client2,
     variables: { chemblId },
   });
 
@@ -40,10 +64,10 @@ const DrugPage = ({ match }) => {
 
   const {
     name,
+    drugType,
     synonyms,
     tradeNames,
     yearOfFirstApproval,
-    type,
     maximumClinicalTrialPhase,
     hasBeenWithdrawn,
     withdrawnNotice,
@@ -58,11 +82,10 @@ const DrugPage = ({ match }) => {
       <Profile
         chemblId={chemblId}
         name={name}
-        type={type}
+        type={drugType}
         tradeNames={tradeNames}
         maximumClinicalTrialPhase={maximumClinicalTrialPhase}
         yearOfFirstApproval={yearOfFirstApproval}
-        description={null}
         synonyms={synonyms}
         hasBeenWithdrawn={hasBeenWithdrawn}
         withdrawnNotice={withdrawnNotice}

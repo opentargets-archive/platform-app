@@ -11,6 +11,7 @@ import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
 import Profile from './Profile';
 import BasePage from '../common/BasePage';
+import { client2 } from '../client';
 
 const DISEASE_QUERY = gql`
   query DiseaseQuery($efoId: String!) {
@@ -35,6 +36,7 @@ const DiseasePage = ({ history, location, match }) => {
   const { efoId } = match.params;
 
   const { loading, error, data } = useQuery(DISEASE_QUERY, {
+    client: client2,
     variables: { efoId },
   });
 
