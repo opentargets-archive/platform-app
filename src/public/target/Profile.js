@@ -21,6 +21,7 @@ const summariesQuery = gql`
       symbolSynonyms
       proteinAnnotations {
         id
+        functions
       }
       # cancerBiomarkers(page: {index: 0, size: 1000}) {
       #   uniqueDrugs

@@ -24,6 +24,7 @@ const TARGET_QUERY = gql`
       symbolSynonyms
       proteinAnnotations {
         id
+        functions
       }
     }
   }
@@ -51,9 +52,11 @@ const TargetPage = ({ history, location, match }) => {
     approvedName,
     proteinAnnotations,
     symbolSynonyms,
-    description = '** TODO **',
   } = data.target;
   const uniprotId = proteinAnnotations.id;
+  const description = proteinAnnotations.functions
+    ? proteinAnnotations.functions[0]
+    : null;
 
   return (
     <BasePage>
