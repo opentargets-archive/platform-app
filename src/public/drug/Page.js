@@ -13,6 +13,7 @@ const DRUG_QUERY = gql`
     drug(chemblId: $chemblId) {
       id
       name
+      description
       drugType
       synonyms
       tradeNames
@@ -30,28 +31,6 @@ const DRUG_QUERY = gql`
   }
 `;
 
-// const DRUG_QUERY = gql`
-//   query DrugQuery($chemblId: String!) {
-//     drug(chemblId: $chemblId) {
-//       id
-//       name
-//       synonyms
-//       tradeNames
-//       yearOfFirstApproval
-//       type
-//       maximumClinicalTrialPhase
-//       hasBeenWithdrawn
-//       withdrawnNotice {
-//         classes
-//         countries
-//         reasons
-//         year
-//       }
-//       internalCompound
-//     }
-//   }
-// `;
-
 const DrugPage = ({ match }) => {
   const { chemblId } = match.params;
 
@@ -64,6 +43,7 @@ const DrugPage = ({ match }) => {
 
   const {
     name,
+    description,
     drugType,
     synonyms,
     tradeNames,
@@ -82,6 +62,7 @@ const DrugPage = ({ match }) => {
       <Profile
         chemblId={chemblId}
         name={name}
+        description={description}
         type={drugType}
         tradeNames={tradeNames}
         maximumClinicalTrialPhase={maximumClinicalTrialPhase}
