@@ -11,22 +11,40 @@ const sections = Object.values(sectionsObject);
 
 const summariesQuery = gql`
   query TargetSummaryQuery($ensgId: String!) {
-    target(ensgId: $ensgId) {
+    target(ensemblId: $ensgId) {
       id
-      uniprotId
-      symbol
-      summaries {
-        ${sections
-          .filter(s => s.summaryQuery)
-          .map(s => `...target${_.upperFirst(s.id)}Fragment`)
-          .join('\n')}
+      approvedSymbol
+      approvedName
+      bioType
+      hgncId
+      nameSynonyms
+      symbolSynonyms
+      proteinAnnotations {
+        id
       }
+      # cancerBiomarkers(page: {index: 0, size: 1000}) {
+      #   uniqueDrugs
+      #   uniqueDiseases
+      #   uniqueBiomarkers
+      #   rows {
+      #     id
+      #     associationType
+      #     drugName
+      #     evidenceLevel
+      #     sources {
+      #       description
+      #       link
+      #       name
+      #     }
+      #     pubmedIds
+      #     disease {
+      #       name
+      #       description
+      #     }
+      #   }
+      # }
     }
   }
-  ${sections
-    .filter(s => s.summaryQuery)
-    .map(s => print(s.summaryQuery))
-    .join('\n')}
 `;
 
 const entitySummariesAccessor = data =>
@@ -44,6 +62,7 @@ class TargetProfile extends Component {
       synonyms,
       description,
     } = this.props;
+
     const entity = { ensgId, uniprotId, symbol, name, synonyms, description };
     return (
       <BaseProfile

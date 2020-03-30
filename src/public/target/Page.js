@@ -13,13 +13,18 @@ import BasePage from '../common/BasePage';
 
 const TARGET_QUERY = gql`
   query TargetQuery($ensgId: String!) {
-    target(ensgId: $ensgId) {
+    target(ensemblId: $ensgId) {
+      # description
       id
-      name
-      uniprotId
-      symbol
-      description
-      synonyms
+      approvedSymbol
+      approvedName
+      bioType
+      hgncId
+      nameSynonyms
+      symbolSynonyms
+      proteinAnnotations {
+        id
+      }
     }
   }
 `;
@@ -41,18 +46,25 @@ const TargetPage = ({ history, location, match }) => {
 
   if (loading || error) return null;
 
-  const { symbol, name, uniprotId, synonyms, description } = data.target;
+  const {
+    approvedSymbol,
+    approvedName,
+    proteinAnnotations,
+    symbolSynonyms,
+    description = '** TODO **',
+  } = data.target;
+  const uniprotId = proteinAnnotations.id;
 
   return (
     <BasePage>
       <Helmet>
-        <title>{symbol}</title>
+        <title>{approvedSymbol}</title>
       </Helmet>
       <Header
         ensgId={ensgId}
         uniprotId={uniprotId}
-        symbol={symbol}
-        name={name}
+        symbol={approvedSymbol}
+        name={approvedName}
       />
       <Tabs
         value={tab}
@@ -71,8 +83,8 @@ const TargetPage = ({ history, location, match }) => {
             <ClassicAssociations
               ensgId={ensgId}
               uniprotId={uniprotId}
-              symbol={symbol}
-              name={name}
+              symbol={approvedSymbol}
+              name={approvedName}
             />
           )}
         />
@@ -82,8 +94,8 @@ const TargetPage = ({ history, location, match }) => {
             <Associations
               ensgId={ensgId}
               uniprotId={uniprotId}
-              symbol={symbol}
-              name={name}
+              symbol={approvedSymbol}
+              name={approvedName}
             />
           )}
         />
@@ -93,9 +105,9 @@ const TargetPage = ({ history, location, match }) => {
             <Profile
               ensgId={ensgId}
               uniprotId={uniprotId}
-              symbol={symbol}
-              name={name}
-              synonyms={synonyms}
+              symbol={approvedSymbol}
+              name={approvedName}
+              synonyms={symbolSynonyms}
               description={description}
             />
           )}
