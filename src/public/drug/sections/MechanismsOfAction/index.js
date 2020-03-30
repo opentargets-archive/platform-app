@@ -4,8 +4,10 @@ export const id = 'mechanismsOfAction';
 export const name = 'Mechanisms of Action';
 export const shortName = 'MA';
 
-export const hasSummaryData = ({ uniqueActionTypes, uniqueTargetTypes }) =>
-  uniqueActionTypes.length > 0 && uniqueTargetTypes.length > 0;
+export const hasSummaryData = data => {
+  console.log('hasSummaryData data', data);
+  return data.uniqueActionTypes.length > 0 && data.uniqueTargetTypes.length > 0;
+};
 
 export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');

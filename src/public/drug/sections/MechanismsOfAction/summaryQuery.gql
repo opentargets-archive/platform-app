@@ -1,10 +1,6 @@
-fragment drugMechanismsOfActionFragment on DrugSummaries {
+fragment drugMechanismsOfActionFragment on Drug {
   mechanismsOfAction {
     uniqueActionTypes
     uniqueTargetTypes
-    sources {
-      url
-      name
-    }
   }
 }
