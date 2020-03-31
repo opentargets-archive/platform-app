@@ -23,12 +23,10 @@ const summariesQuery = gql`
   query DrugSummaryQuery($chemblId: String!) {
     drug(chemblId: $chemblId) {
       id
-      summaries {
-        ${sections
-          .filter(s => s.summaryQuery)
-          .map(s => `...drug${_.upperFirst(s.id)}Fragment`)
-          .join('\n')}
-      }
+      ${sections
+        .filter(s => s.summaryQuery)
+        .map(s => `...drug${_.upperFirst(s.id)}Fragment`)
+        .join('\n')}
     }
   }
   ${sections
@@ -37,8 +35,15 @@ const summariesQuery = gql`
     .join('\n')}
 `;
 
-const entitySummariesAccessor = data =>
-  data && data.drug && data.drug.summaries ? data.drug.summaries : {};
+const entitySummariesAccessor = data => {
+  if (data && data.drug && data.drug.mechanismsOfAction) {
+    return {
+      mechanismsOfAction: data.drug.mechanismsOfAction,
+    };
+  } else {
+    return {};
+  }
+};
 const entitySectionsAccessor = data =>
   data && data.drug && data.drug.details ? data.drug.details : {};
 
