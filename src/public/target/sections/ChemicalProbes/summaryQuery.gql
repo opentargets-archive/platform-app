@@ -1,12 +1,16 @@
-fragment targetChemicalProbesFragment on TargetSummaries {
-  chemicalProbes {
-    hasStructuralGenomicsConsortium
-    hasChemicalProbesPortal
-    hasOpenScienceProbes
-    hasProbeMiner
-    sources {
-      name
-      url
-    }
+fragment targetChemicalProbesFragment on Target {
+  # chemicalProbes {
+  #   hasStructuralGenomicsConsortium
+  #   hasChemicalProbesPortal
+  #   hasOpenScienceProbes
+  #   hasProbeMiner
+  #   sources {
+  #     name
+  #     url
+  #   }
+  # }
+
+  chemicalProbes{
+    probeminer
   }
 }

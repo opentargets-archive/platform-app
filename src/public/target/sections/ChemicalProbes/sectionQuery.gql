@@ -1,18 +1,24 @@
 query ChemicalProbesSectionQuery($ensgId: String!) {
-  target(ensgId: $ensgId) {
+  target(ensemblId: $ensgId) {
     id
-    details {
-      chemicalProbes {
-        rows {
-          chemicalProbe
-          note
-          sources {
-            url
-            name
-          }
+    chemicalProbes {
+      rows {
+        # chemicalProbe
+        # note
+        # sources {
+        #   url
+        #   name
+        # }
+        
+        chemicalprobe
+        note
+        # gene
+        sourcelinks{
+          source
+          link
         }
-        probeMinerUrl
       }
+      probeminer
     }
   }
 }

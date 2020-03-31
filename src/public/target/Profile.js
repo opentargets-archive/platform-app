@@ -23,35 +23,37 @@ const summariesQuery = gql`
         id
         functions
       }
-      # cancerBiomarkers(page: {index: 0, size: 1000}) {
-      #   uniqueDrugs
-      #   uniqueDiseases
-      #   uniqueBiomarkers
-      #   rows {
-      #     id
-      #     associationType
-      #     drugName
-      #     evidenceLevel
-      #     sources {
-      #       description
-      #       link
-      #       name
-      #     }
-      #     pubmedIds
-      #     disease {
-      #       name
-      #       description
-      #     }
-      #   }
-      # }
+
+      ${sections
+        .filter(s => s.summaryQuery)
+        .map(s => `...target${_.upperFirst(s.id)}Fragment`)
+        .join('\n')}
     }
   }
+  
+  ${sections
+    .filter(s => s.summaryQuery)
+    .map(s => print(s.summaryQuery))
+    .join('\n')}
 `;
 
-const entitySummariesAccessor = data =>
-  data && data.target && data.target.summaries ? data.target.summaries : null;
-const entitySectionsAccessor = data =>
-  data && data.target && data.target.details ? data.target.details : null;
+const entitySummariesAccessor = data => {
+  // data && data.target && data.target.summaries ? data.target.summaries : null;
+  if (data && data.target && data.target.chemicalProbes) {
+    return data.target;
+  } else {
+    return null;
+  }
+};
+
+const entitySectionsAccessor = data => {
+  // data && data.target && data.target.details ? data.target.details : null;
+  if (data && data.target && data.target.chemicalProbes) {
+    return data.target;
+  } else {
+    return null;
+  }
+};
 
 class TargetProfile extends Component {
   render() {
