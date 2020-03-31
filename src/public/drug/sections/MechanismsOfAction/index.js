@@ -5,7 +5,6 @@ export const name = 'Mechanisms of Action';
 export const shortName = 'MA';
 
 export const hasSummaryData = data => {
-  console.log('hasSummaryData data', data);
   return data.uniqueActionTypes.length > 0 && data.uniqueTargetTypes.length > 0;
 };
 

@@ -1,19 +1,17 @@
 query MechanismsOfActionSectionQuery($chemblId: String!) {
   drug(chemblId: $chemblId) {
     id
-    details {
-      mechanismsOfAction {
-        rows {
-          mechanismOfAction
-          targetName
-          targets {
-            id
-            symbol
-          }
-          references {
-            url
-            name
-          }
+    mechanismsOfAction {
+      rows {
+        mechanismOfAction
+        targetName
+        targets {
+          id
+          approvedSymbol
+        }
+        references {
+          source
+          urls
         }
       }
     }

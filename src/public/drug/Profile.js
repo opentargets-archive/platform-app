@@ -44,8 +44,10 @@ const entitySummariesAccessor = data => {
     return {};
   }
 };
-const entitySectionsAccessor = data =>
-  data && data.drug && data.drug.details ? data.drug.details : {};
+const entitySectionsAccessor = data => {
+  // return data && data.drug && data.drug.details ? data.drug.details : {};
+  return data && data.drug ? data.drug : {};
+};
 
 // TODO: when material-ui is upgraded to version >4 then remove this
 // style and use <Typography display="inline" /> instead
