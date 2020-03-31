@@ -1,13 +1,11 @@
 query LinkedTargetsSectionQuery($chemblId: String!) {
   drug(chemblId: $chemblId) {
     id
-    details {
-      linkedTargets {
-        rows {
-          symbol
-          id
-          name
-        }
+    linkedTargets {
+      rows {
+        id
+        approvedSymbol
+        approvedName
       }
     }
   }

@@ -4,13 +4,13 @@ import { Link, OtTableRF, DataDownloader } from 'ot-ui';
 
 const columns = [
   {
-    id: 'symbol',
+    id: 'approvedSymbol',
     label: 'Symbol',
-    renderCell: d => <Link to={`/target/${d.id}`}>{d.symbol}</Link>,
+    renderCell: d => <Link to={`/target/${d.id}`}>{d.approvedSymbol}</Link>,
     width: '20%',
   },
   {
-    id: 'name',
+    id: 'approvedName',
     label: 'Name',
   },
 ];
