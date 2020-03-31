@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { Link, OtTableRF } from 'ot-ui';
 
@@ -15,25 +15,27 @@ const columns = [
     id: 'targets',
     label: 'Targets',
     renderCell: d =>
-      d.targets.map((t, i) => (
-        <React.Fragment key={i}>
+      d.targets.map((target, i) => (
+        <Fragment key={i}>
           {i > 0 ? ' ' : null}
-          <Link to={`/target/${t.id}`}>{t.symbol}</Link>
-        </React.Fragment>
+          <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>
+        </Fragment>
       )),
   },
   {
     id: 'references',
     label: 'References',
     renderCell: d =>
-      d.references.map((r, i) => (
-        <React.Fragment key={i}>
-          {i > 0 ? ' ' : null}
-          <Link external to={r.url}>
-            {r.name}
-          </Link>
-        </React.Fragment>
-      )),
+      d.references.map((r, i) => {
+        return (
+          <Fragment key={i}>
+            {i > 0 ? ' ' : null}
+            <Link external to={r.urls[0]}>
+              {r.source}
+            </Link>
+          </Fragment>
+        );
+      }),
   },
 ];
 
