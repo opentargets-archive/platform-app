@@ -1,5 +1,5 @@
-fragment drugLinkedTargetsFragment on DrugSummaries {
+fragment drugLinkedTargetsFragment on Drug {
   linkedTargets {
-    linkedTargetCount
+    count
   }
 }

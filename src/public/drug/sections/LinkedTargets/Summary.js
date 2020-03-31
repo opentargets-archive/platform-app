@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-const Summary = ({ linkedTargetCount }) => (
-  <React.Fragment>
-    {linkedTargetCount} target{linkedTargetCount !== 1 ? 's' : ''}
-  </React.Fragment>
+const Summary = ({ count }) => (
+  <Fragment>
+    {count} target{count !== 1 ? 's' : ''}
+  </Fragment>
 );
 
 export default Summary;
