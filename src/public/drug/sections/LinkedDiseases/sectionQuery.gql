@@ -1,13 +1,16 @@
 query LinkedDiseasesSectionQuery($chemblId: String!) {
   drug(chemblId: $chemblId) {
     id
-    linkedDiseases {
+    indications {
       rows {
-        id
-        name
-        therapeuticAreas {
+        maxPhaseForIndication
+        disease {
           id
           name
+          therapeuticAreas {
+            id
+            name
+          }
         }
       }
     }

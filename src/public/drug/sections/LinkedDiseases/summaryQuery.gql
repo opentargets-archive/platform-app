@@ -1,5 +1,5 @@
-fragment drugLinkedDiseasesFragment on Drug {
-  linkedDiseases {
+fragment drugIndicationsFragment on Drug {
+  indications {
     count
   }
 }
