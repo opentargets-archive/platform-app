@@ -2,23 +2,15 @@ query ChemicalProbesSectionQuery($ensgId: String!) {
   target(ensemblId: $ensgId) {
     id
     chemicalProbes {
+      probeminer
       rows {
-        # chemicalProbe
-        # note
-        # sources {
-        #   url
-        #   name
-        # }
-        
         chemicalprobe
         note
-        # gene
         sourcelinks{
           source
           link
         }
       }
-      probeminer
     }
   }
 }
