@@ -1,44 +1,23 @@
 import _ from 'lodash';
 
-const Summary = ({
-  // hasStructuralGenomicsConsortium,
-  // hasChemicalProbesPortal,
-  // hasOpenScienceProbes,
-  // hasProbeMiner,
-  probeminer,
-  rows,
-}) => {
-  // const sources = ['SGC', 'CPP', 'OSP', 'ProbeMiner'].filter(
-  //   (d, i) =>
-  //     [
-  //       hasStructuralGenomicsConsortium,
-  //       hasChemicalProbesPortal,
-  //       hasOpenScienceProbes,
-  //       hasProbeMiner,
-  //     ][i]
-  // );
-  // return sources.length > 0 ? sources.join(' • ') : null;
+const Summary = ({ probeminer, rows }) => {
+  const sourceLabels = {
+    'Structural Genomics Consortium': 'SGC',
+    'Chemical Probes Portal': 'CPP',
+    'Open Science Probes': 'OSP',
+    probeminer: 'ProbeMiner',
+  };
 
-  let srcs = _.flatten(rows.map(r => r.sourcelinks.map(sl => sl.source)));
-  if (probeminer) {
-    srcs.push('probeminer');
-  }
-  const sources = _(srcs)
+  // probeminer is not in the list of sources, so we have to add it to the array for simplicity
+  const allSources = rows
+    .map(r => r.sourcelinks.map(sl => sl.source))
+    .concat(probeminer ? ['probeminer'] : []);
+
+  const sources = _(allSources)
     .flatten()
     .uniq()
     .value()
-    .map(s => {
-      switch (s) {
-        case 'Structural Genomics Consortium':
-          return 'SGC';
-        case 'Chemical Probes Portal':
-          return 'CPP';
-        case 'Open Science Probes':
-          return 'OSP';
-        case 'probeminer':
-          return 'ProbeMiner';
-      }
-    });
+    .map(s => sourceLabels[s] || null);
   return sources.length > 0 ? sources.join(' • ') : null;
 };
 
