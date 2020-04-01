@@ -1,16 +1,10 @@
 fragment targetChemicalProbesFragment on Target {
-  # chemicalProbes {
-  #   hasStructuralGenomicsConsortium
-  #   hasChemicalProbesPortal
-  #   hasOpenScienceProbes
-  #   hasProbeMiner
-  #   sources {
-  #     name
-  #     url
-  #   }
-  # }
-
   chemicalProbes{
     probeminer
+    rows{
+      sourcelinks{
+        source
+      }
+    }
   }
 }
