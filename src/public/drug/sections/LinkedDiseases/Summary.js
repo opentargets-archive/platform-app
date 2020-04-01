@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Summary = ({ linkedDiseaseCount }) => (
-  <React.Fragment>
-    {linkedDiseaseCount} disease{linkedDiseaseCount !== 1 ? 's' : ''}
-  </React.Fragment>
+const Summary = ({ count }) => (
+  <>
+    {count} disease{count !== 1 ? 's' : ''}
+  </>
 );
 
 export default Summary;
