@@ -36,10 +36,11 @@ const summariesQuery = gql`
 `;
 
 const entitySummariesAccessor = data => {
-  if (data && data.drug && data.drug.mechanismsOfAction) {
+  if (data && data.drug) {
     return {
       mechanismsOfAction: data.drug.mechanismsOfAction,
       linkedTargets: data.drug.linkedTargets,
+      linkedDiseases: data.drug.linkedDiseases,
     };
   } else {
     return {};

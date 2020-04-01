@@ -30,7 +30,7 @@ export const drugSectionsDefaultOrder = [
   // 'adverseEvents',
   // 'bibliography',
   'linkedTargets',
-  // 'linkedDiseases',
+  'linkedDiseases',
 ];
 
 export const evidenceSectionsDefaultOrder = [
