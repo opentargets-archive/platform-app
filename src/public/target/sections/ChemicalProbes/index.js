@@ -4,11 +4,7 @@ export const id = 'chemicalProbes';
 export const name = 'Chemical Probes';
 
 export const hasSummaryData = data => {
-  // data.hasStructuralGenomicsConsortium ||
-  // data.hasChemicalProbesPortal ||
-  // data.hasOpenScienceProbes ||
-  // data.hasProbeMiner;
-  return true && data.probeminer;
+  return data && ((data.rows && data.rows.length > 0) || data.probeminer);
 };
 
 export const summaryQuery = loader('./summaryQuery.gql');
