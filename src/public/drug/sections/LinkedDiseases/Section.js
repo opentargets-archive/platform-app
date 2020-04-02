@@ -6,21 +6,24 @@ const columns = [
   {
     id: 'name',
     label: 'Name',
-    renderCell: d => <Link to={`/disease/${d.id}`}>{d.name}</Link>,
+    renderCell: d => (
+      <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
+    ),
     width: '20%',
   },
   {
     id: 'therapeuticAreas',
     label: 'Therapeutic Areas',
-    renderCell: d =>
-      d.therapeuticAreas.map((t, i) => (
+    renderCell: d => {
+      return d.disease.therapeuticAreas.map((t, i) => (
         <div key={i}>
           <Link to={`/disease/${t.id}`}>{t.name}</Link>
         </div>
-      )),
+      ));
+    },
   },
   {
-    id: 'maxPhase',
+    id: 'maxPhaseForIndication',
     label: 'Max phase',
     width: '15%',
   },

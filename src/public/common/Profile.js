@@ -6,8 +6,9 @@ import ls from 'local-storage';
 import MiniWidgetBar from '../common/MiniWidgetBar';
 import SectionPanelsContainer from '../common/SectionPanelsContainer';
 
-const defaultGetSummaryFromSummaries = (section, summariesData) =>
-  summariesData[section.id];
+const defaultGetSummaryFromSummaries = (section, summariesData) => {
+  return summariesData[section.id];
+};
 
 const Profile = ({
   entity,

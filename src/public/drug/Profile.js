@@ -39,7 +39,7 @@ const entitySummariesAccessor = data => {
   if (data && data.drug) {
     return {
       mechanismsOfAction: data.drug.mechanismsOfAction,
-      linkedDiseases: data.drug.linkedDiseases,
+      indications: data.drug.indications,
     };
   } else {
     return {};

@@ -1,6 +1,6 @@
 import { loader } from 'graphql.macro';
 
-export const id = 'linkedDiseases';
+export const id = 'indications';
 export const name = 'Diseases';
 
 export const hasSummaryData = ({ count }) => count > 0;
