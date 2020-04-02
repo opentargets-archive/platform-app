@@ -1,10 +1,5 @@
-fragment drugAdverseEventsFragment on DrugSummaries {
-  adverseEvents{
-    critval
-    eventsCount
-    sources{
-      name
-      url
-    }
+fragment drugAdverseEventsFragment on Drug {
+  adverseEvents {
+    count
   }
 }

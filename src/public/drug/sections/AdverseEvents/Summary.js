@@ -1,9 +1,4 @@
-import React from 'react';
-
-const Summary = ({ eventsCount }) => (
-  <React.Fragment>
-    {eventsCount} adverse event{eventsCount !== 1 ? 's' : ''}
-  </React.Fragment>
-);
+const Summary = ({ count }) =>
+  `${count} adverse event${count !== 1 ? 's' : ''}`;
 
 export default Summary;
