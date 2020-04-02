@@ -38,21 +38,20 @@ const summariesQuery = gql`
 `;
 
 const entitySummariesAccessor = data => {
-  // data && data.target && data.target.summaries ? data.target.summaries : null;
   if (data && data.target && data.target.chemicalProbes) {
-    return data.target;
+    return sections
+      .filter(s => s.summaryQuery)
+      .reduce(
+        (obj, s) => Object.assign(obj, { [s.id]: data.target[s.id] }),
+        {}
+      );
   } else {
-    return null;
+    return {};
   }
 };
 
 const entitySectionsAccessor = data => {
-  // data && data.target && data.target.details ? data.target.details : null;
-  if (data && data.target && data.target.chemicalProbes) {
-    return data.target;
-  } else {
-    return null;
-  }
+  return data && data.target ? data.target : {};
 };
 
 class TargetProfile extends Component {
