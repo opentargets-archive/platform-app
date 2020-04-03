@@ -2,7 +2,7 @@
 //       or try @babel/plugin-proposal-export-namespace-from (may need eject)
 
 // import * as bibliographyRaw from './sections/Bibliography';
-// import * as cancerBiomarkersRaw from './sections/CancerBiomarkers';
+import * as cancerBiomarkersRaw from './sections/CancerBiomarkers';
 // import * as cancerHallmarksRaw from './sections/CancerHallmarks';
 import * as chemicalProbesRaw from './sections/ChemicalProbes';
 // import * as drugsRaw from './sections/KnownDrugs';
@@ -19,7 +19,7 @@ import * as chemicalProbesRaw from './sections/ChemicalProbes';
 // import * as variationRaw from './sections/Variation';
 
 // export const bibliography = bibliographyRaw;
-// export const cancerBiomarkers = cancerBiomarkersRaw;
+export const cancerBiomarkers = cancerBiomarkersRaw;
 // export const cancerHallmarks = cancerHallmarksRaw;
 export const chemicalProbes = chemicalProbesRaw;
 // export const drugs = drugsRaw;

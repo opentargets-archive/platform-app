@@ -1,21 +1,46 @@
 query CancerBiomarkersSectionQuery($ensgId: String!) {
-  target(ensgId: $ensgId) {
+  target(ensemblId: $ensgId) {
     id
-    details {
-      cancerBiomarkers {
-        rows {
-          biomarker
-          diseases {
-            id
-            name
-          }
-          drugName
-          associationType
-          evidenceLevel
-          sources {
-            url
-            name
-          }
+    # details {
+    #   cancerBiomarkers {
+    #     rows {
+    #       biomarker
+    #       diseases {
+    #         id
+    #         name
+    #       }
+    #       drugName
+    #       associationType
+    #       evidenceLevel
+    #       sources {
+    #         url
+    #         name
+    #       }
+    #     }
+    #   }
+    # }
+
+    cancerBiomarkers {
+      uniqueDrugs
+      uniqueDiseases
+      uniqueBiomarkers
+      count
+      rows {
+        id
+        associationType
+        drugName
+        evidenceLevel
+        sources {
+          description
+          link
+          name
+        }
+        pubmedIds
+        target {
+          approvedSymbol
+        }
+        disease {
+          name
         }
       }
     }

@@ -1,10 +1,11 @@
 import React from 'react';
 
-const Summary = ({ cancerBiomarkerCount, drugCount }) => (
+const Summary = ({ uniqueBiomarkers, uniqueDrugs }) => (
   <React.Fragment>
-    {cancerBiomarkerCount} biomarkers
+    {uniqueBiomarkers} biomarkers
     <br />
-    (affecting {drugCount} drug{drugCount === 1 ? "'s" : "s'"} responsiveness)
+    (affecting {uniqueDrugs} drug{uniqueDrugs === 1 ? "'s" : "s'"}{' '}
+    responsiveness)
   </React.Fragment>
 );
 
