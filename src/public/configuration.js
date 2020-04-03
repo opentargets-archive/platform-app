@@ -14,7 +14,7 @@ export const targetSectionsDefaultOrder = [
   // 'relatedTargets',
   // 'mousePhenotypes',
   // 'cancerHallmarks',
-  // 'cancerBiomarkers',
+  'cancerBiomarkers',
 ];
 
 export const diseaseSectionsDefaultOrder = [
