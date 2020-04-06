@@ -1,9 +1,10 @@
-fragment targetRelatedTargetsFragment on TargetSummaries {
+fragment targetRelatedTargetsFragment on Target {
   relatedTargets {
-    relatedTargetsCount
-    sources {
-      name
-      url
-    }
+    count
+    # relatedTargetsCount
+    # sources {
+    #   name
+    #   url
+    # }
   }
 }
