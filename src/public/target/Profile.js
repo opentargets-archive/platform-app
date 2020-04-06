@@ -38,7 +38,7 @@ const summariesQuery = gql`
 `;
 
 const entitySummariesAccessor = data => {
-  if (data && data.target && data.target.chemicalProbes) {
+  if (data && data.target) {
     return sections
       .filter(s => s.summaryQuery)
       .reduce(

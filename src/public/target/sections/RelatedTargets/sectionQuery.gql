@@ -1,22 +1,19 @@
 query RelatedTargetsQuery($ensgId: String!) {
-  target(ensgId: $ensgId) {
+  target(ensemblId: $ensgId) {
+    # must include id to avoid apollo client error
     id
-    details {
-      relatedTargets {
-        rows {
-          A {
-            id
-            symbol
-          }
-          B {
-            id
-            symbol
-          }
-          diseaseCountA
-          diseaseCountB
-          diseaseCountAAndB
-          diseaseCountAOrB
-          score
+    relatedTargets{
+      count
+      rows {
+        id
+        countA
+        countB
+        countAOrB
+        countAndB
+        score
+        B {
+          approvedSymbol
+          id
         }
       }
     }

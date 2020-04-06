@@ -11,7 +11,7 @@ export const targetSectionsDefaultOrder = [
   // 'geneOntology',
   // 'proteinInteractions',
   // 'pathways',
-  // 'relatedTargets',
+  'relatedTargets',
   // 'mousePhenotypes',
   // 'cancerHallmarks',
   'cancerBiomarkers',
