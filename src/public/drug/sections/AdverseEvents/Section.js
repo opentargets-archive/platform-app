@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import gql from 'graphql-tag';
 import _ from 'lodash';
 import withStyles from '@material-ui/core/styles/withStyles';
-
 import { OtTableRF, DataDownloader } from 'ot-ui';
+import client from '../../../client';
 
 const styles = theme => ({
   levelBarContainer: {
@@ -17,13 +18,92 @@ const styles = theme => ({
   },
 });
 
-const Section = ({ classes, data, name }) => {
+const NUM_ROWS = 10;
+
+const COUNT_QUERY = gql`
+  query AdverseEventsCount($chemblId: String!) {
+    drug(chemblId: $chemblId) {
+      id
+      adverseEvents {
+        critVal
+        count
+      }
+    }
+  }
+`;
+
+const PAGE_QUERY = gql`
+  query AdverseEventsPage($chemblId: String!, $index: Int!) {
+    drug(chemblId: $chemblId) {
+      id
+      adverseEvents(page: { index: $index, size: 10 }) {
+        rows {
+          name
+          count
+          llr
+        }
+      }
+    }
+  }
+`;
+
+const getRows = async chemblId => {
+  // find how many rows there are
+  const result = await client.query({
+    query: COUNT_QUERY,
+    variables: {
+      chemblId,
+    },
+  });
+  const { count, critVal } = result.data.drug.adverseEvents;
+  const numPages = count / NUM_ROWS;
+  const pagePromises = [];
+
+  for (let i = 0; i < numPages; i++) {
+    pagePromises.push(
+      client.query({
+        query: PAGE_QUERY,
+        variables: {
+          chemblId,
+          index: i,
+        },
+      })
+    );
+  }
+
+  return Promise.all(pagePromises).then(pages => {
+    const data = { count, critVal };
+    const allRows = [];
+
+    for (let page = 0; page < pages.length; page++) {
+      const { rows } = pages[page].data.drug.adverseEvents;
+      for (let row = 0; row < rows.length; row++) {
+        allRows.push(rows[row]);
+      }
+    }
+
+    data.rows = allRows;
+    return data;
+  });
+};
+
+const Section = ({ chemblId, classes, name }) => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    getRows(chemblId).then(data => {
+      setData(data);
+    });
+  }, []);
+
+  if (!data) return null;
+
   const maxLlr = data.rows[0].llr;
   const columns = [
     {
-      id: 'event',
+      id: 'name',
       label: 'Adverse event',
-      renderCell: d => _.upperFirst(d.event),
+      renderCell: d => _.upperFirst(d.name),
       width: '35%',
     },
     {
@@ -53,7 +133,7 @@ const Section = ({ classes, data, name }) => {
   ];
 
   return (
-    <React.Fragment>
+    <>
       <DataDownloader
         tableHeaders={columns}
         rows={data.rows}
@@ -66,9 +146,8 @@ const Section = ({ classes, data, name }) => {
         data={data.rows}
         pageSize={data.rows.length || 25}
       />
-    </React.Fragment>
+    </>
   );
 };
 
-// export default Section;
 export default withStyles(styles)(Section);
