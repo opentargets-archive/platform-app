@@ -113,7 +113,7 @@ const Section = ({ chemblId, classes, name }) => {
     },
     {
       id: 'llr',
-      label: `Log likelihood ratio (CV = ${data.critval})`,
+      label: `Log likelihood ratio (CV = ${data.critVal})`,
       renderCell: d => {
         const w = ((d.llr / maxLlr) * 85).toFixed(2); // scale to max 85% of the width to allows space for label
         return (
