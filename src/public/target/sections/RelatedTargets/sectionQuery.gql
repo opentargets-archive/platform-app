@@ -1,9 +1,10 @@
-query RelatedTargetsQuery($ensgId: String!) {
+query RelatedTargetsQuery($ensgId: String!, $index: Int! = 0, $size: Int! = 10) {
   target(ensemblId: $ensgId) {
-    # must include id to avoid apollo client error
+    # Note: must include id (although not used) to avoid Apollo client error!
     id
-    relatedTargets{
+    relatedTargets(page:{index:$index, size:$size}){
       count
+      maxCountAOrB
       rows {
         id
         countA

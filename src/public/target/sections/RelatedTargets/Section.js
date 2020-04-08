@@ -1,16 +1,8 @@
 import React from 'react';
-import * as d3 from 'd3';
-// import { loader } from 'graphql.macro';
-// import { useQuery } from '@apollo/client';
-
 import { OtTableRF, Link, significantFigures } from 'ot-ui';
-
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
-// import ExpandableTableRow from '../../../common/ExpandableTableRow';
 
-// const EXPANSION_QUERY = loader('./expansionQuery.gql');
-
-const columns = (symbol, maxDiseaseCountAOrB) => [
+const columns = (symbol, maxCountAOrB) => [
   {
     id: 'B.approvedSymbol',
     label: 'Related target',
@@ -30,7 +22,6 @@ const columns = (symbol, maxDiseaseCountAOrB) => [
   {
     id: 'countANotB',
     label: `Diseases associated with ${symbol} but not the related target`,
-    renderCell: d => d.countA - d.countAndB,
   },
   {
     id: 'countAndB',
@@ -39,7 +30,6 @@ const columns = (symbol, maxDiseaseCountAOrB) => [
   {
     id: 'countBNotA',
     label: `Diseases associated with the related target but not ${symbol}`,
-    renderCell: d => d.countB - d.countAndB,
   },
   {
     id: 'chart',
@@ -55,95 +45,73 @@ const columns = (symbol, maxDiseaseCountAOrB) => [
         aOnly={d.countA - d.countAndB}
         bOnly={d.countB - d.countAndB}
         aAndB={d.countAndB}
-        max={maxDiseaseCountAOrB}
+        max={maxCountAOrB}
       />
     ),
   },
 ];
 
-// const expansionColumns = (A, B) => [
-//   {
-//     id: 'disease.name',
-//     label: 'Disease',
-//     renderCell: d => (
-//       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
-//     ),
-//     comparator: (a, b) => {
-//       if (a.disease.name <= b.disease.name) {
-//         return -1;
-//       }
-//       return 1;
-//     },
-//   },
-//   {
-//     id: 'associationScoreA',
-//     label: (
-//       <React.Fragment>
-//         Association score with <br />
-//         <strong>{A.symbol}</strong>
-//       </React.Fragment>
-//     ),
-//     renderCell: d => significantFigures(d.associationScoreA),
-//   },
-//   {
-//     id: 'associationScoreB',
-//     label: (
-//       <React.Fragment>
-//         Association score with <br />
-//         <strong>{B.symbol}</strong>
-//       </React.Fragment>
-//     ),
-//     renderCell: d => significantFigures(d.associationScoreB),
-//   },
-// ];
+const pageSize = 10; // unlikely to change for now, so no need to go into state
 
-// const ExpandedComponent = ({ data }) => {
-//   const { loading, error, data: data2 } = useQuery(EXPANSION_QUERY, {
-//     variables: { pageEnsgId: data.A.id, otherEnsgId: data.B.id },
-//   });
+class Section extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pageIndex: 0,
+    };
+  }
 
-//   if (loading || error) return null;
+  componentDidUpdate(prevProps, prevState) {
+    // fetchMore is Apollo's pagination function
+    // no table sorting / ordering at the moment
+    const { fetchMore } = this.props;
+    const { pageIndex } = this.state;
+    if (prevState.pageIndex !== pageIndex) {
+      fetchMore({
+        variables: { index: pageIndex, size: pageSize },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult) {
+            return prev;
+          }
+          return Object.assign({}, prev, fetchMoreResult);
+        },
+      });
+    }
+  }
 
-//   const expansionRows = data2.target.details.relatedTargets.expanded.map(d => ({
-//     ...d,
-//     associationScoreProduct: d.associationScoreA * d.associationScoreB,
-//   }));
+  render = () => {
+    const { data, symbol } = this.props;
+    const { rows, count, maxCountAOrB } = data;
 
-//   return (
-//     <OtTableRF
-//       loading={false}
-//       error={false}
-//       columns={expansionColumns(data.A, data.B)}
-//       data={expansionRows}
-//       sortBy="associationScoreProduct"
-//       order="desc"
-//     />
-//   );
-// };
+    const rowsMapped = rows.map(d => ({
+      ...d,
+      countANotB: d.countA - d.countAndB,
+      countBNotA: d.countB - d.countAndB,
+    }));
 
-// const TableRowComponent = props => (
-//   <ExpandableTableRow {...props} ExpandedComponent={ExpandedComponent} />
-// );
+    const onPageSort = pe => {
+      // table specific constants
+      const { page, pageSize, sortBy, order } = pe;
+      let ns = {};
 
-const Section = ({ ensgId, symbol, data }) => {
-  const { rows } = data;
-  const maxDiseaseCountAOrB = d3.max(rows, d => d.countAOrB);
-  const rowsMapped = rows.map(d => ({
-    ...d,
-    countANotB: d.countA - d.countAAndB,
-    countBNotA: d.countB - d.countAAndB,
-  }));
+      if (page !== undefined) {
+        ns.pageIndex = page;
+      }
+      this.setState(ns);
+    };
 
-  return (
-    <OtTableRF
-      loading={false}
-      error={false}
-      columns={columns(symbol, maxDiseaseCountAOrB)}
-      data={rowsMapped}
-      sortBy="score"
-      order="desc"
-    />
-  );
-};
+    return (
+      <OtTableRF
+        loading={false}
+        error={false}
+        columns={columns(symbol, maxCountAOrB)}
+        data={rowsMapped}
+        serverSide={true}
+        totalRowsCount={count}
+        onPageSort={onPageSort}
+      />
+    );
+  };
+}
 
 export default Section;
