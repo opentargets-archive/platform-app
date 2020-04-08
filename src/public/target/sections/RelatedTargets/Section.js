@@ -6,6 +6,7 @@ const columns = (symbol, maxCountAOrB) => [
   {
     id: 'B.approvedSymbol',
     label: 'Related target',
+    orderable: false,
     renderCell: d => <Link to={`/target/${d.B.id}`}>{d.B.approvedSymbol}</Link>,
     comparator: (a, b) => {
       if (a.B.approvedSymbol <= b.B.approvedSymbol) {
@@ -17,19 +18,23 @@ const columns = (symbol, maxCountAOrB) => [
   {
     id: 'score',
     label: 'Similarity score',
+    orderable: false,
     renderCell: d => significantFigures(d.score),
   },
   {
     id: 'countANotB',
     label: `Diseases associated with ${symbol} but not the related target`,
+    orderable: false,
   },
   {
     id: 'countAndB',
     label: 'Shared disease associations',
+    orderable: false,
   },
   {
     id: 'countBNotA',
     label: `Diseases associated with the related target but not ${symbol}`,
+    orderable: false,
   },
   {
     id: 'chart',
@@ -40,6 +45,7 @@ const columns = (symbol, maxCountAOrB) => [
         aAndB="Shared disease associations"
       />
     ),
+    orderable: false,
     renderCell: d => (
       <LinearVenn
         aOnly={d.countA - d.countAndB}
