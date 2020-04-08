@@ -68,7 +68,7 @@ class Section extends React.Component {
           if (!fetchMoreResult) {
             return prev;
           }
-          return Object.assign(prev, fetchMoreResult);
+          return Object.assign({}, prev, fetchMoreResult);
         },
       });
     }
