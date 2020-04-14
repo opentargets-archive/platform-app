@@ -27,25 +27,6 @@ const summariesQuery = gql`
     .join('\n')}
 `;
 
-const querystr = `
-query DiseaseSummaryQuery($efoId: String!) {
-  disease(efoId: $efoId) {
-    id
-    name
-    ${sections
-      .filter(s => s.summaryQuery)
-      .map(s => `...disease${_.upperFirst(s.id)}Fragment`)
-      .join('\n')}
-  }
-}
-${sections
-  .filter(s => s.summaryQuery)
-  .map(s => print(s.summaryQuery))
-  .join('\n')}
-`;
-
-console.log('querystr', querystr);
-
 const entitySummariesAccessor = data =>
   data && data.disease && data.disease.summaries ? data.disease.summaries : {};
 const entitySectionsAccessor = data =>
