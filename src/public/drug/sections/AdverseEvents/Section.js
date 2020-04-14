@@ -18,7 +18,7 @@ const styles = theme => ({
   },
 });
 
-const NUM_ROWS = 10;
+const BATCH_SIZE = 1000;
 
 const COUNT_QUERY = gql`
   query AdverseEventsCount($chemblId: String!) {
@@ -33,10 +33,10 @@ const COUNT_QUERY = gql`
 `;
 
 const PAGE_QUERY = gql`
-  query AdverseEventsPage($chemblId: String!, $index: Int!) {
+  query AdverseEventsPage($chemblId: String!, $page: Pagination!) {
     drug(chemblId: $chemblId) {
       id
-      adverseEvents(page: { index: $index, size: 10 }) {
+      adverseEvents(page: $page) {
         rows {
           name
           count
@@ -56,34 +56,36 @@ const getRows = async chemblId => {
     },
   });
   const { count, critVal } = result.data.drug.adverseEvents;
-  const numPages = count / NUM_ROWS;
-  const pagePromises = [];
+  const numBatches = Math.ceil(count / BATCH_SIZE);
+  const batchPromises = [];
 
-  for (let i = 0; i < numPages; i++) {
-    pagePromises.push(
+  for (let i = 0; i < numBatches; i++) {
+    batchPromises.push(
       client.query({
         query: PAGE_QUERY,
         variables: {
           chemblId,
-          index: i,
+          page: { index: i, size: BATCH_SIZE },
         },
       })
     );
   }
 
-  return Promise.all(pagePromises).then(pages => {
-    const data = { count, critVal };
+  return Promise.all(batchPromises).then(batches => {
     const allRows = [];
 
-    for (let page = 0; page < pages.length; page++) {
-      const { rows } = pages[page].data.drug.adverseEvents;
-      for (let row = 0; row < rows.length; row++) {
-        allRows.push(rows[row]);
-      }
-    }
+    batches.forEach(batch => {
+      const { rows } = batch.data.drug.adverseEvents;
+      rows.forEach(row => {
+        allRows.push(row);
+      });
+    });
 
-    data.rows = allRows;
-    return data;
+    return {
+      count,
+      critVal,
+      rows: allRows,
+    };
   });
 };
 
@@ -144,7 +146,7 @@ const Section = ({ chemblId, classes, name }) => {
         error={false}
         columns={columns}
         data={data.rows}
-        pageSize={data.rows.length || 25}
+        pageSize={10}
       />
     </>
   );
