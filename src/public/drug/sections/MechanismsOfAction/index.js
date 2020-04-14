@@ -5,7 +5,11 @@ export const name = 'Mechanisms of Action';
 export const shortName = 'MA';
 
 export const hasSummaryData = data => {
-  return data.uniqueActionTypes.length > 0 && data.uniqueTargetTypes.length > 0;
+  return (
+    data &&
+    data.uniqueActionTypes.length > 0 &&
+    data.uniqueTargetTypes.length > 0
+  );
 };
 
 export const summaryQuery = loader('./summaryQuery.gql');
