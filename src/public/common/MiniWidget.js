@@ -32,6 +32,7 @@ const styles = theme => ({
   },
   title: {
     color: theme.palette.grey[500],
+    wordBreak: 'break-all',
   },
   titleHasData: {
     color: theme.palette.primary.main,

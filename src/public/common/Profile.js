@@ -3,8 +3,8 @@ import { useQuery } from '@apollo/client';
 import { scroller, animateScroll } from 'react-scroll';
 import ls from 'local-storage';
 
-import MiniWidgetBar from '../common/MiniWidgetBar';
-import SectionPanelsContainer from '../common/SectionPanelsContainer';
+import MiniWidgetBar from './MiniWidgetBar';
+import SectionPanelsContainer from './SectionPanelsContainer';
 
 const defaultGetSummaryFromSummaries = (section, summariesData) => {
   return summariesData[section.id];
