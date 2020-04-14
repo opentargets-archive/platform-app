@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Summary = ({ relatedDiseasesCount }) => (
+const Summary = ({ count }) => (
   <React.Fragment>
-    {relatedDiseasesCount} diseases
+    {count} diseases
     <br />
     (through shared targets)
   </React.Fragment>

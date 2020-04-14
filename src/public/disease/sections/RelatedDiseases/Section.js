@@ -59,72 +59,6 @@ const columns = (name, maxTargetCountAOrB) => [
   },
 ];
 
-const expansionColumns = (A, B) => [
-  {
-    id: 'target.symbol',
-    label: 'Target',
-    renderCell: d => (
-      <Link to={`/target/${d.target.id}`}>{d.target.symbol}</Link>
-    ),
-    comparator: (a, b) => {
-      if (a.target.symbol <= b.target.symbol) {
-        return -1;
-      }
-      return 1;
-    },
-  },
-  {
-    id: 'associationScoreA',
-    label: (
-      <React.Fragment>
-        Association score with <br />
-        <strong>{A.name}</strong>
-      </React.Fragment>
-    ),
-    renderCell: d => significantFigures(d.associationScoreA),
-  },
-  {
-    id: 'associationScoreB',
-    label: (
-      <React.Fragment>
-        Association score with <br />
-        <strong>{B.name}</strong>
-      </React.Fragment>
-    ),
-    renderCell: d => significantFigures(d.associationScoreB),
-  },
-];
-
-const ExpandedComponent = ({ data }) => {
-  const { loading, error, data: data2 } = useQuery(EXPANSION_QUERY, {
-    variables: { pageEfoId: data.A.id, otherEfoId: data.B.id },
-  });
-
-  if (loading || error) return null;
-
-  const expansionRows = data2.disease.details.relatedDiseases.expanded.map(
-    d => ({
-      ...d,
-      associationScoreProduct: d.associationScoreA * d.associationScoreB,
-    })
-  );
-
-  return (
-    <OtTableRF
-      loading={false}
-      error={false}
-      columns={expansionColumns(data.A, data.B)}
-      data={expansionRows}
-      sortBy="associationScoreProduct"
-      order="desc"
-    />
-  );
-};
-
-const TableRowComponent = props => (
-  <ExpandableTableRow {...props} ExpandedComponent={ExpandedComponent} />
-);
-
 const Section = ({ name, data }) => {
   const { rows } = data;
   const maxTargetCountAOrB = d3.max(rows, d => d.targetCountAOrB);
@@ -142,7 +76,6 @@ const Section = ({ name, data }) => {
       data={rowsMapped}
       sortBy="score"
       order="desc"
-      tableRowComponent={TableRowComponent}
     />
   );
 };
