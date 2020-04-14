@@ -5,7 +5,7 @@ export const name = 'Known Drugs';
 
 export const hasSummaryData = ({ drugCount }) => drugCount > 0;
 
-export const summaryQuery = loader('./summaryQuery.gql');
+// export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');
 
 export { default as DescriptionComponent } from './Description';

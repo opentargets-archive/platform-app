@@ -6,7 +6,7 @@ export const name = 'Related Diseases';
 export const hasSummaryData = ({ relatedDiseasesCount }) =>
   relatedDiseasesCount > 0;
 
-export const summaryQuery = loader('./summaryQuery.gql');
+// export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');
 
 export { default as DescriptionComponent } from './Description';
