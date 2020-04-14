@@ -1,22 +1,19 @@
-query RelatedDiseasesQuery($efoId: String!) {
+query RelatedDiseasesQuery($efoId: String!, $index: Int! = 0, $size: Int! = 10) {
   disease(efoId: $efoId) {
     id
-    details {
-      relatedDiseases {
-        rows {
-          A {
-            id
-            name
-          }
-          B {
-            id
-            name
-          }
-          targetCountA
-          targetCountB
-          targetCountAAndB
-          targetCountAOrB
-          score
+    relatedDiseases(page:{index:$index, size:$size}) {
+      count,
+      maxCountAOrB,
+      rows {
+        id
+        countA
+        countB
+        countAOrB
+        countAndB
+        score
+        B {
+          id
+          name
         }
       }
     }

@@ -36,7 +36,7 @@ const entitySummariesAccessor = data =>
   {};
 
 const entitySectionsAccessor = data =>
-  data && data.disease && data.disease.details ? data.disease.details : null;
+  data && data.disease ? data.disease : {};
 
 class DiseaseProfile extends Component {
   render() {
