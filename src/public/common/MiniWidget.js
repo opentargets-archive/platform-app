@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import withStyles from '@material-ui/core/styles/withStyles';
+import ErrorBoundary from './ErrorBoundary';
 
 const styles = theme => ({
   card: {
@@ -103,71 +104,73 @@ const MiniWidget = ({
       onClick={onClick}
       elevation={0}
     >
-      <CardHeader
-        className={classes.cardHeader}
-        avatar={
-          <Avatar
-            className={classNames({
-              [classes.avatar]: true,
-              [classes.avatarHasData]: hasData,
-              [classes.avatarError]: error,
-            })}
-          >
-            {shortName ||
-              name
-                .split(' ')
-                .map(d => d[0].toUpperCase())
-                .join('')}
-          </Avatar>
-        }
-        action={null}
-        title={
-          <Typography
-            className={classNames({
-              [classes.title]: true,
-              [classes.titleHasData]: hasData,
-              [classes.titleError]: error,
-            })}
-          >
-            {name}
-          </Typography>
-        }
-      />
-      {loading ? <LinearProgress /> : null}
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-        className={classes.content}
-      >
-        <Grid item>
-          <Typography
-            align="center"
-            className={classNames({
-              [classes.subheader]: true,
-              [classes.subheaderHasData]: hasData,
-              [classes.subheaderError]: error,
-            })}
-          >
-            {/* sections which don't use graphql queries
+      <ErrorBoundary>
+        <CardHeader
+          className={classes.cardHeader}
+          avatar={
+            <Avatar
+              className={classNames({
+                [classes.avatar]: true,
+                [classes.avatarHasData]: hasData,
+                [classes.avatarError]: error,
+              })}
+            >
+              {shortName ||
+                name
+                  .split(' ')
+                  .map(d => d[0].toUpperCase())
+                  .join('')}
+            </Avatar>
+          }
+          action={null}
+          title={
+            <Typography
+              className={classNames({
+                [classes.title]: true,
+                [classes.titleHasData]: hasData,
+                [classes.titleError]: error,
+              })}
+            >
+              {name}
+            </Typography>
+          }
+        />
+        {loading ? <LinearProgress /> : null}
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          className={classes.content}
+        >
+          <Grid item>
+            <Typography
+              align="center"
+              className={classNames({
+                [classes.subheader]: true,
+                [classes.subheaderHasData]: hasData,
+                [classes.subheaderError]: error,
+              })}
+            >
+              {/* sections which don't use graphql queries
           must be rendered to allow callbacks */}
-            {summaryQuery ? (
-              hasData ? (
-                <SummaryComponent {...entity} {...summaryProps} />
+              {summaryQuery ? (
+                hasData ? (
+                  <SummaryComponent {...entity} {...summaryProps} />
+                ) : error ? (
+                  'An API error occurred'
+                ) : loading ? null : (
+                  '(no data)'
+                )
               ) : error ? (
                 'An API error occurred'
               ) : loading ? null : (
-                '(no data)'
-              )
-            ) : error ? (
-              'An API error occurred'
-            ) : loading ? null : (
-              <SummaryComponent {...entity} {...summaryProps} />
-            )}
-          </Typography>
+                <SummaryComponent {...entity} {...summaryProps} />
+              )}
+            </Typography>
+          </Grid>
         </Grid>
-      </Grid>
+      </ErrorBoundary>
     </Card>
   </Grid>
 );
