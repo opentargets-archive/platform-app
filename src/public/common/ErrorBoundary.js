@@ -12,8 +12,9 @@ class ErrorBoundary extends Component {
 
   render() {
     return this.state.hasError ? (
-      <Typography align="center" color="secondary">
-        Something went wrong
+      <Typography align="center" color="secondary" variant="caption">
+        Something went wrong. Please contact Open Targets at
+        support@targetvalidation.org
       </Typography>
     ) : (
       this.props.children
