@@ -11,6 +11,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import SectionAvatar from './SectionAvatar';
 import SectionPanelLoader from './SectionPanelLoader';
+import ErrorBoundary from './ErrorBoundary';
 
 const styles = theme => ({
   title: {
@@ -66,53 +67,57 @@ class SectionPanel extends React.Component {
       <Grid item xs={12} style={{ marginBottom: 8 }}>
         <Element name={id}>
           <Card elevation={0}>
-            <CardHeader
-              className={classes.cardHeader}
-              avatar={
-                <SectionAvatar {...{ name, shortName, icon, hasData, error }} />
-              }
-              action={null}
-              title={
-                <Typography
-                  className={classNames({
-                    [classes.title]: true,
-                    [classes.titleHasData]: hasData,
-                    [classes.titleError]: error,
-                  })}
-                >
-                  {name}
-                </Typography>
-              }
-              subheader={
-                <Typography
-                  className={classNames({
-                    [classes.description]: true,
-                    [classes.descriptionHasData]: hasData,
-                    [classes.descriptionError]: error,
-                  })}
-                >
-                  {DescriptionComponent ? (
-                    <DescriptionComponent {...entity} />
-                  ) : null}
-                </Typography>
-              }
-            />
-            {loading ? <LinearProgress /> : null}
-            <CardContent className={classes.cardContent}>
-              <SectionPanelLoader
-                {...{
-                  entity,
-                  entitySectionsAccessor,
-                  getDetailFromDetails,
-                  sectionId: id,
-                  hasData,
-                  error,
-                  loading,
-                  sectionQuery,
-                  SectionComponent,
-                }}
+            <ErrorBoundary>
+              <CardHeader
+                className={classes.cardHeader}
+                avatar={
+                  <SectionAvatar
+                    {...{ name, shortName, icon, hasData, error }}
+                  />
+                }
+                action={null}
+                title={
+                  <Typography
+                    className={classNames({
+                      [classes.title]: true,
+                      [classes.titleHasData]: hasData,
+                      [classes.titleError]: error,
+                    })}
+                  >
+                    {name}
+                  </Typography>
+                }
+                subheader={
+                  <Typography
+                    className={classNames({
+                      [classes.description]: true,
+                      [classes.descriptionHasData]: hasData,
+                      [classes.descriptionError]: error,
+                    })}
+                  >
+                    {DescriptionComponent ? (
+                      <DescriptionComponent {...entity} />
+                    ) : null}
+                  </Typography>
+                }
               />
-            </CardContent>
+              {loading ? <LinearProgress /> : null}
+              <CardContent className={classes.cardContent}>
+                <SectionPanelLoader
+                  {...{
+                    entity,
+                    entitySectionsAccessor,
+                    getDetailFromDetails,
+                    sectionId: id,
+                    hasData,
+                    error,
+                    loading,
+                    sectionQuery,
+                    SectionComponent,
+                  }}
+                />
+              </CardContent>
+            </ErrorBoundary>
           </Card>
         </Element>
       </Grid>
