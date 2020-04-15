@@ -10,6 +10,14 @@ const defaultGetSummaryFromSummaries = (section, summariesData) => {
   return summariesData[section.id];
 };
 
+const hasSummaryData = (summaryFunction, summaryData) => {
+  try {
+    return summaryFunction(summaryData);
+  } catch {
+    return true;
+  }
+};
+
 const Profile = ({
   entity,
   variables,
@@ -48,7 +56,7 @@ const Profile = ({
   };
   const setSectionHasSummaryErrorHandler = sectionId => value => {
     setSectionHasSummaryError({
-      ...sectionHasSummaryData,
+      ...sectionHasSummaryError,
       [sectionId]: value,
     });
   };
@@ -90,7 +98,7 @@ const Profile = ({
       : defaultGetSummaryFromSummaries(s, summariesData);
     const hasDataFromGraphQLAPI =
       !summaryErrorFromGraphQL && !loading && s.hasSummaryData
-        ? s.hasSummaryData(summaryData)
+        ? hasSummaryData(s.hasSummaryData, summaryData)
         : false;
     const hasDataFromSummaryComponent = sectionHasSummaryData[s.id];
     const hasData = hasDataFromGraphQLAPI || hasDataFromSummaryComponent;
