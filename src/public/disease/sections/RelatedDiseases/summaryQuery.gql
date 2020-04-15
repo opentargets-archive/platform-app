@@ -1,9 +1,5 @@
-fragment diseaseRelatedDiseasesFragment on DiseaseSummaries {
+fragment diseaseRelatedDiseasesFragment on Disease {
   relatedDiseases {
-    relatedDiseasesCount
-    sources {
-      name
-      url
-    }
+    count
   }
 }

@@ -28,9 +28,15 @@ const summariesQuery = gql`
 `;
 
 const entitySummariesAccessor = data =>
-  data && data.disease && data.disease.summaries ? data.disease.summaries : {};
+  (data &&
+    data.disease &&
+    sections
+      .filter(s => s.summaryQuery)
+      .reduce((obj, s) => ({ ...obj, [s.id]: data.disease[s.id] }), {})) ||
+  {};
+
 const entitySectionsAccessor = data =>
-  data && data.disease && data.disease.details ? data.disease.details : null;
+  data && data.disease ? data.disease : {};
 
 class DiseaseProfile extends Component {
   render() {
