@@ -13,9 +13,10 @@ const highlightStyles = theme => ({
 });
 
 const Highlights = ({ classes, highlights }) => {
+  const [showMore, setShowMore] = useState(false);
+
   if (highlights.length === 0) return null;
 
-  const [showMore, setShowMore] = useState(false);
   return (
     <div className={classes.matches}>
       <Typography component="span" inline variant="subtitle2">
