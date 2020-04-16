@@ -1,36 +1,69 @@
-query KnownDrugsSectionQuery($efoId: String!) {
+query knownDrugsSectionQuery($efoId: String!) {
   disease(efoId: $efoId) {
     id
-    details {
-      drugs {
-        rows {
-          disease {
-            id
-            name
-          }
-          target {
-            id
-            symbol
-          }
-          drug {
-            id
-            name
-            type
-            activity
-          }
-          clinicalTrial {
-            phase
-            status
-            sourceUrl
-            sourceName
-          }
-          mechanismOfAction {
-            name
-            sourceName
-            sourceUrl
-          }
+    name
+    description
+    knownDrugs {
+      uniqueDrugs
+      uniqueDiseases
+      uniqueTargets
+      count
+      rows {
+        disease {
+          name
         }
+        target {
+          approvedSymbol
+        }
+        drug {
+          name
+        }
+        drugType
+        phase
+        mechanismOfAction
+        status
+        activity
+        targetClass
+        ctIds
       }
     }
   }
 }
+
+
+# query KnownDrugsSectionQuery($efoId: String!) {
+#   disease(efoId: $efoId) {
+#     id
+#     details {
+#       drugs {
+#         rows {
+#           disease {
+#             id
+#             name
+#           }
+#           target {
+#             id
+#             symbol
+#           }
+#           drug {
+#             id
+#             name
+#             type
+#             activity
+#           }
+#           clinicalTrial {
+#             phase
+#             status
+#             sourceUrl
+#             sourceName
+#           }
+#           mechanismOfAction {
+#             name
+#             sourceName
+#             sourceUrl
+#           }
+#         }
+#       }
+#     }
+#   }
+# }

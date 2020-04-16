@@ -1,3 +1,7 @@
-import BaseSummary from '../../../common/sections/KnownDrugs/Summary';
+import React from 'react';
 
-export default BaseSummary;
+const Summary = ({ count }) => (
+  <React.Fragment>{count} drugs in clinical trials</React.Fragment>
+);
+
+export default Summary;

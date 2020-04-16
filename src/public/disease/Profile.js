@@ -9,7 +9,6 @@ import DescriptionAndSynonyms from '../common/DescriptionAndSynonyms';
 
 const sections = Object.values(sectionsObject);
 
-// TODO: write, then use disease sections of api
 const summariesQuery = gql`
   query DiseaseSummaryQuery($efoId: String!) {
     disease(efoId: $efoId) {
