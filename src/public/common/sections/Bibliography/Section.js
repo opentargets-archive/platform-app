@@ -22,7 +22,7 @@ const aggtype = [
   // {value: 'pub_date_histogram', label: 'publication date'}
 ];
 
-const styles = theme => ({
+const styles = (theme) => ({
   icon: {
     width: '50px',
     height: '50px',
@@ -36,7 +36,7 @@ const styles = theme => ({
     marginBottom: '20px',
   },
   chip: {
-    margin: theme.spacing.unit / 4,
+    margin: theme.spacing(0.25),
   },
   linkChip: {
     backgroundColor: theme.palette.primary.main,
@@ -66,19 +66,19 @@ class Section extends Component {
   }
 
   // Handler for drop down menu
-  aggtypeFilterHandler = selection => {
+  aggtypeFilterHandler = (selection) => {
     this.setState({ selectedAggregation: selection });
   };
 
   // Parse the aggregation data based on defined aggtypes
   // and filter out all entries that are already selected
-  filterAggregations = aggs => {
+  filterAggregations = (aggs) => {
     const { selected } = this.state;
     return aggtype.reduce((newaggs, agg) => {
       newaggs[agg.value] = {
-        buckets: aggs[agg.value].buckets.filter(function(b) {
+        buckets: aggs[agg.value].buckets.filter(function (b) {
           return (
-            selected.filter(function(a) {
+            selected.filter(function (a) {
               a.label = a.label || a.key;
               return (
                 a.key.toString().toLowerCase() ===
@@ -97,14 +97,14 @@ class Section extends Component {
   // Get the data for the chips
   getAggregations = () => {
     getAggregationsData(this.state.selected).then(
-      resp => {
+      (resp) => {
         this.setState({
           bibliographyCount: resp.hits.total,
           hasData: resp.hits.total > 0,
           aggregations: this.filterAggregations(resp.aggregations),
         });
       },
-      error => {
+      (error) => {
         this.setState({
           aggregations: {},
           hasError: true,
@@ -114,13 +114,13 @@ class Section extends Component {
   };
 
   // Get the data for the publications
-  getPublications = append => {
+  getPublications = (append) => {
     const { hits } = this.state;
     const last = hits[hits.length - 1];
     const after = append ? last.sort[0] : undefined;
     const afterId = append ? last._id : undefined;
     getPublicationsData(this.state.selected, after, afterId).then(
-      resp => {
+      (resp) => {
         // if loading more data (after & afterId) append that, if not just reset hits
         const hits =
           after && afterId
@@ -130,7 +130,7 @@ class Section extends Component {
           hits: hits,
         });
       },
-      error => {
+      (error) => {
         this.setState({
           hits: [],
           hasError: true,
@@ -140,7 +140,7 @@ class Section extends Component {
   };
 
   // Handler for when a chip is deselected
-  deselectChip = index => {
+  deselectChip = (index) => {
     const { selected } = this.state;
     if (index < selected.length) {
       this.setState({ selected: selected.filter((sel, i) => i !== index) });
@@ -148,7 +148,7 @@ class Section extends Component {
   };
 
   // Handler for when a chip is selected
-  selectChip = chip => {
+  selectChip = (chip) => {
     const selected = this.state.selected.concat([chip]);
     this.setState({ selected: selected });
   };
@@ -191,7 +191,7 @@ class Section extends Component {
           direction="column"
           justify="flex-start"
           alignItems="stretch"
-          spacing={16}
+          spacing={2}
         >
           <Grid item xs={12}>
             {/* Dropdown menu */}
@@ -216,17 +216,17 @@ class Section extends Component {
                 ) : null;
               })}
               {aggregations[selectedAggregation.value]
-                ? aggregations[selectedAggregation.value].buckets.map(
-                    (agg, i) => (
-                      <Chip
-                        color="primary"
-                        key={i}
-                        label={agg.label || agg.key}
-                        onClick={() => this.selectChip(agg)}
-                        className={classNames(classes.chip, classes.linkChip)}
-                      />
-                    )
-                  )
+                ? aggregations[
+                    selectedAggregation.value
+                  ].buckets.map((agg, i) => (
+                    <Chip
+                      color="primary"
+                      key={i}
+                      label={agg.label || agg.key}
+                      onClick={() => this.selectChip(agg)}
+                      className={classNames(classes.chip, classes.linkChip)}
+                    />
+                  ))
                 : null}
             </Fragment>
           </Grid>
@@ -244,7 +244,7 @@ class Section extends Component {
               direction="column"
               justify="flex-start"
               alignItems="stretch"
-              spacing={16}
+              spacing={2}
             >
               {hits.map((hit, i) => {
                 return (
@@ -253,7 +253,7 @@ class Section extends Component {
                       pmId={hit._source.pub_id}
                       title={hit._source.title}
                       authors={
-                        hit._source.authors.map(a => ({
+                        hit._source.authors.map((a) => ({
                           lastName: a.LastName,
                           initials: a.Initials,
                         })) || []

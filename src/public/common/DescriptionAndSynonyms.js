@@ -5,7 +5,7 @@ import Description from './Description';
 import ChipsField from './ChipsField';
 
 const DescriptionAndSynonyms = ({ synonyms, description }) => (
-  <Grid style={{ marginTop: '8px' }} container spacing={16}>
+  <Grid style={{ marginTop: '8px' }} container spacing={2}>
     <Grid item xs={12} md={6}>
       <Description>{description}</Description>
     </Grid>

@@ -51,7 +51,7 @@ const getColumns = ({
     {
       id: 'diseases',
       label: 'Disease',
-      renderCell: rowData => {
+      renderCell: (rowData) => {
         return rowData.diseases.map((disease, i) => {
           return (
             <Link
@@ -86,7 +86,7 @@ const getColumns = ({
     {
       id: 'associationType',
       label: 'Association',
-      renderCell: row => _.capitalize(row.associationType.replace(/_/g, ' ')),
+      renderCell: (row) => _.capitalize(row.associationType.replace(/_/g, ' ')),
       renderFilter: () => (
         <Select
           isClearable
@@ -109,7 +109,7 @@ const getColumns = ({
     {
       id: 'sources',
       label: 'Sources',
-      renderCell: rowData => {
+      renderCell: (rowData) => {
         return (
           <Fragment>
             {rowData.sources.map((source, i) => (
@@ -124,7 +124,7 @@ const getColumns = ({
   ];
 };
 
-const styles = theme => ({
+const styles = (theme) => ({
   countLabelSection: {
     width: DC_PIE_WIDTH,
     float: 'left',
@@ -150,40 +150,40 @@ const styles = theme => ({
   },
 });
 
-const getBiomarkerOptions = rows => {
-  return _.uniq(rows.map(row => row.biomarker)).map(row => ({
+const getBiomarkerOptions = (rows) => {
+  return _.uniq(rows.map((row) => row.biomarker)).map((row) => ({
     label: row,
     value: row,
   }));
 };
 
-const getDiseaseOptions = rows => {
+const getDiseaseOptions = (rows) => {
   return _.uniq(
     rows.reduce((acc, row) => {
-      row.diseases.forEach(disease => {
+      row.diseases.forEach((disease) => {
         acc.push(disease.name);
       });
       return acc;
     }, [])
-  ).map(disease => ({ label: disease, value: disease }));
+  ).map((disease) => ({ label: disease, value: disease }));
 };
 
-const getDrugOptions = rows => {
-  return _.uniq(rows.map(row => row.drugName)).map(row => ({
+const getDrugOptions = (rows) => {
+  return _.uniq(rows.map((row) => row.drugName)).map((row) => ({
     label: row,
     value: row,
   }));
 };
 
-const getAssociationOptions = rows => {
-  return _.uniq(rows.map(row => row.associationType)).map(row => ({
+const getAssociationOptions = (rows) => {
+  return _.uniq(rows.map((row) => row.associationType)).map((row) => ({
     label: row,
     value: row,
   }));
 };
 
-const getEvidenceOptions = rows => {
-  return _.uniq(rows.map(row => row.evidenceLevel)).map(row => ({
+const getEvidenceOptions = (rows) => {
+  return _.uniq(rows.map((row) => row.evidenceLevel)).map((row) => ({
     label: row,
     value: row,
   }));
@@ -201,15 +201,15 @@ const getDownloadColumns = () => {
   ];
 };
 
-const getDownloadRows = rows => {
-  return rows.map(row => ({
+const getDownloadRows = (rows) => {
+  return rows.map((row) => ({
     biomarker: row.biomarker,
-    diseases: row.diseases.map(disease => disease.name).join(', '),
-    efo: row.diseases.map(disease => disease.id).join(', '),
+    diseases: row.diseases.map((disease) => disease.name).join(', '),
+    efo: row.diseases.map((disease) => disease.id).join(', '),
     drugName: row.drugName,
     associationType: row.associationType,
     evidenceLevel: row.evidenceLevel,
-    sources: row.sources.map(source => source.url).join(', '),
+    sources: row.sources.map((source) => source.url).join(', '),
   }));
 };
 
@@ -247,19 +247,19 @@ class FilterTable extends Component {
     this.drugCountLabel
       .group(drugCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length)
+      .valueAccessor((d) => Object.keys(d).length)
       .render();
 
     this.biomarkerCountLabel
       .group(biomarkerCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length)
+      .valueAccessor((d) => Object.keys(d).length)
       .render();
 
     this.diseaseCountLabel
       .group(diseaseCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor(d => Object.keys(d).length)
+      .valueAccessor((d) => Object.keys(d).length)
       .render();
 
     this.biomarkersByAssociationChart
@@ -267,11 +267,11 @@ class FilterTable extends Component {
       .height(DC_PIE_WIDTH)
       .radius(DC_PIE_OUTER_RADIUS)
       .innerRadius(DC_PIE_INNER_RADIUS)
-      .label(d => `${d.key} (${Object.keys(d.value).length})`)
-      .valueAccessor(d => Object.keys(d.value).length)
+      .label((d) => `${d.key} (${Object.keys(d.value).length})`)
+      .valueAccessor((d) => Object.keys(d.value).length)
       .dimension(associationDim)
       .group(associationGroup)
-      .colors(association => this.associationColors[association])
+      .colors((association) => this.associationColors[association])
       .render();
 
     this.biomarkersByEvidenceChart
@@ -279,18 +279,18 @@ class FilterTable extends Component {
       .height(DC_PIE_WIDTH)
       .radius(DC_PIE_OUTER_RADIUS)
       .innerRadius(DC_PIE_INNER_RADIUS)
-      .label(d => `${d.key} (${Object.keys(d.value).length})`)
-      .valueAccessor(d => Object.keys(d.value).length)
+      .label((d) => `${d.key} (${Object.keys(d.value).length})`)
+      .valueAccessor((d) => Object.keys(d.value).length)
       .dimension(evidenceDim)
       .group(evidenceGroup)
-      .colors(evidence => this.evidenceColors[evidence])
+      .colors((evidence) => this.evidenceColors[evidence])
       .render();
 
-    this.biomarkersByAssociationChart.on('filtered', d => {
+    this.biomarkersByAssociationChart.on('filtered', (d) => {
       this.setState({ filteredRows: biomarkers.allFiltered() });
     });
 
-    this.biomarkersByEvidenceChart.on('filtered', d => {
+    this.biomarkersByEvidenceChart.on('filtered', (d) => {
       this.setState({ filteredRows: biomarkers.allFiltered() });
     });
   }
@@ -303,10 +303,10 @@ class FilterTable extends Component {
     this.biomarkersByEvidenceChart.redraw();
   }
 
-  biomarkerFilterHandler = selection => {
+  biomarkerFilterHandler = (selection) => {
     const { biomarkers, biomarkerDim } = this.state;
     if (selection) {
-      biomarkerDim.filter(d => d === selection.value);
+      biomarkerDim.filter((d) => d === selection.value);
     } else {
       // if the selection has been cleared, clear any filters on the
       // biomarkersDim dimension
@@ -316,11 +316,13 @@ class FilterTable extends Component {
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
 
-  diseaseFilterHandler = selection => {
+  diseaseFilterHandler = (selection) => {
     const { biomarkers, diseaseDim } = this.state;
     if (selection) {
-      diseaseDim.filter(d => {
-        const index = d.findIndex(disease => disease.name === selection.value);
+      diseaseDim.filter((d) => {
+        const index = d.findIndex(
+          (disease) => disease.name === selection.value
+        );
         return index !== -1;
       });
     } else {
@@ -329,10 +331,10 @@ class FilterTable extends Component {
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
 
-  drugFilterHandler = selection => {
+  drugFilterHandler = (selection) => {
     const { biomarkers, drugDim } = this.state;
     if (selection) {
-      drugDim.filter(d => d === selection.value);
+      drugDim.filter((d) => d === selection.value);
     } else {
       drugDim.filterAll();
     }
@@ -340,10 +342,10 @@ class FilterTable extends Component {
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
 
-  associationFilterHandler = selection => {
+  associationFilterHandler = (selection) => {
     const { biomarkers, associationDim } = this.state;
     if (selection) {
-      associationDim.filter(d => d === selection.value);
+      associationDim.filter((d) => d === selection.value);
     } else {
       associationDim.filterAll();
     }
@@ -351,10 +353,10 @@ class FilterTable extends Component {
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
 
-  evidenceFilterHandler = selection => {
+  evidenceFilterHandler = (selection) => {
     const { biomarkers, evidenceDim } = this.state;
     if (selection) {
-      evidenceDim.filter(d => d === selection.value);
+      evidenceDim.filter((d) => d === selection.value);
     } else {
       evidenceDim.filterAll();
     }
@@ -368,14 +370,14 @@ class FilterTable extends Component {
       // only create a new crossfilter, groups, and dimensions
       // when the rows prop has changed
       const biomarkers = crossfilter(props.rows);
-      const biomarkerDim = biomarkers.dimension(row => row.biomarker);
-      const diseaseDim = biomarkers.dimension(row => row.diseases);
-      const drugDim = biomarkers.dimension(row => row.drugName);
-      const associationDim = biomarkers.dimension(row => row.associationType);
-      const evidenceDim = biomarkers.dimension(row => row.evidenceLevel);
+      const biomarkerDim = biomarkers.dimension((row) => row.biomarker);
+      const diseaseDim = biomarkers.dimension((row) => row.diseases);
+      const drugDim = biomarkers.dimension((row) => row.drugName);
+      const associationDim = biomarkers.dimension((row) => row.associationType);
+      const evidenceDim = biomarkers.dimension((row) => row.evidenceLevel);
 
-      const drugAccessor = data => data.drugName;
-      const biomarkerAccessor = data => data.biomarker;
+      const drugAccessor = (data) => data.drugName;
+      const biomarkerAccessor = (data) => data.biomarker;
 
       const drugCount = biomarkers
         .groupAll()
@@ -395,7 +397,7 @@ class FilterTable extends Component {
 
       const diseaseCount = biomarkers.groupAll().reduce(
         (acc, data) => {
-          data.diseases.forEach(d => {
+          data.diseases.forEach((d) => {
             if (d.name in acc) {
               acc[d.name]++;
             } else {
@@ -405,7 +407,7 @@ class FilterTable extends Component {
           return acc;
         },
         (acc, data) => {
-          data.diseases.forEach(d => {
+          data.diseases.forEach((d) => {
             acc[d.name]--;
             if (acc[d.name] === 0) {
               delete acc[d.name];
@@ -483,7 +485,7 @@ class FilterTable extends Component {
 
     return (
       <Fragment>
-        <Grid container spacing={24}>
+        <Grid container spacing={3}>
           <Grid item>
             <div className={classes.countLabelSection}>
               <strong>Summary</strong>

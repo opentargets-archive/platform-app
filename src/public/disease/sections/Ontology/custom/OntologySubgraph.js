@@ -33,10 +33,10 @@ const getMaxLayerCount = (dag, edgeSeparation = true) => {
   const layerDummyNodeCounts = Array(layerCount + 1).fill(0);
 
   // nodes and dummy nodes (for edges) per layer
-  dag.each(n => {
+  dag.each((n) => {
     layerNodeCounts[n.layer] += 1;
   });
-  dag.links().forEach(l =>
+  dag.links().forEach((l) =>
     l.data.points.forEach((_, i) => {
       layerDummyNodeCounts[l.source.layer + i + 1] += 1;
     })
@@ -105,11 +105,11 @@ class DAGViewer extends React.Component {
     // exclude EFO_ROOT
     const nodesExcludingRoot = dag
       .descendants()
-      .filter(d => d.id !== 'EFO_ROOT');
+      .filter((d) => d.id !== 'EFO_ROOT');
     const linksExcludingRoot = dag
       .links()
-      .filter(d => d.source.id !== 'EFO_ROOT');
-    const maxDepth = d3.max(nodesExcludingRoot, d => d.layer);
+      .filter((d) => d.source.id !== 'EFO_ROOT');
+    const maxDepth = d3.max(nodesExcludingRoot, (d) => d.layer);
     const xOffsetDueToExcludingRoot = innerWidth / maxDepth;
     const textThreshold = xOffsetDueToExcludingRoot / 8;
 
@@ -117,8 +117,8 @@ class DAGViewer extends React.Component {
     const line = d3
       .line()
       .curve(d3.curveMonotoneX)
-      .x(d => d.y - xOffsetDueToExcludingRoot)
-      .y(d => d.x);
+      .x((d) => d.y - xOffsetDueToExcludingRoot)
+      .y((d) => d.x);
 
     return (
       <div ref={measureRef}>
@@ -142,8 +142,9 @@ class DAGViewer extends React.Component {
               </marker>
             </defs>
             <g
-              transform={`translate(${margin.left},${margin.top +
-                yLegend * 3})`}
+              transform={`translate(${margin.left},${
+                margin.top + yLegend * 3
+              })`}
             >
               <g transform={`translate(${xLegendOffset},0)`}>
                 <circle
@@ -235,8 +236,9 @@ class DAGViewer extends React.Component {
               </g>
             </g>
             <g
-              transform={`translate(${margin.left +
-                innerWidth / 2},${margin.top + yLegend * 2})`}
+              transform={`translate(${margin.left + innerWidth / 2},${
+                margin.top + yLegend * 2
+              })`}
             >
               <text
                 x={-100}
@@ -269,7 +271,7 @@ class DAGViewer extends React.Component {
               />
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
-              {linksExcludingRoot.map(d => (
+              {linksExcludingRoot.map((d) => (
                 <path
                   key={`${d.source.id}-${d.target.id}`}
                   fill="none"
@@ -280,7 +282,7 @@ class DAGViewer extends React.Component {
               ))}
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
-              {nodesExcludingRoot.map(d => (
+              {nodesExcludingRoot.map((d) => (
                 <Link key={d.id} to={`/disease/${d.id}`}>
                   {d.data.isTherapeuticArea ? (
                     <rect
@@ -304,7 +306,7 @@ class DAGViewer extends React.Component {
               ))}
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
-              {nodesExcludingRoot.map(d => (
+              {nodesExcludingRoot.map((d) => (
                 <text
                   key={d.id}
                   x={d.y - xOffsetDueToExcludingRoot}
@@ -326,4 +328,4 @@ class DAGViewer extends React.Component {
   }
 }
 
-export default withTheme()(withContentRect('bounds')(DAGViewer));
+export default withTheme(withContentRect('bounds')(DAGViewer));

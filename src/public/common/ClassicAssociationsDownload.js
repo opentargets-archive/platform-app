@@ -35,7 +35,10 @@ async function downloadBatch({
       query,
       variables: variablesWithPagination,
     })
-    .then(response => ({ rows: getRows(response), after: getAfter(response) }));
+    .then((response) => ({
+      rows: getRows(response),
+      after: getAfter(response),
+    }));
 }
 
 async function downloadAll({ query, variables, getRows, getAfter }) {
@@ -61,7 +64,7 @@ async function downloadAll({ query, variables, getRows, getAfter }) {
 }
 
 class ClassicAssociationsDownload extends React.Component {
-  handleDownload = format => {
+  handleDownload = (format) => {
     const {
       query,
       variables,
@@ -70,7 +73,7 @@ class ClassicAssociationsDownload extends React.Component {
       headers,
       fileStem,
     } = this.props;
-    downloadAll({ query, variables, getRows, getAfter }).then(rows => {
+    downloadAll({ query, variables, getRows, getAfter }).then((rows) => {
       downloadTable({
         headerMap: headers,
         rows,
@@ -85,7 +88,7 @@ class ClassicAssociationsDownload extends React.Component {
       <Grid
         container
         justify="flex-end"
-        spacing={8}
+        spacing={1}
         className={classes.container}
       >
         <Grid item>

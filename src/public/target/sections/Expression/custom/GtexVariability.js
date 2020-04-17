@@ -65,101 +65,98 @@ class GtexVariability extends Component {
 
     const height = data.length * boxHeight + margin.top + margin.bottom;
     const rectHeight = boxHeight - 2 * boxPadding;
-    const xMax = d3.max(data, d => {
+    const xMax = d3.max(data, (d) => {
       return d3.max(d.outliers);
     });
 
     x.domain([0, xMax]).range([0, width - margin.left - margin.right]);
-    y.domain(data.map(d => d.tissueSiteDetailId.replace(/_/g, ' '))).range([
+    y.domain(data.map((d) => d.tissueSiteDetailId.replace(/_/g, ' '))).range([
       0,
       height - margin.top - margin.bottom,
     ]);
 
     colour
-      .domain(data.map(d => d.tissueSiteDetailId))
+      .domain(data.map((d) => d.tissueSiteDetailId))
       .range(d3.schemeCategory10);
 
     const boxPlot = d3.select(this.boxPlotRef.current);
 
-    const boxContainer = boxPlot
-      .selectAll('g')
-      .data(data)
-      .join('g');
+    const boxContainer = boxPlot.selectAll('g').data(data).join('g');
 
     boxContainer
       .append('line')
-      .attr('x1', d => x(d.lowerLimit))
-      .attr('x2', d => x(d.upperLimit))
-      .attr('y1', d => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
-      .attr('y2', d => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
+      .attr('x1', (d) => x(d.lowerLimit))
+      .attr('x2', (d) => x(d.upperLimit))
+      .attr('y1', (d) => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
+      .attr('y2', (d) => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
       .attr('stroke', theme.palette.grey[700]);
 
     boxContainer
       .append('rect')
-      .attr('x', d => x(d.q1))
+      .attr('x', (d) => x(d.q1))
       .attr(
         'y',
-        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
+        (d) => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
       )
-      .attr('width', d => x(d.q3) - x(d.q1))
+      .attr('width', (d) => x(d.q3) - x(d.q1))
       .attr('height', rectHeight)
-      .attr('fill', d => colour(d.tissueSiteDetailId));
+      .attr('fill', (d) => colour(d.tissueSiteDetailId));
 
     boxContainer
       .append('line')
-      .attr('x1', d => x(d.median))
-      .attr('x2', d => x(d.median))
+      .attr('x1', (d) => x(d.median))
+      .attr('x2', (d) => x(d.median))
       .attr(
         'y1',
-        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
+        (d) => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
       )
       .attr(
         'y2',
-        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
+        (d) => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
       )
       .attr('stroke', theme.palette.grey[700])
       .attr('stroke-width', 2);
 
     boxContainer
       .append('line')
-      .attr('x1', d => x(d.lowerLimit))
-      .attr('x2', d => x(d.lowerLimit))
+      .attr('x1', (d) => x(d.lowerLimit))
+      .attr('x2', (d) => x(d.lowerLimit))
       .attr(
         'y1',
-        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
+        (d) => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
       )
       .attr(
         'y2',
-        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
+        (d) => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
       )
       .attr('stroke', theme.palette.grey[700]);
 
     boxContainer
       .append('line')
-      .attr('x1', d => x(d.upperLimit))
-      .attr('x2', d => x(d.upperLimit))
+      .attr('x1', (d) => x(d.upperLimit))
+      .attr('x2', (d) => x(d.upperLimit))
       .attr(
         'y1',
-        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
+        (d) => y(d.tissueSiteDetailId.replace(/_/g, ' ')) - rectHeight / 2
       )
       .attr(
         'y2',
-        d => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
+        (d) => y(d.tissueSiteDetailId.replace(/_/g, ' ')) + rectHeight / 2
       )
       .attr('stroke', theme.palette.grey[700]);
 
     boxContainer
       .selectAll('circle')
-      .data(d => {
-        return d.outliers.map(outlier => ({
+      .data((d) => {
+        return d.outliers.map((outlier) => ({
           tissueSiteDetailId: d.tissueSiteDetailId,
           outlier,
         }));
       })
       .join('circle')
       .attr('r', outlierRadius)
-      .attr('cx', d => x(d.outlier))
-      .attr('cy', d => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
+      .attr('cx', (d) => x(d.outlier))
+      .attr('cy', (d) => y(d.tissueSiteDetailId.replace(/_/g, ' ')))
       .attr('fill', 'none')
       .attr('stroke', theme.palette.grey[700]);
 
@@ -178,4 +175,4 @@ class GtexVariability extends Component {
   }
 }
 
-export default withTheme()(GtexVariability);
+export default withTheme(GtexVariability);

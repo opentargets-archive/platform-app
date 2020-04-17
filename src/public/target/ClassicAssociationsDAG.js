@@ -19,7 +19,7 @@ const getInducedDAG = ({
   efo,
   selectedTherapeuticAreas,
 }) => {
-  const efoById = new Map(efo.nodes.map(d => [d.id, d]));
+  const efoById = new Map(efo.nodes.map((d) => [d.id, d]));
   // note: requested that we only show therapeutic area circles selected
   //       when faceted by therapeutic area, even if a disease has other
   //       therapeutic area ancestors; potentially confusing, but this is
@@ -30,14 +30,14 @@ const getInducedDAG = ({
       : efo.therapeuticAreas;
 
   // get just what is needed from associations
-  const dataAsNodes = data.map(d => ({
+  const dataAsNodes = data.map((d) => ({
     id: d.disease.id,
     name: d.disease.name,
     score: d.score,
     isTherapeuticArea: relevantTherapeuticAreas.indexOf(d.disease.id) >= 0,
     target: { ensgId, symbol },
   }));
-  const therapeuticAreasAll = relevantTherapeuticAreas.map(taId => {
+  const therapeuticAreasAll = relevantTherapeuticAreas.map((taId) => {
     const ta = efoById.get(taId);
     return {
       id: ta.id,
@@ -52,8 +52,8 @@ const getInducedDAG = ({
   //       but need all to prevent spurious links to EFO_ROOT
   const nodesById = new Map([
     ['EFO_ROOT', { id: 'EFO_ROOT', score: null, target: { ensgId, symbol } }],
-    ...therapeuticAreasAll.map(d => [d.id, d]),
-    ...dataAsNodes.map(d => [d.id, d]),
+    ...therapeuticAreasAll.map((d) => [d.id, d]),
+    ...dataAsNodes.map((d) => [d.id, d]),
   ]);
   const nodeIds = new Set(nodesById.keys());
 
@@ -61,9 +61,11 @@ const getInducedDAG = ({
   const getInducedParentIds = (inducedParentIds, directParentIds) => {
     if (directParentIds.size > 0) {
       // partition
-      const allowedParentIds = [...directParentIds].filter(d => nodeIds.has(d));
+      const allowedParentIds = [...directParentIds].filter((d) =>
+        nodeIds.has(d)
+      );
       const disallowedParentIds = [...directParentIds].filter(
-        d => !nodeIds.has(d)
+        (d) => !nodeIds.has(d)
       );
 
       // add the allowed ones
@@ -90,9 +92,9 @@ const getInducedDAG = ({
   };
 
   // induce the subgraph of diseases within the associations data
-  const getInducedSubGraph = nodeIds =>
+  const getInducedSubGraph = (nodeIds) =>
     new Map(
-      [...nodeIds].map(d => {
+      [...nodeIds].map((d) => {
         const { parentIds: directParentIds, ...rest } = efoById.get(d);
         const { score, isTherapeuticArea, target } = nodesById.get(d);
         return [
@@ -139,10 +141,10 @@ const getMaxLayerCount = (dag, edgeSeparation = true) => {
   const layerDummyNodeCounts = Array(layerCount + 1).fill(0);
 
   // nodes and dummy nodes (for edges) per layer
-  dag.each(n => {
+  dag.each((n) => {
     layerNodeCounts[n.layer] += 1;
   });
-  dag.links().forEach(l =>
+  dag.links().forEach((l) =>
     l.data.points.forEach((_, i) => {
       layerDummyNodeCounts[l.source.layer + i + 1] += 1;
     })
@@ -193,7 +195,7 @@ class ClassicAssociationsDAG extends React.Component {
     const margin = { top: 100, right: 10, bottom: 10, left: 10 };
     const innerWidth = width - margin.left - margin.right;
 
-    const filteredData = data.filter(d => d.score > minimumScore);
+    const filteredData = data.filter((d) => d.score > minimumScore);
 
     // create dag
     let dag = getInducedDAG({
@@ -232,11 +234,11 @@ class ClassicAssociationsDAG extends React.Component {
     // exclude EFO_ROOT
     const nodesExcludingRoot = dag
       .descendants()
-      .filter(d => d.id !== 'EFO_ROOT');
+      .filter((d) => d.id !== 'EFO_ROOT');
     const linksExcludingRoot = dag
       .links()
-      .filter(d => d.source.id !== 'EFO_ROOT');
-    const maxDepth = d3.max(nodesExcludingRoot, d => d.layer);
+      .filter((d) => d.source.id !== 'EFO_ROOT');
+    const maxDepth = d3.max(nodesExcludingRoot, (d) => d.layer);
     const xOffsetDueToExcludingRoot = innerWidth / maxDepth;
     const textThreshold = xOffsetDueToExcludingRoot / 8;
 
@@ -244,8 +246,8 @@ class ClassicAssociationsDAG extends React.Component {
     const line = d3
       .line()
       .curve(d3.curveMonotoneX)
-      .x(d => d.y - xOffsetDueToExcludingRoot)
-      .y(d => d.x);
+      .x((d) => d.y - xOffsetDueToExcludingRoot)
+      .y((d) => d.x);
 
     return (
       <div ref={measureRef}>
@@ -274,8 +276,9 @@ class ClassicAssociationsDAG extends React.Component {
                 </marker>
               </defs>
               <g
-                transform={`translate(${margin.left},${margin.top +
-                  yLegend * 3})`}
+                transform={`translate(${margin.left},${
+                  margin.top + yLegend * 3
+                })`}
               >
                 <g>
                   <circle
@@ -316,8 +319,9 @@ class ClassicAssociationsDAG extends React.Component {
                 </g>
               </g>
               <g
-                transform={`translate(${margin.left +
-                  innerWidth / 2},${margin.top + yLegend * 2})`}
+                transform={`translate(${margin.left + innerWidth / 2},${
+                  margin.top + yLegend * 2
+                })`}
               >
                 <text
                   x={-100}
@@ -350,7 +354,7 @@ class ClassicAssociationsDAG extends React.Component {
                 />
               </g>
               <g transform={`translate(${margin.left},${margin.top})`}>
-                {linksExcludingRoot.map(d => (
+                {linksExcludingRoot.map((d) => (
                   <path
                     key={`${d.source.id}-${d.target.id}`}
                     fill="none"
@@ -361,7 +365,7 @@ class ClassicAssociationsDAG extends React.Component {
                 ))}
               </g>
               <g transform={`translate(${margin.left},${margin.top})`}>
-                {nodesExcludingRoot.map(d => (
+                {nodesExcludingRoot.map((d) => (
                   <React.Fragment key={d.id}>
                     {d.data.isTherapeuticArea ? (
                       <rect
@@ -389,7 +393,7 @@ class ClassicAssociationsDAG extends React.Component {
                 ))}
               </g>
               <g transform={`translate(${margin.left},${margin.top})`}>
-                {nodesExcludingRoot.map(d => (
+                {nodesExcludingRoot.map((d) => (
                   <text
                     key={d.id}
                     x={d.y - xOffsetDueToExcludingRoot}
@@ -416,7 +420,7 @@ const tooltipElementFinder = ({ id }) =>
   document.querySelector(`#dag-node-${id}`);
 
 export default withTooltip(
-  withTheme()(withContentRect('bounds')(ClassicAssociationsDAG)),
+  withTheme(withContentRect('bounds')(ClassicAssociationsDAG)),
   TooltipContent,
   tooltipElementFinder
 );

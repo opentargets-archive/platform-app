@@ -27,7 +27,11 @@ class SimplePublication extends Component {
     return (
       <Fragment>
         {/* paper title */}
-        <Typography variant={variant === 'small' ? 'subtitle2' : 'subtitle1'}>
+        <Typography
+          variant={variant === 'small' ? 'subtitle2' : 'subtitle1'}
+          noWrap
+          display="block"
+        >
           <Link external to={pmUrl + pmTitleUrl + pmId}>
             {titleHtml ? (
               <span
