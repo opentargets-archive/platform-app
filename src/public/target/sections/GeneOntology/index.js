@@ -3,7 +3,7 @@ import { loader } from 'graphql.macro';
 export const id = 'geneOntology';
 export const name = 'Gene Ontology';
 
-export const hasSummaryData = data =>
+export const hasSummaryData = (data) =>
   data.molecularFunctionTermsCount > 0 ||
   data.biologicalProcessTermsCount > 0 ||
   data.cellularComponentTermsCount > 0;

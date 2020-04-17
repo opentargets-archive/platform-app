@@ -5,7 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { OtTableRF, DataDownloader } from 'ot-ui';
 import client from '../../../client';
 
-const styles = theme => ({
+const styles = (theme) => ({
   levelBarContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -47,7 +47,7 @@ const PAGE_QUERY = gql`
   }
 `;
 
-const getRows = async chemblId => {
+const getRows = async (chemblId) => {
   // find how many rows there are
   const result = await client.query({
     query: COUNT_QUERY,
@@ -71,12 +71,12 @@ const getRows = async chemblId => {
     );
   }
 
-  return Promise.all(batchPromises).then(batches => {
+  return Promise.all(batchPromises).then((batches) => {
     const allRows = [];
 
-    batches.forEach(batch => {
+    batches.forEach((batch) => {
       const { rows } = batch.data.drug.adverseEvents;
-      rows.forEach(row => {
+      rows.forEach((row) => {
         allRows.push(row);
       });
     });
@@ -93,10 +93,10 @@ const Section = ({ chemblId, classes, name }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    getRows(chemblId).then(data => {
+    getRows(chemblId).then((data) => {
       setData(data);
     });
-  }, []);
+  }, [chemblId]);
 
   if (!data) return null;
 
@@ -105,7 +105,7 @@ const Section = ({ chemblId, classes, name }) => {
     {
       id: 'name',
       label: 'Adverse event',
-      renderCell: d => _.upperFirst(d.name),
+      renderCell: (d) => _.upperFirst(d.name),
       width: '35%',
     },
     {
@@ -116,7 +116,7 @@ const Section = ({ chemblId, classes, name }) => {
     {
       id: 'llr',
       label: `Log likelihood ratio (CV = ${data.critVal})`,
-      renderCell: d => {
+      renderCell: (d) => {
         const w = ((d.llr / maxLlr) * 85).toFixed(2); // scale to max 85% of the width to allows space for label
         return (
           <div className={classes.levelBarContainer}>

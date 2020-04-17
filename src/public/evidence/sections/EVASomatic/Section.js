@@ -6,14 +6,14 @@ const columns = [
   {
     id: 'disease.id',
     label: 'Disease',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
   },
   {
     id: 'rsId',
     label: 'Variant',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link
         external
         to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${d.rsId}`}
@@ -25,7 +25,7 @@ const columns = [
   {
     id: 'clinVarId',
     label: 'ClinVar ID',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link
         external
         to={`https://www.ncbi.nlm.nih.gov/clinvar/${d.clinVarId}/`}
@@ -45,7 +45,7 @@ const columns = [
   {
     id: 'pmId',
     label: 'Publication',
-    renderCell: d =>
+    renderCell: (d) =>
       d.pmId ? (
         <Link external to={`http://europepmc.org/abstract/MED/${d.pmId}`}>
           {d.pmId}

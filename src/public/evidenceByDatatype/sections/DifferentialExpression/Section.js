@@ -9,7 +9,7 @@ const columns = [
   {
     id: 'disease.id',
     label: 'Disease',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
   },
@@ -20,7 +20,7 @@ const columns = [
   {
     id: 'activity',
     label: 'Activity',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link external to={d.activity.url}>
         {d.activity.name}
       </Link>
@@ -29,7 +29,7 @@ const columns = [
   {
     id: 'tissue.id',
     label: 'Tissue/cell',
-    renderCell: d => d.tissue.name,
+    renderCell: (d) => d.tissue.name,
   },
   {
     id: 'evidenceSource',
@@ -38,12 +38,12 @@ const columns = [
   {
     id: 'log2FoldChange',
     label: 'log2 fold change',
-    renderCell: d => significantFigures(d.log2FoldChange),
+    renderCell: (d) => significantFigures(d.log2FoldChange),
   },
   {
     id: 'pval',
     label: 'P-value',
-    renderCell: d => significantFigures(d.pval),
+    renderCell: (d) => significantFigures(d.pval),
   },
   {
     id: 'percentileRank',
@@ -52,7 +52,7 @@ const columns = [
   {
     id: 'experiment.url',
     label: 'Experiment overview and data',
-    renderCell: d => (
+    renderCell: (d) => (
       <React.Fragment>
         {d.experiment.name}
         <br />
@@ -65,7 +65,7 @@ const columns = [
   {
     id: 'pmIds',
     label: 'Publications',
-    renderCell: d => <MultiplePmIdsLink pmIds={d.pmIds} />,
+    renderCell: (d) => <MultiplePmIdsLink pmIds={d.pmIds} />,
   },
 ];
 

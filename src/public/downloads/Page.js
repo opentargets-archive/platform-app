@@ -287,7 +287,7 @@ const DownloadsPage = () => {
             easily used to replicate the platform locally/somewhere else.
           </Typography>
 
-          {releases.map(release => (
+          {releases.map((release) => (
             <React.Fragment key={release.version}>
               <Typography variant="h6" component="h2">
                 {release.date}

@@ -22,7 +22,7 @@ export const facetQuery = gql`
 export const stateDefault = {
   tractabilityIds: [],
 };
-export const stateToInput = state => {
+export const stateToInput = (state) => {
   const input = {};
   if (state.tractabilityIds.length > 0) {
     input.tractabilityIds = state.tractabilityIds;
@@ -31,12 +31,14 @@ export const stateToInput = state => {
 };
 
 export class FacetComponent extends React.Component {
-  handleFacetChange = item => () => {
+  handleFacetChange = (item) => () => {
     const { state, onFacetChange } = this.props;
     let newTractabilityIds;
     if (state.tractabilityIds.indexOf(item.itemId) >= 0) {
       // switch off
-      newTractabilityIds = state.tractabilityIds.filter(d => d !== item.itemId);
+      newTractabilityIds = state.tractabilityIds.filter(
+        (d) => d !== item.itemId
+      );
     } else {
       // switch on
       newTractabilityIds = [item.itemId, ...state.tractabilityIds];
@@ -55,12 +57,12 @@ export class FacetComponent extends React.Component {
     if (wasChecked) {
       // switch off
       newTractabilityIds = state.tractabilityIds.filter(
-        d => !(childIds.indexOf(d) >= 0)
+        (d) => !(childIds.indexOf(d) >= 0)
       );
     } else {
       // switch on
       const otherTractabilityIds = state.tractabilityIds.filter(
-        d => !(childIds.indexOf(d) >= 0)
+        (d) => !(childIds.indexOf(d) >= 0)
       );
       newTractabilityIds = [...childIds, ...otherTractabilityIds];
     }
@@ -79,11 +81,11 @@ export class FacetComponent extends React.Component {
     const { state, data } = this.props;
 
     // small molecule
-    const itemsSmallMolecule = data.items.filter(item =>
+    const itemsSmallMolecule = data.items.filter((item) =>
       item.itemId.startsWith('SMALLMOLECULE')
     );
     const checkedChildrenSmallMolecule = itemsSmallMolecule.filter(
-      item => state.tractabilityIds.indexOf(item.itemId) >= 0
+      (item) => state.tractabilityIds.indexOf(item.itemId) >= 0
     );
     const checkedSmallMolecule =
       itemsSmallMolecule.length > 0 &&
@@ -94,15 +96,15 @@ export class FacetComponent extends React.Component {
       checkedChildrenSmallMolecule.length < itemsSmallMolecule.length;
     const handlerSmallMolecule = this.handleParentFacetChange(
       checkedSmallMolecule,
-      itemsSmallMolecule.map(d => d.itemId)
+      itemsSmallMolecule.map((d) => d.itemId)
     );
 
     // antibody
-    const itemsAntibody = data.items.filter(item =>
+    const itemsAntibody = data.items.filter((item) =>
       item.itemId.startsWith('ANTIBODY')
     );
     const checkedChildrenAntibody = itemsAntibody.filter(
-      item => state.tractabilityIds.indexOf(item.itemId) >= 0
+      (item) => state.tractabilityIds.indexOf(item.itemId) >= 0
     );
     const checkedAntibody =
       itemsAntibody.length > 0 &&
@@ -113,7 +115,7 @@ export class FacetComponent extends React.Component {
       checkedChildrenAntibody.length < itemsAntibody.length;
     const handlerAntibody = this.handleParentFacetChange(
       checkedAntibody,
-      itemsAntibody.map(d => d.itemId)
+      itemsAntibody.map((d) => d.itemId)
     );
 
     // derived state
@@ -145,7 +147,7 @@ export class FacetComponent extends React.Component {
           onChange={smallMolecule.handler}
           label="Small Molecule"
         >
-          {smallMolecule.items.map(item => (
+          {smallMolecule.items.map((item) => (
             <FacetCheckbox
               key={item.itemId}
               checked={state.tractabilityIds.indexOf(item.itemId) >= 0}
@@ -163,7 +165,7 @@ export class FacetComponent extends React.Component {
           onChange={antibody.handler}
           label="Antibody"
         >
-          {antibody.items.map(item => (
+          {antibody.items.map((item) => (
             <FacetCheckbox
               key={item.itemId}
               checked={state.tractabilityIds.indexOf(item.itemId) >= 0}

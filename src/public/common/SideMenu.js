@@ -45,7 +45,7 @@ class PortalAwareItem extends React.Component {
   }
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   scrollToTop: {
     borderTop: `1px solid ${theme.palette.grey[300]}`,
     padding: '8px',

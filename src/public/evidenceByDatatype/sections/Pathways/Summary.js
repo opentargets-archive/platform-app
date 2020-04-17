@@ -6,7 +6,7 @@ const Summary = ({ reactome, slapenrich, progeny, crispr, sysBio }) =>
     crispr && crispr.hasCrispr ? 'CRISPR' : null,
     sysBio && sysBio.hasSysBio ? 'SysBio' : null,
   ]
-    .filter(d => d)
+    .filter((d) => d)
     .join(' • ');
 
 export default Summary;

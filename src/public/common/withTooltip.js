@@ -39,7 +39,7 @@ function withTooltip(WrappedComponent, TooltipContent, tooltipElementFinder) {
       anchorEl: null,
     };
 
-    handleMouseOver = data => {
+    handleMouseOver = (data) => {
       const el = tooltipElementFinder(data);
       this.setState({
         open: true,
@@ -48,7 +48,7 @@ function withTooltip(WrappedComponent, TooltipContent, tooltipElementFinder) {
       });
     };
 
-    handleMouseLeave = event => {
+    handleMouseLeave = (event) => {
       this.setState({
         open: false,
         anchorData: null,

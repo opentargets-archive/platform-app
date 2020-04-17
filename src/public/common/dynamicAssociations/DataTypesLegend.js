@@ -11,7 +11,7 @@ const DataTypesLegend = () => (
     }}
   >
     <Typography variant="subtitle2">
-      {dataTypes.map(d => (
+      {dataTypes.map((d) => (
         <React.Fragment key={d.name}>
           <span
             style={{

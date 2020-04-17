@@ -3,7 +3,7 @@ import { loader } from 'graphql.macro';
 export const id = 'cancerBiomarkers';
 export const name = 'Cancer Biomarkers';
 
-export const hasSummaryData = data => {
+export const hasSummaryData = (data) => {
   return data && data.uniqueBiomarkers > 0;
 };
 

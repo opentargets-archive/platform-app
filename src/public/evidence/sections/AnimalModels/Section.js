@@ -8,16 +8,16 @@ const columns = [
   {
     id: 'disease.id',
     label: 'Disease',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
   },
   {
     id: 'humanPhenotypes',
     label: 'Human phenotypes',
-    renderCell: d => (
+    renderCell: (d) => (
       <ul>
-        {d.humanPhenotypes.map(p => (
+        {d.humanPhenotypes.map((p) => (
           <li key={p.id}>
             <Link external to={p.url}>
               {p.name}
@@ -30,9 +30,9 @@ const columns = [
   {
     id: 'modelPhenotypes',
     label: 'Mouse phenotypes',
-    renderCell: d => (
+    renderCell: (d) => (
       <ul>
-        {d.modelPhenotypes.map(p => (
+        {d.modelPhenotypes.map((p) => (
           <li key={p.id}>
             <Link external to={p.url}>
               {p.name}
@@ -45,7 +45,7 @@ const columns = [
   {
     id: 'modelModel',
     label: 'Mouse model',
-    renderCell: d => (
+    renderCell: (d) => (
       <MouseModelAllelicComposition
         allelicComposition={[d.allelicComposition]}
         geneticBackground={d.geneticBackground}
@@ -55,7 +55,7 @@ const columns = [
   {
     id: 'source.url',
     label: 'Evidence source',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link external to={d.source.url}>
         {d.source.name}
       </Link>

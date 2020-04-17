@@ -28,7 +28,7 @@ export const stateDefault = {
   dataTypeIds: [],
   dataSourceIds: [],
 };
-export const stateToInput = state => {
+export const stateToInput = (state) => {
   const input = {};
   if (state.dataTypeIds.length > 0) {
     input.dataTypeIds = state.dataTypeIds;
@@ -41,7 +41,7 @@ export const stateToInput = state => {
 
 export const FacetComponent = ({ state, data, onFacetChange }) => (
   <FacetFormGroup>
-    {data.items.map(item => (
+    {data.items.map((item) => (
       <FacetCheckbox
         key={item.itemId}
         nested
@@ -51,7 +51,7 @@ export const FacetComponent = ({ state, data, onFacetChange }) => (
           let newDataTypeIds;
           if (state.dataTypeIds.indexOf(item.itemId) >= 0) {
             // switch off
-            newDataTypeIds = state.dataTypeIds.filter(d => d !== item.itemId);
+            newDataTypeIds = state.dataTypeIds.filter((d) => d !== item.itemId);
           } else {
             // switch on
             newDataTypeIds = [item.itemId, ...state.dataTypeIds];
@@ -67,7 +67,7 @@ export const FacetComponent = ({ state, data, onFacetChange }) => (
         value={item.itemId}
         label={`${item.name} (${item.count})`}
       >
-        {item.children.map(childItem => (
+        {item.children.map((childItem) => (
           <FacetCheckbox
             key={childItem.itemId}
             checked={state.dataSourceIds.indexOf(childItem.itemId) >= 0}
@@ -76,7 +76,7 @@ export const FacetComponent = ({ state, data, onFacetChange }) => (
               if (state.dataSourceIds.indexOf(childItem.itemId) >= 0) {
                 // switch off
                 newDataSourceIds = state.dataSourceIds.filter(
-                  d => d !== childItem.itemId
+                  (d) => d !== childItem.itemId
                 );
               } else {
                 // switch on

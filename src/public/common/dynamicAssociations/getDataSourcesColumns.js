@@ -34,24 +34,26 @@ const getDataSourcesColumns = ({
       align: 'center',
       firstInHeaderGroup: true,
       lastInHeaderGroup: true,
-      renderCell: d => <HeatmapCell value={d.score} colorScale={colorScale} />,
+      renderCell: (d) => (
+        <HeatmapCell value={d.score} colorScale={colorScale} />
+      ),
     },
     ...dataSourcesOrderByDataType
-      .map(ds => dataSources.find(c => c.id === ds))
-      .filter(c => c) // dataSources could be empty
-      .filter(c => (hideEmptyColumns ? aggregates[c.id].coverage > 0 : true))
-      .map(c => ({
+      .map((ds) => dataSources.find((c) => c.id === ds))
+      .filter((c) => c) // dataSources could be empty
+      .filter((c) => (hideEmptyColumns ? aggregates[c.id].coverage > 0 : true))
+      .map((c) => ({
         id: c.id,
         label: `${c.name} (${significantFigures(
           aggregates[c.id].coverage * 100
         )}%)`,
         verticalHeader: true,
         align: 'center',
-        firstInHeaderGroup: dataTypes.some(dt => dt.dataSources[0] === c.id),
+        firstInHeaderGroup: dataTypes.some((dt) => dt.dataSources[0] === c.id),
         lastInHeaderGroup: dataTypes.some(
-          dt => dt.dataSources[dt.dataSources.length - 1] === c.id
+          (dt) => dt.dataSources[dt.dataSources.length - 1] === c.id
         ),
-        renderCell: d => (
+        renderCell: (d) => (
           <HeatmapCell
             value={d.dsScores[c.position]}
             colorScale={colorScale}

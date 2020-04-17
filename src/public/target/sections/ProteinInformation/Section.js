@@ -22,7 +22,7 @@ class Section extends React.Component {
   handleChange = (_, value) => {
     this.setState({ value });
   };
-  makePmidLink = match => {
+  makePmidLink = (match) => {
     var id = match.substring(7);
     return `PMID: <a href="https://europepmc.org/abstract/med/${id}" target="_blank">${id}</a>`;
   };
@@ -84,7 +84,7 @@ class Section extends React.Component {
                     .replace(/Pubmed:\d+/gi, this.makePmidLink)
                     .replace(
                       /\(By similarity\)/gi,
-                      match =>
+                      (match) =>
                         `(<a href='https://www.uniprot.org/uniprot/${uniprotId}#interaction' target="_blank" rel="noopener noreferrer">By similarity</a>)`
                     );
 
@@ -101,7 +101,7 @@ class Section extends React.Component {
             <div>
               {Object.keys(keywordsGrouped)
                 .sort()
-                .map(c => (
+                .map((c) => (
                   <div key={c} className={classes.keywordCategory}>
                     <Typography variant="h6">{c}</Typography>
                     <Typography>

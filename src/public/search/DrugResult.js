@@ -6,7 +6,7 @@ import { Link } from 'ot-ui';
 import Highlights from '../common/Highlights';
 import DrugIcon from '../../icons/DrugIcon';
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     marginBottom: '30px',
   },

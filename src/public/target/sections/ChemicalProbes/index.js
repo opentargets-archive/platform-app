@@ -3,7 +3,7 @@ import { loader } from 'graphql.macro';
 export const id = 'chemicalProbes';
 export const name = 'Chemical Probes';
 
-export const hasSummaryData = data => {
+export const hasSummaryData = (data) => {
   return data && ((data.rows && data.rows.length > 0) || data.probeminer);
 };
 

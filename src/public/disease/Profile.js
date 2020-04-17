@@ -16,26 +16,26 @@ const summariesQuery = gql`
       id
       name
       ${sections
-        .filter(s => s.summaryQuery)
-        .map(s => `...disease${_.upperFirst(s.id)}Fragment`)
+        .filter((s) => s.summaryQuery)
+        .map((s) => `...disease${_.upperFirst(s.id)}Fragment`)
         .join('\n')}
     }
   }
   ${sections
-    .filter(s => s.summaryQuery)
-    .map(s => print(s.summaryQuery))
+    .filter((s) => s.summaryQuery)
+    .map((s) => print(s.summaryQuery))
     .join('\n')}
 `;
 
-const entitySummariesAccessor = data =>
+const entitySummariesAccessor = (data) =>
   (data &&
     data.disease &&
     sections
-      .filter(s => s.summaryQuery)
+      .filter((s) => s.summaryQuery)
       .reduce((obj, s) => ({ ...obj, [s.id]: data.disease[s.id] }), {})) ||
   {};
 
-const entitySectionsAccessor = data =>
+const entitySectionsAccessor = (data) =>
   data && data.disease ? data.disease : {};
 
 class DiseaseProfile extends Component {

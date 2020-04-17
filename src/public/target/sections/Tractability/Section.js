@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-const styles = theme => ({
+const styles = (theme) => ({
   table: {
     borderCollapse: 'collapse',
     marginBottom: '8px',
@@ -41,7 +41,7 @@ const Section = ({ classes, ensgId, data }) => {
         </thead>
         <tbody>
           <tr>
-            {smallMolecule.map(m => {
+            {smallMolecule.map((m) => {
               return (
                 <td
                   className={classNames(classes.cell, {
@@ -79,7 +79,7 @@ const Section = ({ classes, ensgId, data }) => {
         </thead>
         <tbody>
           <tr>
-            {antibody.map(ab => {
+            {antibody.map((ab) => {
               return (
                 <td
                   className={classNames(classes.cell, {

@@ -9,14 +9,14 @@ const columns = (name, maxCountAOrB) => [
     id: 'B.name',
     label: 'Related disease',
     orderable: false,
-    renderCell: d => <Link to={`/target/${d.B.id}`}>{d.B.name}</Link>,
+    renderCell: (d) => <Link to={`/target/${d.B.id}`}>{d.B.name}</Link>,
     comparator: (a, b) => (a.B.name <= b.B.name ? -1 : 1),
   },
   {
     id: 'score',
     label: 'Similarity score',
     orderable: false,
-    renderCell: d => significantFigures(d.score),
+    renderCell: (d) => significantFigures(d.score),
   },
   {
     id: 'countANotB',
@@ -43,7 +43,7 @@ const columns = (name, maxCountAOrB) => [
       />
     ),
     orderable: false,
-    renderCell: d => (
+    renderCell: (d) => (
       <LinearVenn
         aOnly={d.countA - d.countAndB}
         bOnly={d.countB - d.countAndB}
@@ -58,7 +58,7 @@ const Section = ({ data, name, fetchMore }) => {
   const { rows, count, maxCountAOrB } = data;
   const [pageIndex, setPageIndex] = useState(0);
 
-  const onPageSort = pe => pe.page !== undefined && setPageIndex(pe.page);
+  const onPageSort = (pe) => pe.page !== undefined && setPageIndex(pe.page);
   const pageSize = 10;
 
   useEffect(() => {
@@ -67,9 +67,9 @@ const Section = ({ data, name, fetchMore }) => {
       updateQuery: (prev, { fetchMoreResult }) =>
         !fetchMoreResult ? prev : { ...prev, ...fetchMoreResult },
     });
-  }, [pageIndex]);
+  }, [fetchMore, pageIndex]);
 
-  const rowsMapped = rows.map(d => ({
+  const rowsMapped = rows.map((d) => ({
     ...d,
     countANotB: d.countA - d.countAndB,
     countBNotA: d.countB - d.countAndB,

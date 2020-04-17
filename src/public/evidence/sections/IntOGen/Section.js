@@ -10,24 +10,25 @@ const columns = [
   {
     id: 'disease.id',
     label: 'Disease',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
   },
   {
     id: 'activity',
     label: 'Mutation type',
-    renderCell: d => _.lowerCase(d.activity).replace(/_/g, ' '),
+    renderCell: (d) => _.lowerCase(d.activity).replace(/_/g, ' '),
   },
   {
     id: 'samples',
     label: 'Mutated samples / Total samples',
-    renderCell: d => `${d.mutationMetrics.value} / ${d.mutationMetrics.total}`,
+    renderCell: (d) =>
+      `${d.mutationMetrics.value} / ${d.mutationMetrics.total}`,
   },
   {
     id: 'pval',
     label: 'P-value',
-    renderCell: d => significantFigures(d.pval),
+    renderCell: (d) => significantFigures(d.pval),
   },
   {
     id: 'analysisMethods',
@@ -45,9 +46,9 @@ const columns = [
         visit the intOGen FAQ.
       </>
     ),
-    renderCell: d => (
+    renderCell: (d) => (
       <>
-        {d.analysisMethods.map(am => (
+        {d.analysisMethods.map((am) => (
           <Tooltip
             title={(Methods[am] || {}).description}
             placement="top"
@@ -66,7 +67,7 @@ const columns = [
   {
     id: 'cohort',
     label: 'Cohort information',
-    renderCell: d => (
+    renderCell: (d) => (
       <>
         <Link to={d.source.url} external>
           {d.cohort.name}

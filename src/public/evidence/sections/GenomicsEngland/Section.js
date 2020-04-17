@@ -6,14 +6,14 @@ const columns = [
   {
     id: 'disease.id',
     label: 'Disease',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
   },
   {
     id: 'panelUrl',
     label: 'Panel',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link external to={d.panel.url}>
         Panel {d.panel.id}
       </Link>
@@ -22,7 +22,7 @@ const columns = [
   {
     id: 'pmId',
     label: 'Publication',
-    renderCell: d =>
+    renderCell: (d) =>
       d.pmId ? (
         <Link external to={`http://europepmc.org/abstract/MED/${d.pmId}`}>
           {d.pmId}

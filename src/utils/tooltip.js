@@ -4,7 +4,7 @@ import apijs from 'tnt.api';
 // this file is a tweaked version of that in the `tnt.tooltip` dep
 const d3 = window.d3;
 
-var tooltip = function() {
+var tooltip = function () {
   var drag = d3.behavior.drag();
   var tooltip_div;
 
@@ -13,7 +13,7 @@ var tooltip = function() {
     position: 'right',
     allow_drag: true,
     show_closer: true,
-    fill: function() {
+    fill: function () {
       // eslint-disable-next-line
       throw 'fill is not defined in the base object';
     },
@@ -21,15 +21,15 @@ var tooltip = function() {
     id: 1,
   };
 
-  var t = function(data, event) {
+  var t = function (data, event) {
     drag
-      .origin(function() {
+      .origin(function () {
         return {
           x: parseInt(d3.select(this).style('left')),
           y: parseInt(d3.select(this).style('top')),
         };
       })
-      .on('drag', function() {
+      .on('drag', function () {
         if (conf.allow_drag) {
           d3.select(this)
             .style('left', d3.event.x + 'px')
@@ -90,7 +90,7 @@ var tooltip = function() {
       tooltip_div
         .append('div')
         .attr('class', 'tnt_tooltip_closer')
-        .on('click', function() {
+        .on('click', function () {
           t.close();
         });
     }
@@ -122,13 +122,13 @@ var tooltip = function() {
 
   api.check(
     'position',
-    function(val) {
+    function (val) {
       return val === 'left' || val === 'right';
     },
     "Only 'left' or 'right' values are allowed for position"
   );
 
-  api.method('close', function() {
+  api.method('close', function () {
     if (tooltip_div) {
       tooltip_div.remove();
     }
@@ -137,12 +137,12 @@ var tooltip = function() {
   return t;
 };
 
-tooltip.list = function() {
+tooltip.list = function () {
   // list tooltip is based on general tooltips
   var t = tooltip();
   // var width = 180;
 
-  t.fill(function(obj) {
+  t.fill(function (obj) {
     var tooltip_div = d3.select(this);
     var obj_info_list = tooltip_div
       .append('table')
@@ -170,16 +170,16 @@ tooltip.list = function() {
     table_rows
       .append('td')
       .style('text-align', 'center')
-      .html(function(d, i) {
+      .html(function (d, i) {
         return obj.rows[i].value;
       })
-      .each(function(d) {
+      .each(function (d) {
         if (d.link === undefined) {
           return;
         }
         d3.select(this)
           .classed('link', 1)
-          .on('click', function(d) {
+          .on('click', function (d) {
             d.link(d.obj);
             t.close.call(this);
           });
@@ -188,14 +188,14 @@ tooltip.list = function() {
   return t;
 };
 
-tooltip.table = function() {
+tooltip.table = function () {
   // table tooltips are based on general tooltips
   var t = tooltip();
   console.log(t.container());
 
   // var width = 180;
 
-  t.fill(function(obj) {
+  t.fill(function (obj) {
     var tooltip_div = d3.select(this);
 
     var obj_info_table = tooltip_div
@@ -224,43 +224,43 @@ tooltip.table = function() {
 
     table_rows
       .append('th')
-      .attr('colspan', function(d, i) {
+      .attr('colspan', function (d, i) {
         if (d.value === '') {
           return 2;
         }
         return 1;
       })
-      .attr('class', function(d) {
+      .attr('class', function (d) {
         if (d.value === '') {
           return 'tnt_zmenu_inner_header';
         }
         return 'tnt_zmenu_cell';
       })
-      .html(function(d, i) {
+      .html(function (d, i) {
         return obj.rows[i].label;
       });
 
     table_rows
       .append('td')
-      .html(function(d, i) {
+      .html(function (d, i) {
         if (typeof obj.rows[i].value === 'function') {
           obj.rows[i].value.call(this, d);
         } else {
           return obj.rows[i].value;
         }
       })
-      .each(function(d) {
+      .each(function (d) {
         if (d.value === '') {
           d3.select(this).remove();
         }
       })
-      .each(function(d) {
+      .each(function (d) {
         if (d.link === undefined) {
           return;
         }
         d3.select(this)
           .classed('link', 1)
-          .on('click', function(d) {
+          .on('click', function (d) {
             d.link(d.obj);
             t.close.call(this);
           });
@@ -270,11 +270,11 @@ tooltip.table = function() {
   return t;
 };
 
-tooltip.plain = function() {
+tooltip.plain = function () {
   // plain tooltips are based on general tooltips
   var t = tooltip();
 
-  t.fill(function(obj) {
+  t.fill(function (obj) {
     var tooltip_div = d3.select(this);
 
     var obj_info_table = tooltip_div

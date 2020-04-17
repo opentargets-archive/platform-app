@@ -58,7 +58,7 @@ const TargetDetail = ({ classes, data }) => {
             <Typography className={classes.subtitle} variant="subtitle1">
               Uniprot accessions
             </Typography>
-            {accessions.map(accession => {
+            {accessions.map((accession) => {
               return (
                 <Fragment key={accession}>
                   <Link

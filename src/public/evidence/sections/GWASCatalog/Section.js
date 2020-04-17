@@ -6,14 +6,14 @@ const columns = [
   {
     id: 'disease.id',
     label: 'Disease',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
   },
   {
     id: 'rsId',
     label: 'Variant',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link
         external
         to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${d.rsId}`}
@@ -33,7 +33,7 @@ const columns = [
   {
     id: 'oddsRatio',
     label: 'Odds Ratio',
-    renderCell: d => (
+    renderCell: (d) => (
       <React.Fragment>
         {d.oddsRatio}
         {d.confidenceInterval ? (

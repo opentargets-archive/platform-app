@@ -11,7 +11,7 @@ const columns = [
   {
     id: 'sources',
     label: 'Sources',
-    renderCell: rowData => (
+    renderCell: (rowData) => (
       <React.Fragment>
         {rowData.sourcelinks.map((d, i, a) => (
           <React.Fragment key={i}>
@@ -23,7 +23,7 @@ const columns = [
         ))}
       </React.Fragment>
     ),
-    export: rowData => rowData.sourcelinks.map(d => d.link).join(', '),
+    export: (rowData) => rowData.sourcelinks.map((d) => d.link).join(', '),
   },
   {
     id: 'note',

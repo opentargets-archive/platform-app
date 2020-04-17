@@ -5,7 +5,7 @@ import 'particles.js';
 
 import { particlesConfig } from '../../constants';
 
-const styles = theme => ({
+const styles = (theme) => ({
   splashContainer: {
     height: '100vh',
   },

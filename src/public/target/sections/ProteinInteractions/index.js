@@ -4,7 +4,7 @@ export const id = 'proteinInteractions';
 export const name = 'Protein Interactions';
 export const shortName = 'PP';
 
-export const hasSummaryData = data =>
+export const hasSummaryData = (data) =>
   data.ppi > 0 || data.pathways > 0 || data.enzymeSubstrate > 0;
 
 export const summaryQuery = loader('./summaryQuery.gql');

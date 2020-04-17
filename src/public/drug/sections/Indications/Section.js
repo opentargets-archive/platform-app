@@ -6,7 +6,7 @@ const columns = [
   {
     id: 'name',
     label: 'Name',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
     width: '20%',
@@ -14,7 +14,7 @@ const columns = [
   {
     id: 'therapeuticAreas',
     label: 'Therapeutic Areas',
-    renderCell: d => {
+    renderCell: (d) => {
       return d.disease.therapeuticAreas.map((t, i) => (
         <div key={i}>
           <Link to={`/disease/${t.id}`}>{t.name}</Link>

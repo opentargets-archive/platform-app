@@ -19,8 +19,8 @@ class Crispr extends Component {
   componentDidMount() {
     const { symbol } = this.props;
     fetch(`https://api.cellmodelpassports.sanger.ac.uk/score_search/${symbol}`)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         const crisprId =
           res.genes &&
           res.genes.hits.length > 0 &&

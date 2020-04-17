@@ -7,7 +7,9 @@ const columns = (symbol, maxCountAOrB) => [
     id: 'B.approvedSymbol',
     label: 'Related target',
     orderable: false,
-    renderCell: d => <Link to={`/target/${d.B.id}`}>{d.B.approvedSymbol}</Link>,
+    renderCell: (d) => (
+      <Link to={`/target/${d.B.id}`}>{d.B.approvedSymbol}</Link>
+    ),
     comparator: (a, b) => {
       if (a.B.approvedSymbol <= b.B.approvedSymbol) {
         return -1;
@@ -19,7 +21,7 @@ const columns = (symbol, maxCountAOrB) => [
     id: 'score',
     label: 'Similarity score',
     orderable: false,
-    renderCell: d => significantFigures(d.score),
+    renderCell: (d) => significantFigures(d.score),
   },
   {
     id: 'countANotB',
@@ -46,7 +48,7 @@ const columns = (symbol, maxCountAOrB) => [
       />
     ),
     orderable: false,
-    renderCell: d => (
+    renderCell: (d) => (
       <LinearVenn
         aOnly={d.countA - d.countAndB}
         bOnly={d.countB - d.countAndB}
@@ -89,13 +91,13 @@ class Section extends React.Component {
     const { data, symbol } = this.props;
     const { rows, count, maxCountAOrB } = data;
 
-    const rowsMapped = rows.map(d => ({
+    const rowsMapped = rows.map((d) => ({
       ...d,
       countANotB: d.countA - d.countAndB,
       countBNotA: d.countB - d.countAndB,
     }));
 
-    const onPageSort = pe => {
+    const onPageSort = (pe) => {
       // table specific constants
       const { page, pageSize, sortBy, order } = pe;
       let ns = {};

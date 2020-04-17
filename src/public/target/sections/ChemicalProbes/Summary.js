@@ -10,14 +10,14 @@ const Summary = ({ probeminer, rows }) => {
 
   // probeminer is not in the list of sources, so we have to add it to the array for simplicity
   const allSources = rows
-    .map(r => r.sourcelinks.map(sl => sl.source))
+    .map((r) => r.sourcelinks.map((sl) => sl.source))
     .concat(probeminer ? ['probeminer'] : []);
 
   const sources = _(allSources)
     .flatten()
     .uniq()
     .value()
-    .map(s => sourceLabels[s] || null);
+    .map((s) => sourceLabels[s] || null);
   return sources.length > 0 ? sources.join(' • ') : null;
 };
 

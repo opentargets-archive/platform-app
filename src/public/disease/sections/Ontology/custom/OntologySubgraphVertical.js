@@ -39,8 +39,8 @@ class DAGViewer extends React.Component {
     const line = d3
       .line()
       .curve(d3.curveMonotoneY)
-      .x(d => d.x)
-      .y(d => d.y);
+      .x((d) => d.x)
+      .y((d) => d.y);
 
     return (
       <div ref={measureRef}>
@@ -52,7 +52,7 @@ class DAGViewer extends React.Component {
             viewBox={`0 0 ${width} ${height}`}
           >
             <g transform={`translate(${margin.left},${margin.top})`}>
-              {dag.links().map(d => (
+              {dag.links().map((d) => (
                 <path
                   key={`${d.source.id}-${d.target.id}`}
                   fill="none"
@@ -62,7 +62,7 @@ class DAGViewer extends React.Component {
               ))}
             </g>
             <g transform={`translate(${margin.left},${margin.top})`}>
-              {dag.descendants().map(d => (
+              {dag.descendants().map((d) => (
                 <circle
                   key={d.id}
                   fill="blue"

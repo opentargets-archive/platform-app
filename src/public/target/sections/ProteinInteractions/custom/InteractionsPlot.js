@@ -43,7 +43,7 @@ class InteractionsPlot extends React.Component {
     const circleRadius = 4;
     const colour = d3
       .scaleLog()
-      .domain(d3.extent(nodes, n => n.neighbourCount + 1))
+      .domain(d3.extent(nodes, (n) => n.neighbourCount + 1))
       .range(['#fff', '#3489ca']);
 
     // order alphabetically
@@ -53,14 +53,15 @@ class InteractionsPlot extends React.Component {
         .sort((a, b) => d3.ascending(a.symbol, b.symbol))
         .map((d, i) => [d.uniprotId, i])
     );
-    const nodeToAngleRad = n =>
+    const nodeToAngleRad = (n) =>
       (2 * Math.PI * uniprotIdToIndex.get(n)) / nodeCount;
-    const nodeToAngleDeg = n => (360 * uniprotIdToIndex.get(n)) / nodeCount;
-    const nodeToColour = n => colour(n.neighbourCount + 1);
-    const isInRightSemiCircle = n => uniprotIdToIndex.get(n) / nodeCount < 0.5;
+    const nodeToAngleDeg = (n) => (360 * uniprotIdToIndex.get(n)) / nodeCount;
+    const nodeToColour = (n) => colour(n.neighbourCount + 1);
+    const isInRightSemiCircle = (n) =>
+      uniprotIdToIndex.get(n) / nodeCount < 0.5;
 
     // legend data for scale
-    const maxNeighbourCount = d3.max(nodes, n => n.neighbourCount);
+    const maxNeighbourCount = d3.max(nodes, (n) => n.neighbourCount);
     const legendInterval = maxNeighbourCount / 5;
     const legendData = [
       0,
@@ -89,8 +90,9 @@ class InteractionsPlot extends React.Component {
         <div ref={this.svgContainer}>
           <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height}>
             <g
-              transform={`translate(${width -
-                20 * (legendData.length + 3)},${20})`}
+              transform={`translate(${
+                width - 20 * (legendData.length + 3)
+              },${20})`}
             >
               <text
                 x={-10}
@@ -199,7 +201,7 @@ class InteractionsPlot extends React.Component {
                 {(selectedUniprotIds.length === 1
                   ? edgesFilteredWithoutSelectedUniprotIds
                   : edgesFilteredWithinSelectedUniprotIds
-                ).map(e => {
+                ).map((e) => {
                   let fromAngle = nodeToAngleRad(e.source) + 0.001;
                   let toAngle = nodeToAngleRad(e.target) + 0.001;
                   let fromX =
@@ -220,7 +222,7 @@ class InteractionsPlot extends React.Component {
                 strokeOpacity={0.6}
                 transform={`translate(${width / 2},${height / 2})`}
               >
-                {edgesFiltered.map(e => {
+                {edgesFiltered.map((e) => {
                   let fromAngle = nodeToAngleRad(e.source) + 0.001;
                   let toAngle = nodeToAngleRad(e.target) + 0.001;
                   let fromX =
@@ -239,7 +241,7 @@ class InteractionsPlot extends React.Component {
               style={{ font: '10px sans-serif' }}
               transform={`translate(${width / 2},${height / 2})`}
             >
-              {nodes.map(n => {
+              {nodes.map((n) => {
                 const { isSelected, isNeighbourOfSelected } = n;
                 const angleRad = nodeToAngleRad(n.uniprotId);
                 const angleDeg = nodeToAngleDeg(n.uniprotId);
@@ -248,8 +250,9 @@ class InteractionsPlot extends React.Component {
                   <g
                     key={n.uniprotId}
                     id={`node-${n.uniprotId}`}
-                    transform={`translate(${textRadius *
-                      Math.sin(angleRad)},${-textRadius * Math.cos(angleRad)})`}
+                    transform={`translate(${textRadius * Math.sin(angleRad)},${
+                      -textRadius * Math.cos(angleRad)
+                    })`}
                     onClick={() => handleProteinClick(n.uniprotId)}
                     onMouseMove={() => handleMouseOver(n)}
                     onMouseLeave={() => handleMouseLeave()}
@@ -280,8 +283,9 @@ class InteractionsPlot extends React.Component {
                       fontWeight={isSelected ? 'bold' : null}
                       textAnchor={isRightHalf ? 'start' : 'end'}
                       alignmentBaseline="central"
-                      transform={`rotate(${(isRightHalf ? 270 : 90) +
-                        angleDeg}) translate(${
+                      transform={`rotate(${
+                        (isRightHalf ? 270 : 90) + angleDeg
+                      }) translate(${
                         isRightHalf ? textOffset : -textOffset
                       }, 0)`}
                     >

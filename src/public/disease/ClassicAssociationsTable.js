@@ -69,13 +69,13 @@ const ClassicAssociationsTable = ({
   scaleAssociation,
   scaleModality,
 }) => {
-  const sortByUpdateForField = field => ({
+  const sortByUpdateForField = (field) => ({
     field: field,
     ascending: sortBy.field === field ? !sortBy.ascending : false,
   });
-  const directionForField = field =>
+  const directionForField = (field) =>
     sortBy.field === field ? (sortBy.ascending ? 'asc' : 'desc') : 'desc';
-  const activeForField = field => sortBy.field === field;
+  const activeForField = (field) => sortBy.field === field;
 
   const columnGroups = [
     {
@@ -83,8 +83,8 @@ const ClassicAssociationsTable = ({
       columns: [
         {
           label: 'Overall',
-          valueAccessor: d => (d.score > 0 ? d.score : NaN),
-          colorAccessor: d => scaleAssociation(d.score > 0 ? d.score : NaN),
+          valueAccessor: (d) => (d.score > 0 ? d.score : NaN),
+          colorAccessor: (d) => scaleAssociation(d.score > 0 ? d.score : NaN),
           isSortable: true,
           isSortActive: activeForField('SCORE_OVERALL'),
           sortDirection: directionForField('SCORE_OVERALL'),
@@ -94,14 +94,16 @@ const ClassicAssociationsTable = ({
     },
     {
       id: 'datasources',
-      columns: dataTypes.map(dt => ({
+      columns: dataTypes.map((dt) => ({
         label: _.startCase(dt.toLowerCase()),
-        valueAccessor: d => {
-          const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
+        valueAccessor: (d) => {
+          const score = d.scoresByDataType.find((s) => s.dataTypeId === dt)
+            .score;
           return score > 0 ? score : NaN;
         },
-        colorAccessor: d => {
-          const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
+        colorAccessor: (d) => {
+          const score = d.scoresByDataType.find((s) => s.dataTypeId === dt)
+            .score;
           return scaleAssociation(score > 0 ? score : NaN);
         },
         isSortable: true,
@@ -112,17 +114,17 @@ const ClassicAssociationsTable = ({
     },
     {
       id: 'modalities',
-      columns: modalities.map(m => ({
+      columns: modalities.map((m) => ({
         label: _.startCase(m),
-        valueAccessor: d => {
+        valueAccessor: (d) => {
           const score = d.tractabilityScoresByModality.find(
-            s => s.modalityId === m
+            (s) => s.modalityId === m
           ).score;
           return score > 0 ? score : NaN;
         },
-        colorAccessor: d => {
+        colorAccessor: (d) => {
           const score = d.tractabilityScoresByModality.find(
-            s => s.modalityId === m
+            (s) => s.modalityId === m
           ).score;
           return scaleModality(score > 0 ? score : NaN);
         },
@@ -136,7 +138,7 @@ const ClassicAssociationsTable = ({
         fileStem={`${efoId}-associated-targets`}
         query={associationsDownloadQuery}
         variables={{ efoId, sortBy, search, facets }}
-        getAfter={response =>
+        getAfter={(response) =>
           response.data &&
           response.data.disease &&
           response.data.disease.targetsConnection &&
@@ -145,12 +147,12 @@ const ClassicAssociationsTable = ({
             ? response.data.disease.targetsConnection.pageInfo.nextCursor
             : null
         }
-        getRows={response =>
+        getRows={(response) =>
           response.data &&
           response.data.disease &&
           response.data.disease.targetsConnection &&
           response.data.disease.targetsConnection.edges
-            ? response.data.disease.targetsConnection.edges.map(d => ({
+            ? response.data.disease.targetsConnection.edges.map((d) => ({
                 ensgId: d.node.id,
                 symbol: d.node.symbol,
                 overallScore: d.score,
@@ -165,12 +167,12 @@ const ClassicAssociationsTable = ({
           { id: 'ensgId', label: 'ensgId' },
           { id: 'symbol', label: 'symbol' },
           { id: 'overallScore', label: 'overallScore' },
-          ...dataTypes.map(dt => ({ id: dt, label: _.camelCase(dt) })),
+          ...dataTypes.map((dt) => ({ id: dt, label: _.camelCase(dt) })),
         ]}
       />
       <Heatmap
-        rowIdAccessor={d => d.target.id}
-        labelAccessor={d => d.target.symbol}
+        rowIdAccessor={(d) => d.target.id}
+        labelAccessor={(d) => d.target.symbol}
         rows={rows}
         columnGroups={columnGroups}
         rowsPerPage={rowsPerPage}

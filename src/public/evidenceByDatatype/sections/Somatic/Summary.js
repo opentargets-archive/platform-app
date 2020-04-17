@@ -7,7 +7,7 @@ const Summary = ({ uniProtSomatic, evaSomatic, cancerGeneCensus, intOGen }) =>
       : null,
     intOGen && intOGen.hasMutations ? 'IntOGen' : null,
   ]
-    .filter(d => d)
+    .filter((d) => d)
     .join(' • ');
 
 export default Summary;

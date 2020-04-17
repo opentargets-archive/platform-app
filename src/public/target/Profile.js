@@ -25,22 +25,22 @@ const summariesQuery = gql`
       }
 
       ${sections
-        .filter(s => s.summaryQuery)
-        .map(s => `...target${_.upperFirst(s.id)}Fragment`)
+        .filter((s) => s.summaryQuery)
+        .map((s) => `...target${_.upperFirst(s.id)}Fragment`)
         .join('\n')}
     }
   }
   
   ${sections
-    .filter(s => s.summaryQuery)
-    .map(s => print(s.summaryQuery))
+    .filter((s) => s.summaryQuery)
+    .map((s) => print(s.summaryQuery))
     .join('\n')}
 `;
 
-const entitySummariesAccessor = data => {
+const entitySummariesAccessor = (data) => {
   if (data && data.target) {
     return sections
-      .filter(s => s.summaryQuery)
+      .filter((s) => s.summaryQuery)
       .reduce(
         (obj, s) => Object.assign(obj, { [s.id]: data.target[s.id] }),
         {}
@@ -50,7 +50,7 @@ const entitySummariesAccessor = data => {
   }
 };
 
-const entitySectionsAccessor = data => {
+const entitySectionsAccessor = (data) => {
   return data && data.target ? data.target : {};
 };
 

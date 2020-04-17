@@ -6,14 +6,14 @@ const columns = [
   {
     id: 'disease.id',
     label: 'Disease',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
   },
   {
     id: 'pathway.id',
     label: 'Pathway',
-    renderCell: d => (
+    renderCell: (d) => (
       <Link
         external
         to={`https://reactome.org/PathwayBrowser/#${d.pathway.id}`}
