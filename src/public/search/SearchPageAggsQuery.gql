@@ -1,6 +1,7 @@
 query SearchPageAggsQuery($queryString: String!) {
   search(queryString: $queryString) {
     aggregations {
+      total
       entities {
         name
         total

@@ -11,6 +11,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import BasePage from '../common/BasePage';
+import EmptyPage from '../common/EmptyPage';
 import { client2 } from '../client';
 import TargetIcon from '../../icons/TargetIcon';
 import DiseaseIcon from '../../icons/DiseaseIcon';
@@ -77,15 +78,8 @@ const styles = theme => ({
 });
 
 const SearchFilters = withStyles(styles)(
-  ({ classes, q, entities, setEntity }) => {
-    const { loading, error, data } = useQuery(AGGS_QUERY, {
-      client: client2,
-      variables: { queryString: q },
-    });
-
-    if (loading || error) return null;
-
-    const counts = getCounts(data.search.aggregations.entities);
+  ({ classes, q, entities, entitiesCount, setEntity }) => {
+    const counts = getCounts(entitiesCount);
 
     return (
       <>
@@ -139,7 +133,7 @@ const SearchFilters = withStyles(styles)(
   }
 );
 
-const SearchResults = ({ q, page, entities, changePage }) => {
+const SearchResults = ({ q, page, entities, onChangePage }) => {
   const { loading, error, data } = useQuery(SEARCH_PAGE_QUERY, {
     client: client2,
     variables: {
@@ -161,7 +155,7 @@ const SearchResults = ({ q, page, entities, changePage }) => {
         rowsPerPage={10}
         count={data.search.total}
         page={page - 1}
-        onChangePage={changePage}
+        onChangePage={onChangePage}
       />
       {results.map(({ highlights, object }) => {
         return object.__typename === 'Target' ? (
@@ -182,7 +176,7 @@ const SearchResults = ({ q, page, entities, changePage }) => {
         rowsPerPage={10}
         count={data.search.total}
         page={page - 1}
-        onChangePage={changePage}
+        onChangePage={onChangePage}
       />
     </>
   );
@@ -212,16 +206,64 @@ const TopHitDetail = ({ q, entities }) => {
   ) : null;
 };
 
+const SearchContainer = ({
+  q,
+  page,
+  entities,
+  entitiesCount,
+  onChangePage,
+  onSetEntity,
+}) => {
+  return (
+    <>
+      <Typography variant="h5" gutterBottom>
+        Search results for {q}
+      </Typography>
+      <Grid container spacing={24}>
+        <Grid item md={2}>
+          <Typography>Refine by:</Typography>
+          <FormGroup>
+            <SearchFilters
+              entities={entities}
+              entitiesCount={entitiesCount}
+              setEntity={onSetEntity}
+            />
+          </FormGroup>
+        </Grid>
+        <Grid item md={7}>
+          <SearchResults
+            q={q}
+            page={page}
+            entities={entities}
+            onChangePage={onChangePage}
+          />
+        </Grid>
+        <Grid item md={3}>
+          <TopHitDetail q={q} entities={entities} />
+        </Grid>
+      </Grid>
+    </>
+  );
+};
+
 const SearchPage = ({ location, history }) => {
   const { q, page, entities } = parseQueryString(location.search);
 
-  const changePage = (event, page) => {
+  const { loading, error, data } = useQuery(AGGS_QUERY, {
+    variables: { queryString: q },
+  });
+
+  if (loading || error) return null;
+
+  const { total, entities: entitiesCount } = data.search.aggregations;
+
+  const handleChangePage = (event, page) => {
     const params = { q, page: page + 1, entities };
     const qs = queryString.stringify(params, QS_OPTIONS);
     history.push(`/search?${qs}`);
   };
 
-  const setEntity = entity => (event, checked) => {
+  const handleSetEntity = entity => (event, checked) => {
     const params = {
       q,
       page: 1, // reset to page 1
@@ -235,28 +277,18 @@ const SearchPage = ({ location, history }) => {
 
   return (
     <BasePage>
-      <Typography variant="h5" gutterBottom>
-        Search results for {q}
-      </Typography>
-      <Grid container spacing={24}>
-        <Grid item md={2}>
-          <Typography>Refine by:</Typography>
-          <FormGroup>
-            <SearchFilters q={q} entities={entities} setEntity={setEntity} />
-          </FormGroup>
-        </Grid>
-        <Grid item md={7}>
-          <SearchResults
-            q={q}
-            page={page}
-            entities={entities}
-            changePage={changePage}
-          />
-        </Grid>
-        <Grid item md={3}>
-          <TopHitDetail q={q} entities={entities} />
-        </Grid>
-      </Grid>
+      {total === 0 ? (
+        <EmptyPage />
+      ) : (
+        <SearchContainer
+          q={q}
+          page={page}
+          entities={entities}
+          entitiesCount={entitiesCount}
+          onSetEntity={handleSetEntity}
+          onChangePage={handleChangePage}
+        />
+      )}
     </BasePage>
   );
 };
