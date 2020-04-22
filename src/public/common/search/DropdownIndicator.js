@@ -1,8 +1,13 @@
 import React from 'react';
 import SearchIcon from '@material-ui/icons/Search';
+import { Button } from '@material-ui/core';
 
-const DropdownIndicator = ({ inputRef, innerProps }) => {
-  return <SearchIcon ref={inputRef} {...innerProps} color="inherit" />;
+const DropdownIndicator = ({ onClick }) => {
+  return (
+    <Button onClick={onClick}>
+      <SearchIcon color="inherit" />
+    </Button>
+  );
 };
 
 export default DropdownIndicator;
