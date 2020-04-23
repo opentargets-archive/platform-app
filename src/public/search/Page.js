@@ -278,7 +278,12 @@ const SearchPage = ({ location, history }) => {
   return (
     <BasePage>
       {total === 0 ? (
-        <EmptyPage />
+        <EmptyPage>
+          <Typography align="center">
+            We could not find anything in the Platform database that matches
+          </Typography>
+          <Typography align="center">"{q}"</Typography>
+        </EmptyPage>
       ) : (
         <SearchContainer
           q={q}

@@ -17,9 +17,12 @@ const styles = theme => ({
     width: '450px',
     marginBottom: '42px',
   },
+  message: {
+    marginBottom: '24px',
+  },
 });
 
-const EmptyPage = ({ classes }) => {
+const EmptyPage = ({ classes, children }) => {
   return (
     <Grid container direction="column" alignItems="center">
       <Icon
@@ -28,9 +31,7 @@ const EmptyPage = ({ classes }) => {
         fontSize="large"
       />
       <Typography variant="h5">Sorry</Typography>
-      <Typography>
-        We could not find anything in the Platform database that matches
-      </Typography>
+      <div className={classes.message}>{children}</div>
       <Search />
       <Typography className={classes.suggestions} variant="caption">
         <Grid container justify="space-between">
