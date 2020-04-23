@@ -6,16 +6,16 @@ import {
 import { HttpLink } from 'apollo-link-http';
 import introspectionQueryResultData from './fragmentTypes.json';
 
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData,
+});
+
 const client = new ApolloClient({
   link: new HttpLink({
     // uri: 'https://platform-api.now.sh/graphql',
     uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
   }),
-  cache: new InMemoryCache(),
-});
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData,
+  cache: new InMemoryCache({ fragmentMatcher }),
 });
 
 // TODO: This client uses the production GraphQL endpoint.

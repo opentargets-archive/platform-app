@@ -12,7 +12,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import BasePage from '../common/BasePage';
 import EmptyPage from '../common/EmptyPage';
-import { client2 } from '../client';
 import TargetIcon from '../../icons/TargetIcon';
 import DiseaseIcon from '../../icons/DiseaseIcon';
 import DrugIcon from '../../icons/DrugIcon';
@@ -23,9 +22,7 @@ import TargetResult from './TargetResult';
 import DiseaseResult from './DiseaseResult';
 import DrugResult from './DrugResult';
 
-const AGGS_QUERY = loader('./SearchPageAggsQuery.gql');
 const SEARCH_PAGE_QUERY = loader('./SearchPageQuery.gql');
-const TOP_HIT_QUERY = loader('./TopHitQuery.gql');
 const QS_OPTIONS = {
   sort: false,
   arrayFormat: 'comma',
@@ -78,7 +75,7 @@ const styles = theme => ({
 });
 
 const SearchFilters = withStyles(styles)(
-  ({ classes, q, entities, entitiesCount, setEntity }) => {
+  ({ classes, entities, entitiesCount, setEntity }) => {
     const counts = getCounts(entitiesCount);
 
     return (
@@ -133,31 +130,18 @@ const SearchFilters = withStyles(styles)(
   }
 );
 
-const SearchResults = ({ q, page, entities, onChangePage }) => {
-  const { loading, error, data } = useQuery(SEARCH_PAGE_QUERY, {
-    client: client2,
-    variables: {
-      queryString: q,
-      index: page - 1,
-      entityNames: entities,
-    },
-  });
-
-  if (loading || error) return null;
-
-  const results = data.search.hits;
-
+const SearchResults = ({ q, results, page, entities, onChangePage }) => {
   return (
     <>
       <TablePagination
         component="div"
         rowsPerPageOptions={[]}
         rowsPerPage={10}
-        count={data.search.total}
+        count={results.total}
         page={page - 1}
         onChangePage={onChangePage}
       />
-      {results.map(({ highlights, object }) => {
+      {results.hits.map(({ highlights, object }) => {
         return object.__typename === 'Target' ? (
           <TargetResult key={object.id} data={object} highlights={highlights} />
         ) : object.__typename === 'Disease' ? (
@@ -174,7 +158,7 @@ const SearchResults = ({ q, page, entities, onChangePage }) => {
         component="div"
         rowsPerPageOptions={[]}
         rowsPerPage={10}
-        count={data.search.total}
+        count={results.total}
         page={page - 1}
         onChangePage={onChangePage}
       />
@@ -182,18 +166,8 @@ const SearchResults = ({ q, page, entities, onChangePage }) => {
   );
 };
 
-const TopHitDetail = ({ q, entities }) => {
-  const { loading, error, data } = useQuery(TOP_HIT_QUERY, {
-    client: client2,
-    variables: { queryString: q, entityNames: entities },
-  });
-
-  if (loading || error) return null;
-
-  const topHit =
-    data.search.hits.length > 0 ? data.search.hits[0].object : null;
-
-  return topHit ? (
+const TopHitDetail = ({ topHit }) => {
+  return (
     <Card elevation={0}>
       {topHit.__typename === 'Target' ? (
         <TargetDetail data={topHit} />
@@ -203,17 +177,20 @@ const TopHitDetail = ({ q, entities }) => {
         <DrugDetail data={topHit} />
       ) : null}
     </Card>
-  ) : null;
+  );
 };
 
 const SearchContainer = ({
   q,
   page,
   entities,
-  entitiesCount,
+  data,
   onChangePage,
   onSetEntity,
 }) => {
+  const { entities: entitiesCount } = data.search.aggregations;
+  const topHit = data.topHit.hits[0].object;
+
   return (
     <>
       <Typography variant="h5" gutterBottom>
@@ -232,14 +209,13 @@ const SearchContainer = ({
         </Grid>
         <Grid item md={7}>
           <SearchResults
-            q={q}
             page={page}
-            entities={entities}
+            results={data.search}
             onChangePage={onChangePage}
           />
         </Grid>
         <Grid item md={3}>
-          <TopHitDetail q={q} entities={entities} />
+          <TopHitDetail topHit={topHit} />
         </Grid>
       </Grid>
     </>
@@ -249,13 +225,13 @@ const SearchContainer = ({
 const SearchPage = ({ location, history }) => {
   const { q, page, entities } = parseQueryString(location.search);
 
-  const { loading, error, data } = useQuery(AGGS_QUERY, {
-    variables: { queryString: q },
+  const { loading, error, data } = useQuery(SEARCH_PAGE_QUERY, {
+    variables: { queryString: q, index: page - 1, entityNames: entities },
   });
 
   if (loading || error) return null;
 
-  const { total, entities: entitiesCount } = data.search.aggregations;
+  const { total } = data.search;
 
   const handleChangePage = (event, page) => {
     const params = { q, page: page + 1, entities };
@@ -289,9 +265,9 @@ const SearchPage = ({ location, history }) => {
           q={q}
           page={page}
           entities={entities}
-          entitiesCount={entitiesCount}
           onSetEntity={handleSetEntity}
           onChangePage={handleChangePage}
+          data={data}
         />
       )}
     </BasePage>
