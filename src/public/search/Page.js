@@ -1,5 +1,4 @@
-import React from 'react';
-import { useQuery } from '@apollo/client';
+import React, { useState, useEffect } from 'react';
 import { loader } from 'graphql.macro';
 import queryString from 'query-string';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -21,6 +20,7 @@ import DrugDetail from './DrugDetail';
 import TargetResult from './TargetResult';
 import DiseaseResult from './DiseaseResult';
 import DrugResult from './DrugResult';
+import client from '../client';
 
 const SEARCH_PAGE_QUERY = loader('./SearchPageQuery.gql');
 const QS_OPTIONS = {
@@ -224,14 +224,29 @@ const SearchContainer = ({
 
 const SearchPage = ({ location, history }) => {
   const { q, page, entities } = parseQueryString(location.search);
+  const [data, setData] = useState(null);
 
-  const { loading, error, data } = useQuery(SEARCH_PAGE_QUERY, {
-    variables: { queryString: q, index: page - 1, entityNames: entities },
-  });
+  useEffect(() => {
+    let isCurrent = true;
+    client
+      .query({
+        query: SEARCH_PAGE_QUERY,
+        variables: {
+          queryString: q,
+          index: page - 1,
+          entityNames: entities,
+        },
+      })
+      .then(res => {
+        if (isCurrent) {
+          setData(res.data);
+        }
+      });
 
-  if (loading || error) return null;
-
-  const { total } = data.search;
+    return () => {
+      isCurrent = false;
+    };
+  }, [q, page, entities.length]);
 
   const handleChangePage = (event, page) => {
     const params = { q, page: page + 1, entities };
@@ -253,23 +268,25 @@ const SearchPage = ({ location, history }) => {
 
   return (
     <BasePage>
-      {total === 0 ? (
-        <EmptyPage>
-          <Typography align="center">
-            We could not find anything in the Platform database that matches
-          </Typography>
-          <Typography align="center">"{q}"</Typography>
-        </EmptyPage>
-      ) : (
-        <SearchContainer
-          q={q}
-          page={page}
-          entities={entities}
-          onSetEntity={handleSetEntity}
-          onChangePage={handleChangePage}
-          data={data}
-        />
-      )}
+      {data ? (
+        data.search.total === 0 ? (
+          <EmptyPage>
+            <Typography align="center">
+              We could not find anything in the Platform database that matches
+            </Typography>
+            <Typography align="center">"{q}"</Typography>
+          </EmptyPage>
+        ) : (
+          <SearchContainer
+            q={q}
+            page={page}
+            entities={entities}
+            onSetEntity={handleSetEntity}
+            onChangePage={handleChangePage}
+            data={data}
+          />
+        )
+      ) : null}
     </BasePage>
   );
 };
