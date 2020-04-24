@@ -98,7 +98,7 @@
     "lint-staged": "^10.1.7",
     "nanoid-cli": "^1.1.0",
     "nightwatch": "^1.1.13",
-    "prettier": "^1.15.1",
+    "prettier": "1.15.1",
     "rimraf": "^3.0.2",
     "serve": "^11.1.0"
   },
