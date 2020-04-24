@@ -238,7 +238,7 @@ const SearchPage = ({ location, history }) => {
       <Typography variant="h5" gutterBottom>
         Search results for {q}
       </Typography>
-      <Grid container spacing={24}>
+      <Grid container spacing={3}>
         <Grid item md={2}>
           <Typography>Refine by:</Typography>
           <FormGroup>

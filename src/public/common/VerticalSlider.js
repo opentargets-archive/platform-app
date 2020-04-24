@@ -1,6 +1,6 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Slider from '@material-ui/lab/Slider';
+import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({

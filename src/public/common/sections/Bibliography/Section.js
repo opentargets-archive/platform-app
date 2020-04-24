@@ -36,7 +36,7 @@ const styles = theme => ({
     marginBottom: '20px',
   },
   chip: {
-    margin: theme.spacing.unit / 4,
+    margin: theme.spacing(0.25),
   },
   linkChip: {
     backgroundColor: theme.palette.primary.main,
@@ -191,7 +191,7 @@ class Section extends Component {
           direction="column"
           justify="flex-start"
           alignItems="stretch"
-          spacing={16}
+          spacing={2}
         >
           <Grid item xs={12}>
             {/* Dropdown menu */}
@@ -244,7 +244,7 @@ class Section extends Component {
               direction="column"
               justify="flex-start"
               alignItems="stretch"
-              spacing={16}
+              spacing={2}
             >
               {hits.map((hit, i) => {
                 return (

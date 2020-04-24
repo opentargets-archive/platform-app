@@ -7,10 +7,10 @@ import DrugIcon from '../../../icons/DrugIcon';
 const TargetOption = ({ data }) => {
   return (
     <>
-      <Typography variant="subtitle2" inline>
+      <Typography variant="subtitle2" display="inline">
         {data.approvedSymbol}
       </Typography>{' '}
-      <Typography variant="caption" color="textSecondary" inline>
+      <Typography variant="caption" color="textSecondary" display="inline">
         {data.approvedName}
       </Typography>
     </>
@@ -34,7 +34,7 @@ const TargetTopHit = ({ data }) => {
       </Typography>{' '}
       <Typography>{data.approvedName}</Typography>
       {data.proteinAnnotations ? (
-        <Typography variant="caption" noWrap>
+        <Typography variant="caption" noWrap display="block">
           {data.proteinAnnotations.functions[0]}
         </Typography>
       ) : null}
@@ -49,7 +49,7 @@ const DiseaseTopHit = ({ data }) => {
         <DiseaseIcon />
         {data.name}
       </Typography>
-      <Typography variant="caption" noWrap>
+      <Typography variant="caption" noWrap display="block">
         {data.description}
       </Typography>
     </>
@@ -64,7 +64,7 @@ const DrugTopHit = ({ data }) => {
         {data.name}
       </Typography>
       {data.mechanismsOfAction ? (
-        <Typography variant="caption" noWrap>
+        <Typography variant="caption" noWrap display="block">
           {data.mechanismsOfAction.rows
             .map(row => row.mechanismOfAction)
             .join(', ')}

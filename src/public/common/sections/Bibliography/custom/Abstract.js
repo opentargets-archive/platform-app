@@ -25,7 +25,7 @@ class Abstract extends Component {
 
         {/* Legend */}
         {variant === 'regular' ? (
-          <Typography variant="body2" gutterBottom>
+          <Typography variant="body1" gutterBottom>
             <span data-entity="GENE">Gene</span>
             <span data-entity="DISEASE">Disease</span>
             <span data-entity="DRUG">Drug</span>
