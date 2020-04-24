@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 
-const highlightStyles = (theme) => ({
+const highlightStyles = theme => ({
   showMore: {
     cursor: 'pointer',
     color: theme.palette.primary.main,

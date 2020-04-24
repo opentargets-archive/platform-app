@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-const styles = (theme) => ({
+const styles = theme => ({
   detailPanel: {
     background: `${theme.palette.grey[100]}`,
     marginTop: '10px',

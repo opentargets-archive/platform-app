@@ -12,12 +12,12 @@ const datasources = [
   'gene2Phenotype',
 ];
 
-export const getSummaryFromSummaries = (summariesData) =>
+export const getSummaryFromSummaries = summariesData =>
   datasources.reduce((acc, d) => {
     acc[d] = summariesData[d];
     return acc;
   }, {});
-export const getDetailFromDetails = (detailsData) =>
+export const getDetailFromDetails = detailsData =>
   datasources.reduce((acc, d) => {
     acc[d] = detailsData[d];
     return acc;
@@ -38,7 +38,7 @@ export const hasSummaryData = ({
     eva && eva.variantCount > 0,
     genomicsEngland && genomicsEngland.hasPanel,
     gene2Phenotype && gene2Phenotype.hasPanel,
-  ].some((d) => d);
+  ].some(d => d);
 
 export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');

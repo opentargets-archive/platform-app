@@ -3,7 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 
-const styles = (theme) => ({
+const styles = theme => ({
   label: {
     margin: 0,
     '& span:last-child': {

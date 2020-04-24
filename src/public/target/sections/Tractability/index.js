@@ -4,7 +4,7 @@ export const id = 'tractability';
 export const name = 'Tractability';
 export const shortName = 'TR';
 
-export const hasSummaryData = (data) =>
+export const hasSummaryData = data =>
   data.hasAntibodyTractabilityAssessment ||
   data.hasSmallMoleculeTractabilityAssessment;
 

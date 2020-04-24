@@ -42,26 +42,26 @@ const Profile = ({
     }, {})
   );
 
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = sectionId => {
     scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
   };
   const scrollToTop = () => {
     animateScroll.scrollTo(0, { duration: 500, delay: 100, smooth: true });
   };
-  const setSectionHasSummaryDataHandler = (sectionId) => (value) => {
+  const setSectionHasSummaryDataHandler = sectionId => value => {
     setSectionHasSummaryData({
       ...sectionHasSummaryData,
       [sectionId]: value,
     });
   };
-  const setSectionHasSummaryErrorHandler = (sectionId) => (value) => {
+  const setSectionHasSummaryErrorHandler = sectionId => value => {
     setSectionHasSummaryError({
       ...sectionHasSummaryError,
       [sectionId]: value,
     });
   };
 
-  const handleSectionOrderChange = (sectionsOrder) => {
+  const handleSectionOrderChange = sectionsOrder => {
     ls.set(sectionsOrderKey, sectionsOrder);
     setSectionsOrder(sectionsOrder);
   };
@@ -71,21 +71,21 @@ const Profile = ({
   //   this.setInitialSectionsState();
   // }
 
-  const sections = sectionsOrder.map((d) =>
-    unorderedSections.find((e) => e.id === d)
+  const sections = sectionsOrder.map(d =>
+    unorderedSections.find(e => e.id === d)
   );
 
   const { loading, error, data } = useQuery(query, { variables });
 
   const summariesData = loading ? {} : entitySummariesAccessor(data);
-  const sectionsWithSummaryState = sections.map((s) => {
+  const sectionsWithSummaryState = sections.map(s => {
     // an error could occur in graphql api (network or summary specific)
     // or be triggered from the component itself (eg. by external API)
     const summaryErrorFromGraphQL =
       error &&
       (error.networkError ||
         (error.graphQLErrors &&
-          error.graphQLErrors.some((e) => e.path[2] === s.id)));
+          error.graphQLErrors.some(e => e.path[2] === s.id)));
     const summaryErrorFromSummaryComponent = sectionHasSummaryError[s.id];
     const summaryError =
       summaryErrorFromGraphQL || summaryErrorFromSummaryComponent;

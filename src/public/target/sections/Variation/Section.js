@@ -21,7 +21,9 @@ class Section extends React.Component {
   }
   _render = (ensgId, width) => {
     // clear previous (if existed)
-    d3.select('#otTargetGenomeBrowser').selectAll('*').remove();
+    d3.select('#otTargetGenomeBrowser')
+      .selectAll('*')
+      .remove();
 
     // draw
     const browser = board
@@ -30,11 +32,17 @@ class Section extends React.Component {
       .gene(ensgId)
       .context(20)
       .width(width);
-    browser.rest().prefix('').protocol('https').domain('rest.ensembl.org');
+    browser
+      .rest()
+      .prefix('')
+      .protocol('https')
+      .domain('rest.ensembl.org');
     const api = cttvApi()
       .prefix('https://platform-api.opentargets.io')
       .verbose(false);
-    const theme = targetGenomeBrowser().efo(null).cttvRestApi(api);
+    const theme = targetGenomeBrowser()
+      .efo(null)
+      .cttvRestApi(api);
     theme(browser, document.getElementById('otTargetGenomeBrowser'));
     this.browser = browser;
   };

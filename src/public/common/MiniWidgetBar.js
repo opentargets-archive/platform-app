@@ -5,8 +5,8 @@ import MiniWidget from './MiniWidget';
 
 const MiniWidgetBar = ({ entity, data, onWidgetClick }) => (
   <div style={{ paddingTop: 8, paddingBottom: 8 }}>
-    <Grid container spacing={1}>
-      {data.map((d) => (
+    <Grid container spacing={8}>
+      {data.map(d => (
         <MiniWidget
           key={d.id}
           entity={entity}

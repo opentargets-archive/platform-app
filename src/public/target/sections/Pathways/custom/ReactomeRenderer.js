@@ -13,7 +13,7 @@ class ReactomeRenderer extends React.Component {
       });
 
       diagram.loadDiagram(reactomeId);
-      diagram.onDiagramLoaded(function () {
+      diagram.onDiagramLoaded(function() {
         diagram.flagItems(symbol);
       });
       this.diagram = diagram;

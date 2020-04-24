@@ -47,12 +47,12 @@ const groupOptions = (searchData, inputValue) => {
 const IndicatorSeparator = () => null;
 
 const customStyles = {
-  menuList: (base) => ({
+  menuList: base => ({
     ...base,
     maxHeight: '500px',
   }),
-  group: (base) => ({ ...base, padding: 0 }),
-  container: (base) => ({ ...base, minWidth: '450px' }),
+  group: base => ({ ...base, padding: 0 }),
+  container: base => ({ ...base, minWidth: '450px' }),
 };
 
 const components = {
@@ -66,13 +66,13 @@ const components = {
 };
 
 class Search extends Component {
-  loadOptions = (inputValue) => {
+  loadOptions = inputValue => {
     return client2
       .query({
         query: SEARCH_QUERY,
         variables: { queryString: inputValue },
       })
-      .then((res) => {
+      .then(res => {
         return groupOptions(res.data, inputValue);
       });
   };
@@ -99,7 +99,7 @@ class Search extends Component {
         onChange={this.handleOnChange}
         components={components}
         styles={customStyles}
-        theme={(theme) => ({
+        theme={theme => ({
           ...theme,
           borderRadius: 0,
         })}

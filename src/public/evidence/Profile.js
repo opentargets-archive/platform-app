@@ -13,23 +13,23 @@ const summariesQuery = gql`
     evidence(ensgId: $ensgId, efoId: $efoId) {
       summaries {
         ${sections
-          .filter((s) => s.summaryQuery)
-          .map((s) => `...evidence${_.upperFirst(s.id)}Fragment`)
+          .filter(s => s.summaryQuery)
+          .map(s => `...evidence${_.upperFirst(s.id)}Fragment`)
           .join('\n')}
       }
     }
   }
   ${sections
-    .filter((s) => s.summaryQuery)
-    .map((s) => print(s.summaryQuery))
+    .filter(s => s.summaryQuery)
+    .map(s => print(s.summaryQuery))
     .join('\n')}
 `;
 
-const entitySummariesAccessor = (data) =>
+const entitySummariesAccessor = data =>
   data && data.evidence && data.evidence.summaries
     ? data.evidence.summaries
     : null;
-const entitySectionsAccessor = (data) =>
+const entitySectionsAccessor = data =>
   data && data.evidence && data.evidence.details ? data.evidence.details : null;
 
 class EvidenceProfile extends Component {

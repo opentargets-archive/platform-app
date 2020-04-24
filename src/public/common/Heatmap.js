@@ -109,7 +109,7 @@ class Heatmap extends React.Component {
     const columnLabel = g.selectAll('text').data(columnsWithPosition);
 
     columnLabel.join(
-      (enter) =>
+      enter =>
         enter
           .append('text')
           .attr('text-anchor', 'start')
@@ -119,59 +119,59 @@ class Heatmap extends React.Component {
           .style('cursor', 'pointer')
           .attr(
             'transform',
-            (d) => `rotate(-90) translate(20,${(d.xStart + d.xEnd) / 2})`
+            d => `rotate(-90) translate(20,${(d.xStart + d.xEnd) / 2})`
           )
-          .text((d) => d.label)
-          .on('click', (d) => d.onSort()),
-      (update) =>
+          .text(d => d.label)
+          .on('click', d => d.onSort()),
+      update =>
         update
           .attr(
             'transform',
-            (d) => `rotate(-90) translate(20,${(d.xStart + d.xEnd) / 2})`
+            d => `rotate(-90) translate(20,${(d.xStart + d.xEnd) / 2})`
           )
-          .text((d) => d.label)
-          .on('click', (d) => d.onSort()),
-      (exit) => exit.remove()
+          .text(d => d.label)
+          .on('click', d => d.onSort()),
+      exit => exit.remove()
     );
 
     const columnSortIcons = g
       .selectAll('path')
-      .data(columnsWithPosition.filter((c) => c.isSortable));
+      .data(columnsWithPosition.filter(c => c.isSortable));
 
     columnSortIcons.join(
-      (enter) =>
+      enter =>
         enter
           .append('path')
           .attr(
             'transform',
-            (d) =>
+            d =>
               `translate(${(d.xStart + d.xEnd) / 2},-10)${
                 d.isSortActive && d.sortDirection === 'asc'
                   ? 'rotate(180) '
                   : ''
               }`
           )
-          .attr('stroke', (d) => (d.isSortActive ? 'black' : '#bbb'))
+          .attr('stroke', d => (d.isSortActive ? 'black' : '#bbb'))
           .attr('fill', 'none')
           .attr('stroke-width', 2)
           .attr('cursor', 'pointer')
           .attr('d', 'M0,-5 L0,5 M-6,-1 L0,5 L6,-1')
-          .on('click', (d) => d.onSort()),
-      (update) =>
+          .on('click', d => d.onSort()),
+      update =>
         update
           .attr(
             'transform',
-            (d) =>
+            d =>
               `translate(${(d.xStart + d.xEnd) / 2},-10)${
                 d.isSortActive && d.sortDirection === 'asc'
                   ? 'rotate(180) '
                   : ''
               }`
           )
-          .attr('stroke', (d) => (d.isSortActive ? 'black' : '#bbb'))
+          .attr('stroke', d => (d.isSortActive ? 'black' : '#bbb'))
           .attr('d', 'M0,-5 L0,5 M-6,-1 L0,5 L6,-1')
-          .on('click', (d) => d.onSort()),
-      (exit) => exit.remove()
+          .on('click', d => d.onSort()),
+      exit => exit.remove()
     );
   }
   _renderRows({
@@ -195,13 +195,16 @@ class Heatmap extends React.Component {
     const row = g.selectAll('g.heatmap-row').data(rows, rowIdAccessor);
 
     const rowMerged = row.join(
-      (enter) => {
+      enter => {
         enter = enter
           .append('g')
           .classed('heatmap-row', true)
           .attr('transform', (d, i) => `translate(0,${i * heatmapCellHeight})`);
 
-        enter.attr('opacity', 0).transition(t).attr('opacity', 1);
+        enter
+          .attr('opacity', 0)
+          .transition(t)
+          .attr('opacity', 1);
 
         // row label
         enter
@@ -212,19 +215,23 @@ class Heatmap extends React.Component {
           .attr('alignment-baseline', 'middle')
           .attr('font-size', '10px')
           .attr('font-family', 'sans-serif')
-          .attr('id', (d) => `heatmap-label-${rowIdAccessor(d)}`)
-          .on('mouseover', (d) => onLabelMouseover(d.data));
+          .attr('id', d => `heatmap-label-${rowIdAccessor(d)}`)
+          .on('mouseover', d => onLabelMouseover(d.data));
 
         // container for heatmap cells
         enter.append('g').classed('heatmap-cells', true);
 
         return enter;
       },
-      (update) =>
+      update =>
         update
           .transition(t)
           .attr('transform', (d, i) => `translate(0,${i * heatmapCellHeight})`),
-      (exit) => exit.transition(t).attr('opacity', 0).remove()
+      exit =>
+        exit
+          .transition(t)
+          .attr('opacity', 0)
+          .remove()
     );
 
     // row label
@@ -235,8 +242,8 @@ class Heatmap extends React.Component {
       .select('g.heatmap-cells')
       .selectAll('rect')
       .data(
-        (d) => {
-          const cellDataForRow = columnsWithPosition.map((c) => ({
+        d => {
+          const cellDataForRow = columnsWithPosition.map(c => ({
             id: `${rowIdAccessor(d)}--${c.label}`,
             xStart: c.xStart,
             xEnd: c.xEnd,
@@ -245,25 +252,25 @@ class Heatmap extends React.Component {
           }));
           return cellDataForRow;
         },
-        (d) => d.id
+        d => d.id
       );
     cell.join(
-      (enter) =>
+      enter =>
         enter
           .append('rect')
           .attr('stroke', '#eee')
-          .attr('x', (d) => d.xStart - cellMargin)
+          .attr('x', d => d.xStart - cellMargin)
           .attr('y', cellMargin)
           .attr('width', heatmapCellWidth - 2 * cellMargin)
           .attr('height', heatmapCellHeight - 2 * cellMargin)
-          .attr('fill', (d) => d.color),
-      (update) =>
+          .attr('fill', d => d.color),
+      update =>
         update
-          .attr('x', (d) => d.xStart - cellMargin)
+          .attr('x', d => d.xStart - cellMargin)
           .attr('width', heatmapCellWidth - 2 * cellMargin)
           .attr('height', heatmapCellHeight - 2 * cellMargin)
-          .attr('fill', (d) => d.color),
-      (exit) => exit.remove()
+          .attr('fill', d => d.color),
+      exit => exit.remove()
     );
   }
 }

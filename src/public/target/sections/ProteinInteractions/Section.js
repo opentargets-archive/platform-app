@@ -15,13 +15,13 @@ import InteractionsTable from './custom/InteractionsTable';
 import SourceChip from './custom/SourceChip';
 import SourceCheckbox from './custom/SourceCheckbox';
 
-const styles = (theme) => ({
+const styles = theme => ({
   formControl: {
-    margin: theme.spacing(0.5),
-    marginLeft: theme.spacing(2),
+    margin: theme.spacing.unit * 0.5,
+    marginLeft: theme.spacing.unit * 2,
   },
   chip: {
-    margin: theme.spacing(0.5),
+    margin: theme.spacing.unit * 0.5,
   },
 });
 
@@ -39,7 +39,7 @@ class Section extends React.Component {
       anchorEl: null,
     },
   };
-  handleInteractionTypeChange = (interactionType) => (event) => {
+  handleInteractionTypeChange = interactionType => event => {
     const { interactionTypes } = this.state;
     this.setState({
       interactionTypes: {
@@ -48,17 +48,17 @@ class Section extends React.Component {
       },
     });
   };
-  handleProteinClick = (uniprotId) => {
+  handleProteinClick = uniprotId => {
     const { selectedUniprotIds } = this.state;
     if (selectedUniprotIds.indexOf(uniprotId) >= 0) {
       this.setState({
-        selectedUniprotIds: selectedUniprotIds.filter((d) => d !== uniprotId),
+        selectedUniprotIds: selectedUniprotIds.filter(d => d !== uniprotId),
       });
     } else {
       this.setState({ selectedUniprotIds: [...selectedUniprotIds, uniprotId] });
     }
   };
-  handleMouseOver = (d) => {
+  handleMouseOver = d => {
     const { interactionTypes } = this.state;
     const anchorEl = document.querySelector(`#node-${d.uniprotId}`);
     const data = [
@@ -120,7 +120,7 @@ class Section extends React.Component {
 
     const { nodes: nodesRaw, edges } = data;
     const edgesWithFilterProperties = edges
-      .map((e) => ({
+      .map(e => ({
         ...e,
         isFilteredSourceType:
           (interactionTypes.ppi && e.ppiSources.length > 0) ||
@@ -128,7 +128,7 @@ class Section extends React.Component {
           (interactionTypes.enzymeSubstrate &&
             e.enzymeSubstrateSources.length > 0),
       }))
-      .map((e) => ({
+      .map(e => ({
         ...e,
         isFilteredWithinSelectedUniprotIds:
           selectedUniprotIds.length > 1
@@ -144,13 +144,13 @@ class Section extends React.Component {
             : false,
       }));
     const edgesFiltered = edgesWithFilterProperties.filter(
-      (e) => e.isFilteredSourceType
+      e => e.isFilteredSourceType
     );
     const edgesFilteredWithinSelectedUniprotIds = edgesFiltered.filter(
-      (e) => e.isFilteredWithinSelectedUniprotIds
+      e => e.isFilteredWithinSelectedUniprotIds
     );
     const edgesFilteredWithoutSelectedUniprotIds = edgesFiltered.filter(
-      (e) => e.isFilteredWithoutSelectedUniprotIds
+      e => e.isFilteredWithoutSelectedUniprotIds
     );
 
     // edgesSelected ignores interactionType filter (for counts on interactionType filters)
@@ -158,47 +158,46 @@ class Section extends React.Component {
       selectedUniprotIds.length > 0
         ? selectedUniprotIds.length > 1
           ? edgesWithFilterProperties.filter(
-              (e) => e.isFilteredWithinSelectedUniprotIds
+              e => e.isFilteredWithinSelectedUniprotIds
             )
           : edgesWithFilterProperties.filter(
-              (e) =>
+              e =>
                 e.isFilteredWithinSelectedUniprotIds ||
                 e.isFilteredWithoutSelectedUniprotIds
             )
         : edgesWithFilterProperties;
 
     // edgesDisplayed takes all filters into account (interactionType and selection)
-    const edgesDisplayed = edgesSelected.filter((e) => e.isFilteredSourceType);
+    const edgesDisplayed = edgesSelected.filter(e => e.isFilteredSourceType);
 
-    const nodes = nodesRaw.map((n) => {
+    const nodes = nodesRaw.map(n => {
       const edgesForNode = edgesDisplayed.filter(
-        (e) => e.source === n.uniprotId || e.target === n.uniprotId
+        e => e.source === n.uniprotId || e.target === n.uniprotId
       );
       return {
         ...n,
         neighbourCount: edgesFiltered.filter(
-          (e) => e.source === n.uniprotId || e.target === n.uniprotId
+          e => e.source === n.uniprotId || e.target === n.uniprotId
         ).length,
         neighbourCountWithin: edgesForNode.length,
         interactorsCount: _.uniq(
-          edgesForNode.map((e) =>
+          edgesForNode.map(e =>
             e.source === n.uniprotId ? e.target : e.source
           )
         ).length,
-        interactionsPPICount: edgesForNode.filter(
-          (e) => e.ppiSources.length > 0
-        ).length,
+        interactionsPPICount: edgesForNode.filter(e => e.ppiSources.length > 0)
+          .length,
         interactionsPathwaysCount: edgesForNode.filter(
-          (e) => e.pathwaysSources.length > 0
+          e => e.pathwaysSources.length > 0
         ).length,
         interactionsEnzymeSubstrateCount: edgesForNode.filter(
-          (e) => e.enzymeSubstrateSources.length > 0
+          e => e.enzymeSubstrateSources.length > 0
         ).length,
         isSelected: selectedUniprotIds.indexOf(n.uniprotId) >= 0,
         isNeighbourOfSelected:
           selectedUniprotIds.indexOf(n.uniprotId) < 0 &&
           edgesFilteredWithoutSelectedUniprotIds.filter(
-            (e) => e.source === n.uniprotId || e.target === n.uniprotId
+            e => e.source === n.uniprotId || e.target === n.uniprotId
           ).length,
       };
     });
@@ -244,7 +243,7 @@ class Section extends React.Component {
                   }
                   label={`Enzyme-substrate (${
                     edgesSelected.filter(
-                      (e) => e.enzymeSubstrateSources.length > 0
+                      e => e.enzymeSubstrateSources.length > 0
                     ).length
                   })`}
                 />
@@ -258,7 +257,7 @@ class Section extends React.Component {
                     />
                   }
                   label={`Pathways (${
-                    edgesSelected.filter((e) => e.pathwaysSources.length > 0)
+                    edgesSelected.filter(e => e.pathwaysSources.length > 0)
                       .length
                   })`}
                 />
@@ -272,7 +271,7 @@ class Section extends React.Component {
                     />
                   }
                   label={`PPI (${
-                    edgesSelected.filter((e) => e.ppiSources.length > 0).length
+                    edgesSelected.filter(e => e.ppiSources.length > 0).length
                   })`}
                 />
               </FormGroup>
@@ -283,12 +282,12 @@ class Section extends React.Component {
 
           {selectedUniprotIds.length > 0 ? (
             <React.Fragment>
-              {selectedUniprotIds.map((uniprotId) => (
+              {selectedUniprotIds.map(uniprotId => (
                 <Chip
                   key={uniprotId}
                   className={classes.chip}
                   color="primary"
-                  label={nodes.find((n) => n.uniprotId === uniprotId).symbol}
+                  label={nodes.find(n => n.uniprotId === uniprotId).symbol}
                   onDelete={() => this.handleProteinClick(uniprotId)}
                 />
               ))}
@@ -312,10 +311,10 @@ class Section extends React.Component {
           <Typography>Interaction details</Typography>
           <InteractionsTable
             interactionTypes={interactionTypes}
-            data={edgesDisplayed.map((e) => ({
+            data={edgesDisplayed.map(e => ({
               ...e,
-              sourceNode: nodes.find((n) => n.uniprotId === e.source),
-              targetNode: nodes.find((n) => n.uniprotId === e.target),
+              sourceNode: nodes.find(n => n.uniprotId === e.source),
+              targetNode: nodes.find(n => n.uniprotId === e.target),
             }))}
           />
         </Grid>

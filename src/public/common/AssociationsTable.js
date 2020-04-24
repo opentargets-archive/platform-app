@@ -30,7 +30,7 @@ const columns = ({
     id: firstColumnName,
     label: firstColumnName,
     ellipsisWidth: '100px',
-    renderCell: (d) => d.obj.name,
+    renderCell: d => d.obj.name,
     // renderCell: d => (
     //   <Link to={`/disease/${d.obj.id}`}>
     //     <span style={{ textOverflow: 'ellipsis' }}>{d.obj.name}</span>
@@ -72,8 +72,8 @@ class AssociationsTable extends React.Component {
         };
       }
     });
-    const newDataSources = dataSourcesOrderAlphabetical.map((ds) =>
-      newDataSourcesUnordered.find((d) => d.id === ds)
+    const newDataSources = dataSourcesOrderAlphabetical.map(ds =>
+      newDataSourcesUnordered.find(d => d.id === ds)
     );
     const newOptions = metadata.options;
 
@@ -92,8 +92,8 @@ class AssociationsTable extends React.Component {
         name: _.startCase(ds.id.split('__')[1]),
         position: i,
       }));
-      const newDataSources = dataSourcesOrderAlphabetical.map((ds) =>
-        newDataSourcesUnordered.find((d) => d.id === ds)
+      const newDataSources = dataSourcesOrderAlphabetical.map(ds =>
+        newDataSourcesUnordered.find(d => d.id === ds)
       );
       const newOptions = metadata.options;
 
@@ -142,4 +142,4 @@ class AssociationsTable extends React.Component {
   }
 }
 
-export default withTheme(AssociationsTable);
+export default withTheme()(AssociationsTable);

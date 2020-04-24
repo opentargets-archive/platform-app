@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-const styles = (theme) => ({
+const styles = theme => ({
   chip: {
     margin: '2px 2px',
     height: '20px',
@@ -44,7 +44,7 @@ class ChipsField extends Component {
         <Typography style={{ display: 'inline' }} variant="subtitle2">
           {label}:{' '}
         </Typography>
-        {shownTerms.map((term) => (
+        {shownTerms.map(term => (
           <Chip
             className={classes.chip}
             key={term}
@@ -53,7 +53,7 @@ class ChipsField extends Component {
           />
         ))}
         {showMore &&
-          hiddenTerms.map((term) => (
+          hiddenTerms.map(term => (
             <Chip
               className={classes.chip}
               key={term}

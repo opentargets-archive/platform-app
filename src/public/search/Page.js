@@ -31,7 +31,7 @@ const QS_OPTIONS = {
   skipNull: true,
 };
 
-const parseQueryString = (qs) => {
+const parseQueryString = qs => {
   const params = queryString.parse(qs, QS_OPTIONS);
   if (!params.entities) {
     params.entities = [];
@@ -41,21 +41,21 @@ const parseQueryString = (qs) => {
   return params;
 };
 
-const getCounts = (entities) => {
+const getCounts = entities => {
   const counts = {
     target: 0,
     disease: 0,
     drug: 0,
   };
 
-  entities.forEach((entity) => {
+  entities.forEach(entity => {
     counts[entity.name] = entity.total;
   });
 
   return counts;
 };
 
-const styles = (theme) => ({
+const styles = theme => ({
   label: {
     marginLeft: '-6px',
   },
@@ -221,13 +221,13 @@ const SearchPage = ({ location, history }) => {
     history.push(`/search?${qs}`);
   };
 
-  const setEntity = (entity) => (event, checked) => {
+  const setEntity = entity => (event, checked) => {
     const params = {
       q,
       page: 1, // reset to page 1
       entities: checked
         ? [...entities, entity]
-        : entities.filter((e) => e !== entity),
+        : entities.filter(e => e !== entity),
     };
     const qs = queryString.stringify(params, QS_OPTIONS);
     history.push(`/search?${qs}`);
@@ -238,7 +238,7 @@ const SearchPage = ({ location, history }) => {
       <Typography variant="h5" gutterBottom>
         Search results for {q}
       </Typography>
-      <Grid container spacing={3}>
+      <Grid container spacing={24}>
         <Grid item md={2}>
           <Typography>Refine by:</Typography>
           <FormGroup>

@@ -51,7 +51,7 @@ export const dataSourcesOrderAlphabetical = dataTypes
 
 export const dataTypesColorScale = d3
   .scaleOrdinal(d3.schemeCategory10)
-  .domain(dataTypes.map((d) => d.name));
+  .domain(dataTypes.map(d => d.name));
 
 // const maxPossibleValue = (Math.PI * Math.PI) / 6;
 // const histogramBinCount = 20;
@@ -65,9 +65,9 @@ export const calculateAggregations = ({ dataSources, rows }) => {
     acc[ds.id] = {};
     return acc;
   }, {});
-  dataSources.forEach((ds) => {
-    const dsRows = rows.map((d) => d.dsScores[ds.position]);
-    const dsRowsNonZero = dsRows.filter((s) => s > 0);
+  dataSources.forEach(ds => {
+    const dsRows = rows.map(d => d.dsScores[ds.position]);
+    const dsRowsNonZero = dsRows.filter(s => s > 0);
     aggregates[ds.id].coverage = dsRowsNonZero.length / dsRows.length;
     // aggregates[ds.id].histogram = histogramGenerator(
     //   dsRowsNonZero.map(s => s / maxPossibleValue)

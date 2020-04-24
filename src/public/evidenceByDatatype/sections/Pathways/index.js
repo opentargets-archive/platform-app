@@ -6,12 +6,12 @@ export const shortName = 'SB';
 
 const datasources = ['reactome', 'slapenrich', 'progeny', 'crispr', 'sysBio'];
 
-export const getSummaryFromSummaries = (summariesData) =>
+export const getSummaryFromSummaries = summariesData =>
   datasources.reduce((acc, d) => {
     acc[d] = summariesData[d];
     return acc;
   }, {});
-export const getDetailFromDetails = (detailsData) =>
+export const getDetailFromDetails = detailsData =>
   datasources.reduce((acc, d) => {
     acc[d] = detailsData[d];
     return acc;
@@ -30,7 +30,7 @@ export const hasSummaryData = ({
     progeny && progeny.pathwayCount > 0,
     crispr && crispr.hasCrispr,
     sysBio && sysBio.hasSysBio,
-  ].some((d) => d);
+  ].some(d => d);
 
 export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');

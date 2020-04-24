@@ -12,7 +12,7 @@ const effectsColumns = [
     renderCell: ({ organs_systems_affected: organs }) => {
       return (
         <ul>
-          {organs.map((organ) => (
+          {organs.map(organ => (
             <li key={organ.code}>{organ.mapped_term}</li>
           ))}
         </ul>
@@ -23,7 +23,7 @@ const effectsColumns = [
     id: 'activation_effects',
     label: 'Agonism or activation effects',
     renderCell: ({ activation_effects: activationEffects }) => {
-      return Object.keys(activationEffects).map((key) => {
+      return Object.keys(activationEffects).map(key => {
         return (
           <React.Fragment key={key}>
             <Typography variant="subtitle2">{capitalize(key)}</Typography>
@@ -41,7 +41,7 @@ const effectsColumns = [
     id: 'inhibition_effects',
     label: 'Antagonism or inhibition effects',
     renderCell: ({ inhibition_effects: inhibitionEffects }) => {
-      return Object.keys(inhibitionEffects).map((key) => {
+      return Object.keys(inhibitionEffects).map(key => {
         return (
           <React.Fragment key={key}>
             <Typography variant="subtitle2">{capitalize(key)}</Typography>
@@ -130,42 +130,42 @@ const riskColumns = [
   },
 ];
 
-const getAdverseDownloadData = (rows) => {
-  return rows.map((row) => {
+const getAdverseDownloadData = rows => {
+  return rows.map(row => {
     const activationEffects = [];
     const inhibitionEffects = [];
 
-    Object.keys(row.activation_effects).forEach((key) => {
-      row.activation_effects[key].forEach((effect) => {
+    Object.keys(row.activation_effects).forEach(key => {
+      row.activation_effects[key].forEach(effect => {
         activationEffects.push(effect.mapped_term || effect.term_in_paper);
       });
     });
 
-    Object.keys(row.inhibition_effects).forEach((key) => {
-      row.inhibition_effects[key].forEach((effect) => {
+    Object.keys(row.inhibition_effects).forEach(key => {
+      row.inhibition_effects[key].forEach(effect => {
         inhibitionEffects.push(effect.mapped_term || effect.term_in_paper);
       });
     });
 
     return {
       organs_systems_affected: row.organs_systems_affected
-        .map((organ) => organ.mapped_term)
+        .map(organ => organ.mapped_term)
         .join(', '),
       activation_effects: activationEffects.join(', '),
       inhibition_effects: inhibitionEffects.join(', '),
-      references: row.references.map((ref) => ref.ref_link).join(', '),
+      references: row.references.map(ref => ref.ref_link).join(', '),
     };
   });
 };
 
-const getRiskDownloadData = (rows) => {
-  return rows.map((row) => {
+const getRiskDownloadData = rows => {
+  return rows.map(row => {
     return {
       organs_systems_affected: row.organs_systems_affected
-        .map((organ) => organ.mapped_term || organ.term_in_paper)
+        .map(organ => organ.mapped_term || organ.term_in_paper)
         .join(', '),
       safety_liability: row.safety_liability,
-      references: row.references.map((ref) => ref.ref_link).join(', '),
+      references: row.references.map(ref => ref.ref_link).join(', '),
     };
   });
 };
@@ -178,8 +178,8 @@ class Section extends React.Component {
     fetch(
       `https://platform-api-qc.opentargets.io/v3/platform/private/target/${this.props.ensgId}`
     )
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         this.setState({ loading: false, safety: data.safety });
       });
   }

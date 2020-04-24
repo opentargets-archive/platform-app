@@ -8,7 +8,7 @@ const columns = [
   {
     id: 'disease.id',
     label: 'Disease',
-    renderCell: (d) => (
+    renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
   },
@@ -19,7 +19,7 @@ const columns = [
   {
     id: 'source.name',
     label: 'Source',
-    renderCell: (d) => (
+    renderCell: d => (
       <Link external to={d.source.url}>
         {d.source.name}
       </Link>
@@ -28,7 +28,7 @@ const columns = [
   {
     id: 'pmIds',
     label: 'Publications',
-    renderCell: (d) => <MultiplePmIdsLink pmIds={d.pmIds} />,
+    renderCell: d => <MultiplePmIdsLink pmIds={d.pmIds} />,
   },
 ];
 

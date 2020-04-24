@@ -7,7 +7,7 @@ const drugCount = <crossfilterRootObject>.groupAll().reduce(
     );
 */
 
-export const upReducerKeyCount = (accessor) => (acc, data) => {
+export const upReducerKeyCount = accessor => (acc, data) => {
   const key = accessor(data);
   if (key in acc) {
     acc[key]++;
@@ -17,7 +17,7 @@ export const upReducerKeyCount = (accessor) => (acc, data) => {
   return acc;
 };
 
-export const downReducerKeyCount = (accessor) => (acc, data) => {
+export const downReducerKeyCount = accessor => (acc, data) => {
   const key = accessor(data);
   acc[key]--;
   if (acc[key] === 0) {

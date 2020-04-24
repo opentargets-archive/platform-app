@@ -4,7 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import { significantFigures } from 'ot-ui';
 
-const styles = (theme) => ({
+const styles = theme => ({
   cell: {
     display: 'inline-block',
     width: '16px',

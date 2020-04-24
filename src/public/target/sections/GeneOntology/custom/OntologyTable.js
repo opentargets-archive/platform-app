@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { OtTableRF, DataDownloader, Link } from 'ot-ui';
 
-const capitalizeSnakeCase = (term) => {
+const capitalizeSnakeCase = term => {
   return _.capitalize(term.replace(/_/g, ' '));
 };
 
@@ -19,7 +19,7 @@ const getColumns = (
     {
       id: 'category',
       label: 'Category',
-      renderCell: (row) => capitalizeSnakeCase(row.category),
+      renderCell: row => capitalizeSnakeCase(row.category),
       renderFilter: () => (
         <Select
           isClearable
@@ -31,7 +31,7 @@ const getColumns = (
     {
       id: 'term',
       label: 'GO term',
-      renderCell: (row) => {
+      renderCell: row => {
         return (
           <Link
             external
@@ -52,7 +52,7 @@ const getColumns = (
     {
       id: 'view',
       label: 'View GO term in graph',
-      renderCell: (row) => {
+      renderCell: row => {
         return (
           <Fragment>
             <Link
@@ -81,15 +81,15 @@ const downloadColumns = [
   { id: 'term', label: 'GO term' },
 ];
 
-const getCategoryOptions = (rows) => {
-  return _.uniqBy(rows, 'category').map((row) => ({
+const getCategoryOptions = rows => {
+  return _.uniqBy(rows, 'category').map(row => ({
     label: capitalizeSnakeCase(row.category),
     value: row.category,
   }));
 };
 
-const getTermOptions = (rows) => {
-  return _.uniqBy(rows, 'term').map((row) => ({
+const getTermOptions = rows => {
+  return _.uniqBy(rows, 'term').map(row => ({
     label: row.term,
     value: row.term,
   }));
@@ -100,11 +100,11 @@ class OntologyTable extends Component {
     filteredRows: this.props.rows,
   };
 
-  categoryFilterHandler = (selection) => {
+  categoryFilterHandler = selection => {
     const { ontologyXf, categoryDim } = this;
 
     if (selection) {
-      categoryDim.filter((d) => d === selection.value);
+      categoryDim.filter(d => d === selection.value);
     } else {
       categoryDim.filterAll();
     }
@@ -112,11 +112,11 @@ class OntologyTable extends Component {
     this.setState({ filteredRows: ontologyXf.allFiltered() });
   };
 
-  termFilterHandler = (selection) => {
+  termFilterHandler = selection => {
     const { ontologyXf, termDim } = this;
 
     if (selection) {
-      termDim.filter((d) => d === selection.value);
+      termDim.filter(d => d === selection.value);
     } else {
       termDim.filterAll();
     }
@@ -126,8 +126,8 @@ class OntologyTable extends Component {
 
   componentDidMount() {
     this.ontologyXf = crossfilter(this.props.rows);
-    this.categoryDim = this.ontologyXf.dimension((row) => row.category);
-    this.termDim = this.ontologyXf.dimension((row) => row.term);
+    this.categoryDim = this.ontologyXf.dimension(row => row.category);
+    this.termDim = this.ontologyXf.dimension(row => row.term);
   }
 
   render() {

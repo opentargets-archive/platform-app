@@ -15,7 +15,7 @@ const getColumns = (
     {
       id: 'hallmark',
       label: 'Hallmarks',
-      renderCell: (row) => row.name,
+      renderCell: row => row.name,
       renderFilter: () => (
         <Select
           isClearable
@@ -27,7 +27,7 @@ const getColumns = (
     {
       id: 'activity',
       label: 'Promotes or suppresses',
-      renderCell: (row) => row.activity,
+      renderCell: row => row.activity,
       renderFilter: () => (
         <Select
           isClearable
@@ -39,12 +39,12 @@ const getColumns = (
     {
       id: 'description',
       label: 'Description',
-      renderCell: (row) => row.description,
+      renderCell: row => row.description,
     },
     {
       id: 'sources',
       label: 'Sources',
-      renderCell: (row) => (
+      renderCell: row => (
         <Link
           external
           to={`http://europepmc.org/search?query=EXT_ID:${row.pmId}`}
@@ -63,15 +63,15 @@ const downloadColumns = [
   { id: 'pmId', label: 'Sources (PubMed id)' },
 ];
 
-const getHallmarksOptions = (rows) => {
-  return _.uniqBy(rows, 'name').map((row) => ({
+const getHallmarksOptions = rows => {
+  return _.uniqBy(rows, 'name').map(row => ({
     label: row.name,
     value: row.name,
   }));
 };
 
-const getPromotesOptions = (rows) => {
-  return _.uniqBy(rows, 'activity').map((row) => ({
+const getPromotesOptions = rows => {
+  return _.uniqBy(rows, 'activity').map(row => ({
     label: row.activity,
     value: row.activity,
   }));
@@ -81,7 +81,7 @@ class HallmarksTable extends Component {
   state = {
     // initialize filteredrows to rows: we also map each entry
     // and generate a convenience 'activity' field to then filter on
-    filteredRows: this.props.rows.map((r) => ({
+    filteredRows: this.props.rows.map(r => ({
       name: r.name,
       activity: r.promotes ? 'promotes' : r.suppresses ? 'suppresses' : '',
       description: r.description,
@@ -89,11 +89,11 @@ class HallmarksTable extends Component {
     })),
   };
 
-  hallmarksFilterHandler = (selection) => {
+  hallmarksFilterHandler = selection => {
     const { hallmarksXf, hallmarksDim } = this;
 
     if (selection) {
-      hallmarksDim.filter((d) => d === selection.value);
+      hallmarksDim.filter(d => d === selection.value);
     } else {
       hallmarksDim.filterAll();
     }
@@ -101,11 +101,11 @@ class HallmarksTable extends Component {
     this.setState({ filteredRows: hallmarksXf.allFiltered() });
   };
 
-  promotesFilterHandler = (selection) => {
+  promotesFilterHandler = selection => {
     const { hallmarksXf, promotesDim } = this;
 
     if (selection) {
-      promotesDim.filter((d) => d === selection.value);
+      promotesDim.filter(d => d === selection.value);
     } else {
       promotesDim.filterAll();
     }
@@ -117,8 +117,8 @@ class HallmarksTable extends Component {
     // Initialize the xfilter with filteredrows:
     // this is only done at hte beginning and hence stores the full data rows
     this.hallmarksXf = crossfilter(this.state.filteredRows);
-    this.hallmarksDim = this.hallmarksXf.dimension((row) => row.name);
-    this.promotesDim = this.hallmarksXf.dimension((row) => row.activity);
+    this.hallmarksDim = this.hallmarksXf.dimension(row => row.name);
+    this.promotesDim = this.hallmarksXf.dimension(row => row.activity);
   }
 
   render() {

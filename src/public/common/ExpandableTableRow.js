@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import IconButton from '@material-ui/core/IconButton';
 
-const TableRowContainer = withStyles((theme) => ({
+const TableRowContainer = withStyles(theme => ({
   root: {
     border: `2px solid ${theme.palette.primary.main}`,
     margin: '16px 0',

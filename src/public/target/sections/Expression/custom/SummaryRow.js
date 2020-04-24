@@ -4,7 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-const proteinLevel = (level) => {
+const proteinLevel = level => {
   if (level === 0) {
     return 'Under expressed';
   }
@@ -21,11 +21,11 @@ const rnaValueToPercent = (maxRnaValue, value) => {
   return (value * 100) / maxRnaValue;
 };
 
-const proteinLevelToPercent = (level) => {
+const proteinLevelToPercent = level => {
   return (level * 100) / 3;
 };
 
-const styles = (theme) => ({
+const styles = theme => ({
   parentRow: {
     height: '10px',
     cursor: 'pointer',
@@ -86,7 +86,7 @@ let SummaryRow = class extends Component {
   };
 
   handleClick = () => {
-    this.setState((state) => ({ collapsed: !state.collapsed }));
+    this.setState(state => ({ collapsed: !state.collapsed }));
   };
 
   render() {

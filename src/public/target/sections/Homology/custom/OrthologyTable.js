@@ -37,7 +37,7 @@ const columns = [
   {
     id: 'targetGeneSymbol',
     label: 'Orthologue and ID',
-    renderCell: (d) => (
+    renderCell: d => (
       <React.Fragment>
         {d.targetGeneSymbol} (
         <Link
@@ -53,12 +53,12 @@ const columns = [
   {
     id: 'dNdS',
     label: `dN/dS`,
-    renderCell: (d) => (d.dNdS ? significantFigures(d.dNdS) : 'N/A'),
+    renderCell: d => (d.dNdS ? significantFigures(d.dNdS) : 'N/A'),
   },
   {
     id: 'queryPercentageIdentity',
     label: `Query %id`,
-    renderCell: (d) =>
+    renderCell: d =>
       d.queryPercentageIdentity
         ? significantFigures(d.queryPercentageIdentity)
         : 'N/A',
@@ -66,7 +66,7 @@ const columns = [
   {
     id: 'targetPercentageIdentity',
     label: `Target %id`,
-    renderCell: (d) =>
+    renderCell: d =>
       d.targetPercentageIdentity
         ? significantFigures(d.targetPercentageIdentity)
         : 'N/A',

@@ -13,7 +13,7 @@ import SectionAvatar from './SectionAvatar';
 import SectionPanelLoader from './SectionPanelLoader';
 import ErrorBoundary from './ErrorBoundary';
 
-const styles = (theme) => ({
+const styles = theme => ({
   title: {
     color: theme.palette.grey[400],
     fontWeight: 'bold',

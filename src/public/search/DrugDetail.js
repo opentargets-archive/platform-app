@@ -69,7 +69,7 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Drug targets
           </Typography>
-          {data.linkedTargets.rows.map((target) => (
+          {data.linkedTargets.rows.map(target => (
             <Fragment key={target.id}>
               <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>{' '}
             </Fragment>
@@ -81,7 +81,7 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Synonyms
           </Typography>
-          {data.synonyms.map((synonym) => (
+          {data.synonyms.map(synonym => (
             <Chip
               key={synonym}
               className={classes.chip}
@@ -96,7 +96,7 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Trade names
           </Typography>
-          {data.tradeNames.map((tradeName) => (
+          {data.tradeNames.map(tradeName => (
             <Chip
               key={tradeName}
               className={classes.chip}

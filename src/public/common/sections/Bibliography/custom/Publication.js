@@ -61,7 +61,7 @@ class Publication extends Component {
           direction="column"
           justify="flex-start"
           alignItems="stretch"
-          spacing={2}
+          spacing={16}
         >
           {this.state.similar.map((hit, i) => (
             <Grid item xs={12} key={i}>
@@ -70,7 +70,7 @@ class Publication extends Component {
                 pmId={hit._source.pub_id}
                 title={hit._source.title}
                 authors={
-                  hit._source.authors.map((a) => ({
+                  hit._source.authors.map(a => ({
                     lastName: a.LastName,
                     initials: a.Initials,
                   })) || []
@@ -91,12 +91,12 @@ class Publication extends Component {
   // Get the abstract data from API
   getAbstract = () => {
     getPublicationAbstract(this.props.pmId).then(
-      (resp) => {
+      resp => {
         this.setState({
           abstract: resp.abstract,
         });
       },
-      (error) => {
+      error => {
         this.setState({
           abstract: '',
           hasError: true,
@@ -108,12 +108,12 @@ class Publication extends Component {
   // Get the abstract data from API
   getSimilar = () => {
     getSimilarPublications(this.props.pmId).then(
-      (resp) => {
+      resp => {
         this.setState({
           similar: resp.hits.hits,
         });
       },
-      (error) => {
+      error => {
         this.setState({
           similar: null,
           hasError: true,

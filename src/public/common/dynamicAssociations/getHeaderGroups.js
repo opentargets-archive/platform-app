@@ -4,7 +4,7 @@ import { dataTypes, dataTypesColorScale } from './configuration';
 
 const getHeaderGroups = ({ aggregates, hideEmptyColumns }) => [
   { renderCell: () => null, colspan: 2 },
-  ...dataTypes.map((d) => ({
+  ...dataTypes.map(d => ({
     renderCell: () => (
       <div
         style={{
@@ -14,7 +14,7 @@ const getHeaderGroups = ({ aggregates, hideEmptyColumns }) => [
         }}
       />
     ),
-    colspan: d.dataSources.filter((ds) =>
+    colspan: d.dataSources.filter(ds =>
       hideEmptyColumns ? aggregates[ds] && aggregates[ds].coverage > 0 : true
     ).length,
   })),

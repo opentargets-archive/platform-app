@@ -4,7 +4,7 @@ export const id = 'mechanismsOfAction';
 export const name = 'Mechanisms of Action';
 export const shortName = 'MA';
 
-export const hasSummaryData = (data) => {
+export const hasSummaryData = data => {
   return (
     data &&
     data.uniqueActionTypes.length > 0 &&

@@ -9,7 +9,7 @@ class BrowserTab extends React.Component {
     const { lowLevelPathways } = this.props;
     this.setState({ reactomeId: lowLevelPathways[0].id });
   }
-  handleChange = (reactomeId) => {
+  handleChange = reactomeId => {
     this.setState({ reactomeId });
   };
   render() {
@@ -18,7 +18,7 @@ class BrowserTab extends React.Component {
     return (
       <React.Fragment>
         <ul>
-          {lowLevelPathways.map((d) => (
+          {lowLevelPathways.map(d => (
             <li key={d.id}>
               {d.id === reactomeId ? <strong>{d.name}</strong> : d.name} |{' '}
               <Button

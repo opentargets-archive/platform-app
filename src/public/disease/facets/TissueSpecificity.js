@@ -26,7 +26,7 @@ export const facetQuery = gql`
 export const stateDefault = {
   tissueIds: [],
 };
-export const stateToInput = (state) => {
+export const stateToInput = state => {
   const input = {};
   if (state.tissueIds.length > 0) {
     input.tissueIds = state.tissueIds;
@@ -40,15 +40,15 @@ export class FacetComponent extends React.Component {
   state = {
     groupTissuesBy: 'noGrouping',
   };
-  handleGroupTissuesByChange = (event) => {
+  handleGroupTissuesByChange = event => {
     this.setState({ groupTissuesBy: event.target.value });
   };
-  handleFacetChange = (item) => () => {
+  handleFacetChange = item => () => {
     const { state, onFacetChange } = this.props;
     let newTissueIds;
     if (state.tissueIds.indexOf(item.itemId) >= 0) {
       // switch off
-      newTissueIds = state.tissueIds.filter((d) => d !== item.itemId);
+      newTissueIds = state.tissueIds.filter(d => d !== item.itemId);
     } else {
       // switch on
       newTissueIds = [item.itemId, ...state.tissueIds];
@@ -66,11 +66,11 @@ export class FacetComponent extends React.Component {
     let newTissueIds;
     if (wasChecked) {
       // switch off
-      newTissueIds = state.tissueIds.filter((d) => !(childIds.indexOf(d) >= 0));
+      newTissueIds = state.tissueIds.filter(d => !(childIds.indexOf(d) >= 0));
     } else {
       // switch on
       const otherTissueIds = state.tissueIds.filter(
-        (d) => !(childIds.indexOf(d) >= 0)
+        d => !(childIds.indexOf(d) >= 0)
       );
       newTissueIds = [...childIds, ...otherTissueIds];
     }
@@ -92,7 +92,7 @@ export class FacetComponent extends React.Component {
     const tissuesByOrgan = data.items.reduce((acc, d) => {
       const { itemId, name, organs } = d;
       const tissue = { itemId, name };
-      organs.forEach((o) => {
+      organs.forEach(o => {
         if (acc[o]) {
           acc[o].push(tissue);
         } else {
@@ -103,10 +103,10 @@ export class FacetComponent extends React.Component {
     }, {});
     const organs = Object.keys(tissuesByOrgan)
       .sort()
-      .map((organ) => {
+      .map(organ => {
         const tissues = tissuesByOrgan[organ];
         const checkedChildren = tissues.filter(
-          (item) => state.tissueIds.indexOf(item.itemId) >= 0
+          item => state.tissueIds.indexOf(item.itemId) >= 0
         );
         const checked =
           tissues.length > 0 && checkedChildren.length === tissues.length;
@@ -116,7 +116,7 @@ export class FacetComponent extends React.Component {
           checkedChildren.length < tissues.length;
         const handler = this.handleParentFacetChange(
           checked,
-          tissues.map((d) => d.itemId)
+          tissues.map(d => d.itemId)
         );
         return {
           name: organ,
@@ -131,7 +131,7 @@ export class FacetComponent extends React.Component {
     const tissuesByAnatomicalSystem = data.items.reduce((acc, d) => {
       const { itemId, name, anatomicalSystems } = d;
       const tissue = { itemId, name };
-      anatomicalSystems.forEach((a) => {
+      anatomicalSystems.forEach(a => {
         if (acc[a]) {
           acc[a].push(tissue);
         } else {
@@ -142,10 +142,10 @@ export class FacetComponent extends React.Component {
     }, {});
     const anatomicalSystems = Object.keys(tissuesByAnatomicalSystem)
       .sort()
-      .map((anatomicalSystem) => {
+      .map(anatomicalSystem => {
         const tissues = tissuesByAnatomicalSystem[anatomicalSystem];
         const checkedChildren = tissues.filter(
-          (item) => state.tissueIds.indexOf(item.itemId) >= 0
+          item => state.tissueIds.indexOf(item.itemId) >= 0
         );
         const checked =
           tissues.length > 0 && checkedChildren.length === tissues.length;
@@ -155,7 +155,7 @@ export class FacetComponent extends React.Component {
           checkedChildren.length < tissues.length;
         const handler = this.handleParentFacetChange(
           checked,
-          tissues.map((d) => d.itemId)
+          tissues.map(d => d.itemId)
         );
         return {
           name: anatomicalSystem,
@@ -198,7 +198,7 @@ export class FacetComponent extends React.Component {
         {/* just tissues */}
         {this.state.groupTissuesBy === 'noGrouping' ? (
           <FacetCheckbox nested alwaysExpanded noCheckbox label="Tissues">
-            {data.items.sort(tissueNameComparator).map((item) => (
+            {data.items.sort(tissueNameComparator).map(item => (
               <FacetCheckbox
                 key={item.itemId}
                 checked={state.tissueIds.indexOf(item.itemId) >= 0}
@@ -213,7 +213,7 @@ export class FacetComponent extends React.Component {
         {/* tissues aggregated by organ */}
         {this.state.groupTissuesBy === 'organ' ? (
           <React.Fragment>
-            {organs.map((organ) => (
+            {organs.map(organ => (
               <FacetCheckbox
                 key={organ.name}
                 nested
@@ -222,7 +222,7 @@ export class FacetComponent extends React.Component {
                 onChange={organ.handler}
                 label={organ.name}
               >
-                {organ.tissues.sort(tissueNameComparator).map((item) => (
+                {organ.tissues.sort(tissueNameComparator).map(item => (
                   <FacetCheckbox
                     key={item.itemId}
                     checked={state.tissueIds.indexOf(item.itemId) >= 0}
@@ -239,7 +239,7 @@ export class FacetComponent extends React.Component {
         {/* tissues aggregated by anatomical system */}
         {this.state.groupTissuesBy === 'anatomicalSystem' ? (
           <React.Fragment>
-            {anatomicalSystems.map((anatomicalSystem) => (
+            {anatomicalSystems.map(anatomicalSystem => (
               <FacetCheckbox
                 key={anatomicalSystem.name}
                 nested
@@ -250,7 +250,7 @@ export class FacetComponent extends React.Component {
               >
                 {anatomicalSystem.tissues
                   .sort(tissueNameComparator)
-                  .map((item) => (
+                  .map(item => (
                     <FacetCheckbox
                       key={item.itemId}
                       checked={state.tissueIds.indexOf(item.itemId) >= 0}

@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 
-const styles = (theme) => ({
+const styles = theme => ({
   item: {
     display: 'flex',
     justifyContent: 'center',
@@ -21,8 +21,8 @@ const styles = (theme) => ({
 
 const AssociationSummary = ({ classes, data }) => {
   return (
-    <Grid container spacing={1}>
-      {data.map((datum) => (
+    <Grid container spacing={8}>
+      {data.map(datum => (
         <Grid item key={datum.id} xs={4} md={2}>
           <Typography
             className={classNames(classes.item, {

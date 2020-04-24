@@ -11,13 +11,13 @@ class Summary extends React.Component {
   componentDidMount() {
     const { keyword, setHasSummaryData, setHasSummaryError } = this.props;
     getStats([{ key: keyword }]).then(
-      (result) => {
+      result => {
         this.setState({
           bibliographyCount: result.hits.total,
         });
         setHasSummaryData(result.hits.total > 0);
       },
-      (error) => {
+      error => {
         setHasSummaryError(true);
       }
     );

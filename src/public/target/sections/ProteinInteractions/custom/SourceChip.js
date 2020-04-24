@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Chip from '@material-ui/core/Chip';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-const styles = (theme) => ({
+const styles = theme => ({
   chipSource: {
     margin: '1px',
     height: '24px',

@@ -20,7 +20,7 @@ const getColumns = (
     {
       id: 'mouseGeneSymbol',
       label: 'Mouse gene',
-      renderCell: (row) => (
+      renderCell: row => (
         <Link
           external
           to={`http://www.informatics.jax.org/marker/${row.mouseGeneId}`}
@@ -61,7 +61,7 @@ const getColumns = (
     {
       id: 'subjectAllelicComposition',
       label: 'Allelic composition',
-      renderCell: (row) => (
+      renderCell: row => (
         <MouseModelAllelicComposition
           allelicComposition={row.subjectAllelicComposition}
           geneticBackground={row.subjectBackground}
@@ -71,8 +71,8 @@ const getColumns = (
     {
       id: 'pmIds',
       label: 'Sources',
-      renderCell: (row) => {
-        const query = row.pmIds.map((pmId) => `EXT_ID:${pmId}`).join(' OR ');
+      renderCell: row => {
+        const query = row.pmIds.map(pmId => `EXT_ID:${pmId}`).join(' OR ');
         return (
           <Link external to={`https://europepmc.org/search?query=${query}`}>
             {row.pmIds.length} publications
@@ -83,22 +83,22 @@ const getColumns = (
   ];
 };
 
-const getMouseGeneOptions = (rows) => {
-  return _.uniqBy(rows, 'mouseGeneId').map((row) => ({
+const getMouseGeneOptions = rows => {
+  return _.uniqBy(rows, 'mouseGeneId').map(row => ({
     label: row.mouseGeneSymbol,
     value: row.mouseGeneId,
   }));
 };
 
-const getCategoryOptions = (rows) => {
-  return _.uniqBy(rows, 'categoryLabel').map((row) => ({
+const getCategoryOptions = rows => {
+  return _.uniqBy(rows, 'categoryLabel').map(row => ({
     label: row.categoryLabel,
     value: row.categoryLabel,
   }));
 };
 
-const getPhenotypeOptions = (rows) => {
-  return _.uniqBy(rows, 'phenotypeLabel').map((row) => ({
+const getPhenotypeOptions = rows => {
+  return _.uniqBy(rows, 'phenotypeLabel').map(row => ({
     label: row.phenotypeLabel,
     value: row.phenotypeLabel,
   }));
@@ -113,9 +113,9 @@ const downloadColumns = [
   { id: 'pmIds', label: 'Sources' },
 ];
 
-const getDownloadRows = (rows) => {
-  return rows.map((row) => {
-    const query = row.pmIds.map((pmId) => `EXT_ID:${pmId}`).join(' OR ');
+const getDownloadRows = rows => {
+  return rows.map(row => {
+    const query = row.pmIds.map(pmId => `EXT_ID:${pmId}`).join(' OR ');
 
     return {
       mouseGeneSymbol: row.mouseGeneSymbol,
@@ -133,11 +133,11 @@ class PhenotypesTable extends Component {
     filteredRows: this.props.rows,
   };
 
-  mouseGeneFilterHandler = (selection) => {
+  mouseGeneFilterHandler = selection => {
     const { phenotypesXf, mouseGeneDim } = this;
 
     if (selection) {
-      mouseGeneDim.filter((d) => d === selection.value);
+      mouseGeneDim.filter(d => d === selection.value);
     } else {
       mouseGeneDim.filterAll();
     }
@@ -145,10 +145,10 @@ class PhenotypesTable extends Component {
     this.setState({ filteredRows: phenotypesXf.allFiltered() });
   };
 
-  categoryFilterHandler = (selection) => {
+  categoryFilterHandler = selection => {
     const { phenotypesXf, categoryDim } = this;
     if (selection) {
-      categoryDim.filter((d) => d === selection.value);
+      categoryDim.filter(d => d === selection.value);
     } else {
       categoryDim.filterAll();
     }
@@ -156,11 +156,11 @@ class PhenotypesTable extends Component {
     this.setState({ filteredRows: phenotypesXf.allFiltered() });
   };
 
-  phenotypeFilterHandler = (selection) => {
+  phenotypeFilterHandler = selection => {
     const { phenotypesXf, phenotypeDim } = this;
 
     if (selection) {
-      phenotypeDim.filter((d) => d === selection.value);
+      phenotypeDim.filter(d => d === selection.value);
     } else {
       phenotypeDim.filterAll();
     }
@@ -169,11 +169,9 @@ class PhenotypesTable extends Component {
 
   componentDidMount() {
     this.phenotypesXf = crossfilter(this.props.rows);
-    this.mouseGeneDim = this.phenotypesXf.dimension((row) => row.mouseGeneId);
-    this.categoryDim = this.phenotypesXf.dimension((row) => row.categoryLabel);
-    this.phenotypeDim = this.phenotypesXf.dimension(
-      (row) => row.phenotypeLabel
-    );
+    this.mouseGeneDim = this.phenotypesXf.dimension(row => row.mouseGeneId);
+    this.categoryDim = this.phenotypesXf.dimension(row => row.categoryLabel);
+    this.phenotypeDim = this.phenotypesXf.dimension(row => row.phenotypeLabel);
   }
 
   render() {

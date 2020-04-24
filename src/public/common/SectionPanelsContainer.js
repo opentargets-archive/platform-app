@@ -15,9 +15,9 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 class SectionPanelsContainer extends React.Component {
-  onSideMenuItemDrag = (result) => {
+  onSideMenuItemDrag = result => {
     const { data, onSectionOrderChange } = this.props;
-    const currentOrder = data.map((d) => d.id);
+    const currentOrder = data.map(d => d.id);
 
     // dropped outside the list
     if (!result.destination) {
@@ -48,7 +48,7 @@ class SectionPanelsContainer extends React.Component {
     } = this.props;
     return (
       <div style={{ paddingTop: 8, paddingBottom: 8 }}>
-        <Grid container spacing={1}>
+        <Grid container spacing={8}>
           <Hidden smDown>
             <Grid item md={2}>
               <StickyContainer style={{ height: '100%' }}>
@@ -72,8 +72,8 @@ class SectionPanelsContainer extends React.Component {
           </Hidden>
           <Grid item xs={12} md={10}>
             {data
-              .filter((d) => d.loading || d.hasData)
-              .map((d) => (
+              .filter(d => d.loading || d.hasData)
+              .map(d => (
                 <SectionPanel
                   key={d.id}
                   {...d}

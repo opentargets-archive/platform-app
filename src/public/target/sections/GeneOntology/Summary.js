@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Summary = (data) => (
+const Summary = data => (
   <React.Fragment>
     {data.molecularFunctionTermsCount +
       data.biologicalProcessTermsCount +

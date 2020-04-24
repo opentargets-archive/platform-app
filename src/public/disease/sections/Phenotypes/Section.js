@@ -11,7 +11,7 @@ const Section = ({ name, data }) => {
         .sort((a, b) =>
           d3.ascending(a.name.toLowerCase(), b.name.toLowerCase())
         )
-        .map((d) => (
+        .map(d => (
           <li key={d.id}>
             <Link external to={d.url}>
               {d.name}

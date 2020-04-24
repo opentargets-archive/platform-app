@@ -21,7 +21,7 @@ const getSubgraph = ({
           isTherapeuticArea: therapeuticAreas.indexOf(node.id) >= 0,
           nodeType: depth === 0 ? 'chosen' : 'ancestor',
         };
-        node.parentIds.forEach((parentId) => {
+        node.parentIds.forEach(parentId => {
           up(acc, parentId, depth + 1);
         });
       }
@@ -40,9 +40,9 @@ const getSubgraph = ({
           nodeType: depth === 0 ? 'chosen' : 'descendant',
         };
         const childIds = nodes
-          .filter((d) => d.parentIds.indexOf(nodeId) >= 0)
-          .map((d) => d.id);
-        childIds.forEach((childId) => {
+          .filter(d => d.parentIds.indexOf(nodeId) >= 0)
+          .map(d => d.id);
+        childIds.forEach(childId => {
           down(acc, childId, depth + 1);
         });
       }
@@ -59,11 +59,11 @@ const getSubgraph = ({
 
   // strip parentIds outside the subgraph
   const prunedGraph = {};
-  Object.keys(unprunedGraph).forEach((key) => {
+  Object.keys(unprunedGraph).forEach(key => {
     const value = unprunedGraph[key];
     const prunedValue = {
       ...value,
-      parentIds: value.parentIds.filter((parentId) => unprunedGraph[parentId]),
+      parentIds: value.parentIds.filter(parentId => unprunedGraph[parentId]),
     };
     prunedGraph[key] = prunedValue;
   });

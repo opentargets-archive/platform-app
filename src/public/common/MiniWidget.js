@@ -9,7 +9,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import withStyles from '@material-ui/core/styles/withStyles';
 import ErrorBoundary from './ErrorBoundary';
 
-const styles = (theme) => ({
+const styles = theme => ({
   card: {
     height: '100%',
     display: 'flex',
@@ -118,7 +118,7 @@ const MiniWidget = ({
               {shortName ||
                 name
                   .split(' ')
-                  .map((d) => d[0].toUpperCase())
+                  .map(d => d[0].toUpperCase())
                   .join('')}
             </Avatar>
           }

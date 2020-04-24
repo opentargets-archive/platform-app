@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Avatar from '@material-ui/core/Avatar';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-const styles = (theme) => ({
+const styles = theme => ({
   avatar: {
     color: 'white',
     backgroundColor: theme.palette.grey[300],
@@ -27,7 +27,7 @@ const SectionAvatar = ({ classes, name, shortName, icon, hasData, error }) => (
     {shortName ||
       name
         .split(' ')
-        .map((d) => d[0].toUpperCase())
+        .map(d => d[0].toUpperCase())
         .join('')}
   </Avatar>
 );

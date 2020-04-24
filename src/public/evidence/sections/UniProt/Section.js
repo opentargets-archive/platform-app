@@ -8,14 +8,14 @@ const columns = [
   {
     id: 'disease.id',
     label: 'Disease',
-    renderCell: (d) => (
+    renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
   },
   {
     id: 'rsId',
     label: 'Variant',
-    renderCell: (d) => (
+    renderCell: d => (
       <Link
         external
         to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${d.rsId}`}
@@ -31,7 +31,7 @@ const columns = [
   {
     id: 'source.name',
     label: 'Source',
-    renderCell: (d) => (
+    renderCell: d => (
       <Link external to={d.source.url}>
         {d.source.name}
       </Link>
@@ -40,7 +40,7 @@ const columns = [
   {
     id: 'pmIds',
     label: 'Publications',
-    renderCell: (d) => <MultiplePmIdsLink pmIds={d.pmIds} />,
+    renderCell: d => <MultiplePmIdsLink pmIds={d.pmIds} />,
   },
 ];
 

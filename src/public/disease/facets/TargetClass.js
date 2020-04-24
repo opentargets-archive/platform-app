@@ -27,7 +27,7 @@ export const facetQuery = gql`
 export const stateDefault = {
   targetClassIds: [],
 };
-export const stateToInput = (state) => {
+export const stateToInput = state => {
   const input = {};
   if (state.targetClassIds.length > 0) {
     input.targetClassIds = state.targetClassIds;
@@ -36,12 +36,12 @@ export const stateToInput = (state) => {
 };
 
 export class FacetComponent extends React.Component {
-  handleFacetChange = (item) => () => {
+  handleFacetChange = item => () => {
     const { state, onFacetChange } = this.props;
     let newTargetClassIds;
     if (state.targetClassIds.indexOf(item.itemId) >= 0) {
       // switch off
-      newTargetClassIds = state.targetClassIds.filter((d) => d !== item.itemId);
+      newTargetClassIds = state.targetClassIds.filter(d => d !== item.itemId);
     } else {
       // switch on
       newTargetClassIds = [item.itemId, ...state.targetClassIds];
@@ -58,9 +58,9 @@ export class FacetComponent extends React.Component {
     const { state, data } = this.props;
     return (
       <FacetFormGroup>
-        {data.items.map((item) => {
+        {data.items.map(item => {
           const checkedChildren = item.children.filter(
-            (childItem) => state.targetClassIds.indexOf(childItem.itemId) >= 0
+            childItem => state.targetClassIds.indexOf(childItem.itemId) >= 0
           );
           const indeterminate =
             item.children.length > 0 &&
@@ -77,7 +77,7 @@ export class FacetComponent extends React.Component {
               value={item.itemId}
               label={`${item.name} (${item.count})`}
             >
-              {item.children.map((childItem) => (
+              {item.children.map(childItem => (
                 <FacetCheckbox
                   key={childItem.itemId}
                   checked={state.targetClassIds.indexOf(childItem.itemId) >= 0}

@@ -51,7 +51,7 @@ const DiseaseDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Therapeutic areas
           </Typography>
-          {therapeuticAreas.map((area) => {
+          {therapeuticAreas.map(area => {
             return (
               <Fragment key={area.id}>
                 <Link to={`/disease/${area.id}`}>{area.name}</Link>{' '}

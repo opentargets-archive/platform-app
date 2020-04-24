@@ -4,7 +4,7 @@ export const id = 'homology';
 export const name = 'Homology';
 
 export const hasSummaryData = ({ orthologuesBySpecies }) =>
-  orthologuesBySpecies.some((d) => d.orthologuesCount > 0);
+  orthologuesBySpecies.some(d => d.orthologuesCount > 0);
 
 export const summaryQuery = loader('./summaryQuery.gql');
 

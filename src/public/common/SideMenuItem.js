@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import DragIndicator from '@material-ui/icons/DragIndicator';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-const styles = (theme) => ({
+const styles = theme => ({
   text: {
     padding: 4,
     cursor: 'default',

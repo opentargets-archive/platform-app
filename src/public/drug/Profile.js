@@ -24,18 +24,18 @@ const summariesQuery = gql`
     drug(chemblId: $chemblId) {
       id
       ${sections
-        .filter((s) => s.summaryQuery)
-        .map((s) => `...drug${_.upperFirst(s.id)}Fragment`)
+        .filter(s => s.summaryQuery)
+        .map(s => `...drug${_.upperFirst(s.id)}Fragment`)
         .join('\n')}
     }
   }
   ${sections
-    .filter((s) => s.summaryQuery)
-    .map((s) => print(s.summaryQuery))
+    .filter(s => s.summaryQuery)
+    .map(s => print(s.summaryQuery))
     .join('\n')}
 `;
 
-const entitySummariesAccessor = (data) => {
+const entitySummariesAccessor = data => {
   if (data && data.drug) {
     return {
       mechanismsOfAction: data.drug.mechanismsOfAction,
@@ -46,14 +46,14 @@ const entitySummariesAccessor = (data) => {
     return {};
   }
 };
-const entitySectionsAccessor = (data) => {
+const entitySectionsAccessor = data => {
   // return data && data.drug && data.drug.details ? data.drug.details : {};
   return data && data.drug ? data.drug : {};
 };
 
 // TODO: when material-ui is upgraded to version >4 then remove this
 // style and use <Typography display="inline" /> instead
-const styles = (theme) => ({
+const styles = theme => ({
   inline: {
     display: 'inline',
   },

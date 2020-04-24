@@ -17,7 +17,7 @@ const getTherapeuticAreaTree = ({
   selectedTherapeuticAreas,
   diameter,
 }) => {
-  const efoById = new Map(efo.nodes.map((d) => [d.id, d]));
+  const efoById = new Map(efo.nodes.map(d => [d.id, d]));
   // note: requested that we only show therapeutic area circles selected
   //       when faceted by therapeutic area, even if a disease has other
   //       therapeutic area ancestors; potentially confusing, but this is
@@ -27,19 +27,19 @@ const getTherapeuticAreaTree = ({
       ? selectedTherapeuticAreas
       : efo.therapeuticAreas;
   const therapeuticAreasIds = new Set(relevantTherapeuticAreas);
-  const therapeuticAreas = relevantTherapeuticAreas.map((taId) => {
+  const therapeuticAreas = relevantTherapeuticAreas.map(taId => {
     const { id, name } = efoById.get(taId);
     return { id, name };
   });
-  const nodes = data.map((d) => ({
+  const nodes = data.map(d => ({
     id: d.disease.id,
     name: d.disease.name,
     score: d.score,
   }));
-  const nodesById = new Map([...nodes.map((d) => [d.id, d])]);
+  const nodesById = new Map([...nodes.map(d => [d.id, d])]);
   const wantedDiseaseIds = new Set(nodesById.keys());
   const wantedDiseaseIdsByTherapeuticAreaId = new Map([
-    ...therapeuticAreas.map((d) => [d.id, new Set()]),
+    ...therapeuticAreas.map(d => [d.id, new Set()]),
   ]);
 
   // helper method
@@ -65,13 +65,13 @@ const getTherapeuticAreaTree = ({
     }
   };
 
-  [...wantedDiseaseIds].forEach((efoId) => {
+  [...wantedDiseaseIds].forEach(efoId => {
     const { parentIds: directParentIds } = efoById.get(efoId);
     const ancestors = getInducedParentIds(new Set(), new Set(directParentIds));
-    const therapeuticAreaIds = [...ancestors].filter((d) =>
+    const therapeuticAreaIds = [...ancestors].filter(d =>
       therapeuticAreasIds.has(d)
     );
-    therapeuticAreaIds.forEach((taId) => {
+    therapeuticAreaIds.forEach(taId => {
       wantedDiseaseIdsByTherapeuticAreaId.get(taId).add(efoId);
     });
   });
@@ -82,15 +82,15 @@ const getTherapeuticAreaTree = ({
     name: 'root',
     isTherapeuticArea: false,
     target: { ensgId, symbol },
-    children: therapeuticAreas.map((ta) => ({
+    children: therapeuticAreas.map(ta => ({
       id: ta.id,
       uniqueId: ta.id,
       name: ta.name,
       isTherapeuticArea: true,
       target: { ensgId, symbol },
       children: [...wantedDiseaseIdsByTherapeuticAreaId.get(ta.id)]
-        .map((d) => nodesById.get(d))
-        .map((d) => ({
+        .map(d => nodesById.get(d))
+        .map(d => ({
           ...d,
           uniqueId: `${ta.id}-${d.id}`, // need uniqueId as diseases can fall into multiple therapeutic areas
           isTherapeuticArea: false,
@@ -104,10 +104,10 @@ const getTherapeuticAreaTree = ({
   return d3
     .pack()
     .size([diameter, diameter])
-    .padding((d) => (d.data.id === 'EFO_ROOT' ? 17 : 2))(
+    .padding(d => (d.data.id === 'EFO_ROOT' ? 17 : 2))(
     d3
       .hierarchy(hierarchicalData)
-      .sum((d) => d.value)
+      .sum(d => d.value)
       .sort((a, b) => b.value - a.value)
   );
 };
@@ -139,7 +139,7 @@ class ClassicAssociationsBubbles extends React.Component {
     const height = 800;
     const diameter = Math.min(width, height); // TODO: replace 600 with eg page height / 2
 
-    const filteredData = data.filter((d) => d.score > minimumScore);
+    const filteredData = data.filter(d => d.score > minimumScore);
     const therapeuticAreaTree = getTherapeuticAreaTree({
       ensgId,
       symbol,
@@ -175,7 +175,7 @@ class ClassicAssociationsBubbles extends React.Component {
               alignmentBaseline="center"
             >
               <g transform={`translate(${width / 2 - diameter / 2},0)`}>
-                {nodes.map((d) => (
+                {nodes.map(d => (
                   <g
                     key={d.data.uniqueId}
                     transform={`translate(${d.x},${d.y})`}
@@ -210,9 +210,8 @@ class ClassicAssociationsBubbles extends React.Component {
                         <path
                           id={`text-path-${d.data.id}`}
                           fill="none"
-                          d={`M${-(d.r + 3)},${0} A${d.r + 3},${
-                            d.r + 3
-                          } 0 0 1 ${d.r + 3},${0}`}
+                          d={`M${-(d.r + 3)},${0} A${d.r + 3},${d.r +
+                            3} 0 0 1 ${d.r + 3},${0}`}
                         />
                         <text
                           textAnchor="middle"
@@ -269,7 +268,7 @@ const tooltipElementFinder = ({ uniqueId }) =>
   document.querySelector(`#tree-node-${uniqueId}`);
 
 export default withTooltip(
-  withTheme(withContentRect('bounds')(ClassicAssociationsBubbles)),
+  withTheme()(withContentRect('bounds')(ClassicAssociationsBubbles)),
   TooltipContent,
   tooltipElementFinder
 );

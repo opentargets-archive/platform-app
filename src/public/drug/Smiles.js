@@ -5,7 +5,7 @@ import Modal from '@material-ui/core/Modal';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CloseIcon from '@material-ui/icons/Close';
 
-const styles = (theme) => ({
+const styles = theme => ({
   container: {
     border: `1px solid ${theme.palette.grey[300]}`,
     height: '240px',
@@ -44,7 +44,7 @@ let SmilesHelper = class extends Component {
     });
     SmilesDrawer.parse(
       smiles,
-      (tree) => {
+      tree => {
         smilesDrawer.draw(tree, chemblId);
       },
       () => {
@@ -66,7 +66,7 @@ let SmilesHelper = class extends Component {
 
       SmilesDrawer.parse(
         smiles,
-        (tree) => {
+        tree => {
           smilesDrawer.draw(tree, `${chemblId}-modal`);
         },
         () => {
@@ -111,8 +111,8 @@ class Smiles extends Component {
     fetch(
       `https://www.ebi.ac.uk/chembl/api/data/molecule/${chemblId}?format=json`
     )
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         if (data.molecule_type === 'Small molecule') {
           this.setState({
             smiles: data.molecule_structures.canonical_smiles,

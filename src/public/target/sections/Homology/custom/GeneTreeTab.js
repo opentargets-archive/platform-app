@@ -23,7 +23,9 @@ class GeneTreeTab extends React.Component {
   }
   _render = (ensgId, width) => {
     // clear previous (if existed)
-    d3.select('#otTargetGeneTree').selectAll('*').remove();
+    d3.select('#otTargetGeneTree')
+      .selectAll('*')
+      .remove();
 
     // draw
     const geneTree = targetGeneTree()

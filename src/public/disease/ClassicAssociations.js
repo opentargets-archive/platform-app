@@ -68,9 +68,9 @@ const associationsQuery = gql`
         }
         facets {
           ${facets
-            .filter((f) => f.facetQuery)
+            .filter(f => f.facetQuery)
             .map(
-              (s) => `...diseaseTargetsConnection${_.upperFirst(s.id)}Fragment`
+              s => `...diseaseTargetsConnection${_.upperFirst(s.id)}Fragment`
             )
             .join('\n')}
         }
@@ -78,8 +78,8 @@ const associationsQuery = gql`
     }
   }
   ${facets
-    .filter((s) => s.facetQuery)
-    .map((s) => print(s.facetQuery))
+    .filter(s => s.facetQuery)
+    .map(s => print(s.facetQuery))
     .join('\n')}
 `;
 
@@ -133,26 +133,26 @@ const ClassicAssociations = ({ efoId, name }) => {
       setPage(page - 1);
     }
   };
-  const handleSortByChange = (sortBy) => {
+  const handleSortByChange = sortBy => {
     setSortBy(sortBy);
     setPage(0);
   };
-  const handleSearchChange = (search) => {
+  const handleSearchChange = search => {
     setSearch(search);
     handleSearchDeboucedChange(search);
   };
-  const handleSearchDeboucedChange = _.debounce((searchDebouced) => {
+  const handleSearchDeboucedChange = _.debounce(searchDebouced => {
     setSearchDebouced(searchDebouced);
     setPage(0);
   }, 500);
-  const handleFacetChange = (facetId) => (state) => {
+  const handleFacetChange = facetId => state => {
     setFacetsState({ ...facetsState, [facetId]: state });
     setPage(0);
   };
 
   const facetsInput = facets
-    .map((f) => ({ ...f, input: f.stateToInput(facetsState[f.id]) }))
-    .filter((f) => f.input)
+    .map(f => ({ ...f, input: f.stateToInput(facetsState[f.id]) }))
+    .filter(f => f.input)
     .reduce((acc, f) => {
       acc[f.id] = f.input;
       return acc;
@@ -200,14 +200,14 @@ const ClassicAssociations = ({ efoId, name }) => {
     ...rest,
   }));
   const dataTypes =
-    rows.length > 0 ? rows[0].scoresByDataType.map((d) => d.dataTypeId) : [];
+    rows.length > 0 ? rows[0].scoresByDataType.map(d => d.dataTypeId) : [];
   const modalities =
     rows.length > 0
-      ? rows[0].tractabilityScoresByModality.map((d) => d.modalityId)
+      ? rows[0].tractabilityScoresByModality.map(d => d.modalityId)
       : [];
 
   return (
-    <Grid style={{ marginTop: '8px' }} container spacing={2}>
+    <Grid style={{ marginTop: '8px' }} container spacing={16}>
       <Grid item xs={12}>
         <Typography variant="h6">
           <strong>{commaSeparate(totalCount)} targets</strong> associated with{' '}
@@ -223,13 +223,13 @@ const ClassicAssociations = ({ efoId, name }) => {
                 id="associations-search"
                 label="Target Symbol"
                 value={search}
-                onChange={(event) => handleSearchChange(event.target.value)}
+                onChange={event => handleSearchChange(event.target.value)}
                 fullWidth
                 variant="outlined"
               />
             </div>
             {facetsData
-              ? facets.map((f) => (
+              ? facets.map(f => (
                   <FacetContainer key={f.id} name={f.name}>
                     <f.FacetComponent
                       state={facetsState[f.id]}

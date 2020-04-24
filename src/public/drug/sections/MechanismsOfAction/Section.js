@@ -14,7 +14,7 @@ const columns = [
   {
     id: 'targets',
     label: 'Targets',
-    renderCell: (d) =>
+    renderCell: d =>
       d.targets.map((target, i) => (
         <Fragment key={i}>
           {i > 0 ? ' ' : null}
@@ -25,7 +25,7 @@ const columns = [
   {
     id: 'references',
     label: 'References',
-    renderCell: (d) =>
+    renderCell: d =>
       d.references.map((r, i) => {
         return (
           <Fragment key={i}>

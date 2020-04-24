@@ -6,7 +6,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-const styles = (theme) => ({
+const styles = theme => ({
   facetContainer: {
     borderTop: `1px solid ${theme.palette.grey[500]}`,
     paddingTop: '8px',

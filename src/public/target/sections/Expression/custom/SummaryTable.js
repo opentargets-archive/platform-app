@@ -15,8 +15,8 @@ import Grid from '@material-ui/core/Grid';
 
 import SummaryRow from './SummaryRow';
 
-const getMaxRnaValue = (tissues) => {
-  return _.maxBy(tissues, (tissue) => tissue.rna.value).rna.value;
+const getMaxRnaValue = tissues => {
+  return _.maxBy(tissues, tissue => tissue.rna.value).rna.value;
 };
 
 // function that transforms tissue data into an array of objects
@@ -32,9 +32,9 @@ const getMaxRnaValue = (tissues) => {
 const groupTissues = (tissues, groupBy) => {
   const groupedTissues = {};
 
-  tissues.forEach((tissue) => {
+  tissues.forEach(tissue => {
     const parentLabels = tissue[groupBy];
-    parentLabels.forEach((label) => {
+    parentLabels.forEach(label => {
       if (!groupedTissues[label]) {
         groupedTissues[label] = {
           parentLabel: label,
@@ -66,7 +66,7 @@ const groupTissues = (tissues, groupBy) => {
   return Object.values(groupedTissues);
 };
 
-const tissueComparator = (sortBy) => {
+const tissueComparator = sortBy => {
   if (sortBy === 'rna') {
     return (a, b) => {
       return b.rna.value - a.rna.value;
@@ -78,7 +78,7 @@ const tissueComparator = (sortBy) => {
   };
 };
 
-const parentComparator = (sortBy) => {
+const parentComparator = sortBy => {
   if (sortBy === 'rna') {
     return (a, b) => {
       return b.maxRnaValue - a.maxRnaValue;
@@ -91,7 +91,7 @@ const parentComparator = (sortBy) => {
 };
 
 const sort = (parents, sortBy) => {
-  parents.forEach((parent) => {
+  parents.forEach(parent => {
     parent.tissues.sort(tissueComparator(sortBy));
   });
   return parents.sort(parentComparator(sortBy));
@@ -138,7 +138,7 @@ class SummaryTable extends Component {
     }
   };
 
-  handleSort = (sortBy) => {
+  handleSort = sortBy => {
     this.setState({ sortBy });
   };
 
@@ -211,7 +211,7 @@ class SummaryTable extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {parents.map((parent) => {
+              {parents.map(parent => {
                 return (
                   <SummaryRow
                     key={parent.parentLabel}

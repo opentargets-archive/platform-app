@@ -6,7 +6,7 @@ import Highlights from '../common/Highlights';
 import TargetIcon from '../../icons/TargetIcon';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-const styles = (theme) => ({
+const styles = theme => ({
   container: {
     marginBottom: '30px',
   },

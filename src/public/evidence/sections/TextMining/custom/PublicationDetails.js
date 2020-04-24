@@ -12,7 +12,7 @@ import BibliographyHtmlText from '../../../../common/sections/Bibliography/custo
 import BibliographyDetailPanel from '../../../../common/sections/Bibliography/custom/BibliographyDetailPanel';
 // import LevelBar from '../../../../common/LevelBar';
 
-const getFormattedText = (sentence) => {
+const getFormattedText = sentence => {
   let breakpoints = [];
 
   // WARNING: Unicode characters are encoded in the response, so convert them to symbol
@@ -64,18 +64,18 @@ const getFormattedText = (sentence) => {
     });
   }
   // Sort the breakpoints by pos
-  breakpoints.sort(function (a, b) {
+  breakpoints.sort(function(a, b) {
     return a.pos - b.pos;
   });
 
   // Calculate the acc of offsets
-  breakpoints = breakpoints.reduce(function (bps, bp, i) {
+  breakpoints = breakpoints.reduce(function(bps, bp, i) {
     bp.acc = i ? bps[i - 1].acc + bps[i - 1].extra.length : 0;
     bps.push(bp);
     return bps;
   }, []);
 
-  breakpoints.forEach(function (bp) {
+  breakpoints.forEach(function(bp) {
     if (bp.extra) {
       text =
         text.slice(0, bp.pos + bp.acc) + bp.extra + text.slice(bp.pos + bp.acc);
@@ -91,14 +91,14 @@ const getFormattedText = (sentence) => {
 // text: the text of the section
 // matches: the full list of matches for the publication
 const getFormattedSection = (section, text, matches) => {
-  const sectionMatches = matches.find((m) => m[0].section === section);
+  const sectionMatches = matches.find(m => m[0].section === section);
   // process matches an return formatted text for the section or raw text
   return (sectionMatches || []).reduce((acc, sm) => {
     return acc.replace(sm.text, getFormattedText(sm));
   }, text);
 };
 
-const styles = (theme) => ({
+const styles = theme => ({
   matchSection: {
     marginTop: '20px',
   },
@@ -170,7 +170,7 @@ class PublicationDetails extends Component {
 
             {data.publication.matches
               .filter(
-                (m) =>
+                m =>
                   m[0].section.toLowerCase() !== 'abstract' &&
                   m[0].section.toLowerCase() !== 'title'
               )

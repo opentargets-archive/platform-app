@@ -3,7 +3,7 @@ import { loader } from 'graphql.macro';
 export const id = 'protein';
 export const name = 'Protein Information';
 
-export const hasSummaryData = (data) =>
+export const hasSummaryData = data =>
   data.hasSequenceAnnotationVisualisation ||
   data.hasProteinStructure ||
   data.hasSubCellularLocation ||

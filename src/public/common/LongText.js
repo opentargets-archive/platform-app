@@ -3,7 +3,7 @@ import Clampy from '@clampy-js/react-clampy';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 
-const styles = (theme) => ({
+const styles = theme => ({
   showMore: {
     cursor: 'pointer',
     color: theme.palette.primary.main,

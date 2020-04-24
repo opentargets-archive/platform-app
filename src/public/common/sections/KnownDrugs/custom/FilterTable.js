@@ -21,7 +21,7 @@ import { Grid } from '@material-ui/core';
 // Get list of options (i.e. drop-down content) for a column filter
 // render formats the label (similar to renderCell for cells content)
 const getColFilterOptions = (rows, accessor, render) => {
-  return _.uniq(rows.map((row) => accessor(row))).map((row) => ({
+  return _.uniq(rows.map(row => accessor(row))).map(row => ({
     label: render ? render(row) : row,
     value: row,
   }));
@@ -33,64 +33,67 @@ const getColumns = ({ filters }) => {
     {
       id: 'disease',
       label: 'Disease',
-      renderCell: (d) => (
+      renderCell: d => (
         <Link to={'/disease/' + d.disease.id}>
           {_.capitalize(d.disease.name)}
         </Link>
       ),
-      comparator: generateComparatorFromAccessor((d) => d.disease.name),
-      export: (d) => d.disease.name,
+      comparator: generateComparatorFromAccessor(d => d.disease.name),
+      export: d => d.disease.name,
     },
     {
       id: 'phase',
       label: 'Phase',
-      renderCell: (d) => d.clinicalTrial.phase,
-      comparator: generateComparatorFromAccessor((d) => d.clinicalTrial.phase),
-      export: (d) => d.clinicalTrial.phase,
+      renderCell: d => d.clinicalTrial.phase,
+      comparator: generateComparatorFromAccessor(d => d.clinicalTrial.phase),
+      export: d => d.clinicalTrial.phase,
     },
     {
       id: 'status',
       label: 'Status',
-      renderCell: (d) =>
+      renderCell: d =>
         _.capitalize(d.clinicalTrial.status).replace(/_/g, ' ') || '-',
       comparator: generateComparatorFromAccessor(
-        (d) => d.clinicalTrial.status || ''
+        d => d.clinicalTrial.status || ''
       ),
-      export: (d) => d.clinicalTrial.status,
+      export: d => d.clinicalTrial.status,
     },
     {
       id: 'source',
       label: 'Source',
-      renderCell: (d) => (
+      renderCell: d => (
         <Link external to={d.clinicalTrial.sourceUrl}>
           {d.clinicalTrial.sourceName}
         </Link>
       ),
       comparator: generateComparatorFromAccessor(
-        (d) => d.clinicalTrial.sourceName
+        d => d.clinicalTrial.sourceName
       ),
-      export: (d) => d.clinicalTrial.sourceName,
+      export: d => d.clinicalTrial.sourceName,
     },
     {
       id: 'drug',
       label: 'Drug',
-      renderCell: (d) => (
+      renderCell: d => (
         <Link to={'/drug/' + d.drug.id}>{_.capitalize(d.drug.name)}</Link>
       ),
-      comparator: generateComparatorFromAccessor((d) => d.drug.name),
-      export: (d) => d.drug.name,
+      comparator: generateComparatorFromAccessor(d => d.drug.name),
+      export: d => d.drug.name,
     },
     {
       id: 'type',
       label: 'Type',
-      renderCell: (d) => _(d.drug.type).capitalize().replace(/_/g, ' '),
-      comparator: generateComparatorFromAccessor((d) => d.drug.type),
-      export: (d) => d.drug.type,
+      renderCell: d =>
+        _(d.drug.type)
+          .capitalize()
+          .replace(/_/g, ' '),
+      comparator: generateComparatorFromAccessor(d => d.drug.type),
+      export: d => d.drug.type,
     },
     {
       id: 'mechanism',
       label: 'Mechanism of Action',
-      renderCell: (d) => (
+      renderCell: d => (
         <React.Fragment>
           {d.mechanismOfAction.name}
           <br />
@@ -102,16 +105,16 @@ const getColumns = ({ filters }) => {
         </React.Fragment>
       ),
       comparator: generateComparatorFromAccessor(
-        (d) => d.mechanismOfAction.sourceName
+        d => d.mechanismOfAction.sourceName
       ),
-      export: (d) => d.mechanismOfAction.name,
+      export: d => d.mechanismOfAction.name,
     },
     {
       id: 'activity',
       label: 'Activity',
-      renderCell: (d) => _.capitalize(d.drug.activity).replace(/_/g, ' '),
-      comparator: generateComparatorFromAccessor((d) => d.drug.activity),
-      export: (d) => d.drug.activity,
+      renderCell: d => _.capitalize(d.drug.activity).replace(/_/g, ' '),
+      comparator: generateComparatorFromAccessor(d => d.drug.activity),
+      export: d => d.drug.activity,
     },
     // {
     //   id: 'target',
@@ -124,10 +127,10 @@ const getColumns = ({ filters }) => {
 
   // setup column filters (if any) for each col required
   if (filters) {
-    cols.forEach((c) => {
+    cols.forEach(c => {
       if (filters[c.id]) {
         const f = filters[c.id];
-        c.renderFilter = (d) => (
+        c.renderFilter = d => (
           <Select isClearable options={f.options} onChange={f.handler} />
         );
       }
@@ -144,7 +147,7 @@ const {
   DC_COUNTLABEL_SIZE,
 } = dcconfig;
 
-const styles = (theme) => ({
+const styles = theme => ({
   dcChartContainer: {
     padding: '8px', // this could perhaps be removed, and just use the Grid container
     marginTop: '20px',
@@ -199,20 +202,20 @@ class KnownDrugsDetail extends React.Component {
   drugsxf = crossfilter(this.props.rows);
 
   // dimensions
-  dimPhase = this.drugsxf.dimension((d) => d.clinicalTrial.phase);
-  dimActivity = this.drugsxf.dimension((d) => d.drug.activity);
-  dimType = this.drugsxf.dimension((d) => d.drug.type);
-  dimDisease = this.drugsxf.dimension((d) => d.disease.name);
-  dimStatus = this.drugsxf.dimension((d) => d.clinicalTrial.status);
-  dimSource = this.drugsxf.dimension((d) => d.clinicalTrial.sourceName);
-  dimDrug = this.drugsxf.dimension((d) => d.drug.name);
-  dimMechanism = this.drugsxf.dimension((d) => d.mechanismOfAction.name);
+  dimPhase = this.drugsxf.dimension(d => d.clinicalTrial.phase);
+  dimActivity = this.drugsxf.dimension(d => d.drug.activity);
+  dimType = this.drugsxf.dimension(d => d.drug.type);
+  dimDisease = this.drugsxf.dimension(d => d.disease.name);
+  dimStatus = this.drugsxf.dimension(d => d.clinicalTrial.status);
+  dimSource = this.drugsxf.dimension(d => d.clinicalTrial.sourceName);
+  dimDrug = this.drugsxf.dimension(d => d.drug.name);
+  dimMechanism = this.drugsxf.dimension(d => d.mechanismOfAction.name);
 
   // Setup a colum filter handler based on the specified dimension
-  getColFilterHandler = (dim) => {
-    return (selection) => {
+  getColFilterHandler = dim => {
+    return selection => {
       if (selection) {
-        dim.filter((d) => d === selection.value);
+        dim.filter(d => d === selection.value);
       } else {
         dim.filterAll();
       }
@@ -233,27 +236,27 @@ class KnownDrugsDetail extends React.Component {
 
   // setup crossfilter grouping
   setupGroups = () => {
-    const drugAccessor = (d) => d.drug.name;
+    const drugAccessor = d => d.drug.name;
     this.drugCount = this.reduceGroup(this.drugsxf.groupAll(), drugAccessor);
 
     this.targetCount = this.reduceGroup(
       this.drugsxf.groupAll(),
-      (d) => d.target.id
+      d => d.target.id
     );
 
     this.diseaseCount = this.reduceGroup(
       this.drugsxf.groupAll(),
-      (d) => d.disease.id
+      d => d.disease.id
     );
 
     this.trialCount = this.reduceGroup(
       this.drugsxf.groupAll(),
-      (d) => d.clinicalTrial.sourceUrl
+      d => d.clinicalTrial.sourceUrl
     );
 
     this.groupTrialByPhase = this.reduceGroup(
       this.dimPhase.group(),
-      (d) => d.clinicalTrial.sourceUrl
+      d => d.clinicalTrial.sourceUrl
     );
 
     this.groupDrugByType = this.reduceGroup(this.dimType.group(), drugAccessor);
@@ -282,33 +285,33 @@ class KnownDrugsDetail extends React.Component {
     this.drugCountLabel
       .group(this.drugCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor((d) => Object.keys(d).length);
+      .valueAccessor(d => Object.keys(d).length);
 
     this.targetsCountLabel
       .group(this.targetCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor((d) => Object.keys(d).length);
+      .valueAccessor(d => Object.keys(d).length);
 
     this.diseasesCountLabel
       .group(this.diseaseCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor((d) => Object.keys(d).length);
+      .valueAccessor(d => Object.keys(d).length);
 
     this.trialsCountLabel
       .group(this.trialCount)
       .formatNumber(d3.format('d'))
-      .valueAccessor((d) => Object.keys(d).length);
+      .valueAccessor(d => Object.keys(d).length);
 
     // phase
     this.chartTrialByPhase // barchart version
       .width(DC_PIE_WIDTH)
       .height(DC_PIE_HEIGHT)
-      .valueAccessor((d) => {
+      .valueAccessor(d => {
         return Object.keys(d.value).length;
       })
       .group(this.groupTrialByPhase)
       .dimension(this.dimPhase)
-      .title((d) => `Phase ${d.key}: ${Object.keys(d.value).length}`)
+      .title(d => `Phase ${d.key}: ${Object.keys(d.value).length}`)
       .colors([chartColour])
       .elasticX(true)
       .x(d3.scaleBand())
@@ -325,15 +328,15 @@ class KnownDrugsDetail extends React.Component {
       .innerRadius(DC_PIE_INNER_RADIUS)
       .dimension(this.dimType)
       .group(this.groupDrugByType)
-      .valueAccessor((d) => Object.keys(d.value).length)
+      .valueAccessor(d => Object.keys(d.value).length)
       .label(
-        (d) =>
-          `${_(d.key).capitalize().replace(/_/g, ' ')} (${
-            Object.keys(d.value).length
-          })`
+        d =>
+          `${_(d.key)
+            .capitalize()
+            .replace(/_/g, ' ')} (${Object.keys(d.value).length})`
       )
       // .colorAccessor(d => d.key)
-      .colors((k) => this.typeColors[k]);
+      .colors(k => this.typeColors[k]);
 
     // activity
     this.chartDrugByActivity
@@ -343,15 +346,15 @@ class KnownDrugsDetail extends React.Component {
       .innerRadius(DC_PIE_INNER_RADIUS)
       .dimension(this.dimActivity)
       .group(this.groupDrugByActivity)
-      .valueAccessor((d) => Object.keys(d.value).length)
+      .valueAccessor(d => Object.keys(d.value).length)
       .label(
-        (d) =>
-          `${_(d.key).capitalize().replace(/_/g, ' ')} (${
-            Object.keys(d.value).length
-          })`
+        d =>
+          `${_(d.key)
+            .capitalize()
+            .replace(/_/g, ' ')} (${Object.keys(d.value).length})`
       )
       // .colorAccessor(d => d.value.length)
-      .colors((k) => this.activityColors[k]);
+      .colors(k => this.activityColors[k]);
 
     dc.renderAll();
 
@@ -359,7 +362,7 @@ class KnownDrugsDetail extends React.Component {
     this.setState({ filteredRows: this.drugsxf.allFiltered() });
     // state for material table: on chart filter
     const that = this;
-    dc.chartRegistry.list().forEach((chart) =>
+    dc.chartRegistry.list().forEach(chart =>
       chart.on('filtered', () => {
         that.setState({ filteredRows: this.drugsxf.allFiltered() });
       })
@@ -380,11 +383,11 @@ class KnownDrugsDetail extends React.Component {
     const chartColour = lighten(0.3, theme.palette.primary.main);
 
     this.typeColors = getPieColors(
-      _.uniq(this.props.rows.map((row) => row.drug.type)),
+      _.uniq(this.props.rows.map(row => row.drug.type)),
       chartColour
     );
     this.activityColors = getPieColors(
-      _.uniq(this.props.rows.map((row) => row.drug.activity)),
+      _.uniq(this.props.rows.map(row => row.drug.activity)),
       chartColour
     );
     this.setupGroups();
@@ -405,20 +408,20 @@ class KnownDrugsDetail extends React.Component {
       disease: {
         options: getColFilterOptions(
           rows,
-          (row) => row.disease.name,
-          (label) => _(label).capitalize()
+          row => row.disease.name,
+          label => _(label).capitalize()
         ),
         handler: this.getColFilterHandler(this.dimDisease),
       },
       phase: {
-        options: getColFilterOptions(rows, (row) => row.clinicalTrial.phase),
+        options: getColFilterOptions(rows, row => row.clinicalTrial.phase),
         handler: this.getColFilterHandler(this.dimPhase),
       },
       status: {
         options: getColFilterOptions(
           rows,
-          (row) => row.clinicalTrial.status,
-          (label) =>
+          row => row.clinicalTrial.status,
+          label =>
             _(label || '-')
               .capitalize()
               .replace(/_/g, ' ')
@@ -426,41 +429,47 @@ class KnownDrugsDetail extends React.Component {
         handler: this.getColFilterHandler(this.dimStatus),
       },
       source: {
-        options: getColFilterOptions(
-          rows,
-          (row) => row.clinicalTrial.sourceName
-        ),
+        options: getColFilterOptions(rows, row => row.clinicalTrial.sourceName),
         handler: this.getColFilterHandler(this.dimSource),
       },
       drug: {
         options: getColFilterOptions(
           rows,
-          (row) => row.drug.name,
-          (label) => _(label).capitalize()
+          row => row.drug.name,
+          label => _(label).capitalize()
         ),
         handler: this.getColFilterHandler(this.dimDrug),
       },
       type: {
         options: getColFilterOptions(
           rows,
-          (row) => row.drug.type,
-          (label) => _(label).capitalize().replace(/_/g, ' ')
+          row => row.drug.type,
+          label =>
+            _(label)
+              .capitalize()
+              .replace(/_/g, ' ')
         ),
         handler: this.getColFilterHandler(this.dimType),
       },
       mechanism: {
         options: getColFilterOptions(
           rows,
-          (row) => row.mechanismOfAction.name,
-          (label) => _(label).capitalize().replace(/_/g, ' ')
+          row => row.mechanismOfAction.name,
+          label =>
+            _(label)
+              .capitalize()
+              .replace(/_/g, ' ')
         ),
         handler: this.getColFilterHandler(this.dimMechanism),
       },
       activity: {
         options: getColFilterOptions(
           rows,
-          (row) => row.drug.activity,
-          (label) => _(label).capitalize().replace(/_/g, ' ')
+          row => row.drug.activity,
+          label =>
+            _(label)
+              .capitalize()
+              .replace(/_/g, ' ')
         ),
         handler: this.getColFilterHandler(this.dimActivity),
       },
@@ -468,7 +477,7 @@ class KnownDrugsDetail extends React.Component {
 
     return (
       <React.Fragment>
-        <Grid container spacing={3} className={classes.dcChartContainer}>
+        <Grid container spacing={24} className={classes.dcChartContainer}>
           <Grid item className={classes.dcChartSection}>
             <strong>Summary</strong>
             <p>

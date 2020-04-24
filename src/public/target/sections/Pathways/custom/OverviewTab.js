@@ -39,7 +39,7 @@ const getColumns = (
     {
       id: 'id',
       label: 'Pathway ID',
-      renderCell: (d) => (
+      renderCell: d => (
         <Link external to={`https://reactome.org/content/detail/${d.id}`}>
           {d.id}
         </Link>
@@ -51,7 +51,7 @@ const getColumns = (
     {
       id: 'parents',
       label: 'Top-level parent pathway',
-      renderCell: (d) => (
+      renderCell: d => (
         <React.Fragment>
           {d.parents.map((p, i) => (
             <React.Fragment key={i}>
@@ -72,7 +72,7 @@ const getColumns = (
     {
       id: 'diagram',
       label: 'View diagram',
-      renderCell: (d) => (
+      renderCell: d => (
         <React.Fragment>
           <Link
             external
@@ -95,33 +95,33 @@ const getColumns = (
   return columns;
 };
 
-const getDownloadRows = (rows) => {
-  return rows.map((row) => ({
+const getDownloadRows = rows => {
+  return rows.map(row => ({
     name: row.name,
     id: row.id,
-    parents: row.parents.map((parent) => parent.name).join(', '),
+    parents: row.parents.map(parent => parent.name).join(', '),
     diagram: `https://reactome.org/ContentService/exporter/diagram/${row.id}.png`,
   }));
 };
 
-const getPathwayOptions = (pathways) => {
-  return pathways.map((row) => ({
+const getPathwayOptions = pathways => {
+  return pathways.map(row => ({
     label: row.name,
     value: row.name,
   }));
 };
 
-const getIdOptions = (pathways) => {
-  return pathways.map((row) => ({
+const getIdOptions = pathways => {
+  return pathways.map(row => ({
     label: row.id,
     value: row.id,
   }));
 };
 
-const getParentOptions = (pathways) => {
+const getParentOptions = pathways => {
   return _.uniqBy(
     pathways.reduce((acc, pathway) => {
-      pathway.parents.forEach((parent) => {
+      pathway.parents.forEach(parent => {
         acc.push({
           label: parent.name,
           value: parent.id,
@@ -138,11 +138,11 @@ class OverviewTab extends Component {
     filteredRows: this.props.lowLevelPathways,
   };
 
-  pathwayFilterHandler = (selection) => {
+  pathwayFilterHandler = selection => {
     const { pathwayXf, pathwayDim } = this;
 
     if (selection) {
-      pathwayDim.filter((d) => d === selection.value);
+      pathwayDim.filter(d => d === selection.value);
     } else {
       pathwayDim.filterAll();
     }
@@ -150,11 +150,11 @@ class OverviewTab extends Component {
     this.setState({ filteredRows: pathwayXf.allFiltered() });
   };
 
-  idFilterHandler = (selection) => {
+  idFilterHandler = selection => {
     const { pathwayXf, idDim } = this;
 
     if (selection) {
-      idDim.filter((d) => d === selection.value);
+      idDim.filter(d => d === selection.value);
     } else {
       idDim.filterAll();
     }
@@ -162,12 +162,12 @@ class OverviewTab extends Component {
     this.setState({ filteredRows: pathwayXf.allFiltered() });
   };
 
-  parentFilterHandler = (selection) => {
+  parentFilterHandler = selection => {
     const { pathwayXf, parentDim } = this;
 
     if (selection) {
-      parentDim.filter((d) => {
-        const index = d.findIndex((parent) => parent.id === selection.value);
+      parentDim.filter(d => {
+        const index = d.findIndex(parent => parent.id === selection.value);
         return index !== -1;
       });
     } else {
@@ -179,9 +179,9 @@ class OverviewTab extends Component {
 
   componentDidMount() {
     this.pathwayXf = crossfilter(this.props.lowLevelPathways);
-    this.pathwayDim = this.pathwayXf.dimension((row) => row.name);
-    this.idDim = this.pathwayXf.dimension((row) => row.id);
-    this.parentDim = this.pathwayXf.dimension((row) => row.parents);
+    this.pathwayDim = this.pathwayXf.dimension(row => row.name);
+    this.idDim = this.pathwayXf.dimension(row => row.id);
+    this.parentDim = this.pathwayXf.dimension(row => row.parents);
   }
 
   render() {

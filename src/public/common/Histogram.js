@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 class Histogram extends React.Component {
   update = () => {
     const { id, data } = this.props;
-    const maxLength = d3.max(data, (d) => d.length);
+    const maxLength = d3.max(data, d => d.length);
     const barsContainer = d3.select(`#histogram-${id} g`);
 
     const bars = barsContainer.selectAll('rect').data(data);
@@ -13,10 +13,10 @@ class Histogram extends React.Component {
       .enter()
       .append('rect')
       .merge(bars)
-      .attr('x', (d) => 1 - (maxLength ? d.length / maxLength : 0))
-      .attr('y', (d) => 1 - d.x1)
-      .attr('width', (d) => (maxLength ? d.length / maxLength : 0))
-      .attr('height', (d) => d.x1 - d.x0);
+      .attr('x', d => 1 - (maxLength ? d.length / maxLength : 0))
+      .attr('y', d => 1 - d.x1)
+      .attr('width', d => (maxLength ? d.length / maxLength : 0))
+      .attr('height', d => d.x1 - d.x0);
 
     bars.exit().remove();
   };

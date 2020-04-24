@@ -16,7 +16,7 @@ const Summary = ({
     genomicsEngland && genomicsEngland.hasPanel ? 'Genomics England' : null,
     gene2Phenotype && gene2Phenotype.hasPanel ? 'Gene2Phenotype' : null,
   ]
-    .filter((d) => d)
+    .filter(d => d)
     .join(' • ');
 
 export default Summary;

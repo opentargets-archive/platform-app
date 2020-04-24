@@ -13,7 +13,7 @@ const columns = [
     orderable: false,
     style: { verticalAlign: 'top', paddingTop: '7px' },
     width: '15%',
-    renderCell: (d) => (
+    renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
   },
@@ -22,21 +22,21 @@ const columns = [
     label: 'Publication',
     orderable: false,
     style: { verticalAlign: 'top', paddingBottom: '14px', paddingTop: '7px' }, // will replace cell padding with cols/rows options in ot-ui
-    renderCell: (p) => <PublicationDetails data={p} />,
+    renderCell: p => <PublicationDetails data={p} />,
   },
   {
     id: 'publication.date',
     label: 'Year',
     style: { verticalAlign: 'top', paddingTop: '7px' },
     width: '7%',
-    renderCell: (d) => d.publication.date,
+    renderCell: d => d.publication.date,
   },
   {
     id: 'relevance',
     label: 'Relevance',
     style: { verticalAlign: 'top', paddingTop: '7px' },
     width: '10%',
-    renderCell: (d) => <LevelBar value={Math.min(d.relevance, 1) * 100} />,
+    renderCell: d => <LevelBar value={Math.min(d.relevance, 1) * 100} />,
   },
 ];
 
@@ -77,7 +77,7 @@ class Section extends React.Component {
   render = () => {
     const { data } = this.props;
 
-    const onPageSort = (pe) => {
+    const onPageSort = pe => {
       const { page, pageSize, sortBy, order } = pe;
       let ns = {};
       if (page !== undefined) {

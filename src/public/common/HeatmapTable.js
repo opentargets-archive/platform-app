@@ -19,28 +19,28 @@ import HelpIcon from '@material-ui/icons/Help';
 
 const PAGE_SIZE = 20;
 
-const actionsStyles = (theme) => ({
+const actionsStyles = theme => ({
   root: {
     flexShrink: 0,
   },
 });
 
 class TablePaginationActions extends Component {
-  handleFirstPageButtonClick = (event) => {
+  handleFirstPageButtonClick = event => {
     this.props.onChangePage(event, 0);
   };
 
-  handleBackButtonClick = (event) => {
+  handleBackButtonClick = event => {
     const { onChangePage, page } = this.props;
     onChangePage(event, page - 1);
   };
 
-  handleNextButtonClick = (event) => {
+  handleNextButtonClick = event => {
     const { onChangePage, page } = this.props;
     onChangePage(event, page + 1);
   };
 
-  handleLastPageButtonClick = (event) => {
+  handleLastPageButtonClick = event => {
     const { onChangePage, count, rowsPerPage } = this.props;
     const lastPage = Math.ceil(count / rowsPerPage) - 1;
     onChangePage(event, lastPage);
@@ -87,7 +87,7 @@ class TablePaginationActions extends Component {
 TablePaginationActions = withStyles(actionsStyles)(TablePaginationActions);
 
 const getComparator = (columns, sortBy, order) => {
-  const column = columns.find((col) => col.id === sortBy);
+  const column = columns.find(col => col.id === sortBy);
 
   if (column && column.comparator) {
     if (order === 'asc') {
@@ -113,7 +113,7 @@ const getComparator = (columns, sortBy, order) => {
   };
 };
 
-const tableStyles = (theme) => ({
+const tableStyles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
@@ -238,7 +238,7 @@ class HeatmapTable extends Component {
     });
   };
 
-  selectSortColumn = (sortBy) => {
+  selectSortColumn = sortBy => {
     const { reportTableSortEvent } = this.props;
     let order = 'desc';
 
@@ -269,7 +269,7 @@ class HeatmapTable extends Component {
     const { sortBy, order, page } = this.state;
     const filterRow = filters ? (
       <TableRow className={classes.tableRowFilters}>
-        {columns.map((column) => (
+        {columns.map(column => (
           <TableCell
             key={column.id}
             className={classNames(classes.tableCellHeader, {
@@ -290,7 +290,7 @@ class HeatmapTable extends Component {
           <Table>
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
+                {columns.map(column => (
                   <TableCell
                     key={column.id}
                     className={classNames(classes.tableCellHeader, {
@@ -367,7 +367,7 @@ class HeatmapTable extends Component {
                       component={tableRowComponent}
                       data={row}
                     >
-                      {columnsFixed.map((column) => (
+                      {columnsFixed.map(column => (
                         <TableCell
                           key={column.id}
                           className={classNames(classes.tableCell, {
@@ -397,7 +397,7 @@ class HeatmapTable extends Component {
                     component={tableRowComponent}
                     data={row}
                   >
-                    {columns.map((column) => (
+                    {columns.map(column => (
                       <TableCell
                         key={column.id}
                         style={{ maxWidth: column.ellipsisWidth }}

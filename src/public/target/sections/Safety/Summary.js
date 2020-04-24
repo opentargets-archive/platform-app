@@ -7,13 +7,13 @@ class Summary extends React.Component {
     fetch(
       `https://platform-api-qc.opentargets.io/v3/platform/private/target/${ensgId}`
     )
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         this.setState({ safety: data.safety });
         setHasSummaryData(data.safety);
       })
 
-      .catch((error) => {
+      .catch(error => {
         setHasSummaryError(true);
       });
   }

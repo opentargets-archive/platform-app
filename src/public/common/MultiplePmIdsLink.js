@@ -7,7 +7,7 @@ const MultiplePmIdsLink = ({ pmIds }) =>
     <Link
       external
       to={`https://europepmc.org/search?query=${pmIds
-        .map((l) => `EXT_ID:${l}`)
+        .map(l => `EXT_ID:${l}`)
         .join('%20OR%20')}`}
     >
       {pmIds.length} publication{pmIds.length === 1 ? '' : 's'}

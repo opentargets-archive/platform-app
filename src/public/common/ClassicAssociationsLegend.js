@@ -22,7 +22,7 @@ const ClassicAssociationsLegend = ({
   const tickWidth = legendWidth / 100;
   const ticks = d3
     .range(0, 1, tickWidth / legendWidth)
-    .map((d) => ({ value: d, x: d * legendWidth, width: tickWidth }));
+    .map(d => ({ value: d, x: d * legendWidth, width: tickWidth }));
   return (
     <Grid container justify="flex-start">
       <Grid item>
