@@ -11,7 +11,7 @@
     "email": "support@targetvalidation.org"
   },
   "dependencies": {
-    "@apollo/client": "^3.0.0-beta.43",
+    "@apollo/client": "^3.0.0-beta.44",
     "@clampy-js/react-clampy": "^1.2.0",
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.1",
@@ -38,7 +38,7 @@
     "litemol": "^2.4.2",
     "local-storage": "^2.0.0",
     "lodash": "^4.17.11",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.14.0",
     "ot-ui": "^0.1.0",
     "particles.js": "^2.0.0",
     "polished": "^2.3.0",
