@@ -1,70 +1,102 @@
 import React, { useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-import useDebounce from '../../../hooks/useDebounce';
-import { client2 } from '../../client';
-import { TextField, CircularProgress } from '@material-ui/core';
+import { TextField, CircularProgress, makeStyles } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { Search as SearchIcon, ArrowDropDown } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
 
-function Search(props) {
-  const SEARCH_QUERY = loader('./SearchQuery.gql');
+import { client2 } from '../../client';
+import useDebounce from '../../../hooks/useDebounce';
+import Option from './Option';
+import Group from './Group';
+
+const useStyles = makeStyles((theme) => ({
+  listbox: { maxHeight: 'fit-content', color: theme.palette.text.primary },
+  option: { display: 'block', padding: '0 .5rem' },
+}));
+
+function Search() {
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
   const debouncedInputValue = useDebounce(inputValue, 300);
+  const SEARCH_QUERY = loader('./SearchQuery.gql');
   const [getData, { loading, data }] = useLazyQuery(SEARCH_QUERY, {
     variables: { queryString: debouncedInputValue },
-    onCompleted: (data) => {},
+    onCompleted: () => {},
     client: client2,
   });
+  const [searchResults, setSearchResults] = useState([]);
+  let history = useHistory();
 
   const handleChangeInputValue = (e) => {
-    console.log('input value changed');
     setInputValue(e.target.value);
   };
 
-  useEffect(() => {
-    console.log('debouncedInputValue changed', debouncedInputValue);
+  const handleSelectValue = (_, option) => {
+    console.log('option', option);
 
-    getData({ variables: { queryString: debouncedInputValue } });
+    if (!option.type || option.type === 'search') {
+      history.push(`/search?q=${option.name ? option.name : option}&page=1`);
+    } else {
+      history.push(`/${option.entity}/${option.id}`);
+    }
+  };
+
+  useEffect(() => {
+    if (debouncedInputValue) {
+      getData({ variables: { queryString: debouncedInputValue } });
+    } else {
+      setSearchResults([]);
+    }
   }, [debouncedInputValue, getData]);
 
   useEffect(() => {
-    console.log('data changed', data);
-
     const res = [];
 
     if (data) {
-      Object.keys(data).forEach((k) =>
-        data[k].hits.map((i) => res.push(i.object))
+      // res.push({ type: 'search', entity: 'any', id: inputValue, name: inputValue });
+      Object.keys(data).forEach((key) =>
+        data[key].hits.map((i) =>
+          res.push({
+            type: key === 'topHit' ? 'topHit' : 'normal',
+            entity: i.entity,
+            ...i.object,
+          })
+        )
       );
     }
-
-    console.log('res', res);
-
     setSearchResults(res);
   }, [data]);
 
-  console.log('searchResults', searchResults);
+  const classes = useStyles();
 
   return (
     <Autocomplete
-      open={open}
+      debug
+      freeSolo
+      classes={{ listbox: classes.listbox, option: classes.option }}
+      filterOptions={(o, s) => searchResults}
+      getOptionLabel={(option) => (option.id ? option.id : option)}
+      groupBy={(option) =>
+        option.type === 'topHit' ? 'topHit' : option.entity
+      }
+      loading={loading}
+      openOnFocus={true}
+      options={searchResults}
+      onChange={handleSelectValue}
       onOpen={() => {
         setOpen(true);
       }}
       onClose={() => {
         setOpen(false);
       }}
-      getOptionSelected={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.id}
-      options={searchResults}
-      filterOptions={(o, s) => searchResults}
-      loading={loading}
-      debug
+      open={open}
       popupIcon={open ? <ArrowDropDown /> : <SearchIcon />}
-      renderOption={(o) => <span>{o.id}</span>}
+      renderOption={(option) => <Option data={option} />}
+      renderGroup={(group) => (
+        <Group key={group.key} name={group.group} children={group.children} />
+      )}
       renderInput={(params) => (
         <TextField
           onChange={handleChangeInputValue}
@@ -73,6 +105,7 @@ function Search(props) {
           label="Search for a target, disease, or drug..."
           InputProps={{
             ...params.InputProps,
+            autoFocus: true,
             endAdornment: (
               <React.Fragment>
                 {loading ? (
