@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   option: { display: 'block', padding: '0 .5rem' },
 }));
 
-function Search({ autoFocus = false }) {
+function Search({ autoFocus = false, embedded = false }) {
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = useState('');
   const debouncedInputValue = useDebounce(inputValue, 300);
@@ -30,10 +30,12 @@ function Search({ autoFocus = false }) {
   let history = useHistory();
 
   const handleChangeInputValue = e => {
-    setInputValue(e.target.value);
+    setInputValue(e.target.value || '');
   };
 
-  const handleSelectOption = (_, option, r) => {
+  const handleSelectOption = (e, option, r) => {
+    handleChangeInputValue(e);
+
     if (!option) return;
     if (option.type === 'search') {
       history.push(`/search?q=${option.name}&page=1`);
