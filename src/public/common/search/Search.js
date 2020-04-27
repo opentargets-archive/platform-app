@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-import { TextField, CircularProgress, makeStyles } from '@material-ui/core';
+import {
+  CircularProgress,
+  makeStyles,
+  InputBase,
+  TextField,
+} from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { Search as SearchIcon, ArrowDropDown } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
@@ -14,6 +19,15 @@ import Group from './Group';
 const useStyles = makeStyles(theme => ({
   listbox: { maxHeight: 'fit-content', color: theme.palette.text.primary },
   option: { display: 'block', padding: '0 .5rem' },
+  inputBase: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.text.secondary,
+    width: '100%',
+  },
+  inputBaseInput: { padding: '.25rem .5rem' },
+  root: embedded => ({
+    width: embedded ? '400px' : '',
+  }),
 }));
 
 function Search({ autoFocus = false, embedded = false }) {
@@ -30,6 +44,7 @@ function Search({ autoFocus = false, embedded = false }) {
   let history = useHistory();
 
   const handleChangeInputValue = e => {
+    if (!e.target.value) setOpen(false);
     setInputValue(e.target.value || '');
   };
 
@@ -78,58 +93,88 @@ function Search({ autoFocus = false, embedded = false }) {
     setSearchResults(res);
   }, [data, inputValue]);
 
-  const classes = useStyles();
+  const classes = useStyles(embedded);
 
   return (
-    <Autocomplete
-      autoHighlight
-      freeSolo
-      forcePopupIcon
-      disablePortal
-      clearOnEscape={false}
-      classes={{ listbox: classes.listbox, option: classes.option }}
-      filterOptions={(o, s) => searchResults}
-      getOptionLabel={option => (option.id ? option.id : option)}
-      getOptionSelected={(option, value) => option.id === value}
-      groupBy={option => (option.type === 'topHit' ? 'topHit' : option.entity)}
-      loading={loading}
-      noOptionsText="No results"
-      options={searchResults}
-      onChange={handleSelectOption}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      open={open}
-      popupIcon={open ? <ArrowDropDown /> : <SearchIcon />}
-      renderOption={option => <Option data={option} />}
-      renderGroup={group => (
-        <Group key={group.key} name={group.group} children={group.children} />
-      )}
-      renderInput={params => (
-        <TextField
-          onChange={handleChangeInputValue}
-          value={inputValue}
-          {...params}
-          label="Search for a target, disease, or drug..."
-          InputProps={{
-            ...params.InputProps,
-            autoFocus: autoFocus,
-            endAdornment: (
-              <React.Fragment>
-                {loading ? (
+    <div>
+      <Autocomplete
+        autoHighlight
+        freeSolo
+        forcePopupIcon
+        disablePortal
+        clearOnEscape={false}
+        classes={{
+          listbox: classes.listbox,
+          option: classes.option,
+          root: classes.root,
+        }}
+        filterOptions={(o, s) => searchResults}
+        getOptionLabel={option => (option.id ? option.id : option)}
+        getOptionSelected={(option, value) => option.id === value}
+        groupBy={option =>
+          option.type === 'topHit' ? 'topHit' : option.entity
+        }
+        loading={loading}
+        noOptionsText="No results"
+        options={searchResults}
+        onChange={handleSelectOption}
+        onOpen={() => {
+          if (inputValue) setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
+        open={open}
+        popupIcon={open ? <ArrowDropDown /> : <SearchIcon />}
+        renderOption={option => <Option data={option} />}
+        renderGroup={group => (
+          <Group key={group.key} name={group.group} children={group.children} />
+        )}
+        renderInput={params =>
+          !embedded ? (
+            <TextField
+              InputProps={{
+                ...params.InputProps,
+                autoFocus: autoFocus,
+                endAdornment: loading ? (
                   <CircularProgress color="inherit" size={20} />
-                ) : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
-          }}
-        />
-      )}
-      value={inputValue}
-    />
+                ) : (
+                  params.InputProps.endAdornment
+                ),
+              }}
+              label={
+                !embedded ? 'Search for a target, disease, or drug...' : ''
+              }
+              onChange={handleChangeInputValue}
+              value={inputValue}
+              variant={embedded ? 'filled' : 'standard'}
+              {...params}
+            />
+          ) : (
+            <InputBase
+              autoFocus={autoFocus}
+              classes={{
+                root: classes.inputBase,
+                input: classes.inputBaseInput,
+              }}
+              inputProps={params.inputProps}
+              ref={params.InputProps.ref}
+              endAdornment={
+                loading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : (
+                  params.InputProps.endAdornment
+                )
+              }
+              placeholder="Search for a target, disease, or drug..."
+              onChange={handleChangeInputValue}
+              value={inputValue}
+            />
+          )
+        }
+        value={inputValue}
+      />
+    </div>
   );
 }
 

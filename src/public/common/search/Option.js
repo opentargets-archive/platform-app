@@ -26,7 +26,7 @@ const TopHitDrug = ({ data }) => (
     {data.mechanismsOfAction ? (
       <Typography variant="caption" display="block" noWrap>
         {data.mechanismsOfAction.rows
-          .map((row) => row.mechanismOfAction)
+          .map(row => row.mechanismOfAction)
           .join(', ')}
       </Typography>
     ) : null}
@@ -38,7 +38,9 @@ const TopHitTarget = ({ data }) => (
     <Typography variant="h4" color="primary">
       <TargetIcon /> {data.approvedSymbol}
     </Typography>{' '}
-    <Typography>{data.approvedName}</Typography>
+    <Typography display="block" noWrap>
+      {data.approvedName}
+    </Typography>
     {data.proteinAnnotations ? (
       <Typography variant="caption" display="block" noWrap>
         {data.proteinAnnotations.functions[0]}

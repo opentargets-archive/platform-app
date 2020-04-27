@@ -20,7 +20,7 @@ const HomePage = () => {
           placement="bottom-end"
         />
         <HomeBox name="Platform">
-          <Search />
+          <Search autoFocus />
           <Grid container justify="space-around" style={{ marginTop: '12px' }}>
             <Link to="/target/ENSG00000091831">ESR1</Link>
             <Link to="/disease/EFO_0000384">Crohn's disease</Link>
