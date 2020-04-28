@@ -23,6 +23,7 @@ query SearchPageQuery(
           id
           approvedSymbol
           proteinAnnotations {
+            id
             functions
           }
         }
@@ -54,6 +55,7 @@ query SearchPageQuery(
           approvedName
           bioType
           proteinAnnotations {
+            id
             functions
             accessions
           }
