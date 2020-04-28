@@ -20,14 +20,12 @@ const useStyles = makeStyles(theme => ({
   listbox: { maxHeight: 'fit-content', color: theme.palette.text.primary },
   option: { display: 'block', padding: '0 .5rem' },
   inputBase: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.background.default,
     color: theme.palette.text.secondary,
     width: '100%',
   },
   inputBaseInput: { padding: '.25rem .5rem' },
-  root: embedded => ({
-    width: embedded ? '400px' : '',
-  }),
+  root: embedded => ({ width: embedded ? '400px' : '', marginRight: '2rem' }),
 }));
 
 function Search({ autoFocus = false, embedded = false }) {
