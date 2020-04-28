@@ -15,12 +15,18 @@ export const externalLinks = {
       }`,
     },
     {
-      label: 'Terms of use',
-      url: 'http://www.targetvalidation.org/terms-of-use',
+      label: 'Github codebase',
+      url: 'https://github.com/opentargets/platform-app',
     },
+
     {
       label: 'Privacy notice',
       url: 'https://www.ebi.ac.uk/data-protection/privacy-notice/open-targets',
+    },
+
+    {
+      label: 'Terms of use',
+      url: 'http://www.targetvalidation.org/terms-of-use',
     },
   ],
   network: [
