@@ -1,36 +1,77 @@
-import React, { useState } from 'react';
-import Clampy from '@clampy-js/react-clampy';
+import React, { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
+  textContainer: {
+    display: 'inline-block',
+    overflow: 'hidden',
+  },
   showMore: {
-    cursor: 'pointer',
     color: theme.palette.primary.main,
+    cursor: 'pointer',
   },
 });
 
-const LongText = ({ classes, children, lineLimit }) => {
-  const [showMore, setShowMore] = useState(false);
+class LongText extends Component {
+  textRef = React.createRef();
 
-  const handleClick = () => {
-    setShowMore(!showMore);
+  state = {
+    showMore: false,
+    lineHeight: 0,
   };
 
-  return (
-    <>
-      <Typography component="div">
-        <Clampy clampSize={showMore ? null : lineLimit}>{children}</Clampy>
+  componentDidMount() {
+    const el = this.textRef.current;
+    const height = el.offsetHeight;
+    const lineHeight = Number.parseInt(
+      document.defaultView
+        .getComputedStyle(el, null)
+        .getPropertyValue('line-height'),
+      10
+    );
+
+    this.setState({
+      lineHeight,
+      numberOfLines: Math.round(height / lineHeight),
+    });
+  }
+
+  showMore = () => {
+    this.setState(({ showMore }) => ({ showMore: !showMore }));
+  };
+
+  render() {
+    const { children, classes, lineLimit } = this.props;
+    const { showMore, lineHeight, numberOfLines } = this.state;
+
+    return (
+      <Typography>
+        <span
+          className={classes.textContainer}
+          style={{
+            height:
+              numberOfLines <= lineLimit
+                ? 'auto'
+                : showMore
+                ? 'auto'
+                : lineLimit * lineHeight,
+          }}
+        >
+          <span ref={this.textRef}>{children}</span>
+        </span>
+        {numberOfLines > lineLimit && (
+          <span>
+            {showMore ? '' : '... '}[{' '}
+            <span className={classes.showMore} onClick={this.showMore}>
+              {showMore ? ' hide' : ' show more'}
+            </span>{' '}
+            ]
+          </span>
+        )}
       </Typography>
-      <Typography component="div" onClick={handleClick}>
-        [{' '}
-        <span className={classes.showMore}>
-          {showMore ? 'hide' : 'show more'}
-        </span>{' '}
-        ]
-      </Typography>
-    </>
-  );
-};
+    );
+  }
+}
 
 export default withStyles(styles)(LongText);
