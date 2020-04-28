@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 
@@ -13,16 +13,15 @@ const styles = theme => ({
   },
 });
 
-class LongText extends Component {
-  textRef = React.createRef();
+const LongText = ({ classes, lineLimit, children }) => {
+  const containerRef = useRef();
+  const textRef = useRef();
+  const [showMore, setShowMore] = useState(false);
+  const [numberOfLines, setNumberOfLines] = useState();
 
-  state = {
-    showMore: false,
-    lineHeight: 0,
-  };
-
-  componentDidMount() {
-    const el = this.textRef.current;
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    const el = textRef.current;
     const height = el.offsetHeight;
     const lineHeight = Number.parseInt(
       document.defaultView
@@ -30,48 +29,37 @@ class LongText extends Component {
         .getPropertyValue('line-height'),
       10
     );
+    const numberOfLines = Math.round(height / lineHeight);
 
-    this.setState({
-      lineHeight,
-      numberOfLines: Math.round(height / lineHeight),
-    });
-  }
+    container.style.height =
+      numberOfLines <= lineLimit
+        ? 'auto'
+        : showMore
+        ? 'auto'
+        : `${lineLimit * lineHeight}px`;
 
-  showMore = () => {
-    this.setState(({ showMore }) => ({ showMore: !showMore }));
-  };
+    setNumberOfLines(numberOfLines);
+  }, [lineLimit, showMore]);
 
-  render() {
-    const { children, classes, lineLimit } = this.props;
-    const { showMore, lineHeight, numberOfLines } = this.state;
-
-    return (
-      <Typography>
-        <span
-          className={classes.textContainer}
-          style={{
-            height:
-              numberOfLines <= lineLimit
-                ? 'auto'
-                : showMore
-                ? 'auto'
-                : lineLimit * lineHeight,
-          }}
-        >
-          <span ref={this.textRef}>{children}</span>
+  return (
+    <Typography>
+      <span ref={containerRef} className={classes.textContainer}>
+        <span ref={textRef}>{children}</span>
+      </span>
+      {numberOfLines > lineLimit && (
+        <span>
+          {showMore ? '' : '... '}[{' '}
+          <span
+            className={classes.showMore}
+            onClick={() => setShowMore(!showMore)}
+          >
+            {showMore ? ' hide' : ' show more'}
+          </span>{' '}
+          ]
         </span>
-        {numberOfLines > lineLimit && (
-          <span>
-            {showMore ? '' : '... '}[{' '}
-            <span className={classes.showMore} onClick={this.showMore}>
-              {showMore ? ' hide' : ' show more'}
-            </span>{' '}
-            ]
-          </span>
-        )}
-      </Typography>
-    );
-  }
-}
+      )}
+    </Typography>
+  );
+};
 
 export default withStyles(styles)(LongText);

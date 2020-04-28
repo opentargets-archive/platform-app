@@ -97,7 +97,7 @@ class Section extends React.Component {
 
     const onPageSort = pe => {
       // table specific constants
-      const { page, pageSize, sortBy, order } = pe;
+      const { page } = pe;
       let ns = {};
 
       if (page !== undefined) {
