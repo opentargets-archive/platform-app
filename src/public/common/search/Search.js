@@ -8,7 +8,7 @@ import DropdownIndicator from './DropdownIndicator';
 import GroupHeading from './GroupHeading';
 import Option from './Option';
 import ValueContainer from './ValueContainer';
-import { client2 } from '../../client.js';
+import client from '../../client.js';
 
 const SEARCH_QUERY = loader('./SearchQuery.gql');
 
@@ -67,7 +67,7 @@ const components = {
 
 class Search extends Component {
   loadOptions = inputValue => {
-    return client2
+    return client
       .query({
         query: SEARCH_QUERY,
         variables: { queryString: inputValue },

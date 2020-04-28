@@ -18,15 +18,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache({ fragmentMatcher }),
 });
 
-// TODO: This client uses the production GraphQL endpoint.
-// In the future, the whole app should use only one GraphQL endpoint.
-const client2 = new ApolloClient({
-  link: new HttpLink({
-    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
-  }),
-  cache: new InMemoryCache({ fragmentMatcher }),
-});
-
 const client3 = new ApolloClient({
   link: new HttpLink({
     uri: 'https://api-dora-dot-open-targets-eu-dev.appspot.com/graphql',
@@ -34,5 +25,5 @@ const client3 = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export { client2, client3 };
+export { client3 };
 export default client;
