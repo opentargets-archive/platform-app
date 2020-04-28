@@ -34,19 +34,12 @@ export const externalLinks = {
     { label: 'Blog', url: 'https://blog.opentargets.org' },
   ],
   partners: [
-    { label: 'Biogen', url: 'https://www.biogen.com' },
-    { label: 'Celgene', url: 'https://www.celgene.com' },
-    {
-      label: 'EMBL-EBI',
-      url: 'https://www.ebi.ac.uk',
-    },
+    { label: 'Bristol Myers Squibb', url: 'https://www.bms.com' },
+    { label: 'EMBL-EBI', url: 'https://www.ebi.ac.uk' },
     { label: 'GSK', url: 'https://www.gsk.com' },
     { label: 'Sanofi', url: 'https://www.sanofi.com' },
     { label: 'Takeda', url: 'https://www.takeda.com' },
-    {
-      label: 'Wellcome Sanger Institute',
-      url: 'https://www.sanger.ac.uk',
-    },
+    { label: 'Wellcome Sanger Institute', url: 'https://www.sanger.ac.uk' },
   ],
   help: [
     {
