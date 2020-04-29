@@ -72,13 +72,13 @@ const Target = ({ data }) => (
   </>
 );
 
-const Option = ({ data }) => {
-  const optionTypes = {
-    search: { any: Search },
-    topHit: { disease: TopHitDisease, drug: TopHitDrug, target: TopHitTarget },
-    normal: { disease: Disease, drug: Drug, target: Target },
-  };
+const optionTypes = {
+  search: { any: Search },
+  topHit: { disease: TopHitDisease, drug: TopHitDrug, target: TopHitTarget },
+  normal: { disease: Disease, drug: Drug, target: Target },
+};
 
+const Option = ({ data }) => {
   const OptionType = optionTypes[data.type][data.entity];
 
   return <OptionType data={data} />;

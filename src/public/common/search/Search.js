@@ -16,6 +16,8 @@ import useDebounce from '../../../hooks/useDebounce';
 import Option from './Option';
 import Group from './Group';
 
+const SEARCH_QUERY = loader('./SearchQuery.gql');
+
 const useStyles = makeStyles(theme => ({
   listbox: { maxHeight: 'fit-content', color: theme.palette.text.primary },
   option: { display: 'block', padding: '0 .5rem' },
@@ -32,7 +34,6 @@ function Search({ autoFocus = false, embedded = false }) {
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = useState('');
   const debouncedInputValue = useDebounce(inputValue, 300);
-  const SEARCH_QUERY = loader('./SearchQuery.gql');
   const [getData, { loading, data }] = useLazyQuery(SEARCH_QUERY, {
     variables: { queryString: debouncedInputValue },
     onCompleted: () => {},
