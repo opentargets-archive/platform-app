@@ -58,39 +58,45 @@ function Search({ autoFocus = false, embedded = false }) {
     }
   };
 
-  useEffect(() => {
-    if (debouncedInputValue) {
-      getData({ variables: { queryString: debouncedInputValue } });
-    } else {
-      setSearchResults([]);
-    }
-  }, [debouncedInputValue, getData]);
+  useEffect(
+    () => {
+      if (debouncedInputValue) {
+        getData({ variables: { queryString: debouncedInputValue } });
+      } else {
+        setSearchResults([]);
+      }
+    },
+    [debouncedInputValue, getData]
+  );
 
-  useEffect(() => {
-    const res = [];
+  useEffect(
+    () => {
+      const res = [];
 
-    if (inputValue) {
-      res.push({
-        type: 'search',
-        entity: 'any',
-        id: inputValue,
-        name: inputValue,
-      });
-    }
+      if (inputValue) {
+        res.push({
+          type: 'search',
+          entity: 'any',
+          id: inputValue,
+          name: inputValue,
+        });
+      }
 
-    if (data) {
-      Object.keys(data).forEach(key =>
-        data[key].hits.map(i =>
-          res.push({
-            type: key === 'topHit' ? 'topHit' : 'normal',
-            entity: i.entity,
-            ...i.object,
-          })
-        )
-      );
-    }
-    setSearchResults(res);
-  }, [data, inputValue]);
+      if (data) {
+        Object.keys(data).forEach(key =>
+          data[key].hits.map(i =>
+            res.push({
+              type: key === 'topHit' ? 'topHit' : 'normal',
+              entity: i.entity,
+              ...i.object,
+            })
+          )
+        );
+      }
+      setSearchResults(res);
+    },
+    [data, inputValue]
+  );
 
   const classes = useStyles(embedded);
 
@@ -141,12 +147,9 @@ function Search({ autoFocus = false, embedded = false }) {
                   params.InputProps.endAdornment
                 ),
               }}
-              label={
-                !embedded ? 'Search for a target, disease, or drug...' : ''
-              }
+              label="Search for a target, disease, or drug..."
               onChange={handleChangeInputValue}
               value={inputValue}
-              variant={embedded ? 'filled' : 'standard'}
               {...params}
             />
           ) : (
