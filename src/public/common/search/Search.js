@@ -11,12 +11,9 @@ import { Autocomplete } from '@material-ui/lab';
 import { Search as SearchIcon, ArrowDropDown } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 
-import { client2 } from '../../client';
 import useDebounce from '../../../hooks/useDebounce';
 import Option from './Option';
 import Group from './Group';
-import ValueContainer from './ValueContainer';
-import client from '../../client.js';
 
 const SEARCH_QUERY = loader('./SearchQuery.gql');
 
@@ -50,9 +47,9 @@ function Search({ autoFocus = false, embedded = false }) {
 
   const handleSelectOption = (e, option, r) => {
     handleChangeInputValue(e);
-    
+
     if (!option) return;
-    
+
     if (option.type === 'search') {
       history.push(`/search?q=${option.name}&page=1`);
     } else {

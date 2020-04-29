@@ -226,27 +226,30 @@ const SearchPage = ({ location, history }) => {
   const { q, page, entities } = parseQueryString(location.search);
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    let isCurrent = true;
-    client
-      .query({
-        query: SEARCH_PAGE_QUERY,
-        variables: {
-          queryString: q,
-          index: page - 1,
-          entityNames: entities,
-        },
-      })
-      .then(res => {
-        if (isCurrent) {
-          setData(res.data);
-        }
-      });
+  useEffect(
+    () => {
+      let isCurrent = true;
+      client
+        .query({
+          query: SEARCH_PAGE_QUERY,
+          variables: {
+            queryString: q,
+            index: page - 1,
+            entityNames: entities,
+          },
+        })
+        .then(res => {
+          if (isCurrent) {
+            setData(res.data);
+          }
+        });
 
-    return () => {
-      isCurrent = false;
-    };
-  }, [q, page, entities.length]);
+      return () => {
+        isCurrent = false;
+      };
+    },
+    [q, page, entities]
+  );
 
   const handleChangePage = (event, page) => {
     const params = { q, page: page + 1, entities };
