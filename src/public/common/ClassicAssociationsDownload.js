@@ -85,7 +85,7 @@ class ClassicAssociationsDownload extends React.Component {
       <Grid
         container
         justify="flex-end"
-        spacing={8}
+        spacing={1}
         className={classes.container}
       >
         <Grid item>

@@ -120,26 +120,26 @@ class DrugProfile extends Component {
             )}
             <Typography variant="subtitle2">
               Molecule type:{' '}
-              <Typography className={classes.inline} variant="body2">
+              <Typography className={classes.inline} variant="body1">
                 {type}
               </Typography>
             </Typography>
             <Typography variant="subtitle2">
               First approval:{' '}
-              <Typography className={classes.inline} variant="body2">
+              <Typography className={classes.inline} variant="body1">
                 {yearOfFirstApproval || 'N/A'}
               </Typography>
             </Typography>
             <Typography variant="subtitle2">
               Max phase:{' '}
-              <Typography className={classes.inline} variant="body2">
+              <Typography className={classes.inline} variant="body1">
                 {maximumClinicalTrialPhase}
               </Typography>
             </Typography>
             {internalCompound ? (
               <Typography variant="subtitle2">
                 Visibility:{' '}
-                <Typography className={classes.inline} variant="body2">
+                <Typography className={classes.inline} variant="body1">
                   Internal compound <LockIcon className={classes.lock} />
                 </Typography>
               </Typography>

@@ -416,7 +416,7 @@ const tooltipElementFinder = ({ id }) =>
   document.querySelector(`#dag-node-${id}`);
 
 export default withTooltip(
-  withTheme()(withContentRect('bounds')(ClassicAssociationsDAG)),
+  withTheme(withContentRect('bounds')(ClassicAssociationsDAG)),
   TooltipContent,
   tooltipElementFinder
 );

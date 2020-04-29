@@ -67,7 +67,7 @@ const Section = ({ data, name, fetchMore }) => {
       updateQuery: (prev, { fetchMoreResult }) =>
         !fetchMoreResult ? prev : { ...prev, ...fetchMoreResult },
     });
-  }, [pageIndex]);
+  }, [fetchMore, pageIndex]);
 
   const rowsMapped = rows.map(d => ({
     ...d,

@@ -120,7 +120,7 @@ const TargetAssociationsPage = ({ ensgId, symbol }) => {
     {};
 
   return (
-    <Grid style={{ marginTop: '8px' }} container spacing={16}>
+    <Grid style={{ marginTop: '8px' }} container spacing={2}>
       <Grid item xs={12} md={6}>
         <Card elevation={0}>
           <CardHeader

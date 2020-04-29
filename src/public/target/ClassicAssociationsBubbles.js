@@ -268,7 +268,7 @@ const tooltipElementFinder = ({ uniqueId }) =>
   document.querySelector(`#tree-node-${uniqueId}`);
 
 export default withTooltip(
-  withTheme()(withContentRect('bounds')(ClassicAssociationsBubbles)),
+  withTheme(withContentRect('bounds')(ClassicAssociationsBubbles)),
   TooltipContent,
   tooltipElementFinder
 );

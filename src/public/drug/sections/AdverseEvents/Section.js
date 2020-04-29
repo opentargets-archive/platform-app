@@ -96,7 +96,7 @@ const Section = ({ chemblId, classes, name }) => {
     getRows(chemblId).then(data => {
       setData(data);
     });
-  }, []);
+  }, [chemblId]);
 
   if (!data) return null;
 

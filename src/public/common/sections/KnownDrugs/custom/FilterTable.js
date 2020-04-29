@@ -477,7 +477,7 @@ class KnownDrugsDetail extends React.Component {
 
     return (
       <React.Fragment>
-        <Grid container spacing={24} className={classes.dcChartContainer}>
+        <Grid container spacing={3} className={classes.dcChartContainer}>
           <Grid item className={classes.dcChartSection}>
             <strong>Summary</strong>
             <p>

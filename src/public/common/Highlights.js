@@ -13,16 +13,17 @@ const highlightStyles = theme => ({
 });
 
 const Highlights = ({ classes, highlights }) => {
+  const [showMore, setShowMore] = useState(false);
+
   if (highlights.length === 0) return null;
 
-  const [showMore, setShowMore] = useState(false);
   return (
     <div className={classes.matches}>
-      <Typography component="span" inline variant="subtitle2">
+      <Typography component="span" display="inline" variant="subtitle2">
         Matches:
       </Typography>{' '}
       <Typography
-        inline
+        display="inline"
         variant="caption"
         className="highlights"
         dangerouslySetInnerHTML={{
@@ -34,7 +35,7 @@ const Highlights = ({ classes, highlights }) => {
       {highlights.length > 1 && (
         <>
           {' '}
-          <Typography inline>
+          <Typography display="inline">
             [{' '}
             <span
               className={classes.showMore}

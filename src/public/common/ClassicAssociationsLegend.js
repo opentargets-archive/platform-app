@@ -51,7 +51,7 @@ const ClassicAssociationsLegend = ({
         </svg>
       </Grid>
       <Grid item className={classes.legendLabel}>
-        <Typography inline variant="caption">
+        <Typography display="inline" variant="caption">
           Efficacy
         </Typography>
       </Grid>
@@ -84,7 +84,7 @@ const ClassicAssociationsLegend = ({
             </svg>
           </Grid>
           <Grid item className={classes.legendLabel}>
-            <Typography inline variant="caption">
+            <Typography display="inline" variant="caption">
               Tractability
             </Typography>
           </Grid>
@@ -107,7 +107,7 @@ const ClassicAssociationsLegend = ({
         </svg>
       </Grid>
       <Grid item className={classes.legendLabel}>
-        <Typography inline variant="caption">
+        <Typography display="inline" variant="caption">
           No data
         </Typography>
       </Grid>

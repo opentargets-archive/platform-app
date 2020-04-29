@@ -207,7 +207,7 @@ const ClassicAssociations = ({ efoId, name }) => {
       : [];
 
   return (
-    <Grid style={{ marginTop: '8px' }} container spacing={16}>
+    <Grid style={{ marginTop: '8px' }} container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h6">
           <strong>{commaSeparate(totalCount)} targets</strong> associated with{' '}
