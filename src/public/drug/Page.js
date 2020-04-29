@@ -6,7 +6,6 @@ import { Helmet } from 'react-helmet';
 import Header from './Header';
 import Profile from './Profile';
 import BasePage from '../common/BasePage';
-import { client2 } from '../client';
 
 const DRUG_QUERY = gql`
   query DrugQuery($chemblId: String!) {
@@ -35,7 +34,6 @@ const DrugPage = ({ match }) => {
   const { chemblId } = match.params;
 
   const { loading, error, data } = useQuery(DRUG_QUERY, {
-    client: client2,
     variables: { chemblId },
   });
 

@@ -34,7 +34,7 @@ const TargetDetail = ({ classes, data }) => {
         <Typography color="primary">
           <TargetIcon className={classes.icon} /> Target
         </Typography>
-        <LongText lineLimit="4">{functions[0]}</LongText>
+        <LongText lineLimit={4}>{functions[0]}</LongText>
         {rows.length > 0 && (
           <>
             <Typography className={classes.subtitle} variant="subtitle1">

@@ -13,6 +13,7 @@ query SearchQuery($queryString: String!) {
           approvedSymbol
           approvedName
           proteinAnnotations {
+            id
             functions
           }
         }

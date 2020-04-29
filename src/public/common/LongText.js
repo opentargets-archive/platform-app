@@ -1,35 +1,64 @@
-import React, { useState } from 'react';
-import Clampy from '@clampy-js/react-clampy';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
+  textContainer: {
+    display: 'inline-block',
+    overflow: 'hidden',
+  },
   showMore: {
-    cursor: 'pointer',
     color: theme.palette.primary.main,
+    cursor: 'pointer',
   },
 });
 
-const LongText = ({ classes, children, lineLimit }) => {
+const LongText = ({ classes, lineLimit, children }) => {
+  const containerRef = useRef();
+  const textRef = useRef();
   const [showMore, setShowMore] = useState(false);
+  const [numberOfLines, setNumberOfLines] = useState();
 
-  const handleClick = () => {
-    setShowMore(!showMore);
-  };
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    const el = textRef.current;
+    const height = el.offsetHeight;
+    const lineHeight = Number.parseInt(
+      document.defaultView
+        .getComputedStyle(el, null)
+        .getPropertyValue('line-height'),
+      10
+    );
+    const numberOfLines = Math.round(height / lineHeight);
+
+    container.style.height =
+      numberOfLines <= lineLimit
+        ? 'auto'
+        : showMore
+        ? 'auto'
+        : `${lineLimit * lineHeight}px`;
+
+    setNumberOfLines(numberOfLines);
+  }, [lineLimit, showMore]);
 
   return (
-    <>
-      <Typography component="div">
-        <Clampy clampSize={showMore ? null : lineLimit}>{children}</Clampy>
-      </Typography>
-      <Typography component="div" onClick={handleClick}>
-        [{' '}
-        <span className={classes.showMore}>
-          {showMore ? 'hide' : 'show more'}
-        </span>{' '}
-        ]
-      </Typography>
-    </>
+    <Typography>
+      <span ref={containerRef} className={classes.textContainer}>
+        <span ref={textRef}>{children}</span>
+      </span>
+      {numberOfLines > lineLimit && (
+        <span>
+          {showMore ? '' : '... '}[{' '}
+          <span
+            className={classes.showMore}
+            onClick={() => setShowMore(!showMore)}
+          >
+            {showMore ? ' hide' : ' show more'}
+          </span>{' '}
+          ]
+        </span>
+      )}
+    </Typography>
   );
 };
 
