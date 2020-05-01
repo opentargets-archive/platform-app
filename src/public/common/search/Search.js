@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   inputBaseInput: { padding: '.25rem .5rem' },
-  root: embedded => ({ width: embedded ? '400px' : '', marginRight: '2rem' }),
+  root: embedded => ({ width: embedded ? '400px' : '' }),
 }));
 
 function Search({ autoFocus = false, embedded = false }) {
