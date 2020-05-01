@@ -115,7 +115,9 @@ class Smiles extends Component {
       .then(data => {
         if (data.molecule_type === 'Small molecule') {
           this.setState({
-            smiles: data.molecule_structures.canonical_smiles,
+            smiles: data.molecule_structures
+              ? data.molecule_structures.canonical_smiles
+              : null,
           });
         }
       });
