@@ -38,73 +38,72 @@ const getColumns = ({
 }) => {
   return [
     {
-      id: 'biomarker',
+      id: 'id',
       label: 'Biomarker',
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={biomarkerOptions}
-          onChange={biomarkerFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={biomarkerOptions}
+      //     onChange={biomarkerFilterHandler}
+      //   />
+      // ),
     },
     {
       id: 'diseases',
       label: 'Disease',
       renderCell: rowData => {
-        return rowData.diseases.map((disease, i) => {
-          return (
-            <Link
-              key={i}
-              external
-              to={`https://www.targetvalidation.org/disease/${disease.id}`}
-            >
-              {disease.name}
-            </Link>
-          );
-        });
+        return (
+          <Link
+            external
+            to={`https://www.targetvalidation.org/disease/${
+              rowData.disease.id
+            }`}
+          >
+            {rowData.disease.name}
+          </Link>
+        );
       },
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={diseaseOptions}
-          onChange={diseaseFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={diseaseOptions}
+      //     onChange={diseaseFilterHandler}
+      //   />
+      // ),
     },
     {
       id: 'drugName',
       label: 'Drug',
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={drugOptions}
-          onChange={drugFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={drugOptions}
+      //     onChange={drugFilterHandler}
+      //   />
+      // ),
     },
     {
       id: 'associationType',
       label: 'Association',
       renderCell: row => _.capitalize(row.associationType.replace(/_/g, ' ')),
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={associationOptions}
-          onChange={associationFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={associationOptions}
+      //     onChange={associationFilterHandler}
+      //   />
+      // ),
     },
     {
       id: 'evidenceLevel',
       label: 'Evidence',
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={evidenceOptions}
-          onChange={evidenceFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={evidenceOptions}
+      //     onChange={evidenceFilterHandler}
+      //   />
+      // ),
     },
     {
       id: 'sources',
@@ -113,7 +112,7 @@ const getColumns = ({
         return (
           <Fragment>
             {rowData.sources.map((source, i) => (
-              <Link key={i} external to={source.url}>
+              <Link key={i} external to={source.link}>
                 {source.name}
               </Link>
             ))}
@@ -158,11 +157,10 @@ const getBiomarkerOptions = rows => {
 };
 
 const getDiseaseOptions = rows => {
+  console.log('getDiseaseOptions: ', rows);
   return _.uniq(
     rows.reduce((acc, row) => {
-      row.diseases.forEach(disease => {
-        acc.push(disease.name);
-      });
+      acc.push(row.disease.name);
       return acc;
     }, [])
   ).map(disease => ({ label: disease, value: disease }));
@@ -223,6 +221,7 @@ const getPieColors = (items, chartColour) => {
 class FilterTable extends Component {
   state = {};
 
+  /*
   setupCharts() {
     // set up DC charts, not crossfilter stuff
     this.drugCountLabel = dc.numberDisplay('#biomarkers-drug-count');
@@ -360,7 +359,7 @@ class FilterTable extends Component {
     }
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
-
+  
   static getDerivedStateFromProps(props, state) {
     const prevProps = state.prevProps || {};
 
@@ -451,24 +450,24 @@ class FilterTable extends Component {
 
     return null;
   }
+  */
 
   componentDidMount() {
-    const { theme } = this.props;
-    const chartColour = lighten(0.3, theme.palette.primary.main);
-
-    this.evidenceColors = getPieColors(
-      getEvidenceOptions(this.props.rows),
-      chartColour
-    );
-    this.associationColors = getPieColors(
-      getAssociationOptions(this.props.rows),
-      chartColour
-    );
-    this.setupCharts();
+    // const { theme } = this.props;
+    // const chartColour = lighten(0.3, theme.palette.primary.main);
+    // this.evidenceColors = getPieColors(
+    //   getEvidenceOptions(this.props.rows),
+    //   chartColour
+    // );
+    // this.associationColors = getPieColors(
+    //   getAssociationOptions(this.props.rows),
+    //   chartColour
+    // );
+    // this.setupCharts();
   }
 
   componentDidUpdate() {
-    this.redrawCharts();
+    // this.redrawCharts();
   }
 
   render() {
@@ -481,7 +480,7 @@ class FilterTable extends Component {
     const associationOptions = getAssociationOptions(rows);
     const evidenceOptions = getEvidenceOptions(rows);
 
-    return (
+    /*return (
       <Fragment>
         <Grid container spacing={3}>
           <Grid item>
@@ -549,7 +548,8 @@ class FilterTable extends Component {
           filters
         />
       </Fragment>
-    );
+    );*/
+    return <OtTableRF columns={getColumns({})} data={rows} filters />;
   }
 }
 
