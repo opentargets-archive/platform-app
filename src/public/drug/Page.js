@@ -2,10 +2,12 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
+import Typography from '@material-ui/core/Typography';
 
 import Header from './Header';
 import Profile from './Profile';
 import BasePage from '../common/BasePage';
+import EmptyPage from '../common/EmptyPage';
 
 const DRUG_QUERY = gql`
   query DrugQuery($chemblId: String!) {
@@ -39,36 +41,34 @@ const DrugPage = ({ match }) => {
 
   if (loading || error) return null;
 
-  const {
-    name,
-    description,
-    drugType,
-    synonyms,
-    tradeNames,
-    yearOfFirstApproval,
-    maximumClinicalTrialPhase,
-    hasBeenWithdrawn,
-    withdrawnNotice,
-  } = data.drug;
+  const { drug } = data;
 
   return (
     <BasePage>
       <Helmet>
-        <title>{name}</title>
+        <title>{drug ? drug.name : chemblId}</title>
       </Helmet>
-      <Header chemblId={chemblId} name={name} />
-      <Profile
-        chemblId={chemblId}
-        name={name}
-        description={description}
-        type={drugType}
-        tradeNames={tradeNames}
-        maximumClinicalTrialPhase={maximumClinicalTrialPhase}
-        yearOfFirstApproval={yearOfFirstApproval}
-        synonyms={synonyms}
-        hasBeenWithdrawn={hasBeenWithdrawn}
-        withdrawnNotice={withdrawnNotice}
-      />
+      {drug ? (
+        <>
+          <Header chemblId={chemblId} name={drug.name} />
+          <Profile
+            chemblId={chemblId}
+            name={drug.name}
+            description={drug.description}
+            type={drug.drugType}
+            tradeNames={drug.tradeNames}
+            maximumClinicalTrialPhase={drug.maximumClinicalTrialPhase}
+            yearOfFirstApproval={drug.yearOfFirstApproval}
+            synonyms={drug.synonyms}
+            hasBeenWithdrawn={drug.hasBeenWithdrawn}
+            withdrawnNotice={drug.withdrawnNotice}
+          />
+        </>
+      ) : (
+        <EmptyPage>
+          <Typography>404 Page Not Found</Typography>
+        </EmptyPage>
+      )}
     </BasePage>
   );
 };
