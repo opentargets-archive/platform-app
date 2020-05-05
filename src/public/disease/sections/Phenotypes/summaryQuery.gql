@@ -1,9 +1,5 @@
 fragment diseasePhenotypesFragment on Disease {
   phenotypes {
-    phenotypesCount
-    sources {
-      name
-      url
-    }
+    url
   }
 }
