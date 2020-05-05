@@ -9,6 +9,8 @@ import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';
+import client from '../../../../client';
+import gql from 'graphql-tag';
 
 import DCContainer from '../../../../common/DCContainer';
 import {
@@ -149,74 +151,160 @@ const styles = theme => ({
   },
 });
 
-const getBiomarkerOptions = rows => {
-  return _.uniq(rows.map(row => row.biomarker)).map(row => ({
-    label: row,
-    value: row,
-  }));
+const BATCH_SIZE = 1000;
+
+const COUNT_QUERY = gql`
+  query CancerBiomarkersCount($ensgId: String!) {
+    target(ensemblId: $ensgId) {
+      id
+      cancerBiomarkers {
+        count
+      }
+    }
+  }
+`;
+
+const PAGE_QUERY = gql`
+  query CancerBiomarkersSectionQuery($ensgId: String!, $page: Pagination!) {
+    target(ensemblId: $ensgId) {
+      id
+      cancerBiomarkers(page: $page) {
+        uniqueDrugs
+        uniqueDiseases
+        uniqueBiomarkers
+        count
+        rows {
+          id
+          associationType
+          drugName
+          evidenceLevel
+          sources {
+            link
+            name
+          }
+          pubmedIds
+          target {
+            approvedSymbol
+          }
+          disease {
+            name
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
+const getRows = async ensgId => {
+  // find how many rows there are
+  const result = await client.query({
+    query: COUNT_QUERY,
+    variables: {
+      ensgId,
+    },
+  });
+  const { count } = result.data.target.cancerBiomarkers;
+  const numBatches = Math.ceil(count / BATCH_SIZE);
+  const batchPromises = [];
+
+  for (let i = 0; i < numBatches; i++) {
+    batchPromises.push(
+      client.query({
+        query: PAGE_QUERY,
+        variables: {
+          ensgId,
+          page: { index: i, size: BATCH_SIZE },
+        },
+      })
+    );
+  }
+
+  return Promise.all(batchPromises).then(batches => {
+    const allRows = [];
+
+    batches.forEach(batch => {
+      const { rows } = batch.data.target.cancerBiomarkers;
+      rows.forEach(row => {
+        allRows.push(row);
+      });
+    });
+
+    return {
+      count,
+      rows: allRows,
+    };
+  });
 };
 
-const getDiseaseOptions = rows => {
-  console.log('getDiseaseOptions: ', rows);
-  return _.uniq(
-    rows.reduce((acc, row) => {
-      acc.push(row.disease.name);
-      return acc;
-    }, [])
-  ).map(disease => ({ label: disease, value: disease }));
-};
+// const getBiomarkerOptions = rows => {
+//   return _.uniq(rows.map(row => row.biomarker)).map(row => ({
+//     label: row,
+//     value: row,
+//   }));
+// };
 
-const getDrugOptions = rows => {
-  return _.uniq(rows.map(row => row.drugName)).map(row => ({
-    label: row,
-    value: row,
-  }));
-};
+// const getDiseaseOptions = rows => {
+//   console.log('getDiseaseOptions: ', rows);
+//   return _.uniq(
+//     rows.reduce((acc, row) => {
+//       acc.push(row.disease.name);
+//       return acc;
+//     }, [])
+//   ).map(disease => ({ label: disease, value: disease }));
+// };
 
-const getAssociationOptions = rows => {
-  return _.uniq(rows.map(row => row.associationType)).map(row => ({
-    label: row,
-    value: row,
-  }));
-};
+// const getDrugOptions = rows => {
+//   return _.uniq(rows.map(row => row.drugName)).map(row => ({
+//     label: row,
+//     value: row,
+//   }));
+// };
 
-const getEvidenceOptions = rows => {
-  return _.uniq(rows.map(row => row.evidenceLevel)).map(row => ({
-    label: row,
-    value: row,
-  }));
-};
+// const getAssociationOptions = rows => {
+//   return _.uniq(rows.map(row => row.associationType)).map(row => ({
+//     label: row,
+//     value: row,
+//   }));
+// };
 
-const getDownloadColumns = () => {
-  return [
-    { id: 'biomarker', label: 'Biomarker' },
-    { id: 'diseases', label: 'Diseases' },
-    { id: 'efo', label: 'EFO codes' },
-    { id: 'drugName', label: 'Drug' },
-    { id: 'associationType', label: 'Association' },
-    { id: 'evidenceLevel', label: 'Evidence' },
-    { id: 'sources', label: 'Sources' },
-  ];
-};
+// const getEvidenceOptions = rows => {
+//   return _.uniq(rows.map(row => row.evidenceLevel)).map(row => ({
+//     label: row,
+//     value: row,
+//   }));
+// };
 
-const getDownloadRows = rows => {
-  return rows.map(row => ({
-    biomarker: row.biomarker,
-    diseases: row.diseases.map(disease => disease.name).join(', '),
-    efo: row.diseases.map(disease => disease.id).join(', '),
-    drugName: row.drugName,
-    associationType: row.associationType,
-    evidenceLevel: row.evidenceLevel,
-    sources: row.sources.map(source => source.url).join(', '),
-  }));
-};
+// const getDownloadColumns = () => {
+//   return [
+//     { id: 'biomarker', label: 'Biomarker' },
+//     { id: 'diseases', label: 'Diseases' },
+//     { id: 'efo', label: 'EFO codes' },
+//     { id: 'drugName', label: 'Drug' },
+//     { id: 'associationType', label: 'Association' },
+//     { id: 'evidenceLevel', label: 'Evidence' },
+//     { id: 'sources', label: 'Sources' },
+//   ];
+// };
 
-const getPieColors = (items, chartColour) => {
-  return items.reduce((acc, item, i) => {
-    acc[item.label] = darken(0.05 * i, chartColour);
-    return acc;
-  }, {});
-};
+// const getDownloadRows = rows => {
+//   return rows.map(row => ({
+//     biomarker: row.biomarker,
+//     diseases: row.diseases.map(disease => disease.name).join(', '),
+//     efo: row.diseases.map(disease => disease.id).join(', '),
+//     drugName: row.drugName,
+//     associationType: row.associationType,
+//     evidenceLevel: row.evidenceLevel,
+//     sources: row.sources.map(source => source.url).join(', '),
+//   }));
+// };
+
+// const getPieColors = (items, chartColour) => {
+//   return items.reduce((acc, item, i) => {
+//     acc[item.label] = darken(0.05 * i, chartColour);
+//     return acc;
+//   }, {});
+// };
 
 class FilterTable extends Component {
   state = {};
@@ -464,6 +552,10 @@ class FilterTable extends Component {
     //   chartColour
     // );
     // this.setupCharts();
+    const { ensgId } = this.props;
+    getRows(ensgId).then(data => {
+      this.setState({ rows: data.rows });
+    });
   }
 
   componentDidUpdate() {
@@ -471,14 +563,14 @@ class FilterTable extends Component {
   }
 
   render() {
-    const { symbol, classes, rows } = this.props;
-    const { filteredRows } = this.state;
+    const { symbol, classes } = this.props;
+    const { rows = [] } = this.state;
 
-    const biomarkerOptions = getBiomarkerOptions(rows);
-    const diseaseOptions = getDiseaseOptions(rows);
-    const drugOptions = getDrugOptions(rows);
-    const associationOptions = getAssociationOptions(rows);
-    const evidenceOptions = getEvidenceOptions(rows);
+    // const biomarkerOptions = getBiomarkerOptions(rows);
+    // const diseaseOptions = getDiseaseOptions(rows);
+    // const drugOptions = getDrugOptions(rows);
+    // const associationOptions = getAssociationOptions(rows);
+    // const evidenceOptions = getEvidenceOptions(rows);
 
     /*return (
       <Fragment>
@@ -549,6 +641,7 @@ class FilterTable extends Component {
         />
       </Fragment>
     );*/
+
     return <OtTableRF columns={getColumns({})} data={rows} filters />;
   }
 }
