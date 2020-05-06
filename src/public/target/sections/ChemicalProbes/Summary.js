@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
-const Summary = ({ probeminer, rows }) => {
+const Summary = ({ data }) => {
+  const { probeminer, rows } = data;
   const sourceLabels = {
     'Structural Genomics Consortium': 'SGC',
     'Chemical Probes Portal': 'CPP',

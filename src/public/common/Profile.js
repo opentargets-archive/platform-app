@@ -105,7 +105,7 @@ const Profile = ({
 
     const summaryDataProps = !summaryError && !loading ? summaryData : {};
     const summaryProps = {
-      ...summaryDataProps,
+      data: summaryDataProps,
       setHasSummaryData: setSectionHasSummaryDataHandler(s.id),
       setHasSummaryError: setSectionHasSummaryErrorHandler(s.id),
     };
