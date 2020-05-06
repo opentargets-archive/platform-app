@@ -27,7 +27,7 @@ const columns = (symbol, maxCountAOrB) => [
     orderable: false,
   },
   {
-    id: 'countAndB',
+    id: 'countAAndB',
     label: 'Shared disease associations',
     orderable: false,
   },
