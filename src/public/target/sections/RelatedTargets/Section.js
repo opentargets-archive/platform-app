@@ -48,9 +48,9 @@ const columns = (symbol, maxCountAOrB) => [
     orderable: false,
     renderCell: d => (
       <LinearVenn
-        aOnly={d.countA - d.countAndB}
-        bOnly={d.countB - d.countAndB}
-        aAndB={d.countAndB}
+        aOnly={d.countA - d.countAAndB}
+        bOnly={d.countB - d.countAAndB}
+        aAndB={d.countAAndB}
         max={maxCountAOrB}
       />
     ),
@@ -91,8 +91,8 @@ class Section extends React.Component {
 
     const rowsMapped = rows.map(d => ({
       ...d,
-      countANotB: d.countA - d.countAndB,
-      countBNotA: d.countB - d.countAndB,
+      countANotB: d.countA - d.countAAndB,
+      countBNotA: d.countB - d.countAAndB,
     }));
 
     const onPageSort = pe => {
