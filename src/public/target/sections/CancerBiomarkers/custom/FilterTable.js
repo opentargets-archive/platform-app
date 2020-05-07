@@ -49,6 +49,7 @@ const getColumns = ({
       //     onChange={biomarkerFilterHandler}
       //   />
       // ),
+      width: '16%',
     },
     {
       id: 'diseases',
@@ -72,6 +73,7 @@ const getColumns = ({
       //     onChange={diseaseFilterHandler}
       //   />
       // ),
+      width: '16%',
     },
     {
       id: 'drugName',
@@ -83,6 +85,7 @@ const getColumns = ({
       //     onChange={drugFilterHandler}
       //   />
       // ),
+      // width: '15%',
     },
     {
       id: 'associationType',
@@ -95,6 +98,7 @@ const getColumns = ({
       //     onChange={associationFilterHandler}
       //   />
       // ),
+      width: '13%',
     },
     {
       id: 'evidenceLevel',
@@ -106,6 +110,7 @@ const getColumns = ({
       //     onChange={evidenceFilterHandler}
       //   />
       // ),
+      width: '13%',
     },
     {
       id: 'sources',
@@ -121,6 +126,7 @@ const getColumns = ({
           </Fragment>
         );
       },
+      width: '13%',
     },
   ];
 };
