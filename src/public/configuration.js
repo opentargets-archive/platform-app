@@ -8,7 +8,7 @@ export const targetSectionsDefaultOrder = [
   // 'expression',
   // 'protein',
   // 'homology',
-  // 'geneOntology',
+  'geneOntology',
   // 'proteinInteractions',
   // 'pathways',
   'relatedTargets',
