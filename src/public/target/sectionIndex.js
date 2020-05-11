@@ -14,7 +14,7 @@ import * as geneOntologyRaw from './sections/GeneOntology';
 // import * as proteinRaw from './sections/ProteinInformation';
 // import * as proteinInteractionsRaw from './sections/ProteinInteractions';
 import * as relatedTargetsRaw from './sections/RelatedTargets';
-// import * as safetyRaw from './sections/Safety';
+import * as safetyRaw from './sections/Safety';
 import * as tractabilityRaw from './sections/Tractability';
 // import * as variationRaw from './sections/Variation';
 
@@ -31,6 +31,6 @@ export const geneOntology = geneOntologyRaw;
 // export const protein = proteinRaw;
 // export const proteinInteractions = proteinInteractionsRaw;
 export const relatedTargets = relatedTargetsRaw;
-// export const safety = safetyRaw;
+export const safety = safetyRaw;
 // export const variation = variationRaw;
 export const tractability = tractabilityRaw;
