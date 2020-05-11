@@ -94,8 +94,8 @@
   "devDependencies": {
     "browserstack-local": "^1.4.5",
     "cpx": "^1.5.0",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.1.7",
+    "husky": ">=4",
+    "lint-staged": ">=10",
     "nanoid-cli": "^1.1.0",
     "nightwatch": "^1.1.13",
     "prettier": "1.15.1",
@@ -108,14 +108,6 @@
     }
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ],
-    "**/*.{json,css,md}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,css,md}": "prettier --write"
   }
 }

@@ -1,6 +1,6 @@
 export const targetSectionsDefaultOrder = [
   // 'drugs',
-  // 'tractability',
+  'tractability',
   // 'safety',
   'chemicalProbes',
   // 'bibliography',
@@ -8,7 +8,7 @@ export const targetSectionsDefaultOrder = [
   // 'expression',
   // 'protein',
   // 'homology',
-  // 'geneOntology',
+  'geneOntology',
   // 'proteinInteractions',
   // 'pathways',
   'relatedTargets',

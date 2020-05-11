@@ -1,12 +1,13 @@
 import { loader } from 'graphql.macro';
+import _ from 'lodash';
 
 export const id = 'tractability';
 export const name = 'Tractability';
 export const shortName = 'TR';
 
 export const hasSummaryData = data =>
-  data.hasAntibodyTractabilityAssessment ||
-  data.hasSmallMoleculeTractabilityAssessment;
+  _.get(data, 'antibody.buckets.length', 0) > 0 ||
+  _.get(data, 'smallmolecule.buckets.length', 0) > 0;
 
 export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');

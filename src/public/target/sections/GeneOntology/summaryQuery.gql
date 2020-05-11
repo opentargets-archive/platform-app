@@ -1,11 +1,7 @@
-fragment targetGeneOntologyFragment on TargetSummaries {
+fragment targetGeneOntologyFragment on Target {
   geneOntology {
-    molecularFunctionTermsCount
-    biologicalProcessTermsCount
-    cellularComponentTermsCount
-    sources {
-      url
-      name
-    }
+    term
+    # get all fields sectionQuery will want, to let Apollo cache the rows
+    id
   }
 }

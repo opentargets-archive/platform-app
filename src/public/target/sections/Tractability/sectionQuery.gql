@@ -1,18 +1,12 @@
 query TargetTractabilitySectionQuery($ensgId: String!) {
-  target(ensgId: $ensgId) {
+  target(ensemblId: $ensgId) {
     id
-    details {
-      tractability {
-        smallMolecule {
-          chemblBucket
-          description
-          value
-        }
-        antibody {
-          chemblBucket
-          description
-          value
-        }
+    tractability {
+      smallmolecule {
+        buckets
+      }
+      antibody {
+        buckets
       }
     }
   }
