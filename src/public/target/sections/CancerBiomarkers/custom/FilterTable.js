@@ -648,7 +648,7 @@ class FilterTable extends Component {
       </Fragment>
     );*/
 
-    return <OtTableRF columns={getColumns({})} data={rows} filters />;
+    return <OtTableRF columns={getColumns({})} data={rows} />;
   }
 }
 
