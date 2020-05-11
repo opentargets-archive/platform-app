@@ -9,7 +9,7 @@ query RelatedDiseasesQuery($efoId: String!, $index: Int! = 0, $size: Int! = 10) 
         countA
         countB
         countAOrB
-        countAndB
+        countAAndB
         score
         B {
           id
