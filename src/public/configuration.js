@@ -1,6 +1,6 @@
 export const targetSectionsDefaultOrder = [
   // 'drugs',
-  // 'tractability',
+  'tractability',
   // 'safety',
   'chemicalProbes',
   // 'bibliography',
