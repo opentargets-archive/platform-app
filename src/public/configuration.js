@@ -18,7 +18,7 @@ export const targetSectionsDefaultOrder = [
 ];
 
 export const diseaseSectionsDefaultOrder = [
-  // 'ontology',
+  'ontology',
   // 'drugs',
   'bibliography',
   'phenotypes',
