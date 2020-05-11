@@ -1,14 +1,10 @@
 query GeneOntologySectionQuery($ensgId: String!) {
-  target(ensgId: $ensgId) {
+  target(ensemblId: $ensgId) {
     id
-    details {
-      geneOntology {
-        rows {
-          id
-          term
-          category
-        }
-      }
+    # rows loaded into Apollo's cache by the summaryQuery
+    geneOntology {
+      term
+      id
     }
   }
 }
