@@ -9,6 +9,7 @@ export const tableStyles = makeStyles(theme => ({
     width: '100%',
   },
   cellRoot: {
+    fontSize: '0.8125rem',
     padding: '.25rem 1rem .25rem 1rem',
     '&:first-child': {
       paddingLeft: '24px',
