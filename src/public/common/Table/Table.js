@@ -42,7 +42,7 @@ function Table({
 
   const handleRequestSort = (_, property) => {
     if (orderBy === property) {
-      setOrder(orderBy === property && order === 'asc' ? 'desc' : 'asc');
+      setOrder(order === 'asc' ? 'desc' : 'asc');
     }
 
     setOrderBy(property);

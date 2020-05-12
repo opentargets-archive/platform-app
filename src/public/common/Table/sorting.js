@@ -6,7 +6,9 @@ export function ascendingComparator(a, b, orderBy) {
 
 export function getComparator(columns, order, orderBy) {
   const column = columns.find(col => col.id === orderBy);
-  const columnComparator = column ? column.comparator : ascendingComparator;
+  const columnComparator = column?.comparator
+    ? column.comparator
+    : ascendingComparator;
 
   return order === 'asc'
     ? (a, b) => columnComparator(a, b, orderBy)
