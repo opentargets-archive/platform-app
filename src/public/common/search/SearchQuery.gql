@@ -6,12 +6,14 @@ query SearchQuery($queryString: String!) {
   ) {
     hits {
       id
+      entity
       object {
         ... on Target {
           id
           approvedSymbol
           approvedName
           proteinAnnotations {
+            id
             functions
           }
         }

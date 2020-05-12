@@ -31,7 +31,7 @@ const DiseaseDetail = ({ classes, data }) => {
       <Typography color="primary">
         <DiseaseIcon className={classes.icon} /> Disease
       </Typography>
-      <LongText lineLimit="4">{description}</LongText>
+      <LongText lineLimit={4}>{description}</LongText>
       {rows.length > 0 && (
         <>
           <Typography className={classes.subtitle} variant="subtitle1">

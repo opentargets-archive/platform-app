@@ -32,7 +32,7 @@ const associationsQuery = gql`
       nodes {
         id
         name
-        parentIds 
+        parentIds
       }
       therapeuticAreas
     }
@@ -193,7 +193,7 @@ const ClassicAssociations = ({ ensgId, symbol }) => {
     rows.length > 0 ? rows[0].scoresByDataType.map(d => d.dataTypeId) : [];
 
   return (
-    <Grid style={{ marginTop: '8px' }} container spacing={16}>
+    <Grid style={{ marginTop: '8px' }} container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h6">
           <strong>{commaSeparate(totalCount)} diseases</strong> associated with{' '}

@@ -61,6 +61,10 @@ To customise the platform app:
 - Create a directory somewhere outside this repository where you will put your customisation files.
 - Add an environment variable called `$CUSTOMISATIONS_DIR` that points to the directory created in the step above.
 - Inside your customisation directory you can overwrite or add new files following the same directory structure as `src/public`.
+- Make sure you have [yarn](https://classic.yarnpkg.com/en/docs/install) installed.
+  Any version below 2.0, but no older than 1.0,
+  will defer to the appropriate version while working in this repository.
+  Run `yarn install` in the repository to download dependencies.
 - When developing new customisations, you can use the `yarn start:customise` script inside this repository to see your customisations reflected
   in the app while developing. When done developing customisations, run the `yarn reset` command.
 - For production, you can produce a build containing the customisations by running the `yarn build:customise` script. This will create a `build`

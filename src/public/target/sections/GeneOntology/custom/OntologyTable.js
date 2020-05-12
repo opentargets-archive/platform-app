@@ -57,18 +57,14 @@ const getColumns = (
           <Fragment>
             <Link
               external
-              to={`https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/${
-                row.id
-              }/chart`}
+              to={`https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/${row.id}/chart`}
             >
               EBI QuickGO
             </Link>{' '}
             |{' '}
             <Link
               external
-              to={`http://amigo.geneontology.org/visualize?inline=false&term_data=${
-                row.id
-              }&format=png&mode=amigo&term_data_type=string`}
+              to={`http://amigo.geneontology.org/visualize?inline=false&term_data=${row.id}&format=png&mode=amigo&term_data_type=string`}
             >
               AMIGO
             </Link>

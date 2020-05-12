@@ -15,7 +15,7 @@ const Description = ({ classes, children }) => {
     <div className={classes.description}>
       <Typography variant="subtitle2">Description</Typography>
       {children ? (
-        <LongText lineLimit="3">{children}</LongText>
+        <LongText lineLimit={3}>{children}</LongText>
       ) : (
         'No description available'
       )}

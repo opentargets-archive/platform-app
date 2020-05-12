@@ -178,4 +178,4 @@ class GtexVariability extends Component {
   }
 }
 
-export default withTheme()(GtexVariability);
+export default withTheme(GtexVariability);

@@ -1,5 +1,4 @@
-import React from 'react';
-import { useQuery } from '@apollo/client';
+import React, { useState, useEffect } from 'react';
 import { loader } from 'graphql.macro';
 import queryString from 'query-string';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -11,7 +10,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import BasePage from '../common/BasePage';
-import { client2 } from '../client';
+import EmptyPage from '../common/EmptyPage';
 import TargetIcon from '../../icons/TargetIcon';
 import DiseaseIcon from '../../icons/DiseaseIcon';
 import DrugIcon from '../../icons/DrugIcon';
@@ -21,10 +20,9 @@ import DrugDetail from './DrugDetail';
 import TargetResult from './TargetResult';
 import DiseaseResult from './DiseaseResult';
 import DrugResult from './DrugResult';
+import client from '../client';
 
-const AGGS_QUERY = loader('./SearchPageAggsQuery.gql');
 const SEARCH_PAGE_QUERY = loader('./SearchPageQuery.gql');
-const TOP_HIT_QUERY = loader('./TopHitQuery.gql');
 const QS_OPTIONS = {
   sort: false,
   arrayFormat: 'comma',
@@ -77,15 +75,8 @@ const styles = theme => ({
 });
 
 const SearchFilters = withStyles(styles)(
-  ({ classes, q, entities, setEntity }) => {
-    const { loading, error, data } = useQuery(AGGS_QUERY, {
-      client: client2,
-      variables: { queryString: q },
-    });
-
-    if (loading || error) return null;
-
-    const counts = getCounts(data.search.aggregations.entities);
+  ({ classes, entities, entitiesCount, setEntity }) => {
+    const counts = getCounts(entitiesCount);
 
     return (
       <>
@@ -139,31 +130,18 @@ const SearchFilters = withStyles(styles)(
   }
 );
 
-const SearchResults = ({ q, page, entities, changePage }) => {
-  const { loading, error, data } = useQuery(SEARCH_PAGE_QUERY, {
-    client: client2,
-    variables: {
-      queryString: q,
-      index: page - 1,
-      entityNames: entities,
-    },
-  });
-
-  if (loading || error) return null;
-
-  const results = data.search.hits;
-
+const SearchResults = ({ q, results, page, entities, onChangePage }) => {
   return (
     <>
       <TablePagination
         component="div"
         rowsPerPageOptions={[]}
         rowsPerPage={10}
-        count={data.search.total}
+        count={results.total}
         page={page - 1}
-        onChangePage={changePage}
+        onChangePage={onChangePage}
       />
-      {results.map(({ highlights, object }) => {
+      {results.hits.map(({ highlights, object }) => {
         return object.__typename === 'Target' ? (
           <TargetResult key={object.id} data={object} highlights={highlights} />
         ) : object.__typename === 'Disease' ? (
@@ -180,26 +158,16 @@ const SearchResults = ({ q, page, entities, changePage }) => {
         component="div"
         rowsPerPageOptions={[]}
         rowsPerPage={10}
-        count={data.search.total}
+        count={results.total}
         page={page - 1}
-        onChangePage={changePage}
+        onChangePage={onChangePage}
       />
     </>
   );
 };
 
-const TopHitDetail = ({ q, entities }) => {
-  const { loading, error, data } = useQuery(TOP_HIT_QUERY, {
-    client: client2,
-    variables: { queryString: q, entityNames: entities },
-  });
-
-  if (loading || error) return null;
-
-  const topHit =
-    data.search.hits.length > 0 ? data.search.hits[0].object : null;
-
-  return topHit ? (
+const TopHitDetail = ({ topHit }) => {
+  return (
     <Card elevation={0}>
       {topHit.__typename === 'Target' ? (
         <TargetDetail data={topHit} />
@@ -209,19 +177,87 @@ const TopHitDetail = ({ q, entities }) => {
         <DrugDetail data={topHit} />
       ) : null}
     </Card>
-  ) : null;
+  );
+};
+
+const SearchContainer = ({
+  q,
+  page,
+  entities,
+  data,
+  onChangePage,
+  onSetEntity,
+}) => {
+  const { entities: entitiesCount } = data.search.aggregations;
+  const topHit = data.topHit.hits[0].object;
+
+  return (
+    <>
+      <Typography variant="h5" gutterBottom>
+        Search results for {q}
+      </Typography>
+      <Grid container spacing={24}>
+        <Grid item md={2}>
+          <Typography>Refine by:</Typography>
+          <FormGroup>
+            <SearchFilters
+              entities={entities}
+              entitiesCount={entitiesCount}
+              setEntity={onSetEntity}
+            />
+          </FormGroup>
+        </Grid>
+        <Grid item md={7}>
+          <SearchResults
+            page={page}
+            results={data.search}
+            onChangePage={onChangePage}
+          />
+        </Grid>
+        <Grid item md={3}>
+          <TopHitDetail topHit={topHit} />
+        </Grid>
+      </Grid>
+    </>
+  );
 };
 
 const SearchPage = ({ location, history }) => {
   const { q, page, entities } = parseQueryString(location.search);
+  const [data, setData] = useState(null);
 
-  const changePage = (event, page) => {
+  useEffect(
+    () => {
+      let isCurrent = true;
+      client
+        .query({
+          query: SEARCH_PAGE_QUERY,
+          variables: {
+            queryString: q,
+            index: page - 1,
+            entityNames: entities,
+          },
+        })
+        .then(res => {
+          if (isCurrent) {
+            setData(res.data);
+          }
+        });
+
+      return () => {
+        isCurrent = false;
+      };
+    },
+    [q, page, entities]
+  );
+
+  const handleChangePage = (event, page) => {
     const params = { q, page: page + 1, entities };
     const qs = queryString.stringify(params, QS_OPTIONS);
     history.push(`/search?${qs}`);
   };
 
-  const setEntity = entity => (event, checked) => {
+  const handleSetEntity = entity => (event, checked) => {
     const params = {
       q,
       page: 1, // reset to page 1
@@ -235,28 +271,25 @@ const SearchPage = ({ location, history }) => {
 
   return (
     <BasePage>
-      <Typography variant="h5" gutterBottom>
-        Search results for {q}
-      </Typography>
-      <Grid container spacing={24}>
-        <Grid item md={2}>
-          <Typography>Refine by:</Typography>
-          <FormGroup>
-            <SearchFilters q={q} entities={entities} setEntity={setEntity} />
-          </FormGroup>
-        </Grid>
-        <Grid item md={7}>
-          <SearchResults
+      {data ? (
+        data.search.total === 0 ? (
+          <EmptyPage>
+            <Typography align="center">
+              We could not find anything in the Platform database that matches
+            </Typography>
+            <Typography align="center">"{q}"</Typography>
+          </EmptyPage>
+        ) : (
+          <SearchContainer
             q={q}
             page={page}
             entities={entities}
-            changePage={changePage}
+            onSetEntity={handleSetEntity}
+            onChangePage={handleChangePage}
+            data={data}
           />
-        </Grid>
-        <Grid item md={3}>
-          <TopHitDetail q={q} entities={entities} />
-        </Grid>
-      </Grid>
+        )
+      ) : null}
     </BasePage>
   );
 };

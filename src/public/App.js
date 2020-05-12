@@ -13,6 +13,7 @@ import TargetPage from './target/Page';
 import DiseasePage from './disease/Page';
 import DrugPage from './drug/Page';
 import EvidencePage from './evidenceByDatatype/Page';
+import NoMatchPage from './noMatch/Page.js';
 
 class App extends Component {
   componentDidMount() {
@@ -32,6 +33,7 @@ class App extends Component {
               <Route path="/disease/:efoId" component={DiseasePage} />
               <Route path="/drug/:chemblId" component={DrugPage} />
               <Route path="/evidence/:ensgId/:efoId" component={EvidencePage} />
+              <Route component={NoMatchPage} />
             </Switch>
           </Router>
         </OtUiThemeProvider>

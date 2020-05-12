@@ -76,18 +76,14 @@ const getColumns = (
         <React.Fragment>
           <Link
             external
-            to={`https://reactome.org/ContentService/exporter/diagram/${
-              d.id
-            }.svg`}
+            to={`https://reactome.org/ContentService/exporter/diagram/${d.id}.svg`}
           >
             SVG
           </Link>{' '}
           |{' '}
           <Link
             external
-            to={`https://reactome.org/ContentService/exporter/diagram/${
-              d.id
-            }.png`}
+            to={`https://reactome.org/ContentService/exporter/diagram/${d.id}.png`}
           >
             PNG
           </Link>
@@ -104,9 +100,7 @@ const getDownloadRows = rows => {
     name: row.name,
     id: row.id,
     parents: row.parents.map(parent => parent.name).join(', '),
-    diagram: `https://reactome.org/ContentService/exporter/diagram/${
-      row.id
-    }.png`,
+    diagram: `https://reactome.org/ContentService/exporter/diagram/${row.id}.png`,
   }));
 };
 

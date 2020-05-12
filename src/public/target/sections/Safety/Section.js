@@ -176,9 +176,7 @@ class Section extends React.Component {
   componentDidMount() {
     // TODO: safety data should be loaded through graphql api
     fetch(
-      `https://platform-api-qc.opentargets.io/v3/platform/private/target/${
-        this.props.ensgId
-      }`
+      `https://platform-api-qc.opentargets.io/v3/platform/private/target/${this.props.ensgId}`
     )
       .then(res => res.json())
       .then(data => {

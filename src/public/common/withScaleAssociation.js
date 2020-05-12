@@ -4,7 +4,7 @@ import { mix, complement, lighten } from 'polished';
 import withTheme from '@material-ui/core/styles/withTheme';
 
 function withScaleAssociation(WrappedComponent) {
-  return withTheme()(
+  return withTheme(
     class extends Component {
       render() {
         const { theme, ...rest } = this.props;

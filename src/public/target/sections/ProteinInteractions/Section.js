@@ -17,11 +17,11 @@ import SourceCheckbox from './custom/SourceCheckbox';
 
 const styles = theme => ({
   formControl: {
-    margin: theme.spacing.unit * 0.5,
-    marginLeft: theme.spacing.unit * 2,
+    margin: theme.spacing(0.5),
+    marginLeft: theme.spacing(2),
   },
   chip: {
-    margin: theme.spacing.unit * 0.5,
+    margin: theme.spacing(0.5),
   },
 });
 
@@ -74,9 +74,7 @@ class Section extends React.Component {
             {interactionTypes.enzymeSubstrate ? (
               <SourceChip
                 sourceType="enzymeSubstrate"
-                label={`Enzyme-substrate (${
-                  d.interactionsEnzymeSubstrateCount
-                })`}
+                label={`Enzyme-substrate (${d.interactionsEnzymeSubstrateCount})`}
               />
             ) : null}
             {interactionTypes.pathways ? (

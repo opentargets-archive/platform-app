@@ -483,7 +483,7 @@ class FilterTable extends Component {
 
     return (
       <Fragment>
-        <Grid container spacing={24}>
+        <Grid container spacing={3}>
           <Grid item>
             <div className={classes.countLabelSection}>
               <strong>Summary</strong>

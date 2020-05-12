@@ -14,7 +14,6 @@ import BasePage from '../common/BasePage';
 const TARGET_QUERY = gql`
   query TargetQuery($ensgId: String!) {
     target(ensemblId: $ensgId) {
-      # description
       id
       approvedSymbol
       approvedName
