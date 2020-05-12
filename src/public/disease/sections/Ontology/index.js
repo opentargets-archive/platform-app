@@ -5,7 +5,7 @@ export const name = 'Ontology';
 
 export const hasSummaryData = () => true; // all terms are in the ontology
 
-export const sectionQuery = loader('./sectionQuery.gql');
+// export const sectionQuery = loader('./sectionQuery.gql');
 
 export { default as DescriptionComponent } from './Description';
 export { default as SummaryComponent } from './Summary';
