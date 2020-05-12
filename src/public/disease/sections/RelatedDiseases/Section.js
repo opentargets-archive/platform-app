@@ -8,39 +8,34 @@ const columns = (name, maxCountAOrB) => [
   {
     id: 'B.name',
     label: `Related disease ${String.fromCodePoint('9399')}`,
-    orderable: false,
-    renderCell: d => <Link to={`/target/${d.B.id}`}>{d.B.name}</Link>,
     comparator: (a, b) => (a.B.name <= b.B.name ? -1 : 1),
+    renderCell: d => <Link to={`/target/${d.B.id}`}>{d.B.name}</Link>,
   },
   {
     id: 'score',
     label: 'Similarity score',
     numeric: true,
-    orderable: false,
     renderCell: d => significantFigures(d.score),
   },
   {
     id: 'countANotB',
-    numeric: true,
-    hidden: ['mdDown'],
     label: `${String.fromCodePoint('9398')} - ${String.fromCodePoint('9399')}`,
     tooltip: `Diseases associated with ${name} but not the related disease`,
-    orderable: false,
+    numeric: true,
+    hidden: ['mdDown'],
   },
   {
     id: 'countAAndB',
-    numeric: true,
     label: `${String.fromCodePoint('9398')} + ${String.fromCodePoint('9399')}`,
     tooltip: 'Shared disease associations',
-    orderable: false,
+    numeric: true,
   },
   {
     id: 'countBNotA',
-    numeric: true,
-    hidden: ['mdDown'],
     label: `${String.fromCodePoint('9399')} - ${String.fromCodePoint('9398')}`,
     tooltip: `Diseases associated with the related disease but not ${name}`,
-    orderable: false,
+    numeric: true,
+    hidden: ['mdDown'],
   },
   {
     id: 'chart',
@@ -61,7 +56,6 @@ const columns = (name, maxCountAOrB) => [
         b={`Diseases associated with the related target but not ${name}`}
       />
     ),
-    orderable: false,
     tooltipStyle: {
       popper: { maxWidth: 'none' },
       tooltip: { maxWidth: 'none' },
