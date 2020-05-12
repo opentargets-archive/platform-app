@@ -1,30 +1,23 @@
-query knownDrugsSectionQuery($efoId: String!) {
+query knownDrugsSectionQuery($efoId: String!, $index: Int! = 0, $size: Int! = 10) {
   disease(efoId: $efoId) {
     id
     name
     description
-    knownDrugs {
-      uniqueDrugs
-      uniqueDiseases
-      uniqueTargets
+    knownDrugs(page:{index: $index, size: $size}) {
       count
       rows {
         disease {
           name
         }
-        target {
-          approvedSymbol
-        }
+        phase
+        status
+        ctIds
         drug {
           name
         }
         drugType
-        phase
         mechanismOfAction
-        status
         activity
-        targetClass
-        ctIds
       }
     }
   }
