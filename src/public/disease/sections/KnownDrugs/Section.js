@@ -4,11 +4,13 @@ import { Link } from 'ot-ui';
 import Table from '../../../common/Table/Table';
 import { label } from '../../../../utils/global';
 import Config from '../../../../config/global';
+import DataDownloader from 'ot-ui/build/components/DataDownloader';
 
-const columns = () => [
+const columns = [
   {
     id: 'disease',
     label: 'Disease',
+    export: d => d.disease.id,
     renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
@@ -16,6 +18,7 @@ const columns = () => [
   {
     id: 'drug',
     label: 'Drug',
+    export: d => d.drug.id,
     renderCell: d => (
       <Link to={`/drug/${d.drug.id}`}>{label(d.drug.name)}</Link>
     ),
@@ -27,6 +30,12 @@ const columns = () => [
   {
     id: 'status',
     label: 'Status',
+    renderCell: d => label(d.status),
+  },
+  {
+    id: 'ctIds',
+    label: 'Source',
+    export: d => d.ctIds.join(','),
     renderCell: d => {
       const ctSearchUrl = new URL(Config.ctSearchUrl);
       ctSearchUrl.searchParams.append('results', d.ctIds.join(' OR '));
@@ -37,11 +46,6 @@ const columns = () => [
         </Link>
       );
     },
-  },
-  {
-    id: 'ctIds',
-    label: 'Source',
-    renderCell: d => label(d.status),
   },
   {
     id: 'drugType',
@@ -59,7 +63,7 @@ const columns = () => [
   },
 ];
 
-const Section = ({ data, fetchMore }) => {
+const Section = ({ data, fetchMore, efoId }) => {
   const [pageIndex, setPageIndex] = useState(0);
 
   const onTableAction = pe => pe.page !== undefined && setPageIndex(pe.page);
@@ -76,17 +80,22 @@ const Section = ({ data, fetchMore }) => {
     [fetchMore, pageIndex]
   );
 
-  console.log('data.rows', data.rows);
-
   return (
-    <Table
-      columns={columns()}
-      rows={data.rows}
-      rowCount={data.count}
-      serverSide={true}
-      onTableAction={onTableAction}
-      noWrapHeader
-    />
+    <>
+      <DataDownloader
+        tableHeaders={columns}
+        rows={data.rows}
+        fileStem={`${efoId}-known_drugs`}
+      />
+      <Table
+        columns={columns}
+        rows={data.rows}
+        rowCount={data.count}
+        serverSide={true}
+        onTableAction={onTableAction}
+        noWrapHeader
+      />
+    </>
   );
 };
 
