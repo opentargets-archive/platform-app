@@ -96,7 +96,15 @@ function Table({
                             ? 'right'
                             : 'left'
                         }
-                        style={{ ...column.style, ...row.rowStyle }}
+                        style={{
+                          ...column.style,
+                          ...row.rowStyle,
+                          ...(column.numeric
+                            ? {
+                                fontVariant: 'tabular-nums',
+                              }
+                            : {}),
+                        }}
                       >
                         {column.renderCell
                           ? column.renderCell(row)
