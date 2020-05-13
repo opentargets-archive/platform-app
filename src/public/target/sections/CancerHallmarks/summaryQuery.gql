@@ -1,16 +1,13 @@
-fragment targetCancerHallmarksFragment on TargetSummaries {
-  cancerHallmarks {
-    roleInCancer {
-      name
-      pmId
-    }
-    sources {
-      name
-    }
-    promotionAndSuppressionByHallmark {
-      name
-      promotes
-      suppresses
+fragment targetHallmarksFragment on Target {
+  hallmarks{
+    rows {
+      label
+      suppress
+      promote
+      reference{
+        description
+        pubmedId
+      }
     }
   }
 }

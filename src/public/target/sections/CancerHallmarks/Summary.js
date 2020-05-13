@@ -1,17 +1,17 @@
 import React from 'react';
+import _ from 'lodash';
 
-const Summary = ({ promotionAndSuppressionByHallmark }) => (
-  <React.Fragment>
-    {
-      promotionAndSuppressionByHallmark.filter(d => d.promotes || d.suppresses)
-        .length
-    }{' '}
-    hallmarks
-    <br />
-    {promotionAndSuppressionByHallmark.filter(d => d.promotes).length} promote •{' '}
-    {promotionAndSuppressionByHallmark.filter(d => d.suppresses).length}{' '}
-    suppress
-  </React.Fragment>
-);
+const Summary = ({ data }) => {
+  const hallmarks = _.uniqBy(data.rows, 'label');
+  const promote = _.uniqBy(data.rows.filter(d => d.promote), 'label');
+  const suppress = _.uniqBy(data.rows.filter(d => d.suppress), 'label');
+  return (
+    <React.Fragment>
+      {hallmarks.length} hallmarks
+      <br />
+      {promote.length} promote • {suppress.length} suppress
+    </React.Fragment>
+  );
+};
 
 export default Summary;
