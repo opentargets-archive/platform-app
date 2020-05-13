@@ -20,10 +20,14 @@ const TargetDetail = ({ classes, data }) => {
     id,
     approvedSymbol,
     approvedName,
-    proteinAnnotations: { functions, accessions },
+    proteinAnnotations,
     bioType,
     associationsOnTheFly: { rows },
   } = data;
+
+  const functions = proteinAnnotations ? proteinAnnotations.functions : null;
+  const accessions = proteinAnnotations ? proteinAnnotations.accessions : null;
+
   return (
     <>
       <CardContent>
@@ -34,7 +38,7 @@ const TargetDetail = ({ classes, data }) => {
         <Typography color="primary">
           <TargetIcon className={classes.icon} /> Target
         </Typography>
-        <LongText lineLimit={4}>{functions[0]}</LongText>
+        {functions ? <LongText lineLimit={4}>{functions[0]}</LongText> : null}
         {rows.length > 0 && (
           <>
             <Typography className={classes.subtitle} variant="subtitle1">
@@ -53,7 +57,7 @@ const TargetDetail = ({ classes, data }) => {
           Biotype
         </Typography>
         <Typography>{bioType}</Typography>
-        {accessions.length > 0 && (
+        {accessions && accessions.length > 0 ? (
           <>
             <Typography className={classes.subtitle} variant="subtitle1">
               Uniprot accessions
@@ -71,7 +75,7 @@ const TargetDetail = ({ classes, data }) => {
               );
             })}
           </>
-        )}
+        ) : null}
       </CardContent>
     </>
   );
