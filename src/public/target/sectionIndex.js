@@ -3,7 +3,7 @@
 
 // import * as bibliographyRaw from './sections/Bibliography';
 import * as cancerBiomarkersRaw from './sections/CancerBiomarkers';
-// import * as cancerHallmarksRaw from './sections/CancerHallmarks';
+import * as hallmarksRaw from './sections/CancerHallmarks';
 import * as chemicalProbesRaw from './sections/ChemicalProbes';
 // import * as drugsRaw from './sections/KnownDrugs';
 // import * as expressionRaw from './sections/Expression';
@@ -20,7 +20,7 @@ import * as tractabilityRaw from './sections/Tractability';
 
 // export const bibliography = bibliographyRaw;
 export const cancerBiomarkers = cancerBiomarkersRaw;
-// export const cancerHallmarks = cancerHallmarksRaw;
+export const hallmarks = hallmarksRaw;
 export const chemicalProbes = chemicalProbesRaw;
 // export const drugs = drugsRaw;
 // export const expression = expressionRaw;

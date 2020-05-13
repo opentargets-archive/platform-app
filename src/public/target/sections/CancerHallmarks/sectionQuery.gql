@@ -1,18 +1,23 @@
 query CancerHallmarksSectionQuery($ensgId: String!) {
-  target(ensgId: $ensgId) {
+  target(ensemblId: $ensgId) {
     id
-    details {
-      cancerHallmarks {
-        roleInCancer {
-          name
-          pmId
-        }
-        rows {
-          name
-          promotes
-          suppresses
-          pmId
+    hallmarks {
+      # role in cancer
+      attributes{
+        name
+        reference{
+          pubmedId
           description
+        }
+      }
+      # table rows
+    	rows {
+        label
+        suppress
+        promote
+        reference{
+          description
+          pubmedId
         }
       }
     }
