@@ -1,6 +1,8 @@
-import React from 'react';
 import { OtTableRF, Link, significantFigures } from 'ot-ui';
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
+
+import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 
 const columns = (symbol, maxCountAOrB) => [
   {
@@ -27,7 +29,7 @@ const columns = (symbol, maxCountAOrB) => [
     orderable: false,
   },
   {
-    id: 'countAndB',
+    id: 'countAAndB',
     label: 'Shared disease associations',
     orderable: false,
   },
@@ -48,9 +50,9 @@ const columns = (symbol, maxCountAOrB) => [
     orderable: false,
     renderCell: d => (
       <LinearVenn
-        aOnly={d.countA - d.countAndB}
-        bOnly={d.countB - d.countAndB}
-        aAndB={d.countAndB}
+        aOnly={d.countA - d.countAAndB}
+        bOnly={d.countB - d.countAAndB}
+        aAndB={d.countAAndB}
         max={maxCountAOrB}
       />
     ),
@@ -59,65 +61,52 @@ const columns = (symbol, maxCountAOrB) => [
 
 const pageSize = 10; // unlikely to change for now, so no need to go into state
 
-class Section extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pageIndex: 0,
-    };
-  }
+const Section = props => {
+  const [pageIndex, setPageIndex] = useState(0);
 
-  componentDidUpdate(prevProps, prevState) {
+  useEffect(() => {
     // fetchMore is Apollo's pagination function
     // no table sorting / ordering at the moment
-    const { fetchMore } = this.props;
-    const { pageIndex } = this.state;
-    if (prevState.pageIndex !== pageIndex) {
-      fetchMore({
-        variables: { index: pageIndex, size: pageSize },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult) {
-            return prev;
-          }
-          return Object.assign({}, prev, fetchMoreResult);
-        },
-      });
+    const { fetchMore } = props;
+    fetchMore({
+      variables: { index: pageIndex, size: pageSize },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) {
+          return prev;
+        }
+        return Object.assign({}, prev, fetchMoreResult);
+      },
+    });
+  });
+
+  const onPageSort = pe => {
+    // table specific constants
+    const { page, pageSize, sortBy, order } = pe;
+    if (page !== undefined && page !== pageIndex) {
+      setPageIndex(page);
     }
-  }
-
-  render = () => {
-    const { data, symbol } = this.props;
-    const { rows, count, maxCountAOrB } = data;
-
-    const rowsMapped = rows.map(d => ({
-      ...d,
-      countANotB: d.countA - d.countAndB,
-      countBNotA: d.countB - d.countAndB,
-    }));
-
-    const onPageSort = pe => {
-      // table specific constants
-      const { page } = pe;
-      let ns = {};
-
-      if (page !== undefined) {
-        ns.pageIndex = page;
-      }
-      this.setState(ns);
-    };
-
-    return (
-      <OtTableRF
-        loading={false}
-        error={false}
-        columns={columns(symbol, maxCountAOrB)}
-        data={rowsMapped}
-        serverSide={true}
-        totalRowsCount={count}
-        onPageSort={onPageSort}
-      />
-    );
   };
-}
+
+  const { data, symbol } = props;
+  const { rows, count, maxCountAOrB } = data;
+
+  const rowsMapped = rows.map(d => ({
+    ...d,
+    countANotB: d.countA - d.countAAndB,
+    countBNotA: d.countB - d.countAAndB,
+  }));
+
+  return (
+    <OtTableRF
+      loading={false}
+      error={false}
+      columns={columns(symbol, maxCountAOrB)}
+      data={rowsMapped}
+      serverSide={true}
+      totalRowsCount={count}
+      onPageSort={onPageSort}
+    />
+  );
+};
 
 export default Section;

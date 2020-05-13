@@ -9,7 +9,7 @@ const columns = (name, maxCountAOrB) => [
     id: 'B.name',
     label: `Related disease ${String.fromCodePoint('9399')}`,
     comparator: (a, b) => (a.B.name <= b.B.name ? -1 : 1),
-    renderCell: d => <Link to={`/target/${d.B.id}`}>{d.B.name}</Link>,
+    renderCell: d => <Link to={`/disease/${d.B.id}`}>{d.B.name}</Link>,
   },
   {
     id: 'score',
