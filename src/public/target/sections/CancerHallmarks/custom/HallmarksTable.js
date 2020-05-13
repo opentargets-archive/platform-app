@@ -16,25 +16,25 @@ const getColumns = (
       id: 'label',
       label: 'Hallmarks',
       renderCell: row => row.label,
-      // renderFilter: () => (
-      //   <Select
-      //     isClearable
-      //     options={hallmarksOptions}
-      //     onChange={hallmarksFilterHandler}
-      //   />
-      // ),
+      renderFilter: () => (
+        <Select
+          isClearable
+          options={hallmarksOptions}
+          onChange={hallmarksFilterHandler}
+        />
+      ),
     },
     {
       id: 'activity',
       label: 'Promotes or suppresses',
       renderCell: row => row.activity,
-      // renderFilter: () => (
-      //   <Select
-      //     isClearable
-      //     options={promotesOptions}
-      //     onChange={promotesFilterHandler}
-      //   />
-      // ),
+      renderFilter: () => (
+        <Select
+          isClearable
+          options={promotesOptions}
+          onChange={promotesFilterHandler}
+        />
+      ),
     },
     {
       id: 'description',
@@ -64,9 +64,9 @@ const downloadColumns = [
 ];
 
 const getHallmarksOptions = rows => {
-  return _.uniqBy(rows, 'name').map(row => ({
-    label: row.name,
-    value: row.name,
+  return _.uniqBy(rows, 'label').map(row => ({
+    label: row.label,
+    value: row.label,
   }));
 };
 
@@ -117,7 +117,7 @@ class HallmarksTable extends Component {
     // Initialize the xfilter with filteredrows:
     // this is only done at hte beginning and hence stores the full data rows
     this.hallmarksXf = crossfilter(this.state.filteredRows);
-    this.hallmarksDim = this.hallmarksXf.dimension(row => row.name);
+    this.hallmarksDim = this.hallmarksXf.dimension(row => row.label);
     this.promotesDim = this.hallmarksXf.dimension(row => row.activity);
   }
 
@@ -140,7 +140,7 @@ class HallmarksTable extends Component {
           rows={filteredRows}
           fileStem={`${symbol}-hallmarks`}
         />
-        <OtTableRF columns={columns} data={filteredRows} />
+        <OtTableRF columns={columns} data={filteredRows} filters />
       </Fragment>
     );
   }
