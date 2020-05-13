@@ -13,8 +13,9 @@ const defaultGetSummaryFromSummaries = (section, summariesData) => {
 const hasSummaryData = (summaryFunction, summaryData) => {
   try {
     return summaryFunction(summaryData);
-  } catch {
-    return true;
+  } catch (e) {
+    console.error('Error while dectecting summary data.', e);
+    return false;
   }
 };
 

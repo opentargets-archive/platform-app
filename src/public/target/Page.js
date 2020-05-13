@@ -52,10 +52,11 @@ const TargetPage = ({ history, location, match }) => {
     proteinAnnotations,
     symbolSynonyms,
   } = data.target;
-  const uniprotId = proteinAnnotations.id;
-  const description = proteinAnnotations.functions
-    ? proteinAnnotations.functions[0]
-    : null;
+  const uniprotId = proteinAnnotations ? proteinAnnotations.id : null;
+  const description =
+    proteinAnnotations && proteinAnnotations.functions
+      ? proteinAnnotations.functions[0]
+      : null;
 
   return (
     <BasePage>
