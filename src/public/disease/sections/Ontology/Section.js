@@ -74,7 +74,6 @@ const getSubgraph = ({
 const Section = ({ efoId, name }) => {
   const [therapeuticAreas, setTherapeuticAreas] = useState(null);
   const [efoNodes, setEfoNodes] = useState(null);
-  // const { nodes, therapeuticAreas } = data;
 
   useEffect(() => {
     let isCurrent = true;
@@ -101,6 +100,8 @@ const Section = ({ efoId, name }) => {
       .then(res => res.json())
       .then(nodes => {
         if (isCurrent) {
+          // The efos nodes don't include the EFO_ROOT node that is necessary
+          // to work with d3-dag
           setEfoNodes([
             { id: 'EFO_ROOT', name: 'root', parentIds: [] },
             ...nodes,
@@ -115,7 +116,8 @@ const Section = ({ efoId, name }) => {
 
   if (!(therapeuticAreas && efoNodes)) return null;
 
-  let nodes = efoNodes.map(node => {
+  // make sure that every therapeutic area has as parent the root node
+  const nodes = efoNodes.map(node => {
     const newNode = {
       ...node,
     };
@@ -126,8 +128,6 @@ const Section = ({ efoId, name }) => {
 
     return newNode;
   });
-
-  // nodes = [
 
   const nodesById = nodes.reduce((acc, d) => {
     acc[d.id] = d;
