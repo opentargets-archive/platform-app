@@ -32,7 +32,7 @@ function Table({
   const [order, setOrder] = useState(props.order || 'asc');
   const pageStart = serverSide ? 0 : pageSize;
   const pageEnd = serverSide ? pageSize : page * pageSize + pageSize;
-  const emptyRows = pageSize - (pageEnd - pageStart - 1);
+  const emptyRows = pageSize - rows.length;
   const classes = tableStyles();
 
   const handleChangePage = (_, newPage) => {
@@ -115,7 +115,7 @@ function Table({
                 </TableRow>
               ))}
             {emptyRows > 0 && (
-              <TableRow style={{ height: 28 * emptyRows }}>
+              <TableRow style={{ height: 29 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>
             )}
