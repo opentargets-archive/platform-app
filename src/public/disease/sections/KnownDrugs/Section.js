@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'ot-ui';
 
-import Table from '../../../common/Table/Table';
-import { label } from '../../../../utils/global';
-import Config from '../../../../config/global';
 import DataDownloader from 'ot-ui/build/components/DataDownloader';
+import Table from '../../../common/Table/Table';
+import useBatchDownloader from '../../../../hooks/useBatchDownloader';
+import { clinicalTrialsSearchUrl } from '../../../configuration';
+import { label } from '../../../../utils/global';
+import { sectionQuery } from '.';
 
 const columns = [
   {
@@ -37,7 +39,7 @@ const columns = [
     label: 'Source',
     export: d => d.ctIds.join(','),
     renderCell: d => {
-      const ctSearchUrl = new URL(Config.ctSearchUrl);
+      const ctSearchUrl = new URL(clinicalTrialsSearchUrl);
       ctSearchUrl.searchParams.append('results', d.ctIds.join(' OR '));
 
       return (
@@ -65,6 +67,12 @@ const columns = [
 
 const Section = ({ data, fetchMore, efoId }) => {
   const [pageIndex, setPageIndex] = useState(0);
+  const getWholeDataset = useBatchDownloader(
+    sectionQuery,
+    { efoId },
+    'disease.knownDrugs.rows',
+    'disease.knownDrugs.count'
+  );
 
   const onTableAction = pe => pe.page !== undefined && setPageIndex(pe.page);
   const pageSize = 10;
@@ -82,15 +90,17 @@ const Section = ({ data, fetchMore, efoId }) => {
 
   return (
     <>
-      <DataDownloader
-        tableHeaders={columns}
-        rows={data.rows}
-        fileStem={`${efoId}-known_drugs`}
-      />
+      {data && (
+        <DataDownloader
+          tableHeaders={columns}
+          rows={getWholeDataset}
+          fileStem={`${efoId}-known_drugs`}
+        />
+      )}
       <Table
         columns={columns}
-        rows={data.rows}
-        rowCount={data.count}
+        rows={data?.rows || []}
+        rowCount={data?.count || 0}
         serverSide={true}
         onTableAction={onTableAction}
         noWrapHeader
