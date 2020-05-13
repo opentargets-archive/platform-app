@@ -13,28 +13,28 @@ const getColumns = (
 ) => {
   return [
     {
-      id: 'hallmark',
+      id: 'label',
       label: 'Hallmarks',
-      renderCell: row => row.name,
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={hallmarksOptions}
-          onChange={hallmarksFilterHandler}
-        />
-      ),
+      renderCell: row => row.label,
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={hallmarksOptions}
+      //     onChange={hallmarksFilterHandler}
+      //   />
+      // ),
     },
     {
       id: 'activity',
       label: 'Promotes or suppresses',
       renderCell: row => row.activity,
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={promotesOptions}
-          onChange={promotesFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={promotesOptions}
+      //     onChange={promotesFilterHandler}
+      //   />
+      // ),
     },
     {
       id: 'description',
@@ -47,7 +47,7 @@ const getColumns = (
       renderCell: row => (
         <Link
           external
-          to={`http://europepmc.org/search?query=EXT_ID:${row.pmId}`}
+          to={`http://europepmc.org/search?query=EXT_ID:${row.pubmedId}`}
         >
           1&nbsp;publication
         </Link>
@@ -57,10 +57,10 @@ const getColumns = (
 };
 
 const downloadColumns = [
-  { id: 'name', label: 'Hallmarks' },
+  { id: 'label', label: 'Hallmarks' },
   { id: 'activity', label: 'Promotes or suppresses' },
   { id: 'description', label: 'Description' },
-  { id: 'pmId', label: 'Sources (PubMed id)' },
+  { id: 'pubmedId', label: 'Sources (PubMed id)' },
 ];
 
 const getHallmarksOptions = rows => {
@@ -82,10 +82,10 @@ class HallmarksTable extends Component {
     // initialize filteredrows to rows: we also map each entry
     // and generate a convenience 'activity' field to then filter on
     filteredRows: this.props.rows.map(r => ({
-      name: r.name,
-      activity: r.promotes ? 'promotes' : r.suppresses ? 'suppresses' : '',
-      description: r.description,
-      pmId: r.pmId,
+      label: r.label,
+      activity: r.promote ? 'promotes' : r.suppress ? 'suppresses' : '',
+      description: r.reference.description,
+      pubmedId: r.reference.pubmedId,
     })),
   };
 
@@ -140,7 +140,7 @@ class HallmarksTable extends Component {
           rows={filteredRows}
           fileStem={`${symbol}-hallmarks`}
         />
-        <OtTableRF columns={columns} data={filteredRows} filters />
+        <OtTableRF columns={columns} data={filteredRows} />
       </Fragment>
     );
   }
