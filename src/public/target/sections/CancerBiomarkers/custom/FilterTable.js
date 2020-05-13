@@ -9,6 +9,8 @@ import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import classNames from 'classnames';
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';
+import client from '../../../../client';
+import gql from 'graphql-tag';
 
 import DCContainer from '../../../../common/DCContainer';
 import {
@@ -38,73 +40,77 @@ const getColumns = ({
 }) => {
   return [
     {
-      id: 'biomarker',
+      id: 'id',
       label: 'Biomarker',
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={biomarkerOptions}
-          onChange={biomarkerFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={biomarkerOptions}
+      //     onChange={biomarkerFilterHandler}
+      //   />
+      // ),
+      width: '16%',
     },
     {
       id: 'diseases',
       label: 'Disease',
       renderCell: rowData => {
-        return rowData.diseases.map((disease, i) => {
-          return (
-            <Link
-              key={i}
-              external
-              to={`https://www.targetvalidation.org/disease/${disease.id}`}
-            >
-              {disease.name}
-            </Link>
-          );
-        });
+        return (
+          <Link
+            external
+            to={`https://www.targetvalidation.org/disease/${
+              rowData.disease.id
+            }`}
+          >
+            {rowData.disease.name}
+          </Link>
+        );
       },
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={diseaseOptions}
-          onChange={diseaseFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={diseaseOptions}
+      //     onChange={diseaseFilterHandler}
+      //   />
+      // ),
+      width: '16%',
     },
     {
       id: 'drugName',
       label: 'Drug',
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={drugOptions}
-          onChange={drugFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={drugOptions}
+      //     onChange={drugFilterHandler}
+      //   />
+      // ),
+      // width: '15%',
     },
     {
       id: 'associationType',
       label: 'Association',
       renderCell: row => _.capitalize(row.associationType.replace(/_/g, ' ')),
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={associationOptions}
-          onChange={associationFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={associationOptions}
+      //     onChange={associationFilterHandler}
+      //   />
+      // ),
+      width: '13%',
     },
     {
       id: 'evidenceLevel',
       label: 'Evidence',
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={evidenceOptions}
-          onChange={evidenceFilterHandler}
-        />
-      ),
+      // renderFilter: () => (
+      //   <Select
+      //     isClearable
+      //     options={evidenceOptions}
+      //     onChange={evidenceFilterHandler}
+      //   />
+      // ),
+      width: '13%',
     },
     {
       id: 'sources',
@@ -113,13 +119,14 @@ const getColumns = ({
         return (
           <Fragment>
             {rowData.sources.map((source, i) => (
-              <Link key={i} external to={source.url}>
+              <Link key={i} external to={source.link}>
                 {source.name}
               </Link>
             ))}
           </Fragment>
         );
       },
+      width: '13%',
     },
   ];
 };
@@ -150,79 +157,165 @@ const styles = theme => ({
   },
 });
 
-const getBiomarkerOptions = rows => {
-  return _.uniq(rows.map(row => row.biomarker)).map(row => ({
-    label: row,
-    value: row,
-  }));
-};
+const BATCH_SIZE = 1000;
 
-const getDiseaseOptions = rows => {
-  return _.uniq(
-    rows.reduce((acc, row) => {
-      row.diseases.forEach(disease => {
-        acc.push(disease.name);
+const COUNT_QUERY = gql`
+  query CancerBiomarkersCount($ensgId: String!) {
+    target(ensemblId: $ensgId) {
+      id
+      cancerBiomarkers {
+        count
+      }
+    }
+  }
+`;
+
+const PAGE_QUERY = gql`
+  query CancerBiomarkersSectionQuery($ensgId: String!, $page: Pagination!) {
+    target(ensemblId: $ensgId) {
+      id
+      cancerBiomarkers(page: $page) {
+        uniqueDrugs
+        uniqueDiseases
+        uniqueBiomarkers
+        count
+        rows {
+          id
+          associationType
+          drugName
+          evidenceLevel
+          sources {
+            link
+            name
+          }
+          pubmedIds
+          target {
+            approvedSymbol
+          }
+          disease {
+            name
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
+const getRows = async ensgId => {
+  // find how many rows there are
+  const result = await client.query({
+    query: COUNT_QUERY,
+    variables: {
+      ensgId,
+    },
+  });
+  const { count } = result.data.target.cancerBiomarkers;
+  const numBatches = Math.ceil(count / BATCH_SIZE);
+  const batchPromises = [];
+
+  for (let i = 0; i < numBatches; i++) {
+    batchPromises.push(
+      client.query({
+        query: PAGE_QUERY,
+        variables: {
+          ensgId,
+          page: { index: i, size: BATCH_SIZE },
+        },
+      })
+    );
+  }
+
+  return Promise.all(batchPromises).then(batches => {
+    const allRows = [];
+
+    batches.forEach(batch => {
+      const { rows } = batch.data.target.cancerBiomarkers;
+      rows.forEach(row => {
+        allRows.push(row);
       });
-      return acc;
-    }, [])
-  ).map(disease => ({ label: disease, value: disease }));
+    });
+
+    return {
+      count,
+      rows: allRows,
+    };
+  });
 };
 
-const getDrugOptions = rows => {
-  return _.uniq(rows.map(row => row.drugName)).map(row => ({
-    label: row,
-    value: row,
-  }));
-};
+// const getBiomarkerOptions = rows => {
+//   return _.uniq(rows.map(row => row.biomarker)).map(row => ({
+//     label: row,
+//     value: row,
+//   }));
+// };
 
-const getAssociationOptions = rows => {
-  return _.uniq(rows.map(row => row.associationType)).map(row => ({
-    label: row,
-    value: row,
-  }));
-};
+// const getDiseaseOptions = rows => {
+//   console.log('getDiseaseOptions: ', rows);
+//   return _.uniq(
+//     rows.reduce((acc, row) => {
+//       acc.push(row.disease.name);
+//       return acc;
+//     }, [])
+//   ).map(disease => ({ label: disease, value: disease }));
+// };
 
-const getEvidenceOptions = rows => {
-  return _.uniq(rows.map(row => row.evidenceLevel)).map(row => ({
-    label: row,
-    value: row,
-  }));
-};
+// const getDrugOptions = rows => {
+//   return _.uniq(rows.map(row => row.drugName)).map(row => ({
+//     label: row,
+//     value: row,
+//   }));
+// };
 
-const getDownloadColumns = () => {
-  return [
-    { id: 'biomarker', label: 'Biomarker' },
-    { id: 'diseases', label: 'Diseases' },
-    { id: 'efo', label: 'EFO codes' },
-    { id: 'drugName', label: 'Drug' },
-    { id: 'associationType', label: 'Association' },
-    { id: 'evidenceLevel', label: 'Evidence' },
-    { id: 'sources', label: 'Sources' },
-  ];
-};
+// const getAssociationOptions = rows => {
+//   return _.uniq(rows.map(row => row.associationType)).map(row => ({
+//     label: row,
+//     value: row,
+//   }));
+// };
 
-const getDownloadRows = rows => {
-  return rows.map(row => ({
-    biomarker: row.biomarker,
-    diseases: row.diseases.map(disease => disease.name).join(', '),
-    efo: row.diseases.map(disease => disease.id).join(', '),
-    drugName: row.drugName,
-    associationType: row.associationType,
-    evidenceLevel: row.evidenceLevel,
-    sources: row.sources.map(source => source.url).join(', '),
-  }));
-};
+// const getEvidenceOptions = rows => {
+//   return _.uniq(rows.map(row => row.evidenceLevel)).map(row => ({
+//     label: row,
+//     value: row,
+//   }));
+// };
 
-const getPieColors = (items, chartColour) => {
-  return items.reduce((acc, item, i) => {
-    acc[item.label] = darken(0.05 * i, chartColour);
-    return acc;
-  }, {});
-};
+// const getDownloadColumns = () => {
+//   return [
+//     { id: 'biomarker', label: 'Biomarker' },
+//     { id: 'diseases', label: 'Diseases' },
+//     { id: 'efo', label: 'EFO codes' },
+//     { id: 'drugName', label: 'Drug' },
+//     { id: 'associationType', label: 'Association' },
+//     { id: 'evidenceLevel', label: 'Evidence' },
+//     { id: 'sources', label: 'Sources' },
+//   ];
+// };
+
+// const getDownloadRows = rows => {
+//   return rows.map(row => ({
+//     biomarker: row.biomarker,
+//     diseases: row.diseases.map(disease => disease.name).join(', '),
+//     efo: row.diseases.map(disease => disease.id).join(', '),
+//     drugName: row.drugName,
+//     associationType: row.associationType,
+//     evidenceLevel: row.evidenceLevel,
+//     sources: row.sources.map(source => source.url).join(', '),
+//   }));
+// };
+
+// const getPieColors = (items, chartColour) => {
+//   return items.reduce((acc, item, i) => {
+//     acc[item.label] = darken(0.05 * i, chartColour);
+//     return acc;
+//   }, {});
+// };
 
 class FilterTable extends Component {
   state = {};
 
+  /*
   setupCharts() {
     // set up DC charts, not crossfilter stuff
     this.drugCountLabel = dc.numberDisplay('#biomarkers-drug-count');
@@ -360,7 +453,7 @@ class FilterTable extends Component {
     }
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
-
+  
   static getDerivedStateFromProps(props, state) {
     const prevProps = state.prevProps || {};
 
@@ -451,37 +544,41 @@ class FilterTable extends Component {
 
     return null;
   }
+  */
 
   componentDidMount() {
-    const { theme } = this.props;
-    const chartColour = lighten(0.3, theme.palette.primary.main);
-
-    this.evidenceColors = getPieColors(
-      getEvidenceOptions(this.props.rows),
-      chartColour
-    );
-    this.associationColors = getPieColors(
-      getAssociationOptions(this.props.rows),
-      chartColour
-    );
-    this.setupCharts();
+    // const { theme } = this.props;
+    // const chartColour = lighten(0.3, theme.palette.primary.main);
+    // this.evidenceColors = getPieColors(
+    //   getEvidenceOptions(this.props.rows),
+    //   chartColour
+    // );
+    // this.associationColors = getPieColors(
+    //   getAssociationOptions(this.props.rows),
+    //   chartColour
+    // );
+    // this.setupCharts();
+    const { ensgId } = this.props;
+    getRows(ensgId).then(data => {
+      this.setState({ rows: data.rows });
+    });
   }
 
   componentDidUpdate() {
-    this.redrawCharts();
+    // this.redrawCharts();
   }
 
   render() {
-    const { symbol, classes, rows } = this.props;
-    const { filteredRows } = this.state;
+    const { symbol, classes } = this.props;
+    const { rows = [] } = this.state;
 
-    const biomarkerOptions = getBiomarkerOptions(rows);
-    const diseaseOptions = getDiseaseOptions(rows);
-    const drugOptions = getDrugOptions(rows);
-    const associationOptions = getAssociationOptions(rows);
-    const evidenceOptions = getEvidenceOptions(rows);
+    // const biomarkerOptions = getBiomarkerOptions(rows);
+    // const diseaseOptions = getDiseaseOptions(rows);
+    // const drugOptions = getDrugOptions(rows);
+    // const associationOptions = getAssociationOptions(rows);
+    // const evidenceOptions = getEvidenceOptions(rows);
 
-    return (
+    /*return (
       <Fragment>
         <Grid container spacing={3}>
           <Grid item>
@@ -549,7 +646,9 @@ class FilterTable extends Component {
           filters
         />
       </Fragment>
-    );
+    );*/
+
+    return <OtTableRF columns={getColumns({})} data={rows} />;
   }
 }
 

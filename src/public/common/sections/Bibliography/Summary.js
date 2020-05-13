@@ -24,11 +24,13 @@ class Summary extends React.Component {
   }
   render() {
     const { bibliographyCount } = this.state;
-    return (
-      <React.Fragment>
+    return bibliographyCount === 0 ? (
+      '(no data)'
+    ) : (
+      <>
         {commaSeparate(bibliographyCount)} publication
         {bibliographyCount === 1 ? '' : 's'}
-      </React.Fragment>
+      </>
     );
   }
 }

@@ -1,10 +1,10 @@
-fragment targetTractabilityFragment on TargetSummaries {
+fragment targetTractabilityFragment on Target {
   tractability {
-    hasSmallMoleculeTractabilityAssessment
-    hasAntibodyTractabilityAssessment
-    sources {
-      url
-      name
+    smallmolecule {
+      buckets
+    }
+    antibody {
+      buckets
     }
   }
 }

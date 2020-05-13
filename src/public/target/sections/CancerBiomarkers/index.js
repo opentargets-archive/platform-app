@@ -8,7 +8,7 @@ export const hasSummaryData = data => {
 };
 
 export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
+// export const sectionQuery = loader('./sectionQuery.gql');
 
 export { default as DescriptionComponent } from './Description';
 export { default as SummaryComponent } from './Summary';

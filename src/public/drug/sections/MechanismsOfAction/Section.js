@@ -29,10 +29,14 @@ const columns = [
       d.references.map((r, i) => {
         return (
           <Fragment key={i}>
-            {i > 0 ? ' ' : null}
-            <Link external to={r.urls[0]}>
-              {r.source}
-            </Link>
+            {i > 0 ? ', ' : null}
+            {r.urls ? (
+              <Link external to={r.urls[0]}>
+                {r.source}
+              </Link>
+            ) : (
+              r.source
+            )}
           </Fragment>
         );
       }),

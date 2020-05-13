@@ -1,7 +1,3 @@
-import React from 'react';
-
-const Summary = ({ phenotypesCount }) => (
-  <React.Fragment>{phenotypesCount} phenotypes</React.Fragment>
-);
+const Summary = props => `${props.data.length} phenotypes`;
 
 export default Summary;

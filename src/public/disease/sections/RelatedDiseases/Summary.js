@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Summary = ({ count }) => (
-  <React.Fragment>
-    {count} diseases
+const Summary = ({ data }) => (
+  <>
+    {data.count} diseases
     <br />
     (through shared targets)
-  </React.Fragment>
+  </>
 );
 
 export default Summary;
