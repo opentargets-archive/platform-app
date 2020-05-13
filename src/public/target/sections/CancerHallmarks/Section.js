@@ -6,7 +6,6 @@ import HallmarksTable from './custom/HallmarksTable';
 
 const Section = ({ ensgId, symbol, data }) => {
   const roleInCancer = data.attributes.filter(a => a.name === 'role in cancer');
-  console.log('data:', data);
   return (
     <React.Fragment>
       <Typography>
