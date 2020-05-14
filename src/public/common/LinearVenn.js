@@ -80,9 +80,9 @@ function Legend({ theme, a, b, aAndB, tooltip }) {
   const aAndBText = useRef(null);
 
   useLayoutEffect(() => {
-    const aTextLength = aText.current?.getBBox().width;
-    const bTextLength = bText.current?.getBBox().width;
-    const aAndBTextLength = aAndBText.current?.getBBox().width;
+    const aTextLength = aText.current.getBBox().width;
+    const bTextLength = bText.current.getBBox().width;
+    const aAndBTextLength = aAndBText.current.getBBox().width;
     const longestText = Math.max(aTextLength, bTextLength, aAndBTextLength);
 
     setLegendWidth(LEGEND_SQUARE_SIZE + LEGEND_PADDING + longestText);
