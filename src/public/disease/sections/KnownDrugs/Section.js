@@ -8,6 +8,21 @@ import { clinicalTrialsSearchUrl } from '../../../configuration';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
 
+const headerGroups = [
+  {
+    colspan: 1,
+    label: '',
+  },
+  {
+    colspan: 3,
+    label: 'Trial information',
+  },
+  {
+    colspan: 4,
+    label: 'Drug information',
+  },
+];
+
 const columns = [
   {
     id: 'disease',
@@ -15,14 +30,6 @@ const columns = [
     export: d => d.disease.id,
     renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
-    ),
-  },
-  {
-    id: 'drug',
-    label: 'Drug',
-    export: d => d.drug.id,
-    renderCell: d => (
-      <Link to={`/drug/${d.drug.id}`}>{label(d.drug.name)}</Link>
     ),
   },
   {
@@ -48,6 +55,14 @@ const columns = [
         </Link>
       );
     },
+  },
+  {
+    id: 'drug',
+    label: 'Drug',
+    export: d => d.drug.id,
+    renderCell: d => (
+      <Link to={`/drug/${d.drug.id}`}>{label(d.drug.name)}</Link>
+    ),
   },
   {
     id: 'drugType',
@@ -99,6 +114,7 @@ const Section = ({ data, fetchMore, efoId }) => {
       )}
       <Table
         columns={columns}
+        headerGroups={headerGroups}
         rows={data?.rows || []}
         rowCount={data?.count || 0}
         serverSide={true}
