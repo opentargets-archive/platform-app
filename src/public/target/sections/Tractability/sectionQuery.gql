@@ -8,6 +8,9 @@ query TargetTractabilitySectionQuery($ensgId: String!) {
       antibody {
         buckets
       }
+      otherModalities {
+        buckets
+      }
     }
   }
 }

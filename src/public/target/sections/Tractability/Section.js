@@ -28,6 +28,8 @@ const Section = ({ data }) => {
     _.get(data, 'smallmolecule.buckets', []).indexOf(bucket) >= 0;
   const isAntibodyCellPurple = bucket =>
     _.get(data, 'antibody.buckets', []).indexOf(bucket) >= 0;
+  const isOtherModalitiesCellPurple = bucket =>
+    _.get(data, 'otherModalities.buckets', []).indexOf(bucket) >= 0;
   return (
     <Fragment>
       <Typography variant="h6">Small molecule</Typography>
@@ -126,6 +128,31 @@ const Section = ({ data }) => {
             {/* predicted tractable (HPA) */}
             <BucketCell isPurple={isAntibodyCellPurple(9)}>
               Human Protein Atlas - high confidence
+            </BucketCell>
+          </tr>
+        </tbody>
+      </table>
+      <Typography variant="h6">
+        Other modalities (protein, enzyme, oligonucleotide, etc.)
+      </Typography>
+      <table className={classes.table}>
+        <thead>
+          <tr>
+            <th className={classes.cell} colSpan="3">
+              <Typography variant="subtitle2">Clinical precedence</Typography>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <BucketCell isPurple={isOtherModalitiesCellPurple(1)}>
+              Phase 4
+            </BucketCell>
+            <BucketCell isPurple={isOtherModalitiesCellPurple(2)}>
+              Phase 2 or 3
+            </BucketCell>
+            <BucketCell isPurple={isOtherModalitiesCellPurple(3)}>
+              Phase 0 or 1
             </BucketCell>
           </tr>
         </tbody>
