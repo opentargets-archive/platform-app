@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useLayoutEffect, useState, useRef } from 'react';
 import withTheme from '@material-ui/core/styles/withTheme';
 
 const WIDTH = 400;
@@ -79,10 +79,10 @@ function Legend({ theme, a, b, aAndB, tooltip }) {
   const bText = useRef(null);
   const aAndBText = useRef(null);
 
-  useEffect(() => {
-    const aTextLength = aText.current?.getBBox().width;
-    const bTextLength = bText.current?.getBBox().width;
-    const aAndBTextLength = aAndBText.current?.getBBox().width;
+  useLayoutEffect(() => {
+    const aTextLength = aText.current.getBBox().width;
+    const bTextLength = bText.current.getBBox().width;
+    const aAndBTextLength = aAndBText.current.getBBox().width;
     const longestText = Math.max(aTextLength, bTextLength, aAndBTextLength);
 
     setLegendWidth(LEGEND_SQUARE_SIZE + LEGEND_PADDING + longestText);
@@ -166,8 +166,9 @@ function Legend({ theme, a, b, aAndB, tooltip }) {
         </text>
       </g>
       <g
-        transform={`translate(0,${LEGEND_SQUARE_SIZE * 2 +
-          LEGEND_PADDING * 3})`}
+        transform={`translate(0,${
+          LEGEND_SQUARE_SIZE * 2 + LEGEND_PADDING * 3
+        })`}
       >
         <rect
           x={0}

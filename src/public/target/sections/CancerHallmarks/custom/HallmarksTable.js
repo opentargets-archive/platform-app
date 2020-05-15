@@ -13,9 +13,9 @@ const getColumns = (
 ) => {
   return [
     {
-      id: 'hallmark',
+      id: 'label',
       label: 'Hallmarks',
-      renderCell: row => row.name,
+      renderCell: row => row.label,
       renderFilter: () => (
         <Select
           isClearable
@@ -47,7 +47,7 @@ const getColumns = (
       renderCell: row => (
         <Link
           external
-          to={`http://europepmc.org/search?query=EXT_ID:${row.pmId}`}
+          to={`http://europepmc.org/search?query=EXT_ID:${row.pubmedId}`}
         >
           1&nbsp;publication
         </Link>
@@ -57,16 +57,16 @@ const getColumns = (
 };
 
 const downloadColumns = [
-  { id: 'name', label: 'Hallmarks' },
+  { id: 'label', label: 'Hallmarks' },
   { id: 'activity', label: 'Promotes or suppresses' },
   { id: 'description', label: 'Description' },
-  { id: 'pmId', label: 'Sources (PubMed id)' },
+  { id: 'pubmedId', label: 'Sources (PubMed id)' },
 ];
 
 const getHallmarksOptions = rows => {
-  return _.uniqBy(rows, 'name').map(row => ({
-    label: row.name,
-    value: row.name,
+  return _.uniqBy(rows, 'label').map(row => ({
+    label: row.label,
+    value: row.label,
   }));
 };
 
@@ -82,10 +82,10 @@ class HallmarksTable extends Component {
     // initialize filteredrows to rows: we also map each entry
     // and generate a convenience 'activity' field to then filter on
     filteredRows: this.props.rows.map(r => ({
-      name: r.name,
-      activity: r.promotes ? 'promotes' : r.suppresses ? 'suppresses' : '',
-      description: r.description,
-      pmId: r.pmId,
+      label: r.label,
+      activity: r.promote ? 'promotes' : r.suppress ? 'suppresses' : '',
+      description: r.reference.description,
+      pubmedId: r.reference.pubmedId,
     })),
   };
 
@@ -117,7 +117,7 @@ class HallmarksTable extends Component {
     // Initialize the xfilter with filteredrows:
     // this is only done at hte beginning and hence stores the full data rows
     this.hallmarksXf = crossfilter(this.state.filteredRows);
-    this.hallmarksDim = this.hallmarksXf.dimension(row => row.name);
+    this.hallmarksDim = this.hallmarksXf.dimension(row => row.label);
     this.promotesDim = this.hallmarksXf.dimension(row => row.activity);
   }
 

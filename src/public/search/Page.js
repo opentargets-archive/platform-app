@@ -11,6 +11,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import BasePage from '../common/BasePage';
 import EmptyPage from '../common/EmptyPage';
+import ErrorBoundary from '../common/ErrorBoundary';
 import TargetIcon from '../../icons/TargetIcon';
 import DiseaseIcon from '../../icons/DiseaseIcon';
 import DrugIcon from '../../icons/DrugIcon';
@@ -169,13 +170,15 @@ const SearchResults = ({ q, results, page, entities, onChangePage }) => {
 const TopHitDetail = ({ topHit }) => {
   return (
     <Card elevation={0}>
-      {topHit.__typename === 'Target' ? (
-        <TargetDetail data={topHit} />
-      ) : topHit.__typename === 'Disease' ? (
-        <DiseaseDetail data={topHit} />
-      ) : topHit.__typename === 'Drug' ? (
-        <DrugDetail data={topHit} />
-      ) : null}
+      <ErrorBoundary>
+        {topHit.__typename === 'Target' ? (
+          <TargetDetail data={topHit} />
+        ) : topHit.__typename === 'Disease' ? (
+          <DiseaseDetail data={topHit} />
+        ) : topHit.__typename === 'Drug' ? (
+          <DrugDetail data={topHit} />
+        ) : null}
+      </ErrorBoundary>
     </Card>
   );
 };

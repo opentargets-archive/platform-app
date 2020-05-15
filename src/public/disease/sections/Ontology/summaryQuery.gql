@@ -1,10 +1,9 @@
-fragment diseaseOntologyFragment on DiseaseSummaries {
-  ontology {
+query DiseaseOntologySummary($efoId: String!) {
+  disease(efoId: $efoId) {
+    id
     isTherapeuticArea
-    isLeaf
-    sources {
-      name
-      url
+    children {
+      id
     }
   }
 }

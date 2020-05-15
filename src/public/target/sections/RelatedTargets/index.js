@@ -3,7 +3,8 @@ import { loader } from 'graphql.macro';
 export const id = 'relatedTargets';
 export const name = 'Related Targets';
 
-export const hasSummaryData = ({ count }) => count > 0;
+export const hasSummaryData = relatedTargets =>
+  relatedTargets && relatedTargets.count > 0;
 
 export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');

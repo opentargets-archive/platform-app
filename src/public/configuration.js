@@ -13,13 +13,13 @@ export const targetSectionsDefaultOrder = [
   // 'pathways',
   'relatedTargets',
   // 'mousePhenotypes',
-  // 'cancerHallmarks',
+  'hallmarks',
   'cancerBiomarkers',
 ];
 
 export const diseaseSectionsDefaultOrder = [
-  // 'ontology',
   'knownDrugs',
+  'ontology',
   'bibliography',
   'phenotypes',
   'relatedDiseases',
