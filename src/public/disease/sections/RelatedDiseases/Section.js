@@ -1,48 +1,67 @@
 import React, { useEffect, useState } from 'react';
 
-import { OtTableRF, Link, significantFigures } from 'ot-ui';
-
+import { Link, significantFigures } from 'ot-ui';
+import Table from '../../../common/Table/Table';
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
 
 const columns = (name, maxCountAOrB) => [
   {
     id: 'B.name',
-    label: 'Related disease',
-    orderable: false,
-    renderCell: d => <Link to={`/disease/${d.B.id}`}>{d.B.name}</Link>,
+    label: `Related disease ${String.fromCodePoint('9399')}`,
     comparator: (a, b) => (a.B.name <= b.B.name ? -1 : 1),
+    renderCell: d => <Link to={`/disease/${d.B.id}`}>{d.B.name}</Link>,
   },
   {
     id: 'score',
     label: 'Similarity score',
-    orderable: false,
+    numeric: true,
     renderCell: d => significantFigures(d.score),
   },
   {
     id: 'countANotB',
-    label: `Diseases associated with ${name} but not the related disease`,
-    orderable: false,
+    label: `${String.fromCodePoint('9398')} - ${String.fromCodePoint('9399')}`,
+    tooltip: `Diseases associated with ${name} but not the related disease`,
+    numeric: true,
+    hidden: ['mdDown'],
   },
   {
     id: 'countAAndB',
-    label: 'Shared disease associations',
-    orderable: false,
+    label: `${String.fromCodePoint('9398')} + ${String.fromCodePoint('9399')}`,
+    tooltip: 'Shared disease associations',
+    numeric: true,
   },
   {
     id: 'countBNotA',
-    label: `Diseases associated with the related disease but not ${name}`,
-    orderable: false,
+    label: `${String.fromCodePoint('9399')} - ${String.fromCodePoint('9398')}`,
+    tooltip: `Diseases associated with the related disease but not ${name}`,
+    numeric: true,
+    hidden: ['mdDown'],
   },
   {
     id: 'chart',
     label: (
       <LinearVennLegend
-        a={`Diseases associated with ${name} but not the related disease`}
-        b={`Diseases associated with the related target but not ${name}`}
-        aAndB="Shared disease associations"
+        a={`${String.fromCodePoint('9398')} - ${String.fromCodePoint('9399')}`}
+        aAndB={`${String.fromCodePoint('9398')} + ${String.fromCodePoint(
+          '9399'
+        )}`}
+        b={`${String.fromCodePoint('9399')} - ${String.fromCodePoint('9398')}`}
       />
     ),
-    orderable: false,
+    tooltip: (
+      <LinearVennLegend
+        tooltip
+        a={`Diseases associated with ${name} but not the related disease`}
+        aAndB="Shared disease associations"
+        b={`Diseases associated with the related target but not ${name}`}
+      />
+    ),
+    tooltipStyle: {
+      popper: { maxWidth: 'none' },
+      tooltip: { maxWidth: 'none' },
+    },
+    hidden: ['lgDown'],
+    style: { width: '400px' },
     renderCell: d => (
       <LinearVenn
         aOnly={d.countA - d.countAAndB}
@@ -58,7 +77,7 @@ const Section = ({ data, name, fetchMore }) => {
   const { rows, count, maxCountAOrB } = data;
   const [pageIndex, setPageIndex] = useState(0);
 
-  const onPageSort = pe => pe.page !== undefined && setPageIndex(pe.page);
+  const onTableAction = pe => pe.page !== undefined && setPageIndex(pe.page);
   const pageSize = 10;
 
   useEffect(
@@ -79,14 +98,13 @@ const Section = ({ data, name, fetchMore }) => {
   }));
 
   return (
-    <OtTableRF
-      loading={false}
-      error={false}
+    <Table
       columns={columns(name, maxCountAOrB)}
-      data={rowsMapped}
+      rows={rowsMapped}
+      rowCount={count}
       serverSide={true}
-      totalRowsCount={count}
-      onPageSort={onPageSort}
+      onTableAction={onTableAction}
+      noWrapHeader
     />
   );
 };
