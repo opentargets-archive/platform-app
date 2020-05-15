@@ -1,7 +1,7 @@
 // TODO: see if this can be done dynamically
 //       or try @babel/plugin-proposal-export-namespace-from (may need eject)
 
-// import * as bibliographyRaw from './sections/Bibliography';
+import * as bibliographyRaw from './sections/Bibliography';
 import * as cancerBiomarkersRaw from './sections/CancerBiomarkers';
 import * as hallmarksRaw from './sections/CancerHallmarks';
 import * as chemicalProbesRaw from './sections/ChemicalProbes';
@@ -18,7 +18,7 @@ import * as relatedTargetsRaw from './sections/RelatedTargets';
 import * as tractabilityRaw from './sections/Tractability';
 // import * as variationRaw from './sections/Variation';
 
-// export const bibliography = bibliographyRaw;
+export const bibliography = bibliographyRaw;
 export const cancerBiomarkers = cancerBiomarkersRaw;
 export const hallmarks = hallmarksRaw;
 export const chemicalProbes = chemicalProbesRaw;

@@ -3,7 +3,7 @@ export const targetSectionsDefaultOrder = [
   'tractability',
   // 'safety',
   'chemicalProbes',
-  // 'bibliography',
+  'bibliography',
   // 'variation',
   // 'expression',
   // 'protein',
