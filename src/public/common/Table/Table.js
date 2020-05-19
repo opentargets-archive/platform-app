@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import {
   Table as MUITable,
-  TablePagination,
-  Typography,
   TableBody,
-  TableRow,
   TableCell,
-  Hidden,
+  TablePagination,
+  TableRow as MUITableRow,
+  Typography,
 } from '@material-ui/core';
 
 import TableHeader from './TableHeader';
 import TablePaginationActions from './TablePaginationActions';
+import TableRow from './TableRow';
 import { tableStyles } from './tableStyles';
 import { getComparator, stableSort } from './sorting';
-import { getHiddenBreakpoints } from './utils';
 
 function Table({
   columns,
@@ -80,44 +79,12 @@ function Table({
               .sort(getComparator(columns, orderBy, order))
               .slice(pageStart, pageEnd)
               .map((row, i) => (
-                <TableRow key={i} style={{ whiteSpace: 'nowrap' }} hover>
-                  {columns.map(column => (
-                    <Hidden
-                      {...getHiddenBreakpoints(column)}
-                      key={`header-${column.id}`}
-                    >
-                      <TableCell
-                        key={`tablecell-${column.id}`}
-                        classes={{ root: classes.cellRoot }}
-                        align={
-                          column.align
-                            ? column.align
-                            : column.numeric
-                            ? 'right'
-                            : 'left'
-                        }
-                        style={{
-                          ...column.style,
-                          ...row.rowStyle,
-                          ...(column.numeric
-                            ? {
-                                fontVariant: 'tabular-nums',
-                              }
-                            : {}),
-                        }}
-                      >
-                        {column.renderCell
-                          ? column.renderCell(row)
-                          : row[column.id]}
-                      </TableCell>
-                    </Hidden>
-                  ))}
-                </TableRow>
+                <TableRow columns={columns} key={i} row={row} />
               ))}
             {emptyRows > 0 && (
-              <TableRow style={{ height: 29 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
+              <MUITableRow style={{ height: `${1.6875 * emptyRows}rem` }}>
+                <TableCell colSpan={columns.length} />
+              </MUITableRow>
             )}
           </TableBody>
         </MUITable>
