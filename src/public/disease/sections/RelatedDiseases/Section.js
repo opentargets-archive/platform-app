@@ -61,7 +61,8 @@ const columns = (name, maxCountAOrB) => [
       tooltip: { maxWidth: 'none' },
     },
     hidden: ['lgDown'],
-    style: { width: '400px' },
+    style: { width: '400px', lineHeight: 0, paddingLeft: '1.5rem' },
+    labelStyle: { paddingLeft: '1.5rem' },
     renderCell: d => (
       <LinearVenn
         aOnly={d.countA - d.countAAndB}
