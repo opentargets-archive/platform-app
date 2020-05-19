@@ -19,11 +19,13 @@ function Table({
   rows,
   fixedRows = [],
   headerGroups = [],
+  hover = false,
   onTableAction = () => {},
   pageSize = 10,
   rowCount,
   serverSide = false,
-  noWrapHeader = false,
+  noWrap = true,
+  noWrapHeader = true,
   ...props
 }) {
   const [page, setPage] = useState(0);
@@ -70,16 +72,17 @@ function Table({
             onRequestSort={handleRequestSort}
           />
           <TableBody>
-            {/* {fixedRows.map(fixedRow =>
-              <TableRow
-                columns={fixedRow}
-              />
-            )} */}
             {stableSort(rows, getComparator(columns, order, orderBy))
               .sort(getComparator(columns, orderBy, order))
               .slice(pageStart, pageEnd)
               .map((row, i) => (
-                <TableRow columns={columns} key={i} row={row} />
+                <TableRow
+                  columns={columns}
+                  hover={hover}
+                  key={i}
+                  row={row}
+                  noWrap={noWrap}
+                />
               ))}
             {emptyRows > 0 && (
               <MUITableRow style={{ height: `${1.6875 * emptyRows}rem` }}>

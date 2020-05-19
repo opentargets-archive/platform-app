@@ -10,9 +10,10 @@ import {
   Tooltip,
   withWidth,
 } from '@material-ui/core';
+import classNames from 'classnames';
 import HelpIcon from '@material-ui/icons/Help';
 
-import { tableHeaderStyles } from './tableStyles';
+import { tableStyles } from './tableStyles';
 import useDynamicColspan from '../../../hooks/useDynamicColspans';
 import { getHiddenBreakpoints } from './utils';
 
@@ -21,20 +22,23 @@ function HeaderCell({
   colspan,
   isHeaderGroup = false,
   label,
-  minWidth = 0,
+  labelStyle,
+  minWidth,
   noWrapHeader,
   orderable = false,
   orderParams,
+  sticky = false,
   tooltip,
   tooltipStyle = {},
   TooltipIcon = HelpIcon,
   width,
 }) {
-  const classes = tableHeaderStyles();
+  const classes = tableStyles();
   const tooltipClasses = makeStyles(tooltipStyle)();
   const style = {
     minWidth,
-    whiteSpace: noWrapHeader ? 'nowrap' : '',
+    width,
+    ...labelStyle,
   };
 
   const labelInnerComponent = tooltip ? (
@@ -60,11 +64,16 @@ function HeaderCell({
     <TableCell
       align={align}
       classes={{
-        root: isHeaderGroup ? classes.groupCellRoot : classes.cellRoot,
+        root: classNames(
+          classes.cell,
+          classes.headerCell,
+          isHeaderGroup && classes.groupCell,
+          sticky && classes.cellSticky,
+          noWrapHeader && classes.noWrap
+        ),
       }}
       colSpan={colspan}
       sortDirection={orderable && orderParams.direction}
-      width={`${width}%`}
       style={style}
     >
       {orderable ? (
@@ -86,7 +95,6 @@ function TableHeader({
   width,
 }) {
   const colspans = useDynamicColspan(headerGroups, columns, width);
-  const classes = tableHeaderStyles();
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
@@ -101,12 +109,13 @@ function TableHeader({
             key={cellIndex}
             label={headerCell.label}
             noWrapHeader={noWrapHeader}
+            sticky={headerCell.sticky || false}
             tooltip={headerCell.tooltip}
             tooltipStyle={headerCell.tooltipStyle || {}}
           />
         ))}
       </TableRow>
-      <TableRow classes={{ root: classes.rowRoot }}>
+      <TableRow>
         {columns.map(column => (
           <Hidden {...getHiddenBreakpoints(column)} key={`header-${column.id}`}>
             <HeaderCell
@@ -125,7 +134,8 @@ function TableHeader({
                     }
                   : null
               }
-              style={column.style}
+              labelStyle={column.labelStyle}
+              sticky={column.sticky}
               tooltip={column.tooltip}
               tooltipStyle={column.tooltipStyle}
               width={column.width}
