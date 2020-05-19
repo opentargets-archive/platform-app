@@ -21,7 +21,7 @@ function Table({
   headerGroups = [],
   hover = false,
   onTableAction = () => {},
-  pageSize = 10,
+  pageSize = 10 - fixedRows.length,
   rowCount,
   serverSide = false,
   noWrap = true,
@@ -72,21 +72,27 @@ function Table({
             onRequestSort={handleRequestSort}
           />
           <TableBody>
-            {stableSort(rows, getComparator(columns, order, orderBy))
-              .sort(getComparator(columns, orderBy, order))
-              .slice(pageStart, pageEnd)
-              .map((row, i) => (
-                <TableRow
-                  columns={columns}
-                  hover={hover}
-                  key={i}
-                  row={row}
-                  noWrap={noWrap}
-                />
-              ))}
+            {[
+              ...fixedRows.map(fixedRow => ({ ...fixedRow, isFixedRow: true })),
+              ...stableSort(rows, getComparator(columns, order, orderBy))
+                .sort(getComparator(columns, orderBy, order))
+                .slice(pageStart, pageEnd),
+            ].map((row, i) => (
+              <TableRow
+                columns={columns}
+                hover={hover}
+                isFixedRow={row.isFixedRow}
+                key={i}
+                row={row}
+                noWrap={noWrap}
+              />
+            ))}
             {emptyRows > 0 && (
               <MUITableRow style={{ height: `${1.6875 * emptyRows}rem` }}>
-                <TableCell colSpan={columns.length} />
+                <TableCell
+                  colSpan={columns.length}
+                  classes={{ root: classes.bodyCell }}
+                />
               </MUITableRow>
             )}
           </TableBody>

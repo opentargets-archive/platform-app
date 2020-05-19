@@ -13,6 +13,9 @@ export const tableStyles = makeStyles(theme => ({
   fixedTable: {
     tableLayout: 'fixed',
   },
+  fixedRow: {
+    backgroundColor: theme.palette.grey[300],
+  },
   cell: {
     '&:first-child': {
       paddingLeft: '1rem',

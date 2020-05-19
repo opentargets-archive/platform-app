@@ -5,11 +5,14 @@ import { Hidden, TableCell, TableRow as MUITableRow } from '@material-ui/core';
 import { getHiddenBreakpoints } from './utils';
 import { tableStyles } from './tableStyles';
 
-function TableRow({ columns, hover, noWrap, row, style }) {
+function TableRow({ columns, hover, isFixedRow, noWrap, row, style }) {
   const classes = tableStyles();
 
   return (
-    <MUITableRow hover={hover}>
+    <MUITableRow
+      classes={{ root: classNames(isFixedRow && classes.fixedRow) }}
+      hover={hover}
+    >
       {columns.map((column, i) => (
         <Hidden {...getHiddenBreakpoints(column)} key={`header-${column.id}`}>
           <TableCell
