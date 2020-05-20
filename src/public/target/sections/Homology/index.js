@@ -1,12 +1,7 @@
-import { loader } from 'graphql.macro';
-
-export const id = 'homology';
+export const id = 'orthologs';
 export const name = 'Homology';
 
-export const hasSummaryData = ({ orthologuesBySpecies }) =>
-  orthologuesBySpecies.some(d => d.orthologuesCount > 0);
-
-export const summaryQuery = loader('./summaryQuery.gql');
+export const hasSummaryData = () => true;
 
 export { default as DescriptionComponent } from './Description';
 export { default as SummaryComponent } from './Summary';
