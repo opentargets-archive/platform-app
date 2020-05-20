@@ -1,20 +1,14 @@
 query ProteinInfoSectionQuery($ensgId: String!) {
-  target(ensgId: $ensgId) {
+  target(ensemblId: $ensgId) {
     id
-    details {
-      protein {
-        uniprotId
-        keywords {
-          id
-          name
-          category
-        }
-        subCellularLocations {
-          id
-          name
-        }
-        subUnit
-      }
+    proteinAnnotations {
+      id
+      accessions
+      functions
+      pathways
+      similarities
+      subcellularLocations
+      subunits
     }
   }
 }

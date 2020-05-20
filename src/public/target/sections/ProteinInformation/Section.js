@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import { Link, Tabs, Tab } from 'ot-ui';
+import { Tabs, Tab } from 'ot-ui';
 
 import ProtVistaRenderer from './custom/ProtVistaRenderer';
 
@@ -30,15 +30,15 @@ class Section extends React.Component {
     const { classes, data } = this.props;
     const { value } = this.state;
 
-    const { uniprotId, keywords, subCellularLocations, subUnit } = data;
+    const { id, subcellularLocations, subunits } = data;
 
-    const keywordsGrouped = keywords.reduce((acc, d) => {
+    /* const keywordsGrouped = keywords.reduce((acc, d) => {
       if (!acc[d.category]) {
         acc[d.category] = [];
       }
       acc[d.category].push(d);
       return acc;
-    }, {});
+      }, {}); */
 
     return (
       <Fragment>
@@ -51,24 +51,19 @@ class Section extends React.Component {
           <Tab value="protvista" label="Protvista" />
           <Tab value="subCellularLocation" label="Sub-cellular location" />
           <Tab value="subUnit" label="Subunit data" />
-          <Tab value="keywords" label="UniProt keywords" />
+          {/* <Tab value="keywords" label="UniProt keywords" /> */}
         </Tabs>
         <div className={classes.tabPanel}>
-          {value === 'protvista' ? (
-            <ProtVistaRenderer uniprotId={uniprotId} />
-          ) : null}
+          {value === 'protvista' ? <ProtVistaRenderer uniprotId={id} /> : null}
           {value === 'subCellularLocation' ? (
             <div>
               <ul>
-                {subCellularLocations.map((d, i) => (
+                {subcellularLocations.map((d, i) => (
                   <li key={i}>
                     <Typography>
-                      <Link
-                        external
-                        to={`https://www.uniprot.org/locations/${d.id}`}
-                      >
-                        {d.name}
-                      </Link>
+                      {/* <Link external to={`https://www.uniprot.org/locations/${d.id}`} > */}
+                      {d}
+                      {/* </Link> */}
                     </Typography>
                   </li>
                 ))}
@@ -78,14 +73,14 @@ class Section extends React.Component {
           {value === 'subUnit' ? (
             <div>
               <ul>
-                {subUnit.map((d, i) => {
+                {subunits.map((d, i) => {
                   // replace PMIDs and 'by similarity' with appropriate links
                   const desc = d
                     .replace(/Pubmed:\d+/gi, this.makePmidLink)
                     .replace(
                       /\(By similarity\)/gi,
                       match =>
-                        `(<a href='https://www.uniprot.org/uniprot/${uniprotId}#interaction' target="_blank" rel="noopener noreferrer">By similarity</a>)`
+                        `(<a href='https://www.uniprot.org/uniprot/${id}#interaction' target="_blank" rel="noopener noreferrer">By similarity</a>)`
                     );
 
                   return (
@@ -97,7 +92,7 @@ class Section extends React.Component {
               </ul>
             </div>
           ) : null}
-          {value === 'keywords' ? (
+          {/* value === 'keywords' ? (
             <div>
               {Object.keys(keywordsGrouped)
                 .sort()
@@ -121,7 +116,7 @@ class Section extends React.Component {
                   </div>
                 ))}
             </div>
-          ) : null}
+        ) : null */}
         </div>
       </Fragment>
     );
