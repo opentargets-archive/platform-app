@@ -16,7 +16,7 @@ import * as homologyRaw from './sections/Homology';
 import * as relatedTargetsRaw from './sections/RelatedTargets';
 import * as safetyRaw from './sections/Safety';
 import * as tractabilityRaw from './sections/Tractability';
-// import * as variationRaw from './sections/Variation';
+import * as variationRaw from './sections/Variation';
 
 export const bibliography = bibliographyRaw;
 export const cancerBiomarkers = cancerBiomarkersRaw;
@@ -32,5 +32,5 @@ export const homology = homologyRaw;
 // export const proteinInteractions = proteinInteractionsRaw;
 export const relatedTargets = relatedTargetsRaw;
 export const safety = safetyRaw;
-// export const variation = variationRaw;
+export const variation = variationRaw;
 export const tractability = tractabilityRaw;
