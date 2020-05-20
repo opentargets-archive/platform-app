@@ -6,7 +6,7 @@ export const targetSectionsDefaultOrder = [
   'bibliography',
   'variation',
   // 'expression',
-  // 'protein',
+  'proteinAnnotations',
   'orthologs',
   'geneOntology',
   // 'proteinInteractions',
