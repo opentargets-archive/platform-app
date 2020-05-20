@@ -35,9 +35,11 @@ function Table({
   const [page, setPage] = useState(0);
   const [orderBy, setOrderBy] = useState(props.orderBy);
   const [order, setOrder] = useState(props.order || 'asc');
-  const pageStart = serverSide ? 0 : pageSize;
-  const pageEnd = serverSide ? pageSize : page * pageSize + pageSize;
-  const emptyRows = pageSize - rows.length;
+  const pageStart = serverSide ? 0 : page * pageSize;
+  const pageEnd = serverSide
+    ? rows.length
+    : Math.min(page * pageSize + pageSize, rows.length);
+  const emptyRows = pageSize - (pageEnd - pageStart);
   const classes = tableStyles();
 
   const handleChangePage = (_, newPage) => {
