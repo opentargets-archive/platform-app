@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import DataDownloader from 'ot-ui/build/components/DataDownloader';
 import TableHeader from './TableHeader';
 import TablePaginationActions from './TablePaginationActions';
 import TableRow from './TableRow';
@@ -16,13 +17,16 @@ import { getComparator, stableSort } from './sorting';
 
 function Table({
   columns,
-  rows,
+  dataDownloader = false,
+  dataDownloaderFileStem = 'data',
   fixedRows = [],
   headerGroups = [],
   hover = false,
   onTableAction = () => {},
   pageSize = 10 - fixedRows.length,
-  rowCount,
+  rows,
+  dataDownloaderRows = rows,
+  rowCount = rows.length,
   serverSide = false,
   noWrap = true,
   noWrapHeader = true,
@@ -60,6 +64,13 @@ function Table({
 
   return (
     <>
+      {dataDownloader && (
+        <DataDownloader
+          tableHeaders={columns}
+          rows={dataDownloaderRows}
+          fileStem={dataDownloaderFileStem}
+        />
+      )}
       <div className={classes.tableWrapper}>
         <MUITable className={classes.table}>
           <TableHeader
