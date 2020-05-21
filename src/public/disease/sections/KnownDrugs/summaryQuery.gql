@@ -1,9 +1,5 @@
-fragment diseaseDrugsFragment on DiseaseSummaries {
-  drugs {
-    drugCount
-    sources {
-      name
-      url
-    }
+fragment diseaseKnownDrugsFragment on Disease {
+  knownDrugs {
+    count
   }
 }

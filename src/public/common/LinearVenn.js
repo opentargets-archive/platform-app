@@ -166,8 +166,9 @@ function Legend({ theme, a, b, aAndB, tooltip }) {
         </text>
       </g>
       <g
-        transform={`translate(0,${LEGEND_SQUARE_SIZE * 2 +
-          LEGEND_PADDING * 3})`}
+        transform={`translate(0,${
+          LEGEND_SQUARE_SIZE * 2 + LEGEND_PADDING * 3
+        })`}
       >
         <rect
           x={0}

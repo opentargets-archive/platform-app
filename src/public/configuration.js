@@ -18,8 +18,8 @@ export const targetSectionsDefaultOrder = [
 ];
 
 export const diseaseSectionsDefaultOrder = [
+  'knownDrugs',
   'ontology',
-  // 'drugs',
   'bibliography',
   'phenotypes',
   'relatedDiseases',
@@ -64,3 +64,9 @@ export const evidenceByDatatypeSectionsDefaultOrder = [
   'textMining',
   'animalModels',
 ];
+
+// Known drugs widget links on the 'source' column.
+export const clinicalTrialsSearchUrl = 'https://clinicaltrials.gov/ct2/results';
+
+// useBatchDownloader hook.
+export const chunkSize = 1000;

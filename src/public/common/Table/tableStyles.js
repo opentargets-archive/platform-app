@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const tableStyles = makeStyles(theme => ({
+export const tableStyles = makeStyles((theme) => ({
   tableWrapper: {
     overflowX: 'auto',
   },
@@ -9,6 +9,7 @@ export const tableStyles = makeStyles(theme => ({
     width: '100%',
   },
   cellRoot: {
+    fontSize: '0.8125rem',
     padding: '.25rem 1rem .25rem 1rem',
     '&:first-child': {
       paddingLeft: '24px',
@@ -19,7 +20,7 @@ export const tableStyles = makeStyles(theme => ({
   },
 }));
 
-export const tableHeaderStyles = makeStyles(theme => ({
+export const tableHeaderStyles = makeStyles((theme) => ({
   tooltipIcon: {
     fontSize: '1.5rem',
     paddingLeft: `0.6rem`,
