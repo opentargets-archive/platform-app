@@ -70,7 +70,7 @@ class Publication extends Component {
                 pmId={hit._source.pub_id}
                 title={hit._source.title}
                 authors={
-                  hit._source.authors.map(a => ({
+                  (hit._source.authors || []).map(a => ({
                     lastName: a.LastName,
                     initials: a.Initials,
                   })) || []

@@ -216,17 +216,17 @@ class Section extends Component {
                 ) : null;
               })}
               {aggregations[selectedAggregation.value]
-                ? aggregations[
-                    selectedAggregation.value
-                  ].buckets.map((agg, i) => (
-                    <Chip
-                      color="primary"
-                      key={i}
-                      label={agg.label || agg.key}
-                      onClick={() => this.selectChip(agg)}
-                      className={classNames(classes.chip, classes.linkChip)}
-                    />
-                  ))
+                ? aggregations[selectedAggregation.value].buckets.map(
+                    (agg, i) => (
+                      <Chip
+                        color="primary"
+                        key={i}
+                        label={agg.label || agg.key}
+                        onClick={() => this.selectChip(agg)}
+                        className={classNames(classes.chip, classes.linkChip)}
+                      />
+                    )
+                  )
                 : null}
             </Fragment>
           </Grid>
@@ -253,7 +253,7 @@ class Section extends Component {
                       pmId={hit._source.pub_id}
                       title={hit._source.title}
                       authors={
-                        hit._source.authors.map(a => ({
+                        (hit._source.authors || []).map(a => ({
                           lastName: a.LastName,
                           initials: a.Initials,
                         })) || []
