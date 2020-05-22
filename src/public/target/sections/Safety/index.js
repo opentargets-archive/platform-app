@@ -1,5 +1,4 @@
-import { loader } from 'graphql.macro';
-import gql from 'graphql-tag';
+import { loader, gql } from 'graphql.macro';
 
 export const id = 'safety';
 export const name = 'Safety';
