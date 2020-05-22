@@ -49,6 +49,17 @@ fragment targetSafetyFragment on Target {
         refLabel
       }
     }
+    experimentalToxicity {
+      experimentDetails {
+        tissue
+        assayFormat
+        assayDescription
+        cellShortName
+        assayFormatType
+      }
+      dataSource
+      dataSourceReferenceLink
+    }
   }
 }
 

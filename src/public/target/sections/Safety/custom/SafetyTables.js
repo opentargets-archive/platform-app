@@ -1,12 +1,16 @@
 import React from 'react';
 import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { OtTableRF, Link, DataDownloader } from 'ot-ui';
 
 const SafetyTables = ({ symbol, data }) => {
-  const { adverseEffects, safetyRiskInfo } = data;
+  const { adverseEffects, safetyRiskInfo, tox21, etox } = data;
+  const hasTox21 = tox21.length > 0,
+    hasEtox = etox.length > 0;
   return (
     <>
       <Typography variant="h6">Known safety effects</Typography>
@@ -23,6 +27,42 @@ const SafetyTables = ({ symbol, data }) => {
         fileStem={`${symbol}-risk-information`}
       />
       <OtTableRF columns={riskColumns} data={safetyRiskInfo} />
+      {(hasTox21 || hasEtox) && (
+        <>
+          <Typography variant="h6">
+            Non-clinical experimental toxicity
+          </Typography>
+          <Typography>
+            Details on the routine testing and screening of {symbol} in
+            non-clinical experimental toxicity panels.
+          </Typography>
+        </>
+      )}
+      {hasTox21 && (
+        <>
+          <DataDownloader
+            tableHeaders={tox21Columns}
+            rows={tox21}
+            fileStem={`${symbol}-tox21`}
+          />
+          <OtTableRF columns={tox21Columns} data={tox21} />
+        </>
+      )}
+      {hasTox21 && hasEtox && (
+        <Box my={1}>
+          <Divider />
+        </Box>
+      )}
+      {hasEtox && (
+        <>
+          <DataDownloader
+            tableHeaders={etoxColumns}
+            rows={etox}
+            fileStem={`${symbol}-etox`}
+          />
+          <OtTableRF columns={etoxColumns} data={etox} />
+        </>
+      )}
     </>
   );
 };
@@ -108,6 +148,38 @@ const riskColumns = [
     label: 'Publications',
     renderCell: ({ references }) => (
       <ReferencesCell>{references}</ReferencesCell>
+    ),
+  },
+];
+
+const tox21Columns = [
+  { id: 'assayFormat', label: 'Assay format' },
+  { id: 'assayDescription', label: 'Assay description' },
+  { id: 'cellName', label: 'Cell name' },
+  { id: 'assayType', label: 'Assay type' },
+  {
+    id: 'sourceUrl',
+    label: 'Source',
+    renderCell: ({ sourceName, sourceUrl }) => (
+      <Link external to={sourceUrl}>
+        {sourceName}
+      </Link>
+    ),
+  },
+];
+
+const etoxColumns = [
+  { id: 'tissue', label: 'Tissue' },
+  { id: 'assayDescription', label: 'Assay description' },
+  { id: 'assayFormat', label: 'Assay format' },
+  { id: 'assayType', label: 'Assay type' },
+  {
+    id: 'sourceUrl',
+    label: 'Source',
+    renderCell: ({ sourceName, sourceUrl }) => (
+      <Link external to={sourceUrl}>
+        {sourceName}
+      </Link>
     ),
   },
 ];

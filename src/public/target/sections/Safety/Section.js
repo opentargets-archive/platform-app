@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 
 import SafetyTables from './custom/SafetyTables';
 
@@ -20,6 +21,23 @@ const Section = ({ symbol, data }) => {
           organsSystemsAffected: addPreferredTerm(row.organsSystemsAffected),
           references: addPubUrl(row.references),
         })),
+        tox21: data.experimentalToxicity
+          .filter(row => row.dataSource === 'Tox21')
+          .map(row => ({
+            ...extractAssayFields(row),
+            cellName:
+              _.upperFirst(row.experimentDetails.cellShortName) || 'N/A',
+            sourceName: 'Tox21',
+            sourceUrl: 'https://tripod.nih.gov/tox21/assays/',
+          })),
+        etox: data.experimentalToxicity
+          .filter(row => row.dataSource === 'eTOX')
+          .map(row => ({
+            ...extractAssayFields(row),
+            tissue: _.upperFirst(row.experimentDetails.tissue) || 'N/A',
+            sourceName: 'eTOX',
+            sourceUrl: row.dataSourceReferenceLink,
+          })),
       }}
     />
   );
@@ -52,5 +70,11 @@ const addPubUrl = referencesSection =>
         : ref.refLink,
     }))
     .filter(ref => ref.pubUrl);
+
+const extractAssayFields = toxicityRow => ({
+  assayFormat: _.upperFirst(toxicityRow.experimentDetails.assayFormat),
+  assayDescription: toxicityRow.experimentDetails.assayDescription,
+  assayType: _.upperFirst(toxicityRow.experimentDetails.assayFormatType),
+});
 
 export default Section;
