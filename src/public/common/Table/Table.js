@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import {
+  Grid,
   Table as MUITable,
   TableBody,
   TableCell,
   TablePagination,
   TableRow as MUITableRow,
-  Typography,
 } from '@material-ui/core';
 
 import DataDownloader from 'ot-ui/build/components/DataDownloader';
+import GlobalFilter from './GlobalFilter';
 import TableHeader from './TableHeader';
 import TablePaginationActions from './TablePaginationActions';
 import TableRow from './TableRow';
 import { tableStyles } from './tableStyles';
-import { getComparator, stableSort } from './sorting';
+import { getComparator, stableSort, globalFilter } from './sortingAndFiltering';
 
 function Table({
   columns,
@@ -26,8 +27,9 @@ function Table({
   pageSize = 10 - fixedRows.length,
   rows,
   dataDownloaderRows = rows,
-  rowCount = rows.length,
+  rowCount,
   serverSide = false,
+  showGlobalFilter = false,
   noWrap = true,
   noWrapHeader = true,
   ...props
@@ -35,12 +37,31 @@ function Table({
   const [page, setPage] = useState(0);
   const [orderBy, setOrderBy] = useState(props.orderBy);
   const [order, setOrder] = useState(props.order || 'asc');
+  const [globalFilterValue, setGlobalFilterValue] = useState(null);
+
+  fixedRows.forEach(fixedRow => {
+    fixedRow.isFixedRow = true;
+  });
+
+  const filteredRows =
+    globalFilter && globalFilterValue
+      ? rows.filter(row => globalFilter(row, columns, globalFilterValue))
+      : rows;
+
+  rowCount = serverSide ? rowCount : filteredRows.length;
+
   const pageStart = serverSide ? 0 : page * pageSize;
   const pageEnd = serverSide
     ? rows.length
-    : Math.min(page * pageSize + pageSize, rows.length);
+    : Math.min(page * pageSize + pageSize, rowCount);
   const emptyRows = pageSize - (pageEnd - pageStart);
-  const classes = tableStyles();
+
+  const sortedRows = stableSort(
+    serverSide ? rows : filteredRows,
+    getComparator(columns, order, orderBy)
+  );
+  const slicedRows = sortedRows.slice(pageStart, pageEnd);
+  const processedRows = [...fixedRows, ...slicedRows];
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
@@ -56,24 +77,32 @@ function Table({
     onTableAction({ sortBy: property, order: order });
   };
 
-  if (fixedRows.length === 0 && rows.length === 0) {
-    return (
-      <div align="center">
-        <Typography variant="subtitle1">(no data)</Typography>
-      </div>
-    );
-  }
+  const handleChangeGlobalFilter = globalFilterValue => {
+    setPage(0);
+    setGlobalFilterValue(globalFilterValue);
+  };
+
+  const classes = tableStyles();
 
   return (
-    <>
-      {dataDownloader && (
-        <DataDownloader
-          tableHeaders={columns}
-          rows={dataDownloaderRows}
-          fileStem={dataDownloaderFileStem}
-        />
+    <Grid container justify="flex-end" alignContent="center">
+      {globalFilter && (
+        <Grid item xs={12} md={5} lg={7} className={classes.tableUpperControl1}>
+          <GlobalFilter onGlobalFilterChange={handleChangeGlobalFilter} />
+        </Grid>
       )}
-      <div className={classes.tableWrapper}>
+
+      {dataDownloader && (
+        <Grid item xs={12} md={7} lg={5} className={classes.tableUpperControl2}>
+          <DataDownloader
+            tableHeaders={columns}
+            rows={dataDownloaderRows}
+            fileStem={dataDownloaderFileStem}
+          />
+        </Grid>
+      )}
+
+      <Grid item xs={12} className={classes.tableWrapper}>
         <MUITable className={classes.table}>
           <TableHeader
             classes={classes}
@@ -85,12 +114,7 @@ function Table({
             onRequestSort={handleRequestSort}
           />
           <TableBody>
-            {[
-              ...fixedRows.map(fixedRow => ({ ...fixedRow, isFixedRow: true })),
-              ...stableSort(rows, getComparator(columns, order, orderBy))
-                .sort(getComparator(columns, orderBy, order))
-                .slice(pageStart, pageEnd),
-            ].map((row, i) => (
+            {processedRows.map((row, i) => (
               <TableRow
                 columns={columns}
                 hover={hover}
@@ -104,23 +128,28 @@ function Table({
               <MUITableRow style={{ height: `${1.6875 * emptyRows}rem` }}>
                 <TableCell
                   colSpan={columns.length}
-                  classes={{ root: classes.bodyCell }}
-                />
+                  classes={{ root: `${classes.bodyCell} ${classes.noData}` }}
+                >
+                  {!processedRows.length && 'No data'}
+                </TableCell>
               </MUITableRow>
             )}
           </TableBody>
         </MUITable>
-      </div>
-      <TablePagination
-        ActionsComponent={TablePaginationActions}
-        component="div"
-        count={serverSide ? rowCount : rows.length}
-        onChangePage={handleChangePage}
-        page={page}
-        rowsPerPage={pageSize}
-        rowsPerPageOptions={[]}
-      />
-    </>
+      </Grid>
+
+      <Grid item xs={12} className={classes.tablePagination}>
+        <TablePagination
+          ActionsComponent={TablePaginationActions}
+          component="div"
+          count={rowCount}
+          onChangePage={handleChangePage}
+          page={page}
+          rowsPerPage={pageSize}
+          rowsPerPageOptions={[]}
+        />
+      </Grid>
+    </Grid>
   );
 }
 

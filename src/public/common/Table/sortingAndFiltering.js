@@ -1,4 +1,6 @@
-export function ascendingComparator(a, b, orderBy) {
+import { safeToString } from '../../../utils/global';
+
+function ascendingComparator(a, b, orderBy) {
   if (a[orderBy] === undefined || a[orderBy] < b[orderBy]) return -1;
   if (a[orderBy] === undefined || a[orderBy] > b[orderBy]) return 1;
   return 0;
@@ -24,4 +26,18 @@ export function stableSort(array, comparator) {
     return a[1] - b[1];
   });
   return stabilizedThis.map(el => el[0]);
+}
+
+export function globalFilter(row, columns, value) {
+  const contents = columns.map(column =>
+    column.filterValue ? column.filterValue(row) : row[column.id]
+  );
+
+  return contents
+    .map(content =>
+      safeToString(content)
+        .toLowerCase()
+        .includes(value.toLowerCase())
+    )
+    .some(e => e);
 }

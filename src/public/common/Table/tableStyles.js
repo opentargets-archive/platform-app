@@ -1,11 +1,28 @@
 import { makeStyles } from '@material-ui/core';
 
 export const tableStyles = makeStyles(theme => ({
+  tableUpperControl1: {
+    marginBottom: '2rem',
+    order: 0,
+    [theme.breakpoints.down('sm')]: {
+      order: 1,
+    },
+  },
+  tableUpperControl2: {
+    marginBottom: '2rem',
+    order: 1,
+    [theme.breakpoints.down('sm')]: {
+      order: 0,
+    },
+  },
   tableWrapper: {
     overflowX: 'auto',
     paddingRight: '.1rem', // fixes horizontal scrollbar
+    order: 8,
   },
-
+  tablePagination: {
+    order: 9,
+  },
   table: {
     tableLayout: 'auto',
     width: '100%',
@@ -47,6 +64,9 @@ export const tableStyles = makeStyles(theme => ({
   noWrap: {
     whiteSpace: 'nowrap',
   },
+  noData: {
+    textAlign: 'center',
+  },
 
   tabularNums: {
     fontVariant: 'tabular-nums',
@@ -55,6 +75,12 @@ export const tableStyles = makeStyles(theme => ({
   tooltipIcon: {
     fontSize: '1.5rem',
     paddingLeft: `0.6rem`,
+  },
+}));
+
+export const globalSearchStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
   },
 }));
 
