@@ -3,16 +3,15 @@ import { Link } from 'ot-ui';
 
 const Description = ({ name }) => (
   <React.Fragment>
-    Post-marketing adverse events for <strong>{name}</strong> submitted by
-    healthcare professionals to the FDA Adverse Event Reporting System (FAERS)
-    with a log likelihood ratio above a critical value (CV) threshold - see our{' '}
+    Significant post-marketing adverse events for <strong>{name}</strong>{' '}
+    estimated from reports submitted to the FDA Adverse Event Reporting database
+    by healthcare professionals. Source:{' '}
     <Link
       to="https://docs.targetvalidation.org/getting-started/getting-started/drug-summary/pharmacovigilance"
       external
     >
-      adverse event report documentation page
-    </Link>{' '}
-    for more information.
+      Open Targets
+    </Link>
   </React.Fragment>
 );
 
