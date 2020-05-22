@@ -40,7 +40,7 @@ function Table({
   const [page, setPage] = useState(0);
   const [orderBy, setOrderBy] = useState(props.orderBy);
   const [order, setOrder] = useState(props.order || 'asc');
-  const [globalFilterValue, setGlobalFilterValue] = useState(null);
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   const [processedRows, emptyRows, effectiveRowCount = rowCount] = serverSide
     ? prepareDataServerSide(rows, fixedRows, pageSize)
@@ -69,9 +69,12 @@ function Table({
     onTableAction({ sortBy: property, order: order });
   };
 
-  const handleChangeGlobalFilter = globalFilterValue => {
-    setPage(0);
-    setGlobalFilterValue(globalFilterValue);
+  const handleChangeGlobalFilter = newValue => {
+    if (globalFilterValue !== newValue) {
+      setPage(0);
+      setGlobalFilterValue(newValue);
+      onTableAction({ filter: newValue });
+    }
   };
 
   const classes = tableStyles();

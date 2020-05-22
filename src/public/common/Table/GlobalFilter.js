@@ -15,7 +15,7 @@ function GlobalFilter({ onGlobalFilterChange }) {
     setInputValue(e.target.value);
   };
 
-  const handleInputClean = e => {
+  const handleInputClean = () => {
     setInputValue('');
   };
 
