@@ -13,21 +13,24 @@ import GlobalFilter from './GlobalFilter';
 import TableHeader from './TableHeader';
 import TablePaginationActions from './TablePaginationActions';
 import TableRow from './TableRow';
+import {
+  prepareDataClientSide,
+  prepareDataServerSide,
+} from './dataPreparation';
 import { tableStyles } from './tableStyles';
-import { getComparator, stableSort, globalFilter } from './sortingAndFiltering';
 
 function Table({
   columns,
-  dataDownloader = false,
-  dataDownloaderFileStem = 'data',
+  rows,
+  rowCount,
   fixedRows = [],
   headerGroups = [],
-  hover = false,
   onTableAction = () => {},
   pageSize = 10 - fixedRows.length,
-  rows,
+  dataDownloader = false,
+  dataDownloaderFileStem = 'data',
   dataDownloaderRows = rows,
-  rowCount,
+  hover = false,
   serverSide = false,
   showGlobalFilter = false,
   noWrap = true,
@@ -39,29 +42,18 @@ function Table({
   const [order, setOrder] = useState(props.order || 'asc');
   const [globalFilterValue, setGlobalFilterValue] = useState(null);
 
-  fixedRows.forEach(fixedRow => {
-    fixedRow.isFixedRow = true;
-  });
-
-  const filteredRows =
-    globalFilter && globalFilterValue
-      ? rows.filter(row => globalFilter(row, columns, globalFilterValue))
-      : rows;
-
-  rowCount = serverSide ? rowCount : filteredRows.length;
-
-  const pageStart = serverSide ? 0 : page * pageSize;
-  const pageEnd = serverSide
-    ? rows.length
-    : Math.min(page * pageSize + pageSize, rowCount);
-  const emptyRows = pageSize - (pageEnd - pageStart);
-
-  const sortedRows = stableSort(
-    serverSide ? rows : filteredRows,
-    getComparator(columns, order, orderBy)
-  );
-  const slicedRows = sortedRows.slice(pageStart, pageEnd);
-  const processedRows = [...fixedRows, ...slicedRows];
+  const [processedRows, emptyRows, effectiveRowCount = rowCount] = serverSide
+    ? prepareDataServerSide(rows, fixedRows, pageSize)
+    : prepareDataClientSide(
+        rows,
+        columns,
+        fixedRows,
+        page,
+        pageSize,
+        order,
+        orderBy,
+        globalFilterValue
+      );
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
@@ -86,7 +78,7 @@ function Table({
 
   return (
     <Grid container justify="flex-end" alignContent="center">
-      {globalFilter && (
+      {showGlobalFilter && (
         <Grid item xs={12} md={5} lg={7} className={classes.tableUpperControl1}>
           <GlobalFilter onGlobalFilterChange={handleChangeGlobalFilter} />
         </Grid>
@@ -142,7 +134,7 @@ function Table({
         <TablePagination
           ActionsComponent={TablePaginationActions}
           component="div"
-          count={rowCount}
+          count={effectiveRowCount}
           onChangePage={handleChangePage}
           page={page}
           rowsPerPage={pageSize}
