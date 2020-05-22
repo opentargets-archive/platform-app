@@ -1,8 +1,13 @@
 import React from 'react';
+import { Link } from 'ot-ui';
 
 const Description = ({ name }) => (
   <React.Fragment>
-    <strong>{name}</strong> has been indicated for the following diseases.
+    Investigational and approved indications for <strong>{name}</strong> curated
+    from clinical trial records and post-marketing package inserts. Source:{' '}
+    <Link to="https://www.ebi.ac.uk/chembl/" external>
+      ChEMBL
+    </Link>
   </React.Fragment>
 );
 
