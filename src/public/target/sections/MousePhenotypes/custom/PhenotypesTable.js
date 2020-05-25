@@ -206,4 +206,50 @@ class PhenotypesTable extends Component {
   }
 }
 
-export default PhenotypesTable;
+class PhenotypesTableAdapter extends Component {
+  render() {
+    const { symbol, data, classes } = this.props;
+    return (
+      <PhenotypesTable
+        rows={transformToRows(data)}
+        symbol={symbol}
+        classes={classes}
+      />
+    );
+  }
+}
+
+const transformToRows = mousePhenotypes => {
+  const rows = [];
+  if (!mousePhenotypes) {
+    return rows;
+  }
+  for (const mousePhenotype of mousePhenotypes) {
+    for (const phenotype of mousePhenotype.phenotypes) {
+      for (const phenotypeGenotype of phenotype.genotypePhenotype) {
+        rows.push({
+          //mousePhenotypes
+          mouseGeneId: mousePhenotype.id,
+          mouseGeneSymbol: mousePhenotype.symbol,
+
+          //phenotypes
+          categoryLabel: phenotype.categoryLabel,
+
+          //phenotypeGenotype
+          phenotypeLabel: phenotypeGenotype.label,
+          //FIXME splitting has to be removed after updating the graphql backend
+          subjectAllelicComposition: phenotypeGenotype.subjectAllelicComposition.split(
+            ','
+          ),
+          subjectBackground: phenotypeGenotype.subjectBackground,
+          //FIXME splitting has to be removed after updating the graphql backend
+          pmIds: phenotypeGenotype.pubmedId.split(','),
+        });
+      }
+    }
+  }
+
+  return rows;
+};
+
+export default PhenotypesTableAdapter;
