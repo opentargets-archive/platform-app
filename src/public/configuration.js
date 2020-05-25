@@ -12,7 +12,7 @@ export const targetSectionsDefaultOrder = [
   // 'proteinInteractions',
   // 'pathways',
   'relatedTargets',
-  // 'mousePhenotypes',
+  'mousePhenotypes',
   'hallmarks',
   'cancerBiomarkers',
 ];
