@@ -22,13 +22,13 @@ const Summary = ({ ensgId, setHasSummaryData }) => {
 
   useEffect(
     () => {
+      let isCurrent = true;
       fetch(
         `https://rest.ensembl.org/homology/id/${ensgId}.json?format=full;sequence=none;type=all;target_taxon=9606;target_taxon=10090;target_taxon=10141;target_taxon=9544;target_taxon=9615;target_taxon=9986;target_taxon=10116;target_taxon=9823;target_taxon=8364;target_taxon=7955;target_taxon=9598;target_taxon=7227;target_taxon=6239`
       )
         .then(res => res.json())
         .then(data => {
           const { homologies } = data.data[0];
-          // setHasSummaryData(homologies);
           let orthologueCount = 0;
           const speciesSet = new Set();
 
@@ -45,14 +45,20 @@ const Summary = ({ ensgId, setHasSummaryData }) => {
             }
           });
 
-          setOrthologueCount(orthologueCount);
-          setNumSpecies(speciesSet.size);
+          if (isCurrent) {
+            setHasSummaryData(orthologueCount > 0);
+            setOrthologueCount(orthologueCount);
+            setNumSpecies(speciesSet.size);
+          }
         });
+      return () => {
+        isCurrent = false;
+      };
     },
     [ensgId]
   );
 
-  if (!orthologueCount) return null;
+  if (!orthologueCount) return '(no data)';
 
   return `${orthologueCount} orthologues in ${numSpecies} species`;
 };
