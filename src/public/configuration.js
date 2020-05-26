@@ -1,5 +1,5 @@
 export const targetSectionsDefaultOrder = [
-  // 'drugs',
+  // 'knownDrugs',
   'tractability',
   // 'safety',
   'chemicalProbes',
@@ -26,6 +26,7 @@ export const diseaseSectionsDefaultOrder = [
 ];
 
 export const drugSectionsDefaultOrder = [
+  // 'knownDrugs',
   'mechanismsOfAction',
   'adverseEvents',
   'bibliography',
