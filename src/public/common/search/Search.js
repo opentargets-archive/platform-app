@@ -41,7 +41,11 @@ function Search({ autoFocus = false, embedded = false }) {
   let history = useHistory();
 
   const handleChangeInputValue = e => {
-    if (!e.target.value) setOpen(false);
+    if (!e.target.value) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
     setInputValue(e.target.value || '');
   };
 
