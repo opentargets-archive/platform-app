@@ -1,0 +1,5 @@
+fragment drugKnownDrugsFragment on Drug {
+  knownDrugs {
+    count
+  }
+}

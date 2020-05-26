@@ -1,0 +1,33 @@
+query knownDrugsSectionQuery(
+  $chemblId: String!
+  $index: Int! = 0
+  $size: Int! = 10
+  $sortField: SortEntity = null
+  $sortOrder: SortOrder = Asc
+) {
+  drug(chemblId: $chemblId) {
+    id
+    knownDrugs(
+      page: { index: $index, size: $size }
+      sortField: $sortField
+      sortOrder: $sortOrder
+    ) {
+      count
+      rows {
+        phase
+        status
+        ctIds
+
+        disease {
+          id
+          name
+        }
+
+        target {
+          id
+          approvedName
+        }
+      }
+    }
+  }
+}
