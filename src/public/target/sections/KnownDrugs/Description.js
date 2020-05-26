@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Description = ({ symbol }) => (
+const Description = ({ name }) => (
   <React.Fragment>
-    Drugs in clinical trials or approved for <strong>{symbol}</strong>.
+    Drugs in clinical trials or approved for <strong>{name}</strong>.
   </React.Fragment>
 );
 

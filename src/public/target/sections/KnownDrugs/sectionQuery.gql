@@ -1,35 +1,35 @@
-query KnownDrugsSectionQuery($ensgId: String!) {
-  target(ensgId: $ensgId) {
+query knownDrugsSectionQuery(
+  $ensgId: String!
+  $index: Int! = 0
+  $size: Int! = 10
+  $sortField: SortEntity = null
+  $sortOrder: SortOrder = Asc
+) {
+  target(ensemblId: $ensgId) {
     id
-    details {
-      drugs {
-        rows {
-          disease {
-            id
-            name
-          }
-          target {
-            id
-            symbol
-          }
-          drug {
-            id
-            name
-            type
-            activity
-          }
-          clinicalTrial {
-            phase
-            status
-            sourceUrl
-            sourceName
-          }
-          mechanismOfAction {
-            name
-            sourceName
-            sourceUrl
-          }
+    knownDrugs(
+      page: { index: $index, size: $size }
+      sortField: $sortField
+      sortOrder: $sortOrder
+    ) {
+      count
+      rows {
+        phase
+        status
+        ctIds
+
+        disease {
+          id
+          name
         }
+
+        drug {
+          id
+          name
+        }
+        drugType
+        mechanismOfAction
+        activity
       }
     }
   }

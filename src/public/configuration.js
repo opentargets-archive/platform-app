@@ -1,5 +1,5 @@
 export const targetSectionsDefaultOrder = [
-  // 'knownDrugs',
+  'knownDrugs',
   'tractability',
   // 'safety',
   'chemicalProbes',
