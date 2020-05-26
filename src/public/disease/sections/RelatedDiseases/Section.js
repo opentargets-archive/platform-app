@@ -4,6 +4,14 @@ import { Link, significantFigures } from 'ot-ui';
 import Table from '../../../common/Table/Table';
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
 
+const aLabel = String.fromCodePoint('9398');
+const bLabel = String.fromCodePoint('9399');
+const difference = String.fromCodePoint('8726');
+const intersection = String.fromCodePoint('8898');
+const countANotBLabel = ['|', aLabel, difference, bLabel, '|'].join(' ');
+const countBNotALabel = ['|', bLabel, difference, aLabel, '|'].join(' ');
+const countAAndBLabel = ['|', aLabel, intersection, bLabel, '|'].join(' ');
+
 const columns = (name, maxCountAOrB) => [
   {
     id: 'B.name',
@@ -19,20 +27,20 @@ const columns = (name, maxCountAOrB) => [
   },
   {
     id: 'countANotB',
-    label: `${String.fromCodePoint('9398')} - ${String.fromCodePoint('9399')}`,
+    label: countANotBLabel,
     tooltip: `Diseases associated with ${name} but not the related disease`,
     numeric: true,
     hidden: ['mdDown'],
   },
   {
     id: 'countAAndB',
-    label: `${String.fromCodePoint('9398')} + ${String.fromCodePoint('9399')}`,
+    label: countAAndBLabel,
     tooltip: 'Shared disease associations',
     numeric: true,
   },
   {
     id: 'countBNotA',
-    label: `${String.fromCodePoint('9399')} - ${String.fromCodePoint('9398')}`,
+    label: countBNotALabel,
     tooltip: `Diseases associated with the related disease but not ${name}`,
     numeric: true,
     hidden: ['mdDown'],
@@ -41,11 +49,9 @@ const columns = (name, maxCountAOrB) => [
     id: 'chart',
     label: (
       <LinearVennLegend
-        a={`${String.fromCodePoint('9398')} - ${String.fromCodePoint('9399')}`}
-        aAndB={`${String.fromCodePoint('9398')} + ${String.fromCodePoint(
-          '9399'
-        )}`}
-        b={`${String.fromCodePoint('9399')} - ${String.fromCodePoint('9398')}`}
+        a={countANotBLabel}
+        aAndB={countAAndBLabel}
+        b={countBNotALabel}
       />
     ),
     tooltip: (
