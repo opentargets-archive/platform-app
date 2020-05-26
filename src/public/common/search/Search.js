@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   inputBaseInput: { padding: '.25rem .5rem' },
-  root: embedded => ({ minWidth: '400px' }),
+  root: { minWidth: '400px' },
 }));
 
 function Search({ autoFocus = false, embedded = false }) {
@@ -101,7 +101,7 @@ function Search({ autoFocus = false, embedded = false }) {
     [data, inputValue]
   );
 
-  const classes = useStyles(embedded);
+  const classes = useStyles();
 
   return (
     <div>
