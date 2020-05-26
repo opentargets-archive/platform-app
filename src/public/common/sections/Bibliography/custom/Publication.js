@@ -123,7 +123,7 @@ class Publication extends Component {
   };
 
   render = () => {
-    const { pmId, title, authors, journal } = this.props;
+    const { pmId, title, authors, journal, hasAbstract = true } = this.props;
     const { showAbstract, showSimilar } = this.state;
 
     return (
@@ -139,15 +139,25 @@ class Publication extends Component {
         {/* Show more details */}
         <div>
           <div>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={() => {
-                this.setState({ showAbstract: !showAbstract });
-              }}
-            >
-              {showAbstract ? '- Hide abstract' : '+ Show abstract'}
-            </Button>{' '}
+            {hasAbstract ? (
+              <>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    this.setState({ showAbstract: !showAbstract });
+                  }}
+                >
+                  {showAbstract ? '- Hide abstract' : '+ Show abstract'}
+                </Button>{' '}
+              </>
+            ) : (
+              <>
+                <Button variant="outlined" size="small" disabled>
+                  No abstract available
+                </Button>{' '}
+              </>
+            )}
             <Button
               variant="outlined"
               size="small"

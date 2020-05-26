@@ -263,6 +263,7 @@ class Section extends Component {
                         date: hit._source.pub_date,
                         ref: hit._source.journal_reference,
                       }}
+                      hasAbstract={hit._source.abstract}
                     />
                   </Grid>
                 );
