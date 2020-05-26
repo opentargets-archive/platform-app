@@ -9,24 +9,34 @@ import { OtTableRF, Link, DataDownloader } from 'ot-ui';
 
 const SafetyTables = ({ symbol, data }) => {
   const { adverseEffects, safetyRiskInfo, tox21, etox } = data;
-  const hasTox21 = tox21.length > 0,
+  const hasEffects = adverseEffects.length > 0,
+    hasRiskInfo = safetyRiskInfo.length > 0,
+    hasTox21 = tox21.length > 0,
     hasEtox = etox.length > 0;
   return (
     <>
-      <Typography variant="h6">Known safety effects</Typography>
-      <DataDownloader
-        tableHeaders={effectsColumns}
-        rows={getAdverseDownloadData(adverseEffects)}
-        fileStem={`${symbol}-safety-effects`}
-      />
-      <OtTableRF columns={effectsColumns} data={adverseEffects} />
-      <Typography variant="h6">Safety risk information</Typography>
-      <DataDownloader
-        tableHeaders={riskColumns}
-        rows={getRiskDownloadData(safetyRiskInfo)}
-        fileStem={`${symbol}-risk-information`}
-      />
-      <OtTableRF columns={riskColumns} data={safetyRiskInfo} />
+      {hasEffects && (
+        <>
+          <Typography variant="h6">Known safety effects</Typography>
+          <DataDownloader
+            tableHeaders={effectsColumns}
+            rows={getAdverseDownloadData(adverseEffects)}
+            fileStem={`${symbol}-safety-effects`}
+          />
+          <OtTableRF columns={effectsColumns} data={adverseEffects} />
+        </>
+      )}
+      {hasRiskInfo && (
+        <>
+          <Typography variant="h6">Safety risk information</Typography>
+          <DataDownloader
+            tableHeaders={riskColumns}
+            rows={getRiskDownloadData(safetyRiskInfo)}
+            fileStem={`${symbol}-risk-information`}
+          />
+          <OtTableRF columns={riskColumns} data={safetyRiskInfo} />
+        </>
+      )}
       {(hasTox21 || hasEtox) && (
         <>
           <Typography variant="h6">
