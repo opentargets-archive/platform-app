@@ -25,8 +25,8 @@ function HeaderCell({
   labelStyle,
   minWidth,
   noWrapHeader,
-  orderable = false,
-  orderParams,
+  sortable = false,
+  sortParams,
   sticky = false,
   tooltip,
   tooltipStyle = {},
@@ -73,11 +73,11 @@ function HeaderCell({
         ),
       }}
       colSpan={colspan}
-      sortDirection={orderable && orderParams.direction}
+      sortDirection={sortable && sortParams.direction}
       style={style}
     >
-      {orderable ? (
-        <TableSortLabel {...orderParams}>{labelInnerComponent}</TableSortLabel>
+      {sortable ? (
+        <TableSortLabel {...sortParams}>{labelInnerComponent}</TableSortLabel>
       ) : (
         labelInnerComponent
       )}
@@ -90,8 +90,8 @@ function TableHeader({
   headerGroups,
   noWrapHeader,
   order,
-  orderBy,
   onRequestSort,
+  sortBy,
   width,
 }) {
   const colspans = useDynamicColspan(headerGroups, columns, width);
@@ -124,12 +124,12 @@ function TableHeader({
               }
               label={column.label}
               noWrapHeader={noWrapHeader}
-              orderable={column.orderable}
-              orderParams={
-                column.orderable
+              sortable={column.sortable}
+              sortParams={
+                column.sortable
                   ? {
-                      active: orderBy === column.id,
-                      direction: orderBy === column.id ? order : 'asc',
+                      active: sortBy === column.id,
+                      direction: sortBy === column.id ? order : 'asc',
                       onClick: createSortHandler(column.id),
                     }
                   : null

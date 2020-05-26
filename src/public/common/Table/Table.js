@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Table as MUITable,
@@ -38,9 +38,9 @@ function Table({
   ...props
 }) {
   const [page, setPage] = useState(0);
-  const [orderBy, setOrderBy] = useState(props.orderBy);
+  const [sortBy, setsortBy] = useState(props.sortBy);
   const [order, setOrder] = useState(props.order || 'asc');
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const [processedRows, emptyRows, effectiveRowCount = rowCount] = serverSide
     ? prepareDataServerSide(rows, fixedRows, pageSize)
@@ -51,31 +51,34 @@ function Table({
         page,
         pageSize,
         order,
-        orderBy,
-        globalFilterValue
+        sortBy,
+        globalFilter
       );
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
-    onTableAction({ page: newPage, pageSize: pageSize });
   };
 
   const handleRequestSort = (_, property) => {
-    if (orderBy === property) {
+    if (sortBy === property) {
       setOrder(order === 'asc' ? 'desc' : 'asc');
     }
 
-    setOrderBy(property);
-    onTableAction({ sortBy: property, order: order });
+    setsortBy(property);
   };
 
   const handleChangeGlobalFilter = newValue => {
-    if (globalFilterValue !== newValue) {
+    if (globalFilter !== newValue) {
       setPage(0);
-      setGlobalFilterValue(newValue);
-      onTableAction({ filter: newValue });
+      setGlobalFilter(newValue);
     }
   };
+
+  useEffect(
+    () => onTableAction({ page, pageSize, sortBy, order, globalFilter }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, pageSize, sortBy, order, globalFilter]
+  );
 
   const classes = tableStyles();
 
@@ -105,7 +108,7 @@ function Table({
             headerGroups={headerGroups}
             noWrapHeader={noWrapHeader}
             order={order}
-            orderBy={orderBy}
+            sortBy={sortBy}
             onRequestSort={handleRequestSort}
           />
           <TableBody>
