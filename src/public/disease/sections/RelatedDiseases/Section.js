@@ -78,7 +78,7 @@ const Section = ({ data, name, fetchMore }) => {
   const { rows, count, maxCountAOrB } = data;
   const [pageIndex, setPageIndex] = useState(0);
 
-  const onTableAction = pe => pe.page !== undefined && setPageIndex(pe.page);
+  const onTableAction = params => setPageIndex(params.page);
   const pageSize = 10;
 
   useEffect(
