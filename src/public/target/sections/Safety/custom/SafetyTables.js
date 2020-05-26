@@ -46,33 +46,48 @@ const SafetyTables = ({ symbol, data }) => {
             Details on the routine testing and screening of {symbol} in
             non-clinical experimental toxicity panels.
           </Typography>
+          <SeparatedByDividers>
+            {hasTox21 && (
+              <>
+                <DataDownloader
+                  tableHeaders={tox21Columns}
+                  rows={tox21}
+                  fileStem={`${symbol}-tox21`}
+                />
+                <OtTableRF columns={tox21Columns} data={tox21} />
+              </>
+            )}
+            {hasEtox && (
+              <>
+                <DataDownloader
+                  tableHeaders={etoxColumns}
+                  rows={etox}
+                  fileStem={`${symbol}-etox`}
+                />
+                <OtTableRF columns={etoxColumns} data={etox} />
+              </>
+            )}
+          </SeparatedByDividers>
         </>
       )}
-      {hasTox21 && (
+    </>
+  );
+};
+
+const SeparatedByDividers = ({ children }) => {
+  let numPreviousChildren = 0;
+  return (
+    <>
+      {React.Children.map(children, child => (
         <>
-          <DataDownloader
-            tableHeaders={tox21Columns}
-            rows={tox21}
-            fileStem={`${symbol}-tox21`}
-          />
-          <OtTableRF columns={tox21Columns} data={tox21} />
+          {child !== null && numPreviousChildren++ > 0 && (
+            <Box my={1}>
+              <Divider />
+            </Box>
+          )}
+          {child}
         </>
-      )}
-      {hasTox21 && hasEtox && (
-        <Box my={1}>
-          <Divider />
-        </Box>
-      )}
-      {hasEtox && (
-        <>
-          <DataDownloader
-            tableHeaders={etoxColumns}
-            rows={etox}
-            fileStem={`${symbol}-etox`}
-          />
-          <OtTableRF columns={etoxColumns} data={etox} />
-        </>
-      )}
+      ))}
     </>
   );
 };
