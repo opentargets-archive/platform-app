@@ -1,10 +1,9 @@
-fragment targetMousePhenotypesFragment on TargetSummaries {
+fragment targetMousePhenotypesFragment on Target {
   mousePhenotypes {
-    phenotypeCount
-    categoryCount
-    sources {
-      url
-      name
+    phenotypes {
+      genotypePhenotype {
+        label
+      }
     }
   }
 }

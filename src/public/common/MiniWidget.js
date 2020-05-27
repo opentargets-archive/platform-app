@@ -94,7 +94,7 @@ const MiniWidget = ({
   SummaryComponent,
   onClick,
 }) => (
-  <Grid item xs={4} md={3} lg={2}>
+  <Grid item xs={12} sm={4} md={3} lg={2}>
     <Card
       className={classNames({
         [classes.card]: true,

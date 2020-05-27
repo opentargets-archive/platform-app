@@ -1,11 +1,5 @@
-fragment targetProteinFragment on TargetSummaries {
-  protein {
-    hasSubCellularLocation
-    hasSubUnitData
-    hasUniprotKeywords
-    sources {
-      name
-      url
-    }
+fragment targetProteinAnnotationsFragment on Target {
+  proteinAnnotations {
+    subcellularLocations
   }
 }

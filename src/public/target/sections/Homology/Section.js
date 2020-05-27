@@ -22,14 +22,14 @@ class Section extends React.Component {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab value="tree" label="Gene tree" />
           <Tab value="table" label="Orthology table" />
+          <Tab value="tree" label="Gene tree" />
         </Tabs>
-        {tab === 'tree' ? (
-          <GeneTreeTab ensgId={ensgId} symbol={symbol} />
-        ) : null}
         {tab === 'table' ? (
           <OrthologyTableTab ensgId={ensgId} symbol={symbol} />
+        ) : null}
+        {tab === 'tree' ? (
+          <GeneTreeTab ensgId={ensgId} symbol={symbol} />
         ) : null}
       </React.Fragment>
     );

@@ -1,26 +1,26 @@
 import React, { Component, Fragment } from 'react';
-import Select from 'react-select';
-import crossfilter from 'crossfilter2';
+// import Select from 'react-select';
+// import crossfilter from 'crossfilter2';
 import _ from 'lodash';
-import * as d3 from 'd3';
-import dc from 'dc';
-import { lighten, darken } from 'polished';
-import Grid from '@material-ui/core/Grid';
+// import * as d3 from 'd3';
+// import dc from 'dc';
+// import { lighten, darken } from 'polished';
+// import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
-import classNames from 'classnames';
-import { Link, OtTableRF, DataDownloader } from 'ot-ui';
+// import classNames from 'classnames';
+import { Link, OtTableRF /*, DataDownloader*/ } from 'ot-ui';
 import client from '../../../../client';
 import gql from 'graphql-tag';
 
-import DCContainer from '../../../../common/DCContainer';
-import {
+// import DCContainer from '../../../../common/DCContainer';
+/* import {
   upReducerKeyCount,
   downReducerKeyCount,
-} from '../../../../../utils/crossfilterReducers';
+} from '../../../../../utils/crossfilterReducers'; */
 
 import {
-  DC_PIE_INNER_RADIUS,
-  DC_PIE_OUTER_RADIUS,
+  /*  DC_PIE_INNER_RADIUS,
+  DC_PIE_OUTER_RADIUS, */
   DC_PIE_WIDTH,
 } from '../../../../common/dcConfig';
 
@@ -569,7 +569,7 @@ class FilterTable extends Component {
   }
 
   render() {
-    const { symbol, classes } = this.props;
+    // const {  symbol, classes } = this.props;
     const { rows = [] } = this.state;
 
     // const biomarkerOptions = getBiomarkerOptions(rows);

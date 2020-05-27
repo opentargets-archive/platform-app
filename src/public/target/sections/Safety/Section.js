@@ -1,221 +1,80 @@
 import React from 'react';
-import { capitalize } from 'lodash';
-import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
+import _ from 'lodash';
 
-import { OtTableRF, Link, DataDownloader } from 'ot-ui';
+import SafetyTables from './custom/SafetyTables';
 
-const effectsColumns = [
-  {
-    id: 'organs_systems_affected',
-    label: 'Main organs & systems affected',
-    renderCell: ({ organs_systems_affected: organs }) => {
-      return (
-        <ul>
-          {organs.map(organ => (
-            <li key={organ.code}>{organ.mapped_term}</li>
-          ))}
-        </ul>
-      );
-    },
-  },
-  {
-    id: 'activation_effects',
-    label: 'Agonism or activation effects',
-    renderCell: ({ activation_effects: activationEffects }) => {
-      return Object.keys(activationEffects).map(key => {
-        return (
-          <React.Fragment key={key}>
-            <Typography variant="subtitle2">{capitalize(key)}</Typography>
-            <ul>
-              {activationEffects[key].map((effect, i) => (
-                <li key={i}>{effect.mapped_term || effect.term_in_paper}</li>
-              ))}
-            </ul>
-          </React.Fragment>
-        );
-      });
-    },
-  },
-  {
-    id: 'inhibition_effects',
-    label: 'Antagonism or inhibition effects',
-    renderCell: ({ inhibition_effects: inhibitionEffects }) => {
-      return Object.keys(inhibitionEffects).map(key => {
-        return (
-          <React.Fragment key={key}>
-            <Typography variant="subtitle2">{capitalize(key)}</Typography>
-            <ul>
-              {inhibitionEffects[key].map((effect, i) => (
-                <li key={i}>{effect.mapped_term || effect.term_in_paper}</li>
-              ))}
-            </ul>
-          </React.Fragment>
-        );
-      });
-    },
-  },
-  {
-    id: 'references',
-    label: 'Publications',
-    renderCell: ({ references }) => {
-      return references.map((reference, i) => {
-        const isHecatos = reference.ref_link.indexOf('hecatos') !== -1;
-        return (
-          <React.Fragment key={i}>
-            <Link external to={reference.ref_link}>
-              <Tooltip
-                title={
-                  isHecatos
-                    ? "HeCaToS Deliverable D01.5 (2015) funded by 'EU 7th Framework Programme (HEALTH-F4-2013-602156).'"
-                    : ''
-                }
-                placement="top"
-              >
-                <span>{reference.ref_label}</span>
-              </Tooltip>
-            </Link>{' '}
-          </React.Fragment>
-        );
-      });
-    },
-  },
-];
-
-const riskColumns = [
-  {
-    id: 'organs_systems_affected',
-    label: 'Main organs & systems affected',
-    renderCell: ({ organs_systems_affected: organs }) => {
-      return (
-        <ul>
-          {organs.map((organ, i) => (
-            <li key={i}>{organ.mapped_term || organ.term_in_paper}</li>
-          ))}
-        </ul>
-      );
-    },
-  },
-  {
-    id: 'safety_liability',
-    label: 'Safety liability information',
-    renderCell: ({ safety_liability }) => {
-      return safety_liability;
-    },
-  },
-  {
-    id: 'references',
-    label: 'Publications',
-    renderCell: ({ references }) => {
-      return references.map((reference, i) => {
-        const isHecatos = reference.ref_link.indexOf('hecatos') !== -1;
-        return (
-          <React.Fragment key={i}>
-            <Link external to={reference.ref_link}>
-              <Tooltip
-                title={
-                  isHecatos
-                    ? "HeCaToS Deliverable D01.5 (2015) funded by 'EU 7th Framework Programme (HEALTH-F4-2013-602156).'"
-                    : ''
-                }
-                placement="top"
-              >
-                <span>{reference.ref_label}</span>
-              </Tooltip>
-            </Link>{' '}
-          </React.Fragment>
-        );
-      });
-    },
-  },
-];
-
-const getAdverseDownloadData = rows => {
-  return rows.map(row => {
-    const activationEffects = [];
-    const inhibitionEffects = [];
-
-    Object.keys(row.activation_effects).forEach(key => {
-      row.activation_effects[key].forEach(effect => {
-        activationEffects.push(effect.mapped_term || effect.term_in_paper);
-      });
-    });
-
-    Object.keys(row.inhibition_effects).forEach(key => {
-      row.inhibition_effects[key].forEach(effect => {
-        inhibitionEffects.push(effect.mapped_term || effect.term_in_paper);
-      });
-    });
-
-    return {
-      organs_systems_affected: row.organs_systems_affected
-        .map(organ => organ.mapped_term)
-        .join(', '),
-      activation_effects: activationEffects.join(', '),
-      inhibition_effects: inhibitionEffects.join(', '),
-      references: row.references.map(ref => ref.ref_link).join(', '),
-    };
-  });
+const Section = ({ symbol, data }) => {
+  return (
+    <SafetyTables
+      symbol={symbol}
+      data={{
+        adverseEffects: data.adverseEffects.map(row => ({
+          organsSystemsAffected: row.organsSystemsAffected
+            .map(organ => ({ ...organ, preferredTerm: organ.mappedTerm }))
+            .filter(organ => organ.preferredTerm),
+          activationEffects: listTermsByGroup(row.activationEffects),
+          inhibitionEffects: listTermsByGroup(row.inhibitionEffects),
+          references: addPubUrl(row.references),
+        })),
+        safetyRiskInfo: data.safetyRiskInfo.map(row => ({
+          ...row,
+          organsSystemsAffected: addPreferredTerm(row.organsSystemsAffected),
+          references: addPubUrl(row.references),
+        })),
+        tox21: data.experimentalToxicity
+          .filter(row => row.dataSource === 'Tox21')
+          .map(row => ({
+            ...extractAssayFields(row),
+            cellName:
+              _.upperFirst(row.experimentDetails.cellShortName) || 'N/A',
+            sourceName: 'Tox21',
+            sourceUrl: 'https://tripod.nih.gov/tox21/assays/',
+          })),
+        etox: data.experimentalToxicity
+          .filter(row => row.dataSource === 'eTOX')
+          .map(row => ({
+            ...extractAssayFields(row),
+            tissue: _.upperFirst(row.experimentDetails.tissue) || 'N/A',
+            sourceName: 'eTOX',
+            sourceUrl: row.dataSourceReferenceLink,
+          })),
+      }}
+    />
+  );
 };
 
-const getRiskDownloadData = rows => {
-  return rows.map(row => {
-    return {
-      organs_systems_affected: row.organs_systems_affected
-        .map(organ => organ.mapped_term || organ.term_in_paper)
-        .join(', '),
-      safety_liability: row.safety_liability,
-      references: row.references.map(ref => ref.ref_link).join(', '),
-    };
-  });
-};
+const listTermsByGroup = effectsSubGraph =>
+  Object.entries(effectsSubGraph)
+    // exclude GraphQL introspection properties
+    .filter(([key, __]) => !key.startsWith('__'))
+    .map(([groupKey, effects]) => ({
+      groupKey,
+      terms: addPreferredTerm(effects).map(effect => effect.preferredTerm),
+    }))
+    .filter(group => group.terms.length);
 
-class Section extends React.Component {
-  state = { loading: true };
+const addPreferredTerm = section =>
+  section
+    .map(organ => ({
+      ...organ,
+      preferredTerm: organ.mappedTerm || organ.termInPaper,
+    }))
+    .filter(organ => organ.preferredTerm);
 
-  componentDidMount() {
-    // TODO: safety data should be loaded through graphql api
-    fetch(
-      `https://platform-api-qc.opentargets.io/v3/platform/private/target/${this.props.ensgId}`
-    )
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ loading: false, safety: data.safety });
-      });
-  }
+const addPubUrl = referencesSection =>
+  referencesSection
+    .map(ref => ({
+      ...ref,
+      pubUrl: ref.pubmedId
+        ? 'https://europepmc.org/abstract/MED/' + ref.pubmedId
+        : ref.refLink,
+    }))
+    .filter(ref => ref.pubUrl);
 
-  render() {
-    const { symbol } = this.props;
-    const { loading, safety } = this.state;
-
-    if (!safety) {
-      return null;
-    }
-
-    const {
-      adverse_effects: adverseEffects = [],
-      safety_risk_info: safetyRiskInfo = [],
-    } = safety;
-
-    return !loading ? (
-      <React.Fragment>
-        <Typography variant="h6">Known safety effects</Typography>
-        <DataDownloader
-          tableHeaders={effectsColumns}
-          rows={getAdverseDownloadData(adverseEffects)}
-          fileStem={`${symbol}-safety-effects`}
-        />
-        <OtTableRF columns={effectsColumns} data={adverseEffects} />
-        <Typography variant="h6">Safety risk information</Typography>
-        <DataDownloader
-          tableHeaders={riskColumns}
-          rows={getRiskDownloadData(safetyRiskInfo)}
-          fileStem={`${symbol}-risk-information`}
-        />
-        <OtTableRF columns={riskColumns} data={safetyRiskInfo} />
-      </React.Fragment>
-    ) : null;
-  }
-}
+const extractAssayFields = toxicityRow => ({
+  assayFormat: _.upperFirst(toxicityRow.experimentDetails.assayFormat),
+  assayDescription: toxicityRow.experimentDetails.assayDescription,
+  assayType: _.upperFirst(toxicityRow.experimentDetails.assayFormatType),
+});
 
 export default Section;
