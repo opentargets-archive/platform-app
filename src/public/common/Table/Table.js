@@ -122,7 +122,7 @@ function Table({
                 noWrap={noWrap}
               />
             ))}
-            {emptyRows > 0 && (
+            {noWrap && emptyRows > 0 && (
               <MUITableRow style={{ height: `${1.6875 * emptyRows}rem` }}>
                 <TableCell
                   colSpan={columns.length}
