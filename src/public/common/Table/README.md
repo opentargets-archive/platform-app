@@ -2,6 +2,10 @@
 
 API documentation for the Table Component.
 
+## Examples
+[Disease Profile Page Known Drugs section](https://github.com/opentargets/platform-app/blob/jf-global-table_refactor-eurovision/src/public/disease/sections/KnownDrugs/Section.js)  
+[Disease Profile Page Related Diseases section](https://github.com/opentargets/platform-app/blob/jf-global-table_refactor-eurovision/src/public/disease/sections/RelatedDiseases/Section.js)
+
 ## Import
 
 (This will be effective when the component moves to `ot-ui`)
