@@ -189,7 +189,6 @@ const Section = ({ data, fetchMore, efoId }) => {
       dataDownloaderRows={getWholeDataset}
       dataDownloaderFileStem={`${efoId}-known_drugs`}
       headerGroups={headerGroups}
-      noWrapHeader
       rows={data?.rows || []}
       rowCount={data?.count || 0}
       serverSide={true}
