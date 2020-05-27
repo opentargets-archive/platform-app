@@ -2,7 +2,6 @@ import { OtTableRF, Link, significantFigures } from 'ot-ui';
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
 
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
 
 const columns = (symbol, maxCountAOrB) => [
   {
@@ -81,7 +80,7 @@ const Section = props => {
 
   const onPageSort = pe => {
     // table specific constants
-    const { page, pageSize, sortBy, order } = pe;
+    const { page } = pe;
     if (page !== undefined && page !== pageIndex) {
       setPageIndex(page);
     }

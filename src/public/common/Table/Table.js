@@ -23,6 +23,7 @@ function Table({
   columns,
   rows,
   rowCount,
+  fixed = false,
   fixedRows = [],
   headerGroups = [],
   onTableAction = () => {},
@@ -101,7 +102,11 @@ function Table({
       )}
 
       <Grid item xs={12} className={classes.tableWrapper}>
-        <MUITable className={classes.table}>
+        <MUITable
+          classes={{
+            root: `${classes.table} ${fixed ? classes.tableFixed : ''}`,
+          }}
+        >
           <TableHeader
             classes={classes}
             columns={columns}
@@ -122,11 +127,11 @@ function Table({
                 noWrap={noWrap}
               />
             ))}
-            {emptyRows > 0 && (
+            {noWrap && emptyRows > 0 && (
               <MUITableRow style={{ height: `${1.6875 * emptyRows}rem` }}>
                 <TableCell
                   colSpan={columns.length}
-                  classes={{ root: `${classes.bodyCell} ${classes.noData}` }}
+                  classes={{ root: `${classes.cellBody} ${classes.noData}` }}
                 >
                   {!processedRows.length && 'No data'}
                 </TableCell>

@@ -6,5 +6,8 @@ fragment targetTractabilityFragment on Target {
     antibody {
       buckets
     }
+    otherModalities {
+      buckets
+    }
   }
 }

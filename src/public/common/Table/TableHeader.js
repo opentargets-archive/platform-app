@@ -10,7 +10,6 @@ import {
   Tooltip,
   withWidth,
 } from '@material-ui/core';
-import classNames from 'classnames';
 import HelpIcon from '@material-ui/icons/Help';
 
 import { tableStyles } from './tableStyles';
@@ -64,13 +63,13 @@ function HeaderCell({
     <TableCell
       align={align}
       classes={{
-        root: classNames(
-          classes.cell,
-          classes.headerCell,
-          isHeaderGroup && classes.groupCell,
-          sticky && classes.cellSticky,
-          noWrapHeader && classes.noWrap
-        ),
+        root: `
+          ${classes.cell}
+          ${classes.cellHeader}
+          ${isHeaderGroup ? classes.cellGroup : ''}
+          ${sticky ? classes.cellSticky : ''}
+          ${noWrapHeader ? classes.noWrap : ''}
+        `,
       }}
       colSpan={colspan}
       sortDirection={sortable && sortParams.direction}

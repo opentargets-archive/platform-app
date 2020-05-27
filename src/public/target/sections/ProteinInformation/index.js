@@ -1,14 +1,11 @@
 import { loader } from 'graphql.macro';
+import _ from 'lodash';
 
-export const id = 'protein';
+export const id = 'proteinAnnotations';
 export const name = 'Protein Information';
 
 export const hasSummaryData = data =>
-  data.hasSequenceAnnotationVisualisation ||
-  data.hasProteinStructure ||
-  data.hasSubCellularLocation ||
-  data.hasSubUnitData ||
-  data.hasUniprotKeywords;
+  _.get(data, 'subcellularLocations.length', 0) > 0;
 
 export const summaryQuery = loader('./summaryQuery.gql');
 export const sectionQuery = loader('./sectionQuery.gql');

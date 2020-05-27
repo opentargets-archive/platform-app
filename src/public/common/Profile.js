@@ -30,18 +30,18 @@ const Profile = ({
   sectionsOrderKey,
 }) => {
   const [sectionsOrder, setSectionsOrder] = useState(ls.get(sectionsOrderKey));
-  const [sectionHasSummaryData, setSectionHasSummaryData] = useState(
-    unorderedSections.reduce((acc, d) => {
+  const [sectionHasSummaryData, setSectionHasSummaryData] = useState(() => {
+    return unorderedSections.reduce((acc, d) => {
       acc[d.id] = false;
       return acc;
-    }, {})
-  );
-  const [sectionHasSummaryError, setSectionHasSummaryError] = useState(
-    unorderedSections.reduce((acc, d) => {
+    }, {});
+  });
+  const [sectionHasSummaryError, setSectionHasSummaryError] = useState(() => {
+    return unorderedSections.reduce((acc, d) => {
       acc[d.id] = false;
       return acc;
-    }, {})
-  );
+    }, {});
+  });
 
   const scrollToSection = sectionId => {
     scroller.scrollTo(sectionId, { duration: 500, delay: 100, smooth: true });
@@ -50,15 +50,13 @@ const Profile = ({
     animateScroll.scrollTo(0, { duration: 500, delay: 100, smooth: true });
   };
   const setSectionHasSummaryDataHandler = sectionId => value => {
-    setSectionHasSummaryData({
-      ...sectionHasSummaryData,
-      [sectionId]: value,
+    setSectionHasSummaryData(prevSectionHasSummaryData => {
+      return { ...prevSectionHasSummaryData, [sectionId]: value };
     });
   };
   const setSectionHasSummaryErrorHandler = sectionId => value => {
-    setSectionHasSummaryError({
-      ...sectionHasSummaryError,
-      [sectionId]: value,
+    setSectionHasSummaryError(prevSectionHasSummaryError => {
+      return { ...prevSectionHasSummaryError, [sectionId]: value };
     });
   };
 
