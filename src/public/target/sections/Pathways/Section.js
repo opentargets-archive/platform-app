@@ -4,7 +4,7 @@ import { Tabs, Tab } from 'ot-ui';
 import OverviewTab from './custom/OverviewTab';
 import BrowserTab from './custom/BrowserTab';
 
-const PathwaysDetail = ({ symbol, data }) => {
+const PathwaysDetail = ({ symbol, uniprotId, data }) => {
   const [tab, setTab] = useState('overview');
   const lowLevelPathways = data.map(({ id, label, ancestors }) => ({
     id,
@@ -12,6 +12,9 @@ const PathwaysDetail = ({ symbol, data }) => {
     parents: ancestors
       .filter(ancestor => ancestor.isRoot)
       .map(({ label, id }) => ({ name: label, id })),
+    url:
+      `https://reactome.org/PathwayBrowser/#/${encodeURIComponent(id)}` +
+      (uniprotId ? `&FLG=${encodeURIComponent(uniprotId)}` : ''),
   }));
 
   return (

@@ -59,28 +59,12 @@ const getColumns = (
       ),
     },
     {
-      id: 'diagram',
-      label: 'View diagram',
-      renderCell: d => (
-        <React.Fragment>
-          <Link
-            external
-            to={`https://reactome.org/ContentService/exporter/diagram/${
-              d.id
-            }.svg`}
-          >
-            SVG
-          </Link>{' '}
-          |{' '}
-          <Link
-            external
-            to={`https://reactome.org/ContentService/exporter/diagram/${
-              d.id
-            }.png`}
-          >
-            PNG
-          </Link>
-        </React.Fragment>
+      id: 'url',
+      label: 'View target and pathway',
+      renderCell: ({ url }) => (
+        <Link external to={url}>
+          Link
+        </Link>
       ),
     },
   ];
@@ -90,12 +74,8 @@ const getColumns = (
 
 const getDownloadRows = rows => {
   return rows.map(row => ({
-    name: row.name,
-    id: row.id,
+    ...row,
     parents: row.parents.map(parent => parent.name).join(', '),
-    diagram: `https://reactome.org/ContentService/exporter/diagram/${
-      row.id
-    }.png`,
   }));
 };
 
