@@ -2,19 +2,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import crossfilter from 'crossfilter2';
 import Select from 'react-select';
-import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Link, DataDownloader, OtTableRF } from 'ot-ui';
-
-import AssociationSummary from '../../../../common/AssociationSummary';
-
-const styles = () => ({
-  panelTitle: {
-    marginTop: '10px',
-    marginBottom: '14px',
-  },
-});
 
 const getColumns = (
   pathwayOptions,
@@ -185,7 +174,7 @@ class OverviewTab extends Component {
   }
 
   render() {
-    const { symbol, classes, topLevelPathways, lowLevelPathways } = this.props;
+    const { symbol, lowLevelPathways } = this.props;
     const { filteredRows } = this.state;
     const pathwayOptions = getPathwayOptions(lowLevelPathways);
     const idOptions = getIdOptions(lowLevelPathways);
@@ -201,10 +190,6 @@ class OverviewTab extends Component {
 
     return (
       <React.Fragment>
-        <Typography className={classes.panelTitle} variant="h6">
-          Top-level parent pathways
-        </Typography>
-        <AssociationSummary data={topLevelPathways} />
         <DataDownloader
           tableHeaders={columns}
           rows={getDownloadRows(lowLevelPathways)}
@@ -222,4 +207,4 @@ class OverviewTab extends Component {
   }
 }
 
-export default withStyles(styles)(OverviewTab);
+export default OverviewTab;
