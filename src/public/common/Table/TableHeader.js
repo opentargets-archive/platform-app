@@ -66,8 +66,8 @@ function HeaderCell({
       classes={{
         root: classNames(
           classes.cell,
-          classes.headerCell,
-          isHeaderGroup && classes.groupCell,
+          classes.cellHeader,
+          isHeaderGroup && classes.cellGroup,
           sticky && classes.cellSticky,
           noWrapHeader && classes.noWrap
         ),

@@ -10,7 +10,7 @@ function TableRow({ columns, hover, isFixedRow, noWrap, row, style }) {
 
   return (
     <MUITableRow
-      classes={{ root: classNames(isFixedRow && classes.fixedRow) }}
+      classes={{ root: classNames(isFixedRow && classes.rowFixed) }}
       hover={hover}
     >
       {columns.map((column, i) => (
@@ -22,7 +22,7 @@ function TableRow({ columns, hover, isFixedRow, noWrap, row, style }) {
             classes={{
               root: classNames(
                 classes.cell,
-                classes.bodyCell,
+                classes.cellBody,
                 column.numeric && classes.tabularNums,
                 column.sticky && classes.cellSticky,
                 noWrap && classes.noWrap
