@@ -165,13 +165,18 @@ class SummaryTable extends Component {
                   className={classes.headerCell}
                   onClick={() => this.handleSort('rna')}
                 >
-                  <TableSortLabel active={sortBy === 'rna'}>RNA</TableSortLabel>
+                  <TableSortLabel direction="desc" active={sortBy === 'rna'}>
+                    RNA
+                  </TableSortLabel>
                 </TableCell>
                 <TableCell
                   className={classes.headerCell}
                   onClick={() => this.handleSort('protein')}
                 >
-                  <TableSortLabel active={sortBy === 'protein'}>
+                  <TableSortLabel
+                    direction="desc"
+                    active={sortBy === 'protein'}
+                  >
                     Protein
                   </TableSortLabel>
                 </TableCell>
