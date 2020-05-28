@@ -2,15 +2,13 @@ query knownDrugsSectionQuery(
   $efoId: String!
   $index: Int! = 0
   $size: Int! = 10
-  $sortField: SortEntity = null
-  $sortOrder: SortOrder = Asc
+  $freeTextQuery: String! = ""
 ) {
   disease(efoId: $efoId) {
     id
     knownDrugs(
       page: { index: $index, size: $size }
-      sortField: $sortField
-      sortOrder: $sortOrder
+      freeTextQuery: $freeTextQuery
     ) {
       count
       rows {
@@ -39,71 +37,3 @@ query knownDrugsSectionQuery(
     }
   }
 }
-
-# query knownDrugsSectionQuery(
-#   $efoId: String!
-#   $index: Int! = 0
-#   $size: Int! = 10
-# ) {
-#   disease(efoId: $efoId) {
-#     id
-#     name
-#     description
-#     knownDrugs(page: { index: $index, size: $size }) {
-#       count
-#       rows {
-#         disease {
-#           id
-#           name
-#         }
-#         phase
-#         status
-#         ctIds
-#         drug {
-#           id
-#           name
-#         }
-#         drugType
-#         mechanismOfAction
-#         activity
-#       }
-#     }
-#   }
-# }
-
-# query KnownDrugsSectionQuery($efoId: String!) {
-#   disease(efoId: $efoId) {
-#     id
-#     details {
-#       drugs {
-#         rows {
-#           disease {
-#             id
-#             name
-#           }
-#           target {
-#             id
-#             symbol
-#           }
-#           drug {
-#             id
-#             name
-#             type
-#             activity
-#           }
-#           clinicalTrial {
-#             phase
-#             status
-#             sourceUrl
-#             sourceName
-#           }
-#           mechanismOfAction {
-#             name
-#             sourceName
-#             sourceUrl
-#           }
-#         }
-#       }
-#     }
-#   }
-# }
