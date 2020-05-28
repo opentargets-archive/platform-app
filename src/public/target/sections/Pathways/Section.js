@@ -6,16 +6,20 @@ import BrowserTab from './custom/BrowserTab';
 
 const PathwaysDetail = ({ symbol, uniprotId, data }) => {
   const [tab, setTab] = useState('overview');
-  const lowLevelPathways = data.map(({ id, label, ancestors }) => ({
-    id,
-    name: label,
-    parents: ancestors
+  const lowLevelPathways = data.map(({ id, label, ancestors }) => {
+    const topLevelParents = ancestors
       .filter(ancestor => ancestor.isRoot)
-      .map(({ label, id }) => ({ name: label, id })),
-    url:
-      `https://reactome.org/PathwayBrowser/#/${encodeURIComponent(id)}` +
-      (uniprotId ? `&FLG=${encodeURIComponent(uniprotId)}` : ''),
-  }));
+      .map(({ label, id }) => ({ name: label, id }));
+    return {
+      id,
+      name: label,
+      parents: topLevelParents,
+      parentNames: topLevelParents.map(parent => parent.name),
+      url:
+        `https://reactome.org/PathwayBrowser/#/${encodeURIComponent(id)}` +
+        (uniprotId ? `&FLG=${encodeURIComponent(uniprotId)}` : ''),
+    };
+  });
 
   return (
     <>

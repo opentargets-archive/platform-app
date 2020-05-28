@@ -38,7 +38,7 @@ const getColumns = (
       ),
     },
     {
-      id: 'parents',
+      id: 'parentNames',
       label: 'Top-level parent pathway',
       renderCell: d => (
         <React.Fragment>
