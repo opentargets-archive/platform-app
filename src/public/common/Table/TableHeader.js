@@ -115,8 +115,8 @@ function TableHeader({
         ))}
       </TableRow>
       <TableRow>
-        {columns.map(column => (
-          <Hidden {...getHiddenBreakpoints(column)} key={`header-${column.id}`}>
+        {columns.map((column, index) => (
+          <Hidden {...getHiddenBreakpoints(column)} key={index}>
             <HeaderCell
               align={
                 column.align ? column.align : column.numeric ? 'right' : 'left'
