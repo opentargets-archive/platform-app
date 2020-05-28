@@ -92,13 +92,12 @@ const sort = (parents, sortBy) => {
 };
 
 const styles = () => ({
-  inlineBlock: {
-    display: 'inline-block',
-    marginRight: '7px',
-  },
   groupBy: {
     marginBottom: '20px',
     marginTop: '40px',
+  },
+  groupByText: {
+    marginRight: '7px',
   },
   table: {
     width: '678px',
@@ -151,9 +150,11 @@ class SummaryTable extends Component {
           justify="center"
           alignItems="center"
         >
-          <Typography className={classes.inlineBlock}>Group by</Typography>
+          <Typography className={classes.groupByText} variant="body2">
+            Group by
+          </Typography>
           <ToggleButtonGroup
-            className={classes.inlineBlock}
+            size="small"
             value={groupBy}
             exclusive
             onChange={this.handleChange}
