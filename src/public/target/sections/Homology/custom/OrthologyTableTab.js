@@ -10,7 +10,7 @@ class OrthologyTableTab extends React.Component {
     const { ensgId, symbol } = this.props;
     return (
       <React.Fragment>
-        <Typography>
+        <Typography variant="body2">
           <i>
             Orthology data for {symbol} across a selected set of 12 species.
           </i>

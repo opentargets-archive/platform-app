@@ -216,24 +216,24 @@ class Section extends Component {
                 ) : null;
               })}
               {aggregations[selectedAggregation.value]
-                ? aggregations[
-                    selectedAggregation.value
-                  ].buckets.map((agg, i) => (
-                    <Chip
-                      color="primary"
-                      key={i}
-                      label={agg.label || agg.key}
-                      onClick={() => this.selectChip(agg)}
-                      className={classNames(classes.chip, classes.linkChip)}
-                    />
-                  ))
+                ? aggregations[selectedAggregation.value].buckets.map(
+                    (agg, i) => (
+                      <Chip
+                        color="primary"
+                        key={i}
+                        label={agg.label || agg.key}
+                        onClick={() => this.selectChip(agg)}
+                        className={classNames(classes.chip, classes.linkChip)}
+                      />
+                    )
+                  )
                 : null}
             </Fragment>
           </Grid>
 
           <Grid item xs={12}>
             {/* Total result */}
-            <Typography>
+            <Typography variant="body2">
               Showing {Math.min(hits.length, bibliographyCount)} of{' '}
               {bibliographyCount} results
             </Typography>

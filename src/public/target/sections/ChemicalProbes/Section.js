@@ -45,7 +45,7 @@ const Section = ({ ensgId, symbol, data }) => (
     ) : null}
     {data.probeminer ? (
       <React.Fragment>
-        <Typography>
+        <Typography variant="body2">
           Potential chemical probes can be explored with{' '}
           <Link external to={data.probeminer}>
             ProbeMiner

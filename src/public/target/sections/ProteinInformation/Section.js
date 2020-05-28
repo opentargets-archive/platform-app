@@ -60,7 +60,7 @@ class Section extends React.Component {
               <ul>
                 {subcellularLocations.map((d, i) => (
                   <li key={i}>
-                    <Typography>
+                    <Typography variant="body2">
                       {/* <Link external to={`https://www.uniprot.org/locations/${d.id}`} > */}
                       {d}
                       {/* </Link> */}
@@ -85,7 +85,10 @@ class Section extends React.Component {
 
                   return (
                     <li key={i}>
-                      <Typography dangerouslySetInnerHTML={{ __html: desc }} />
+                      <Typography
+                        variant="body2"
+                        dangerouslySetInnerHTML={{ __html: desc }}
+                      />
                     </li>
                   );
                 })}
