@@ -2,15 +2,13 @@ query knownDrugsSectionQuery(
   $ensgId: String!
   $index: Int! = 0
   $size: Int! = 10
-  $sortField: SortEntity = null
-  $sortOrder: SortOrder = Asc
+  $freeTextQuery: String! = ""
 ) {
   target(ensemblId: $ensgId) {
     id
     knownDrugs(
       page: { index: $index, size: $size }
-      sortField: $sortField
-      sortOrder: $sortOrder
+      freeTextQuery: $freeTextQuery
     ) {
       count
       rows {
