@@ -51,7 +51,6 @@ const columnPool = {
       {
         id: 'disease',
         label: 'Disease',
-        sortable: true,
         export: d => d.disease.id,
         filterValue: d => d.disease.name,
         renderCell: d => (
@@ -66,7 +65,6 @@ const columnPool = {
       {
         id: 'drug',
         label: 'Drug',
-        sortable: true,
         comparator: generateComparatorFromAccessor(d => d.drug.name),
         filterValue: d => d.drug.name,
         export: d => d.drug.id,
@@ -96,7 +94,6 @@ const columnPool = {
       {
         id: 'target',
         label: 'Target',
-        sortable: true,
         export: d => d.target.id,
         filterValue: d => d.target.approvedName,
         renderCell: d => (
@@ -117,8 +114,6 @@ const columnsToShow = [
 
 const stickyColumn = 'disease';
 
-// ALSO, SCROLLBAR ADD HEIGHT TO EMPTYROWS
-
 const columns = [];
 
 columnsToShow.forEach(columnGroup => {
@@ -136,24 +131,11 @@ const headerGroups = [
   })),
 ];
 
-const sortFieldMap = {
-  disease: 'ByDisease',
-  drug: 'ByDrug',
-  target: 'ByTarget',
-};
-
-const sortOrderMap = {
-  asc: 'Asc',
-  desc: 'Desc',
-};
-
 const Section = ({ data, fetchMore, efoId }) => {
   const pageSize = 10;
   // eslint-disable-next-line no-unused-vars
   const [globalFilter, setGlobalFilter] = useState('');
   const [pageIndex, setPageIndex] = useState(0);
-  const [sortField, setSortField] = useState('ByDrug');
-  const [sortOrder, setSortOrder] = useState('Asc');
   const getWholeDataset = useBatchDownloader(
     sectionQuery,
     { efoId },
@@ -163,9 +145,7 @@ const Section = ({ data, fetchMore, efoId }) => {
 
   const onTableAction = params => {
     setGlobalFilter(params.globalFilter);
-    setSortOrder(sortOrderMap[params.order]);
     setPageIndex(params.page);
-    setSortField(sortFieldMap[params.sortBy]);
   };
 
   useEffect(
@@ -174,14 +154,13 @@ const Section = ({ data, fetchMore, efoId }) => {
         variables: {
           index: pageIndex,
           size: pageSize,
-          sortField,
-          sortOrder,
+          freeTextQuery: globalFilter,
         },
         updateQuery: (prev, { fetchMoreResult }) =>
           !fetchMoreResult ? prev : { ...prev, ...fetchMoreResult },
       });
     },
-    [fetchMore, pageIndex, sortField, sortOrder]
+    [fetchMore, pageIndex, globalFilter]
   );
 
   return (
@@ -193,10 +172,9 @@ const Section = ({ data, fetchMore, efoId }) => {
       headerGroups={headerGroups}
       rows={data?.rows || []}
       rowCount={data?.count || 0}
+      showGlobalFilter
       serverSide={true}
-      sortBy={stickyColumn}
       onTableAction={onTableAction}
-      order="asc"
     />
   );
 };
