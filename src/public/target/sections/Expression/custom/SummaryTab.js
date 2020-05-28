@@ -63,7 +63,6 @@ const SummaryPanel = ({ ensgId, symbol }) => {
   if (loading || error) return null;
 
   const { expressions } = data.target;
-  console.log('expressions', expressions);
 
   return (
     <Grid container justify="center">
