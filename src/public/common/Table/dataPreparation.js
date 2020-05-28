@@ -2,13 +2,13 @@ import { stableSort, getComparator, globalFilter } from './sortingAndFiltering';
 
 export function prepareDataClientSide(
   rows,
-  fixedRows,
   columns,
-  globalFilterValue,
+  fixedRows,
   page,
   pageSize,
   order,
-  sortBy
+  sortBy,
+  globalFilterValue
 ) {
   fixedRows.forEach(fixedRow => {
     fixedRow.isFixedRow = true;

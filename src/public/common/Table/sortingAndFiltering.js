@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { safeToString } from '../../../utils/global';
 
 function ascendingComparator(a, b, sortBy) {
@@ -32,7 +34,9 @@ export function stableSort(array, comparator) {
 
 export function globalFilter(row, columns, value) {
   const contents = columns.map(column =>
-    column.filterValue ? column.filterValue(row) : row[column.id]
+    column.filterValue
+      ? column.filterValue(row)
+      : _.get(row, column.propertyPath || column.id, '')
   );
 
   return contents

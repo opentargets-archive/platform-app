@@ -12,6 +12,8 @@ import {
 } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
 
+import _ from 'lodash';
+
 import { tableStyles } from './tableStyles';
 import useDynamicColspan from '../../../hooks/useDynamicColspans';
 import { getHiddenBreakpoints } from './utils';
@@ -106,7 +108,7 @@ function TableHeader({
             colspan={colspans[cellIndex]}
             isHeaderGroup={true}
             key={cellIndex}
-            label={headerCell.label}
+            label={headerCell.label || ''}
             noWrapHeader={noWrapHeader}
             sticky={headerCell.sticky || false}
             tooltip={headerCell.tooltip}
@@ -121,7 +123,7 @@ function TableHeader({
               align={
                 column.align ? column.align : column.numeric ? 'right' : 'left'
               }
-              label={column.label}
+              label={column.label || _.startCase(column.id)}
               noWrapHeader={noWrapHeader}
               sortable={column.sortable}
               sortParams={
