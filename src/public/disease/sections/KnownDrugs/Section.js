@@ -174,9 +174,7 @@ const Section = ({ data, fetchMore, efoId }) => {
       rowCount={data?.count || 0}
       serverSide={true}
       showGlobalFilter
-      sortBy={stickyColumn}
       onTableAction={onTableAction}
-      order="asc"
     />
   );
 };
