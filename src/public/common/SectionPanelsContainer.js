@@ -3,7 +3,7 @@ import { StickyContainer, Sticky } from 'react-sticky';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import SectionPanel from './SectionPanel';
-import SideMenu from '../common/SideMenu';
+import SideMenu from './SideMenu';
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
