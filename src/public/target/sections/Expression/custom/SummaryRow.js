@@ -50,6 +50,8 @@ const styles = theme => ({
   cell: {
     border: 'none',
     width: '230px',
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   parentTissueCell: {
     fontWeight: 'bold',
