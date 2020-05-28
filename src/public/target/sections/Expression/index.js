@@ -1,12 +1,13 @@
 import { loader } from 'graphql.macro';
 
-export const id = 'expression';
+export const id = 'expressions';
 export const name = 'Baseline Expression';
 
-export const hasSummaryData = ({
-  rnaBaselineExpression,
-  proteinBaselineExpression,
-}) => rnaBaselineExpression || proteinBaselineExpression;
+export const hasSummaryData = data => {
+  const hasRNA = data.some(d => d.rna.level >= 0);
+  const hasProtein = data.some(d => d.protein.level >= 0);
+  return hasRNA || hasProtein;
+};
 
 export const summaryQuery = loader('./summaryQuery.gql');
 

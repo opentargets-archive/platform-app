@@ -5,7 +5,7 @@ export const targetSectionsDefaultOrder = [
   'chemicalProbes',
   'bibliography',
   'variation',
-  // 'expression',
+  'expressions',
   'proteinAnnotations',
   'orthologs',
   'geneOntology',
