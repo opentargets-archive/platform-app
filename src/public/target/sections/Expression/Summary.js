@@ -1,8 +1,17 @@
-const Summary = ({ rnaBaselineExpression, proteinBaselineExpression }) => {
-  const expressionTypes = ['RNA', 'Protein'].filter(
-    (d, i) => [rnaBaselineExpression, proteinBaselineExpression][i]
-  );
-  return expressionTypes.length > 0 ? expressionTypes.join(' • ') : null;
+const Summary = ({ data }) => {
+  const hasRNA = data.some(d => d.rna.level >= 0);
+  const hasProtein = data.some(d => d.protein.level >= 0);
+  const expressionTypes = [];
+
+  if (hasRNA) {
+    expressionTypes.push('RNA');
+  }
+
+  if (hasProtein) {
+    expressionTypes.push('Protein');
+  }
+
+  return expressionTypes.join(' • ');
 };
 
 export default Summary;

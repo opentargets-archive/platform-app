@@ -10,23 +10,21 @@ import { Link, DataDownloader } from 'ot-ui';
 import SummaryTable from './SummaryTable';
 
 const EXPRESSION_QUERY = gql`
-  query ExpressionQuery($ensgId: String!) {
-    target(ensgId: $ensgId) {
+  query ExpressionQuery($ensemblId: String!) {
+    target(ensemblId: $ensemblId) {
       id
-      details {
-        expression {
-          rows {
-            label
-            organs
-            anatomicalSystems
-            rna {
-              value
-              level
-            }
-            protein {
-              level
-            }
-          }
+      expressions {
+        tissue {
+          label
+          organs
+          anatomicalSystems
+        }
+        rna {
+          value
+          level
+        }
+        protein {
+          level
         }
       }
     }
@@ -47,34 +45,35 @@ const headers = [
   { id: 'protein', label: 'Protein' },
 ];
 
-const getDownloadRows = tissues => {
-  return tissues.map(tissue => ({
-    label: tissue.label,
-    organs: tissue.organs.join(','),
-    anatomicalSystems: tissue.anatomicalSystems.join(','),
-    rna: tissue.rna.value,
-    protein: tissue.protein.level,
+const getDownloadRows = expressions => {
+  return expressions.map(expression => ({
+    label: expression.tissue.label,
+    organs: expression.tissue.organs.join(','),
+    anatomicalSystems: expression.tissue.anatomicalSystems.join(','),
+    rna: expression.rna.value,
+    protein: expression.protein.level,
   }));
 };
 
 const SummaryPanel = ({ ensgId, symbol }) => {
   const { loading, error, data } = useQuery(EXPRESSION_QUERY, {
-    variables: { ensgId },
+    variables: { ensemblId: ensgId },
   });
 
   if (loading || error) return null;
 
-  const tissues = data.target.details.expression.rows;
+  const { expressions } = data.target;
+  console.log('expressions', expressions);
 
   return (
     <Grid container justify="center">
       <Grid item md={6}>
         <DataDownloader
           tableHeaders={headers}
-          rows={getDownloadRows(tissues)}
+          rows={getDownloadRows(expressions)}
           fileStem={`${symbol}-expression`}
         />
-        <SummaryTable tissues={tissues} />
+        <SummaryTable data={expressions} />
       </Grid>
     </Grid>
   );

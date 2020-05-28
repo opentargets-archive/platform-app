@@ -154,13 +154,13 @@ let SummaryRow = class extends Component {
               className={classNames(classes.row, {
                 [classes.lastChildRow]: index === tissues.length - 1,
               })}
-              key={tissue.label}
+              key={tissue.tissue.label}
               style={{ display: collapsed ? 'none' : 'table-row' }}
             >
               <TableCell
                 className={classNames(classes.cell, classes.tissueCell)}
               >
-                {tissue.label}
+                {tissue.tissue.label}
               </TableCell>
               <TableCell className={classNames(classes.cell, classes.rnaCell)}>
                 <div className={classes.barContainer}>

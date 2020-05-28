@@ -1,8 +1,10 @@
-fragment targetExpressionFragment on TargetSummaries {
-  expression {
-    rnaBaselineExpression
-    proteinBaselineExpression
-    expressionAtlasExperiment
-    gtexData
+fragment targetExpressionsFragment on Target {
+  expressions {
+    rna {
+      level
+    }
+    protein {
+      level
+    }
   }
 }

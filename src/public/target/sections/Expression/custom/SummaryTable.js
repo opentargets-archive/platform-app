@@ -15,8 +15,8 @@ import Grid from '@material-ui/core/Grid';
 
 import SummaryRow from './SummaryRow';
 
-const getMaxRnaValue = tissues => {
-  return _.maxBy(tissues, tissue => tissue.rna.value).rna.value;
+const getMaxRnaValue = expressions => {
+  return _.maxBy(expressions, expression => expression.rna.value).rna.value;
 };
 
 // function that transforms tissue data into an array of objects
@@ -29,11 +29,11 @@ const getMaxRnaValue = tissues => {
 //   maxRnaLevel: number
 //   maxProteinLevel: number
 // }
-const groupTissues = (tissues, groupBy) => {
+const groupTissues = (expressions, groupBy) => {
   const groupedTissues = {};
 
-  tissues.forEach(tissue => {
-    const parentLabels = tissue[groupBy];
+  expressions.forEach(expression => {
+    const parentLabels = expression.tissue[groupBy];
     parentLabels.forEach(label => {
       if (!groupedTissues[label]) {
         groupedTissues[label] = {
@@ -47,19 +47,13 @@ const groupTissues = (tissues, groupBy) => {
 
       const parent = groupedTissues[label];
 
-      parent.tissues.push(tissue);
-      parent.maxRnaValue =
-        parent.maxRnaValue < tissue.rna.value
-          ? tissue.rna.value
-          : parent.maxRnaValue;
-      parent.maxRnaLevel =
-        parent.maxRnaLevel < tissue.rna.level
-          ? tissue.rna.level
-          : parent.maxRnaLevel;
-      parent.maxProteinLevel =
-        parent.maxProteinLevel < tissue.protein.level
-          ? tissue.protein.level
-          : parent.maxProteinLevel;
+      parent.tissues.push(expression);
+      parent.maxRnaValue = Math.max(parent.maxRnaValue, expression.rna.value);
+      parent.maxRnaLevel = Math.max(parent.maxRnaLevel, expression.rna.level);
+      parent.maxProteinLevel = Math.max(
+        parent.maxProteinLevel,
+        expression.protein.level
+      );
     });
   });
 
@@ -143,11 +137,11 @@ class SummaryTable extends Component {
   };
 
   render() {
-    const { classes, tissues } = this.props;
+    const { classes, data } = this.props;
     const { groupBy, sortBy } = this.state;
 
-    const maxRnaValue = getMaxRnaValue(tissues);
-    const parents = sort(groupTissues(tissues, groupBy), sortBy);
+    const maxRnaValue = getMaxRnaValue(data);
+    const parents = sort(groupTissues(data, groupBy), sortBy);
 
     return (
       <Fragment>
