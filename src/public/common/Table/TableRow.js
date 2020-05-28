@@ -12,8 +12,8 @@ function TableRow({ columns, hover, isFixedRow, noWrap, row, style }) {
       classes={{ root: isFixedRow ? classes.rowFixed : '' }}
       hover={hover}
     >
-      {columns.map((column, i) => (
-        <Hidden {...getHiddenBreakpoints(column)} key={`header-${column.id}`}>
+      {columns.map((column, index) => (
+        <Hidden {...getHiddenBreakpoints(column)} key={index}>
           <TableCell
             align={
               column.align ? column.align : column.numeric ? 'right' : 'left'
