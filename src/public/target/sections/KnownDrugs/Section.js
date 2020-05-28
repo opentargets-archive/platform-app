@@ -93,14 +93,19 @@ const columnPool = {
     columns: [
       {
         id: 'target',
-        label: 'Target',
+        label: 'Symbol',
+        export: d => d.target.id,
+        filterValue: d => d.target.approvedSymbol,
+        renderCell: d => (
+          <Link to={`/target/${d.target.id}`}>{d.target.approvedSymbol}</Link>
+        ),
+      },
+      {
+        id: 'target',
+        label: 'Name',
         export: d => d.target.id,
         filterValue: d => d.target.approvedName,
-        renderCell: d => (
-          <Link to={`/target/${d.target.id}`}>
-            {label(d.target.approvedName)}
-          </Link>
-        ),
+        renderCell: d => label(d.target.approvedName),
       },
     ],
   },
@@ -130,17 +135,6 @@ const headerGroups = [
     label: group.label,
   })),
 ];
-
-const sortFieldMap = {
-  disease: 'ByDisease',
-  drug: 'ByDrug',
-  target: 'ByTarget',
-};
-
-const sortOrderMap = {
-  asc: 'Asc',
-  desc: 'Desc',
-};
 
 const Section = ({ data, fetchMore, efoId }) => {
   const pageSize = 10;

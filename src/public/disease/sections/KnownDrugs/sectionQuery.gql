@@ -32,6 +32,7 @@ query knownDrugsSectionQuery(
         target {
           id
           approvedName
+          approvedSymbol
         }
       }
     }
