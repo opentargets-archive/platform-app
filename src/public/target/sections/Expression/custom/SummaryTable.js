@@ -99,14 +99,8 @@ const styles = () => ({
   groupByText: {
     marginRight: '7px',
   },
-  table: {
-    width: '678px',
-  },
   headerCell: {
     textAlign: 'center',
-  },
-  cell: {
-    width: '230px',
   },
   rnaCell: {
     paddingRight: '8px',
@@ -116,9 +110,6 @@ const styles = () => ({
   },
   highLow: {
     border: 'none',
-  },
-  row: {
-    height: '24px',
   },
 });
 
@@ -166,9 +157,9 @@ class SummaryTable extends Component {
           </ToggleButtonGroup>
         </Grid>
         <Grid container justify="center">
-          <Table className={classes.table}>
+          <Table size="small">
             <TableHead>
-              <TableRow className={classes.row}>
+              <TableRow>
                 <TableCell className={classes.headerCell}>Tissue</TableCell>
                 <TableCell
                   className={classes.headerCell}
@@ -185,7 +176,7 @@ class SummaryTable extends Component {
                   </TableSortLabel>
                 </TableCell>
               </TableRow>
-              <TableRow className={classes.row}>
+              <TableRow>
                 <TableCell className={classes.highLow} />
                 <TableCell
                   className={classNames(classes.highLow, classes.rnaCell)}
