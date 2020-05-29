@@ -2,19 +2,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import crossfilter from 'crossfilter2';
 import Select from 'react-select';
-import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Link, DataDownloader, OtTableRF } from 'ot-ui';
-
-import AssociationSummary from '../../../../common/AssociationSummary';
-
-const styles = () => ({
-  panelTitle: {
-    marginTop: '10px',
-    marginBottom: '14px',
-  },
-});
 
 const getColumns = (
   pathwayOptions,
@@ -49,7 +38,7 @@ const getColumns = (
       ),
     },
     {
-      id: 'parents',
+      id: 'parentNames',
       label: 'Top-level parent pathway',
       renderCell: d => (
         <React.Fragment>
@@ -70,24 +59,12 @@ const getColumns = (
       ),
     },
     {
-      id: 'diagram',
-      label: 'View diagram',
-      renderCell: d => (
-        <React.Fragment>
-          <Link
-            external
-            to={`https://reactome.org/ContentService/exporter/diagram/${d.id}.svg`}
-          >
-            SVG
-          </Link>{' '}
-          |{' '}
-          <Link
-            external
-            to={`https://reactome.org/ContentService/exporter/diagram/${d.id}.png`}
-          >
-            PNG
-          </Link>
-        </React.Fragment>
+      id: 'url',
+      label: 'View target and pathway',
+      renderCell: ({ url }) => (
+        <Link external to={url}>
+          Link
+        </Link>
       ),
     },
   ];
@@ -97,10 +74,8 @@ const getColumns = (
 
 const getDownloadRows = rows => {
   return rows.map(row => ({
-    name: row.name,
-    id: row.id,
+    ...row,
     parents: row.parents.map(parent => parent.name).join(', '),
-    diagram: `https://reactome.org/ContentService/exporter/diagram/${row.id}.png`,
   }));
 };
 
@@ -120,15 +95,9 @@ const getIdOptions = pathways => {
 
 const getParentOptions = pathways => {
   return _.uniqBy(
-    pathways.reduce((acc, pathway) => {
-      pathway.parents.forEach(parent => {
-        acc.push({
-          label: parent.name,
-          value: parent.id,
-        });
-      });
-      return acc;
-    }, []),
+    _.flatMap(pathways, ({ parents }) =>
+      parents.map(parent => ({ label: parent.name, value: parent.id }))
+    ),
     'value'
   );
 };
@@ -185,7 +154,7 @@ class OverviewTab extends Component {
   }
 
   render() {
-    const { symbol, classes, topLevelPathways, lowLevelPathways } = this.props;
+    const { symbol, lowLevelPathways } = this.props;
     const { filteredRows } = this.state;
     const pathwayOptions = getPathwayOptions(lowLevelPathways);
     const idOptions = getIdOptions(lowLevelPathways);
@@ -201,10 +170,6 @@ class OverviewTab extends Component {
 
     return (
       <React.Fragment>
-        <Typography className={classes.panelTitle} variant="h6">
-          Top-level parent pathways
-        </Typography>
-        <AssociationSummary data={topLevelPathways} />
         <DataDownloader
           tableHeaders={columns}
           rows={getDownloadRows(lowLevelPathways)}
@@ -222,4 +187,4 @@ class OverviewTab extends Component {
   }
 }
 
-export default withStyles(styles)(OverviewTab);
+export default OverviewTab;

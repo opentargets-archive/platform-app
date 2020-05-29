@@ -10,7 +10,7 @@ export const targetSectionsDefaultOrder = [
   'orthologs',
   'geneOntology',
   // 'proteinInteractions',
-  // 'pathways',
+  'pathways',
   'relatedTargets',
   'mousePhenotypes',
   'hallmarks',
