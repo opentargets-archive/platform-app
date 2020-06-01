@@ -39,7 +39,7 @@ function Table({
   ...props
 }) {
   const [page, setPage] = useState(0);
-  const [sortBy, setsortBy] = useState(props.sortBy);
+  const [sortBy, setSortBy] = useState(props.sortBy);
   const [order, setOrder] = useState(props.order || 'asc');
   const [globalFilter, setGlobalFilter] = useState('');
 
@@ -65,7 +65,7 @@ function Table({
       setOrder(order === 'asc' ? 'desc' : 'asc');
     }
 
-    setsortBy(property);
+    setSortBy(property);
   };
 
   const handleChangeGlobalFilter = newValue => {
