@@ -9,8 +9,6 @@ function ascendingComparator(a, b, sortBy) {
 }
 
 export function getComparator(columns, order, sortBy) {
-  console.log('order, sortBy', order, sortBy);
-
   const column = columns.find(col => col.id === sortBy);
   const columnComparator = column?.comparator
     ? column.comparator
