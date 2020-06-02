@@ -71,3 +71,6 @@ export const clinicalTrialsSearchUrl = 'https://clinicaltrials.gov/ct2/results';
 
 // useBatchDownloader hook.
 export const chunkSize = 1000;
+
+// NA label.
+export const naLabel = 'N/A';

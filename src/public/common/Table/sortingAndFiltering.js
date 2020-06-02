@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { safeToString } from '../../../utils/global';
 
 function ascendingComparator(a, b, sortBy) {
@@ -7,8 +9,6 @@ function ascendingComparator(a, b, sortBy) {
 }
 
 export function getComparator(columns, order, sortBy) {
-  console.log('order, sortBy', order, sortBy);
-
   const column = columns.find(col => col.id === sortBy);
   const columnComparator = column?.comparator
     ? column.comparator
@@ -19,20 +19,11 @@ export function getComparator(columns, order, sortBy) {
     : (a, b) => -columnComparator(a, b, sortBy);
 }
 
-export function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map(el => el[0]);
-}
-
 export function globalFilter(row, columns, value) {
   const contents = columns.map(column =>
-    column.filterValue ? column.filterValue(row) : row[column.id]
+    column.filterValue
+      ? column.filterValue(row)
+      : _.get(row, column.propertyPath || column.id, '')
   );
 
   return contents

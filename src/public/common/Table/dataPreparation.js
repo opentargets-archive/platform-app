@@ -1,14 +1,14 @@
-import { stableSort, getComparator, globalFilter } from './sortingAndFiltering';
+import { getComparator, globalFilter } from './sortingAndFiltering';
 
 export function prepareDataClientSide(
   rows,
-  fixedRows,
   columns,
-  globalFilterValue,
+  fixedRows,
   page,
   pageSize,
   order,
-  sortBy
+  sortBy,
+  globalFilterValue
 ) {
   fixedRows.forEach(fixedRow => {
     fixedRow.isFixedRow = true;
@@ -23,10 +23,7 @@ export function prepareDataClientSide(
   const pageEnd = Math.min(page * pageSize + pageSize, rowCount);
   const emptyRows = pageSize - (pageEnd - pageStart);
 
-  const sortedRows = stableSort(
-    filteredRows,
-    getComparator(columns, order, sortBy)
-  );
+  const sortedRows = filteredRows.sort(getComparator(columns, order, sortBy));
   const slicedRows = sortedRows.slice(pageStart, pageEnd);
   const processedRows = [...fixedRows, ...slicedRows];
 

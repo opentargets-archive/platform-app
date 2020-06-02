@@ -8,7 +8,7 @@ import {
   TableRow as MUITableRow,
 } from '@material-ui/core';
 
-import DataDownloader from 'ot-ui/build/components/DataDownloader';
+import DataDownloader from './DataDownloader';
 import GlobalFilter from './GlobalFilter';
 import TableHeader from './TableHeader';
 import TablePaginationActions from './TablePaginationActions';
@@ -39,7 +39,7 @@ function Table({
   ...props
 }) {
   const [page, setPage] = useState(0);
-  const [sortBy, setsortBy] = useState(props.sortBy);
+  const [sortBy, setSortBy] = useState(props.sortBy);
   const [order, setOrder] = useState(props.order || 'asc');
   const [globalFilter, setGlobalFilter] = useState('');
 
@@ -65,7 +65,7 @@ function Table({
       setOrder(order === 'asc' ? 'desc' : 'asc');
     }
 
-    setsortBy(property);
+    setSortBy(property);
   };
 
   const handleChangeGlobalFilter = newValue => {
@@ -94,7 +94,7 @@ function Table({
       {dataDownloader && (
         <Grid item xs={12} md={7} lg={5} className={classes.tableUpperControl2}>
           <DataDownloader
-            tableHeaders={columns}
+            columns={columns}
             rows={dataDownloaderRows}
             fileStem={dataDownloaderFileStem}
           />
