@@ -20,11 +20,15 @@ export function getComparator(columns, order, sortBy) {
 }
 
 export function globalFilter(row, columns, value) {
-  const contents = columns.map(column =>
-    column.filterValue
+  const contents = columns.reduce((accumulator, column) => {
+    if (column.filterValue === false) return accumulator;
+
+    const newValue = column.filterValue
       ? column.filterValue(row)
-      : _.get(row, column.propertyPath || column.id, '')
-  );
+      : _.get(row, column.propertyPath || column.id, '');
+
+    return [...accumulator, newValue];
+  }, []);
 
   return contents
     .map(content =>
