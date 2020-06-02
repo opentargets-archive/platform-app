@@ -13,6 +13,9 @@ import DrugIcon from '../../icons/DrugIcon';
 
 const styles = () => ({
   chip: { margin: '2px 2px', height: '20px' },
+  block: {
+    display: 'block',
+  },
   subtitle: {
     fontWeight: 500,
   },
@@ -33,7 +36,7 @@ const useStyles = makeStyles(theme => {
   };
 });
 
-const TermList = ({ terms, maxTerms = 10 }) => {
+const TermList = ({ terms, render, maxTerms = 10 }) => {
   const [showMore, setShowMore] = useState(false);
   const classes = useStyles();
 
@@ -47,23 +50,8 @@ const TermList = ({ terms, maxTerms = 10 }) => {
   const hiddenTerms = terms.slice(maxTerms);
   return (
     <Fragment>
-      {shownTerms.map((term, index) => {
-        return (
-          <div key={index}>
-            <Link to={`/disease/${term.disease.id}`}>{term.disease.name}</Link>
-          </div>
-        );
-      })}
-      {showMore &&
-        hiddenTerms.map((term, index) => {
-          return (
-            <div key={index}>
-              <Link to={`/disease/${term.disease.id}`}>
-                {term.disease.name}
-              </Link>
-            </div>
-          );
-        })}
+      {shownTerms.map(render)}
+      {showMore && hiddenTerms.map(render)}
       {hiddenTerms.length > 0 && (
         <Typography
           variant="body2"
@@ -114,7 +102,21 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Indications
           </Typography>
-          <TermList terms={data.indications.rows} maxTerms={5} />
+          <TermList
+            terms={data.indications.rows}
+            maxTerms={5}
+            render={(indication, index) => {
+              return (
+                <Link
+                  key={index}
+                  className={classes.block}
+                  to={`/disease/${indication.disease.id}`}
+                >
+                  {indication.disease.name}
+                </Link>
+              );
+            }}
+          />
         </>
       )}
       {data.linkedTargets.rows.length > 0 && (
@@ -122,11 +124,21 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Drug targets
           </Typography>
-          {data.linkedTargets.rows.map(target => (
-            <Fragment key={target.id}>
-              <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>{' '}
-            </Fragment>
-          ))}
+          <TermList
+            terms={data.linkedTargets.rows}
+            maxTerms={5}
+            render={target => {
+              return (
+                <Link
+                  className={classes.block}
+                  key={target.id}
+                  to={`/target/${target.id}`}
+                >
+                  {target.approvedSymbol}
+                </Link>
+              );
+            }}
+          />
         </>
       )}
       {data.synonyms.length > 0 && (
