@@ -92,22 +92,15 @@ const sort = (parents, sortBy) => {
 };
 
 const styles = () => ({
-  inlineBlock: {
-    display: 'inline-block',
-    marginRight: '7px',
-  },
   groupBy: {
     marginBottom: '20px',
     marginTop: '40px',
   },
-  table: {
-    width: '678px',
+  groupByText: {
+    marginRight: '7px',
   },
   headerCell: {
     textAlign: 'center',
-  },
-  cell: {
-    width: '230px',
   },
   rnaCell: {
     paddingRight: '8px',
@@ -117,9 +110,6 @@ const styles = () => ({
   },
   highLow: {
     border: 'none',
-  },
-  row: {
-    height: '24px',
   },
 });
 
@@ -151,9 +141,11 @@ class SummaryTable extends Component {
           justify="center"
           alignItems="center"
         >
-          <Typography className={classes.inlineBlock}>Group by</Typography>
+          <Typography className={classes.groupByText} variant="body2">
+            Group by
+          </Typography>
           <ToggleButtonGroup
-            className={classes.inlineBlock}
+            size="small"
             value={groupBy}
             exclusive
             onChange={this.handleChange}
@@ -165,26 +157,31 @@ class SummaryTable extends Component {
           </ToggleButtonGroup>
         </Grid>
         <Grid container justify="center">
-          <Table className={classes.table}>
+          <Table size="small">
             <TableHead>
-              <TableRow className={classes.row}>
+              <TableRow>
                 <TableCell className={classes.headerCell}>Tissue</TableCell>
                 <TableCell
                   className={classes.headerCell}
                   onClick={() => this.handleSort('rna')}
                 >
-                  <TableSortLabel active={sortBy === 'rna'}>RNA</TableSortLabel>
+                  <TableSortLabel direction="desc" active={sortBy === 'rna'}>
+                    RNA
+                  </TableSortLabel>
                 </TableCell>
                 <TableCell
                   className={classes.headerCell}
                   onClick={() => this.handleSort('protein')}
                 >
-                  <TableSortLabel active={sortBy === 'protein'}>
+                  <TableSortLabel
+                    direction="desc"
+                    active={sortBy === 'protein'}
+                  >
                     Protein
                   </TableSortLabel>
                 </TableCell>
               </TableRow>
-              <TableRow className={classes.row}>
+              <TableRow>
                 <TableCell className={classes.highLow} />
                 <TableCell
                   className={classNames(classes.highLow, classes.rnaCell)}

@@ -62,10 +62,10 @@ class Section extends React.Component {
     const { ensgId, name, measureRef } = this.props;
     return (
       <div id="otTargetGenomeBrowserContainer" ref={measureRef}>
-        <Typography variant="body1">
+        <Typography>
           <strong>Gene information</strong>
         </Typography>
-        <Typography>
+        <Typography variant="body2">
           <strong>Ensembl ID: </strong>
           <Link
             external

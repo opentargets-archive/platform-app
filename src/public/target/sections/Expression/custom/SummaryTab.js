@@ -66,7 +66,7 @@ const SummaryPanel = ({ ensgId, symbol }) => {
 
   return (
     <Grid container justify="center">
-      <Grid item md={6}>
+      <Grid item md={8}>
         <DataDownloader
           tableHeaders={headers}
           rows={getDownloadRows(expressions)}
@@ -81,7 +81,7 @@ const SummaryPanel = ({ ensgId, symbol }) => {
 const SummaryTab = ({ ensgId, symbol, classes }) => {
   return (
     <>
-      <Typography className={classes.description}>
+      <Typography variant="body2" className={classes.description}>
         Summary of {symbol} RNA and protein expression in normal human tissue,
         based on Human Protein Atlas normal tissue immunohistochemistry, RNA-seq
         expression data and Expression Atlas data.

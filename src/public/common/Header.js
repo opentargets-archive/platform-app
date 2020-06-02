@@ -49,7 +49,7 @@ const Header = ({
               </Typography>
             </Grid>
             <Grid container>
-              <Typography>{externalLinks}</Typography>
+              <Typography variant="body2">{externalLinks}</Typography>
             </Grid>
           </Grid>
         </Grid>

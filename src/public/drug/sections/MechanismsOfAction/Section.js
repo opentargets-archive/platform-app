@@ -13,33 +13,37 @@ const columns = [
   },
   {
     id: 'targets',
-    label: 'Targets',
+    label: 'Human targets',
     renderCell: d =>
-      d.targets.map((target, i) => (
-        <Fragment key={i}>
-          {i > 0 ? ' ' : null}
-          <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>
-        </Fragment>
-      )),
+      !d.targets || d.targets.length === 0
+        ? 'non-human'
+        : d.targets.map((target, i) => (
+            <Fragment key={i}>
+              {i > 0 ? ' ' : null}
+              <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>
+            </Fragment>
+          )),
   },
   {
     id: 'references',
     label: 'References',
     renderCell: d =>
-      d.references.map((r, i) => {
-        return (
-          <Fragment key={i}>
-            {i > 0 ? ', ' : null}
-            {r.urls ? (
-              <Link external to={r.urls[0]}>
-                {r.source}
-              </Link>
-            ) : (
-              r.source
-            )}
-          </Fragment>
-        );
-      }),
+      !d.references
+        ? 'n/a'
+        : d.references.map((r, i) => {
+            return (
+              <Fragment key={i}>
+                {i > 0 ? ', ' : null}
+                {r.urls ? (
+                  <Link external to={r.urls[0]}>
+                    {r.source}
+                  </Link>
+                ) : (
+                  r.source
+                )}
+              </Fragment>
+            );
+          }),
   },
 ];
 

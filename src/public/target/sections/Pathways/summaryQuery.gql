@@ -1,9 +1,12 @@
-fragment targetPathwaysFragment on TargetSummaries {
-  pathways {
-    count
-    sources {
-      name
-      url
+fragment targetPathwaysFragment on Target {
+  # fetch the rows for the section to be able to count them
+  pathways: reactome {
+    id
+    label
+    ancestors {
+      isRoot
+      id
+      label
     }
   }
 }

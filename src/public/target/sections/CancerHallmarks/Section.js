@@ -8,7 +8,7 @@ const Section = ({ ensgId, symbol, data }) => {
   const roleInCancer = data.attributes.filter(a => a.name === 'role in cancer');
   return (
     <React.Fragment>
-      <Typography>
+      <Typography variant="body2">
         Role in cancer:{' '}
         {roleInCancer.map((r, i) => (
           <React.Fragment key={i}>

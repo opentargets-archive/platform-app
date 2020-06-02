@@ -89,7 +89,7 @@ class SideMenu extends React.PureComponent {
           </Droppable>
         </DragDropContext>
         <div className={classes.scrollToTop} onClick={onScrollToTopClick}>
-          <Typography color="primary" align="center">
+          <Typography variant="body2" color="primary" align="center">
             back to top
           </Typography>
         </div>

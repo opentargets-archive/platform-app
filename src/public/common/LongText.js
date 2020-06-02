@@ -19,30 +19,33 @@ const LongText = ({ classes, lineLimit, children }) => {
   const [showMore, setShowMore] = useState(false);
   const [numberOfLines, setNumberOfLines] = useState();
 
-  useLayoutEffect(() => {
-    const container = containerRef.current;
-    const el = textRef.current;
-    const height = el.offsetHeight;
-    const lineHeight = Number.parseInt(
-      document.defaultView
-        .getComputedStyle(el, null)
-        .getPropertyValue('line-height'),
-      10
-    );
-    const numberOfLines = Math.round(height / lineHeight);
+  useLayoutEffect(
+    () => {
+      const container = containerRef.current;
+      const el = textRef.current;
+      const height = el.offsetHeight;
+      const lineHeight = Number.parseInt(
+        document.defaultView
+          .getComputedStyle(el, null)
+          .getPropertyValue('line-height'),
+        10
+      );
+      const numberOfLines = Math.round(height / lineHeight);
 
-    container.style.height =
-      numberOfLines <= lineLimit
-        ? 'auto'
-        : showMore
-        ? 'auto'
-        : `${lineLimit * lineHeight}px`;
+      container.style.height =
+        numberOfLines <= lineLimit
+          ? 'auto'
+          : showMore
+          ? 'auto'
+          : `${lineLimit * lineHeight}px`;
 
-    setNumberOfLines(numberOfLines);
-  }, [lineLimit, showMore]);
+      setNumberOfLines(numberOfLines);
+    },
+    [lineLimit, showMore]
+  );
 
   return (
-    <Typography>
+    <Typography variant="body2">
       <span ref={containerRef} className={classes.textContainer}>
         <span ref={textRef}>{children}</span>
       </span>

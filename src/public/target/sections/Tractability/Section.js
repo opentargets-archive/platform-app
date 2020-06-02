@@ -51,7 +51,7 @@ const Section = ({ symbol, data }) => {
       {otherModalitiesBuckets.length > 0 ? (
         <OtherModalitiesTable buckets={otherModalitiesBuckets} />
       ) : (
-        <Typography>
+        <Typography variant="body2">
           No other modalities tractability data for {symbol} available
         </Typography>
       )}

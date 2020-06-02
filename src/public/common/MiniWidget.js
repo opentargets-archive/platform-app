@@ -130,6 +130,7 @@ const MiniWidget = ({
                 [classes.titleHasData]: hasData,
                 [classes.titleError]: error,
               })}
+              variant="body2"
             >
               {name}
             </Typography>

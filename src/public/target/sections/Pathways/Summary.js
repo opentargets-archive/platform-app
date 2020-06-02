@@ -1,3 +1,3 @@
-const Summary = ({ count }) => `${count} Reactome pathways`;
+const Summary = ({ data }) => `${data.length} Reactome pathways`;
 
 export default Summary;

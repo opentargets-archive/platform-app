@@ -42,7 +42,6 @@ const styles = theme => ({
   dragIndicator: {
     cursor: 'grab',
     display: 'none',
-    fontSize: '1.2rem',
     float: 'right',
   },
   dragIndicatorInDragState: {
@@ -60,6 +59,7 @@ const SideMenuItem = ({
   inDragState,
 }) => (
   <Typography
+    variant="body2"
     className={classNames({
       [classes.text]: true,
       [classes.textHasData]: hasData,
