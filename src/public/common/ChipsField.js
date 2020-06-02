@@ -18,7 +18,7 @@ const styles = theme => ({
   },
 });
 
-const MAX_TERMS = 10;
+// const MAX_TERMS = 10;
 
 class ChipsField extends Component {
   state = {
@@ -30,14 +30,15 @@ class ChipsField extends Component {
   };
 
   render() {
-    const { label, terms, classes } = this.props;
+    const { label, terms, classes, maxTerms = 10 } = this.props;
+    console.log('maxTerms', maxTerms);
 
     if (terms.length === 0) return null;
 
     const { showMore } = this.state;
 
-    const shownTerms = terms.slice(0, MAX_TERMS);
-    const hiddenTerms = terms.slice(MAX_TERMS);
+    const shownTerms = terms.slice(0, maxTerms);
+    const hiddenTerms = terms.slice(maxTerms);
 
     return (
       <div>
@@ -62,7 +63,11 @@ class ChipsField extends Component {
             />
           ))}
         {hiddenTerms.length > 0 && (
-          <Typography className={classes.showMore} onClick={this.showMore}>
+          <Typography
+            variant="body2"
+            className={classes.showMore}
+            onClick={this.showMore}
+          >
             {showMore ? '' : '... '}[
             <span className={classes.showMoreText}>
               {showMore ? ' hide ' : ' show more '}
