@@ -18,8 +18,6 @@ const styles = theme => ({
   },
 });
 
-// const MAX_TERMS = 10;
-
 class ChipsField extends Component {
   state = {
     showMore: false,
@@ -31,7 +29,6 @@ class ChipsField extends Component {
 
   render() {
     const { label, terms, classes, maxTerms = 10 } = this.props;
-    console.log('maxTerms', maxTerms);
 
     if (terms.length === 0) return null;
 
