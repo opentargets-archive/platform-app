@@ -1,137 +1,158 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Grid,
   Table as MUITable,
-  TablePagination,
-  Typography,
   TableBody,
-  TableRow,
   TableCell,
-  Hidden,
+  TablePagination,
+  TableRow as MUITableRow,
 } from '@material-ui/core';
 
+import DataDownloader from './DataDownloader';
+import GlobalFilter from './GlobalFilter';
 import TableHeader from './TableHeader';
 import TablePaginationActions from './TablePaginationActions';
+import TableRow from './TableRow';
+import {
+  prepareDataClientSide,
+  prepareDataServerSide,
+} from './dataPreparation';
 import { tableStyles } from './tableStyles';
-import { getComparator, stableSort } from './sorting';
-import { getHiddenBreakpoints } from './utils';
 
 function Table({
   columns,
   rows,
+  rowCount,
+  fixed = false,
   fixedRows = [],
   headerGroups = [],
   onTableAction = () => {},
-  pageSize = 10,
-  rowCount,
+  pageSize = 10 - fixedRows.length,
+  dataDownloader = false,
+  dataDownloaderFileStem = 'data',
+  dataDownloaderRows = rows,
+  hover = false,
   serverSide = false,
-  noWrapHeader = false,
+  showGlobalFilter = false,
+  noWrap = true,
+  noWrapHeader = true,
   ...props
 }) {
   const [page, setPage] = useState(0);
-  const [orderBy, setOrderBy] = useState(props.orderBy);
+  const [sortBy, setSortBy] = useState(props.sortBy);
   const [order, setOrder] = useState(props.order || 'asc');
-  const pageStart = serverSide ? 0 : pageSize;
-  const pageEnd = serverSide ? pageSize : page * pageSize + pageSize;
-  const emptyRows = pageSize - rows.length;
-  const classes = tableStyles();
+  const [globalFilter, setGlobalFilter] = useState('');
+
+  const [processedRows, emptyRows, effectiveRowCount = rowCount] = serverSide
+    ? prepareDataServerSide(rows, fixedRows, pageSize)
+    : prepareDataClientSide(
+        rows,
+        columns,
+        fixedRows,
+        page,
+        pageSize,
+        order,
+        sortBy,
+        globalFilter
+      );
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
-    onTableAction({ page: newPage, pageSize: pageSize });
   };
 
   const handleRequestSort = (_, property) => {
-    if (orderBy === property) {
+    if (sortBy === property) {
       setOrder(order === 'asc' ? 'desc' : 'asc');
     }
 
-    setOrderBy(property);
-    onTableAction({ sortBy: property, order: order });
+    setSortBy(property);
   };
 
-  if (fixedRows.length === 0 && rows.length === 0) {
-    return (
-      <div align="center">
-        <Typography variant="subtitle1">(no data)</Typography>
-      </div>
-    );
-  }
+  const handleChangeGlobalFilter = newValue => {
+    if (globalFilter !== newValue) {
+      setPage(0);
+      setGlobalFilter(newValue);
+    }
+  };
+
+  useEffect(
+    () => onTableAction({ page, pageSize, sortBy, order, globalFilter }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, pageSize, sortBy, order, globalFilter]
+  );
+
+  const classes = tableStyles();
 
   return (
-    <>
-      <div className={classes.tableWrapper}>
-        <MUITable className={classes.table}>
+    <Grid container justify="flex-end" alignContent="center">
+      {showGlobalFilter && (
+        <Grid item xs={12} md={5} lg={7} className={classes.tableUpperControl1}>
+          <GlobalFilter onGlobalFilterChange={handleChangeGlobalFilter} />
+        </Grid>
+      )}
+
+      {dataDownloader && (
+        <Grid item xs={12} md={7} lg={5} className={classes.tableUpperControl2}>
+          <DataDownloader
+            columns={columns}
+            rows={dataDownloaderRows}
+            fileStem={dataDownloaderFileStem}
+          />
+        </Grid>
+      )}
+
+      <Grid item xs={12} className={classes.tableWrapper}>
+        <MUITable
+          classes={{
+            root: `${classes.table} ${fixed ? classes.tableFixed : ''}`,
+          }}
+        >
           <TableHeader
             classes={classes}
             columns={columns}
             headerGroups={headerGroups}
             noWrapHeader={noWrapHeader}
             order={order}
-            orderBy={orderBy}
+            sortBy={sortBy}
             onRequestSort={handleRequestSort}
           />
           <TableBody>
-            {/* {fixedRows.map(fixedRow =>
+            {processedRows.map((row, i) => (
               <TableRow
-                columns={fixedRow}
+                columns={columns}
+                hover={hover}
+                isFixedRow={row.isFixedRow}
+                key={i}
+                row={row}
+                noWrap={noWrap}
               />
-            )} */}
-            {stableSort(rows, getComparator(columns, order, orderBy))
-              .sort(getComparator(columns, orderBy, order))
-              .slice(pageStart, pageEnd)
-              .map((row, i) => (
-                <TableRow key={i} style={{ whiteSpace: 'nowrap' }} hover>
-                  {columns.map(column => (
-                    <Hidden
-                      {...getHiddenBreakpoints(column)}
-                      key={`header-${column.id}`}
-                    >
-                      <TableCell
-                        key={`tablecell-${column.id}`}
-                        classes={{ root: classes.cellRoot }}
-                        align={
-                          column.align
-                            ? column.align
-                            : column.numeric
-                            ? 'right'
-                            : 'left'
-                        }
-                        style={{
-                          ...column.style,
-                          ...row.rowStyle,
-                          ...(column.numeric
-                            ? {
-                                fontVariant: 'tabular-nums',
-                              }
-                            : {}),
-                        }}
-                      >
-                        {column.renderCell
-                          ? column.renderCell(row)
-                          : row[column.id]}
-                      </TableCell>
-                    </Hidden>
-                  ))}
-                </TableRow>
-              ))}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 29 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
+            ))}
+            {noWrap && emptyRows > 0 && (
+              <MUITableRow style={{ height: `${1.6875 * emptyRows}rem` }}>
+                <TableCell
+                  colSpan={columns.length}
+                  classes={{ root: `${classes.cellBody} ${classes.noData}` }}
+                >
+                  {!processedRows.length && 'No data'}
+                </TableCell>
+              </MUITableRow>
             )}
           </TableBody>
         </MUITable>
-      </div>
-      <TablePagination
-        ActionsComponent={TablePaginationActions}
-        component="div"
-        count={serverSide ? rowCount : rows.length}
-        onChangePage={handleChangePage}
-        page={page}
-        rowsPerPage={pageSize}
-        rowsPerPageOptions={[]}
-      />
-    </>
+      </Grid>
+
+      <Grid item xs={12} className={classes.tablePagination}>
+        <TablePagination
+          ActionsComponent={TablePaginationActions}
+          component="div"
+          count={effectiveRowCount}
+          onChangePage={handleChangePage}
+          page={page}
+          rowsPerPage={pageSize}
+          rowsPerPageOptions={[]}
+        />
+      </Grid>
+    </Grid>
   );
 }
 

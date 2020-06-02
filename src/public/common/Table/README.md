@@ -1,0 +1,104 @@
+# Open Targets Table Component
+
+API documentation for the Table Component.
+
+## Examples
+
+[Disease Profile Page Known Drugs section](https://github.com/opentargets/platform-app/blob/jf-global-table_refactor-eurovision/src/public/disease/sections/KnownDrugs/Section.js)
+[Disease Profile Page Related Diseases section](https://github.com/opentargets/platform-app/blob/jf-global-table_refactor-eurovision/src/public/disease/sections/RelatedDiseases/Section.js)
+
+## Import
+
+(This will be effective when the component moves to `ot-ui`)
+
+```javascript
+import Table from 'ot-ui/Table';
+// or
+import { Table } from 'ot-ui';
+```
+
+## Props
+
+| Name                     | Type                | Default               | Description                                                                                                                                                        |
+| ------------------------ | ------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `columns`                | `array`             |                       | Array of [Column data object](#columndata).                                                                                                                        |
+| `dataDownloader`         | `bool`              | `false`               | If `true`, the table will include the data download widget on top.                                                                                                 |
+| `dataDownloaderFileStem` | `string`            | `'data'`              | File name without extension for the data download widget.                                                                                                          |
+| `dataDownloaderRows`     | `function \| array` | value of `rows` prop. | Rows array or a function returning the rows array passed to the data download widget to create file contents.<br><br>**Signature**: `function() => []`             |
+| `fixed`                  | `bool`              | `false`               | If `true`, `table-layout` will be `fixed`.                                                                                                                         |
+| `fixedRows`              | `array`             | `[]`                  | Row data for fixed rows. Fixed rows will stay on top of the normal rows of the table.                                                                              |
+| `headerGroups`           | `array`             | `[]`                  | If not empty, a first header row will be rendered with the given groups. See [headers object](#headersobject).                                                     |
+| `hover`                  | `bool`              | `false`               | If `true`, the table rows will shade on hover.                                                                                                                     |
+| `rows`                   | `array`             |                       | Row data.                                                                                                                                                          |
+| `rowCount`               | `number`            |                       | Number of rows in data. Used for _serverSide_ mode, when not all rows are loaded in the browser.                                                                   |
+| `noWrap`                 | `bool`              | `true`                | If `false`, table row content will wrap. This will disable the table fixed height feature.                                                                         |
+| `noWrapHeader`           | `bool`              | `true`                | If `false`, table header content will wrap.                                                                                                                        |
+| `onTableAction`          | `function`          |                       | Callback fired when an action is performed on the table.<br><br>**Signature**: `function(params: object) => void`<br>_params_: [action parameters](#paramsobject). |
+| `order`                  | `'asc' \| 'desc'`   | `'asc'`               | Default ordering (ascending or descending).                                                                                                                        |
+| `pageSize`               | `number`            | `10`                  | Number of rows (fixed + regular) to display per page.                                                                                                              |
+| `serverSide`             | `bool`              | `false`               | If `true`, the table will work in [server side mode](#tablemode).                                                                                                  |
+| `showGlobalFilter`       | `bool`              | `false`               | If `true`, the table will show the global filter input box.                                                                                                        |
+| `shortBy`                | `string`            |                       | Column id to set as the default for table row sorting.                                                                                                             |
+
+## <a name="columndata"></a> Column data object
+
+The table will use `propertyPath` to extract the value for each `row` object
+provided in the props. That value will be used for comparation, file exporting,
+sorting and cell rendering.
+
+Alternatively, the value used by those features can be overriden by the
+following functions:
+
+- String exported to a file by the downloader: `exportValue`.
+- String used in the global filter: `filterValue`.
+- Node rendered in the table cell: `renderCell`.
+
+If any of those fields are present, they will take priority over
+`propertyField`.
+
+If `propertyField` is absent, the `id` of the column will be used to access a
+field in the row ofject. You can use this to simplify the situation where the
+column id and the field from row are the same and the table will use that value
+for rendering, export and filtering.
+
+| Field          | Type                | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| -------------- | ------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `comparator`   | `function`          | No       | If present, the table will use this function to sort the data when clicking on the column header. Otherwise the [default sort comparation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) will be used. **Signature**:<br><br>`function(a, b) => number`<br>_a_, _b_: two elements to compare.<br>_returns_: `-1\|0\|1` similar to the [sort compare function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#Description). |
+| `exportLabel`  | `string`            | No       | Column label shown on the exported file header. If not present, a start-cased value from `id` field will be used.                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `exportValue`  | `false \| function` | No       | If present, the data downloader will use the return value for exporting this column. Otherwise, it will use `propertyPath`. If set to `false`, the column will not be present in the export.<br><br>**Signature**: `function(row: object) => string`<br>_row_: a row coming from the `row` table prop array.                                                                                                                                                                                                           |
+| `filterValue`  | `false \| function` | No       | If present, the global filter will use the return value of this function to discriminate elements. Otherwise, it will use `propertyPath`. If set to `false`, the column will not be used for filtering.<br><br>**Signature**: `function(row: object) => string`<br>_row_: a row coming from the `row` table prop array.                                                                                                                                                                                                |
+| `hidden`       | `array`             | No       | Breakpoints in which the column will not be shown. Refer to [material-ui hidden component API](https://material-ui.com/api/hidden/).                                                                                                                                                                                                                                                                                                                                                                                   |
+| `id`           | `string`            | Yes      | Column identifier.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `label`        | `string`            | No       | Column label shown on the table header. If not present, a capitalized and spaced version of `id` will be used.                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `labelStyle`   | `object`            | No       | CSS Style to apply to the column label.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `numeric`      | `bool`              | No       | If `true`, the column cells will align right and be displayed in monospaced typography.                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `minWidth`     | `string`            | No       | A value in `px` for the column's minimum width.                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `propertyPath` | `string`            | No       | Path inside the `row` object where the data for this column will be retrieved from. If not present, this will fall back to the value of the `id` field.                                                                                                                                                                                                                                                                                                                                                                |
+| `renderCell`   | `function`          | No       | If present, the table will render the return value of the function in the cells of the column.<br><br>**Signature**: `function(row: object) => node`<br>_row_: a row coming from the `row` table prop array.                                                                                                                                                                                                                                                                                                           |
+| `sortable`     | `bool`              | No       | If `true`, the table will allow selecting this column to sort the content rows.                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `tooltip`      | `node`              | No       | Node to render inside the header's tooltip. If present, a `?` icon will be shown beside the column label in the header, with the contents of this field as a tooltip.                                                                                                                                                                                                                                                                                                                                                  |
+| `tooltipStyle` | `object`            | No       | CSS Rules to apply to the tooltip. Refer to [material-ui tooltip css docs](https://material-ui.com/api/tooltip/#css).                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `width`        | `string`            | No       | A value in `px` or `%` for the column's width. **Note**: if the prop `fixed` is not present in the table, this value will not be used literally, the browser will try to adapt without breaking cell content.                                                                                                                                                                                                                                                                                                          |
+
+## <a name="paramsobject"></a> Action parameters object
+
+| Field          | Type              | Description                                          |
+| -------------- | ----------------- | ---------------------------------------------------- |
+| `globalFilter` | `string`          | User input in the global filter field.               |
+| `order`        | `'asc' \| 'desc'` | Ordering selected by the user.                       |
+| `sortBy`       | `string`          | Column id selected by the user to sort the table by. |
+| `page`         | `number`          | Page index selected by the user.                     |
+
+## <a name="tablemode"></a> Table modes
+
+The table can work in either server side mode or client side mode.
+
+In client side mode, all pagination, filtering and sorting is made automatically
+by the table, assuming all data is present in the `rows` prop.
+
+In server side mode, the table will trigger `onTableAction` callbacks whenever
+the user interacts with pagination, filtering or sorting, to defer the handling
+to the outside.
+
+It is worth nothing the `dataDownloader` prop will not work properly in server
+side mode unless a rows function that fetches the whole dataset is supplied.

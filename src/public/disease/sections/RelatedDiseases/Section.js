@@ -14,9 +14,9 @@ const countAAndBLabel = ['|', aLabel, intersection, bLabel, '|'].join(' ');
 
 const columns = (name, maxCountAOrB) => [
   {
-    id: 'B.name',
+    id: 'name',
+    propertyPath: 'B.name',
     label: `Related disease ${String.fromCodePoint('9399')}`,
-    comparator: (a, b) => (a.B.name <= b.B.name ? -1 : 1),
     renderCell: d => <Link to={`/disease/${d.B.id}`}>{d.B.name}</Link>,
   },
   {
@@ -31,6 +31,7 @@ const columns = (name, maxCountAOrB) => [
     tooltip: `Diseases associated with ${name} but not the related disease`,
     numeric: true,
     hidden: ['mdDown'],
+    renderCell: d => d.countA - d.countAAndB,
   },
   {
     id: 'countAAndB',
@@ -44,6 +45,7 @@ const columns = (name, maxCountAOrB) => [
     tooltip: `Diseases associated with the related disease but not ${name}`,
     numeric: true,
     hidden: ['mdDown'],
+    renderCell: d => d.countB - d.countAAndB,
   },
   {
     id: 'chart',
@@ -54,6 +56,7 @@ const columns = (name, maxCountAOrB) => [
         b={countBNotALabel}
       />
     ),
+    labelStyle: { paddingLeft: '1.5rem' },
     tooltip: (
       <LinearVennLegend
         tooltip
@@ -67,7 +70,7 @@ const columns = (name, maxCountAOrB) => [
       tooltip: { maxWidth: 'none' },
     },
     hidden: ['lgDown'],
-    style: { width: '400px' },
+    style: { width: '400px', lineHeight: 0, paddingLeft: '1.5rem' },
     renderCell: d => (
       <LinearVenn
         aOnly={d.countA - d.countAAndB}
@@ -83,7 +86,7 @@ const Section = ({ data, name, fetchMore }) => {
   const { rows, count, maxCountAOrB } = data;
   const [pageIndex, setPageIndex] = useState(0);
 
-  const onTableAction = pe => pe.page !== undefined && setPageIndex(pe.page);
+  const onTableAction = params => setPageIndex(params.page);
   const pageSize = 10;
 
   useEffect(
@@ -97,16 +100,10 @@ const Section = ({ data, name, fetchMore }) => {
     [fetchMore, pageIndex]
   );
 
-  const rowsMapped = rows.map(d => ({
-    ...d,
-    countANotB: d.countA - d.countAAndB,
-    countBNotA: d.countB - d.countAAndB,
-  }));
-
   return (
     <Table
       columns={columns(name, maxCountAOrB)}
-      rows={rowsMapped}
+      rows={rows}
       rowCount={count}
       serverSide={true}
       onTableAction={onTableAction}

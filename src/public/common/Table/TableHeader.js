@@ -12,7 +12,9 @@ import {
 } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
 
-import { tableHeaderStyles } from './tableStyles';
+import _ from 'lodash';
+
+import { tableStyles } from './tableStyles';
 import useDynamicColspan from '../../../hooks/useDynamicColspans';
 import { getHiddenBreakpoints } from './utils';
 
@@ -21,20 +23,23 @@ function HeaderCell({
   colspan,
   isHeaderGroup = false,
   label,
-  minWidth = 0,
+  labelStyle,
+  minWidth,
   noWrapHeader,
-  orderable = false,
-  orderParams,
+  sortable = false,
+  sortParams,
+  sticky = false,
   tooltip,
   tooltipStyle = {},
   TooltipIcon = HelpIcon,
   width,
 }) {
-  const classes = tableHeaderStyles();
+  const classes = tableStyles();
   const tooltipClasses = makeStyles(tooltipStyle)();
   const style = {
     minWidth,
-    whiteSpace: noWrapHeader ? 'nowrap' : '',
+    width,
+    ...labelStyle,
   };
 
   const labelInnerComponent = tooltip ? (
@@ -60,15 +65,20 @@ function HeaderCell({
     <TableCell
       align={align}
       classes={{
-        root: isHeaderGroup ? classes.groupCellRoot : classes.cellRoot,
+        root: `
+          ${classes.cell}
+          ${classes.cellHeader}
+          ${isHeaderGroup ? classes.cellGroup : ''}
+          ${sticky ? classes.cellSticky : ''}
+          ${noWrapHeader ? classes.noWrap : ''}
+        `,
       }}
       colSpan={colspan}
-      sortDirection={orderable && orderParams.direction}
-      width={`${width}%`}
+      sortDirection={sortable && sortParams.direction}
       style={style}
     >
-      {orderable ? (
-        <TableSortLabel {...orderParams}>{labelInnerComponent}</TableSortLabel>
+      {sortable ? (
+        <TableSortLabel {...sortParams}>{labelInnerComponent}</TableSortLabel>
       ) : (
         labelInnerComponent
       )}
@@ -81,12 +91,11 @@ function TableHeader({
   headerGroups,
   noWrapHeader,
   order,
-  orderBy,
   onRequestSort,
+  sortBy,
   width,
 }) {
   const colspans = useDynamicColspan(headerGroups, columns, width);
-  const classes = tableHeaderStyles();
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
@@ -99,33 +108,35 @@ function TableHeader({
             colspan={colspans[cellIndex]}
             isHeaderGroup={true}
             key={cellIndex}
-            label={headerCell.label}
+            label={headerCell.label || ''}
             noWrapHeader={noWrapHeader}
+            sticky={headerCell.sticky || false}
             tooltip={headerCell.tooltip}
             tooltipStyle={headerCell.tooltipStyle || {}}
           />
         ))}
       </TableRow>
-      <TableRow classes={{ root: classes.rowRoot }}>
-        {columns.map(column => (
-          <Hidden {...getHiddenBreakpoints(column)} key={`header-${column.id}`}>
+      <TableRow>
+        {columns.map((column, index) => (
+          <Hidden {...getHiddenBreakpoints(column)} key={index}>
             <HeaderCell
               align={
                 column.align ? column.align : column.numeric ? 'right' : 'left'
               }
-              label={column.label}
+              label={column.label || _.startCase(column.id)}
               noWrapHeader={noWrapHeader}
-              orderable={column.orderable}
-              orderParams={
-                column.orderable
+              sortable={column.sortable}
+              sortParams={
+                column.sortable
                   ? {
-                      active: orderBy === column.id,
-                      direction: orderBy === column.id ? order : 'asc',
+                      active: sortBy === column.id,
+                      direction: sortBy === column.id ? order : 'asc',
                       onClick: createSortHandler(column.id),
                     }
                   : null
               }
-              style={column.style}
+              labelStyle={column.labelStyle}
+              sticky={column.sticky}
               tooltip={column.tooltip}
               tooltipStyle={column.tooltipStyle}
               width={column.width}
