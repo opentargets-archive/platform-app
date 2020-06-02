@@ -27,7 +27,7 @@ const DiseaseResult = ({ classes, data, highlights }) => {
         <DiseaseIcon className={classes.icon} /> {data.name}
       </Link>
       {data.description && (
-        <Typography component="div">
+        <Typography variant="body2" component="div">
           <Clampy clampSize="4">{data.description}</Clampy>
         </Typography>
       )}
