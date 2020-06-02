@@ -7,7 +7,6 @@ import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import { clinicalTrialsSearchUrl } from '../../../configuration';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
-import { generateComparatorFromAccessor } from '../../../../utils/comparators';
 
 const columnPool = {
   clinicalTrialsColumns: {
@@ -15,9 +14,9 @@ const columnPool = {
     columns: [
       {
         id: 'phase',
-        label: 'Phase',
         filterValue: d =>
-          `${d.phase} phase ${
+          // filter phase with arabic numerals
+          `${d.phase} Phase ${
             { 0: 0, I: 1, II: 2, III: 3, IV: 4 }[
               d.phase.split('Phase ')[1] ?? 0
             ]
@@ -25,17 +24,15 @@ const columnPool = {
       },
       {
         id: 'status',
-        label: 'Status',
         renderCell: d => label(d.status),
       },
       {
         id: 'ctIds',
         label: 'Source',
-        export: d => d.ctIds.join(','),
-        filterValue: d => null,
+        filterValue: false,
         renderCell: d => {
           const ctSearchUrl = new URL(clinicalTrialsSearchUrl);
-          ctSearchUrl.searchParams.append('results', d.ctIds.join(' OR '));
+          ctSearchUrl.searchParams.append('term', d.ctIds.join(' OR '));
 
           return (
             <Link external to={ctSearchUrl.href}>
@@ -51,8 +48,7 @@ const columnPool = {
     columns: [
       {
         id: 'disease',
-        label: 'Disease',
-        export: d => d.disease.id,
+        propertyPath: 'disease.id',
         filterValue: d => d.disease.name,
         renderCell: d => (
           <Link to={`/disease/${d.disease.id}`}>{label(d.disease.name)}</Link>
@@ -65,26 +61,22 @@ const columnPool = {
     columns: [
       {
         id: 'drug',
-        label: 'Drug',
-        comparator: generateComparatorFromAccessor(d => d.drug.name),
+        propertyPath: 'drug.id',
         filterValue: d => d.drug.name,
-        export: d => d.drug.id,
         renderCell: d => (
           <Link to={`/drug/${d.drug.id}`}>{label(d.drug.name)}</Link>
         ),
       },
       {
-        id: 'drugType',
-        label: 'Type',
+        id: 'type',
+        propertyPath: 'drugType',
         renderCell: d => label(d.drugType),
       },
       {
         id: 'mechanismOfAction',
-        label: 'Mechanism of action',
       },
       {
         id: 'activity',
-        label: 'Activity',
         renderCell: d => label(d.activity),
       },
     ],
@@ -95,7 +87,7 @@ const columnPool = {
       {
         id: 'target',
         label: 'Symbol',
-        export: d => d.target.id,
+        propertyPath: 'target.approvedSymbol',
         filterValue: d => d.target.approvedSymbol,
         renderCell: d => (
           <Link to={`/target/${d.target.id}`}>{d.target.approvedSymbol}</Link>
@@ -104,7 +96,7 @@ const columnPool = {
       {
         id: 'target',
         label: 'Name',
-        export: d => d.target.id,
+        propertyPath: 'target.approvedName',
         filterValue: d => d.target.approvedName,
         renderCell: d => label(d.target.approvedName),
       },
