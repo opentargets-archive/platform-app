@@ -13,8 +13,9 @@ import DrugIcon from '../../icons/DrugIcon';
 
 const styles = () => ({
   chip: { height: '20px', maxWidth: '100%' },
-  block: {
+  link: {
     display: 'block',
+    whiteSpace: 'unset',
   },
   subtitle: {
     fontWeight: 500,
@@ -109,7 +110,7 @@ const DrugDetail = ({ classes, data }) => {
               return (
                 <Link
                   key={index}
-                  className={classes.block}
+                  className={classes.link}
                   to={`/disease/${indication.disease.id}`}
                 >
                   {indication.disease.name}
@@ -130,7 +131,7 @@ const DrugDetail = ({ classes, data }) => {
             render={target => {
               return (
                 <Link
-                  className={classes.block}
+                  className={classes.link}
                   key={target.id}
                   to={`/target/${target.id}`}
                 >
