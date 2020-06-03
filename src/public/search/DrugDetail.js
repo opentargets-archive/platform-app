@@ -12,7 +12,7 @@ import WithdrawnNotice from '../common/WithdrawnNotice';
 import DrugIcon from '../../icons/DrugIcon';
 
 const styles = () => ({
-  chip: { margin: '2px 2px', height: '20px' },
+  chip: { height: '20px', maxWidth: '100%' },
   block: {
     display: 'block',
   },
@@ -146,14 +146,22 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Synonyms
           </Typography>
-          {data.synonyms.map(synonym => (
-            <Chip
-              key={synonym}
-              className={classes.chip}
-              label={synonym}
-              variant="outlined"
-            />
-          ))}
+          <TermList
+            terms={data.synonyms}
+            maxTerms={5}
+            render={synonym => {
+              return (
+                <Chip
+                  key={synonym}
+                  className={classes.chip}
+                  title={synonym}
+                  label={synonym}
+                  variant="outlined"
+                  size="small"
+                />
+              );
+            }}
+          />
         </>
       )}
       {data.tradeNames.length > 0 && (
@@ -161,14 +169,22 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Trade names
           </Typography>
-          {data.tradeNames.map(tradeName => (
-            <Chip
-              key={tradeName}
-              className={classes.chip}
-              label={tradeName}
-              variant="outlined"
-            />
-          ))}
+          <TermList
+            terms={data.tradeNames}
+            maxTerms={5}
+            render={tradeName => {
+              return (
+                <Chip
+                  key={tradeName}
+                  className={classes.chip}
+                  title={tradeName}
+                  label={tradeName}
+                  variant="outlined"
+                  size="small"
+                />
+              );
+            }}
+          />
         </>
       )}
     </CardContent>
