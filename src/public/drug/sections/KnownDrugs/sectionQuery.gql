@@ -1,10 +1,10 @@
 query knownDrugsSectionQuery(
-  $ensgId: String!
+  $chemblId: String!
   $index: Int! = 0
   $size: Int! = 10
   $freeTextQuery: String! = ""
 ) {
-  target(ensemblId: $ensgId) {
+  drug(chemblId: $chemblId) {
     id
     knownDrugs(
       page: { index: $index, size: $size }
@@ -21,13 +21,11 @@ query knownDrugsSectionQuery(
           name
         }
 
-        drug {
+        target {
           id
-          name
+          approvedName
+          approvedSymbol
         }
-        drugType
-        mechanismOfAction
-        activity
       }
     }
   }

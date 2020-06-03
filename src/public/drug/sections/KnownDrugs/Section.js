@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import { Link } from 'ot-ui';
 
 import Table from '../../../common/Table/Table';
@@ -105,12 +104,12 @@ const columnPool = {
 };
 
 const columnsToShow = [
-  columnPool.drugColumns,
+  columnPool.diseaseColumns,
   columnPool.targetColumns,
   columnPool.clinicalTrialsColumns,
 ];
 
-const stickyColumn = 'drug';
+const stickyColumn = 'disease';
 
 const columns = [];
 

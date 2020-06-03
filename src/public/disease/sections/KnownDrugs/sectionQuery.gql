@@ -2,21 +2,25 @@ query knownDrugsSectionQuery(
   $efoId: String!
   $index: Int! = 0
   $size: Int! = 10
+  $freeTextQuery: String! = ""
 ) {
   disease(efoId: $efoId) {
     id
-    name
-    description
-    knownDrugs(page: { index: $index, size: $size }) {
+    knownDrugs(
+      page: { index: $index, size: $size }
+      freeTextQuery: $freeTextQuery
+    ) {
       count
       rows {
-        disease {
-          id
-          name
-        }
         phase
         status
         ctIds
+
+        # disease {
+        #   id
+        #   name
+        # }
+
         drug {
           id
           name
@@ -24,44 +28,13 @@ query knownDrugsSectionQuery(
         drugType
         mechanismOfAction
         activity
+
+        target {
+          id
+          approvedName
+          approvedSymbol
+        }
       }
     }
   }
 }
-
-# query KnownDrugsSectionQuery($efoId: String!) {
-#   disease(efoId: $efoId) {
-#     id
-#     details {
-#       drugs {
-#         rows {
-#           disease {
-#             id
-#             name
-#           }
-#           target {
-#             id
-#             symbol
-#           }
-#           drug {
-#             id
-#             name
-#             type
-#             activity
-#           }
-#           clinicalTrial {
-#             phase
-#             status
-#             sourceUrl
-#             sourceName
-#           }
-#           mechanismOfAction {
-#             name
-#             sourceName
-#             sourceUrl
-#           }
-#         }
-#       }
-#     }
-#   }
-# }
