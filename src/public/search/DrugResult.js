@@ -5,7 +5,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
 import Highlights from '../common/Highlights';
 import DrugIcon from '../../icons/DrugIcon';
-
 const styles = theme => ({
   container: {
     marginBottom: '30px',
@@ -27,7 +26,7 @@ const DrugResult = ({ classes, data, highlights }) => {
         <DrugIcon className={classes.icon} /> {data.name}
       </Link>
       {data.description && (
-        <Typography component="div">
+        <Typography variant="body2" component="div">
           <Clampy clampSize="4">{data.description}</Clampy>
         </Typography>
       )}

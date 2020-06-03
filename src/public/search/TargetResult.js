@@ -27,7 +27,7 @@ const TargetResult = ({ classes, data, highlights }) => {
         <TargetIcon className={classes.icon} /> {data.approvedSymbol}
       </Link>
       {data.proteinAnnotations ? (
-        <Typography component="div">
+        <Typography variant="body2" component="div">
           <Clampy clampSize="4">{data.proteinAnnotations.functions[0]}</Clampy>
         </Typography>
       ) : null}

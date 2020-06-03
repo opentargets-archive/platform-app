@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
@@ -11,7 +12,11 @@ import WithdrawnNotice from '../common/WithdrawnNotice';
 import DrugIcon from '../../icons/DrugIcon';
 
 const styles = () => ({
-  chip: { margin: '2px 2px', height: '20px' },
+  chip: { height: '20px', maxWidth: '100%' },
+  link: {
+    display: 'block',
+    whiteSpace: 'unset',
+  },
   subtitle: {
     fontWeight: 500,
   },
@@ -19,6 +24,51 @@ const styles = () => ({
     verticalAlign: 'text-bottom',
   },
 });
+
+const useStyles = makeStyles(theme => {
+  return {
+    showMore: {
+      whiteSpace: 'nowrap',
+    },
+    showMoreText: {
+      color: theme.palette.primary.main,
+      cursor: 'pointer',
+    },
+  };
+});
+
+const TermList = ({ terms, render, maxTerms = 10 }) => {
+  const [showMore, setShowMore] = useState(false);
+  const classes = useStyles();
+
+  const handleClick = () => {
+    setShowMore(!showMore);
+  };
+
+  if (terms.length === 0) return null;
+
+  const shownTerms = terms.slice(0, maxTerms);
+  const hiddenTerms = terms.slice(maxTerms);
+  return (
+    <Fragment>
+      {shownTerms.map(render)}
+      {showMore && hiddenTerms.map(render)}
+      {hiddenTerms.length > 0 && (
+        <Typography
+          variant="body2"
+          className={classes.showMore}
+          onClick={handleClick}
+        >
+          {showMore ? '' : '... '}[
+          <span className={classes.showMoreText}>
+            {showMore ? ' hide ' : ' show more '}
+          </span>
+          ]
+        </Typography>
+      )}
+    </Fragment>
+  );
+};
 
 const DrugDetail = ({ classes, data }) => {
   return (
@@ -53,15 +103,21 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Indications
           </Typography>
-          {data.indications.rows.map((indication, index) => {
-            return (
-              <Fragment key={index}>
-                <Link to={`/disease/${indication.disease.id}`}>
+          <TermList
+            terms={data.indications.rows}
+            maxTerms={5}
+            render={(indication, index) => {
+              return (
+                <Link
+                  key={index}
+                  className={classes.link}
+                  to={`/disease/${indication.disease.id}`}
+                >
                   {indication.disease.name}
-                </Link>{' '}
-              </Fragment>
-            );
-          })}
+                </Link>
+              );
+            }}
+          />
         </>
       )}
       {data.linkedTargets.rows.length > 0 && (
@@ -69,11 +125,21 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Drug targets
           </Typography>
-          {data.linkedTargets.rows.map(target => (
-            <Fragment key={target.id}>
-              <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>{' '}
-            </Fragment>
-          ))}
+          <TermList
+            terms={data.linkedTargets.rows}
+            maxTerms={5}
+            render={target => {
+              return (
+                <Link
+                  className={classes.link}
+                  key={target.id}
+                  to={`/target/${target.id}`}
+                >
+                  {target.approvedSymbol}
+                </Link>
+              );
+            }}
+          />
         </>
       )}
       {data.synonyms.length > 0 && (
@@ -81,14 +147,22 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Synonyms
           </Typography>
-          {data.synonyms.map(synonym => (
-            <Chip
-              key={synonym}
-              className={classes.chip}
-              label={synonym}
-              variant="outlined"
-            />
-          ))}
+          <TermList
+            terms={data.synonyms}
+            maxTerms={5}
+            render={synonym => {
+              return (
+                <Chip
+                  key={synonym}
+                  className={classes.chip}
+                  title={synonym}
+                  label={synonym}
+                  variant="outlined"
+                  size="small"
+                />
+              );
+            }}
+          />
         </>
       )}
       {data.tradeNames.length > 0 && (
@@ -96,14 +170,22 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Trade names
           </Typography>
-          {data.tradeNames.map(tradeName => (
-            <Chip
-              key={tradeName}
-              className={classes.chip}
-              label={tradeName}
-              variant="outlined"
-            />
-          ))}
+          <TermList
+            terms={data.tradeNames}
+            maxTerms={5}
+            render={tradeName => {
+              return (
+                <Chip
+                  key={tradeName}
+                  className={classes.chip}
+                  title={tradeName}
+                  label={tradeName}
+                  variant="outlined"
+                  size="small"
+                />
+              );
+            }}
+          />
         </>
       )}
     </CardContent>
