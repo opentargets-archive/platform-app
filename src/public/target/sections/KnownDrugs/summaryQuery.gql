@@ -1,9 +1,5 @@
-fragment targetDrugsFragment on TargetSummaries {
-  drugs {
-    drugCount
-    sources {
-      name
-      url
-    }
+fragment targetKnownDrugsFragment on Target {
+  knownDrugs {
+    count
   }
 }

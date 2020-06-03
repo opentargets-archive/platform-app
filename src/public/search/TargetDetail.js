@@ -39,7 +39,8 @@ const TargetDetail = ({ classes, data }) => {
           <TargetIcon className={classes.icon} /> Target
         </Typography>
         {functions ? <LongText lineLimit={4}>{functions[0]}</LongText> : null}
-        {rows.length > 0 && (
+        {/* temporarily hide top associated diseases */}
+        {/* rows.length > 0*/ false && (
           <>
             <Typography className={classes.subtitle} variant="subtitle1">
               Top associated diseases
@@ -57,7 +58,8 @@ const TargetDetail = ({ classes, data }) => {
           Biotype
         </Typography>
         <Typography>{bioType}</Typography>
-        {accessions && accessions.length > 0 ? (
+        {/* temporarily hide uniprot accessions */}
+        {/* accessions && accessions.length > 0*/ false ? (
           <>
             <Typography className={classes.subtitle} variant="subtitle1">
               Uniprot accessions

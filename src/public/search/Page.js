@@ -92,7 +92,9 @@ const SearchFilters = withStyles(styles)(
           label={
             <>
               <TargetIcon className={classes.targetIcon} />
-              Target ({counts.target})
+              <Typography variant="body2" display="inline">
+                Target ({counts.target})
+              </Typography>
             </>
           }
         />
@@ -107,7 +109,9 @@ const SearchFilters = withStyles(styles)(
           label={
             <>
               <DiseaseIcon className={classes.diseaseIcon} />
-              Disease ({counts.disease}){' '}
+              <Typography variant="body2" display="inline">
+                Disease ({counts.disease})
+              </Typography>
             </>
           }
         />
@@ -122,7 +126,9 @@ const SearchFilters = withStyles(styles)(
           label={
             <>
               <DrugIcon className={classes.drugIcon} />
-              Drug ({counts.drug})
+              <Typography variant="body2" display="inline">
+                Drug ({counts.drug})
+              </Typography>
             </>
           }
         />
@@ -199,9 +205,9 @@ const SearchContainer = ({
       <Typography variant="h5" gutterBottom>
         Search results for {q}
       </Typography>
-      <Grid container spacing={24}>
+      <Grid container spacing={2}>
         <Grid item md={2}>
-          <Typography>Refine by:</Typography>
+          <Typography variant="body2">Refine by:</Typography>
           <FormGroup>
             <SearchFilters
               entities={entities}

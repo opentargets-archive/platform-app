@@ -35,7 +35,7 @@ const Highlights = ({ classes, highlights }) => {
       {highlights.length > 1 && (
         <>
           {' '}
-          <Typography display="inline">
+          <Typography variant="body2" display="inline">
             [{' '}
             <span
               className={classes.showMore}

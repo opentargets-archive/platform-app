@@ -41,6 +41,7 @@ const entitySummariesAccessor = data => {
       mechanismsOfAction: data.drug.mechanismsOfAction,
       indications: data.drug.indications,
       adverseEvents: data.drug.adverseEvents,
+      knownDrugs: data.drug.knownDrugs,
     };
   } else {
     return {};

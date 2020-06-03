@@ -30,7 +30,7 @@ const summariesQuery = gql`
         .join('\n')}
     }
   }
-  
+
   ${sections
     .filter(s => s.summaryQuery)
     .map(s => print(s.summaryQuery))
