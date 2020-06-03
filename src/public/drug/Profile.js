@@ -11,10 +11,11 @@ import LockIcon from '@material-ui/icons/Lock';
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../common/Profile';
 import Description from '../common/Description';
-import ChipsField from '../common/ChipsField';
-import Smiles from './Smiles';
+import LongList from '../common/LongList';
+import Chip from '../common/Chip';
 import WarningTooltip from '../common/WarningTooltip';
 import WithdrawnNotice from '../common/WithdrawnNotice';
+import Smiles from './Smiles';
 
 const sections = Object.values(sectionsObject);
 
@@ -145,8 +146,21 @@ class DrugProfile extends Component {
                 </Typography>
               </Typography>
             ) : null}
-            <ChipsField label="Synonyms" terms={synonyms} />
-            <ChipsField label="Known trade names" terms={tradeNames} />
+            <Typography variant="subtitle2" display="inline">
+              Synonyms:{' '}
+            </Typography>
+            <LongList
+              terms={synonyms}
+              render={synonym => <Chip key={synonym} label={synonym} />}
+            />
+            <br />
+            <Typography variant="subtitle2" display="inline">
+              Known trade names:{' '}
+            </Typography>
+            <LongList
+              terms={tradeNames}
+              render={tradeName => <Chip key={tradeName} label={tradeName} />}
+            />
           </Grid>
           <Grid item container xs={12} md={6} justify="flex-end">
             <Smiles chemblId={chemblId} />

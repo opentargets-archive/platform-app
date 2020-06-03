@@ -1,18 +1,17 @@
-import React, { useState, Fragment } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
 import WarningIcon from '@material-ui/icons/Warning';
-import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
 import LongText from '../common/LongText';
+import LongList from '../common/LongList';
 import WarningTooltip from '../common/WarningTooltip';
 import WithdrawnNotice from '../common/WithdrawnNotice';
+import Chip from '../common/Chip';
 import DrugIcon from '../../icons/DrugIcon';
 
-const styles = () => ({
-  chip: { height: '20px', maxWidth: '100%' },
+const useStyles = makeStyles({
   link: {
     display: 'block',
     whiteSpace: 'unset',
@@ -25,52 +24,8 @@ const styles = () => ({
   },
 });
 
-const useStyles = makeStyles(theme => {
-  return {
-    showMore: {
-      whiteSpace: 'nowrap',
-    },
-    showMoreText: {
-      color: theme.palette.primary.main,
-      cursor: 'pointer',
-    },
-  };
-});
-
-const TermList = ({ terms, render, maxTerms = 10 }) => {
-  const [showMore, setShowMore] = useState(false);
+const DrugDetail = ({ data }) => {
   const classes = useStyles();
-
-  const handleClick = () => {
-    setShowMore(!showMore);
-  };
-
-  if (terms.length === 0) return null;
-
-  const shownTerms = terms.slice(0, maxTerms);
-  const hiddenTerms = terms.slice(maxTerms);
-  return (
-    <Fragment>
-      {shownTerms.map(render)}
-      {showMore && hiddenTerms.map(render)}
-      {hiddenTerms.length > 0 && (
-        <Typography
-          variant="body2"
-          className={classes.showMore}
-          onClick={handleClick}
-        >
-          {showMore ? '' : '... '}[
-          <span className={classes.showMoreText}>
-            {showMore ? ' hide ' : ' show more '}
-          </span>
-          ]
-        </Typography>
-      )}
-    </Fragment>
-  );
-};
-
-const DrugDetail = ({ classes, data }) => {
   return (
     <CardContent>
       <Typography color="primary" variant="h5">
@@ -103,7 +58,7 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Indications
           </Typography>
-          <TermList
+          <LongList
             terms={data.indications.rows}
             maxTerms={5}
             render={(indication, index) => {
@@ -125,7 +80,7 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Drug targets
           </Typography>
-          <TermList
+          <LongList
             terms={data.linkedTargets.rows}
             maxTerms={5}
             render={target => {
@@ -147,21 +102,12 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Synonyms
           </Typography>
-          <TermList
+          <LongList
             terms={data.synonyms}
             maxTerms={5}
-            render={synonym => {
-              return (
-                <Chip
-                  key={synonym}
-                  className={classes.chip}
-                  title={synonym}
-                  label={synonym}
-                  variant="outlined"
-                  size="small"
-                />
-              );
-            }}
+            render={synonym => (
+              <Chip key={synonym} title={synonym} label={synonym} />
+            )}
           />
         </>
       )}
@@ -170,21 +116,12 @@ const DrugDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Trade names
           </Typography>
-          <TermList
+          <LongList
             terms={data.tradeNames}
             maxTerms={5}
-            render={tradeName => {
-              return (
-                <Chip
-                  key={tradeName}
-                  className={classes.chip}
-                  title={tradeName}
-                  label={tradeName}
-                  variant="outlined"
-                  size="small"
-                />
-              );
-            }}
+            render={tradeName => (
+              <Chip key={tradeName} title={tradeName} label={tradeName} />
+            )}
           />
         </>
       )}
@@ -192,4 +129,4 @@ const DrugDetail = ({ classes, data }) => {
   );
 };
 
-export default withStyles(styles)(DrugDetail);
+export default DrugDetail;

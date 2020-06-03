@@ -29,10 +29,11 @@ const DiseaseDetail = ({ classes, data }) => {
         <Link to={`/disease/${id}`}>{name}</Link>
       </Typography>
       <Typography color="primary">
-        <DiseaseIcon className={classes.icon} /> Disease
+        <DiseaseIcon className={classes.icon} /> Disease or phenotype
       </Typography>
       <LongText lineLimit={4}>{description}</LongText>
-      {rows.length > 0 && (
+      {/* temporarily hide top associated targets */}
+      {/* rows.length > 0 */ false && (
         <>
           <Typography className={classes.subtitle} variant="subtitle1">
             Top associated targets
