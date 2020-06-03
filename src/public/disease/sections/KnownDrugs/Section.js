@@ -85,7 +85,7 @@ const columnPool = {
     label: 'Target information',
     columns: [
       {
-        id: 'target',
+        id: 'targetSymbol',
         label: 'Symbol',
         propertyPath: 'target.approvedSymbol',
         filterValue: d => d.target.approvedSymbol,
@@ -94,7 +94,7 @@ const columnPool = {
         ),
       },
       {
-        id: 'target',
+        id: 'targetName',
         label: 'Name',
         propertyPath: 'target.approvedName',
         filterValue: d => d.target.approvedName,
