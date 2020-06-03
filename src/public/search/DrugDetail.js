@@ -14,7 +14,7 @@ import DrugIcon from '../../icons/DrugIcon';
 const useStyles = makeStyles({
   link: {
     display: 'block',
-    whiteSpace: 'unset',
+    // whiteSpace: 'unset',
   },
   subtitle: {
     fontWeight: 500,
@@ -48,7 +48,7 @@ const DrugDetail = ({ data }) => {
       <Typography className={classes.subtitle} variant="subtitle1">
         Drug Type
       </Typography>
-      <Typography>{data.drugType}</Typography>
+      <Typography variant="body2">{data.drugType}</Typography>
       <Typography className={classes.subtitle} variant="subtitle1">
         Maximum Clinical Trial Phase
       </Typography>

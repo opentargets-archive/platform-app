@@ -7,6 +7,9 @@ import LongText from '../common/LongText';
 import DiseaseIcon from '../../icons/DiseaseIcon';
 
 const styles = () => ({
+  link: {
+    display: 'block',
+  },
   subtitle: {
     fontWeight: 500,
   },
@@ -38,13 +41,11 @@ const DiseaseDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Top associated targets
           </Typography>
-          {rows.map(({ id }) => {
-            return (
-              <Fragment key={id}>
-                <Link to={`/target/${id}`}>{id}</Link>{' '}
-              </Fragment>
-            );
-          })}
+          {rows.map(({ id }) => (
+            <Link key={id} to={`/target/${id}`}>
+              {id}
+            </Link>
+          ))}
         </>
       )}
       {therapeuticAreas.length > 0 && (
@@ -52,13 +53,15 @@ const DiseaseDetail = ({ classes, data }) => {
           <Typography className={classes.subtitle} variant="subtitle1">
             Therapeutic areas
           </Typography>
-          {therapeuticAreas.map(area => {
-            return (
-              <Fragment key={area.id}>
-                <Link to={`/disease/${area.id}`}>{area.name}</Link>{' '}
-              </Fragment>
-            );
-          })}
+          {therapeuticAreas.map(area => (
+            <Link
+              key={area.id}
+              className={classes.link}
+              to={`/disease/${area.id}`}
+            >
+              {area.name}
+            </Link>
+          ))}
         </>
       )}
     </CardContent>
