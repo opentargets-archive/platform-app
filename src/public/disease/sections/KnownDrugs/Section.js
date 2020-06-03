@@ -4,9 +4,9 @@ import { Link } from 'ot-ui';
 
 import Table from '../../../common/Table/Table';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
-import { clinicalTrialsSearchUrl } from '../../../configuration';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
+import SourceDrawer from './SourceDrawer';
 
 const columnPool = {
   clinicalTrialsColumns: {
@@ -27,19 +27,12 @@ const columnPool = {
         renderCell: d => label(d.status),
       },
       {
-        id: 'ctIds',
+        id: 'sources',
         label: 'Source',
         filterValue: false,
-        renderCell: d => {
-          const ctSearchUrl = new URL(clinicalTrialsSearchUrl);
-          ctSearchUrl.searchParams.append('term', d.ctIds.join(' OR '));
-
-          return (
-            <Link external to={ctSearchUrl.href}>
-              Clinical trials
-            </Link>
-          );
-        },
+        renderCell: d => (
+          <SourceDrawer caption={`${d.urls.length} items`} items={d.urls} />
+        ),
       },
     ],
   },
