@@ -26,25 +26,16 @@ const columnPool = {
         renderCell: d => label(d.status),
       },
       {
-        align: 'center',
         id: 'sources',
         label: 'Source',
         filterValue: false,
-        renderCell: d => {
-          const itemCount = d.urls.length;
-
-          if (itemCount === 0) return 'N/A';
-          if (itemCount === 1)
-            return (
-              <Link external to={d.urls[0].url}>
-                Source
-              </Link>
-            );
-
-          return (
-            <SourceDrawer caption={`${d.urls.length} items`} items={d.urls} />
-          );
-        },
+        exportValue: d => d.urls.map(reference => reference.url),
+        renderCell: d => (
+          <SourceDrawer
+            caption={`${d.urls.length} references`}
+            references={d.urls}
+          />
+        ),
       },
     ],
   },

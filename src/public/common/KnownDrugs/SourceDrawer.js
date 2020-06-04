@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   makeStyles,
-  Chip,
   List,
   ListItem,
   Drawer,
@@ -11,6 +10,7 @@ import {
   Box,
   Paper,
   IconButton,
+  Link as MUILink,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon from '@material-ui/icons/Close';
@@ -19,16 +19,19 @@ import _ from 'lodash';
 import { Link, Typography } from 'ot-ui';
 
 const sourceDrawerStyles = makeStyles(theme => ({
-  chipRoot: {
-    backgroundColor: theme.palette.grey[300],
-    borderRadius: 0,
-    margin: '0 .5rem',
-    width: '90%',
+  drawerLink: {
+    cursor: 'pointer',
+  },
+  drawerBody: {
+    overflowY: 'overlay',
   },
   drawerModal: {
     '& .MuiBackdrop-root': {
       opacity: '0 !important',
     },
+  },
+  drawerPaper: {
+    backgroundColor: theme.palette.grey[300],
   },
   drawerTitle: {
     borderBottom: '1px solid #ccc',
@@ -39,8 +42,8 @@ const sourceDrawerStyles = makeStyles(theme => ({
     fontSize: '1.2rem',
     fontWeight: 'bold',
   },
-  drawerPaper: {
-    backgroundColor: theme.palette.grey[300],
+  expansionPanelExpanded: {
+    margin: '1rem !important',
   },
   expansionPanelRoot: {
     border: '1px solid #ccc',
@@ -50,42 +53,60 @@ const sourceDrawerStyles = makeStyles(theme => ({
       backgroundColor: 'transparent',
     },
   },
-  expansionPanelTitle: {
-    color: theme.palette.grey[700],
-    fontSize: '1rem',
-    fontWeight: 'bold',
-  },
   expansionPanelSubtitle: {
     color: theme.palette.grey[400],
     fontSize: '0.8rem',
     fontStyle: 'italic',
   },
-  expansionPanelExpanded: {
-    margin: '1rem !important',
+  expansionPanelTitle: {
+    color: theme.palette.grey[700],
+    fontSize: '1rem',
+    fontWeight: 'bold',
   },
   summaryBoxRoot: {
     marginRight: '2rem',
   },
 }));
 
-const sourceLabel = (name, url) => {
+const tableSourceLabel = name =>
+  ({
+    'ATC Information': 'ATC',
+    'Clinical Trials Information': 'ClinicalTrials.gov',
+    'DailyMed Information': 'DailyMed',
+    'FDA Information': 'FDA',
+  }[name]);
+
+const drawerSourceLabel = (name, url) => {
   if (name === 'Clinical Trials Information') {
-    return url.split('%22')[1] || `${name} entry`;
+    return url.split('%22')[1] || `${tableSourceLabel(name)} reference`;
   }
   if (name === 'DailyMed Information') {
-    return url.split('setid=')[1] || `${name} entry`;
+    return url.split('setid=')[1] || `${tableSourceLabel(name)} reference`;
   }
   if (name === 'FDA Information') {
-    return url.split('set_id:')[1] || `${name} entry`;
+    return url.split('set_id:')[1] || `${tableSourceLabel(name)} reference`;
   }
 
   return `${url.name} entry`;
 };
 
-function SourceDrawer({ caption, items }) {
+function SourceDrawer({ references }) {
   const [open, setOpen] = useState(false);
-  const groupedItems = _.groupBy(items, 'name');
   const classes = sourceDrawerStyles();
+
+  if (references.length === 0) {
+    return 'N/A';
+  }
+
+  if (references.length === 1) {
+    return (
+      <Link external to={references[0].url}>
+        {tableSourceLabel(references[0].name)}
+      </Link>
+    );
+  }
+
+  const groupedReferences = _.groupBy(references, 'name');
 
   const toggleDrawer = event => {
     if (
@@ -115,54 +136,52 @@ function SourceDrawer({ caption, items }) {
         </Box>
       </Paper>
 
-      {Object.keys(groupedItems).map(group => (
-        <ExpansionPanel
-          elevation={0}
-          key={group}
-          classes={{
-            root: classes.expansionPanelRoot,
-            expanded: classes.expansionPanelExpanded,
-          }}
-          defaultExpanded={
-            groupedItems[group].length < 10 ||
-            Object.keys(groupedItems).length === 1
-          }
-        >
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Box classes={{ root: classes.summaryBoxRoot }}>
-              <Typography className={classes.expansionPanelTitle}>
-                {group}
-              </Typography>
-              <Typography className={classes.expansionPanelSubtitle}>
-                {groupedItems[group].length} items
-              </Typography>
-            </Box>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <List>
-              {groupedItems[group].map((item, itemIndex) => (
-                <ListItem key={itemIndex}>
-                  <Link external to={item.url}>
-                    {sourceLabel(item.name, item.url)}
-                  </Link>
-                </ListItem>
-              ))}
-            </List>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      ))}
+      <Box className={classes.drawerBody}>
+        {Object.keys(groupedReferences).map(group => (
+          <ExpansionPanel
+            elevation={0}
+            key={group}
+            classes={{
+              root: classes.expansionPanelRoot,
+              expanded: classes.expansionPanelExpanded,
+            }}
+            defaultExpanded={
+              groupedReferences[group].length < 10 ||
+              Object.keys(groupedReferences).length === 1
+            }
+          >
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <Box classes={{ root: classes.summaryBoxRoot }}>
+                <Typography className={classes.expansionPanelTitle}>
+                  {tableSourceLabel(group)}
+                </Typography>
+                <Typography className={classes.expansionPanelSubtitle}>
+                  {groupedReferences[group].length} references
+                </Typography>
+              </Box>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <List>
+                {groupedReferences[group].map((item, itemIndex) => (
+                  <ListItem key={itemIndex}>
+                    <Link external to={item.url}>
+                      {drawerSourceLabel(item.name, item.url)}
+                    </Link>
+                  </ListItem>
+                ))}
+              </List>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        ))}
+      </Box>
     </>
   );
 
   return (
     <>
-      <Chip
-        variant="outlined"
-        size="small"
-        label={caption}
-        classes={{ root: classes.chipRoot }}
-        onClick={toggleDrawer}
-      />
+      <MUILink onClick={toggleDrawer} className={classes.drawerLink}>
+        {references.length} references
+      </MUILink>
 
       <Drawer
         anchor="right"
