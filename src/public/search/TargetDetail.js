@@ -54,14 +54,10 @@ const TargetDetail = ({ classes, data }) => {
             })}
           </>
         )}
-        <Typography
-          variant="body2"
-          className={classes.subtitle}
-          variant="subtitle1"
-        >
+        <Typography className={classes.subtitle} variant="subtitle1">
           Biotype
         </Typography>
-        <Typography>{bioType}</Typography>
+        <Typography variant="body2">{bioType}</Typography>
         {/* temporarily hide uniprot accessions */}
         {/* accessions && accessions.length > 0*/ false ? (
           <>

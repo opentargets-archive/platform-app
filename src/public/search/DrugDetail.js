@@ -52,7 +52,7 @@ const DrugDetail = ({ data }) => {
       <Typography className={classes.subtitle} variant="subtitle1">
         Maximum Clinical Trial Phase
       </Typography>
-      <Typography>{data.maximumClinicalTrialPhase}</Typography>
+      <Typography variant="body2">{data.maximumClinicalTrialPhase}</Typography>
       {data.indications && data.indications.rows.length > 0 && (
         <>
           <Typography className={classes.subtitle} variant="subtitle1">
