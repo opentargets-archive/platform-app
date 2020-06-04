@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 import { Link } from 'ot-ui';
 
+import SourceDrawer from '../../../common/KnownDrugs/SourceDrawer';
 import Table from '../../../common/Table/Table';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
-import SourceDrawer from './SourceDrawer';
 
 const columnPool = {
   clinicalTrialsColumns: {
@@ -27,12 +27,25 @@ const columnPool = {
         renderCell: d => label(d.status),
       },
       {
+        align: 'center',
         id: 'sources',
         label: 'Source',
         filterValue: false,
-        renderCell: d => (
-          <SourceDrawer caption={`${d.urls.length} items`} items={d.urls} />
-        ),
+        renderCell: d => {
+          const itemCount = d.urls.length;
+
+          if (itemCount === 0) return 'N/A';
+          if (itemCount === 1)
+            return (
+              <Link external to={d.urls[0].url}>
+                Source
+              </Link>
+            );
+
+          return (
+            <SourceDrawer caption={`${d.urls.length} items`} items={d.urls} />
+          );
+        },
       },
     ],
   },
