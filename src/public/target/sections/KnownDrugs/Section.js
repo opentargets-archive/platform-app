@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'ot-ui';
 
+import SourceDrawer from '../../../common/KnownDrugs/SourceDrawer';
 import Table from '../../../common/Table/Table';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
-import { clinicalTrialsSearchUrl } from '../../../configuration';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
 
@@ -26,17 +26,23 @@ const columnPool = {
         renderCell: d => label(d.status),
       },
       {
-        id: 'ctIds',
+        align: 'center',
+        id: 'sources',
         label: 'Source',
         filterValue: false,
         renderCell: d => {
-          const ctSearchUrl = new URL(clinicalTrialsSearchUrl);
-          ctSearchUrl.searchParams.append('term', d.ctIds.join(' OR '));
+          const itemCount = d.urls.length;
+
+          if (itemCount === 0) return 'N/A';
+          if (itemCount === 1)
+            return (
+              <Link external to={d.urls[0].url}>
+                Source
+              </Link>
+            );
 
           return (
-            <Link external to={ctSearchUrl.href}>
-              Clinical trials
-            </Link>
+            <SourceDrawer caption={`${d.urls.length} items`} items={d.urls} />
           );
         },
       },
