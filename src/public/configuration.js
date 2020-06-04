@@ -26,11 +26,11 @@ export const diseaseSectionsDefaultOrder = [
 ];
 
 export const drugSectionsDefaultOrder = [
-  'knownDrugs',
+  'indications',
   'mechanismsOfAction',
+  'knownDrugs',
   'adverseEvents',
   'bibliography',
-  'indications',
 ];
 
 export const evidenceSectionsDefaultOrder = [
