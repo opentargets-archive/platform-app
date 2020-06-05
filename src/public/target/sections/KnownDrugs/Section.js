@@ -125,16 +125,16 @@ const headerGroups = [
   })),
 ];
 
-const Section = ({ data, fetchMore, efoId }) => {
+const Section = ({ data, fetchMore, ensgId }) => {
   const pageSize = 10;
   // eslint-disable-next-line no-unused-vars
   const [globalFilter, setGlobalFilter] = useState('');
   const [pageIndex, setPageIndex] = useState(0);
   const getWholeDataset = useBatchDownloader(
     sectionQuery,
-    { efoId },
-    'disease.knownDrugs.rows',
-    'disease.knownDrugs.count'
+    { ensgId },
+    'target.knownDrugs.rows',
+    'target.knownDrugs.count'
   );
 
   const onTableAction = params => {
@@ -162,7 +162,7 @@ const Section = ({ data, fetchMore, efoId }) => {
       columns={columns}
       dataDownloader
       dataDownloaderRows={getWholeDataset}
-      dataDownloaderFileStem={`${efoId}-known_drugs`}
+      dataDownloaderFileStem={`${ensgId}-known_drugs`}
       headerGroups={headerGroups}
       rows={data?.rows || []}
       rowCount={data?.count || 0}
