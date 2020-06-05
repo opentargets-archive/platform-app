@@ -150,7 +150,7 @@ function Search({ autoFocus = false, embedded = false }) {
                   params.InputProps.endAdornment
                 ),
               }}
-              label="Search for a target, disease, or drug..."
+              label="Search for a target, drug, disease, or phenotype"
               onChange={handleChangeInputValue}
               value={inputValue}
               {...params}
@@ -171,7 +171,7 @@ function Search({ autoFocus = false, embedded = false }) {
                   params.InputProps.endAdornment
                 )
               }
-              placeholder="Search for a target, disease, or drug..."
+              placeholder="Search for a target, drug, disease, or phenotype"
               onChange={handleChangeInputValue}
               value={inputValue}
             />

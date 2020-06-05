@@ -110,7 +110,7 @@ const SearchFilters = withStyles(styles)(
             <>
               <DiseaseIcon className={classes.diseaseIcon} />
               <Typography variant="body2" display="inline">
-                Disease ({counts.disease})
+                Disease or phenotype ({counts.disease})
               </Typography>
             </>
           }

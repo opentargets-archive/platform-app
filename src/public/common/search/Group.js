@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 
 const groupName = {
   topHit: 'Top Hit',
-  disease: 'Disease',
+  disease: 'Disease or phenotype',
   drug: 'Drug (Generic name)',
   target: 'Target',
 };
