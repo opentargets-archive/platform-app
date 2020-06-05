@@ -1,0 +1,6 @@
+fragment targetTepFragment on Target {
+  id
+  tep {
+    name
+  }
+}
