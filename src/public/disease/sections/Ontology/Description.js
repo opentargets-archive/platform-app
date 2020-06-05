@@ -1,8 +1,13 @@
 import React from 'react';
+import { Link } from 'ot-ui';
 
 const Description = ({ name }) => (
   <React.Fragment>
-    The subgraph of EFO containing <strong>{name}</strong>.
+    Ontology subgraph including children, ancestors and therapeutic areas of{' '}
+    <strong>{name}</strong>. Source:{' '}
+    <Link to="https://www.ebi.ac.uk/efo/" external>
+      EFO
+    </Link>
   </React.Fragment>
 );
 
