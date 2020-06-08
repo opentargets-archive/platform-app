@@ -15,6 +15,7 @@ import * as proteinRaw from './sections/ProteinInformation';
 // import * as proteinInteractionsRaw from './sections/ProteinInteractions';
 import * as relatedTargetsRaw from './sections/RelatedTargets';
 import * as safetyRaw from './sections/Safety';
+import * as tepRaw from './sections/Tep';
 import * as tractabilityRaw from './sections/Tractability';
 import * as variationRaw from './sections/Variation';
 
@@ -32,5 +33,6 @@ export const protein = proteinRaw;
 // export const proteinInteractions = proteinInteractionsRaw;
 export const relatedTargets = relatedTargetsRaw;
 export const safety = safetyRaw;
+export const tep = tepRaw;
 export const variation = variationRaw;
 export const tractability = tractabilityRaw;

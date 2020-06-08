@@ -43,7 +43,7 @@ const TargetDetail = ({ classes, data }) => {
         {/* rows.length > 0*/ false && (
           <>
             <Typography className={classes.subtitle} variant="subtitle1">
-              Top associated diseases
+              Top associated diseases or phenotypes
             </Typography>
             {rows.map(({ id }) => {
               return (
@@ -57,7 +57,7 @@ const TargetDetail = ({ classes, data }) => {
         <Typography className={classes.subtitle} variant="subtitle1">
           Biotype
         </Typography>
-        <Typography>{bioType}</Typography>
+        <Typography variant="body2">{bioType}</Typography>
         {/* temporarily hide uniprot accessions */}
         {/* accessions && accessions.length > 0*/ false ? (
           <>

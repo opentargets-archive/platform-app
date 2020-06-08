@@ -1,18 +1,29 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
+import { Grid, Typography } from '@material-ui/core';
 
 import Description from './Description';
-import ChipsField from './ChipsField';
+import LongList from './LongList';
+import Chip from './Chip';
 
-const DescriptionAndSynonyms = ({ synonyms, description }) => (
-  <Grid style={{ marginTop: '8px' }} container spacing={2}>
-    <Grid item xs={12} md={6}>
-      <Description>{description}</Description>
+const DescriptionAndSynonyms = ({ synonyms, description }) => {
+  return (
+    <Grid style={{ marginTop: '8px' }} container spacing={2}>
+      <Grid item xs={12} md={6}>
+        <Description>{description}</Description>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <Typography display="inline" variant="subtitle2">
+          Synonyms:{' '}
+        </Typography>
+        <LongList
+          terms={synonyms}
+          maxTerms={10}
+          render={synonym => <Chip key={synonym} label={synonym} />}
+          size="small"
+        />
+      </Grid>
     </Grid>
-    <Grid item xs={12} md={6}>
-      <ChipsField label="Synonyms" terms={synonyms} />
-    </Grid>
-  </Grid>
-);
+  );
+};
 
 export default DescriptionAndSynonyms;

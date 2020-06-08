@@ -92,11 +92,14 @@ const getRows = async chemblId => {
 const Section = ({ chemblId, classes, name }) => {
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    getRows(chemblId).then(data => {
-      setData(data);
-    });
-  }, [chemblId]);
+  useEffect(
+    () => {
+      getRows(chemblId).then(data => {
+        setData(data);
+      });
+    },
+    [chemblId]
+  );
 
   if (!data) return null;
 
@@ -115,7 +118,7 @@ const Section = ({ chemblId, classes, name }) => {
     },
     {
       id: 'llr',
-      label: `Log likelihood ratio (CV = ${data.critVal})`,
+      label: `Log likelihood ratio (CV = ${data.critVal.toFixed(2)})`,
       renderCell: d => {
         const w = ((d.llr / maxLlr) * 85).toFixed(2); // scale to max 85% of the width to allows space for label
         return (
@@ -125,7 +128,7 @@ const Section = ({ chemblId, classes, name }) => {
               style={{
                 width: `${w}%`,
               }}
-            ></div>
+            />
             <div>{d.llr.toFixed(2)}</div>
           </div>
         );
