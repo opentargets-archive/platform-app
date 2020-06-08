@@ -4,15 +4,11 @@ import { Link } from 'ot-ui';
 const Section = ({ data }) => {
   return (
     <>
-      Critical mass of reagents and knowledge allowing for the rapid biochemical
-      and chemical exploration of{' '}
+      Lear more about the{' '}
       <Link to={data.uri} external>
-        {data.name}
+        {data.name} TEP
       </Link>
-      . Source:{' '}
-      <Link to="https://www.thesgc.org/tep" external>
-        Structural Genomics Consortium
-      </Link>
+      .
     </>
   );
 };

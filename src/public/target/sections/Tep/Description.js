@@ -4,7 +4,7 @@ import { Link } from 'ot-ui';
 const Description = ({ symbol }) => {
   return (
     <>
-      Information on Target Enablind Packages (TEPs) that have been developed by
+      Information on Target Enabling Packages (TEPs) that have been developed by
       the{' '}
       <Link to="https://www.thesgc.org/tep" external>
         Structural Genomics Consortium
