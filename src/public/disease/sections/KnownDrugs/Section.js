@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Link } from 'ot-ui';
 
-import SourceDrawer from '../../../common/KnownDrugs/SourceDrawer';
+import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
 import Table from '../../../common/Table/Table';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import { label } from '../../../../utils/global';
