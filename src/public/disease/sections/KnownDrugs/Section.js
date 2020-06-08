@@ -7,6 +7,7 @@ import Table from '../../../common/Table/Table';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
+import { PaginationActionsReduced } from '../../../common/Table/TablePaginationActions';
 
 const columnPool = {
   clinicalTrialsColumns: {
@@ -161,6 +162,7 @@ const Section = ({ data, fetchMore, efoId }) => {
       dataDownloaderRows={getWholeDataset}
       dataDownloaderFileStem={`${efoId}-known_drugs`}
       headerGroups={headerGroups}
+      pagination={PaginationActionsReduced}
       rows={data?.rows || []}
       rowCount={data?.count || 0}
       serverSide={true}

@@ -4,8 +4,8 @@ API documentation for the Table Component.
 
 ## Examples
 
-[Disease Profile Page Known Drugs section](https://github.com/opentargets/platform-app/blob/jf-global-table_refactor-eurovision/src/public/disease/sections/KnownDrugs/Section.js)
-[Disease Profile Page Related Diseases section](https://github.com/opentargets/platform-app/blob/jf-global-table_refactor-eurovision/src/public/disease/sections/RelatedDiseases/Section.js)
+[Disease Profile Page Related Diseases section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/RelatedDiseases/Section.js)
+[Disease Profile Page Known Drugs section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/KnownDrugs/Section.js)
 
 ## Import
 
@@ -19,26 +19,27 @@ import { Table } from 'ot-ui';
 
 ## Props
 
-| Name                     | Type                | Default               | Description                                                                                                                                                        |
-| ------------------------ | ------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `columns`                | `array`             |                       | Array of [Column data object](#columndata).                                                                                                                        |
-| `dataDownloader`         | `bool`              | `false`               | If `true`, the table will include the data download widget on top.                                                                                                 |
-| `dataDownloaderFileStem` | `string`            | `'data'`              | File name without extension for the data download widget.                                                                                                          |
-| `dataDownloaderRows`     | `function \| array` | value of `rows` prop. | Rows array or a function returning the rows array passed to the data download widget to create file contents.<br><br>**Signature**: `function() => []`             |
-| `fixed`                  | `bool`              | `false`               | If `true`, `table-layout` will be `fixed`.                                                                                                                         |
-| `fixedRows`              | `array`             | `[]`                  | Row data for fixed rows. Fixed rows will stay on top of the normal rows of the table.                                                                              |
-| `headerGroups`           | `array`             | `[]`                  | If not empty, a first header row will be rendered with the given groups. See [headers object](#headersobject).                                                     |
-| `hover`                  | `bool`              | `false`               | If `true`, the table rows will shade on hover.                                                                                                                     |
-| `rows`                   | `array`             |                       | Row data.                                                                                                                                                          |
-| `rowCount`               | `number`            |                       | Number of rows in data. Used for _serverSide_ mode, when not all rows are loaded in the browser.                                                                   |
-| `noWrap`                 | `bool`              | `true`                | If `false`, table row content will wrap. This will disable the table fixed height feature.                                                                         |
-| `noWrapHeader`           | `bool`              | `true`                | If `false`, table header content will wrap.                                                                                                                        |
-| `onTableAction`          | `function`          |                       | Callback fired when an action is performed on the table.<br><br>**Signature**: `function(params: object) => void`<br>_params_: [action parameters](#paramsobject). |
-| `order`                  | `'asc' \| 'desc'`   | `'asc'`               | Default ordering (ascending or descending).                                                                                                                        |
-| `pageSize`               | `number`            | `10`                  | Number of rows (fixed + regular) to display per page.                                                                                                              |
-| `serverSide`             | `bool`              | `false`               | If `true`, the table will work in [server side mode](#tablemode).                                                                                                  |
-| `showGlobalFilter`       | `bool`              | `false`               | If `true`, the table will show the global filter input box.                                                                                                        |
-| `shortBy`                | `string`            |                       | Column id to set as the default for table row sorting.                                                                                                             |
+| Name                     | Type                | Default                     | Description                                                                                                                                                                                                   |
+| ------------------------ | ------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `columns`                | `array`             |                             | Array of [Column data object](#columndata).                                                                                                                                                                   |
+| `dataDownloader`         | `bool`              | `false`                     | If `true`, the table will include the data download widget on top.                                                                                                                                            |
+| `dataDownloaderFileStem` | `string`            | `'data'`                    | File name without extension for the data download widget.                                                                                                                                                     |
+| `dataDownloaderRows`     | `function \| array` | value of `rows` prop.       | Rows array or a function returning the rows array passed to the data download widget to create file contents.<br><br>**Signature**: `function() => []`                                                        |
+| `fixed`                  | `bool`              | `false`                     | If `true`, `table-layout` will be `fixed`.                                                                                                                                                                    |
+| `fixedRows`              | `array`             | `[]`                        | Row data for fixed rows. Fixed rows will stay on top of the normal rows of the table.                                                                                                                         |
+| `headerGroups`           | `array`             | `[]`                        | If not empty, a first header row will be rendered with the given groups. See [headers object](#headersobject).                                                                                                |
+| `hover`                  | `bool`              | `false`                     | If `true`, the table rows will shade on hover.                                                                                                                                                                |
+| `rows`                   | `array`             |                             | Row data.                                                                                                                                                                                                     |
+| `rowCount`               | `number`            |                             | Number of rows in data. Used for _serverSide_ mode, when not all rows are loaded in the browser.                                                                                                              |
+| `noWrap`                 | `bool`              | `true`                      | If `false`, table row content will wrap. This will disable the table fixed height feature.                                                                                                                    |
+| `noWrapHeader`           | `bool`              | `true`                      | If `false`, table header content will wrap.                                                                                                                                                                   |
+| `onTableAction`          | `function`          |                             | Callback fired when an action is performed on the table.<br><br>**Signature**: `function(params: object) => void`<br>_params_: [action parameters](#paramsobject).                                            |
+| `order`                  | `'asc' \| 'desc'`   | `'asc'`                     | Default ordering (ascending or descending).                                                                                                                                                                   |
+| `pageSize`               | `number`            | `10`                        | Number of rows (fixed + regular) to display per page.                                                                                                                                                         |
+| `pagination`             | `function`          | `PaginationActionsComplete` | Component rendered as pagination controls. [Default](https://github.com/opentargets/platform-app/blob/alpha/src/public/common/Table/TablePaginationActions.js#L12) includes first/previous/next/last buttons. |
+| `serverSide`             | `bool`              | `false`                     | If `true`, the table will work in [server side mode](#tablemode).                                                                                                                                             |
+| `showGlobalFilter`       | `bool`              | `false`                     | If `true`, the table will show the global filter input box.                                                                                                                                                   |
+| `shortBy`                | `string`            |                             | Column id to set as the default for table row sorting.                                                                                                                                                        |
 
 ## <a name="columndata"></a> Column data object
 

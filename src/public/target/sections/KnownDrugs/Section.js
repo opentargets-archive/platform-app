@@ -5,6 +5,7 @@ import SourceDrawer from '../../../common/KnownDrugs/SourceDrawer';
 import Table from '../../../common/Table/Table';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import { label } from '../../../../utils/global';
+import { PaginationActionsReduced } from '../../../common/Table/TablePaginationActions';
 import { sectionQuery } from '.';
 
 const columnPool = {
@@ -164,6 +165,7 @@ const Section = ({ data, fetchMore, ensgId }) => {
       dataDownloaderRows={getWholeDataset}
       dataDownloaderFileStem={`${ensgId}-known_drugs`}
       headerGroups={headerGroups}
+      pagination={PaginationActionsReduced}
       rows={data?.rows || []}
       rowCount={data?.count || 0}
       serverSide={true}
