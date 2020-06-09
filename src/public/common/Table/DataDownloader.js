@@ -1,7 +1,15 @@
-import React from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
-import _ from 'lodash';
 import FileSaver from 'file-saver';
+import React, { useState } from 'react';
+import _ from 'lodash';
+import {
+  Box,
+  Button,
+  Dialog,
+  Grid,
+  Typography,
+  CircularProgress,
+  makeStyles,
+} from '@material-ui/core';
 
 const asJSON = (columns, rows) => {
   const rowStrings = rows.map(row => {
@@ -69,70 +77,94 @@ const asDSV = (columns, rows, separator = ',', quoteStrings = true) => {
   return [headerString, rowStrings].join(lineSeparator);
 };
 
-const downloadData = async (format, columns, rows, fileStem) => {
-  if (typeof rows === 'function') {
-    rows = await rows();
-  }
+const createBlob = format =>
+  ({
+    json: (columns, rows) =>
+      new Blob([asJSON(columns, rows)], {
+        type: 'application/json;charset=utf-8',
+      }),
+    csv: (columns, rows) =>
+      new Blob([asDSV(columns, rows)], {
+        type: 'text/csv;charset=utf-8',
+      }),
+    tsv: (columns, rows) =>
+      new Blob([asDSV(columns, rows, '\t', false)], {
+        type: 'text/tab-separated-values;charset=utf-8',
+      }),
+  }[format]);
 
-  if (!rows || rows.length === 0) {
-    return;
-  }
-
-  const createBlob = format =>
-    ({
-      json: (columns, rows) =>
-        new Blob([asJSON(columns, rows)], {
-          type: 'application/json;charset=utf-8',
-        }),
-      csv: (columns, rows) =>
-        new Blob([asDSV(columns, rows)], {
-          type: 'text/csv;charset=utf-8',
-        }),
-      tsv: (columns, rows) =>
-        new Blob([asDSV(columns, rows, '\t', false)], {
-          type: 'text/tab-separated-values;charset=utf-8',
-        }),
-    }[format]);
-
-  const blob = createBlob(format)(columns, rows);
-
-  FileSaver.saveAs(blob, `${fileStem}.${format}`, { autoBOM: false });
-};
+const styles = makeStyles({
+  dialogBox: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    padding: '2rem',
+    width: '20rem',
+  },
+});
 
 function DataDownloader({ columns, rows, fileStem }) {
-  const handleClickDownloadJSON = () => {
+  const [downloading, setDownloading] = useState(false);
+  const classes = styles();
+
+  const downloadData = async (format, columns, rows, fileStem) => {
+    let allRows = rows;
+
+    if (typeof rows === 'function') {
+      setDownloading(true);
+      allRows = await rows();
+      setDownloading(false);
+    }
+
+    if (!allRows || allRows.length === 0) {
+      return;
+    }
+
+    const blob = createBlob(format)(columns, allRows);
+
+    FileSaver.saveAs(blob, `${fileStem}.${format}`, { autoBOM: false });
+  };
+
+  const handleClickDownloadJSON = async () => {
     downloadData('json', columns, rows, fileStem);
   };
 
-  const handleClickDownloadCSV = () => {
+  const handleClickDownloadCSV = async () => {
     downloadData('csv', columns, rows, fileStem);
   };
 
-  const handleClickDownloadTSV = () => {
+  const handleClickDownloadTSV = async () => {
     downloadData('tsv', columns, rows, fileStem);
   };
 
   return (
-    <Grid container alignItems="center" justify="flex-end" spacing={1}>
-      <Grid item>
-        <Typography variant="caption">Download table as</Typography>
+    <>
+      <Grid container alignItems="center" justify="flex-end" spacing={1}>
+        <Grid item>
+          <Typography variant="caption">Download table as</Typography>
+        </Grid>
+        <Grid item>
+          <Button variant="outlined" onClick={handleClickDownloadJSON}>
+            JSON
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant="outlined" onClick={handleClickDownloadCSV}>
+            CSV
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant="outlined" onClick={handleClickDownloadTSV}>
+            TSV
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item>
-        <Button variant="outlined" onClick={handleClickDownloadJSON}>
-          JSON
-        </Button>
-      </Grid>
-      <Grid item>
-        <Button variant="outlined" onClick={handleClickDownloadCSV}>
-          CSV
-        </Button>
-      </Grid>
-      <Grid item>
-        <Button variant="outlined" onClick={handleClickDownloadTSV}>
-          TSV
-        </Button>
-      </Grid>
-    </Grid>
+      <Dialog disableBackdropClick disableEscapeKeyDown open={downloading}>
+        <Box className={classes.dialogBox}>
+          <CircularProgress /> Downloading data...
+        </Box>
+      </Dialog>
+    </>
   );
 }
 

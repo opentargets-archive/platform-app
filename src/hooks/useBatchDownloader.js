@@ -3,7 +3,7 @@ import _ from 'lodash';
 import client from '../public/client';
 import { chunkSize } from '../public/configuration';
 
-const getRows = (data, dataPath) => _.get(data, `data.${dataPath}`);
+const getRows = (data, dataPath) => _.get(data, `data.${dataPath}`, []);
 
 /**
  * Provides a function to asynchronously batch-download a whole dataset from

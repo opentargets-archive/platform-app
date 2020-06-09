@@ -138,18 +138,13 @@ const Section = ({ data, fetchMore, efoId }) => {
 
   const getWholeDataset = useBatchDownloader(
     sectionQuery,
-    { efoId },
+    { efoId, freeTextQuery: globalFilter },
     'disease.knownDrugs.rows',
     'disease.knownDrugs.count'
   );
 
   const onTableAction = params => {
     if (params.globalFilter !== globalFilter) {
-      console.log(
-        'params.globalFilter, globalFilter',
-        params.globalFilter,
-        globalFilter
-      );
       setCursor(null);
       setGlobalFilter(params.globalFilter);
     }
@@ -159,7 +154,6 @@ const Section = ({ data, fetchMore, efoId }) => {
 
   useUpdateEffect(
     () => {
-      console.log('globalfilter changed, clearing rows');
       data.rows = [];
     },
     [globalFilter]
