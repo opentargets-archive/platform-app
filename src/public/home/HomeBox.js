@@ -25,6 +25,14 @@ const useStyles = makeStyles(theme => ({
   logo: {
     height: '6.2rem',
   },
+  note: {
+    backgroundColor: '#ffffcc',
+    textAlign: 'center',
+    padding: '15px 74px',
+  },
+  important: {
+    marginBottom: '10px',
+  },
 }));
 
 const HomeBox = ({ children }) => {
@@ -37,6 +45,26 @@ const HomeBox = ({ children }) => {
         </div>
         {children}
       </Paper>
+      <Grid
+        container
+        direction="column"
+        className={classes.note}
+        alignItems="center"
+      >
+        <Grid item className={classes.important}>
+          <strong> **Important Note** </strong>
+        </Grid>
+        <Grid item>
+          This is the <strong>Alpha</strong> version of the redesigned{' '}
+          <Link to="https://www.targetvalidation.org" external>
+            Open Targets Platform
+          </Link>
+          .
+        </Grid>
+        <Grid item>
+          You can search for and view target, disease, and drug profile pages.
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
