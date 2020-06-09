@@ -1,16 +1,14 @@
 query knownDrugsSectionQuery(
   $chemblId: String!
   $index: Int! = 0
-  $size: Int! = 10
+  $size: Int! = 100
   $freeTextQuery: String! = ""
 ) {
   drug(chemblId: $chemblId) {
     id
-    knownDrugs(
-      page: { index: $index, size: $size }
-      freeTextQuery: $freeTextQuery
-    ) {
+    knownDrugs(freeTextQuery: $freeTextQuery, size: $size, cursor: $cursor) {
       count
+      cursor
       rows {
         phase
         status
