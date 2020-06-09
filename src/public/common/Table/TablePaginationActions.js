@@ -9,7 +9,12 @@ const useStyles = makeStyles({
   root: { flexShrink: 0 },
 });
 
-function TablePaginationActions({ count, page, rowsPerPage, onChangePage }) {
+export function PaginationActionsComplete({
+  count,
+  page,
+  rowsPerPage,
+  onChangePage,
+}) {
   const handleFirstPageButtonClick = event => {
     onChangePage(event, 0);
   };
@@ -52,4 +57,33 @@ function TablePaginationActions({ count, page, rowsPerPage, onChangePage }) {
   );
 }
 
-export default TablePaginationActions;
+export function PaginationActionsReduced({
+  count,
+  page,
+  rowsPerPage,
+  onChangePage,
+}) {
+  const handleBackButtonClick = event => {
+    onChangePage(event, page - 1);
+  };
+
+  const handleNextButtonClick = event => {
+    onChangePage(event, page + 1);
+  };
+
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <IconButton disabled={page === 0} onClick={handleBackButtonClick}>
+        <KeyboardArrowLeft />
+      </IconButton>
+      <IconButton
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        onClick={handleNextButtonClick}
+      >
+        <KeyboardArrowRight />
+      </IconButton>
+    </div>
+  );
+}

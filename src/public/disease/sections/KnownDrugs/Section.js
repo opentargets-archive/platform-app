@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import { Link } from 'ot-ui';
 
+import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
 import Table from '../../../common/Table/Table';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
-import { clinicalTrialsSearchUrl } from '../../../configuration';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
+import { PaginationActionsReduced } from '../../../common/Table/TablePaginationActions';
 
 const columnPool = {
   clinicalTrialsColumns: {
@@ -27,19 +28,11 @@ const columnPool = {
         renderCell: d => label(d.status),
       },
       {
-        id: 'ctIds',
+        id: 'sources',
         label: 'Source',
         filterValue: false,
-        renderCell: d => {
-          const ctSearchUrl = new URL(clinicalTrialsSearchUrl);
-          ctSearchUrl.searchParams.append('term', d.ctIds.join(' OR '));
-
-          return (
-            <Link external to={ctSearchUrl.href}>
-              Clinical trials
-            </Link>
-          );
-        },
+        exportValue: d => d.urls.map(reference => reference.url),
+        renderCell: d => <SourceDrawer references={d.urls} />,
       },
     ],
   },
@@ -105,6 +98,7 @@ const columnPool = {
 };
 
 const columnsToShow = [
+  columnPool.diseaseColumns,
   columnPool.drugColumns,
   columnPool.targetColumns,
   columnPool.clinicalTrialsColumns,
@@ -168,6 +162,7 @@ const Section = ({ data, fetchMore, efoId }) => {
       dataDownloaderRows={getWholeDataset}
       dataDownloaderFileStem={`${efoId}-known_drugs`}
       headerGroups={headerGroups}
+      pagination={PaginationActionsReduced}
       rows={data?.rows || []}
       rowCount={data?.count || 0}
       serverSide={true}

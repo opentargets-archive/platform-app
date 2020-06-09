@@ -11393,7 +11393,7 @@ osenv@0:
 
 "ot-ui@https://github.com/opentargets/ot-ui.git#jf-upgrade_deps":
   version "0.1.0"
-  resolved "https://github.com/opentargets/ot-ui.git#d54bc519d1a5fdef98f1d1acb5cd53baace4633f"
+  resolved "https://github.com/opentargets/ot-ui.git#ed070d219eed17f1f313e20453e3b724d9aede2b"
 
 p-defer@^1.0.0:
   version "1.0.0"

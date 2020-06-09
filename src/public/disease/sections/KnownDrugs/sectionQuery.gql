@@ -14,12 +14,15 @@ query knownDrugsSectionQuery(
       rows {
         phase
         status
-        ctIds
+        urls {
+          name
+          url
+        }
 
-        # disease {
-        #   id
-        #   name
-        # }
+        disease {
+          id
+          name
+        }
 
         drug {
           id

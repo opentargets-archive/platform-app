@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'ot-ui';
 
+import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
 import Table from '../../../common/Table/Table';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
-import { clinicalTrialsSearchUrl } from '../../../configuration';
 import { label } from '../../../../utils/global';
+import { PaginationActionsReduced } from '../../../common/Table/TablePaginationActions';
 import { sectionQuery } from '.';
 
 const columnPool = {
@@ -26,19 +27,16 @@ const columnPool = {
         renderCell: d => label(d.status),
       },
       {
-        id: 'ctIds',
+        id: 'sources',
         label: 'Source',
         filterValue: false,
-        renderCell: d => {
-          const ctSearchUrl = new URL(clinicalTrialsSearchUrl);
-          ctSearchUrl.searchParams.append('term', d.ctIds.join(' OR '));
-
-          return (
-            <Link external to={ctSearchUrl.href}>
-              Clinical trials
-            </Link>
-          );
-        },
+        exportValue: d => d.urls.map(reference => reference.url),
+        renderCell: d => (
+          <SourceDrawer
+            caption={`${d.urls.length} references`}
+            references={d.urls}
+          />
+        ),
       },
     ],
   },
@@ -128,16 +126,16 @@ const headerGroups = [
   })),
 ];
 
-const Section = ({ data, fetchMore, efoId }) => {
+const Section = ({ data, fetchMore, ensgId }) => {
   const pageSize = 10;
   // eslint-disable-next-line no-unused-vars
   const [globalFilter, setGlobalFilter] = useState('');
   const [pageIndex, setPageIndex] = useState(0);
   const getWholeDataset = useBatchDownloader(
     sectionQuery,
-    { efoId },
-    'disease.knownDrugs.rows',
-    'disease.knownDrugs.count'
+    { ensgId },
+    'target.knownDrugs.rows',
+    'target.knownDrugs.count'
   );
 
   const onTableAction = params => {
@@ -165,8 +163,9 @@ const Section = ({ data, fetchMore, efoId }) => {
       columns={columns}
       dataDownloader
       dataDownloaderRows={getWholeDataset}
-      dataDownloaderFileStem={`${efoId}-known_drugs`}
+      dataDownloaderFileStem={`${ensgId}-known_drugs`}
       headerGroups={headerGroups}
+      pagination={PaginationActionsReduced}
       rows={data?.rows || []}
       rowCount={data?.count || 0}
       serverSide={true}
