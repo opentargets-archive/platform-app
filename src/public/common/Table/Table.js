@@ -73,9 +73,11 @@ function Table({
   };
 
   const handleChangeGlobalFilter = newValue => {
-    if (globalFilter !== newValue) {
+    const trimmedValue = newValue.trim();
+
+    if (globalFilter !== trimmedValue) {
       setPage(0);
-      setGlobalFilter(newValue);
+      setGlobalFilter(trimmedValue);
     }
   };
 
