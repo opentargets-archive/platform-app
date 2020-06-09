@@ -2,13 +2,13 @@ import FileSaver from 'file-saver';
 import React, { useState } from 'react';
 import _ from 'lodash';
 import {
-  Box,
   Button,
-  Dialog,
   Grid,
   Typography,
   CircularProgress,
   makeStyles,
+  Snackbar,
+  Slide,
 } from '@material-ui/core';
 
 const asJSON = (columns, rows) => {
@@ -94,12 +94,16 @@ const createBlob = format =>
   }[format]);
 
 const styles = makeStyles({
-  dialogBox: {
+  snackbarContentMessage: {
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '2rem',
-    width: '20rem',
+    padding: '.75rem 1rem',
+    paddingRight: '2rem',
+    width: '100%',
+  },
+  snackbarContentRoot: {
+    padding: 0,
   },
 });
 
@@ -159,11 +163,22 @@ function DataDownloader({ columns, rows, fileStem }) {
           </Button>
         </Grid>
       </Grid>
-      <Dialog disableBackdropClick disableEscapeKeyDown open={downloading}>
-        <Box className={classes.dialogBox}>
-          <CircularProgress /> Downloading data...
-        </Box>
-      </Dialog>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        open={downloading}
+        TransitionComponent={Slide}
+        ContentProps={{
+          classes: {
+            root: classes.snackbarContentRoot,
+            message: classes.snackbarContentMessage,
+          },
+        }}
+        message={
+          <>
+            <CircularProgress /> Downloading data...
+          </>
+        }
+      />
     </>
   );
 }

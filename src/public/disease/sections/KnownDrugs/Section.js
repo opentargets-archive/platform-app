@@ -4,14 +4,10 @@ import { Link } from 'ot-ui';
 
 import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
 import Table from '../../../common/Table/Table';
-import useBatchDownloader from '../../../../hooks/useBatchDownloader';
+import useCursorBatchDownloader from '../../../../hooks/useCursorBatchDownloader';
+import useUpdateEffect from '../../../../hooks/useUpdateEffect';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
-import {
-  PaginationActionsReduced,
-  PaginationActionsComplete,
-} from '../../../common/Table/TablePaginationActions';
-import useUpdateEffect from '../../../../hooks/useUpdateEffect';
 
 const columnPool = {
   clinicalTrialsColumns: {
@@ -129,18 +125,16 @@ const headerGroups = [
 
 const Section = ({ data, fetchMore, efoId }) => {
   const pageSize = 10;
-  // eslint-disable-next-line no-unused-vars
   const [cursor, setCursor] = useState(data.cursor);
   const [globalFilter, setGlobalFilter] = useState('');
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
   const [rows, setRows] = useState(data.rows.slice(0, pageSize));
 
-  const getWholeDataset = useBatchDownloader(
+  const getWholeDataset = useCursorBatchDownloader(
     sectionQuery,
     { efoId, freeTextQuery: globalFilter },
-    'disease.knownDrugs.rows',
-    'disease.knownDrugs.count'
+    'data.disease.knownDrugs'
   );
 
   const onTableAction = params => {

@@ -70,8 +70,9 @@ export const evidenceByDatatypeSectionsDefaultOrder = [
 // Known drugs widget links on the 'source' column.
 export const clinicalTrialsSearchUrl = 'https://clinicaltrials.gov/ct2/results';
 
-// useBatchDownloader hook.
-export const chunkSize = 1000;
+// Chunk sizes for server side pagination/download.
+export const tableChunkSize = 100;
+export const downloaderChunkSize = 2500;
 
 // NA label.
 export const naLabel = 'N/A';

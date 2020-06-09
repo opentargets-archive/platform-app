@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import client from '../public/client';
-import { chunkSize } from '../public/configuration';
+import { downloaderChunkSize } from '../public/configuration';
 
 const getRows = (data, dataPath) => _.get(data, `data.${dataPath}`, []);
 
@@ -9,7 +9,7 @@ const getRows = (data, dataPath) => _.get(data, `data.${dataPath}`, []);
  * Provides a function to asynchronously batch-download a whole dataset from
  * the backend.
  *
- * The function uses the parameter chunkSize from the configuration.js
+ * The function uses the parameter downloaderChunkSize from the configuration.js
  * file to determine the size of the chunks to fetch.
  *
  * @param {import('graphql').DocumentNode} query Query to run to fetch the data.
@@ -31,14 +31,16 @@ function useBatchDownloader(query, variables, dataPath, countPath) {
     let data = [];
     const chunkPromises = [];
 
-    const firstChunk = await getDataChunk(index, chunkSize);
+    const firstChunk = await getDataChunk(index, downloaderChunkSize);
     data = [...getRows(firstChunk, dataPath)];
     index++;
 
-    const count = Math.ceil(_.get(firstChunk, `data.${countPath}`) / chunkSize);
+    const count = Math.ceil(
+      _.get(firstChunk, `data.${countPath}`) / downloaderChunkSize
+    );
 
     while (index < count) {
-      chunkPromises.push(getDataChunk(index, chunkSize));
+      chunkPromises.push(getDataChunk(index, downloaderChunkSize));
       index++;
     }
 
