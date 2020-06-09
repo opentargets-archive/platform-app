@@ -1,7 +1,9 @@
+// TODO: move this component to ot-ui package
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import { Link } from 'ot-ui';
 
 import otLogo from '../../icons/ot-logo.png';
 
@@ -40,6 +42,14 @@ const HomeBox = ({ name, children }) => {
         <div className={classes.homeboxHeader}>
           <img className={classes.logo} src={otLogo} alt="Open Targets logo" />
           <span className={classes.name}>{name}</span>
+          <div>
+            This is an ALPHA release of a new version of the existing{' '}
+            <Link to="https://www.targetvalidation.org" external>
+              Open Targets Platform
+            </Link>
+            . You can search for and view target, disease, and drug profile
+            pages.
+          </div>
         </div>
         {children}
       </Paper>
