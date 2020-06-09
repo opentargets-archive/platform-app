@@ -34,14 +34,19 @@ const Header = ({
 }) => (
   <Fragment>
     <Grid className={classes.titleContainer} container justify="space-between">
-      <Grid item>
-        <Grid container>
+      <Grid item zeroMinWidth>
+        <Grid container wrap="nowrap">
           <Grid item>
             <Icon classes={{ root: classes.mainIcon }} />
           </Grid>
-          <Grid item>
+          <Grid item zeroMinWidth>
             <Grid container>
-              <Typography className={classes.title} variant="h4">
+              <Typography
+                className={classes.title}
+                variant="h4"
+                noWrap
+                title={title}
+              >
                 {title}
               </Typography>
               <Typography className={classes.subtitle} variant="subtitle2">
