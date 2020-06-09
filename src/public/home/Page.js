@@ -1,10 +1,11 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
-import { Link, HomeBox, NavBar, Footer } from 'ot-ui';
+import { Link, NavBar, Footer } from 'ot-ui';
 
 import Splash from './Splash';
-import Stats from './Stats';
+// import Stats from './Stats';
+import HomeBox from './HomeBox';
 import Search from '../common/search/Search';
 import { externalLinks, mainMenuItems } from '../../constants';
 
