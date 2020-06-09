@@ -46,6 +46,11 @@ export const tableStyles = makeStyles(theme => ({
   tablePagination: {
     order: 9,
   },
+  tablePaginationBox: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
   tableUpperControl1: {
     marginBottom: '2rem',
     order: 0,
