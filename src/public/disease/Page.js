@@ -69,6 +69,10 @@ const DiseasePage = ({ history, location, match }) => {
           value={`https://www.targetvalidation.org/disease/${efoId}`}
           label="View this page in the classic view"
         />
+        <Tab
+          value={`https://www.targetvalidation.org/disease/${efoId}/associations`}
+          label="View associated targets"
+        />
       </Tabs>
       <Switch>
         <Route
