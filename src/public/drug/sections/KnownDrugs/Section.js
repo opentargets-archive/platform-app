@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactGA from 'react-ga';
 import { Link } from 'ot-ui';
 
 import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
@@ -167,6 +168,15 @@ const Section = ({ data, fetchMore, chemblId }) => {
     // out of rows but not yet at the end of the dataset.
     if (params.globalFilter !== globalFilter) {
       setGlobalFilter(params.globalFilter);
+
+      // create event in GA
+      if (params.globalFilter) {
+        ReactGA.event({
+          category: 'Disease Profile Page',
+          action: 'Typed in knownDrugs widget search',
+          label: params.globalFilter,
+        });
+      }
 
       await fetchMoreRows(null, params.globalFilter, true);
     } else if (endRow > data.rows.length && endRow < data.count) {
