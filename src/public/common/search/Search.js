@@ -5,7 +5,7 @@ import {
   CircularProgress,
   makeStyles,
   InputBase,
-  TextField,
+  Input,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { Search as SearchIcon, ArrowDropDown } from '@material-ui/icons';
@@ -25,9 +25,11 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     width: '100%',
   },
+  input: {
+    width: '100%',
+  },
   inputBaseInput: { padding: '.25rem .5rem' },
   root: {
-    // minWidth: '400px',
     width: '100%',
   },
 }));
@@ -140,20 +142,20 @@ function Search({ autoFocus = false, embedded = false }) {
       )}
       renderInput={params =>
         !embedded ? (
-          <TextField
-            InputProps={{
-              ...params.InputProps,
-              autoFocus: autoFocus,
-              endAdornment: loading ? (
+          <Input
+            className={classes.input}
+            inputProps={params.inputProps}
+            ref={params.InputProps.ref}
+            endAdornment={
+              loading ? (
                 <CircularProgress color="inherit" size={20} />
               ) : (
                 params.InputProps.endAdornment
-              ),
-            }}
-            label="Search for a target, drug, disease, or phenotype"
+              )
+            }
+            placeholder="Search for a target, drug, disease, or phenotype"
             onChange={handleChangeInputValue}
             value={inputValue}
-            {...params}
           />
         ) : (
           <InputBase
