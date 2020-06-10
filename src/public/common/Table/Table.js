@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
+  Box,
   Grid,
   Table as MUITable,
   TableBody,
   TableCell,
   TablePagination,
   TableRow as MUITableRow,
+  CircularProgress,
 } from '@material-ui/core';
 
 import DataDownloader from './DataDownloader';
 import GlobalFilter from './GlobalFilter';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
-import { PaginationActionsComplete } from './TablePaginationActions';
 import {
   prepareDataClientSide,
   prepareDataServerSide,
 } from './dataPreparation';
 import { tableStyles } from './tableStyles';
+import useUpdateEffect from '../../../hooks/useUpdateEffect';
 
 function Table({
   columns,
@@ -26,9 +28,10 @@ function Table({
   fixed = false,
   fixedRows = [],
   headerGroups = [],
+  loading,
   onTableAction = () => {},
   pageSize = 10 - fixedRows.length,
-  pagination = PaginationActionsComplete,
+  pagination,
   dataDownloader = false,
   dataDownloaderFileStem = 'data',
   dataDownloaderRows = rows,
@@ -70,13 +73,15 @@ function Table({
   };
 
   const handleChangeGlobalFilter = newValue => {
-    if (globalFilter !== newValue) {
+    const trimmedValue = newValue.trim();
+
+    if (globalFilter !== trimmedValue) {
       setPage(0);
-      setGlobalFilter(newValue);
+      setGlobalFilter(trimmedValue);
     }
   };
 
-  useEffect(
+  useUpdateEffect(
     () => onTableAction({ page, pageSize, sortBy, order, globalFilter }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [page, pageSize, sortBy, order, globalFilter]
@@ -143,15 +148,22 @@ function Table({
       </Grid>
 
       <Grid item xs={12} className={classes.tablePagination}>
-        <TablePagination
-          ActionsComponent={pagination}
-          component="div"
-          count={effectiveRowCount}
-          onChangePage={handleChangePage}
-          page={page}
-          rowsPerPage={pageSize}
-          rowsPerPageOptions={[]}
-        />
+        <Box className={classes.tablePaginationBox}>
+          {loading && <CircularProgress size={24} />}
+          <TablePagination
+            ActionsComponent={pagination}
+            backIconButtonProps={{ disabled: loading || page === 0 }}
+            nextIconButtonProps={{
+              disabled: loading || page >= rowCount / pageSize - 1,
+            }}
+            component="div"
+            count={effectiveRowCount}
+            onChangePage={handleChangePage}
+            page={page}
+            rowsPerPage={pageSize}
+            rowsPerPageOptions={[]}
+          />
+        </Box>
       </Grid>
     </Grid>
   );

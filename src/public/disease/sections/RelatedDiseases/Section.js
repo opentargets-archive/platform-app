@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 import { Link, significantFigures } from 'ot-ui';
+
 import Table from '../../../common/Table/Table';
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
+import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
 
 const aLabel = String.fromCodePoint('9398');
 const bLabel = String.fromCodePoint('9399');
@@ -103,11 +105,12 @@ const Section = ({ data, name, fetchMore }) => {
   return (
     <Table
       columns={columns(name, maxCountAOrB)}
-      rows={rows}
-      rowCount={count}
-      serverSide={true}
-      onTableAction={onTableAction}
       noWrapHeader
+      onTableAction={onTableAction}
+      pagination={PaginationActionsComplete}
+      rowCount={count}
+      rows={rows}
+      serverSide={true}
     />
   );
 };

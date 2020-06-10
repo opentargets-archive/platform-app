@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Link } from 'ot-ui';
 
 import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
 import Table from '../../../common/Table/Table';
-import useBatchDownloader from '../../../../hooks/useBatchDownloader';
+import useCursorBatchDownloader from '../../../../hooks/useCursorBatchDownloader';
+import useUpdateEffect from '../../../../hooks/useUpdateEffect';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
-import { PaginationActionsReduced } from '../../../common/Table/TablePaginationActions';
 
 const columnPool = {
   clinicalTrialsColumns: {
@@ -125,34 +125,71 @@ const headerGroups = [
 
 const Section = ({ data, fetchMore, efoId }) => {
   const pageSize = 10;
-  // eslint-disable-next-line no-unused-vars
+  const [cursor, setCursor] = useState(data.cursor);
   const [globalFilter, setGlobalFilter] = useState('');
+  const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
-  const getWholeDataset = useBatchDownloader(
+  const [rows, setRows] = useState(data.rows.slice(0, pageSize));
+
+  const getWholeDataset = useCursorBatchDownloader(
     sectionQuery,
-    { efoId },
-    'disease.knownDrugs.rows',
-    'disease.knownDrugs.count'
+    { efoId, freeTextQuery: globalFilter },
+    'data.disease.knownDrugs'
   );
 
   const onTableAction = params => {
-    setGlobalFilter(params.globalFilter);
+    if (params.globalFilter !== globalFilter) {
+      setCursor(null);
+      setGlobalFilter(params.globalFilter);
+    }
+
     setPageIndex(params.page);
   };
 
-  useEffect(
+  useUpdateEffect(
     () => {
-      fetchMore({
-        variables: {
-          index: pageIndex,
-          size: pageSize,
-          freeTextQuery: globalFilter,
-        },
-        updateQuery: (prev, { fetchMoreResult }) =>
-          !fetchMoreResult ? prev : { ...prev, ...fetchMoreResult },
-      });
+      data.rows = [];
     },
-    [fetchMore, pageIndex, globalFilter]
+    [globalFilter]
+  );
+
+  useUpdateEffect(
+    () => {
+      async function fetchData() {
+        setLoading(true);
+        await fetchMore({
+          variables: { cursor, freeTextQuery: globalFilter },
+          updateQuery: (prev, { fetchMoreResult }) => {
+            setCursor(fetchMoreResult.disease.knownDrugs?.cursor || null);
+
+            prev.disease.knownDrugs.rows.push(
+              ...(fetchMoreResult.disease.knownDrugs?.rows || [])
+            );
+
+            prev.disease.knownDrugs.count =
+              fetchMoreResult.disease.knownDrugs?.count || 0;
+
+            return prev;
+          },
+        });
+
+        setLoading(false);
+        setRows(data.rows.slice(startRow, endRow));
+      }
+
+      const startRow = pageIndex * pageSize;
+      const endRow = startRow + pageSize;
+
+      if (
+        (endRow < data.count && endRow > data.rows.length) ||
+        cursor === null
+      ) {
+        fetchData();
+      } else {
+        setRows(data.rows.slice(startRow, endRow));
+      }
+    },
+    [globalFilter, pageIndex]
   );
 
   return (
@@ -162,9 +199,9 @@ const Section = ({ data, fetchMore, efoId }) => {
       dataDownloaderRows={getWholeDataset}
       dataDownloaderFileStem={`${efoId}-known_drugs`}
       headerGroups={headerGroups}
-      pagination={PaginationActionsReduced}
-      rows={data?.rows || []}
+      loading={loading}
       rowCount={data?.count || 0}
+      rows={rows}
       serverSide={true}
       showGlobalFilter
       onTableAction={onTableAction}
