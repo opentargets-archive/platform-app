@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
   homeboxHeader: {
     textAlign: 'center',
+    marginBottom: '20px',
   },
   title: {
     color: theme.palette.grey[700],
