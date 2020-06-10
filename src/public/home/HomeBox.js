@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
   },
   logo: {
-    height: '6.2rem',
+    maxWidth: '30rem',
+    width: '100%',
   },
   note: {
     backgroundColor: '#ffffcc',

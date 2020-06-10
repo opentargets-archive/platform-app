@@ -3,7 +3,7 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   root: {
-    width: 'unset',
+    height: 'unset',
   },
 });
 
