@@ -1,7 +1,9 @@
 import React from 'react';
 
-const Summary = ({ count }) => (
-  <React.Fragment>{count} drugs in clinical trials</React.Fragment>
+const Summary = ({ data }) => (
+  <React.Fragment>
+    {(data.count || 0).toLocaleString()} clinical trial records
+  </React.Fragment>
 );
 
 export default Summary;

@@ -11,8 +11,8 @@ import {
 import DataDownloader from './DataDownloader';
 import GlobalFilter from './GlobalFilter';
 import TableHeader from './TableHeader';
-import TablePaginationActions from './TablePaginationActions';
 import TableRow from './TableRow';
+import { PaginationActionsComplete } from './TablePaginationActions';
 import {
   prepareDataClientSide,
   prepareDataServerSide,
@@ -28,6 +28,7 @@ function Table({
   headerGroups = [],
   onTableAction = () => {},
   pageSize = 10 - fixedRows.length,
+  pagination = PaginationActionsComplete,
   dataDownloader = false,
   dataDownloaderFileStem = 'data',
   dataDownloaderRows = rows,
@@ -143,7 +144,7 @@ function Table({
 
       <Grid item xs={12} className={classes.tablePagination}>
         <TablePagination
-          ActionsComponent={TablePaginationActions}
+          ActionsComponent={pagination}
           component="div"
           count={effectiveRowCount}
           onChangePage={handleChangePage}
