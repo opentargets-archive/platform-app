@@ -76,3 +76,6 @@ export const downloaderChunkSize = 2500;
 
 // NA label.
 export const naLabel = 'N/A';
+
+// Google analytics ID.
+export const googleAnalyticsID = 'UA-101860681-10';
