@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Tooltip } from '@material-ui/core';
 
 import Description from './Description';
 import LongList from './LongList';
@@ -18,7 +18,11 @@ const DescriptionAndSynonyms = ({ synonyms, description }) => {
         <LongList
           terms={synonyms}
           maxTerms={10}
-          render={synonym => <Chip key={synonym} label={synonym} />}
+          render={synonym => (
+            <Tooltip title={synonym}>
+              <Chip key={synonym} label={synonym} />
+            </Tooltip>
+          )}
           size="small"
         />
       </Grid>
