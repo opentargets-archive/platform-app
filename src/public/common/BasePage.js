@@ -1,27 +1,41 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { makeStyles } from '@material-ui/core/styles';
 import { Page, NavBar, Footer } from 'ot-ui';
 
 import { externalLinks, mainMenuItems } from '../../constants';
 import Search from './search/Search';
 
-const BasePage = ({ children }) => (
-  <Page
-    header={
-      <NavBar
-        name="Platform"
-        search={<Search embedded />}
-        items={mainMenuItems}
+const useStyles = makeStyles({
+  searchContainer: {
+    minWidth: '400px',
+  },
+});
+
+const BasePage = ({ children }) => {
+  const classes = useStyles();
+  return (
+    <Page
+      header={
+        <NavBar
+          name="Platform"
+          search={
+            <div className={classes.searchContainer}>
+              <Search embedded />
+            </div>
+          }
+          items={mainMenuItems}
+        />
+      }
+      footer={<Footer externalLinks={externalLinks} />}
+    >
+      <Helmet
+        defaultTitle="Open Targets Platform"
+        titleTemplate="%s | Open Targets Platform"
       />
-    }
-    footer={<Footer externalLinks={externalLinks} />}
-  >
-    <Helmet
-      defaultTitle="Open Targets Platform"
-      titleTemplate="%s | Open Targets Platform"
-    />
-    {children}
-  </Page>
-);
+      {children}
+    </Page>
+  );
+};
 
 export default BasePage;

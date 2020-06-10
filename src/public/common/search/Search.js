@@ -26,7 +26,10 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   inputBaseInput: { padding: '.25rem .5rem' },
-  root: { minWidth: '400px' },
+  root: {
+    // minWidth: '400px',
+    width: '100%',
+  },
 }));
 
 function Search({ autoFocus = false, embedded = false }) {
@@ -104,82 +107,78 @@ function Search({ autoFocus = false, embedded = false }) {
   const classes = useStyles();
 
   return (
-    <div>
-      <Autocomplete
-        autoHighlight
-        freeSolo
-        forcePopupIcon
-        disablePortal
-        clearOnEscape={false}
-        classes={{
-          listbox: classes.listbox,
-          option: classes.option,
-          root: classes.root,
-        }}
-        filterOptions={(o, s) => searchResults}
-        getOptionLabel={option => (option.id ? option.id : option)}
-        getOptionSelected={(option, value) => option.id === value}
-        groupBy={option =>
-          option.type === 'topHit' ? 'topHit' : option.entity
-        }
-        loading={loading}
-        noOptionsText="No results"
-        options={searchResults}
-        onChange={handleSelectOption}
-        onOpen={() => {
-          if (inputValue) setOpen(true);
-        }}
-        onClose={() => {
-          setOpen(false);
-        }}
-        open={open}
-        popupIcon={open ? <ArrowDropDown /> : <SearchIcon />}
-        renderOption={option => <Option data={option} />}
-        renderGroup={group => (
-          <Group key={group.key} name={group.group} children={group.children} />
-        )}
-        renderInput={params =>
-          !embedded ? (
-            <TextField
-              InputProps={{
-                ...params.InputProps,
-                autoFocus: autoFocus,
-                endAdornment: loading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : (
-                  params.InputProps.endAdornment
-                ),
-              }}
-              label="Search for a target, drug, disease, or phenotype"
-              onChange={handleChangeInputValue}
-              value={inputValue}
-              {...params}
-            />
-          ) : (
-            <InputBase
-              autoFocus={autoFocus}
-              classes={{
-                root: classes.inputBase,
-                input: classes.inputBaseInput,
-              }}
-              inputProps={params.inputProps}
-              ref={params.InputProps.ref}
-              endAdornment={
-                loading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : (
-                  params.InputProps.endAdornment
-                )
-              }
-              placeholder="Search for a target, drug, disease, or phenotype"
-              onChange={handleChangeInputValue}
-              value={inputValue}
-            />
-          )
-        }
-        value={inputValue}
-      />
-    </div>
+    <Autocomplete
+      autoHighlight
+      freeSolo
+      forcePopupIcon
+      disablePortal
+      clearOnEscape={false}
+      classes={{
+        listbox: classes.listbox,
+        option: classes.option,
+        root: classes.root,
+      }}
+      filterOptions={(o, s) => searchResults}
+      getOptionLabel={option => (option.id ? option.id : option)}
+      getOptionSelected={(option, value) => option.id === value}
+      groupBy={option => (option.type === 'topHit' ? 'topHit' : option.entity)}
+      loading={loading}
+      noOptionsText="No results"
+      options={searchResults}
+      onChange={handleSelectOption}
+      onOpen={() => {
+        if (inputValue) setOpen(true);
+      }}
+      onClose={() => {
+        setOpen(false);
+      }}
+      open={open}
+      popupIcon={open ? <ArrowDropDown /> : <SearchIcon />}
+      renderOption={option => <Option data={option} />}
+      renderGroup={group => (
+        <Group key={group.key} name={group.group} children={group.children} />
+      )}
+      renderInput={params =>
+        !embedded ? (
+          <TextField
+            InputProps={{
+              ...params.InputProps,
+              autoFocus: autoFocus,
+              endAdornment: loading ? (
+                <CircularProgress color="inherit" size={20} />
+              ) : (
+                params.InputProps.endAdornment
+              ),
+            }}
+            label="Search for a target, drug, disease, or phenotype"
+            onChange={handleChangeInputValue}
+            value={inputValue}
+            {...params}
+          />
+        ) : (
+          <InputBase
+            autoFocus={autoFocus}
+            classes={{
+              root: classes.inputBase,
+              input: classes.inputBaseInput,
+            }}
+            inputProps={params.inputProps}
+            ref={params.InputProps.ref}
+            endAdornment={
+              loading ? (
+                <CircularProgress color="inherit" size={20} />
+              ) : (
+                params.InputProps.endAdornment
+              )
+            }
+            placeholder="Search for a target, drug, disease, or phenotype"
+            onChange={handleChangeInputValue}
+            value={inputValue}
+          />
+        )
+      }
+      value={inputValue}
+    />
   );
 }
 
