@@ -94,12 +94,14 @@ const createBlob = format =>
   }[format]);
 
 const styles = makeStyles({
+  messageProgress: {
+    marginRight: '1rem',
+  },
   snackbarContentMessage: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     padding: '.75rem 1rem',
-    paddingRight: '2rem',
     width: '100%',
   },
   snackbarContentRoot: {
@@ -175,7 +177,8 @@ function DataDownloader({ columns, rows, fileStem }) {
         }}
         message={
           <>
-            <CircularProgress /> Downloading data...
+            <CircularProgress className={classes.messageProgress} />
+            Preparing data...
           </>
         }
       />
