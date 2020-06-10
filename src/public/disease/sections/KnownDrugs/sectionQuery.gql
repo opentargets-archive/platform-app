@@ -6,7 +6,7 @@ query knownDrugsSectionQuery(
 ) {
   disease(efoId: $efoId) {
     id
-    knownDrugs(freeTextQuery: $freeTextQuery, size: $size, cursor: $cursor) {
+    knownDrugs(cursor: $cursor, freeTextQuery: $freeTextQuery, size: $size) {
       count
       cursor
       rows {

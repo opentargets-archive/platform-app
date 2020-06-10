@@ -1,12 +1,12 @@
 query knownDrugsSectionQuery(
   $chemblId: String!
-  $index: Int! = 0
+  $cursor: [String!] = null
   $size: Int! = 100
   $freeTextQuery: String! = ""
 ) {
   drug(chemblId: $chemblId) {
     id
-    knownDrugs(freeTextQuery: $freeTextQuery, size: $size, cursor: $cursor) {
+    knownDrugs(cursor: $cursor, freeTextQuery: $freeTextQuery, size: $size) {
       count
       cursor
       rows {
