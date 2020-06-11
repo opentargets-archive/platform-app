@@ -1,8 +1,15 @@
 import React from 'react';
+
+import { Link } from 'ot-ui';
+
 const Description = ({ symbol }) => (
   <React.Fragment>
-    General information about <strong>{symbol}</strong> protein from UniProt and
-    PDBe.
+    <strong>{symbol}</strong> functional, positional and structural protein
+    information. Source:{' '}
+    <Link external to="https://www.uniprot.org/">
+      UniProt
+    </Link>
+    .
   </React.Fragment>
 );
 
