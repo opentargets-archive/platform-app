@@ -78,12 +78,12 @@ const Section = ({ efoId, name }) => {
   useEffect(() => {
     let isCurrent = true;
     fetch(
-      'https://storage.googleapis.com/open-targets-data-releases/20.04/output/therapeuticAreas.json'
+      'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/therapeutic_area.txt'
     )
-      .then(res => res.json())
-      .then(data => {
+      .then(res => res.text())
+      .then(text => {
         if (isCurrent) {
-          setTherapeuticAreas(data);
+          setTherapeuticAreas(text.trim().split('\n'));
         }
       });
 
@@ -95,17 +95,21 @@ const Section = ({ efoId, name }) => {
   useEffect(() => {
     let isCurrent = true;
     fetch(
-      'https://storage.googleapis.com/open-targets-data-releases/20.04/output/efos.json'
+      'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl'
     )
-      .then(res => res.json())
-      .then(nodes => {
+      .then(res => res.text())
+      .then(lines => {
         if (isCurrent) {
-          // The efos nodes don't include the EFO_ROOT node that is necessary
-          // to work with d3-dag
-          setEfoNodes([
-            { id: 'EFO_ROOT', name: 'root', parentIds: [] },
-            ...nodes,
-          ]);
+          const nodes = lines
+            .trim()
+            .split('\n')
+            .map(JSON.parse);
+
+          // The efo nodes coming from server don't include the EFO_ROOT node
+          // that is necessary to work with d3-dag. So adding it here.
+          nodes.push({ id: 'EFO_ROOT', name: 'root', parentIds: [] });
+
+          setEfoNodes(nodes);
         }
       });
 
