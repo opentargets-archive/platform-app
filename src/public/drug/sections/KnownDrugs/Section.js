@@ -4,7 +4,6 @@ import { Link } from 'ot-ui';
 import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
 import Table from '../../../common/Table/Table';
 import useCursorBatchDownloader from '../../../../hooks/useCursorBatchDownloader';
-import useUpdateEffect from '../../../../hooks/useUpdateEffect';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
 
@@ -126,7 +125,6 @@ const Section = ({ data, fetchMore, chemblId }) => {
   const [cursor, setCursor] = useState(data.cursor);
   const [globalFilter, setGlobalFilter] = useState('');
   const [loading, setLoading] = useState(false);
-  const [pageIndex, setPageIndex] = useState(0);
   const [rows, setRows] = useState(data.rows.slice(0, pageSize));
 
   const getWholeDataset = useCursorBatchDownloader(
@@ -135,60 +133,48 @@ const Section = ({ data, fetchMore, chemblId }) => {
     'data.drug.knownDrugs'
   );
 
-  const onTableAction = params => {
+  async function fetchMoreRows(cursor, globalFilter, invalidate = false) {
+    setLoading(true);
+
+    await fetchMore({
+      variables: { cursor, freeTextQuery: globalFilter },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        const newCursor = fetchMoreResult.drug.knownDrugs?.cursor || null;
+        const newCount = fetchMoreResult.drug.knownDrugs?.count || 0;
+        const newRows = fetchMoreResult.drug.knownDrugs?.rows || [];
+
+        setCursor(newCursor);
+
+        prev.drug.knownDrugs.rows = invalidate
+          ? newRows
+          : [...prev.drug.knownDrugs.rows, ...newRows];
+
+        prev.drug.knownDrugs.count = newCount;
+        prev.drug.knownDrugs.cursor = newCursor;
+
+        return prev;
+      },
+    });
+
+    setLoading(false);
+  }
+
+  const onTableAction = async params => {
+    const startRow = params.page * pageSize;
+    const endRow = startRow + pageSize;
+
+    // Cases where we need to fetch more rows: filter has changed, or we are
+    // out of rows but not yet at the end of the dataset.
     if (params.globalFilter !== globalFilter) {
-      setCursor(null);
       setGlobalFilter(params.globalFilter);
+
+      await fetchMoreRows(null, params.globalFilter, true);
+    } else if (endRow > data.rows.length && endRow < data.count) {
+      await fetchMoreRows(cursor, params.globalFilter, false);
     }
 
-    setPageIndex(params.page);
+    setRows(data.rows.slice(startRow, endRow));
   };
-
-  useUpdateEffect(
-    () => {
-      data.rows = [];
-    },
-    [globalFilter]
-  );
-
-  useUpdateEffect(
-    () => {
-      async function fetchData() {
-        setLoading(true);
-        await fetchMore({
-          variables: { cursor, freeTextQuery: globalFilter },
-          updateQuery: (prev, { fetchMoreResult }) => {
-            setCursor(fetchMoreResult.drug.knownDrugs?.cursor || null);
-
-            prev.drug.knownDrugs.rows.push(
-              ...(fetchMoreResult.drug.knownDrugs?.rows || [])
-            );
-
-            prev.drug.knownDrugs.count =
-              fetchMoreResult.drug.knownDrugs?.count || 0;
-
-            return prev;
-          },
-        });
-
-        setLoading(false);
-        setRows(data.rows.slice(startRow, endRow));
-      }
-
-      const startRow = pageIndex * pageSize;
-      const endRow = startRow + pageSize;
-
-      if (
-        (endRow < data.count && endRow > data.rows.length) ||
-        cursor === null
-      ) {
-        fetchData();
-      } else {
-        setRows(data.rows.slice(startRow, endRow));
-      }
-    },
-    [globalFilter, pageIndex]
-  );
 
   return (
     <Table

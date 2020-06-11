@@ -128,7 +128,6 @@ const Section = ({ data, fetchMore, efoId }) => {
   const [cursor, setCursor] = useState(data.cursor);
   const [globalFilter, setGlobalFilter] = useState('');
   const [loading, setLoading] = useState(false);
-  const [pageIndex, setPageIndex] = useState(0);
   const [rows, setRows] = useState(data.rows.slice(0, pageSize));
 
   const getWholeDataset = useCursorBatchDownloader(
@@ -137,60 +136,48 @@ const Section = ({ data, fetchMore, efoId }) => {
     'data.disease.knownDrugs'
   );
 
-  const onTableAction = params => {
+  async function fetchMoreRows(cursor, globalFilter, invalidate = false) {
+    setLoading(true);
+
+    await fetchMore({
+      variables: { cursor, freeTextQuery: globalFilter },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        const newCursor = fetchMoreResult.disease.knownDrugs?.cursor || null;
+        const newCount = fetchMoreResult.disease.knownDrugs?.count || 0;
+        const newRows = fetchMoreResult.disease.knownDrugs?.rows || [];
+
+        setCursor(newCursor);
+
+        prev.disease.knownDrugs.rows = invalidate
+          ? newRows
+          : [...prev.disease.knownDrugs.rows, ...newRows];
+
+        prev.disease.knownDrugs.count = newCount;
+        prev.disease.knownDrugs.cursor = newCursor;
+
+        return prev;
+      },
+    });
+
+    setLoading(false);
+  }
+
+  const onTableAction = async params => {
+    const startRow = params.page * pageSize;
+    const endRow = startRow + pageSize;
+
+    // Cases where we need to fetch more rows: filter has changed, or we are
+    // out of rows but not yet at the end of the dataset.
     if (params.globalFilter !== globalFilter) {
-      setCursor(null);
       setGlobalFilter(params.globalFilter);
+
+      await fetchMoreRows(null, params.globalFilter, true);
+    } else if (endRow > data.rows.length && endRow < data.count) {
+      await fetchMoreRows(cursor, params.globalFilter, false);
     }
 
-    setPageIndex(params.page);
+    setRows(data.rows.slice(startRow, endRow));
   };
-
-  useUpdateEffect(
-    () => {
-      data.rows = [];
-    },
-    [globalFilter]
-  );
-
-  useUpdateEffect(
-    () => {
-      async function fetchData() {
-        setLoading(true);
-        await fetchMore({
-          variables: { cursor, freeTextQuery: globalFilter },
-          updateQuery: (prev, { fetchMoreResult }) => {
-            setCursor(fetchMoreResult.disease.knownDrugs?.cursor || null);
-
-            prev.disease.knownDrugs.rows.push(
-              ...(fetchMoreResult.disease.knownDrugs?.rows || [])
-            );
-
-            prev.disease.knownDrugs.count =
-              fetchMoreResult.disease.knownDrugs?.count || 0;
-
-            return prev;
-          },
-        });
-
-        setLoading(false);
-        setRows(data.rows.slice(startRow, endRow));
-      }
-
-      const startRow = pageIndex * pageSize;
-      const endRow = startRow + pageSize;
-
-      if (
-        (endRow < data.count && endRow > data.rows.length) ||
-        cursor === null
-      ) {
-        fetchData();
-      } else {
-        setRows(data.rows.slice(startRow, endRow));
-      }
-    },
-    [globalFilter, pageIndex]
-  );
 
   return (
     <Table
