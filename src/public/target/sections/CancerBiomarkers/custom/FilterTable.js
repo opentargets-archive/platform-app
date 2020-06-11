@@ -24,6 +24,9 @@ import {
   DC_PIE_WIDTH,
 } from '../../../../common/dcConfig';
 
+import { label } from '../../../../../utils/global';
+import { naLabel } from '../../../../configuration';
+
 // const chartColour = lighten(0.3, '#3489ca');
 
 const getColumns = ({
@@ -54,18 +57,19 @@ const getColumns = ({
     {
       id: 'diseases',
       label: 'Disease',
-      renderCell: rowData => {
-        return (
+      renderCell: rowData =>
+        rowData.disease ? (
           <Link
             external
             to={`https://www.targetvalidation.org/disease/${
               rowData.disease.id
             }`}
           >
-            {rowData.disease.name}
+            {label(rowData.disease.name)}
           </Link>
-        );
-      },
+        ) : (
+          <>{naLabel}</>
+        ),
       // renderFilter: () => (
       //   <Select
       //     isClearable
@@ -453,7 +457,7 @@ class FilterTable extends Component {
     }
     this.setState({ filteredRows: biomarkers.allFiltered() });
   };
-  
+
   static getDerivedStateFromProps(props, state) {
     const prevProps = state.prevProps || {};
 
