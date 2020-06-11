@@ -55,6 +55,7 @@ const Summary = ({ ensgId, setHasSummaryData }) => {
         isCurrent = false;
       };
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [ensgId]
   );
 
