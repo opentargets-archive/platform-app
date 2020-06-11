@@ -9,6 +9,12 @@
     />
     <meta name="theme-color" content="#3489ca" />
     <!--
+      We do not want robots indexing the alpha release, they should stay in the
+      current version of the platform. To prevent them following links from
+      there to here, we use https://support.google.com/webmasters/answer/93710?hl=en.
+    -->
+    <meta name="robots" content="noindex" />
+    <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
