@@ -3,14 +3,14 @@ import { Link } from 'ot-ui';
 
 const Description = ({ symbol }) => {
   return (
-    <>
-      Information on Target Enabling Packages (TEPs) that have been developed by
-      the{' '}
-      <Link to="https://www.thesgc.org/tep" external>
-        Structural Genomics Consortium
-      </Link>{' '}
-      for <strong>{symbol}</strong>.
-    </>
+    <React.Fragment>
+      Critical mass of reagents and knowledge allowing for the rapid biochemical
+      and chemical exploration of <strong>{symbol}</strong>. Source:{' '}
+      <Link external to="https://www.thesgc.org/tep">
+        SGC
+      </Link>
+      .
+    </React.Fragment>
   );
 };
 
