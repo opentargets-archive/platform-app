@@ -2,16 +2,14 @@ import React from 'react';
 
 import { Link } from 'ot-ui';
 
-const Description = () => (
+const Description = ({ symbol }) => (
   <React.Fragment>
-    Genomic biomarkers of drug responses and their levels of clinical
-    significance as described by{' '}
-    <Link external to="https://europepmc.org/articles/PMC5875005">
-      {' '}
+    Clinical relevance and drug responses of tumor genomic alterations on{' '}
+    <strong>{symbol}</strong>. Source:{' '}
+    <Link external to="https://www.cancergenomeinterpreter.org/biomarkers">
       Tamborero et al. (2018)
     </Link>
-    . This data is manually curated by clinical and scientific communities in
-    the field of precision oncology.
+    .
   </React.Fragment>
 );
 
