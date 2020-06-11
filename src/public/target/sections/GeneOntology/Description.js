@@ -1,8 +1,13 @@
 import React from 'react';
+import { Link } from 'ot-ui';
 
 const Description = ({ symbol }) => (
   <React.Fragment>
-    Gene Ontology terms related to <strong>{symbol}</strong>.
+    Annotations for <strong>{symbol}</strong>. Source:{' '}
+    <Link external to="https://www.uniprot.org/">
+      UniProt
+    </Link>
+    .
   </React.Fragment>
 );
 
