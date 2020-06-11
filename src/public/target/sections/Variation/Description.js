@@ -1,13 +1,22 @@
 import React from 'react';
 
+import { Link } from 'ot-ui';
+
 const Description = ({ symbol }) => (
   <React.Fragment>
-    Genomic variants associated with <strong>{symbol}</strong>. Only variant
-    information associating <strong>{symbol}</strong> with any disease is
-    displayed. Click on any variant, gene or transcript to get more information
-    about it. Pan or zoom the browser to see neighbouring genes. The number
-    above gene variants means that more than 1 overlap the same region at the
-    current zoom level. Genomic coordinates are relative to GRCh38.
+    Genomic browser centered on region surrounding <strong>{symbol}</strong>.
+    Associated variants are relative to GRCh38 coordinates. Source:{' '}
+    <Link external to="https://www.ensembl.org/Homo_sapiens/Info/Index">
+      Ensembl
+    </Link>{' '}
+    and{' '}
+    <Link
+      external
+      to="https://docs.targetvalidation.org/data-sources/genetic-associations"
+    >
+      Open Targets
+    </Link>
+    .
   </React.Fragment>
 );
 
