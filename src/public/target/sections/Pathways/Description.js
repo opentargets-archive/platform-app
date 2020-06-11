@@ -1,8 +1,13 @@
 import React from 'react';
+import { Link } from 'ot-ui';
 
 const Description = ({ symbol }) => (
   <React.Fragment>
-    Pathway information for <strong>{symbol}</strong> from Reactome
+    Biological pathways where <strong>{symbol}</strong> is present. Source:{' '}
+    <Link external to="https://reactome.org/">
+      Reactome
+    </Link>
+    .
   </React.Fragment>
 );
 
