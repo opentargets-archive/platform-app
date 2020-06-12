@@ -166,7 +166,7 @@ class SummaryTable extends Component {
                   onClick={() => this.handleSort('rna')}
                 >
                   <TableSortLabel direction="desc" active={sortBy === 'rna'}>
-                    RNA
+                    RNA (Expression Atlas)
                   </TableSortLabel>
                 </TableCell>
                 <TableCell
@@ -177,7 +177,7 @@ class SummaryTable extends Component {
                     direction="desc"
                     active={sortBy === 'protein'}
                   >
-                    Protein
+                    Protein (HPA)
                   </TableSortLabel>
                 </TableCell>
               </TableRow>

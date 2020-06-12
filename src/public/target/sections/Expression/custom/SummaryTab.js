@@ -1,11 +1,10 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import gql from 'graphql-tag';
 
-import { Link, DataDownloader } from 'ot-ui';
+import { DataDownloader } from 'ot-ui';
 
 import SummaryTable from './SummaryTable';
 
@@ -78,30 +77,8 @@ const SummaryPanel = ({ ensgId, symbol }) => {
   );
 };
 
-const SummaryTab = ({ ensgId, symbol, classes }) => {
-  return (
-    <>
-      <Typography variant="body2" className={classes.description}>
-        Summary of {symbol} RNA and protein expression in normal human tissue,
-        based on Human Protein Atlas normal tissue immunohistochemistry, RNA-seq
-        expression data and Expression Atlas data.
-      </Typography>
-      <Typography variant="caption">
-        Sources:{' '}
-        <Link external to="http://www.proteinatlas.org">
-          Human Protein Atlas
-        </Link>
-        ,{' '}
-        <Link
-          external
-          to="https://docs.targetvalidation.org/data-sources/rna-expression#expression-atlas"
-        >
-          Expression Atlas
-        </Link>
-        <SummaryPanel ensgId={ensgId} symbol={symbol} />
-      </Typography>
-    </>
-  );
+const SummaryTab = ({ ensgId, symbol }) => {
+  return <SummaryPanel ensgId={ensgId} symbol={symbol} />;
 };
 
 export default withStyles(styles)(SummaryTab);

@@ -1,8 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import * as d3 from 'd3';
-import Typography from '@material-ui/core/Typography';
 
-import { Link, DownloadSVGPlot } from 'ot-ui';
+import { DownloadSVGPlot } from 'ot-ui';
 
 import GtexVariability from './GtexVariability';
 
@@ -71,25 +70,14 @@ class GtexTab extends Component {
     const { loading, data } = this.state;
 
     return (
-      <Fragment>
-        <Typography>
-          Baseline expression variation based on GTEx experiments.
-        </Typography>
-        <Typography variant="caption">
-          Source:{' '}
-          <Link external to="https://www.gtexportal.org/home/documentationPage">
-            GTEx
-          </Link>
-        </Typography>
-        {!loading && (
-          <DownloadSVGPlot
-            svgContainer={this.gtexVariability}
-            filenameStem={`${symbol}-gtex`}
-          >
-            <GtexVariability data={data} ref={this.gtexVariability} />
-          </DownloadSVGPlot>
-        )}
-      </Fragment>
+      !loading && (
+        <DownloadSVGPlot
+          svgContainer={this.gtexVariability}
+          filenameStem={`${symbol}-gtex`}
+        >
+          <GtexVariability data={data} ref={this.gtexVariability} />
+        </DownloadSVGPlot>
+      )
     );
   }
 }
