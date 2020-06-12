@@ -65,7 +65,7 @@ const SummaryPanel = ({ ensgId, symbol }) => {
 
   return (
     <Grid container justify="center">
-      <Grid item md={8}>
+      <Grid item xs={12} lg={8}>
         <DataDownloader
           tableHeaders={headers}
           rows={getDownloadRows(expressions)}
