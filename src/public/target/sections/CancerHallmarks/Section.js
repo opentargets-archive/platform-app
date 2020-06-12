@@ -15,7 +15,7 @@ const Section = ({ ensgId, symbol, data }) => {
             {i > 0 ? ' | ' : null}
             <Link
               external
-              to={`http://europepmc.org/search?query=EXT_ID:$${
+              to={`http://europepmc.org/search?query=EXT_ID:${
                 r.reference.pubmedId
               }`}
             >
