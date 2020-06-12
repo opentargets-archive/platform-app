@@ -177,7 +177,7 @@ const Section = ({ data, fetchMore, ensgId }) => {
       // create event in GA
       if (params.globalFilter) {
         ReactGA.event({
-          category: 'Disease Profile Page',
+          category: 'Target Profile Page',
           action: 'Typed in knownDrugs widget search',
           label: params.globalFilter,
         });

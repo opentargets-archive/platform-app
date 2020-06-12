@@ -172,7 +172,7 @@ const Section = ({ data, fetchMore, chemblId }) => {
       // create event in GA
       if (params.globalFilter) {
         ReactGA.event({
-          category: 'Disease Profile Page',
+          category: 'Drug Profile Page',
           action: 'Typed in knownDrugs widget search',
           label: params.globalFilter,
         });
