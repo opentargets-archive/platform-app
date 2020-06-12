@@ -31,13 +31,22 @@ const TARGET_QUERY = gql`
 
 const TargetPage = ({ history, location, match }) => {
   const handleChange = (event, value) => {
-    const path = value === 'overview' ? match.url : `${match.url}/${value}`;
-    history.push(path);
+    if (value.indexOf('http' === 0)) {
+      // navigte to external page: first store current page
+      // for back button to work correctly
+      // TODO: this link will be removed after alpha/beta
+      history.push(match.url);
+      window.location.replace(value);
+    } else {
+      const path = value === 'overview' ? match.url : `${match.url}/${value}`;
+      history.push(path);
+    }
   };
 
   const tab = location.pathname.endsWith('associations')
     ? location.pathname.split('/').pop()
     : 'overview';
+
   const { ensgId } = match.params;
 
   const { loading, error, data } = useQuery(TARGET_QUERY, {
@@ -75,9 +84,15 @@ const TargetPage = ({ history, location, match }) => {
         variant="scrollable"
         scrollButtons="auto"
       >
-        <Tab value="classic-associations" label="Associations (classic)" />
-        <Tab value="associations" label="Associations (dynamic)" />
         <Tab value="overview" label="Profile" />
+        <Tab
+          value={`https://www.targetvalidation.org/target/${ensgId}`}
+          label="View this page in the classic view"
+        />
+        <Tab
+          value={`https://www.targetvalidation.org/target/${ensgId}/associations`}
+          label="View associated diseases"
+        />
       </Tabs>
       <Switch>
         <Route
