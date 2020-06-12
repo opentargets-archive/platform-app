@@ -1,9 +1,6 @@
 import React from 'react';
 import { withContentRect } from 'react-measure';
-import Typography from '@material-ui/core/Typography';
 import * as d3 from 'd3';
-
-import { Link } from 'ot-ui';
 
 import targetGeneTree from 'cttv.targetGeneTree';
 
@@ -48,44 +45,9 @@ class GeneTreeTab extends React.Component {
     }
   }
   render() {
-    const { symbol, measureRef } = this.props;
+    const { measureRef } = this.props;
     return (
       <div id="otTargetGeneTreeContainer" ref={measureRef}>
-        <Typography>
-          <i>
-            Phylogenetic tree showing the history of the human gene {symbol}{' '}
-            based on protein sequences from{' '}
-            <Link external to="https://www.ensembl.org">
-              Ensembl
-            </Link>
-            . All branches in this tree have the same length (unscaled
-            branches). You can also view the branches in different lengths based
-            on the number of evolutionary changes in the tree (select scaled
-            branches) All species are shown by default, but you can prune it to
-            a subset of species by unticking the species accordingly. Learn more
-            about{' '}
-            <Link
-              external
-              to="https://www.ensembl.org/info/genome/compara/homology_method.html"
-            >
-              protein trees
-            </Link>{' '}
-            and{' '}
-            <Link
-              external
-              to="https://www.ensembl.org/info/genome/compara/homology_types.html"
-            >
-              homology types
-            </Link>
-            .
-          </i>
-        </Typography>
-        <Typography variant="caption">
-          Source:
-          <Link external to="http://www.ensembl.org">
-            Ensembl
-          </Link>
-        </Typography>
         <div id="otTargetGeneTree" />
       </div>
     );

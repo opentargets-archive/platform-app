@@ -39,7 +39,7 @@ const columns = [
   },
   {
     id: 'targetGeneSymbol',
-    label: 'Orthologue and ID',
+    label: 'Homologue and ID',
     renderCell: d => (
       <React.Fragment>
         {d.targetGeneSymbol} (
@@ -89,11 +89,11 @@ const downloadColumns = [
   },
   {
     id: 'targetGeneSymbol',
-    label: 'Orthologue symbol',
+    label: 'Homologue symbol',
   },
   {
     id: 'targetGeneId',
-    label: 'Orthologue ID',
+    label: 'Homologue ID',
   },
   {
     id: 'dNdS',
@@ -109,7 +109,7 @@ const downloadColumns = [
   },
 ];
 
-const OrthologyTable = ({ ensgId, symbol }) => {
+const HomologyTableTab = ({ ensgId, symbol }) => {
   const [rows, setRows] = useState(null);
 
   useEffect(
@@ -176,4 +176,4 @@ const OrthologyTable = ({ ensgId, symbol }) => {
   );
 };
 
-export default OrthologyTable;
+export default HomologyTableTab;
