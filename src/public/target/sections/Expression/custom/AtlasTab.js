@@ -1,6 +1,5 @@
-import React, { Fragment, Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'ot-ui';
 
 const ExpressionAtlasHeatmap = lazy(() =>
   import('expression-atlas-heatmap-highcharts')
@@ -40,20 +39,7 @@ class AtlasHandler extends React.Component {
 }
 
 const AtlasTab = ({ ensgId, symbol }) => {
-  return (
-    <Fragment>
-      <Typography variant="caption">
-        Sources:{' '}
-        <Link
-          external
-          to="https://docs.targetvalidation.org/data-sources/rna-expression#expression-atlas"
-        >
-          Expression Atlas
-        </Link>
-        <AtlasHandler {...{ ensgId, symbol }} />
-      </Typography>
-    </Fragment>
-  );
+  return <AtlasHandler {...{ ensgId, symbol }} />;
 };
 
 export default AtlasTab;
