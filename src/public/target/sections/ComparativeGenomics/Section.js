@@ -1,39 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import { Tabs, Tab } from 'ot-ui';
 
 import GeneTreeTab from './custom/GeneTreeTab';
-import OrthologyTableTab from './custom/OrthologyTableTab';
+import HomologyTableTab from './custom/HomologyTableTab';
 
-class Section extends React.Component {
-  state = {
-    tab: 'table',
+function Section({ ensgId, symbol }) {
+  const [tab, setTab] = useState('table');
+
+  const handleChangeTab = (_, tab) => {
+    setTab(tab);
   };
-  handleChange = (event, tab) => {
-    this.setState({ tab });
-  };
-  render() {
-    const { ensgId, symbol } = this.props;
-    const { tab } = this.state;
-    return (
-      <React.Fragment>
-        <Tabs
-          value={tab}
-          onChange={this.handleChange}
-          variant="scrollable"
-          scrollButtons="auto"
-        >
-          <Tab value="table" label="Orthology table" />
-          <Tab value="tree" label="Gene tree" />
-        </Tabs>
-        {tab === 'table' ? (
-          <OrthologyTableTab ensgId={ensgId} symbol={symbol} />
-        ) : null}
-        {tab === 'tree' ? (
-          <GeneTreeTab ensgId={ensgId} symbol={symbol} />
-        ) : null}
-      </React.Fragment>
-    );
-  }
+
+  return (
+    <>
+      <Tabs
+        value={tab}
+        onChange={handleChangeTab}
+        variant="scrollable"
+        scrollButtons="auto"
+      >
+        <Tab value="table" label="Homology table" />
+        <Tab value="tree" label="Gene tree" />
+      </Tabs>
+      {tab === 'table' ? (
+        <HomologyTableTab ensgId={ensgId} symbol={symbol} />
+      ) : null}
+      {tab === 'tree' ? <GeneTreeTab ensgId={ensgId} symbol={symbol} /> : null}
+    </>
+  );
 }
 
 export default Section;
