@@ -14,8 +14,12 @@ const extractCategory = row => ({
   term: row.term.substring(2),
 });
 
-const Section = ({ symbol, data }) => (
-  <OntologyTable rows={data.map(extractCategory)} symbol={symbol} />
+const Section = ({ symbol, data, uniprotId }) => (
+  <OntologyTable
+    rows={data.map(extractCategory)}
+    symbol={symbol}
+    uniprotId={uniprotId}
+  />
 );
 
 export default Section;

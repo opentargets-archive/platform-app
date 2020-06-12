@@ -13,7 +13,8 @@ const getColumns = (
   categoryOptions,
   categoryFilterHandler,
   termOptions,
-  termFilterHandler
+  termFilterHandler,
+  uniprotId
 ) => {
   return [
     {
@@ -50,25 +51,18 @@ const getColumns = (
       ),
     },
     {
-      id: 'view',
-      label: 'View GO term in graph',
+      id: 'references',
+      label: 'Annotation references',
       renderCell: row => {
+        const quickGoLink = uniprotId
+          ? `https://www.ebi.ac.uk/QuickGO/annotations?geneProductId=${uniprotId}&goId=${
+              row.id
+            }`
+          : `https://www.ebi.ac.uk/QuickGO/annotations?goId=${row.id}`;
         return (
-          <Fragment>
-            <Link
-              external
-              to={`https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/${row.id}/chart`}
-            >
-              EBI QuickGO
-            </Link>{' '}
-            |{' '}
-            <Link
-              external
-              to={`http://amigo.geneontology.org/visualize?inline=false&term_data=${row.id}&format=png&mode=amigo&term_data_type=string`}
-            >
-              AMIGO
-            </Link>
-          </Fragment>
+          <Link external to={quickGoLink}>
+            EBI Quick GO
+          </Link>
         );
       },
     },
@@ -131,7 +125,7 @@ class OntologyTable extends Component {
   }
 
   render() {
-    const { symbol, rows } = this.props;
+    const { symbol, rows, uniprotId } = this.props;
     const { filteredRows } = this.state;
     const categoryOptions = getCategoryOptions(rows);
     const termOptions = getTermOptions(rows);
@@ -140,7 +134,8 @@ class OntologyTable extends Component {
       categoryOptions,
       this.categoryFilterHandler,
       termOptions,
-      this.termFilterHandler
+      this.termFilterHandler,
+      uniprotId
     );
 
     return (
