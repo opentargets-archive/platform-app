@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import client from '../public/client';
-import { downloaderChunkSize } from '../public/configuration';
+import { downloaderChunkSize } from '../constants';
 
 const getRows = (chunk, dataPath) => _.get(chunk, dataPath, []);
 

@@ -249,3 +249,13 @@ export const particlesConfig = {
   },
   retina_detect: true,
 };
+
+// Chunk sizes for server side pagination/download.
+export const tableChunkSize = 100;
+export const downloaderChunkSize = 2500;
+
+// NA label.
+export const naLabel = 'N/A';
+
+// Google analytics ID.
+export const googleAnalyticsID = 'UA-101860681-10';
