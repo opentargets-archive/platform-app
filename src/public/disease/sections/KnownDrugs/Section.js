@@ -6,7 +6,6 @@ import { Link } from 'ot-ui';
 import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
 import Table from '../../../common/Table/Table';
 import useCursorBatchDownloader from '../../../../hooks/useCursorBatchDownloader';
-import useUpdateEffect from '../../../../hooks/useUpdateEffect';
 import { label } from '../../../../utils/global';
 import { sectionQuery } from '.';
 
