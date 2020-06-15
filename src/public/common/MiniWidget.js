@@ -33,7 +33,7 @@ const styles = theme => ({
   },
   title: {
     color: theme.palette.grey[500],
-    wordBreak: 'break-all',
+    wordBreak: 'break-word',
   },
   titleHasData: {
     color: theme.palette.primary.main,
@@ -94,7 +94,7 @@ const MiniWidget = ({
   SummaryComponent,
   onClick,
 }) => (
-  <Grid item xs={12} sm={4} md={3} lg={2}>
+  <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
     <Card
       className={classNames({
         [classes.card]: true,

@@ -25,7 +25,7 @@ import {
 } from '../../../../common/dcConfig';
 
 import { label } from '../../../../../utils/global';
-import { naLabel } from '../../../../configuration';
+import { naLabel } from '../../../../../constants';
 
 // const chartColour = lighten(0.3, '#3489ca');
 
