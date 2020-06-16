@@ -1,36 +1,52 @@
 import React from 'react';
 
-import { Link, OtTableRF } from 'ot-ui';
+import { Link } from 'ot-ui';
+
+import Table from '../../../common/Table/Table';
+import TherapeuticAreasDrawer from './Custom/TherapeuticAreasDrawer';
+import { label } from '../../../../utils/global';
+import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
 
 const columns = [
   {
-    id: 'name',
-    label: 'Name',
+    id: 'indication',
+    propertyPath: 'disease.name',
     renderCell: d => (
-      <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
+      <Link to={`/disease/${d.disease.id}`}>{label(d.disease.name)}</Link>
     ),
-    width: '20%',
+    width: '45%',
   },
   {
     id: 'therapeuticAreas',
-    label: 'Therapeutic Areas',
     renderCell: d => {
-      return d.disease.therapeuticAreas.map((t, i) => (
-        <div key={i}>
-          <Link to={`/disease/${t.id}`}>{t.name}</Link>
-        </div>
-      ));
+      return (
+        <TherapeuticAreasDrawer therapeuticAreas={d.disease.therapeuticAreas} />
+      );
     },
+    exportValue: d =>
+      d.disease.therapeuticAreas.map(therapeuticArea => therapeuticArea.id),
+    width: '45%',
   },
   {
     id: 'maxPhaseForIndication',
-    label: 'Max phase',
-    width: '15%',
+    label: 'Max Phase',
+    numeric: true,
+    sortable: true,
+    width: '10%',
   },
 ];
 
-const Section = ({ data }) => (
-  <OtTableRF loading={false} error={false} columns={columns} data={data.rows} />
+const Section = ({ chemblId, data }) => (
+  <Table
+    columns={columns}
+    dataDownloader
+    dataDownloaderFileStem={`${chemblId}-indications`}
+    pagination={PaginationActionsComplete}
+    rows={data.rows}
+    showGlobalFilter
+    sortBy="maxPhaseForIndication"
+    order="desc"
+  />
 );
 
 export default Section;
