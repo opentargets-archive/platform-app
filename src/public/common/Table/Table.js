@@ -17,6 +17,7 @@ import TableRow from './TableRow';
 import {
   prepareDataClientSide,
   prepareDataServerSide,
+  sliceDataClientSide,
 } from './dataPreparation';
 import { tableStyles } from './tableStyles';
 import useUpdateEffect from '../../../hooks/useUpdateEffect';
@@ -24,7 +25,7 @@ import useUpdateEffect from '../../../hooks/useUpdateEffect';
 function Table({
   columns,
   rows,
-  rowCount,
+  rowCount = rows.length,
   fixed = false,
   fixedRows = [],
   headerGroups = [],
@@ -34,7 +35,7 @@ function Table({
   pagination,
   dataDownloader = false,
   dataDownloaderFileStem = 'data',
-  dataDownloaderRows = rows,
+  dataDownloaderRows,
   hover = false,
   serverSide = false,
   showGlobalFilter = false,
@@ -47,18 +48,31 @@ function Table({
   const [order, setOrder] = useState(props.order || 'asc');
   const [globalFilter, setGlobalFilter] = useState('');
 
-  const [processedRows, emptyRows, effectiveRowCount = rowCount] = serverSide
-    ? prepareDataServerSide(rows, fixedRows, pageSize)
-    : prepareDataClientSide(
-        rows,
-        columns,
-        fixedRows,
-        page,
-        pageSize,
-        order,
-        sortBy,
-        globalFilter
-      );
+  let filteredRows, pageRows;
+
+  if (serverSide) {
+    pageRows = prepareDataServerSide(rows, fixedRows);
+  } else {
+    filteredRows = prepareDataClientSide(
+      rows,
+      columns,
+      globalFilter,
+      order,
+      sortBy
+    );
+
+    pageRows = sliceDataClientSide(
+      filteredRows,
+      filteredRows.length,
+      fixedRows,
+      page,
+      pageSize
+    );
+
+    rowCount = filteredRows.length;
+  }
+
+  const emptyRows = pageSize - pageRows.length;
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
@@ -101,7 +115,7 @@ function Table({
         <Grid item xs={12} md={7} lg={5} className={classes.tableUpperControl2}>
           <DataDownloader
             columns={columns}
-            rows={dataDownloaderRows}
+            rows={dataDownloaderRows || filteredRows}
             fileStem={dataDownloaderFileStem}
           />
         </Grid>
@@ -123,7 +137,7 @@ function Table({
             onRequestSort={handleRequestSort}
           />
           <TableBody>
-            {processedRows.map((row, i) => (
+            {pageRows.map((row, i) => (
               <TableRow
                 columns={columns}
                 hover={hover}
@@ -139,7 +153,7 @@ function Table({
                   colSpan={columns.length}
                   classes={{ root: `${classes.cellBody} ${classes.noData}` }}
                 >
-                  {!processedRows.length && 'No data'}
+                  {!pageRows.length && 'No data'}
                 </TableCell>
               </MUITableRow>
             )}
@@ -157,7 +171,7 @@ function Table({
               disabled: loading || page >= rowCount / pageSize - 1,
             }}
             component="div"
-            count={effectiveRowCount}
+            count={rowCount}
             onChangePage={handleChangePage}
             page={page}
             rowsPerPage={pageSize}

@@ -14,13 +14,6 @@ const columnPool = {
     columns: [
       {
         id: 'phase',
-        filterValue: d =>
-          // filter phase with arabic numerals
-          `${d.phase} Phase ${
-            { 0: 0, I: 1, II: 2, III: 3, IV: 4 }[
-              d.phase.split('Phase ')[1] ?? 0
-            ]
-          }`,
       },
       {
         id: 'status',
@@ -29,7 +22,6 @@ const columnPool = {
       {
         id: 'sources',
         label: 'Source',
-        filterValue: false,
         exportValue: d => d.urls.map(reference => reference.url),
         renderCell: d => <SourceDrawer references={d.urls} />,
       },
@@ -41,7 +33,6 @@ const columnPool = {
       {
         id: 'disease',
         propertyPath: 'disease.id',
-        filterValue: d => d.disease.name,
         renderCell: d => (
           <Link to={`/disease/${d.disease.id}`}>{label(d.disease.name)}</Link>
         ),
@@ -54,7 +45,6 @@ const columnPool = {
       {
         id: 'drug',
         propertyPath: 'drug.id',
-        filterValue: d => d.drug.name,
         renderCell: d => (
           <Link to={`/drug/${d.drug.id}`}>{label(d.drug.name)}</Link>
         ),
@@ -69,6 +59,7 @@ const columnPool = {
       },
       {
         id: 'activity',
+        hidden: ['lgDown'],
         renderCell: d => label(d.activity),
       },
     ],
@@ -80,7 +71,6 @@ const columnPool = {
         id: 'targetSymbol',
         label: 'Symbol',
         propertyPath: 'target.approvedSymbol',
-        filterValue: d => d.target.approvedSymbol,
         renderCell: d => (
           <Link to={`/target/${d.target.id}`}>{d.target.approvedSymbol}</Link>
         ),
@@ -89,7 +79,7 @@ const columnPool = {
         id: 'targetName',
         label: 'Name',
         propertyPath: 'target.approvedName',
-        filterValue: d => d.target.approvedName,
+        hidden: ['mdDown'],
         renderCell: d => label(d.target.approvedName),
       },
     ],

@@ -4,8 +4,12 @@ API documentation for the Table Component.
 
 ## Examples
 
-[Disease Profile Page Related Diseases section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/RelatedDiseases/Section.js)
-[Disease Profile Page Known Drugs section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/KnownDrugs/Section.js)
+* Very basic:
+[Disease Profile Page Phenotypes section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/Phenotypes/Section.js).
+
+* Custom labels, cells and tooltips: [Disease Profile Page Related Diseases section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/RelatedDiseases/Section.js).
+
+* Advanced: column groups: [Disease Profile Page Known Drugs section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/KnownDrugs/Section.js).
 
 ## Import
 
