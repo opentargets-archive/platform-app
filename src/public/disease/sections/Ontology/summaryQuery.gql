@@ -2,7 +2,7 @@ query DiseaseOntologySummary($efoId: String!) {
   disease(efoId: $efoId) {
     id
     isTherapeuticArea
-    children {
+    therapeuticAreas {
       id
     }
   }

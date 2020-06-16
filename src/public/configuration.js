@@ -1,3 +1,6 @@
+// This file is only used to configure what sections to display
+// in the different profile pages and in what order.
+
 export const targetSectionsDefaultOrder = [
   'knownDrugs',
   'tractability',
