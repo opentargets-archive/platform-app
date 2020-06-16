@@ -42,7 +42,7 @@
     "ot-ui": "https://github.com/opentargets/ot-ui.git#jf-upgrade_deps",
     "particles.js": "^2.0.0",
     "polished": "^2.3.0",
-    "protvista-uniprot": "^2.0.15",
+    "protvista-uniprot": "^2.5.5",
     "query-string": "^6.10.1",
     "react": "^16.8.6",
     "react-app-polyfill": "^1.0.6",
