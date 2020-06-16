@@ -2,7 +2,8 @@ import React from 'react';
 
 const Summary = ({ data }) => (
   <React.Fragment>
-    {(data.count || 0).toLocaleString()} clinical trial records
+    {(data.uniqueTargets || 0).toLocaleString()} targets and{' '}
+    {(data.uniqueDiseases || 0).toLocaleString()} indications
   </React.Fragment>
 );
 

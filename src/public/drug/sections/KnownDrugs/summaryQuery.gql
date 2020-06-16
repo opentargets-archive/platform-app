@@ -1,5 +1,7 @@
 fragment drugKnownDrugsFragment on Drug {
   knownDrugs {
     count
+    uniqueTargets
+    uniqueDiseases
   }
 }
