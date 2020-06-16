@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
@@ -32,36 +32,34 @@ const Header = ({
   externalLinks,
   rightContent,
 }) => (
-  <Fragment>
-    <Grid className={classes.titleContainer} container justify="space-between">
-      <Grid item zeroMinWidth>
-        <Grid container wrap="nowrap">
-          <Grid item>
-            <Icon classes={{ root: classes.mainIcon }} />
+  <Grid className={classes.titleContainer} container justify="space-between">
+    <Grid item zeroMinWidth>
+      <Grid container wrap="nowrap">
+        <Grid item>
+          <Icon classes={{ root: classes.mainIcon }} />
+        </Grid>
+        <Grid item zeroMinWidth>
+          <Grid container>
+            <Typography
+              className={classes.title}
+              variant="h4"
+              noWrap
+              title={title}
+            >
+              {title}
+            </Typography>
+            <Typography className={classes.subtitle} variant="subtitle2">
+              {subtitle}
+            </Typography>
           </Grid>
-          <Grid item zeroMinWidth>
-            <Grid container>
-              <Typography
-                className={classes.title}
-                variant="h4"
-                noWrap
-                title={title}
-              >
-                {title}
-              </Typography>
-              <Typography className={classes.subtitle} variant="subtitle2">
-                {subtitle}
-              </Typography>
-            </Grid>
-            <Grid container>
-              <Typography variant="body2">{externalLinks}</Typography>
-            </Grid>
+          <Grid container>
+            <Typography variant="body2">{externalLinks}</Typography>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item>{rightContent}</Grid>
     </Grid>
-  </Fragment>
+    <Grid item>{rightContent}</Grid>
+  </Grid>
 );
 
 export default withStyles(styles)(Header);
