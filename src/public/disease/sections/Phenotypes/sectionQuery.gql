@@ -2,8 +2,9 @@ query PhenotypesQuery($efoId: String!) {
   disease(efoId: $efoId) {
     id
     phenotypes {
-      url
+      disease
       name
+      url
     }
   }
 }
