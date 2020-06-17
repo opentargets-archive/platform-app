@@ -19,13 +19,7 @@ const styles = () => ({
 });
 
 const DiseaseDetail = ({ classes, data }) => {
-  const {
-    id,
-    name,
-    description,
-    associationsOnTheFly: { rows },
-    therapeuticAreas,
-  } = data;
+  const { id, name, description, therapeuticAreas } = data;
   return (
     <CardContent>
       <Typography color="primary" variant="h5">
@@ -35,19 +29,6 @@ const DiseaseDetail = ({ classes, data }) => {
         <DiseaseIcon className={classes.icon} /> Disease or phenotype
       </Typography>
       <LongText lineLimit={4}>{description}</LongText>
-      {/* temporarily hide top associated targets */}
-      {/* rows.length > 0 */ false && (
-        <>
-          <Typography className={classes.subtitle} variant="subtitle1">
-            Top associated targets
-          </Typography>
-          {rows.map(({ id }) => (
-            <Link key={id} to={`/target/${id}`}>
-              {id}
-            </Link>
-          ))}
-        </>
-      )}
       {therapeuticAreas.length > 0 && (
         <>
           <Typography className={classes.subtitle} variant="subtitle1">

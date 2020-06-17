@@ -22,7 +22,6 @@ const TargetDetail = ({ classes, data }) => {
     approvedName,
     proteinAnnotations,
     bioType,
-    associationsOnTheFly: { rows },
   } = data;
 
   const functions = proteinAnnotations ? proteinAnnotations.functions : null;
@@ -39,21 +38,6 @@ const TargetDetail = ({ classes, data }) => {
           <TargetIcon className={classes.icon} /> Target
         </Typography>
         {functions ? <LongText lineLimit={4}>{functions[0]}</LongText> : null}
-        {/* temporarily hide top associated diseases */}
-        {/* rows.length > 0*/ false && (
-          <>
-            <Typography className={classes.subtitle} variant="subtitle1">
-              Top associated diseases or phenotypes
-            </Typography>
-            {rows.map(({ id }) => {
-              return (
-                <Fragment key={id}>
-                  <Link to={`/disease/${id}`}>{id}</Link>{' '}
-                </Fragment>
-              );
-            })}
-          </>
-        )}
         <Typography className={classes.subtitle} variant="subtitle1">
           Biotype
         </Typography>
