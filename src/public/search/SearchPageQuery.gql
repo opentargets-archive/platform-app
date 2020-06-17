@@ -45,7 +45,7 @@ query SearchPageQuery(
   topHit: search(
     queryString: $queryString
     entityNames: $entityNames
-    page: { index: 0, size: 1}
+    page: { index: 0, size: 1 }
   ) {
     hits {
       object {
@@ -59,21 +59,11 @@ query SearchPageQuery(
             functions
             accessions
           }
-          associationsOnTheFly(page: { index: 0, size: 5 }) {
-            rows {
-              id
-            }
-          }
         }
         ... on Disease {
           id
           name
           description
-          associationsOnTheFly(page: { index: 0, size: 5 }) {
-            rows {
-              id
-            }
-          }
           therapeuticAreas {
             id
             name
