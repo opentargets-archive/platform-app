@@ -89,8 +89,8 @@ export const mainMenuItems = [
   // About
   {
     name: 'Open Targets Platform',
-    url: '/about',
-    external: false,
+    url: 'https://www.targetvalidation.org/about',
+    external: true,
   },
   {
     name: 'Open Targets Consortium',
@@ -111,8 +111,8 @@ export const mainMenuItems = [
   },
   {
     name: 'Outreach and tutorials',
-    url: '/outreach',
-    external: false,
+    url: 'https://www.targetvalidation.org/outreach',
+    external: true,
   },
   // API
   {
@@ -128,8 +128,8 @@ export const mainMenuItems = [
   // Downloads
   {
     name: 'Downloads',
-    url: '/downloads',
-    external: false,
+    url: 'https://www.targetvalidation.org/downloads/data',
+    external: true,
   },
   // Blog
   {
