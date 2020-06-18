@@ -1,190 +1,66 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
-import crossfilter from 'crossfilter2';
-import Select from 'react-select';
+import React from 'react';
 
-import { Link, DataDownloader, OtTableRF } from 'ot-ui';
+import { Link, DataDownloader } from 'ot-ui';
 
-const getColumns = (
-  pathwayOptions,
-  pathwayFilterHandler,
-  idOptions,
-  idFilterHandler,
-  parentOptions,
-  parentFilterHandler
-) => {
-  const columns = [
-    {
-      id: 'name',
-      label: 'Pathway',
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={pathwayOptions}
-          onChange={pathwayFilterHandler}
-        />
-      ),
-    },
-    {
-      id: 'id',
-      label: 'Pathway ID',
-      renderCell: d => (
-        <Link external to={`https://reactome.org/content/detail/${d.id}`}>
-          {d.id}
-        </Link>
-      ),
-      renderFilter: () => (
-        <Select isClearable options={idOptions} onChange={idFilterHandler} />
-      ),
-    },
-    {
-      id: 'parentNames',
-      label: 'Top-level parent pathway',
-      renderCell: d => (
-        <React.Fragment>
-          {d.parents.map((p, i) => (
-            <React.Fragment key={i}>
-              {i > 0 ? <br /> : null}
-              {p.name}
-            </React.Fragment>
-          ))}
-        </React.Fragment>
-      ),
-      renderFilter: () => (
-        <Select
-          isClearable
-          options={parentOptions}
-          onChange={parentFilterHandler}
-        />
-      ),
-    },
-    {
-      id: 'url',
-      label: 'View target and pathway',
-      renderCell: ({ url }) => (
-        <Link external to={url}>
-          Link
-        </Link>
-      ),
-    },
-  ];
+import FilteringOtTableRF from '../../../../common/FilteringOtTableRF';
 
-  return columns;
-};
+const OverviewTab = ({ symbol, lowLevelPathways }) => (
+  <>
+    <DataDownloader
+      tableHeaders={columns}
+      rows={lowLevelPathways}
+      fileStem={`${symbol}-pathways`}
+    />
+    <FilteringOtTableRF
+      loading={false}
+      error={null}
+      columns={columns}
+      data={lowLevelPathways}
+    />
+  </>
+);
 
-const getDownloadRows = rows => {
-  return rows.map(row => ({
-    ...row,
-    parents: row.parents.map(parent => parent.name).join(', '),
-  }));
-};
-
-const getPathwayOptions = pathways => {
-  return pathways.map(row => ({
-    label: row.name,
-    value: row.name,
-  }));
-};
-
-const getIdOptions = pathways => {
-  return pathways.map(row => ({
-    label: row.id,
-    value: row.id,
-  }));
-};
-
-const getParentOptions = pathways => {
-  return _.uniqBy(
-    _.flatMap(pathways, ({ parents }) =>
-      parents.map(parent => ({ label: parent.name, value: parent.id }))
+const columns = [
+  {
+    id: 'name',
+    label: 'Pathway',
+    filterable: true,
+  },
+  {
+    id: 'id',
+    label: 'Pathway ID',
+    renderCell: d => (
+      <Link external to={`https://reactome.org/content/detail/${d.id}`}>
+        {d.id}
+      </Link>
     ),
-    'value'
-  );
-};
-
-class OverviewTab extends Component {
-  state = {
-    filteredRows: this.props.lowLevelPathways,
-  };
-
-  pathwayFilterHandler = selection => {
-    const { pathwayXf, pathwayDim } = this;
-
-    if (selection) {
-      pathwayDim.filter(d => d === selection.value);
-    } else {
-      pathwayDim.filterAll();
-    }
-
-    this.setState({ filteredRows: pathwayXf.allFiltered() });
-  };
-
-  idFilterHandler = selection => {
-    const { pathwayXf, idDim } = this;
-
-    if (selection) {
-      idDim.filter(d => d === selection.value);
-    } else {
-      idDim.filterAll();
-    }
-
-    this.setState({ filteredRows: pathwayXf.allFiltered() });
-  };
-
-  parentFilterHandler = selection => {
-    const { pathwayXf, parentDim } = this;
-
-    if (selection) {
-      parentDim.filter(d => {
-        const index = d.findIndex(parent => parent.id === selection.value);
-        return index !== -1;
-      });
-    } else {
-      parentDim.filterAll();
-    }
-
-    this.setState({ filteredRows: pathwayXf.allFiltered() });
-  };
-
-  componentDidMount() {
-    this.pathwayXf = crossfilter(this.props.lowLevelPathways);
-    this.pathwayDim = this.pathwayXf.dimension(row => row.name);
-    this.idDim = this.pathwayXf.dimension(row => row.id);
-    this.parentDim = this.pathwayXf.dimension(row => row.parents);
-  }
-
-  render() {
-    const { symbol, lowLevelPathways } = this.props;
-    const { filteredRows } = this.state;
-    const pathwayOptions = getPathwayOptions(lowLevelPathways);
-    const idOptions = getIdOptions(lowLevelPathways);
-    const parentOptions = getParentOptions(lowLevelPathways);
-    const columns = getColumns(
-      pathwayOptions,
-      this.pathwayFilterHandler,
-      idOptions,
-      this.idFilterHandler,
-      parentOptions,
-      this.parentFilterHandler
-    );
-
-    return (
+    filterable: true,
+  },
+  {
+    id: 'parentNames',
+    label: 'Top-level parent pathway',
+    renderCell: d => (
       <React.Fragment>
-        <DataDownloader
-          tableHeaders={columns}
-          rows={getDownloadRows(lowLevelPathways)}
-          fileStem={`${symbol}-pathways`}
-        />
-        <OtTableRF
-          filters
-          loading={false}
-          error={null}
-          columns={columns}
-          data={filteredRows}
-        />
+        {d.parents.map((p, i) => (
+          <React.Fragment key={i}>
+            {i > 0 ? <br /> : null}
+            {p.name}
+          </React.Fragment>
+        ))}
       </React.Fragment>
-    );
-  }
-}
+    ),
+    filterable: true,
+    dropdownFilterValue: row => row.parents.map(parent => parent.name),
+  },
+  {
+    id: 'url',
+    label: 'View target and pathway',
+    renderCell: ({ url }) => (
+      <Link external to={url}>
+        Link
+      </Link>
+    ),
+  },
+];
 
 export default OverviewTab;

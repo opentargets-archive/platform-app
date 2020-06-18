@@ -14,7 +14,7 @@ const PathwaysDetail = ({ symbol, uniprotId, data }) => {
       id,
       name: label,
       parents: topLevelParents,
-      parentNames: topLevelParents.map(parent => parent.name),
+      parentNames: topLevelParents.map(parent => parent.name).join(', '),
       url:
         `https://reactome.org/PathwayBrowser/#/${encodeURIComponent(id)}` +
         (uniprotId ? `&FLG=${encodeURIComponent(uniprotId)}` : ''),
