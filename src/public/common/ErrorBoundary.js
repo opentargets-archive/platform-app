@@ -11,6 +11,10 @@ class ErrorBoundary extends Component {
   }
 
   render() {
+    const {
+      message = 'Something went wrong. Please contact Open Targets at support@targetvalidation.org',
+    } = this.props;
+
     return this.state.hasError ? (
       <Typography
         component="div"
@@ -18,8 +22,7 @@ class ErrorBoundary extends Component {
         color="secondary"
         variant="caption"
       >
-        Something went wrong. Please contact Open Targets at
-        support@targetvalidation.org
+        {message}
       </Typography>
     ) : (
       this.props.children
