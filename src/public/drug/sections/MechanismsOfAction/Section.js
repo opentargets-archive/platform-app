@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
+import { Link } from 'ot-ui';
 
-import { Link, OtTableRF } from 'ot-ui';
+import Table from '../../../common/Table/Table';
+import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
 
 const columns = [
   {
@@ -14,10 +16,12 @@ const columns = [
   {
     id: 'targets',
     label: 'Human targets',
-    renderCell: d =>
-      !d.targets || d.targets.length === 0
+    filterValue: row =>
+      row.targets.map(target => target.approvedSymbol).join(' '),
+    renderCell: row =>
+      !row.targets || row.targets.length === 0
         ? 'non-human'
-        : d.targets.map((target, i) => (
+        : row.targets.map((target, i) => (
             <Fragment key={i}>
               {i > 0 ? ' ' : null}
               <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>
@@ -27,6 +31,7 @@ const columns = [
   {
     id: 'references',
     label: 'References',
+    filterValue: false,
     renderCell: d =>
       !d.references
         ? 'n/a'
@@ -47,8 +52,15 @@ const columns = [
   },
 ];
 
-const Section = ({ data }) => (
-  <OtTableRF loading={false} error={false} columns={columns} data={data.rows} />
+const Section = ({ chemblId, data }) => (
+  <Table
+    showGlobalFilter
+    columns={columns}
+    rows={data.rows}
+    pagination={PaginationActionsComplete}
+    dataDownloader
+    dataDownloaderFileStem={`${chemblId}-mechanisms-of-action`}
+  />
 );
 
 export default Section;
