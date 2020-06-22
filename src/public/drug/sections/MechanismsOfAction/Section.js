@@ -36,10 +36,10 @@ const columns = [
       row.references.map(reference => reference.source).join(' '),
     exportValue: row =>
       row.references.map(reference => reference.source).join(),
-    renderCell: d =>
-      !d.references
+    renderCell: row =>
+      !row.references
         ? 'n/a'
-        : d.references.map((r, i) => {
+        : row.references.map((r, i) => {
             return (
               <Fragment key={i}>
                 {i > 0 ? ', ' : null}
