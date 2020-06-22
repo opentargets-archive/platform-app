@@ -18,6 +18,7 @@ const columns = [
     label: 'Human targets',
     filterValue: row =>
       row.targets.map(target => target.approvedSymbol).join(' '),
+    exportValue: row => row.targets.map(target => target.approvedSymbol).join(),
     renderCell: row =>
       !row.targets || row.targets.length === 0
         ? 'non-human'
@@ -31,7 +32,10 @@ const columns = [
   {
     id: 'references',
     label: 'References',
-    filterValue: false,
+    filterValue: row =>
+      row.references.map(reference => reference.source).join(' '),
+    exportValue: row =>
+      row.references.map(reference => reference.source).join(),
     renderCell: d =>
       !d.references
         ? 'n/a'
