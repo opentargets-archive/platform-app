@@ -1,41 +1,42 @@
-import { OtTableRF, Link, significantFigures } from 'ot-ui';
+import React from 'react';
+import { loader } from 'graphql.macro';
+import { useQuery } from '@apollo/client';
+import { Link, significantFigures } from 'ot-ui';
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
-
-import React, { useState, useEffect } from 'react';
+import Table from '../../../common/Table/Table';
+const RELATED_TARGETS_QUERY = loader('./sectionQuery.gql');
 
 const columns = (symbol, maxCountAOrB) => [
   {
     id: 'B.approvedSymbol',
     label: 'Related target',
-    orderable: false,
-    renderCell: d => <Link to={`/target/${d.B.id}`}>{d.B.approvedSymbol}</Link>,
-    comparator: (a, b) => {
-      if (a.B.approvedSymbol <= b.B.approvedSymbol) {
-        return -1;
-      }
-      return 1;
-    },
+    renderCell: ({ B }) => (
+      <Link to={`/target/${B.id}`}>{B.approvedSymbol}</Link>
+    ),
   },
   {
     id: 'score',
     label: 'Similarity score',
-    orderable: false,
-    renderCell: d => significantFigures(d.score),
+    numeric: true,
+    renderCell: ({ score }) => significantFigures(score),
   },
   {
     id: 'countANotB',
     label: `Diseases associated with ${symbol} but not the related target`,
-    orderable: false,
+    numeric: true,
+    renderCell: ({ countA, countAAndB }) => countA - countAAndB,
   },
   {
     id: 'countAAndB',
     label: 'Shared disease associations',
-    orderable: false,
+    numeric: true,
+    renderCell: ({ countAAndB }) => countAAndB,
   },
   {
     id: 'countBNotA',
     label: `Diseases associated with the related target but not ${symbol}`,
-    orderable: false,
+    numeric: true,
+    renderCell: ({ countAAndB, countB }) => countB - countAAndB,
   },
   {
     id: 'chart',
@@ -46,64 +47,46 @@ const columns = (symbol, maxCountAOrB) => [
         aAndB="Shared disease associations"
       />
     ),
-    orderable: false,
-    renderCell: d => (
+    renderCell: ({ countA, countAAndB, countB }) => (
       <LinearVenn
-        aOnly={d.countA - d.countAAndB}
-        bOnly={d.countB - d.countAAndB}
-        aAndB={d.countAAndB}
+        aOnly={countA - countAAndB}
+        aAndB={countAAndB}
+        bOnly={countB - countAAndB}
         max={maxCountAOrB}
       />
     ),
   },
 ];
 
-const pageSize = 10; // unlikely to change for now, so no need to go into state
-
 const Section = props => {
-  const [pageIndex, setPageIndex] = useState(0);
-
-  useEffect(() => {
-    // fetchMore is Apollo's pagination function
-    // no table sorting / ordering at the moment
-    const { fetchMore } = props;
-    fetchMore({
-      variables: { index: pageIndex, size: pageSize },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        if (!fetchMoreResult) {
-          return prev;
-        }
-        return Object.assign({}, prev, fetchMoreResult);
-      },
-    });
+  const { data, fetchMore } = useQuery(RELATED_TARGETS_QUERY, {
+    variables: {
+      ensemblId: props.ensgId,
+    },
   });
 
-  const onPageSort = pe => {
-    // table specific constants
-    const { page } = pe;
-    if (page !== undefined && page !== pageIndex) {
-      setPageIndex(page);
-    }
+  const handleTableAction = ({ page }) => {
+    fetchMore({
+      variables: {
+        index: page,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        return fetchMoreResult;
+      },
+    });
   };
 
-  const { data, symbol } = props;
-  const { rows, count, maxCountAOrB } = data;
+  if (!data) return null;
 
-  const rowsMapped = rows.map(d => ({
-    ...d,
-    countANotB: d.countA - d.countAAndB,
-    countBNotA: d.countB - d.countAAndB,
-  }));
+  const { maxCountAOrB, rows, count } = data.target.relatedTargets;
 
   return (
-    <OtTableRF
-      loading={false}
-      error={false}
-      columns={columns(symbol, maxCountAOrB)}
-      data={rowsMapped}
-      serverSide={true}
-      totalRowsCount={count}
-      onPageSort={onPageSort}
+    <Table
+      serverSide
+      columns={columns(props.symbol, maxCountAOrB)}
+      rows={rows}
+      rowCount={count}
+      onTableAction={handleTableAction}
     />
   );
 };
