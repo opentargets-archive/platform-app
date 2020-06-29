@@ -62,10 +62,13 @@ const columns = (symbol, maxCountAOrB) => [
 ];
 
 const Section = props => {
-  const { data, fetchMore } = useQuery(RELATED_TARGETS_QUERY, {
+  const { data, loading, fetchMore } = useQuery(RELATED_TARGETS_QUERY, {
     variables: {
       ensemblId: props.ensgId,
     },
+    // this option is set to true so that we get an updated value of loading
+    // when using fetchMore later
+    notifyOnNetworkStatusChange: true,
   });
 
   const handleTableAction = ({ page }) => {
@@ -79,12 +82,11 @@ const Section = props => {
     });
   };
 
-  if (!data) return null;
-
-  const { maxCountAOrB, rows, count } = data.target.relatedTargets;
+  const { maxCountAOrB, rows = [], count } = data?.target?.relatedTargets ?? {};
 
   return (
     <Table
+      loading={loading}
       serverSide
       columns={columns(props.symbol, maxCountAOrB)}
       rows={rows}
