@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 import { Link, significantFigures } from 'ot-ui';
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
 import Table from '../../../common/Table/Table';
+import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
 const RELATED_TARGETS_QUERY = loader('./sectionQuery.gql');
 
 const columns = (symbol, maxCountAOrB) => [
@@ -92,6 +93,7 @@ const Section = props => {
       rows={rows}
       rowCount={count}
       onTableAction={handleTableAction}
+      pagination={PaginationActionsComplete}
     />
   );
 };
