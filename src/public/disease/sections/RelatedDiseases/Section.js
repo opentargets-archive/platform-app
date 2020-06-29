@@ -8,19 +8,11 @@ import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
 import { sectionQuery } from '.';
 
-const aLabel = String.fromCodePoint('9398');
-const bLabel = String.fromCodePoint('9399');
-const difference = String.fromCodePoint('8726');
-const intersection = String.fromCodePoint('8898');
-const countANotBLabel = ['|', aLabel, difference, bLabel, '|'].join(' ');
-const countBNotALabel = ['|', bLabel, difference, aLabel, '|'].join(' ');
-const countAAndBLabel = ['|', aLabel, intersection, bLabel, '|'].join(' ');
-
 const columns = (name, maxCountAOrB) => [
   {
     id: 'name',
     propertyPath: 'B.name',
-    label: `Related disease ${String.fromCodePoint('9399')}`,
+    label: 'Related disease Ⓑ',
     exportLabel: 'relatedDisease',
     renderCell: d => <Link to={`/disease/${d.B.id}`}>{d.B.name}</Link>,
   },
@@ -34,7 +26,7 @@ const columns = (name, maxCountAOrB) => [
   },
   {
     id: 'countANotB',
-    label: countANotBLabel,
+    label: '|Ⓐ - Ⓑ|',
     exportLabel: 'countANotB',
     tooltip: `Diseases associated with ${name} but not the related disease`,
     numeric: true,
@@ -44,14 +36,14 @@ const columns = (name, maxCountAOrB) => [
   },
   {
     id: 'countAAndB',
-    label: countAAndBLabel,
+    label: '|Ⓐ ∩ Ⓑ|',
     exportLabel: 'countAAndB',
     tooltip: 'Shared disease associations',
     numeric: true,
   },
   {
     id: 'countBNotA',
-    label: countBNotALabel,
+    label: '|Ⓑ - Ⓐ|',
     exportLabel: 'countBNotA',
     tooltip: `Diseases associated with the related disease but not ${name}`,
     numeric: true,
@@ -61,13 +53,7 @@ const columns = (name, maxCountAOrB) => [
   },
   {
     id: 'chart',
-    label: (
-      <LinearVennLegend
-        a={countANotBLabel}
-        aAndB={countAAndBLabel}
-        b={countBNotALabel}
-      />
-    ),
+    label: <LinearVennLegend a="|Ⓐ - Ⓑ|" aAndB="|Ⓐ ∩ Ⓑ|" b="|Ⓑ - Ⓐ|" />,
     labelStyle: { paddingLeft: '1.5rem' },
     exportValue: false,
     tooltip: (
