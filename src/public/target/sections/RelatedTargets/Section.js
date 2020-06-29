@@ -9,7 +9,7 @@ const RELATED_TARGETS_QUERY = loader('./sectionQuery.gql');
 const columns = (symbol, maxCountAOrB) => [
   {
     id: 'B.approvedSymbol',
-    label: 'Related target',
+    label: 'Related target Ⓑ',
     renderCell: ({ B }) => (
       <Link to={`/target/${B.id}`}>{B.approvedSymbol}</Link>
     ),
@@ -22,19 +22,22 @@ const columns = (symbol, maxCountAOrB) => [
   },
   {
     id: 'countANotB',
-    label: `Diseases associated with ${symbol} but not the related target`,
+    label: '|Ⓐ - Ⓑ|',
+    tooltip: `Diseases associated with ${symbol} but not the related target`,
     numeric: true,
     renderCell: ({ countA, countAAndB }) => countA - countAAndB,
   },
   {
     id: 'countAAndB',
-    label: 'Shared disease associations',
+    label: '|Ⓐ ∩ Ⓑ|',
+    tooltip: 'Shared disease associations',
     numeric: true,
     renderCell: ({ countAAndB }) => countAAndB,
   },
   {
     id: 'countBNotA',
-    label: `Diseases associated with the related target but not ${symbol}`,
+    label: '|Ⓑ - Ⓐ|',
+    tooltip: `Diseases associated with the related target but not ${symbol}`,
     numeric: true,
     renderCell: ({ countAAndB, countB }) => countB - countAAndB,
   },
