@@ -2,6 +2,7 @@ import React from 'react';
 import { loader } from 'graphql.macro';
 import { useQuery } from '@apollo/client';
 import { Link, significantFigures } from 'ot-ui';
+import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
 import Table from '../../../common/Table/Table';
 import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
@@ -11,6 +12,7 @@ const columns = (symbol, maxCountAOrB) => [
   {
     id: 'B.approvedSymbol',
     label: 'Related target Ⓑ',
+    exportLabel: 'relatedTarget',
     renderCell: ({ B }) => (
       <Link to={`/target/${B.id}`}>{B.approvedSymbol}</Link>
     ),
@@ -24,6 +26,8 @@ const columns = (symbol, maxCountAOrB) => [
   {
     id: 'countANotB',
     label: '|Ⓐ - Ⓑ|',
+    exportLabel: 'countANotB',
+    exportValue: ({ countA, countAAndB }) => countA - countAAndB,
     tooltip: `Diseases associated with ${symbol} but not the related target`,
     numeric: true,
     renderCell: ({ countA, countAAndB }) => countA - countAAndB,
@@ -31,6 +35,7 @@ const columns = (symbol, maxCountAOrB) => [
   {
     id: 'countAAndB',
     label: '|Ⓐ ∩ Ⓑ|',
+    exportLabel: 'countAAndB',
     tooltip: 'Shared disease associations',
     numeric: true,
     renderCell: ({ countAAndB }) => countAAndB,
@@ -38,6 +43,8 @@ const columns = (symbol, maxCountAOrB) => [
   {
     id: 'countBNotA',
     label: '|Ⓑ - Ⓐ|',
+    exportLabel: 'countBNotA',
+    exportValue: ({ countAAndB, countB }) => countB - countAAndB,
     tooltip: `Diseases associated with the related target but not ${symbol}`,
     numeric: true,
     renderCell: ({ countAAndB, countB }) => countB - countAAndB,
@@ -51,6 +58,7 @@ const columns = (symbol, maxCountAOrB) => [
         aAndB="Shared disease associations"
       />
     ),
+    exportValue: false,
     renderCell: ({ countA, countAAndB, countB }) => (
       <LinearVenn
         aOnly={countA - countAAndB}
@@ -62,10 +70,10 @@ const columns = (symbol, maxCountAOrB) => [
   },
 ];
 
-const Section = props => {
+const Section = ({ ensgId, symbol }) => {
   const { data, loading, fetchMore } = useQuery(RELATED_TARGETS_QUERY, {
     variables: {
-      ensemblId: props.ensgId,
+      ensemblId: ensgId,
     },
     // this option is set to true so that we get an updated value of loading
     // when using fetchMore later
@@ -83,13 +91,24 @@ const Section = props => {
     });
   };
 
+  const getAllRelatedTargets = useBatchDownloader(
+    RELATED_TARGETS_QUERY,
+    {
+      ensemblId: ensgId,
+    },
+    'data.target.relatedTargets'
+  );
+
   const { maxCountAOrB, rows = [], count } = data?.target?.relatedTargets ?? {};
 
   return (
     <Table
       loading={loading}
       serverSide
-      columns={columns(props.symbol, maxCountAOrB)}
+      dataDownloader
+      dataDownloaderRows={getAllRelatedTargets}
+      dataDownloaderFileStem={`${ensgId}-related-targets`}
+      columns={columns(symbol, maxCountAOrB)}
       rows={rows}
       rowCount={count}
       onTableAction={handleTableAction}
