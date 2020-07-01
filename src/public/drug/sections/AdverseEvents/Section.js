@@ -1,11 +1,12 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import gql from 'graphql-tag';
+import { loader } from 'graphql.macro';
 import _ from 'lodash';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Table from '../../../common/Table/Table';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
+const ADVERSE_EVENTS_QUERY = loader('./sectionQuery.gql');
 
 const styles = theme => ({
   levelBarContainer: {
@@ -19,32 +20,6 @@ const styles = theme => ({
     marginRight: '5px',
   },
 });
-
-const ADVERSE_EVENTS_QUERY = gql`
-  query AdverseEventsPage(
-    $chemblId: String!
-    $index: Int = 0
-    $size: Int = 10
-  ) {
-    drug(chemblId: $chemblId) {
-      id
-      maxLlr: adverseEvents(page: { index: 0, size: 1 }) {
-        rows {
-          llr
-        }
-      }
-      adverseEvents(page: { index: $index, size: $size }) {
-        critVal
-        count
-        rows {
-          name
-          count
-          llr
-        }
-      }
-    }
-  }
-`;
 
 const getColumns = (critVal, maxLlr, classes) => {
   return [
