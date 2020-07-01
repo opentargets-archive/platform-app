@@ -118,6 +118,7 @@ const Section = ({ chemblId, classes, name }) => {
       serverSide
       dataDownloader
       dataDownloaderRows={getAllAdverseEvents}
+      dataDownloaderFileStem={`${name}-adverse-events`}
       loading={loading}
       columns={getColumns(critVal, maxLlr, classes)}
       rows={rows}
