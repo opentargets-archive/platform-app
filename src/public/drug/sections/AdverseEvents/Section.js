@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { OtTableRF, DataDownloader } from 'ot-ui';
-import client from '../../../client';
+import Table from '../../../common/Table/Table';
+import useBatchDownloader from '../../../../hooks/useBatchDownloader';
+import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
 
 const styles = theme => ({
   levelBarContainer: {
@@ -18,25 +20,22 @@ const styles = theme => ({
   },
 });
 
-const BATCH_SIZE = 1000;
-
-const COUNT_QUERY = gql`
-  query AdverseEventsCount($chemblId: String!) {
+const ADVERSE_EVENTS_QUERY = gql`
+  query AdverseEventsPage(
+    $chemblId: String!
+    $index: Int = 0
+    $size: Int = 10
+  ) {
     drug(chemblId: $chemblId) {
       id
-      adverseEvents {
+      maxLlr: adverseEvents(page: { index: 0, size: 1 }) {
+        rows {
+          llr
+        }
+      }
+      adverseEvents(page: { index: $index, size: $size }) {
         critVal
         count
-      }
-    }
-  }
-`;
-
-const PAGE_QUERY = gql`
-  query AdverseEventsPage($chemblId: String!, $page: Pagination!) {
-    drug(chemblId: $chemblId) {
-      id
-      adverseEvents(page: $page) {
         rows {
           name
           count
@@ -47,78 +46,21 @@ const PAGE_QUERY = gql`
   }
 `;
 
-const getRows = async chemblId => {
-  // find how many rows there are
-  const result = await client.query({
-    query: COUNT_QUERY,
-    variables: {
-      chemblId,
-    },
-  });
-  const { count, critVal } = result.data.drug.adverseEvents;
-  const numBatches = Math.ceil(count / BATCH_SIZE);
-  const batchPromises = [];
-
-  for (let i = 0; i < numBatches; i++) {
-    batchPromises.push(
-      client.query({
-        query: PAGE_QUERY,
-        variables: {
-          chemblId,
-          page: { index: i, size: BATCH_SIZE },
-        },
-      })
-    );
-  }
-
-  return Promise.all(batchPromises).then(batches => {
-    const allRows = [];
-
-    batches.forEach(batch => {
-      const { rows } = batch.data.drug.adverseEvents;
-      rows.forEach(row => {
-        allRows.push(row);
-      });
-    });
-
-    return {
-      count,
-      critVal,
-      rows: allRows,
-    };
-  });
-};
-
-const Section = ({ chemblId, classes, name }) => {
-  const [data, setData] = useState(null);
-
-  useEffect(
-    () => {
-      getRows(chemblId).then(data => {
-        setData(data);
-      });
-    },
-    [chemblId]
-  );
-
-  if (!data) return null;
-
-  const maxLlr = data.rows[0].llr;
-  const columns = [
+const getColumns = (critVal, maxLlr, classes) => {
+  return [
     {
       id: 'name',
       label: 'Adverse event',
       renderCell: d => _.upperFirst(d.name),
-      width: '35%',
     },
     {
       id: 'count',
       label: 'Number of reported events',
-      width: '15%',
+      numeric: true,
     },
     {
       id: 'llr',
-      label: `Log likelihood ratio (CV = ${data.critVal.toFixed(2)})`,
+      label: `Log likelihood ratio (CV = ${critVal.toFixed(2)})`,
       renderCell: d => {
         const w = ((d.llr / maxLlr) * 85).toFixed(2); // scale to max 85% of the width to allows space for label
         return (
@@ -133,25 +75,56 @@ const Section = ({ chemblId, classes, name }) => {
           </div>
         );
       },
-      width: '50%',
     },
   ];
+};
+
+const Section = ({ chemblId, classes, name }) => {
+  const { data, loading, fetchMore } = useQuery(ADVERSE_EVENTS_QUERY, {
+    variables: {
+      chemblId,
+    },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const handleTableAction = ({ page }) => {
+    fetchMore({
+      variables: {
+        index: page,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        return fetchMoreResult;
+      },
+    });
+  };
+
+  const { critVal = 0, rows = [], count } = data?.drug?.adverseEvents ?? {};
+
+  // TODO: Change GraphQL schema to have a maxLlr field instead of having to
+  // get the first item of adverse events to get the largest llr since
+  // items are sorted in decreasing llr order.
+  const maxLlr = data?.drug?.maxLlr.rows[0].llr;
+
+  const getAllAdverseEvents = useBatchDownloader(
+    ADVERSE_EVENTS_QUERY,
+    {
+      chemblId,
+    },
+    'data.drug.adverseEvents'
+  );
 
   return (
-    <>
-      <DataDownloader
-        tableHeaders={columns}
-        rows={data.rows}
-        fileStem={`${name}-pharmacovigilance`}
-      />
-      <OtTableRF
-        loading={false}
-        error={false}
-        columns={columns}
-        data={data.rows}
-        pageSize={10}
-      />
-    </>
+    <Table
+      serverSide
+      dataDownloader
+      dataDownloaderRows={getAllAdverseEvents}
+      loading={loading}
+      columns={getColumns(critVal, maxLlr, classes)}
+      rows={rows}
+      rowCount={count}
+      onTableAction={handleTableAction}
+      pagination={PaginationActionsComplete}
+    />
   );
 };
 
