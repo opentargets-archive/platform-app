@@ -70,7 +70,7 @@
     "start": "react-scripts start",
     "prestart:customise": "cpx 'src/**/*' tmp",
     "start:customise": "cpx \"$CUSTOMISATIONS_DIR/**/*\" src/public --watch & yarn start",
-    "build": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"$(git rev-parse --short HEAD)\" react-scripts build",
+    "build": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git rev-parse --short HEAD)}\" react-scripts build",
     "prebuild:customise": "cpx 'src/**/*' tmp && cpx \"$CUSTOMISATIONS_DIR/**/*\" src/public/",
     "build:customise": "yarn build",
     "postbuild:customise": "yarn reset",
