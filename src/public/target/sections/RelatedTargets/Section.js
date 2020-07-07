@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { loader } from 'graphql.macro';
 import { useQuery } from '@apollo/client';
 import { Link, significantFigures } from 'ot-ui';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
-import Table from '../../../common/Table/Table';
+import ServerSideTable from '../../../common/Table/ServerSideTable';
 import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
 const RELATED_TARGETS_QUERY = loader('./sectionQuery.gql');
 
@@ -71,23 +71,28 @@ const columns = (symbol, maxCountAOrB) => [
 ];
 
 const Section = ({ ensgId, symbol }) => {
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const { data, loading, fetchMore } = useQuery(RELATED_TARGETS_QUERY, {
     variables: {
       ensemblId: ensgId,
-      size: 15,
+      size: pageSize,
     },
     // this option is set to true so that we get an updated value of loading
     // when using fetchMore later
     notifyOnNetworkStatusChange: true,
   });
 
-  const handleTableAction = ({ page }) => {
+  const handleTableAction = ({ page, pageSize }) => {
+    setPage(page);
+    setPageSize(pageSize);
     fetchMore({
       variables: {
         index: page,
+        size: pageSize,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
-        return fetchMoreResult;
+        return fetchMoreResult ? fetchMoreResult : prev;
       },
     });
   };
@@ -103,10 +108,10 @@ const Section = ({ ensgId, symbol }) => {
   const { maxCountAOrB, rows = [], count } = data?.target?.relatedTargets ?? {};
 
   return (
-    <Table
-      pageSize={15}
+    <ServerSideTable
+      page={page}
+      pageSize={pageSize}
       loading={loading}
-      serverSide
       dataDownloader
       dataDownloaderRows={getAllRelatedTargets}
       dataDownloaderFileStem={`${ensgId}-related-targets`}
@@ -114,8 +119,7 @@ const Section = ({ ensgId, symbol }) => {
       rows={rows}
       rowCount={count}
       onTableAction={handleTableAction}
-      onChangeRowsPerPage={() => {}}
-      pagination={PaginationActionsComplete}
+      ActionsComponent={PaginationActionsComplete}
     />
   );
 };

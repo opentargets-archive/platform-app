@@ -15,6 +15,8 @@ export function PaginationActionsComplete({
   rowsPerPage,
   onChangePage,
 }) {
+  const classes = useStyles();
+
   const handleFirstPageButtonClick = event => {
     onChangePage(event, 0);
   };
@@ -30,8 +32,6 @@ export function PaginationActionsComplete({
   const handleLastPageButtonClick = event => {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
-
-  const classes = useStyles();
 
   return (
     <div className={classes.root}>
