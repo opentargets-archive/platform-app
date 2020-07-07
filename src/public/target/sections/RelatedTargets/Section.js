@@ -74,6 +74,7 @@ const Section = ({ ensgId, symbol }) => {
   const { data, loading, fetchMore } = useQuery(RELATED_TARGETS_QUERY, {
     variables: {
       ensemblId: ensgId,
+      size: 15,
     },
     // this option is set to true so that we get an updated value of loading
     // when using fetchMore later
@@ -103,6 +104,7 @@ const Section = ({ ensgId, symbol }) => {
 
   return (
     <Table
+      pageSize={15}
       loading={loading}
       serverSide
       dataDownloader
@@ -112,6 +114,7 @@ const Section = ({ ensgId, symbol }) => {
       rows={rows}
       rowCount={count}
       onTableAction={handleTableAction}
+      onChangeRowsPerPage={() => {}}
       pagination={PaginationActionsComplete}
     />
   );

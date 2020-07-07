@@ -31,6 +31,7 @@ function Table({
   headerGroups = [],
   loading,
   onTableAction = () => {},
+  onChangeRowsPerPage,
   pageSize = 10 - fixedRows.length,
   pagination,
   dataDownloader = false,
@@ -93,6 +94,13 @@ function Table({
       setPage(0);
       setGlobalFilter(trimmedValue);
     }
+  };
+
+  const handleChangeRowsPerPage = event => {
+    if (serverSide) {
+      onChangeRowsPerPage(event.target.value);
+    }
+    setPage(0);
   };
 
   useUpdateEffect(
@@ -173,9 +181,10 @@ function Table({
             component="div"
             count={rowCount}
             onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
             page={page}
             rowsPerPage={pageSize}
-            rowsPerPageOptions={[]}
+            rowsPerPageOptions={[10, 15, 25, 50, 100]}
           />
         </Box>
       </Grid>
