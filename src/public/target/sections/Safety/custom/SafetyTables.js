@@ -118,6 +118,8 @@ const effectsColumns = [
     ),
     exportValue: row =>
       row.organsSystemsAffected.map(organ => organ.preferredTerm).join(', '),
+    filterValue: row =>
+      row.organsSystemsAffected.map(organ => organ.preferredTerm).join(', '),
   },
   {
     id: 'activation_effects',
@@ -137,6 +139,8 @@ const effectsColumns = [
       )),
     exportValue: row =>
       _.flatMap(row.activationEffects, ({ terms }) => terms).join(', '),
+    filterValue: row =>
+      _.flatMap(row.activationEffects, ({ terms }) => terms).join(', '),
   },
   {
     id: 'inhibition_effects',
@@ -155,6 +159,8 @@ const effectsColumns = [
         </React.Fragment>
       )),
     exportValue: row =>
+      _.flatMap(row.inhibitionEffects, ({ terms }) => terms).join(', '),
+    filterValue: row =>
       _.flatMap(row.inhibitionEffects, ({ terms }) => terms).join(', '),
   },
   {
@@ -183,12 +189,15 @@ const riskColumns = [
     ),
     exportValue: row =>
       row.organsSystemsAffected.map(organ => organ.preferredTerm).join(', '),
+    filterValue: row =>
+      row.organsSystemsAffected.map(organ => organ.preferredTerm).join(', '),
   },
   {
     id: 'safety_liability',
     label: 'Safety liability information',
     renderCell: ({ safetyLiability }) => safetyLiability,
     exportValue: row => row.safetyLiability,
+    filterValue: row => row.safetyLiability,
   },
   {
     id: 'references',
