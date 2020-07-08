@@ -5,7 +5,10 @@ import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { OtTableRF, Link, DataDownloader } from 'ot-ui';
+import Table from '../../../../common/Table/Table';
+import { PaginationActionsComplete } from '../../../../common/Table/TablePaginationActions';
+
+import { Link } from 'ot-ui';
 
 const SafetyTables = ({ symbol, data }) => {
   const { adverseEffects, safetyRiskInfo, tox21, etox } = data;
@@ -18,23 +21,29 @@ const SafetyTables = ({ symbol, data }) => {
       {hasEffects && (
         <>
           <Typography variant="h6">Known safety effects</Typography>
-          <DataDownloader
-            tableHeaders={effectsColumns}
-            rows={getAdverseDownloadData(adverseEffects)}
-            fileStem={`${symbol}-safety-effects`}
+          <Table
+            columns={effectsColumns}
+            dataDownloader
+            dataDownloaderFileStem={`${symbol}-safety-effects`}
+            pagination={PaginationActionsComplete}
+            rows={adverseEffects}
+            showGlobalFilter
+            noWrap={false}
           />
-          <OtTableRF columns={effectsColumns} data={adverseEffects} />
         </>
       )}
       {hasRiskInfo && (
         <>
           <Typography variant="h6">Safety risk information</Typography>
-          <DataDownloader
-            tableHeaders={riskColumns}
-            rows={getRiskDownloadData(safetyRiskInfo)}
-            fileStem={`${symbol}-risk-information`}
+          <Table
+            columns={riskColumns}
+            dataDownloader
+            dataDownloaderFileStem={`${symbol}-risk-information`}
+            pagination={PaginationActionsComplete}
+            rows={safetyRiskInfo}
+            showGlobalFilter
+            noWrap={false}
           />
-          <OtTableRF columns={riskColumns} data={safetyRiskInfo} />
         </>
       )}
       {(hasTox21 || hasEtox) && (
@@ -48,24 +57,26 @@ const SafetyTables = ({ symbol, data }) => {
           </Typography>
           <SeparatedByDividers>
             {hasTox21 && (
-              <>
-                <DataDownloader
-                  tableHeaders={tox21Columns}
-                  rows={tox21}
-                  fileStem={`${symbol}-tox21`}
-                />
-                <OtTableRF columns={tox21Columns} data={tox21} />
-              </>
+              <Table
+                columns={tox21Columns}
+                dataDownloader
+                dataDownloaderFileStem={`${symbol}-tox21`}
+                pagination={PaginationActionsComplete}
+                rows={tox21}
+                showGlobalFilter
+                noWrap={false}
+              />
             )}
             {hasEtox && (
-              <>
-                <DataDownloader
-                  tableHeaders={etoxColumns}
-                  rows={etox}
-                  fileStem={`${symbol}-etox`}
-                />
-                <OtTableRF columns={etoxColumns} data={etox} />
-              </>
+              <Table
+                columns={etoxColumns}
+                dataDownloader
+                dataDownloaderFileStem={`${symbol}-etox`}
+                pagination={PaginationActionsComplete}
+                rows={etox}
+                showGlobalFilter
+                noWrap={false}
+              />
             )}
           </SeparatedByDividers>
         </>
@@ -105,6 +116,8 @@ const effectsColumns = [
           ))}
       </ul>
     ),
+    exportValue: row =>
+      row.organsSystemsAffected.map(organ => organ.preferredTerm).join(', '),
   },
   {
     id: 'activation_effects',
@@ -122,6 +135,8 @@ const effectsColumns = [
           </ul>
         </React.Fragment>
       )),
+    exportValue: row =>
+      _.flatMap(row.activationEffects, ({ terms }) => terms).join(', '),
   },
   {
     id: 'inhibition_effects',
@@ -139,6 +154,8 @@ const effectsColumns = [
           </ul>
         </React.Fragment>
       )),
+    exportValue: row =>
+      _.flatMap(row.inhibitionEffects, ({ terms }) => terms).join(', '),
   },
   {
     id: 'references',
@@ -146,6 +163,7 @@ const effectsColumns = [
     renderCell: ({ references }) => (
       <ReferencesCell>{references}</ReferencesCell>
     ),
+    exportValue: row => row.references.map(ref => ref.pubUrl).join(', '),
   },
 ];
 
@@ -162,11 +180,14 @@ const riskColumns = [
           ))}
       </ul>
     ),
+    exportValue: row =>
+      row.organsSystemsAffected.map(organ => organ.preferredTerm).join(', '),
   },
   {
     id: 'safety_liability',
     label: 'Safety liability information',
     renderCell: ({ safetyLiability }) => safetyLiability,
+    exportValue: row => row.safetyLiability,
   },
   {
     id: 'references',
@@ -174,6 +195,7 @@ const riskColumns = [
     renderCell: ({ references }) => (
       <ReferencesCell>{references}</ReferencesCell>
     ),
+    exportValue: row => row.references.map(ref => ref.pubUrl).join(', '),
   },
 ];
 
@@ -234,28 +256,5 @@ const ReferencesCell = ({ children }) =>
         </React.Fragment>
       );
     });
-
-const getAdverseDownloadData = rows => {
-  const flattenEffects = subGraph => _.flatMap(subGraph, ({ terms }) => terms);
-
-  return rows.map(row => ({
-    organs_systems_affected: row.organsSystemsAffected
-      .map(organ => organ.preferredTerm)
-      .join(', '),
-    activation_effects: flattenEffects(row.activationEffects).join(', '),
-    inhibition_effects: flattenEffects(row.inhibitionEffects).join(', '),
-    references: row.references.map(ref => ref.pubUrl).join(', '),
-  }));
-};
-
-const getRiskDownloadData = rows => {
-  return rows.map(row => ({
-    organs_systems_affected: row.organsSystemsAffected
-      .map(organ => organ.preferredTerm)
-      .join(', '),
-    safety_liability: row.safetyLiability,
-    references: row.references.map(ref => ref.pubUrl).join(', '),
-  }));
-};
 
 export default SafetyTables;
