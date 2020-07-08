@@ -164,6 +164,7 @@ const effectsColumns = [
       <ReferencesCell>{references}</ReferencesCell>
     ),
     exportValue: row => row.references.map(ref => ref.pubUrl).join(', '),
+    filterValue: false,
   },
 ];
 
@@ -196,6 +197,7 @@ const riskColumns = [
       <ReferencesCell>{references}</ReferencesCell>
     ),
     exportValue: row => row.references.map(ref => ref.pubUrl).join(', '),
+    filterValue: false,
   },
 ];
 
@@ -212,6 +214,7 @@ const tox21Columns = [
         {sourceName}
       </Link>
     ),
+    filterValue: false,
   },
 ];
 
@@ -228,6 +231,7 @@ const etoxColumns = [
         {sourceName}
       </Link>
     ),
+    filterValue: false,
   },
 ];
 
