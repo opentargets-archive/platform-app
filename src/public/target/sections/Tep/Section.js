@@ -4,7 +4,7 @@ import { Link } from 'ot-ui';
 const Section = ({ data }) => {
   return (
     <>
-      Lear more about the{' '}
+      Learn more about the{' '}
       <Link to={data.uri} external>
         {data.name} TEP
       </Link>
