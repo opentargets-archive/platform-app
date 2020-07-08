@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import ReactGA from 'react-ga';
+import { loader } from 'graphql.macro';
+import { useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
 
 import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
-import Table from '../../../common/Table/Table';
+import ServerSideTable from '../../../common/Table/ServerSideTable';
 import useCursorBatchDownloader from '../../../../hooks/useCursorBatchDownloader';
 import { label } from '../../../../utils/global';
-import { sectionQuery } from '.';
+const KNOWN_DRUGS_QUERY = loader('./sectionQuery.gql');
 
 const columnPool = {
   clinicalTrialsColumns: {
@@ -111,84 +112,70 @@ const headerGroups = [
   })),
 ];
 
-const Section = ({ data, fetchMore, ensgId }) => {
-  const pageSize = 10;
-  const [cursor, setCursor] = useState(data.cursor);
+const getPage = (rows, page, pageSize) => {
+  return rows.slice(pageSize * page, pageSize * page + pageSize);
+};
+
+const Section = ({ ensgId }) => {
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [globalFilter, setGlobalFilter] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [rows, setRows] = useState(data.rows.slice(0, pageSize));
+
+  const { data, loading, fetchMore } = useQuery(KNOWN_DRUGS_QUERY, {
+    variables: {
+      ensemblId: ensgId,
+      size: pageSize,
+    },
+    notifyOnNetworkStatusChange: true,
+  });
 
   const getWholeDataset = useCursorBatchDownloader(
-    sectionQuery,
+    KNOWN_DRUGS_QUERY,
     { ensgId, freeTextQuery: globalFilter },
     'data.target.knownDrugs'
   );
 
-  async function fetchMoreRows(cursor, globalFilter, invalidate = false) {
-    setLoading(true);
+  const { count, rows = [], cursor } = data?.target?.knownDrugs ?? {};
 
-    await fetchMore({
-      variables: { cursor, freeTextQuery: globalFilter },
+  const handleTableAction = ({ page: newPage, pageSize }) => {
+    fetchMore({
+      variables: {
+        size: pageSize,
+        cursor,
+      },
       updateQuery: (prev, { fetchMoreResult }) => {
-        const newCursor = fetchMoreResult.target.knownDrugs?.cursor || null;
-        const newCount = fetchMoreResult.target.knownDrugs?.count || 0;
-        const newRows = fetchMoreResult.target.knownDrugs?.rows || [];
-
-        setCursor(newCursor);
-
-        prev.target.knownDrugs.rows = invalidate
-          ? newRows
-          : [...prev.target.knownDrugs.rows, ...newRows];
-
-        prev.target.knownDrugs.count = newCount;
-        prev.target.knownDrugs.cursor = newCursor;
-
-        return prev;
+        const prevRows = prev.target.knownDrugs.rows;
+        const newRows = fetchMoreResult?.target?.knownDrugs?.rows;
+        setPage(newPage);
+        setPageSize(pageSize);
+        return {
+          ...fetchMoreResult,
+          target: {
+            ...fetchMoreResult.target,
+            knownDrugs: {
+              ...fetchMoreResult.target.knownDrugs,
+              rows: [...prevRows, ...newRows],
+            },
+          },
+        };
       },
     });
-
-    setLoading(false);
-  }
-
-  const onTableAction = async params => {
-    const startRow = params.page * pageSize;
-    const endRow = startRow + pageSize;
-
-    // Cases where we need to fetch more rows: filter has changed, or we are
-    // out of rows but not yet at the end of the dataset.
-    if (params.globalFilter !== globalFilter) {
-      setGlobalFilter(params.globalFilter);
-
-      // create event in GA
-      if (params.globalFilter) {
-        ReactGA.event({
-          category: 'Target Profile Page',
-          action: 'Typed in knownDrugs widget search',
-          label: params.globalFilter,
-        });
-      }
-
-      await fetchMoreRows(null, params.globalFilter, true);
-    } else if (endRow > data.rows.length && endRow < data.count) {
-      await fetchMoreRows(cursor, params.globalFilter, false);
-    }
-
-    setRows(data.rows.slice(startRow, endRow));
   };
 
   return (
-    <Table
-      columns={columns}
+    <ServerSideTable
+      loading={loading}
       dataDownloader
       dataDownloaderRows={getWholeDataset}
       dataDownloaderFileStem={`${ensgId}-known_drugs`}
       headerGroups={headerGroups}
-      loading={loading}
-      rowCount={data?.count || 0}
-      rows={rows}
-      serverSide={true}
+      columns={columns}
+      page={page}
+      pageSize={pageSize}
+      rows={getPage(rows, page, pageSize)}
+      rowCount={count}
       showGlobalFilter
-      onTableAction={onTableAction}
+      onTableAction={handleTableAction}
     />
   );
 };

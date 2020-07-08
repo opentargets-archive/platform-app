@@ -33,6 +33,7 @@ const ServerSideTable = ({
   noWrapHeader = true,
   ActionsComponent,
 }) => {
+  // console.log('rows.length', rows.length);
   const emptyRows = pageSize - rows.length;
   const classes = tableStyles();
 
@@ -43,8 +44,6 @@ const ServerSideTable = ({
   const handleChangeRowsPerPage = event => {
     onTableAction({ page: 0, pageSize: event.target.value });
   };
-
-  console.log('loading', loading);
 
   return (
     <Grid container justify="flex-end" alignContent="center">
