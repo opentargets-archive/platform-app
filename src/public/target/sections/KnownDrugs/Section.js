@@ -119,7 +119,7 @@ const getPage = (rows, page, pageSize) => {
 const Section = ({ ensgId }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [globalFilter, setGlobalFilter] = useState('');
+  const [globalFilter, setGlobalFilter] = useState(null);
 
   const { data, loading, fetchMore } = useQuery(KNOWN_DRUGS_QUERY, {
     variables: {
@@ -144,16 +144,6 @@ const Section = ({ ensgId }) => {
   }) => {
     // only fetchMore when there's a new global filter or there are no more
     // rows in the rows array
-    console.log(
-      'newPage',
-      newPage,
-      'pageSize',
-      pageSize,
-      'globalFilter',
-      globalFilter,
-      'rows.length',
-      rows.length
-    );
     if (
       newGlobalFilter !== globalFilter ||
       pageSize * newPage > rows.length - 1
@@ -177,20 +167,17 @@ const Section = ({ ensgId }) => {
               ...fetchMoreResult.target,
               knownDrugs: {
                 ...fetchMoreResult.target.knownDrugs,
-                // rows:
-                //   newGlobalFilter !== globalFilter
-                //     ? prevRows
-                //     : [...prevRows, ...newRows],
-                rows: [...prevRows, ...newRows],
+                rows:
+                  newGlobalFilter !== globalFilter
+                    ? newRows
+                    : [...prevRows, ...newRows],
               },
             },
           };
         },
       });
     } else {
-      console.log('no fetch!');
       setPage(newPage);
-      // setPageSize(pageSize);
     }
   };
 

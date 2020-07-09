@@ -33,20 +33,21 @@ const ServerSideTable = ({
   noWrap = true,
   noWrapHeader = true,
   showGlobalFilter,
+  globalFilter,
   ActionsComponent,
 }) => {
   const emptyRows = pageSize - rows.length;
   const classes = tableStyles();
 
-  const handleGlobalFilterChange = filterValue => {
-    onTableAction({ page, pageSize, filterValue });
+  const handleGlobalFilterChange = globalFilter => {
+    onTableAction({ page, pageSize, globalFilter });
   };
 
   const handleChangeRowsPerPage = event => {
-    onTableAction({ page: 0, pageSize: event.target.value });
+    onTableAction({ page: 0, pageSize: event.target.value, globalFilter });
   };
   const handleChangePage = (event, page) => {
-    onTableAction({ page, pageSize });
+    onTableAction({ page, pageSize, globalFilter });
   };
 
   return (
