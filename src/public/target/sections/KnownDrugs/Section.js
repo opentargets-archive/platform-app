@@ -119,7 +119,7 @@ const getPage = (rows, page, pageSize) => {
 const Section = ({ ensgId }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [globalFilter, setGlobalFilter] = useState(null);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const { data, loading, fetchMore } = useQuery(KNOWN_DRUGS_QUERY, {
     variables: {
@@ -137,11 +137,7 @@ const Section = ({ ensgId }) => {
 
   const { count, rows = [], cursor } = data?.target?.knownDrugs ?? {};
 
-  const handleTableAction = ({
-    page: newPage,
-    pageSize,
-    globalFilter: newGlobalFilter,
-  }) => {
+  const handleTableAction = ({ page: newPage, pageSize, newGlobalFilter }) => {
     // only fetchMore when there's a new global filter or there are no more
     // rows in the rows array
     if (
@@ -158,6 +154,15 @@ const Section = ({ ensgId }) => {
         updateQuery: (prev, { fetchMoreResult }) => {
           const prevRows = prev.target.knownDrugs.rows;
           const newRows = fetchMoreResult?.target?.knownDrugs?.rows;
+          if (fetchMoreResult.target.knownDrugs === null) {
+            prev.target.knownDrugs = {
+              rows: [],
+            };
+            setPage(newGlobalFilter !== globalFilter ? 0 : newPage);
+            setPageSize(pageSize);
+            setGlobalFilter(newGlobalFilter);
+            return prev;
+          }
           setPage(newGlobalFilter !== globalFilter ? 0 : newPage);
           setPageSize(pageSize);
           setGlobalFilter(newGlobalFilter);
