@@ -119,7 +119,7 @@ const getPage = (rows, page, pageSize) => {
 const Section = ({ ensgId }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  // const [globalFilter, setGlobalFilter] = useState('');
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const { data, loading, fetchMore } = useQuery(KNOWN_DRUGS_QUERY, {
     variables: {
@@ -137,25 +137,50 @@ const Section = ({ ensgId }) => {
 
   const { count, rows = [], cursor } = data?.target?.knownDrugs ?? {};
 
-  const handleTableAction = ({ page: newPage, pageSize }) => {
-    // only fetchMore when there are no more rows in the rows array
-    if (pageSize * newPage > rows.length - 1) {
+  const handleTableAction = ({
+    page: newPage,
+    pageSize,
+    globalFilter: newGlobalFilter,
+  }) => {
+    // only fetchMore when there's a new global filter or there are no more
+    // rows in the rows array
+    console.log(
+      'newPage',
+      newPage,
+      'pageSize',
+      pageSize,
+      'globalFilter',
+      globalFilter,
+      'rows.length',
+      rows.length
+    );
+    if (
+      newGlobalFilter !== globalFilter ||
+      pageSize * newPage > rows.length - 1
+    ) {
       fetchMore({
         variables: {
           size: pageSize,
-          cursor,
+          // if there is a new filter, reset to first page
+          cursor: newGlobalFilter !== globalFilter ? null : cursor,
+          freeTextQuery: newGlobalFilter,
         },
         updateQuery: (prev, { fetchMoreResult }) => {
           const prevRows = prev.target.knownDrugs.rows;
           const newRows = fetchMoreResult?.target?.knownDrugs?.rows;
-          setPage(newPage);
+          setPage(newGlobalFilter !== globalFilter ? 0 : newPage);
           setPageSize(pageSize);
+          setGlobalFilter(newGlobalFilter);
           return {
             ...fetchMoreResult,
             target: {
               ...fetchMoreResult.target,
               knownDrugs: {
                 ...fetchMoreResult.target.knownDrugs,
+                // rows:
+                //   newGlobalFilter !== globalFilter
+                //     ? prevRows
+                //     : [...prevRows, ...newRows],
                 rows: [...prevRows, ...newRows],
               },
             },
@@ -163,23 +188,26 @@ const Section = ({ ensgId }) => {
         },
       });
     } else {
+      console.log('no fetch!');
       setPage(newPage);
-      setPageSize(pageSize);
+      // setPageSize(pageSize);
     }
   };
 
   return (
     <ServerSideTable
       loading={loading}
+      showGlobalFilter
+      globalFilter={globalFilter}
       dataDownloader
       dataDownloaderRows={getWholeDataset}
       dataDownloaderFileStem={`${ensgId}-known_drugs`}
       headerGroups={headerGroups}
       columns={columns}
-      page={page}
-      pageSize={pageSize}
       rows={getPage(rows, page, pageSize)}
       rowCount={count}
+      page={page}
+      pageSize={pageSize}
       onTableAction={handleTableAction}
     />
   );
