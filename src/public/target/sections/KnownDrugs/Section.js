@@ -137,7 +137,7 @@ const Section = ({ ensgId }) => {
 
   const { count, rows = [], cursor } = data?.target?.knownDrugs ?? {};
 
-  const handleTableAction = ({ page: newPage, pageSize, newGlobalFilter }) => {
+  const handleTableAction = ({ newPage, newPageSize, newGlobalFilter }) => {
     // only fetchMore when there's a new global filter or there are no more
     // rows in the rows array
     if (
@@ -153,25 +153,22 @@ const Section = ({ ensgId }) => {
         },
         updateQuery: (prev, { fetchMoreResult }) => {
           const prevRows = prev.target.knownDrugs.rows;
-          const newRows = fetchMoreResult?.target?.knownDrugs?.rows;
-          if (fetchMoreResult.target.knownDrugs === null) {
-            prev.target.knownDrugs = {
-              rows: [],
-            };
-            setPage(newGlobalFilter !== globalFilter ? 0 : newPage);
-            setPageSize(pageSize);
-            setGlobalFilter(newGlobalFilter);
-            return prev;
-          }
+          const newCount = fetchMoreResult.target.knownDrugs?.count || 0;
+          const newCursor = fetchMoreResult.target.knownDrugs?.cursor || null;
+          const newRows = fetchMoreResult?.target?.knownDrugs?.rows || [];
+
           setPage(newGlobalFilter !== globalFilter ? 0 : newPage);
-          setPageSize(pageSize);
+          setPageSize(newPageSize);
           setGlobalFilter(newGlobalFilter);
+
           return {
-            ...fetchMoreResult,
+            ...prev,
             target: {
-              ...fetchMoreResult.target,
+              ...prev.target,
               knownDrugs: {
-                ...fetchMoreResult.target.knownDrugs,
+                ...prev.target.knownDrugs,
+                count: newCount,
+                cursor: newCursor,
                 rows:
                   newGlobalFilter !== globalFilter
                     ? newRows

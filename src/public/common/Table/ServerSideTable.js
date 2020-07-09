@@ -41,15 +41,23 @@ const ServerSideTable = ({
 
   const handleGlobalFilterChange = newGlobalFilter => {
     if (newGlobalFilter !== globalFilter) {
-      onTableAction({ page, pageSize, newGlobalFilter });
+      onTableAction({ newPage: page, newPageSize: pageSize, newGlobalFilter });
     }
   };
 
   const handleChangeRowsPerPage = event => {
-    onTableAction({ page: 0, pageSize: event.target.value, globalFilter });
+    onTableAction({
+      newPage: 0,
+      newPageSize: event.target.value,
+      newGlobalFilter: globalFilter,
+    });
   };
   const handleChangePage = (event, page) => {
-    onTableAction({ page, pageSize, globalFilter });
+    onTableAction({
+      newPage: page,
+      newPageSize: pageSize,
+      newGlobalFilter: globalFilter,
+    });
   };
 
   return (
