@@ -39,8 +39,10 @@ const ServerSideTable = ({
   const emptyRows = pageSize - rows.length;
   const classes = tableStyles();
 
-  const handleGlobalFilterChange = globalFilter => {
-    onTableAction({ page, pageSize, globalFilter });
+  const handleGlobalFilterChange = newGlobalFilter => {
+    if (newGlobalFilter !== globalFilter) {
+      onTableAction({ page, pageSize, newGlobalFilter });
+    }
   };
 
   const handleChangeRowsPerPage = event => {
