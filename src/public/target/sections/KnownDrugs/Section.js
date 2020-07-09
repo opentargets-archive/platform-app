@@ -119,7 +119,7 @@ const getPage = (rows, page, pageSize) => {
 const Section = ({ ensgId }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [globalFilter, setGlobalFilter] = useState('');
+  // const [globalFilter, setGlobalFilter] = useState('');
 
   const { data, loading, fetchMore } = useQuery(KNOWN_DRUGS_QUERY, {
     variables: {
@@ -131,35 +131,41 @@ const Section = ({ ensgId }) => {
 
   const getWholeDataset = useCursorBatchDownloader(
     KNOWN_DRUGS_QUERY,
-    { ensgId, freeTextQuery: globalFilter },
+    { ensgId },
     'data.target.knownDrugs'
   );
 
   const { count, rows = [], cursor } = data?.target?.knownDrugs ?? {};
 
   const handleTableAction = ({ page: newPage, pageSize }) => {
-    fetchMore({
-      variables: {
-        size: pageSize,
-        cursor,
-      },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        const prevRows = prev.target.knownDrugs.rows;
-        const newRows = fetchMoreResult?.target?.knownDrugs?.rows;
-        setPage(newPage);
-        setPageSize(pageSize);
-        return {
-          ...fetchMoreResult,
-          target: {
-            ...fetchMoreResult.target,
-            knownDrugs: {
-              ...fetchMoreResult.target.knownDrugs,
-              rows: [...prevRows, ...newRows],
+    // only fetchMore when there are no more rows in the rows array
+    if (pageSize * newPage > rows.length - 1) {
+      fetchMore({
+        variables: {
+          size: pageSize,
+          cursor,
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          const prevRows = prev.target.knownDrugs.rows;
+          const newRows = fetchMoreResult?.target?.knownDrugs?.rows;
+          setPage(newPage);
+          setPageSize(pageSize);
+          return {
+            ...fetchMoreResult,
+            target: {
+              ...fetchMoreResult.target,
+              knownDrugs: {
+                ...fetchMoreResult.target.knownDrugs,
+                rows: [...prevRows, ...newRows],
+              },
             },
-          },
-        };
-      },
-    });
+          };
+        },
+      });
+    } else {
+      setPage(newPage);
+      setPageSize(pageSize);
+    }
   };
 
   return (
@@ -174,7 +180,6 @@ const Section = ({ ensgId }) => {
       pageSize={pageSize}
       rows={getPage(rows, page, pageSize)}
       rowCount={count}
-      showGlobalFilter
       onTableAction={handleTableAction}
     />
   );
