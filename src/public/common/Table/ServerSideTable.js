@@ -10,6 +10,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
+import GlobalFilter from './GlobalFilter';
 import DataDownloader from './DataDownloader';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
@@ -31,22 +32,30 @@ const ServerSideTable = ({
   hover = false,
   noWrap = true,
   noWrapHeader = true,
+  showGlobalFilter,
   ActionsComponent,
 }) => {
-  // console.log('rows.length', rows.length);
   const emptyRows = pageSize - rows.length;
   const classes = tableStyles();
 
-  const handleChangePage = (event, page) => {
-    onTableAction({ page, pageSize });
+  const handleGlobalFilterChange = filterValue => {
+    onTableAction({ page, pageSize, filterValue });
   };
 
   const handleChangeRowsPerPage = event => {
     onTableAction({ page: 0, pageSize: event.target.value });
   };
+  const handleChangePage = (event, page) => {
+    onTableAction({ page, pageSize });
+  };
 
   return (
     <Grid container justify="flex-end" alignContent="center">
+      {showGlobalFilter && (
+        <Grid item xs={12} md={5} lg={7} className={classes.tableUpperControl1}>
+          <GlobalFilter onGlobalFilterChange={handleGlobalFilterChange} />
+        </Grid>
+      )}
       {dataDownloader && (
         <Grid item xs={12} md={7} lg={5} className={classes.tableUpperControl2}>
           <DataDownloader
@@ -56,7 +65,6 @@ const ServerSideTable = ({
           />
         </Grid>
       )}
-
       <Grid item xs={12} className={classes.tableWrapper}>
         <MUITable
           classes={{
@@ -93,7 +101,6 @@ const ServerSideTable = ({
           </TableBody>
         </MUITable>
       </Grid>
-
       <Grid item xs={12} className={classes.tablePagination}>
         <Box className={classes.tablePaginationBox}>
           {loading && <CircularProgress size={24} />}

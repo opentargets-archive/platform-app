@@ -1,8 +1,8 @@
 query knownDrugsSectionQuery(
-  $cursor: [String!]
   $ensemblId: String!
-  $freeTextQuery: String! = ""
-  $size: Int! = 100
+  $cursor: [String!]
+  $freeTextQuery: String
+  $size: Int = 100
 ) {
   target(ensemblId: $ensemblId) {
     id
