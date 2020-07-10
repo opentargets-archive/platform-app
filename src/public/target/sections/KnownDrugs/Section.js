@@ -131,7 +131,7 @@ const Section = ({ ensgId }) => {
 
   const getWholeDataset = useCursorBatchDownloader(
     KNOWN_DRUGS_QUERY,
-    { ensgId },
+    { ensemblId: ensgId },
     'data.target.knownDrugs'
   );
 
@@ -192,7 +192,7 @@ const Section = ({ ensgId }) => {
       globalFilter={globalFilter}
       dataDownloader
       dataDownloaderRows={getWholeDataset}
-      dataDownloaderFileStem={`${ensgId}-known_drugs`}
+      dataDownloaderFileStem={`${ensgId}-known-drugs`}
       headerGroups={headerGroups}
       columns={columns}
       rows={getPage(rows, page, pageSize)}
