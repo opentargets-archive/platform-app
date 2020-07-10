@@ -27,6 +27,14 @@ export const tableStyles = makeStyles(theme => ({
     left: 0,
     backgroundColor: theme.palette.grey[100],
   },
+  container: {
+    overflowX: 'auto',
+    paddingRight: '.1rem', // fixes horizontal scrollbar
+    order: 8,
+  },
+  stickyHeader: {
+    maxHeight: 440,
+  },
   rowFixed: {
     backgroundColor: theme.palette.grey[300],
   },

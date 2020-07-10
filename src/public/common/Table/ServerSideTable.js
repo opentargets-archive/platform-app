@@ -1,7 +1,9 @@
 import React from 'react';
+import classNames from 'classnames';
 import {
   Box,
   Grid,
+  TableContainer,
   Table as MUITable,
   TableBody,
   TableCell,
@@ -17,6 +19,7 @@ import TableRow from './TableRow';
 import { tableStyles } from './tableStyles';
 
 const ServerSideTable = ({
+  stickyHeader,
   page,
   columns,
   rows,
@@ -34,6 +37,7 @@ const ServerSideTable = ({
   noWrapHeader = true,
   showGlobalFilter,
   globalFilter,
+  rowsPerPageOptions = [],
   ActionsComponent,
 }) => {
   const emptyRows = pageSize - rows.length;
@@ -76,11 +80,16 @@ const ServerSideTable = ({
           />
         </Grid>
       )}
-      <Grid item xs={12} className={classes.tableWrapper}>
+      <TableContainer
+        className={classNames(classes.container, {
+          [classes.stickyHeader]: stickyHeader,
+        })}
+      >
         <MUITable
           classes={{
             root: `${classes.table} ${fixed ? classes.tableFixed : ''}`,
           }}
+          stickyHeader={stickyHeader}
         >
           <TableHeader
             classes={classes}
@@ -111,7 +120,7 @@ const ServerSideTable = ({
             )}
           </TableBody>
         </MUITable>
-      </Grid>
+      </TableContainer>
       <Grid item xs={12} className={classes.tablePagination}>
         <Box className={classes.tablePaginationBox}>
           {loading && <CircularProgress size={24} />}
@@ -127,7 +136,7 @@ const ServerSideTable = ({
             onChangeRowsPerPage={handleChangeRowsPerPage}
             page={page}
             rowsPerPage={pageSize}
-            rowsPerPageOptions={[10, 25, 50, 100]}
+            rowsPerPageOptions={rowsPerPageOptions}
           />
         </Box>
       </Grid>
