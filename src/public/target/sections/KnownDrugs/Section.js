@@ -138,9 +138,10 @@ const Section = ({ ensgId }) => {
   const { count, rows = [], cursor } = data?.target?.knownDrugs ?? {};
 
   const handleTableAction = ({ newPage, newPageSize, newGlobalFilter }) => {
-    // only fetchMore when there's a new global filter or there are no more
-    // rows in the rows array
+    // only fetchMore when there's a new page size, new global filter or
+    // there are no more rows in the rows array
     if (
+      newPageSize !== pageSize ||
       newGlobalFilter !== globalFilter ||
       pageSize * newPage > rows.length - 1
     ) {
@@ -195,6 +196,7 @@ const Section = ({ ensgId }) => {
       columns={columns}
       rows={getPage(rows, page, pageSize)}
       rowCount={count}
+      rowsPerPageOptions={[10, 25, 100]}
       page={page}
       pageSize={pageSize}
       onTableAction={handleTableAction}
