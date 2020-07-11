@@ -11,3 +11,7 @@ export const getHiddenBreakpoints = column =>
     },
     { only: [] }
   );
+
+export const getPage = (rows, page, pageSize) => {
+  return rows.slice(pageSize * page, pageSize * page + pageSize);
+};

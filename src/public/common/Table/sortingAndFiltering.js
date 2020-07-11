@@ -1,7 +1,5 @@
 import _ from 'lodash';
 
-import { safeToString } from '../../../utils/global';
-
 function ascendingComparator(a, b, sortBy) {
   if (a[sortBy] === undefined || a[sortBy] < b[sortBy]) return -1;
   if (a[sortBy] === undefined || a[sortBy] > b[sortBy]) return 1;
@@ -27,12 +25,14 @@ export function globalFilter(row, columns, value) {
       ? column.filterValue(row)
       : _.get(row, column.propertyPath || column.id, '');
 
-    return [...accumulator, newValue];
+    accumulator.push(newValue);
+    return accumulator;
   }, []);
 
   return contents
     .map(content =>
-      safeToString(content)
+      content
+        .toString()
         .toLowerCase()
         .includes(value.toLowerCase())
     )

@@ -5,6 +5,7 @@ import { Link } from 'ot-ui';
 
 import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
 import ServerSideTable from '../../../common/Table/ServerSideTable';
+import { getPage } from '../../../common/Table/utils';
 import useCursorBatchDownloader from '../../../../hooks/useCursorBatchDownloader';
 import { label } from '../../../../utils/global';
 const KNOWN_DRUGS_QUERY = loader('./sectionQuery.gql');
@@ -111,10 +112,6 @@ const headerGroups = [
     label: group.label,
   })),
 ];
-
-const getPage = (rows, page, pageSize) => {
-  return rows.slice(pageSize * page, pageSize * page + pageSize);
-};
 
 const Section = ({ ensgId }) => {
   const [page, setPage] = useState(0);

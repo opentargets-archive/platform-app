@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'ot-ui';
 
-import Table from '../../../common/Table/Table';
+import DataTable from '../../../common/Table/DataTable';
 import TherapeuticAreasDrawer from './Custom/TherapeuticAreasDrawer';
 import { label } from '../../../../utils/global';
 import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
@@ -37,15 +37,15 @@ const columns = [
 ];
 
 const Section = ({ chemblId, data }) => (
-  <Table
+  <DataTable
     columns={columns}
     dataDownloader
     dataDownloaderFileStem={`${chemblId}-indications`}
-    pagination={PaginationActionsComplete}
     rows={data.rows}
     showGlobalFilter
     sortBy="maxPhaseForIndication"
     order="desc"
+    ActionsComponent={PaginationActionsComplete}
   />
 );
 

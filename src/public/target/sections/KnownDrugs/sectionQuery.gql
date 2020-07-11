@@ -16,12 +16,10 @@ query knownDrugsSectionQuery(
           name
           url
         }
-
         disease {
           id
           name
         }
-
         drug {
           id
           name
