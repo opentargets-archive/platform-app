@@ -20,6 +20,8 @@ import { tableStyles } from './tableStyles';
 
 const ServerSideTable = ({
   stickyHeader,
+  sortBy,
+  order,
   page,
   columns,
   rows,
@@ -27,6 +29,7 @@ const ServerSideTable = ({
   fixed = false,
   headerGroups = [],
   loading,
+  onSortBy,
   onTableAction = () => {},
   pageSize = 10,
   dataDownloader = false,
@@ -47,6 +50,10 @@ const ServerSideTable = ({
     if (newGlobalFilter !== globalFilter) {
       onTableAction({ newPage: page, newPageSize: pageSize, newGlobalFilter });
     }
+  };
+
+  const handleSort = (_, newSortBy) => {
+    onSortBy(newSortBy);
   };
 
   const handleChangeRowsPerPage = event => {
@@ -96,6 +103,9 @@ const ServerSideTable = ({
             columns={columns}
             headerGroups={headerGroups}
             noWrapHeader={noWrapHeader}
+            order={order}
+            sortBy={sortBy}
+            onRequestSort={handleSort}
           />
           <TableBody>
             {rows.map((row, i) => (

@@ -21,18 +21,17 @@ function DataTable({
   const [sortColumn, setSortColumn] = useState(sortBy);
   const [sortOrder, setSortOrder] = useState(order);
 
-  const handleTableAction = ({
-    newPage,
-    newPageSize,
-    newGlobalFilter,
-    newSortBy,
-    newOrder,
-  }) => {
+  const handleSortBy = sortBy => {
+    setSortColumn(sortBy);
+    setSortOrder(
+      sortColumn === sortBy ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc'
+    );
+  };
+
+  const handleTableAction = ({ newPage, newPageSize, newGlobalFilter }) => {
     setPage(newPage);
     setPageSize(newPageSize);
     setGlobalFilterVal(newGlobalFilter);
-    setSortColumn(newSortBy);
-    setSortOrder(newOrder);
   };
 
   let processedRows = [...rows];
@@ -43,15 +42,19 @@ function DataTable({
     );
   }
 
-  if (sortBy) {
+  if (sortColumn) {
     processedRows.sort(getComparator(columns, sortOrder, sortColumn));
   }
 
   return (
     <ServerSideTable
       showGlobalFilter={showGlobalFilter}
+      globalFilter={globalFilterVal}
       dataDownloader={dataDownloader}
       dataDownloaderFileStem={dataDownloaderFileStem}
+      sortBy={sortColumn}
+      order={sortOrder}
+      onSortBy={handleSortBy}
       page={page}
       pageSize={pageSize}
       dataDownloaderRows={rows}
