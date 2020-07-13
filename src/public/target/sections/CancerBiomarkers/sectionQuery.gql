@@ -1,10 +1,8 @@
-# query CancerBiomarkersSectionQuery($ensgId: String!, $page: Pagination!) {
-query CancerBiomarkersSectionQuery($ensgId: String!) {
+query CancerBiomarkersSectionQuery($ensgId: String!, $index: Int! = 0, $size: Int! = 10) {
   target(ensemblId: $ensgId) {
     id
 
-    # cancerBiomarkers(page: $page) {
-    cancerBiomarkers{
+    cancerBiomarkers(page:{index:$index, size:$size}) {
       uniqueDrugs
       uniqueDiseases
       uniqueBiomarkers
