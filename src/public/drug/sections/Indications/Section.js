@@ -45,6 +45,7 @@ const Section = ({ chemblId, data }) => (
     showGlobalFilter
     sortBy="maxPhaseForIndication"
     order="desc"
+    rowsPerPageOptions={[10, 25, 100]}
     ActionsComponent={PaginationActionsComplete}
   />
 );

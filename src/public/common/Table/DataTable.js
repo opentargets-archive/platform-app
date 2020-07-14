@@ -12,6 +12,7 @@ function DataTable({
   sortBy = null,
   order,
   rows,
+  rowsPerPageOptions,
   ActionsComponent,
 }) {
   const [page, setPage] = useState(0);
@@ -20,6 +21,10 @@ function DataTable({
   const [sortColumn, setSortColumn] = useState(sortBy);
   const [sortOrder, setSortOrder] = useState(order);
 
+  const handleGlobalFilterChange = globalFilter => {
+    setGlobalFilterVal(globalFilter);
+  };
+
   const handleSortBy = sortBy => {
     setSortColumn(sortBy);
     setSortOrder(
@@ -27,10 +32,12 @@ function DataTable({
     );
   };
 
-  const handleTableAction = ({ newPage, newPageSize, newGlobalFilter }) => {
-    setPage(newPage);
-    setPageSize(newPageSize);
-    setGlobalFilterVal(newGlobalFilter);
+  const handlePageChange = page => {
+    setPage(page);
+  };
+
+  const handleRowsPerPageChange = pageSize => {
+    setPageSize(pageSize);
   };
 
   let processedRows = [...rows];
@@ -51,16 +58,20 @@ function DataTable({
       globalFilter={globalFilterVal}
       dataDownloader={dataDownloader}
       dataDownloaderFileStem={dataDownloaderFileStem}
+      headerGroups={headerGroups}
       sortBy={sortColumn}
       order={sortOrder}
-      onSortBy={handleSortBy}
       page={page}
       pageSize={pageSize}
       dataDownloaderRows={rows}
       columns={columns}
       rows={getPage(processedRows, page, pageSize)}
       rowCount={rows.length}
-      onTableAction={handleTableAction}
+      onGlobalFilterChange={handleGlobalFilterChange}
+      onSortBy={handleSortBy}
+      onPageChange={handlePageChange}
+      onRowsPerPageChange={handleRowsPerPageChange}
+      rowsPerPageOptions={rowsPerPageOptions}
       ActionsComponent={ActionsComponent}
     />
   );
