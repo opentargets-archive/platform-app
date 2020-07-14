@@ -29,8 +29,10 @@ const ServerSideTable = ({
   fixed = false,
   headerGroups = [],
   loading,
-  onSortBy,
-  onTableAction = () => {},
+  onGlobalFilterChange = () => {},
+  onSortBy = () => {},
+  onRowsPerPageChange = () => {},
+  onPageChange = () => {},
   pageSize = 10,
   dataDownloader = false,
   dataDownloaderFileStem = 'data',
@@ -48,27 +50,19 @@ const ServerSideTable = ({
 
   const handleGlobalFilterChange = newGlobalFilter => {
     if (newGlobalFilter !== globalFilter) {
-      onTableAction({ newPage: page, newPageSize: pageSize, newGlobalFilter });
+      onGlobalFilterChange(newGlobalFilter);
     }
   };
 
-  const handleSort = (_, newSortBy) => {
-    onSortBy(newSortBy);
+  const handleSort = (_, sortBy) => {
+    onSortBy(sortBy);
   };
 
   const handleChangeRowsPerPage = event => {
-    onTableAction({
-      newPage: 0,
-      newPageSize: event.target.value,
-      newGlobalFilter: globalFilter,
-    });
+    onRowsPerPageChange(event.target.value);
   };
-  const handleChangePage = (event, page) => {
-    onTableAction({
-      newPage: page,
-      newPageSize: pageSize,
-      newGlobalFilter: globalFilter,
-    });
+  const handleChangePage = (_, page) => {
+    onPageChange(page);
   };
 
   return (

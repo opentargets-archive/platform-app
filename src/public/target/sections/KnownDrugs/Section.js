@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { loader } from 'graphql.macro';
-import { useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
 
+import client from '../../../client';
 import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
 import ServerSideTable from '../../../common/Table/ServerSideTable';
 import { getPage } from '../../../common/Table/utils';
@@ -114,17 +114,33 @@ const headerGroups = [
 ];
 
 const Section = ({ ensgId }) => {
+  const [loading, setLoading] = useState(true);
+  const [count, setCount] = useState(0);
+  const [cursor, setCursor] = useState(null);
+  const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [globalFilter, setGlobalFilter] = useState('');
 
-  const { data, loading, fetchMore } = useQuery(KNOWN_DRUGS_QUERY, {
-    variables: {
-      ensemblId: ensgId,
-      size: pageSize,
+  useEffect(
+    () => {
+      client
+        .query({
+          query: KNOWN_DRUGS_QUERY,
+          variables: {
+            ensemblId: ensgId,
+          },
+        })
+        .then(res => {
+          const { cursor, count, rows } = res.data.target.knownDrugs;
+          setLoading(false);
+          setCursor(cursor);
+          setCount(count);
+          setRows(rows);
+        });
     },
-    notifyOnNetworkStatusChange: true,
-  });
+    [ensgId]
+  );
 
   const getWholeDataset = useCursorBatchDownloader(
     KNOWN_DRUGS_QUERY,
@@ -132,53 +148,78 @@ const Section = ({ ensgId }) => {
     'data.target.knownDrugs'
   );
 
-  const { count, rows = [], cursor } = data?.target?.knownDrugs ?? {};
-
-  const handleTableAction = ({ newPage, newPageSize, newGlobalFilter }) => {
-    // only fetchMore when there's a new page size, new global filter or
-    // there are no more rows in the rows array
-    if (
-      newPageSize !== pageSize ||
-      newGlobalFilter !== globalFilter ||
-      pageSize * newPage > rows.length - 1
-    ) {
-      fetchMore({
-        variables: {
-          size: pageSize,
-          // if there is a new filter, reset to first page
-          cursor: newGlobalFilter !== globalFilter ? null : cursor,
-          freeTextQuery: newGlobalFilter,
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          const prevRows = prev.target.knownDrugs.rows;
-          const newCount = fetchMoreResult.target.knownDrugs?.count || 0;
-          const newCursor = fetchMoreResult.target.knownDrugs?.cursor || null;
-          const newRows = fetchMoreResult?.target?.knownDrugs?.rows || [];
-
-          setPage(newGlobalFilter !== globalFilter ? 0 : newPage);
-          setPageSize(newPageSize);
-          setGlobalFilter(newGlobalFilter);
-
-          return {
-            ...prev,
-            target: {
-              ...prev.target,
-              knownDrugs: {
-                ...prev.target.knownDrugs,
-                count: newCount,
-                cursor: newCursor,
-                rows:
-                  newGlobalFilter !== globalFilter
-                    ? newRows
-                    : [...prevRows, ...newRows],
-              },
-            },
-          };
-        },
-      });
+  const handlePageChange = newPage => {
+    if (pageSize * newPage + pageSize > rows.length) {
+      setLoading(true);
+      client
+        .query({
+          query: KNOWN_DRUGS_QUERY,
+          variables: {
+            ensemblId: ensgId,
+            cursor,
+            size: pageSize,
+          },
+        })
+        .then(res => {
+          const { cursor, rows: newRows } = res.data.target.knownDrugs;
+          setLoading(false);
+          setCursor(cursor);
+          setPage(newPage);
+          setRows([...rows, ...newRows]);
+        });
     } else {
       setPage(newPage);
     }
+  };
+
+  const handleRowsPerPageChange = newPageSize => {
+    if (newPageSize > rows.length) {
+      setLoading(true);
+      client
+        .query({
+          query: KNOWN_DRUGS_QUERY,
+          variables: {
+            ensemblId: ensgId,
+            cursor: null,
+            size: newPageSize,
+          },
+        })
+        .then(res => {
+          const { cursor, rows: newRows } = res.data.target.knownDrugs;
+          setLoading(false);
+          setCursor(cursor);
+          setPage(0);
+          setPageSize(newPageSize);
+          setRows([...rows, ...newRows]);
+        });
+    } else {
+      setPage(0);
+      setPageSize(newPageSize);
+    }
+  };
+
+  const handleGlobalFilterChange = newGlobalFilter => {
+    setLoading(true);
+    client
+      .query({
+        query: KNOWN_DRUGS_QUERY,
+        variables: {
+          ensemblId: ensgId,
+          cursor: null,
+          size: pageSize,
+          freeTextQuery: newGlobalFilter,
+        },
+      })
+      .then(res => {
+        const { cursor, count, rows: newRows = [] } =
+          res.data.target.knownDrugs ?? {};
+        setLoading(false);
+        setCursor(cursor);
+        setCount(count);
+        setPage(0);
+        setGlobalFilter(newGlobalFilter);
+        setRows(newRows);
+      });
   };
 
   return (
@@ -197,7 +238,9 @@ const Section = ({ ensgId }) => {
       rowsPerPageOptions={[10, 25, 100]}
       page={page}
       pageSize={pageSize}
-      onTableAction={handleTableAction}
+      onGlobalFilterChange={handleGlobalFilterChange}
+      onPageChange={handlePageChange}
+      onRowsPerPageChange={handleRowsPerPageChange}
     />
   );
 };
