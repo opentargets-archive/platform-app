@@ -216,9 +216,9 @@ const Section = ({ ensgId }) => {
         const { cursor, count, rows: newRows = [] } =
           res.data.target.knownDrugs ?? {};
         setLoading(false);
+        setPage(0);
         setCursor(cursor);
         setCount(count);
-        setPage(0);
         setGlobalFilter(newGlobalFilter);
         setRows(newRows);
       });
