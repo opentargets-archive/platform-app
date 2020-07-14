@@ -12,7 +12,6 @@ function DataTable({
   sortBy = null,
   order,
   rows,
-  loading,
   ActionsComponent,
 }) {
   const [page, setPage] = useState(0);

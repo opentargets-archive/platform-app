@@ -158,6 +158,7 @@ const Section = ({ ensgId }) => {
             ensemblId: ensgId,
             cursor,
             size: pageSize,
+            freeTextQuery: globalFilter,
           },
         })
         .then(res => {
@@ -180,8 +181,9 @@ const Section = ({ ensgId }) => {
           query: KNOWN_DRUGS_QUERY,
           variables: {
             ensemblId: ensgId,
-            cursor: null,
+            cursor,
             size: newPageSize,
+            freeTextQuery: globalFilter,
           },
         })
         .then(res => {
