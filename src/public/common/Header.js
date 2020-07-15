@@ -10,8 +10,9 @@ const styles = theme => ({
     marginBottom: '10px',
   },
   mainIconContainer: {
-    minWidth: '55px',
+    width: '56px',
     textAlign: 'center',
+    marginRight: '4px',
   },
   mainIcon: {
     // width: '40px',
