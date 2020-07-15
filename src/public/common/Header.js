@@ -3,15 +3,21 @@ import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 const styles = theme => ({
   titleContainer: {
     marginBottom: '10px',
   },
+  mainIconContainer: {
+    minWidth: '55px',
+    textAlign: 'center',
+  },
   mainIcon: {
-    width: '40px',
+    // width: '40px',
     height: '65px',
-    fill: theme.palette.primary.main,
-    marginRight: '12px',
+    color: theme.palette.primary.main,
+    // marginRight: '12px',
   },
   title: {
     color: theme.palette.primary.main,
@@ -35,8 +41,8 @@ const Header = ({
   <Grid className={classes.titleContainer} container justify="space-between">
     <Grid item zeroMinWidth>
       <Grid container wrap="nowrap">
-        <Grid item>
-          <Icon classes={{ root: classes.mainIcon }} />
+        <Grid item className={classes.mainIconContainer}>
+          <FontAwesomeIcon icon={Icon} size="3x" className={classes.mainIcon} />
         </Grid>
         <Grid item zeroMinWidth>
           <Grid container>

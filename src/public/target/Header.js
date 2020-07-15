@@ -1,7 +1,7 @@
 import React from 'react';
+import { faDna } from '@fortawesome/free-solid-svg-icons';
 
 import Header from '../common/Header';
-import TargetIcon from '../../icons/TargetIcon';
 import GeneticsLink from './GeneticsLink';
 import Ensembl from './externalLinks/Ensembl';
 import UniProt from './externalLinks/UniProt';
@@ -14,7 +14,7 @@ const TargetHeader = ({ ensgId, uniprotId, symbol, name }) => (
   <Header
     title={symbol}
     subtitle={name}
-    Icon={TargetIcon}
+    Icon={faDna}
     externalLinks={
       <React.Fragment>
         <Ensembl ensgId={ensgId} first />
