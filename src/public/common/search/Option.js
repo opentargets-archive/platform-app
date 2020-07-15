@@ -1,16 +1,16 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-
-import TargetIcon from '../../../icons/TargetIcon';
-import DiseaseIcon from '../../../icons/DiseaseIcon';
-import DrugIcon from '../../../icons/DrugIcon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDna } from '@fortawesome/free-solid-svg-icons';
+import { faStethoscope } from '@fortawesome/free-solid-svg-icons';
+import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Search = ({ data }) => <Typography>Search for: {data.name}</Typography>;
 
 const TopHitDisease = ({ data }) => (
   <>
     <Typography variant="h4" color="primary">
-      <DiseaseIcon /> {data.name}
+      <FontAwesomeIcon icon={faStethoscope} size="xs" /> {data.name}
     </Typography>
     <Typography variant="caption" display="block" noWrap>
       {data.description}
@@ -21,7 +21,7 @@ const TopHitDisease = ({ data }) => (
 const TopHitDrug = ({ data }) => (
   <>
     <Typography variant="h4" color="primary">
-      <DrugIcon /> {data.name}
+      <FontAwesomeIcon icon={faPrescriptionBottleAlt} size="xs" /> {data.name}
     </Typography>
     {data.mechanismsOfAction ? (
       <Typography variant="caption" display="block" noWrap>
@@ -36,7 +36,7 @@ const TopHitDrug = ({ data }) => (
 const TopHitTarget = ({ data }) => (
   <>
     <Typography variant="h4" color="primary">
-      <TargetIcon /> {data.approvedSymbol}
+      <FontAwesomeIcon icon={faDna} size="xs" /> {data.approvedSymbol}
     </Typography>{' '}
     <Typography display="block" noWrap>
       {data.approvedName}

@@ -1,14 +1,14 @@
 import React from 'react';
+import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 
 import Header from '../common/Header';
-import DrugIcon from '../../icons/DrugIcon';
 import ChEMBL from './externalLinks/ChEMBL';
 
 const DrugHeader = ({ chemblId, name }) => (
   <Header
     title={name}
     subtitle={null}
-    Icon={DrugIcon}
+    Icon={faPrescriptionBottleAlt}
     externalLinks={<ChEMBL chemblId={chemblId} first />}
   />
 );
