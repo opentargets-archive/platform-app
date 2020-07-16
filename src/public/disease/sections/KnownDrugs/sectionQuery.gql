@@ -1,8 +1,8 @@
 query knownDrugsSectionQuery(
-  $cursor: [String!] = null
   $efoId: String!
-  $freeTextQuery: String! = ""
-  $size: Int! = 100
+  $cursor: [String!]
+  $freeTextQuery: String
+  $size: Int = 10
 ) {
   disease(efoId: $efoId) {
     id
@@ -16,12 +16,10 @@ query knownDrugsSectionQuery(
           name
           url
         }
-
         disease {
           id
           name
         }
-
         drug {
           id
           name
@@ -29,7 +27,6 @@ query knownDrugsSectionQuery(
         drugType
         mechanismOfAction
         activity
-
         target {
           id
           approvedName
