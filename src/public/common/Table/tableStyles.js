@@ -22,6 +22,9 @@ export const tableStyles = makeStyles(theme => ({
       borderLeft: 'none',
     },
   },
+  headerCellSticky: {
+    zIndex: 3,
+  },
   cellSticky: {
     position: 'sticky',
     left: 0,

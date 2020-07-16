@@ -100,6 +100,7 @@ const ServerSideTable = ({
             order={order}
             sortBy={sortBy}
             onRequestSort={handleSort}
+            stickyHeader={stickyHeader}
           />
           <TableBody>
             {rows.map((row, i) => (

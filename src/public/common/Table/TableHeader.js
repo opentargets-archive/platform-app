@@ -28,6 +28,7 @@ function HeaderCell({
   noWrapHeader,
   sortable = false,
   sortParams,
+  stickyHeader,
   sticky = false,
   tooltip,
   tooltipStyle = {},
@@ -71,6 +72,7 @@ function HeaderCell({
           ${isHeaderGroup ? classes.cellGroup : ''}
           ${sticky ? classes.cellSticky : ''}
           ${noWrapHeader ? classes.noWrap : ''}
+          ${stickyHeader && sticky ? classes.headerCellSticky : ''}
         `,
       }}
       colSpan={colspan}
@@ -87,6 +89,7 @@ function HeaderCell({
 }
 
 function TableHeader({
+  stickyHeader,
   columns,
   headerGroups,
   noWrapHeader,
@@ -136,6 +139,7 @@ function TableHeader({
                   : null
               }
               labelStyle={column.labelStyle}
+              stickyHeader={stickyHeader}
               sticky={column.sticky}
               tooltip={column.tooltip}
               tooltipStyle={column.tooltipStyle}
