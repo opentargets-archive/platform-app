@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'ot-ui';
 
-import Table from '../../../common/Table/Table';
+import DataTable from '../../../common/Table/DataTable';
 import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
 
 const columns = [
@@ -23,11 +23,10 @@ const columns = [
 ];
 
 const Section = ({ data }) => (
-  <Table
+  <DataTable
     columns={columns}
     dataDownloader
     dataDownloaderFileStem="phenotypes"
-    pagination={PaginationActionsComplete}
     rows={data}
     showGlobalFilter
   />
