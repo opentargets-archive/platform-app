@@ -1,9 +1,7 @@
 import React from 'react';
-
 import { Link } from 'ot-ui';
 
 import DataTable from '../../../common/Table/DataTable';
-import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
 
 const columns = [
   {

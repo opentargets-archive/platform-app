@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Link, significantFigures } from 'ot-ui';
 
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
 import Table from '../../../common/Table/Table';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
-import { sectionQuery } from '.';
+const RELATED_DISEASES_QUERY = loader('./sectionQuery.gql');
 
 const columns = (name, maxCountAOrB) => [
   {
@@ -81,41 +82,49 @@ const columns = (name, maxCountAOrB) => [
   },
 ];
 
-const Section = ({ efoId, data, name, fetchMore }) => {
-  const { rows, count, maxCountAOrB } = data;
-  const [pageIndex, setPageIndex] = useState(0);
+const Section = ({ efoId, name }) => {
+  const [page, setPage] = useState(0);
+
+  const { data, loading, fetchMore } = useQuery(RELATED_DISEASES_QUERY, {
+    variables: {
+      efoId,
+    },
+    notifyOnNetworkStatusChange: true,
+  });
 
   const getWholeDataset = useBatchDownloader(
-    sectionQuery,
+    RELATED_DISEASES_QUERY,
     { efoId },
     'data.disease.relatedDiseases'
   );
 
-  const onTableAction = params => setPageIndex(params.page);
-  const pageSize = 10;
+  const handlePageChange = newPage => {
+    setPage(newPage);
+    fetchMore({
+      variables: {
+        index: newPage,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        return fetchMoreResult;
+      },
+    });
+  };
 
-  useEffect(
-    () => {
-      fetchMore({
-        variables: { index: pageIndex, size: pageSize },
-        updateQuery: (prev, { fetchMoreResult }) =>
-          !fetchMoreResult ? prev : { ...prev, ...fetchMoreResult },
-      });
-    },
-    [fetchMore, pageIndex]
-  );
+  const { count, maxCountAOrB, rows = [] } =
+    data?.disease.relatedDiseases ?? {};
 
   return (
     <Table
+      loading={loading}
       columns={columns(name, maxCountAOrB)}
       dataDownloader
       dataDownloaderFileStem={`${efoId}-related_diseases`}
       dataDownloaderRows={getWholeDataset}
-      onTableAction={onTableAction}
-      pagination={PaginationActionsComplete}
-      rowCount={count}
       rows={rows}
-      serverSide={true}
+      rowCount={count}
+      page={page}
+      onPageChange={handlePageChange}
+      ActionsComponent={PaginationActionsComplete}
     />
   );
 };
