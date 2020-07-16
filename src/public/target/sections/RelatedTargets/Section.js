@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import { Link, significantFigures } from 'ot-ui';
 import useBatchDownloader from '../../../../hooks/useBatchDownloader';
 import LinearVenn, { LinearVennLegend } from '../../../common/LinearVenn';
-import ServerSideTable from '../../../common/Table/ServerSideTable';
+import Table from '../../../common/Table/Table';
 import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
 const RELATED_TARGETS_QUERY = loader('./sectionQuery.gql');
 
@@ -108,7 +108,7 @@ const Section = ({ ensgId, symbol }) => {
   const { maxCountAOrB, rows = [], count } = data?.target?.relatedTargets ?? {};
 
   return (
-    <ServerSideTable
+    <Table
       page={page}
       pageSize={pageSize}
       loading={loading}

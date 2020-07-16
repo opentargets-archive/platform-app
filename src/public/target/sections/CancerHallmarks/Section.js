@@ -2,8 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
 import { Link } from 'ot-ui';
-import Table from '../../../common/Table/Table';
-import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
+import DataTable from '../../../common/Table/DataTable';
 
 const Section = ({ ensgId, symbol, data }) => {
   const roleInCancer = data.attributes.filter(a => a.name === 'role in cancer');
@@ -67,11 +66,10 @@ const Section = ({ ensgId, symbol, data }) => {
           </React.Fragment>
         )) || 'No data'}
       </Typography>
-      <Table
+      <DataTable
         columns={columns}
         dataDownloader
         dataDownloaderFileStem={`${symbol}-hallmarks`}
-        pagination={PaginationActionsComplete}
         rows={rows}
         noWrap={false}
       />

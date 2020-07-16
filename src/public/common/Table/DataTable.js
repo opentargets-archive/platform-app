@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import ServerSideTable from './ServerSideTable';
+import Table from './Table';
+import { PaginationActionsComplete } from './TablePaginationActions';
 import { globalFilter, getComparator } from './sortingAndFiltering';
 import { getPage } from './utils';
 
 function DataTable({
+  noWrap,
   showGlobalFilter,
   dataDownloader,
   dataDownloaderFileStem,
@@ -13,7 +15,6 @@ function DataTable({
   order,
   rows,
   rowsPerPageOptions,
-  ActionsComponent,
 }) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -53,7 +54,8 @@ function DataTable({
   }
 
   return (
-    <ServerSideTable
+    <Table
+      noWrap={noWrap}
       showGlobalFilter={showGlobalFilter}
       globalFilter={globalFilterVal}
       dataDownloader={dataDownloader}
@@ -72,7 +74,7 @@ function DataTable({
       onPageChange={handlePageChange}
       onRowsPerPageChange={handleRowsPerPageChange}
       rowsPerPageOptions={rowsPerPageOptions}
-      ActionsComponent={ActionsComponent}
+      ActionsComponent={PaginationActionsComplete}
     />
   );
 }

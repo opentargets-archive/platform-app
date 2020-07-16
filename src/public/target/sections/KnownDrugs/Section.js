@@ -4,7 +4,7 @@ import { Link } from 'ot-ui';
 
 import client from '../../../client';
 import SourceDrawer from '../../../common/sections/KnownDrugs/custom/SourceDrawer';
-import ServerSideTable from '../../../common/Table/ServerSideTable';
+import Table from '../../../common/Table/Table';
 import { getPage } from '../../../common/Table/utils';
 import useCursorBatchDownloader from '../../../../hooks/useCursorBatchDownloader';
 import { label } from '../../../../utils/global';
@@ -225,7 +225,7 @@ const Section = ({ ensgId }) => {
   };
 
   return (
-    <ServerSideTable
+    <Table
       loading={loading}
       stickyHeader
       showGlobalFilter
