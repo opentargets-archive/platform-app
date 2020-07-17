@@ -50,6 +50,7 @@ import { Table, DataTable } from 'ot-ui';
 | `showGlobalFilter`       | `bool`              | `false`               | If `true`, the table will show the global filter input box.                                                                                                                                                                                   |
 | `sortBy`                 | `string`            |                       | Column id to set as the default for table row sorting.                                                                                                                                                                                        |
 | `rowsPerPageOptions`     | `array`             | `[]`                  | The options for page sizes that appear in the dropdown                                                                                                                                                                                        |
+| `stickyHeader`           | `boolean`           | `false`               | If `true`, the header will be sticky                                                                                                                                                                                                          |
 
 ## DataTable Props
 
@@ -71,6 +72,7 @@ import { Table, DataTable } from 'ot-ui';
 | `showGlobalFilter`       | `bool`              | `false`               | If `true`, the table will show the global filter input box.                                                                                                                                                                                   |
 | `sortBy`                 | `string`            |                       | Column id to set as the default for table row sorting.                                                                                                                                                                                        |
 | `rowsPerPageOptions`     | `array`             | `[]`                  | The options for page sizes that appear in the dropdown                                                                                                                                                                                        |
+| `stickyHeader`           | `boolean`           | `false`               | If `true`, the header will be sticky                                                                                                                                                                                                          |
 
 ## <a name="columndata"></a> Column data object
 
