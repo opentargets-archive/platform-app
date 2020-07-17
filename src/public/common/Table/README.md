@@ -1,6 +1,11 @@
 # Open Targets Table Component
 
-API documentation for the Table Component.
+API documentation for the Table Component. There are two table components that
+you can use depending on your use case: `Table` and `DataTable`. `Table` is
+ideal to be used with server side pagination, whether index based or cursor
+based. `DataTable` is a thin wrapper around `Table` that is useful for
+client side pagination, that is, when you have all the data readilty
+available.
 
 ## Examples
 
@@ -15,10 +20,8 @@ API documentation for the Table Component.
 
 (This will be effective when the component moves to `ot-ui`)
 
-```javascript
-import Table from 'ot-ui/Table';
-// or
-import { Table } from 'ot-ui';
+```js
+import { Table, DataTable } from 'ot-ui';
 ```
 
 ## Props
