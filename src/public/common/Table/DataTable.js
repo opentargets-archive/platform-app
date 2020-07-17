@@ -6,6 +6,9 @@ import { getPage } from './utils';
 
 function DataTable({
   noWrap,
+  noWrapHeader,
+  fixed,
+  hover,
   showGlobalFilter,
   dataDownloader,
   dataDownloaderFileStem,
@@ -13,11 +16,12 @@ function DataTable({
   columns,
   sortBy = null,
   order,
+  pageSize: initialPageSize = 10,
   rows,
   rowsPerPageOptions,
 }) {
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(initialPageSize);
   const [globalFilterVal, setGlobalFilterVal] = useState('');
   const [sortColumn, setSortColumn] = useState(sortBy);
   const [sortOrder, setSortOrder] = useState(order);
@@ -56,6 +60,9 @@ function DataTable({
   return (
     <Table
       noWrap={noWrap}
+      noWrapHeader={noWrapHeader}
+      fixed={fixed}
+      hover={hover}
       showGlobalFilter={showGlobalFilter}
       globalFilter={globalFilterVal}
       dataDownloader={dataDownloader}
