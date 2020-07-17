@@ -49,6 +49,7 @@ import { Table, DataTable } from 'ot-ui';
 | `pageSize`               | `number`            | `10`                  | Number of rows (fixed + regular) to display per page.                                                                                                                                                                                         |
 | `showGlobalFilter`       | `bool`              | `false`               | If `true`, the table will show the global filter input box.                                                                                                                                                                                   |
 | `sortBy`                 | `string`            |                       | Column id to set as the default for table row sorting.                                                                                                                                                                                        |
+| `rowsPerPageOptions`     | `array`             | `[]`                  | The options for page sizes that appear in the dropdown                                                                                                                                                                                        |
 
 ## DataTable Props
 
@@ -69,6 +70,7 @@ import { Table, DataTable } from 'ot-ui';
 | `ActionsComponent`       | `function`          |                       | Component rendered as pagination controls. Default is regular prev/next. See [this option](https://github.com/opentargets/platform-app/blob/alpha/src/public/common/Table/TablePaginationActions.js#L12) which includes first/prev/next/last. |
 | `showGlobalFilter`       | `bool`              | `false`               | If `true`, the table will show the global filter input box.                                                                                                                                                                                   |
 | `sortBy`                 | `string`            |                       | Column id to set as the default for table row sorting.                                                                                                                                                                                        |
+| `rowsPerPageOptions`     | `array`             | `[]`                  | The options for page sizes that appear in the dropdown                                                                                                                                                                                        |
 
 ## <a name="columndata"></a> Column data object
 

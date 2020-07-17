@@ -18,7 +18,7 @@ function DataTable({
   order,
   pageSize: initialPageSize = 10,
   rows,
-  rowsPerPageOptions,
+  rowsPerPageOptions = [],
 }) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(initialPageSize);
