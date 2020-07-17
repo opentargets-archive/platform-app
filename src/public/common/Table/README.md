@@ -47,9 +47,8 @@ import { Table, DataTable } from 'ot-ui';
 | onSortBy                 | `function`          |                       | Callback fired when sorting a column                                                                                                                                                                                                          |
 | `order`                  | `'asc' \| 'desc'`   | `'asc'`               | Default ordering (ascending or descending).                                                                                                                                                                                                   |
 | `pageSize`               | `number`            | `10`                  | Number of rows (fixed + regular) to display per page.                                                                                                                                                                                         |
-
-| `showGlobalFilter` | `bool` | `false` | If `true`, the table will show the global filter input box. |
-| `sortBy` | `string` | | Column id to set as the default for table row sorting. |
+| `showGlobalFilter`       | `bool`              | `false`               | If `true`, the table will show the global filter input box.                                                                                                                                                                                   |
+| `sortBy`                 | `string`            |                       | Column id to set as the default for table row sorting.                                                                                                                                                                                        |
 
 ## DataTable Props
 
