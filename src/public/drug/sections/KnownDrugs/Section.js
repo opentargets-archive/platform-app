@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactGA from 'react-ga';
 import { loader } from 'graphql.macro';
 import { Link } from 'ot-ui';
 
@@ -202,6 +203,11 @@ const Section = ({ chemblId }) => {
 
   const handleGlobalFilterChange = newGlobalFilter => {
     setLoading(true);
+    ReactGA.event({
+      category: 'Drug Profile Page',
+      action: 'Typed in knownDrugs widget search',
+      label: newGlobalFilter,
+    });
     client
       .query({
         query: KNOWN_DRUGS_QUERY,
