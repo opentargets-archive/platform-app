@@ -114,6 +114,18 @@ const headerGroups = [
   })),
 ];
 
+const fetchDrugs = (chemblId, cursor, size, freeTextQuery) => {
+  return client.query({
+    query: KNOWN_DRUGS_QUERY,
+    variables: {
+      chemblId,
+      cursor,
+      size,
+      freeTextQuery,
+    },
+  });
+};
+
 const Section = ({ chemblId }) => {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
@@ -125,20 +137,13 @@ const Section = ({ chemblId }) => {
 
   useEffect(
     () => {
-      client
-        .query({
-          query: KNOWN_DRUGS_QUERY,
-          variables: {
-            chemblId,
-          },
-        })
-        .then(res => {
-          const { cursor, count, rows } = res.data.drug.knownDrugs;
-          setLoading(false);
-          setCursor(cursor);
-          setCount(count);
-          setRows(rows);
-        });
+      fetchDrugs(chemblId).then(res => {
+        const { cursor, count, rows } = res.data.drug.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setCount(count);
+        setRows(rows);
+      });
     },
     [chemblId]
   );
@@ -150,25 +155,18 @@ const Section = ({ chemblId }) => {
   );
 
   const handlePageChange = newPage => {
-    if (pageSize * newPage + pageSize > rows.length) {
+    if (
+      pageSize * newPage + pageSize > rows.length &&
+      (cursor === null || cursor.length !== 0)
+    ) {
       setLoading(true);
-      client
-        .query({
-          query: KNOWN_DRUGS_QUERY,
-          variables: {
-            chemblId,
-            cursor,
-            size: pageSize,
-            freeTextQuery: globalFilter,
-          },
-        })
-        .then(res => {
-          const { cursor, rows: newRows } = res.data.drug.knownDrugs;
-          setLoading(false);
-          setCursor(cursor);
-          setPage(newPage);
-          setRows([...rows, ...newRows]);
-        });
+      fetchDrugs(chemblId, cursor, pageSize, globalFilter).then(res => {
+        const { cursor, rows: newRows } = res.data.drug.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(newPage);
+        setRows([...rows, ...newRows]);
+      });
     } else {
       setPage(newPage);
     }
@@ -177,24 +175,14 @@ const Section = ({ chemblId }) => {
   const handleRowsPerPageChange = newPageSize => {
     if (newPageSize > rows.length) {
       setLoading(true);
-      client
-        .query({
-          query: KNOWN_DRUGS_QUERY,
-          variables: {
-            chemblId,
-            cursor,
-            size: newPageSize,
-            freeTextQuery: globalFilter,
-          },
-        })
-        .then(res => {
-          const { cursor, rows: newRows } = res.data.drug.knownDrugs;
-          setLoading(false);
-          setCursor(cursor);
-          setPage(0);
-          setPageSize(newPageSize);
-          setRows([...rows, ...newRows]);
-        });
+      fetchDrugs(chemblId, cursor, newPageSize, globalFilter).then(res => {
+        const { cursor, rows: newRows } = res.data.drug.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(0);
+        setPageSize(newPageSize);
+        setRows([...rows, ...newRows]);
+      });
     } else {
       setPage(0);
       setPageSize(newPageSize);
@@ -208,27 +196,19 @@ const Section = ({ chemblId }) => {
       action: 'Typed in knownDrugs widget search',
       label: newGlobalFilter,
     });
-    client
-      .query({
-        query: KNOWN_DRUGS_QUERY,
-        variables: {
-          chemblId,
-          cursor: null,
-          size: pageSize,
-          freeTextQuery: newGlobalFilter,
-        },
-      })
-      .then(res => {
-        const { cursor, count, rows: newRows = [] } =
-          res.data.drug.knownDrugs ?? {};
-        setLoading(false);
-        setPage(0);
-        setCursor(cursor);
-        setCount(count);
-        setGlobalFilter(newGlobalFilter);
-        setRows(newRows);
-      });
+    fetchDrugs(chemblId, null, pageSize, newGlobalFilter).then(res => {
+      const { cursor, count, rows: newRows = [] } =
+        res.data.drug.knownDrugs ?? {};
+      setLoading(false);
+      setPage(0);
+      setCursor(cursor);
+      setCount(count);
+      setGlobalFilter(newGlobalFilter);
+      setRows(newRows);
+    });
   };
+
+  console.log('rows.length', rows.length);
 
   return (
     <Table

@@ -150,7 +150,10 @@ const Section = ({ ensgId }) => {
   );
 
   const handlePageChange = newPage => {
-    if (pageSize * newPage + pageSize > rows.length) {
+    if (
+      pageSize * newPage + pageSize > rows.length &&
+      (cursor === null || cursor.length !== 0)
+    ) {
       setLoading(true);
       client
         .query({
