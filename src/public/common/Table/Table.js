@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import {
-  Box,
   Grid,
   TableContainer,
   Table as MUITable,
@@ -66,21 +65,23 @@ const Table = ({
   };
 
   return (
-    <Grid container justify="flex-end" alignContent="center">
-      {showGlobalFilter && (
-        <Grid item xs={12} md={5} lg={7} className={classes.tableUpperControl1}>
-          <GlobalFilter onGlobalFilterChange={handleGlobalFilterChange} />
-        </Grid>
-      )}
-      {dataDownloader && (
-        <Grid item xs={12} md={7} lg={5} className={classes.tableUpperControl2}>
-          <DataDownloader
-            columns={columns}
-            rows={dataDownloaderRows}
-            fileStem={dataDownloaderFileStem}
-          />
-        </Grid>
-      )}
+    <Grid container direction="column">
+      <Grid item container>
+        {showGlobalFilter && (
+          <Grid className={classes.filter} item xs={12} md={5} lg={7}>
+            <GlobalFilter onGlobalFilterChange={handleGlobalFilterChange} />
+          </Grid>
+        )}
+        {dataDownloader && (
+          <Grid className={classes.downloader} item xs={12} md={7} lg={5}>
+            <DataDownloader
+              columns={columns}
+              rows={dataDownloaderRows}
+              fileStem={dataDownloaderFileStem}
+            />
+          </Grid>
+        )}
+      </Grid>
       <TableContainer
         className={classNames(classes.container, {
           [classes.stickyHeader]: stickyHeader,
@@ -126,24 +127,22 @@ const Table = ({
           </TableBody>
         </MUITable>
       </TableContainer>
-      <Grid item xs={12} className={classes.tablePagination}>
-        <Box className={classes.tablePaginationBox}>
-          {loading && <CircularProgress size={24} />}
-          <TablePagination
-            ActionsComponent={ActionsComponent}
-            backIconButtonProps={{ disabled: loading || page === 0 }}
-            nextIconButtonProps={{
-              disabled: loading || page >= rowCount / pageSize - 1,
-            }}
-            component="div"
-            count={rowCount}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-            page={page}
-            rowsPerPage={pageSize}
-            rowsPerPageOptions={rowsPerPageOptions}
-          />
-        </Box>
+      <Grid item container justify="flex-end">
+        {loading && <CircularProgress className={classes.progress} size={22} />}
+        <TablePagination
+          ActionsComponent={ActionsComponent}
+          backIconButtonProps={{ disabled: loading || page === 0 }}
+          nextIconButtonProps={{
+            disabled: loading || page >= rowCount / pageSize - 1,
+          }}
+          component="div"
+          count={rowCount}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+          page={page}
+          rowsPerPage={pageSize}
+          rowsPerPageOptions={rowsPerPageOptions}
+        />
       </Grid>
     </Grid>
   );

@@ -31,9 +31,9 @@ export const tableStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.grey[100],
   },
   container: {
+    marginTop: '2rem',
     overflowX: 'auto',
     paddingRight: '.1rem', // fixes horizontal scrollbar
-    order: 8,
   },
   stickyHeader: {
     maxHeight: 440,
@@ -54,32 +54,17 @@ export const tableStyles = makeStyles(theme => ({
   tableFixed: {
     tableLayout: 'fixed',
   },
-  tablePagination: {
-    order: 9,
-  },
-  tablePaginationBox: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  tableUpperControl1: {
-    marginBottom: '2rem',
+  filter: {
     order: 0,
     [theme.breakpoints.down('sm')]: {
       order: 1,
     },
   },
-  tableUpperControl2: {
-    marginBottom: '2rem',
+  downloader: {
     order: 1,
     [theme.breakpoints.down('sm')]: {
       order: 0,
     },
-  },
-  tableWrapper: {
-    overflowX: 'auto',
-    paddingRight: '.1rem', // fixes horizontal scrollbar
-    order: 8,
   },
   tabularNums: {
     fontVariant: 'tabular-nums',
@@ -87,6 +72,10 @@ export const tableStyles = makeStyles(theme => ({
   tooltipIcon: {
     fontSize: '1.5rem',
     paddingLeft: `0.6rem`,
+  },
+  progress: {
+    position: 'relative',
+    top: '6px',
   },
 }));
 
