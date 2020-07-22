@@ -39,7 +39,12 @@ const Header = ({
   externalLinks,
   rightContent,
 }) => (
-  <Grid className={classes.titleContainer} container justify="space-between">
+  <Grid
+    className={classes.titleContainer}
+    container
+    justify="space-between"
+    id="profile-page-header-block"
+  >
     <Grid item zeroMinWidth>
       <Grid container wrap="nowrap">
         <Grid item className={classes.mainIconContainer}>
