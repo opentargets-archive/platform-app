@@ -4,7 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
 import LongText from '../common/LongText';
-import DiseaseIcon from '../../icons/DiseaseIcon';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
 const styles = () => ({
   link: {
@@ -12,9 +14,6 @@ const styles = () => ({
   },
   subtitle: {
     fontWeight: 500,
-  },
-  icon: {
-    verticalAlign: 'bottom',
   },
 });
 
@@ -26,7 +25,7 @@ const DiseaseDetail = ({ classes, data }) => {
         <Link to={`/disease/${id}`}>{name}</Link>
       </Typography>
       <Typography color="primary">
-        <DiseaseIcon className={classes.icon} /> Disease or phenotype
+        <FontAwesomeIcon icon={faStethoscope} size="md" /> Disease or phenotype
       </Typography>
       <LongText lineLimit={4}>{description}</LongText>
       {therapeuticAreas.length > 0 && (

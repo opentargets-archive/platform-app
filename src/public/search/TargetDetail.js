@@ -4,14 +4,13 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'ot-ui';
 import LongText from '../common/LongText';
-import TargetIcon from '../../icons/TargetIcon';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDna } from '@fortawesome/free-solid-svg-icons';
 
 const styles = () => ({
   subtitle: {
     fontWeight: 500,
-  },
-  icon: {
-    verticalAlign: 'bottom',
   },
 });
 
@@ -35,7 +34,7 @@ const TargetDetail = ({ classes, data }) => {
         </Typography>
         <Typography variant="subtitle2">{approvedName}</Typography>
         <Typography color="primary">
-          <TargetIcon className={classes.icon} /> Target
+          <FontAwesomeIcon icon={faDna} size="md" /> Target
         </Typography>
         {functions ? <LongText lineLimit={4}>{functions[0]}</LongText> : null}
         <Typography className={classes.subtitle} variant="subtitle1">

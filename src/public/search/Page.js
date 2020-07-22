@@ -12,9 +12,6 @@ import TablePagination from '@material-ui/core/TablePagination';
 import BasePage from '../common/BasePage';
 import EmptyPage from '../common/EmptyPage';
 import ErrorBoundary from '../common/ErrorBoundary';
-import TargetIcon from '../../icons/TargetIcon';
-import DiseaseIcon from '../../icons/DiseaseIcon';
-import DrugIcon from '../../icons/DrugIcon';
 import TargetDetail from './TargetDetail';
 import DiseaseDetail from './DiseaseDetail';
 import DrugDetail from './DrugDetail';
@@ -22,6 +19,11 @@ import TargetResult from './TargetResult';
 import DiseaseResult from './DiseaseResult';
 import DrugResult from './DrugResult';
 import client from '../client';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDna } from '@fortawesome/free-solid-svg-icons';
+import { faStethoscope } from '@fortawesome/free-solid-svg-icons';
+import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 
 const SEARCH_PAGE_QUERY = loader('./SearchPageQuery.gql');
 const QS_OPTIONS = {
@@ -58,20 +60,9 @@ const styles = theme => ({
   label: {
     marginLeft: '-6px',
   },
-  targetIcon: {
-    verticalAlign: 'bottom',
+  labelIcon: {
     color: theme.palette.primary.main,
-    marginRight: '14px',
-  },
-  diseaseIcon: {
-    verticalAlign: 'bottom',
-    color: theme.palette.primary.main,
-    marginRight: '3px',
-  },
-  drugIcon: {
-    verticalAlign: 'bottom',
-    color: theme.palette.primary.main,
-    marginRight: '8px',
+    marginRight: '2px',
   },
 });
 
@@ -91,7 +82,12 @@ const SearchFilters = withStyles(styles)(
           }
           label={
             <>
-              <TargetIcon className={classes.targetIcon} />
+              <FontAwesomeIcon
+                icon={faDna}
+                size="md"
+                fixedWidth
+                className={classes.labelIcon}
+              />
               <Typography variant="body2" display="inline">
                 Target ({counts.target})
               </Typography>
@@ -108,7 +104,12 @@ const SearchFilters = withStyles(styles)(
           }
           label={
             <>
-              <DiseaseIcon className={classes.diseaseIcon} />
+              <FontAwesomeIcon
+                icon={faStethoscope}
+                size="md"
+                fixedWidth
+                className={classes.labelIcon}
+              />
               <Typography variant="body2" display="inline">
                 Disease or phenotype ({counts.disease})
               </Typography>
@@ -125,7 +126,12 @@ const SearchFilters = withStyles(styles)(
           }
           label={
             <>
-              <DrugIcon className={classes.drugIcon} />
+              <FontAwesomeIcon
+                icon={faPrescriptionBottleAlt}
+                size="md"
+                fixedWidth
+                className={classes.labelIcon}
+              />
               <Typography variant="body2" display="inline">
                 Drug ({counts.drug})
               </Typography>

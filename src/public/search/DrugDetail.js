@@ -9,7 +9,9 @@ import LongList from '../common/LongList';
 import WarningTooltip from '../common/WarningTooltip';
 import WithdrawnNotice from '../common/WithdrawnNotice';
 import Chip from '../common/Chip';
-import DrugIcon from '../../icons/DrugIcon';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 
 const useStyles = makeStyles({
   link: {
@@ -32,7 +34,7 @@ const DrugDetail = ({ data }) => {
         <Link to={`/drug/${data.id}`}>{data.name}</Link>
       </Typography>
       <Typography color="primary">
-        <DrugIcon className={classes.icon} /> Drug
+        <FontAwesomeIcon icon={faPrescriptionBottleAlt} size="md" /> Drug
       </Typography>
       <LongText lineLimit={4}>{data.description}</LongText>
       {data.hasBeenWithdrawn && (
