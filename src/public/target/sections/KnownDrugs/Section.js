@@ -114,6 +114,18 @@ const headerGroups = [
   })),
 ];
 
+const fetchDrugs = (ensemblId, cursor, size, freeTextQuery) => {
+  return client.query({
+    query: KNOWN_DRUGS_QUERY,
+    variables: {
+      ensemblId,
+      cursor,
+      size,
+      freeTextQuery,
+    },
+  });
+};
+
 const Section = ({ ensgId }) => {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
@@ -125,20 +137,13 @@ const Section = ({ ensgId }) => {
 
   useEffect(
     () => {
-      client
-        .query({
-          query: KNOWN_DRUGS_QUERY,
-          variables: {
-            ensemblId: ensgId,
-          },
-        })
-        .then(res => {
-          const { cursor, count, rows } = res.data.target.knownDrugs;
-          setLoading(false);
-          setCursor(cursor);
-          setCount(count);
-          setRows(rows);
-        });
+      fetchDrugs(ensgId).then(res => {
+        const { cursor, count, rows } = res.data.target.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setCount(count);
+        setRows(rows);
+      });
     },
     [ensgId]
   );
@@ -155,23 +160,13 @@ const Section = ({ ensgId }) => {
       (cursor === null || cursor.length !== 0)
     ) {
       setLoading(true);
-      client
-        .query({
-          query: KNOWN_DRUGS_QUERY,
-          variables: {
-            ensemblId: ensgId,
-            cursor,
-            size: pageSize,
-            freeTextQuery: globalFilter,
-          },
-        })
-        .then(res => {
-          const { cursor, rows: newRows } = res.data.target.knownDrugs;
-          setLoading(false);
-          setCursor(cursor);
-          setPage(newPage);
-          setRows([...rows, ...newRows]);
-        });
+      fetchDrugs(ensgId, cursor, pageSize, globalFilter).then(res => {
+        const { cursor, rows: newRows } = res.data.target.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(newPage);
+        setRows([...rows, ...newRows]);
+      });
     } else {
       setPage(newPage);
     }
@@ -180,24 +175,14 @@ const Section = ({ ensgId }) => {
   const handleRowsPerPageChange = newPageSize => {
     if (newPageSize > rows.length) {
       setLoading(true);
-      client
-        .query({
-          query: KNOWN_DRUGS_QUERY,
-          variables: {
-            ensemblId: ensgId,
-            cursor,
-            size: newPageSize,
-            freeTextQuery: globalFilter,
-          },
-        })
-        .then(res => {
-          const { cursor, rows: newRows } = res.data.target.knownDrugs;
-          setLoading(false);
-          setCursor(cursor);
-          setPage(0);
-          setPageSize(newPageSize);
-          setRows([...rows, ...newRows]);
-        });
+      fetchDrugs(ensgId, cursor, newPageSize, globalFilter).then(res => {
+        const { cursor, rows: newRows } = res.data.target.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(0);
+        setPageSize(newPageSize);
+        setRows([...rows, ...newRows]);
+      });
     } else {
       setPage(0);
       setPageSize(newPageSize);
@@ -211,26 +196,16 @@ const Section = ({ ensgId }) => {
       action: 'Typed in knownDrugs widget search',
       label: newGlobalFilter,
     });
-    client
-      .query({
-        query: KNOWN_DRUGS_QUERY,
-        variables: {
-          ensemblId: ensgId,
-          cursor: null,
-          size: pageSize,
-          freeTextQuery: newGlobalFilter,
-        },
-      })
-      .then(res => {
-        const { cursor, count, rows: newRows = [] } =
-          res.data.target.knownDrugs ?? {};
-        setLoading(false);
-        setPage(0);
-        setCursor(cursor);
-        setCount(count);
-        setGlobalFilter(newGlobalFilter);
-        setRows(newRows);
-      });
+    fetchDrugs(ensgId, null, pageSize, newGlobalFilter).then(res => {
+      const { cursor, count, rows: newRows = [] } =
+        res.data.target.knownDrugs ?? {};
+      setLoading(false);
+      setPage(0);
+      setCursor(cursor);
+      setCount(count);
+      setGlobalFilter(newGlobalFilter);
+      setRows(newRows);
+    });
   };
 
   return (

@@ -115,6 +115,18 @@ const headerGroups = [
   })),
 ];
 
+const fetchDrugs = (efoId, cursor, size, freeTextQuery) => {
+  return client.query({
+    query: KNOWN_DRUGS_QUERY,
+    variables: {
+      efoId,
+      cursor,
+      size,
+      freeTextQuery,
+    },
+  });
+};
+
 const Section = ({ efoId }) => {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
@@ -126,20 +138,13 @@ const Section = ({ efoId }) => {
 
   useEffect(
     () => {
-      client
-        .query({
-          query: KNOWN_DRUGS_QUERY,
-          variables: {
-            efoId,
-          },
-        })
-        .then(res => {
-          const { cursor, count, rows } = res.data.disease.knownDrugs;
-          setLoading(false);
-          setCursor(cursor);
-          setCount(count);
-          setRows(rows);
-        });
+      fetchDrugs(efoId).then(res => {
+        const { cursor, count, rows } = res.data.disease.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setCount(count);
+        setRows(rows);
+      });
     },
     [efoId]
   );
@@ -156,23 +161,13 @@ const Section = ({ efoId }) => {
       (cursor === null || cursor.length !== 0)
     ) {
       setLoading(true);
-      client
-        .query({
-          query: KNOWN_DRUGS_QUERY,
-          variables: {
-            efoId,
-            cursor,
-            size: pageSize,
-            freeTextQuery: globalFilter,
-          },
-        })
-        .then(res => {
-          const { cursor, rows: newRows } = res.data.disease.knownDrugs;
-          setLoading(false);
-          setCursor(cursor);
-          setPage(newPage);
-          setRows([...rows, ...newRows]);
-        });
+      fetchDrugs(efoId, cursor, pageSize, globalFilter).then(res => {
+        const { cursor, rows: newRows } = res.data.disease.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(newPage);
+        setRows([...rows, ...newRows]);
+      });
     } else {
       setPage(newPage);
     }
@@ -181,24 +176,14 @@ const Section = ({ efoId }) => {
   const handleRowsPerPageChange = newPageSize => {
     if (newPageSize > rows.length) {
       setLoading(true);
-      client
-        .query({
-          query: KNOWN_DRUGS_QUERY,
-          variables: {
-            efoId,
-            cursor,
-            size: newPageSize,
-            freeTextQuery: globalFilter,
-          },
-        })
-        .then(res => {
-          const { cursor, rows: newRows } = res.data.disease.knownDrugs;
-          setLoading(false);
-          setCursor(cursor);
-          setPage(0);
-          setPageSize(newPageSize);
-          setRows([...rows, ...newRows]);
-        });
+      fetchDrugs(efoId, cursor, newPageSize, globalFilter).then(res => {
+        const { cursor, rows: newRows } = res.data.disease.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(0);
+        setPageSize(newPageSize);
+        setRows([...rows, ...newRows]);
+      });
     } else {
       setPage(0);
       setPageSize(newPageSize);
@@ -212,26 +197,16 @@ const Section = ({ efoId }) => {
       action: 'Typed in knownDrugs widget search',
       label: newGlobalFilter,
     });
-    client
-      .query({
-        query: KNOWN_DRUGS_QUERY,
-        variables: {
-          efoId,
-          cursor: null,
-          size: pageSize,
-          freeTextQuery: newGlobalFilter,
-        },
-      })
-      .then(res => {
-        const { cursor, count, rows: newRows = [] } =
-          res.data.disease.knownDrugs ?? {};
-        setLoading(false);
-        setPage(0);
-        setCursor(cursor);
-        setCount(count);
-        setGlobalFilter(newGlobalFilter);
-        setRows(newRows);
-      });
+    fetchDrugs(efoId, null, pageSize, newGlobalFilter).then(res => {
+      const { cursor, count, rows: newRows = [] } =
+        res.data.disease.knownDrugs ?? {};
+      setLoading(false);
+      setPage(0);
+      setCursor(cursor);
+      setCount(count);
+      setGlobalFilter(newGlobalFilter);
+      setRows(newRows);
+    });
   };
 
   return (

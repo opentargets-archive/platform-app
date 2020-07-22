@@ -208,8 +208,6 @@ const Section = ({ chemblId }) => {
     });
   };
 
-  console.log('rows.length', rows.length);
-
   return (
     <Table
       loading={loading}
