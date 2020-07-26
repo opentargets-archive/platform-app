@@ -114,13 +114,15 @@ const headerGroups = [
   })),
 ];
 
+const NUM_PAGES_TO_FETCH = 2;
+
 const fetchDrugs = (ensemblId, cursor, size, freeTextQuery) => {
   return client.query({
     query: KNOWN_DRUGS_QUERY,
     variables: {
       ensemblId,
       cursor,
-      size,
+      size: size * NUM_PAGES_TO_FETCH,
       freeTextQuery,
     },
   });
@@ -137,7 +139,7 @@ const Section = ({ ensgId }) => {
 
   useEffect(
     () => {
-      fetchDrugs(ensgId).then(res => {
+      fetchDrugs(ensgId, null, 10).then(res => {
         const { cursor, count, rows } = res.data.target.knownDrugs;
         setLoading(false);
         setCursor(cursor);
