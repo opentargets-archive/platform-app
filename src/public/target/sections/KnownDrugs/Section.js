@@ -114,19 +114,19 @@ const headerGroups = [
   })),
 ];
 
-const NUM_PAGES_TO_FETCH = 2;
-
 const fetchDrugs = (ensemblId, cursor, size, freeTextQuery) => {
   return client.query({
     query: KNOWN_DRUGS_QUERY,
     variables: {
       ensemblId,
       cursor,
-      size: size * NUM_PAGES_TO_FETCH,
+      size: size * 10, // fetch 10 pages ahead of time
       freeTextQuery,
     },
   });
 };
+
+const INIT_PAGE_SIZE = 10;
 
 const Section = ({ ensgId }) => {
   const [loading, setLoading] = useState(true);
@@ -134,12 +134,12 @@ const Section = ({ ensgId }) => {
   const [cursor, setCursor] = useState(null);
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(INIT_PAGE_SIZE);
   const [globalFilter, setGlobalFilter] = useState('');
 
   useEffect(
     () => {
-      fetchDrugs(ensgId, null, 10).then(res => {
+      fetchDrugs(ensgId, null, INIT_PAGE_SIZE).then(res => {
         const { cursor, count, rows } = res.data.target.knownDrugs;
         setLoading(false);
         setCursor(cursor);

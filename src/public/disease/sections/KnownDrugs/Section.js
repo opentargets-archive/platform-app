@@ -121,11 +121,13 @@ const fetchDrugs = (efoId, cursor, size, freeTextQuery) => {
     variables: {
       efoId,
       cursor,
-      size,
+      size: size * 10, // fetch 10 pages ahead of time
       freeTextQuery,
     },
   });
 };
+
+const INIT_PAGE_SIZE = 10;
 
 const Section = ({ efoId }) => {
   const [loading, setLoading] = useState(true);
@@ -133,12 +135,12 @@ const Section = ({ efoId }) => {
   const [cursor, setCursor] = useState(null);
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(INIT_PAGE_SIZE);
   const [globalFilter, setGlobalFilter] = useState('');
 
   useEffect(
     () => {
-      fetchDrugs(efoId).then(res => {
+      fetchDrugs(efoId, null, INIT_PAGE_SIZE).then(res => {
         const { cursor, count, rows } = res.data.disease.knownDrugs;
         setLoading(false);
         setCursor(cursor);
