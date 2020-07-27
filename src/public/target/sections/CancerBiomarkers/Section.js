@@ -3,8 +3,7 @@ import _ from 'lodash';
 
 import { Link } from 'ot-ui';
 
-import Table from '../../../common/Table/Table';
-import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
+import DataTable from '../../../common/Table/DataTable';
 import { label } from '../../../../utils/global';
 import { naLabel } from '../../../../constants';
 
@@ -78,11 +77,10 @@ const Section = ({ ensgId, symbol, data }) => {
   }, []);
 
   return (
-    <Table
+    <DataTable
       showGlobalFilter
       columns={columns}
       rows={rows}
-      pagination={PaginationActionsComplete}
       dataDownloader
       dataDownloaderFileStem={`${symbol}-cancer-biomarkers`}
     />

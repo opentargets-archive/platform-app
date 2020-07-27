@@ -1,4 +1,6 @@
 import React from 'react';
+import classNames from 'classnames';
+import _ from 'lodash';
 import {
   Badge,
   makeStyles,
@@ -11,8 +13,6 @@ import {
   withWidth,
 } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
-
-import _ from 'lodash';
 
 import { tableStyles } from './tableStyles';
 import useDynamicColspan from '../../../hooks/useDynamicColspans';
@@ -28,6 +28,7 @@ function HeaderCell({
   noWrapHeader,
   sortable = false,
   sortParams,
+  stickyHeader,
   sticky = false,
   tooltip,
   tooltipStyle = {},
@@ -65,13 +66,12 @@ function HeaderCell({
     <TableCell
       align={align}
       classes={{
-        root: `
-          ${classes.cell}
-          ${classes.cellHeader}
-          ${isHeaderGroup ? classes.cellGroup : ''}
-          ${sticky ? classes.cellSticky : ''}
-          ${noWrapHeader ? classes.noWrap : ''}
-        `,
+        root: classNames(classes.cell, classes.cellHeader, {
+          [classes.cellGroup]: isHeaderGroup,
+          [classes.cellSticky]: sticky,
+          [classes.noWrap]: noWrapHeader,
+          [classes.headerCellSticky]: stickyHeader && sticky,
+        }),
       }}
       colSpan={colspan}
       sortDirection={sortable && sortParams.direction}
@@ -87,6 +87,7 @@ function HeaderCell({
 }
 
 function TableHeader({
+  stickyHeader,
   columns,
   headerGroups,
   noWrapHeader,
@@ -136,6 +137,7 @@ function TableHeader({
                   : null
               }
               labelStyle={column.labelStyle}
+              stickyHeader={stickyHeader}
               sticky={column.sticky}
               tooltip={column.tooltip}
               tooltipStyle={column.tooltipStyle}

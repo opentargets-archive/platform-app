@@ -1,11 +1,15 @@
 # Open Targets Table Component
 
-API documentation for the Table Component.
+API documentation for the Table Component. There are two table components that
+you can use depending on your use case: `Table` and `DataTable`. `Table` is
+ideal to be used with server side pagination, whether index based or cursor
+based. `DataTable` is a thin wrapper around `Table` that is useful for
+client side pagination, that is, when you have all the data readilty
+available.
 
 ## Examples
 
-- Very basic:
-  [Disease Profile Page Phenotypes section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/Phenotypes/Section.js).
+- Very basic: [Disease Profile Page Phenotypes section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/Phenotypes/Section.js).
 
 - Custom labels, cells and tooltips: [Disease Profile Page Related Diseases section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/RelatedDiseases/Section.js).
 
@@ -15,22 +19,20 @@ API documentation for the Table Component.
 
 (This will be effective when the component moves to `ot-ui`)
 
-```javascript
-import Table from 'ot-ui/Table';
-// or
-import { Table } from 'ot-ui';
+```js
+import { Table, DataTable } from 'ot-ui';
 ```
 
-## Props
+## Table Props
 
 | Name                     | Type                | Default               | Description                                                                                                                                                                                                                                   |
 | ------------------------ | ------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ActionsComponent`       | `function`          |                       | Component rendered as pagination controls. Default is regular prev/next. See [this option](https://github.com/opentargets/platform-app/blob/alpha/src/public/common/Table/TablePaginationActions.js#L12) which includes first/prev/next/last. |
 | `columns`                | `array`             |                       | Array of [Column data object](#columndata).                                                                                                                                                                                                   |
 | `dataDownloader`         | `bool`              | `false`               | If `true`, the table will include the data download widget on top.                                                                                                                                                                            |
 | `dataDownloaderFileStem` | `string`            | `'data'`              | File name without extension for the data download widget.                                                                                                                                                                                     |
 | `dataDownloaderRows`     | `function \| array` | value of `rows` prop. | Rows array or a function returning the rows array passed to the data download widget to create file contents.<br><br>**Signature**: `function() => []`                                                                                        |
 | `fixed`                  | `bool`              | `false`               | If `true`, `table-layout` will be `fixed`.                                                                                                                                                                                                    |
-| `fixedRows`              | `array`             | `[]`                  | Row data for fixed rows. Fixed rows will stay on top of the normal rows of the table.                                                                                                                                                         |
 | `headerGroups`           | `array`             | `[]`                  | If not empty, a first header row will be rendered with the given groups. See [headers object](#headersobject).                                                                                                                                |
 | `hover`                  | `bool`              | `false`               | If `true`, the table rows will shade on hover.                                                                                                                                                                                                |
 | `loading`                | `bool`              | `false`               | A prop to tell the table data is loading. Will show a spinner and disable pagination controls if using the default pagination.                                                                                                                |
@@ -39,12 +41,38 @@ import { Table } from 'ot-ui';
 | `noWrap`                 | `bool`              | `true`                | If `false`, table row content will wrap. This will disable the table fixed height feature.                                                                                                                                                    |
 | `noWrapHeader`           | `bool`              | `true`                | If `false`, table header content will wrap.                                                                                                                                                                                                   |
 | `onTableAction`          | `function`          |                       | Callback fired when an action is performed on the table.<br><br>**Signature**: `function(params: object) => void`<br>_params_: [action parameters](#paramsobject).                                                                            |
+| onGlobalFilterChange     | `function`          |                       | Callback fired when the global filter is changed                                                                                                                                                                                              |
+| onPageChange             | `function`          |                       | Callback fired when the page is changed                                                                                                                                                                                                       |
+| onRowsPerPageChange      | `function`          |                       | Callback fired when the rows per page is changed                                                                                                                                                                                              |
+| onSortBy                 | `function`          |                       | Callback fired when sorting a column                                                                                                                                                                                                          |
 | `order`                  | `'asc' \| 'desc'`   | `'asc'`               | Default ordering (ascending or descending).                                                                                                                                                                                                   |
 | `pageSize`               | `number`            | `10`                  | Number of rows (fixed + regular) to display per page.                                                                                                                                                                                         |
-| `pagination`             | `function`          |                       | Component rendered as pagination controls. Default is regular prev/next. See [this option](https://github.com/opentargets/platform-app/blob/alpha/src/public/common/Table/TablePaginationActions.js#L12) which includes first/prev/next/last. |
-| `serverSide`             | `bool`              | `false`               | If `true`, the table will work in [server side mode](#tablemode).                                                                                                                                                                             |
 | `showGlobalFilter`       | `bool`              | `false`               | If `true`, the table will show the global filter input box.                                                                                                                                                                                   |
-| `shortBy`                | `string`            |                       | Column id to set as the default for table row sorting.                                                                                                                                                                                        |
+| `sortBy`                 | `string`            |                       | Column id to set as the default for table row sorting.                                                                                                                                                                                        |
+| `rowsPerPageOptions`     | `array`             | `[]`                  | The options for page sizes that appear in the dropdown                                                                                                                                                                                        |
+| `stickyHeader`           | `boolean`           | `false`               | If `true`, the header will be sticky                                                                                                                                                                                                          |
+
+## DataTable Props
+
+| Name                     | Type                | Default               | Description                                                                                                                                                                                                                                   |
+| ------------------------ | ------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `columns`                | `array`             |                       | Array of [Column data object](#columndata).                                                                                                                                                                                                   |
+| `dataDownloader`         | `bool`              | `false`               | If `true`, the table will include the data download widget on top.                                                                                                                                                                            |
+| `dataDownloaderFileStem` | `string`            | `'data'`              | File name without extension for the data download widget.                                                                                                                                                                                     |
+| `dataDownloaderRows`     | `function \| array` | value of `rows` prop. | Rows array or a function returning the rows array passed to the data download widget to create file contents.<br><br>**Signature**: `function() => []`                                                                                        |
+| `fixed`                  | `bool`              | `false`               | If `true`, `table-layout` will be `fixed`.                                                                                                                                                                                                    |
+| `headerGroups`           | `array`             | `[]`                  | If not empty, a first header row will be rendered with the given groups. See [headers object](#headersobject).                                                                                                                                |
+| `hover`                  | `bool`              | `false`               | If `true`, the table rows will shade on hover.                                                                                                                                                                                                |
+| `rows`                   | `array`             |                       | Row data.                                                                                                                                                                                                                                     |
+| `noWrap`                 | `bool`              | `true`                | If `false`, table row content will wrap. This will disable the table fixed height feature.                                                                                                                                                    |
+| `noWrapHeader`           | `bool`              | `true`                | If `false`, table header content will wrap.                                                                                                                                                                                                   |
+| `order`                  | `'asc' \| 'desc'`   | `'asc'`               | Default ordering (ascending or descending).                                                                                                                                                                                                   |
+| `pageSize`               | `number`            | `10`                  | Number of rows (fixed + regular) to display per page.                                                                                                                                                                                         |
+| `ActionsComponent`       | `function`          |                       | Component rendered as pagination controls. Default is regular prev/next. See [this option](https://github.com/opentargets/platform-app/blob/alpha/src/public/common/Table/TablePaginationActions.js#L12) which includes first/prev/next/last. |
+| `showGlobalFilter`       | `bool`              | `false`               | If `true`, the table will show the global filter input box.                                                                                                                                                                                   |
+| `sortBy`                 | `string`            |                       | Column id to set as the default for table row sorting.                                                                                                                                                                                        |
+| `rowsPerPageOptions`     | `array`             | `[]`                  | The options for page sizes that appear in the dropdown                                                                                                                                                                                        |
+| `stickyHeader`           | `boolean`           | `false`               | If `true`, the header will be sticky                                                                                                                                                                                                          |
 
 ## <a name="columndata"></a> Column data object
 

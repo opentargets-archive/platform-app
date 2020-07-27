@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'ot-ui';
 
-import Table from '../../../common/Table/Table';
-import { PaginationActionsComplete } from '../../../common/Table/TablePaginationActions';
+import DataTable from '../../../common/Table/DataTable';
 
 const columns = [
   {
@@ -57,11 +56,10 @@ const columns = [
 ];
 
 const Section = ({ chemblId, data }) => (
-  <Table
+  <DataTable
     showGlobalFilter
     columns={columns}
     rows={data.rows}
-    pagination={PaginationActionsComplete}
     dataDownloader
     dataDownloaderFileStem={`${chemblId}-mechanisms-of-action`}
   />

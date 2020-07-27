@@ -1,10 +1,10 @@
 query knownDrugsSectionQuery(
-  $cursor: [String!] = null
-  $ensgId: String!
-  $freeTextQuery: String! = ""
-  $size: Int! = 100
+  $ensemblId: String!
+  $cursor: [String!]
+  $freeTextQuery: String
+  $size: Int = 10
 ) {
-  target(ensemblId: $ensgId) {
+  target(ensemblId: $ensemblId) {
     id
     knownDrugs(cursor: $cursor, freeTextQuery: $freeTextQuery, size: $size) {
       count
@@ -16,12 +16,10 @@ query knownDrugsSectionQuery(
           name
           url
         }
-
         disease {
           id
           name
         }
-
         drug {
           id
           name
