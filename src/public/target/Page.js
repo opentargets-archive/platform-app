@@ -31,8 +31,8 @@ const TARGET_QUERY = gql`
 
 const TargetPage = ({ history, location, match }) => {
   const handleChange = (event, value) => {
-    if (value.indexOf('http' === 0)) {
-      // navigte to external page: first store current page
+    if (value.indexOf('http') === 0) {
+      // navigate to external page: first store current page
       // for back button to work correctly
       // TODO: this link will be removed after alpha/beta
       history.push(match.url);
@@ -85,10 +85,7 @@ const TargetPage = ({ history, location, match }) => {
         scrollButtons="auto"
       >
         <Tab value="overview" label="Profile" />
-        <Tab
-          value={`https://www.targetvalidation.org/target/${ensgId}`}
-          label="View this page in the classic view"
-        />
+        <Tab value="classic-associations" label="Associations (classic)" />
         <Tab
           value={`https://www.targetvalidation.org/target/${ensgId}/associations`}
           label="View associated diseases"
