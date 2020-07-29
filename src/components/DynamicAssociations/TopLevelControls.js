@@ -1,6 +1,5 @@
 import React from 'react';
-import { Checkbox } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
+import { Checkbox, Typography } from '@material-ui/core';
 
 const TopLevelControls = ({ indirects, onIndirectsChange }) => (
   <div

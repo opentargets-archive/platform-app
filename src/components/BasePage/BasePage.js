@@ -1,10 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { makeStyles } from '@material-ui/core/styles';
-import { Page, NavBar, Footer } from 'ot-ui';
+import { makeStyles } from '@material-ui/core';
 
-import { externalLinks, mainMenuItems } from '../../constants';
 import Search from '../Search/Search';
+import { Page, NavBar, Footer } from 'ot-ui';
+import { externalLinks, mainMenuItems } from '../../constants';
 
 const useStyles = makeStyles({
   searchContainer: {

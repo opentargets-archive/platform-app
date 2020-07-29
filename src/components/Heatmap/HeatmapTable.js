@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Tooltip from '@material-ui/core/Tooltip';
-import Badge from '@material-ui/core/Badge';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  Badge,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+  Tooltip,
+  withStyles,
+} from '@material-ui/core';
+
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';

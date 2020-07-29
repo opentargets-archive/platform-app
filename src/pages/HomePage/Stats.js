@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { Grid, Typography, withStyles } from '@material-ui/core';
 
 import { commaSeparate } from 'ot-ui';
 

@@ -1,8 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import _ from 'lodash';
-import TablePagination from '@material-ui/core/TablePagination';
-import Grid from '@material-ui/core/Grid';
+import { Grid, TablePagination } from '@material-ui/core';
 
 import TooltipContent from './ClassicAssociationsTooltip';
 import {

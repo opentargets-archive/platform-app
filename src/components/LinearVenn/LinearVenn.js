@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState, useRef } from 'react';
-import withTheme from '@material-ui/core/styles/withTheme';
+import { withTheme } from '@material-ui/core';
 
 const WIDTH = 400;
 const HEIGHT = 18;

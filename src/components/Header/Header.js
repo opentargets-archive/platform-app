@@ -1,7 +1,5 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Typography, withStyles } from '@material-ui/core';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

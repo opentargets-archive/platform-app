@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { Typography, makeStyles } from '@material-ui/core';
 import _ from 'lodash';
 
 // generate classNames to share between the components in this file

@@ -1,6 +1,6 @@
 import React from 'react';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import { makeStyles } from '@material-ui/core/styles';
+import { SvgIcon, makeStyles } from '@material-ui/core';
+
 const useStyles = makeStyles({
   root: {
     height: 'unset',

@@ -1,6 +1,5 @@
 import React from 'react';
-import MuiChip from '@material-ui/core/Chip';
-import { makeStyles } from '@material-ui/core/styles';
+import { Chip as MUIChip, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
   chip: {
@@ -14,7 +13,7 @@ const useStyles = makeStyles({
 const Chip = ({ label, title }) => {
   const classes = useStyles();
   return (
-    <MuiChip
+    <MUIChip
       className={classes.chip}
       label={label}
       title={title}

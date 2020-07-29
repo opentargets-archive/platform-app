@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
 
 import { Link } from 'ot-ui';
 

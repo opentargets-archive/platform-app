@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { print } from 'graphql/language/printer';
 import _ from 'lodash';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { Grid, Typography, withStyles } from '@material-ui/core';
 import WarningIcon from '@material-ui/icons/Warning';
 import LockIcon from '@material-ui/icons/Lock';
 
-import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../../components/Profile';
 import Chip from '../../components/Chip';
 import Description from '../../components/Description';
@@ -16,6 +13,7 @@ import LongList from '../../components/LongList';
 import Smiles from './Smiles';
 import WarningTooltip from '../../components/WarningTooltip';
 import WithdrawnNotice from '../../components/WithdrawnNotice';
+import * as sectionsObject from './sectionIndex';
 
 const sections = Object.values(sectionsObject);
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import { Typography } from '@material-ui/core';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
-
-import Typography from '@material-ui/core/Typography';
 
 import { Button, downloadSVG } from 'ot-ui';
 

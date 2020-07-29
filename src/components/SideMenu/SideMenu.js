@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Card, Typography, withStyles } from '@material-ui/core';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
 
 import SideMenuItem from './SideMenuItem';
 

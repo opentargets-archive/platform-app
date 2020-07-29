@@ -1,14 +1,12 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { Grid, makeStyles } from '@material-ui/core';
 
 import { Link, NavBar, Footer } from 'ot-ui';
 
-import Splash from './Splash';
-// import Stats from './Stats';
 import HomeBox from './HomeBox';
-import searchExamples from './searchExamples';
 import Search from '../../components/Search';
+import searchExamples from './searchExamples';
+import Splash from './Splash';
 import { externalLinks, mainMenuItems } from '../../constants';
 
 const useStyles = makeStyles({

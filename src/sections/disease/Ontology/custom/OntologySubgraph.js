@@ -1,8 +1,8 @@
 import React from 'react';
-import { withContentRect } from 'react-measure';
 import * as d3Base from 'd3';
 import * as d3DagBase from 'd3-dag';
-import withTheme from '@material-ui/core/styles/withTheme';
+import { withContentRect } from 'react-measure';
+import { withTheme } from '@material-ui/core';
 
 import { Link } from 'ot-ui';
 

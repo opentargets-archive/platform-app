@@ -1,5 +1,5 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
 
 import OTGeneticsSection from '../../evidence/OTGenetics/Section';
 import UniProtSection from '../../evidence/UniProt/Section';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { mix, complement, lighten } from 'polished';
-import withTheme from '@material-ui/core/styles/withTheme';
+import { withTheme } from '@material-ui/core';
 
 function withScaleAssociation(WrappedComponent) {
   return withTheme(

@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import * as d3 from 'd3';
-import withTheme from '@material-ui/core/styles/withTheme';
+import { withTheme } from '@material-ui/core';
 
 // import { Link } from 'ot-ui';
 

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
+
 import BibliographyHtmlText from './BibliographyHtmlText';
 
 /**

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, withStyles } from '@material-ui/core/Checkbox';
+import { Checkbox, withStyles } from '@material-ui/core';
 
 const styles = theme => ({
   checked: {},

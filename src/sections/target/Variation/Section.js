@@ -1,6 +1,6 @@
 import React from 'react';
 import { withContentRect } from 'react-measure';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
 import * as d3 from 'd3';
 
 import { Link } from 'ot-ui';

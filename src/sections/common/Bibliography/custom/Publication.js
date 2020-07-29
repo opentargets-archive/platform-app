@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Typography } from '@material-ui/core';
 
 import { Button } from 'ot-ui';
-import SimplePublication from './SimplePublication';
+
 import Abstract from './Abstract';
-import { getPublicationAbstract, getSimilarPublications } from './Api';
 import BibliographyDetailPanel from './BibliographyDetailPanel';
+import SimplePublication from './SimplePublication';
+import { getPublicationAbstract, getSimilarPublications } from './Api';
 
 /**
  * This renders a full publication block in the bibliography details.

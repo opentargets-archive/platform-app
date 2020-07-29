@@ -1,6 +1,5 @@
 import React from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
-import { Icon, Grid, Typography } from '@material-ui/core';
+import { Icon, Grid, Typography, withStyles } from '@material-ui/core';
 
 import { Link } from 'ot-ui';
 

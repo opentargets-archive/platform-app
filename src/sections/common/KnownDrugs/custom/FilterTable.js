@@ -1,10 +1,10 @@
 import React from 'react';
 import Select from 'react-select';
-import withStyles from '@material-ui/core/styles/withStyles';
 import crossfilter from 'crossfilter2';
 import dc from 'dc';
 import * as d3 from 'd3';
 import { lighten, darken } from 'polished';
+import { withStyles } from '@material-ui/core';
 
 import DCContainer from './DCContainer';
 import { Link, OtTableRF, DataDownloader } from 'ot-ui';

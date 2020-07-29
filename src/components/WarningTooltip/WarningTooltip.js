@@ -1,5 +1,4 @@
-import Tooltip from '@material-ui/core/Tooltip';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { Tooltip, withStyles } from '@material-ui/core';
 
 const WarningTooltip = withStyles(theme => ({
   tooltip: {
