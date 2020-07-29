@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactGA from 'react-ga';
-
+import { loader } from 'graphql.macro';
 import { Link } from 'ot-ui';
 
+import client from '../../../client';
 import SourceDrawer from '../../common/KnownDrugs/custom/SourceDrawer';
-import Table from '../../../components/Table';
+import { Table, getPage } from '../../../components/Table';
 import useCursorBatchDownloader from '../../../hooks/useCursorBatchDownloader';
 import { naLabel } from '../../../constants';
-import { sectionQuery } from '.';
+
+const KNOWN_DRUGS_QUERY = loader('./sectionQuery.gql');
 
 const columnPool = {
   clinicalTrialsColumns: {
@@ -110,84 +112,121 @@ const headerGroups = [
   })),
 ];
 
-const Section = ({ data, fetchMore, ensgId }) => {
-  const pageSize = 10;
-  const [cursor, setCursor] = useState(data.cursor);
+const fetchDrugs = (ensemblId, cursor, size, freeTextQuery) => {
+  return client.query({
+    query: KNOWN_DRUGS_QUERY,
+    variables: {
+      ensemblId,
+      cursor,
+      size: size * 10, // fetch 10 pages ahead of time
+      freeTextQuery,
+    },
+  });
+};
+
+const INIT_PAGE_SIZE = 10;
+
+const Section = ({ ensgId }) => {
+  const [loading, setLoading] = useState(true);
+  const [count, setCount] = useState(0);
+  const [cursor, setCursor] = useState(null);
+  const [rows, setRows] = useState([]);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(INIT_PAGE_SIZE);
   const [globalFilter, setGlobalFilter] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [rows, setRows] = useState(data.rows.slice(0, pageSize));
+
+  useEffect(
+    () => {
+      fetchDrugs(ensgId, null, INIT_PAGE_SIZE).then(res => {
+        const { cursor, count, rows } = res.data.target.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setCount(count);
+        setRows(rows);
+      });
+    },
+    [ensgId]
+  );
 
   const getWholeDataset = useCursorBatchDownloader(
-    sectionQuery,
-    { ensgId, freeTextQuery: globalFilter },
+    KNOWN_DRUGS_QUERY,
+    { ensemblId: ensgId },
     'data.target.knownDrugs'
   );
 
-  async function fetchMoreRows(cursor, globalFilter, invalidate = false) {
-    setLoading(true);
-
-    await fetchMore({
-      variables: { cursor, freeTextQuery: globalFilter },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        const newCursor = fetchMoreResult.target.knownDrugs?.cursor || null;
-        const newCount = fetchMoreResult.target.knownDrugs?.count || 0;
-        const newRows = fetchMoreResult.target.knownDrugs?.rows || [];
-
-        setCursor(newCursor);
-
-        prev.target.knownDrugs.rows = invalidate
-          ? newRows
-          : [...prev.target.knownDrugs.rows, ...newRows];
-
-        prev.target.knownDrugs.count = newCount;
-        prev.target.knownDrugs.cursor = newCursor;
-
-        return prev;
-      },
-    });
-
-    setLoading(false);
-  }
-
-  const onTableAction = async params => {
-    const startRow = params.page * pageSize;
-    const endRow = startRow + pageSize;
-
-    // Cases where we need to fetch more rows: filter has changed, or we are
-    // out of rows but not yet at the end of the dataset.
-    if (params.globalFilter !== globalFilter) {
-      setGlobalFilter(params.globalFilter);
-
-      // create event in GA
-      if (params.globalFilter) {
-        ReactGA.event({
-          category: 'Target Profile Page',
-          action: 'Typed in knownDrugs widget search',
-          label: params.globalFilter,
-        });
-      }
-
-      await fetchMoreRows(null, params.globalFilter, true);
-    } else if (endRow > data.rows.length && endRow < data.count) {
-      await fetchMoreRows(cursor, params.globalFilter, false);
+  const handlePageChange = newPage => {
+    if (
+      pageSize * newPage + pageSize > rows.length &&
+      (cursor === null || cursor.length !== 0)
+    ) {
+      setLoading(true);
+      fetchDrugs(ensgId, cursor, pageSize, globalFilter).then(res => {
+        const { cursor, rows: newRows } = res.data.target.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(newPage);
+        setRows([...rows, ...newRows]);
+      });
+    } else {
+      setPage(newPage);
     }
+  };
 
-    setRows(data.rows.slice(startRow, endRow));
+  const handleRowsPerPageChange = newPageSize => {
+    if (newPageSize > rows.length) {
+      setLoading(true);
+      fetchDrugs(ensgId, cursor, newPageSize, globalFilter).then(res => {
+        const { cursor, rows: newRows } = res.data.target.knownDrugs;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(0);
+        setPageSize(newPageSize);
+        setRows([...rows, ...newRows]);
+      });
+    } else {
+      setPage(0);
+      setPageSize(newPageSize);
+    }
+  };
+
+  const handleGlobalFilterChange = newGlobalFilter => {
+    setLoading(true);
+    ReactGA.event({
+      category: 'Target Profile Page',
+      action: 'Typed in knownDrugs widget search',
+      label: newGlobalFilter,
+    });
+    fetchDrugs(ensgId, null, pageSize, newGlobalFilter).then(res => {
+      const { cursor, count, rows: newRows = [] } =
+        res.data.target.knownDrugs ?? {};
+      setLoading(false);
+      setPage(0);
+      setCursor(cursor);
+      setCount(count);
+      setGlobalFilter(newGlobalFilter);
+      setRows(newRows);
+    });
   };
 
   return (
     <Table
-      columns={columns}
+      loading={loading}
+      stickyHeader
+      showGlobalFilter
+      globalFilter={globalFilter}
       dataDownloader
       dataDownloaderRows={getWholeDataset}
-      dataDownloaderFileStem={`${ensgId}-known_drugs`}
+      dataDownloaderFileStem={`${ensgId}-known-drugs`}
       headerGroups={headerGroups}
-      loading={loading}
-      rowCount={data?.count || 0}
-      rows={rows}
-      serverSide={true}
-      showGlobalFilter
-      onTableAction={onTableAction}
+      columns={columns}
+      rows={getPage(rows, page, pageSize)}
+      rowCount={count}
+      rowsPerPageOptions={[10, 25, 100]}
+      page={page}
+      pageSize={pageSize}
+      onGlobalFilterChange={handleGlobalFilterChange}
+      onPageChange={handlePageChange}
+      onRowsPerPageChange={handleRowsPerPageChange}
     />
   );
 };

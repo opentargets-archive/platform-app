@@ -15,6 +15,8 @@ export function PaginationActionsComplete({
   rowsPerPage,
   onChangePage,
 }) {
+  const classes = useStyles();
+
   const handleFirstPageButtonClick = event => {
     onChangePage(event, 0);
   };
@@ -30,8 +32,6 @@ export function PaginationActionsComplete({
   const handleLastPageButtonClick = event => {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
-
-  const classes = useStyles();
 
   return (
     <div className={classes.root}>
@@ -52,37 +52,6 @@ export function PaginationActionsComplete({
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
       >
         <LastPageIcon />
-      </IconButton>
-    </div>
-  );
-}
-
-export function PaginationActionsReduced({
-  count,
-  page,
-  rowsPerPage,
-  onChangePage,
-}) {
-  const handleBackButtonClick = event => {
-    onChangePage(event, page - 1);
-  };
-
-  const handleNextButtonClick = event => {
-    onChangePage(event, page + 1);
-  };
-
-  const classes = useStyles();
-
-  return (
-    <div className={classes.root}>
-      <IconButton disabled={page === 0} onClick={handleBackButtonClick}>
-        <KeyboardArrowLeft />
-      </IconButton>
-      <IconButton
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        onClick={handleNextButtonClick}
-      >
-        <KeyboardArrowRight />
       </IconButton>
     </div>
   );

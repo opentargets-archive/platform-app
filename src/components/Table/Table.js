@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
+import classNames from 'classnames';
 import {
-  Box,
   Grid,
+  TableContainer,
   Table as MUITable,
   TableBody,
   TableCell,
@@ -14,118 +15,83 @@ import DataDownloader from './DataDownloader';
 import GlobalFilter from './GlobalFilter';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
-import {
-  prepareDataClientSide,
-  prepareDataServerSide,
-  sliceDataClientSide,
-} from './dataPreparation';
 import { tableStyles } from './tableStyles';
-import useUpdateEffect from '../../hooks/useUpdateEffect';
 
-function Table({
+const Table = ({
+  stickyHeader,
+  sortBy,
+  order,
+  page,
   columns,
   rows,
   rowCount = rows.length,
   fixed = false,
-  fixedRows = [],
   headerGroups = [],
   loading,
-  onTableAction = () => {},
-  pageSize = 10 - fixedRows.length,
-  pagination,
+  onGlobalFilterChange = () => {},
+  onSortBy = () => {},
+  onRowsPerPageChange = () => {},
+  onPageChange = () => {},
+  pageSize = 10,
   dataDownloader = false,
   dataDownloaderFileStem = 'data',
   dataDownloaderRows,
   hover = false,
-  serverSide = false,
-  showGlobalFilter = false,
   noWrap = true,
   noWrapHeader = true,
-  ...props
-}) {
-  const [page, setPage] = useState(0);
-  const [sortBy, setSortBy] = useState(props.sortBy);
-  const [order, setOrder] = useState(props.order || 'asc');
-  const [globalFilter, setGlobalFilter] = useState('');
-
-  let filteredRows, pageRows;
-
-  if (serverSide) {
-    pageRows = prepareDataServerSide(rows, fixedRows);
-  } else {
-    filteredRows = prepareDataClientSide(
-      rows,
-      columns,
-      globalFilter,
-      order,
-      sortBy
-    );
-
-    pageRows = sliceDataClientSide(
-      filteredRows,
-      filteredRows.length,
-      fixedRows,
-      page,
-      pageSize
-    );
-
-    rowCount = filteredRows.length;
-  }
-
-  const emptyRows = pageSize - pageRows.length;
-
-  const handleChangePage = (_, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleRequestSort = (_, property) => {
-    if (sortBy === property) {
-      setOrder(order === 'asc' ? 'desc' : 'asc');
-    }
-
-    setSortBy(property);
-  };
-
-  const handleChangeGlobalFilter = newValue => {
-    const trimmedValue = newValue.trim();
-
-    if (globalFilter !== trimmedValue) {
-      setPage(0);
-      setGlobalFilter(trimmedValue);
-    }
-  };
-
-  useUpdateEffect(
-    () => onTableAction({ page, pageSize, sortBy, order, globalFilter }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, pageSize, sortBy, order, globalFilter]
-  );
-
+  showGlobalFilter,
+  globalFilter,
+  rowsPerPageOptions = [],
+  ActionsComponent,
+}) => {
+  const emptyRows = pageSize - rows.length;
   const classes = tableStyles();
 
+  const handleGlobalFilterChange = newGlobalFilter => {
+    if (newGlobalFilter !== globalFilter) {
+      onGlobalFilterChange(newGlobalFilter);
+    }
+  };
+
+  const handleSort = (_, sortBy) => {
+    onSortBy(sortBy);
+  };
+
+  const handleChangeRowsPerPage = event => {
+    onRowsPerPageChange(event.target.value);
+  };
+  const handleChangePage = (_, page) => {
+    onPageChange(page);
+  };
+
   return (
-    <Grid container justify="flex-end" alignContent="center">
-      {showGlobalFilter && (
-        <Grid item xs={12} md={5} lg={7} className={classes.tableUpperControl1}>
-          <GlobalFilter onGlobalFilterChange={handleChangeGlobalFilter} />
-        </Grid>
-      )}
-
-      {dataDownloader && (
-        <Grid item xs={12} md={7} lg={5} className={classes.tableUpperControl2}>
-          <DataDownloader
-            columns={columns}
-            rows={dataDownloaderRows || filteredRows}
-            fileStem={dataDownloaderFileStem}
-          />
-        </Grid>
-      )}
-
-      <Grid item xs={12} className={classes.tableWrapper}>
+    <Grid container direction="column">
+      <Grid item container>
+        {showGlobalFilter && (
+          <Grid className={classes.filter} item xs={12} md={5} lg={7}>
+            <GlobalFilter onGlobalFilterChange={handleGlobalFilterChange} />
+          </Grid>
+        )}
+        {dataDownloader && (
+          <Grid className={classes.downloader} item xs={12} md={7} lg={5}>
+            <DataDownloader
+              columns={columns}
+              rows={dataDownloaderRows}
+              fileStem={dataDownloaderFileStem}
+            />
+          </Grid>
+        )}
+      </Grid>
+      <TableContainer
+        className={classNames(classes.container, {
+          [classes.stickyHeader]: stickyHeader,
+        })}
+      >
         <MUITable
           classes={{
             root: `${classes.table} ${fixed ? classes.tableFixed : ''}`,
           }}
+          stickyHeader={stickyHeader}
         >
           <TableHeader
             classes={classes}
@@ -134,10 +100,11 @@ function Table({
             noWrapHeader={noWrapHeader}
             order={order}
             sortBy={sortBy}
-            onRequestSort={handleRequestSort}
+            onRequestSort={handleSort}
+            stickyHeader={stickyHeader}
           />
           <TableBody>
-            {pageRows.map((row, i) => (
+            {rows.map((row, i) => (
               <TableRow
                 columns={columns}
                 hover={hover}
@@ -153,34 +120,32 @@ function Table({
                   colSpan={columns.length}
                   classes={{ root: `${classes.cellBody} ${classes.noData}` }}
                 >
-                  {!pageRows.length && 'No data'}
+                  {!rows.length && 'No data'}
                 </TableCell>
               </MUITableRow>
             )}
           </TableBody>
         </MUITable>
-      </Grid>
-
-      <Grid item xs={12} className={classes.tablePagination}>
-        <Box className={classes.tablePaginationBox}>
-          {loading && <CircularProgress size={24} />}
-          <TablePagination
-            ActionsComponent={pagination}
-            backIconButtonProps={{ disabled: loading || page === 0 }}
-            nextIconButtonProps={{
-              disabled: loading || page >= rowCount / pageSize - 1,
-            }}
-            component="div"
-            count={rowCount}
-            onChangePage={handleChangePage}
-            page={page}
-            rowsPerPage={pageSize}
-            rowsPerPageOptions={[]}
-          />
-        </Box>
+      </TableContainer>
+      <Grid item container justify="flex-end">
+        {loading && <CircularProgress className={classes.progress} size={22} />}
+        <TablePagination
+          ActionsComponent={ActionsComponent}
+          backIconButtonProps={{ disabled: loading || page === 0 }}
+          nextIconButtonProps={{
+            disabled: loading || page >= rowCount / pageSize - 1,
+          }}
+          component="div"
+          count={rowCount}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+          page={page}
+          rowsPerPage={pageSize}
+          rowsPerPageOptions={rowsPerPageOptions}
+        />
       </Grid>
     </Grid>
   );
-}
+};
 
 export default Table;

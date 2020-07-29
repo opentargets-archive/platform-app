@@ -27,7 +27,8 @@ export function globalFilter(row, columns, value) {
       ? column.filterValue(row)
       : _.get(row, column.propertyPath || column.id, '');
 
-    return [...accumulator, newValue];
+    accumulator.push(newValue);
+    return accumulator;
   }, []);
 
   return contents

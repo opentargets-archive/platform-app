@@ -4,7 +4,7 @@ import { Typography, Divider, Box, Tooltip } from '@material-ui/core';
 
 import { Link } from 'ot-ui';
 
-import Table, { PaginationActionsComplete } from '../../../../components/Table';
+import DataTable from '../../../../components/Table/DataTable';
 
 const SafetyTables = ({ symbol, data }) => {
   const { adverseEffects, safetyRiskInfo, tox21, etox } = data;
@@ -17,11 +17,10 @@ const SafetyTables = ({ symbol, data }) => {
       {hasEffects && (
         <>
           <Typography variant="h6">Known safety effects</Typography>
-          <Table
+          <DataTable
             columns={effectsColumns}
             dataDownloader
             dataDownloaderFileStem={`${symbol}-safety-effects`}
-            pagination={PaginationActionsComplete}
             rows={adverseEffects}
             showGlobalFilter
             noWrap={false}
@@ -31,11 +30,10 @@ const SafetyTables = ({ symbol, data }) => {
       {hasRiskInfo && (
         <>
           <Typography variant="h6">Safety risk information</Typography>
-          <Table
+          <DataTable
             columns={riskColumns}
             dataDownloader
             dataDownloaderFileStem={`${symbol}-risk-information`}
-            pagination={PaginationActionsComplete}
             rows={safetyRiskInfo}
             showGlobalFilter
             noWrap={false}
@@ -53,22 +51,20 @@ const SafetyTables = ({ symbol, data }) => {
           </Typography>
           <SeparatedByDividers>
             {hasTox21 && (
-              <Table
+              <DataTable
                 columns={tox21Columns}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-tox21`}
-                pagination={PaginationActionsComplete}
                 rows={tox21}
                 showGlobalFilter
                 noWrap={false}
               />
             )}
             {hasEtox && (
-              <Table
+              <DataTable
                 columns={etoxColumns}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-etox`}
-                pagination={PaginationActionsComplete}
                 rows={etox}
                 showGlobalFilter
                 noWrap={false}

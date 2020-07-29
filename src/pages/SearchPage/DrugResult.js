@@ -1,11 +1,12 @@
 import React from 'react';
-import { Typography, withStyles } from '@material-ui/core';
 import Clampy from '@clampy-js/react-clampy';
+import { Typography, withStyles } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { Link } from 'ot-ui';
 
 import Highlights from '../../components/Highlights';
-import DrugIcon from '../../assets/DrugIcon';
 
 const styles = theme => ({
   container: {
@@ -17,7 +18,6 @@ const styles = theme => ({
   },
   icon: {
     color: theme.palette.primary.main,
-    verticalAlign: 'bottom',
   },
 });
 
@@ -25,7 +25,12 @@ const DrugResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
       <Link to={`drug/${data.id}`} className={classes.subtitle}>
-        <DrugIcon className={classes.icon} /> {data.name}
+        <FontAwesomeIcon
+          icon={faPrescriptionBottleAlt}
+          size="md"
+          className={classes.icon}
+        />{' '}
+        {data.name}
       </Link>
       {data.description && (
         <Typography variant="body2" component="div">

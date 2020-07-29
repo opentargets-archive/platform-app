@@ -1,11 +1,12 @@
 import React from 'react';
 import { CardContent, makeStyles, Typography } from '@material-ui/core';
 import WarningIcon from '@material-ui/icons/Warning';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { Link } from 'ot-ui';
 
 import Chip from '../../components/Chip';
-import DrugIcon from '../../assets/DrugIcon';
 import LongList from '../../components/LongList';
 import LongText from '../../components/LongText';
 import WarningTooltip from '../../components/WarningTooltip';
@@ -32,7 +33,7 @@ const DrugDetail = ({ data }) => {
         <Link to={`/drug/${data.id}`}>{data.name}</Link>
       </Typography>
       <Typography color="primary">
-        <DrugIcon className={classes.icon} /> Drug
+        <FontAwesomeIcon icon={faPrescriptionBottleAlt} size="md" /> Drug
       </Typography>
       <LongText lineLimit={4}>{data.description}</LongText>
       {data.hasBeenWithdrawn && (

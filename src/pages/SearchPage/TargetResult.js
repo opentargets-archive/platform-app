@@ -1,11 +1,12 @@
 import React from 'react';
 import Clampy from '@clampy-js/react-clampy';
 import { Typography, withStyles } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDna } from '@fortawesome/free-solid-svg-icons';
 
 import { Link } from 'ot-ui';
 
 import Highlights from '../../components/Highlights';
-import TargetIcon from '../../assets/TargetIcon';
 
 const styles = theme => ({
   container: {
@@ -17,7 +18,6 @@ const styles = theme => ({
   },
   icon: {
     color: theme.palette.primary.main,
-    verticalAlign: 'bottom',
   },
 });
 
@@ -25,7 +25,8 @@ const TargetResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
       <Link to={`/target/${data.id}`} className={classes.subtitle}>
-        <TargetIcon className={classes.icon} /> {data.approvedSymbol}
+        <FontAwesomeIcon icon={faDna} size="md" className={classes.icon} />{' '}
+        {data.approvedSymbol}
       </Link>
       {data.proteinAnnotations ? (
         <Typography variant="body2" component="div">

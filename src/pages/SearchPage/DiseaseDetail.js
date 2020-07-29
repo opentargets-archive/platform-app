@@ -1,10 +1,11 @@
 import React from 'react';
 import { CardContent, Typography, withStyles } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
 import { Link } from 'ot-ui';
 
 import LongText from '../../components/LongText';
-import DiseaseIcon from '../../assets/DiseaseIcon';
 
 const styles = () => ({
   link: {
@@ -12,9 +13,6 @@ const styles = () => ({
   },
   subtitle: {
     fontWeight: 500,
-  },
-  icon: {
-    verticalAlign: 'bottom',
   },
 });
 
@@ -26,7 +24,7 @@ const DiseaseDetail = ({ classes, data }) => {
         <Link to={`/disease/${id}`}>{name}</Link>
       </Typography>
       <Typography color="primary">
-        <DiseaseIcon className={classes.icon} /> Disease or phenotype
+        <FontAwesomeIcon icon={faStethoscope} size="md" /> Disease or phenotype
       </Typography>
       <LongText lineLimit={4}>{description}</LongText>
       {therapeuticAreas.length > 0 && (

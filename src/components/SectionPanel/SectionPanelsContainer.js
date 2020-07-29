@@ -46,7 +46,7 @@ class SectionPanelsContainer extends React.Component {
       entitySectionsAccessor,
     } = this.props;
     return (
-      <div style={{ paddingTop: 8, paddingBottom: 8 }}>
+      <div style={{ paddingTop: 8, paddingBottom: 8 }} id="detail-view-section">
         <Grid container spacing={1}>
           <Hidden smDown>
             <Grid item md={2}>

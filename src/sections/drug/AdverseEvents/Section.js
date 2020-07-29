@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import _ from 'lodash';
 import { withStyles } from '@material-ui/core';
 
-import Table, { PaginationActionsComplete } from '../../../components/Table';
+import { Table, PaginationActionsComplete } from '../../../components/Table';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
 
 const ADVERSE_EVENTS_QUERY = loader('./sectionQuery.gql');
@@ -56,6 +56,7 @@ const getColumns = (critVal, maxLlr, classes) => {
 };
 
 const Section = ({ chemblId, classes, name }) => {
+  const [page, setPage] = useState(0);
   const { data, loading, fetchMore } = useQuery(ADVERSE_EVENTS_QUERY, {
     variables: {
       chemblId,
@@ -63,10 +64,11 @@ const Section = ({ chemblId, classes, name }) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const handleTableAction = ({ page }) => {
+  const handlePageChange = newPage => {
+    setPage(newPage);
     fetchMore({
       variables: {
-        index: page,
+        index: newPage,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         return fetchMoreResult;
@@ -91,7 +93,6 @@ const Section = ({ chemblId, classes, name }) => {
 
   return (
     <Table
-      serverSide
       dataDownloader
       dataDownloaderRows={getAllAdverseEvents}
       dataDownloaderFileStem={`${name}-adverse-events`}
@@ -99,8 +100,9 @@ const Section = ({ chemblId, classes, name }) => {
       columns={getColumns(critVal, maxLlr, classes)}
       rows={rows}
       rowCount={count}
-      onTableAction={handleTableAction}
-      pagination={PaginationActionsComplete}
+      page={page}
+      onPageChange={handlePageChange}
+      ActionsComponent={PaginationActionsComplete}
     />
   );
 };

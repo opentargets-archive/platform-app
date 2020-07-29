@@ -1,17 +1,15 @@
 import React, { Fragment } from 'react';
 import { CardContent, Typography, withStyles } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDna } from '@fortawesome/free-solid-svg-icons';
 
 import { Link } from 'ot-ui';
 
 import LongText from '../../components/LongText';
-import TargetIcon from '../../assets/TargetIcon';
 
 const styles = () => ({
   subtitle: {
     fontWeight: 500,
-  },
-  icon: {
-    verticalAlign: 'bottom',
   },
 });
 
@@ -35,7 +33,7 @@ const TargetDetail = ({ classes, data }) => {
         </Typography>
         <Typography variant="subtitle2">{approvedName}</Typography>
         <Typography color="primary">
-          <TargetIcon className={classes.icon} /> Target
+          <FontAwesomeIcon icon={faDna} size="md" /> Target
         </Typography>
         {functions ? <LongText lineLimit={4}>{functions[0]}</LongText> : null}
         <Typography className={classes.subtitle} variant="subtitle1">

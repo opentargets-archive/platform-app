@@ -4,7 +4,7 @@ import { loader } from 'graphql.macro';
 
 import { Link } from 'ot-ui';
 
-import Table, { PaginationActionsComplete } from '../../../components/Table';
+import { DataTable } from '../../../components/Table';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
 import { naLabel } from '../../../constants';
 
@@ -78,11 +78,10 @@ const Section = ({ ensgId, symbol, data }) => {
   );
 
   return (
-    <Table
+    <DataTable
       showGlobalFilter
       columns={columns}
       rows={rows}
-      pagination={PaginationActionsComplete}
       dataDownloader
       dataDownloaderFileStem={`${symbol}-cancer-biomarkers`}
     />

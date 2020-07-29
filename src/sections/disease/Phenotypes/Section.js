@@ -1,8 +1,7 @@
 import React from 'react';
-
 import { Link } from 'ot-ui';
 
-import Table, { PaginationActionsComplete } from '../../../components/Table';
+import { DataTable } from '../../../components/Table';
 
 const columns = [
   {
@@ -22,11 +21,10 @@ const columns = [
 ];
 
 const Section = ({ data }) => (
-  <Table
+  <DataTable
     columns={columns}
     dataDownloader
     dataDownloaderFileStem="phenotypes"
-    pagination={PaginationActionsComplete}
     rows={data}
     showGlobalFilter
   />
