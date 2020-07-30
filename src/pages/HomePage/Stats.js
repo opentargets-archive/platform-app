@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Typography, withStyles } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDna, faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
 import { commaSeparate } from 'ot-ui';
-
-import TargetIcon from '../../assets/TargetIcon';
-import DiseaseIcon from '../../assets/DiseaseIcon';
 
 const styles = theme => {
   return {
@@ -63,14 +62,14 @@ const Stats = ({ classes }) => {
         {stats && (
           <Grid container justify="space-around">
             <Grid item container md={3} direction="column" alignItems="center">
-              <TargetIcon className={classes.icon} />
+              <FontAwesomeIcon icon={faDna} className={classes.icon} />
               <Typography variant="h6">
                 {commaSeparate(stats.numTargets)}
               </Typography>
               <Typography> targets</Typography>
             </Grid>
             <Grid item container md={3} direction="column" alignItems="center">
-              <DiseaseIcon className={classes.icon} />
+              <FontAwesomeIcon icon={faStethoscope} className={classes.icon} />
               <Typography variant="h6">
                 {commaSeparate(stats.numDiseases)}
               </Typography>

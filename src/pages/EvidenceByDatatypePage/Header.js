@@ -1,12 +1,12 @@
 import React from 'react';
+import { faDna } from '@fortawesome/free-solid-svg-icons';
 
 import Header from '../../components/Header';
-import TargetIcon from '../../assets/TargetIcon';
 
 const EvidenceHeader = ({ target, disease }) => (
   <Header
     title={`Evidence for ${target.symbol} in ${disease.name}`}
-    Icon={TargetIcon}
+    Icon={faDna}
   />
 );
 
