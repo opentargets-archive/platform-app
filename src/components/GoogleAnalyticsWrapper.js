@@ -2,7 +2,7 @@ import ReactGA from 'react-ga';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { googleAnalyticsID } from '../../constants';
+import { googleAnalyticsID } from '../constants';
 
 function GoogleAnalyticsWrapper({
   gaId = googleAnalyticsID,

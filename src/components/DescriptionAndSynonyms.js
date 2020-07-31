@@ -1,9 +1,9 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 
-import Chip from '../Chip';
-import Description from '../Description';
-import LongList from '../LongList';
+import Chip from './Chip';
+import Description from './Description';
+import LongList from './LongList';
 
 const DescriptionAndSynonyms = ({ synonyms, description }) => {
   return (

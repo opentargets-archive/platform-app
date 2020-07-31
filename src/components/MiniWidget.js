@@ -10,7 +10,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 
-import ErrorBoundary from '../ErrorBoundary';
+import ErrorBoundary from './ErrorBoundary';
 
 const styles = theme => ({
   card: {

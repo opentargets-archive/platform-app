@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 
-import MiniWidget from '../MiniWidget';
+import MiniWidget from './MiniWidget';
 
 const MiniWidgetBar = ({ entity, data, onWidgetClick }) => (
   <div style={{ paddingTop: 8, paddingBottom: 8 }} id="summary-widget-section">

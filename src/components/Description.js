@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, withStyles } from '@material-ui/core';
 
-import LongText from '../LongText';
+import LongText from './LongText';
 
 const styles = () => ({
   description: {
