@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
+import { useTheme } from '@material-ui/core/styles';
 import { client3 } from './../client';
 import { lighten } from 'polished';
 import Table from '../common/Table/Table';
@@ -21,10 +22,42 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
   }
 `;
 
-function getColumns(dataTypes) {
-  const columns = [{ id: 'name' }, { id: 'overall' }];
+function getColumns(dataTypes, primaryColor) {
+  console.log('primaryColor', primaryColor);
+  console.log('lighten 0', lighten(0, primaryColor));
+  console.log('lighten 1', lighten(1, primaryColor));
+  console.log('lighten', lighten(0.2, primaryColor));
+
+  const columns = [
+    { id: 'name' },
+    {
+      id: 'overall',
+      renderCell: row => {
+        return (
+          <div
+            style={{ backgroundColor: lighten(1 - row.overall, primaryColor) }}
+          >
+            {row.overall}
+          </div>
+        );
+      },
+    },
+  ];
   dataTypes.forEach(dataType => {
-    columns.push({ id: dataType });
+    columns.push({
+      id: dataType,
+      renderCell: row => {
+        return (
+          <div
+            style={{
+              backgroundColor: lighten(1 - row[dataType], primaryColor),
+            }}
+          >
+            {row[dataType]}
+          </div>
+        );
+      },
+    });
   });
 
   return columns;
@@ -51,8 +84,9 @@ function getRows(data, dataTypes) {
 }
 
 const ClassicAssociationsTable = ({ ensgId, dataTypes }) => {
+  const theme = useTheme();
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(100);
 
   const { loading, error, data } = useQuery(TARGET_ASSOCIATIONS_QUERY, {
     variables: {
@@ -72,7 +106,7 @@ const ClassicAssociationsTable = ({ ensgId, dataTypes }) => {
 
   if (error) return null;
 
-  const columns = getColumns(dataTypes);
+  const columns = getColumns(dataTypes, theme.palette.primary.main);
   const rows = getRows(data?.target.associatedDiseases ?? [], dataTypes);
 
   return (
@@ -80,7 +114,7 @@ const ClassicAssociationsTable = ({ ensgId, dataTypes }) => {
       loading={loading}
       columns={columns}
       rows={rows}
-      rowCount={100}
+      rowCount={300}
       page={page}
       pageSize={pageSize}
       rowsPerPageOptions={[10, 25, 100]}
