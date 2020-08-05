@@ -25,7 +25,7 @@ const DISEASE_QUERY = gql`
 
 const DiseasePage = ({ history, location, match }) => {
   const handleChange = (event, value) => {
-    if (value.indexOf('http' === 0)) {
+    if (value.indexOf('http') === 0) {
       // navigte to external page: first store current page
       // for back button to work correctly
       // TODO: this link will be removed after alpha/beta
@@ -65,10 +65,7 @@ const DiseasePage = ({ history, location, match }) => {
         {/* <Tab value="classic-associations" label="Associations (classic)" />
         <Tab value="associations" label="Associations (dynamic)" /> */}
         <Tab value="overview" label="Profile" />
-        <Tab
-          value={`https://www.targetvalidation.org/disease/${efoId}`}
-          label="View this page in the classic view"
-        />
+        <Tab value="classic-associations" label="Associations (classic)" />
         <Tab
           value={`https://www.targetvalidation.org/disease/${efoId}/associations`}
           label="View associated targets"
