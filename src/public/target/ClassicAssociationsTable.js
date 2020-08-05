@@ -23,11 +23,6 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
 `;
 
 function getColumns(dataTypes, primaryColor) {
-  console.log('primaryColor', primaryColor);
-  console.log('lighten 0', lighten(0, primaryColor));
-  console.log('lighten 1', lighten(1, primaryColor));
-  console.log('lighten', lighten(0.2, primaryColor));
-
   const columns = [
     { id: 'name' },
     {

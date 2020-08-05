@@ -21,7 +21,6 @@ const DATA_TYPES_QUERY = gql`
 
 function ClassicAssociations({ ensgId, symbol }) {
   const { loading, error, data } = useQuery(DATA_TYPES_QUERY, {
-    variables: {},
     client: client3,
   });
 
