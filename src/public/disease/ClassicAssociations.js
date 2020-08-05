@@ -32,7 +32,7 @@ function ClassicAssociations({ efoId, name }) {
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h6">
-          <strong>XYZ diseases</strong> associated with <strong>{name}</strong>
+          <strong>XYZ targets</strong> associated with <strong>{name}</strong>
         </Typography>
       </Grid>
       <Grid item xs={12} md={9}>
