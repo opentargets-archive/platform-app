@@ -34,6 +34,7 @@ function HeaderCell({
   tooltipStyle = {},
   TooltipIcon = HelpIcon,
   width,
+  slanted,
 }) {
   const classes = tableStyles();
   const tooltipClasses = makeStyles(tooltipStyle)();
@@ -43,23 +44,27 @@ function HeaderCell({
     ...labelStyle,
   };
 
-  const labelInnerComponent = tooltip ? (
-    <Badge
-      badgeContent={
-        <Tooltip
-          interactive
-          placement="top"
-          classes={tooltipClasses}
-          title={tooltip}
+  const labelInnerComponent = (
+    <span className={classNames({ [classes.slanted]: slanted })}>
+      {tooltip ? (
+        <Badge
+          badgeContent={
+            <Tooltip
+              interactive
+              placement="top"
+              classes={tooltipClasses}
+              title={tooltip}
+            >
+              <TooltipIcon className={classes.tooltipIcon} />
+            </Tooltip>
+          }
         >
-          <TooltipIcon className={classes.tooltipIcon} />
-        </Tooltip>
-      }
-    >
-      {label}
-    </Badge>
-  ) : (
-    label
+          {label}
+        </Badge>
+      ) : (
+        label
+      )}
+    </span>
   );
 
   return (
@@ -71,6 +76,7 @@ function HeaderCell({
           [classes.cellSticky]: sticky,
           [classes.noWrap]: noWrapHeader,
           [classes.headerCellSticky]: stickyHeader && sticky,
+          [classes.slantedHeader]: slanted,
         }),
       }}
       colSpan={colspan}
@@ -143,6 +149,7 @@ function TableHeader({
               tooltipStyle={column.tooltipStyle}
               width={column.width}
               minWidth={column.minWidth}
+              slanted={column.slanted}
             />
           </Hidden>
         ))}

@@ -77,6 +77,16 @@ export const tableStyles = makeStyles(theme => ({
     position: 'relative',
     top: '6px',
   },
+  slantedHeader: {
+    textAlign: 'center',
+    height: '100px',
+  },
+  slanted: {
+    display: 'inline-block',
+    transform: 'rotate(315deg)',
+    whiteSpace: 'normal',
+    width: '100px',
+  },
 }));
 
 export const globalSearchStyles = makeStyles(theme => ({

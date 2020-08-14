@@ -24,16 +24,19 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
 
 function getColumns(dataTypes, primaryColor) {
   const columns = [
-    { id: 'name' },
+    { id: 'name', slanted: true },
     {
       id: 'overall',
+      slanted: true,
       renderCell: row => {
         return (
           <div
-            style={{ backgroundColor: lighten(1 - row.overall, primaryColor) }}
-          >
-            {row.overall}
-          </div>
+            style={{
+              backgroundColor: lighten(1 - row.overall, primaryColor),
+              width: '15px',
+              height: '15px',
+            }}
+          />
         );
       },
     },
@@ -41,15 +44,16 @@ function getColumns(dataTypes, primaryColor) {
   dataTypes.forEach(dataType => {
     columns.push({
       id: dataType,
+      slanted: true,
       renderCell: row => {
         return (
           <div
             style={{
               backgroundColor: lighten(1 - row[dataType], primaryColor),
+              width: '15px',
+              height: '15px',
             }}
-          >
-            {row[dataType]}
-          </div>
+          />
         );
       },
     });
