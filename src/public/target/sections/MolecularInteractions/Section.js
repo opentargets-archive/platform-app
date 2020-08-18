@@ -24,7 +24,7 @@ import { Button, ListTooltip } from 'ot-ui';
 
 import DataTable from '../../../common/Table/DataTable';
 
-import tempData from './tmp/data.json';
+import tempData from './temp/data.json';
 
 // import InteractionsPlot from './custom/InteractionsPlot';
 // import InteractionsTable from './custom/InteractionsTable';
