@@ -536,6 +536,15 @@ const Section = ({ ensgId, symbol, data }) => {
             </Grid>
           </Grid>
         )}
+
+        {/* signor stuff */}
+        {tab === 'signor' && <>Placeholder for Signor data</>}
+
+        {/* reactome stuff */}
+        {tab === 'reactome' && <>Placeholder for Reactome data</>}
+
+        {/* string stuff */}
+        {tab === 'string' && <>Placeholder for STRING data</>}
       </div>
     </>
   );
