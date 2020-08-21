@@ -2,7 +2,11 @@ import React from 'react';
 import { Table } from '../../components/Table';
 
 const columns = [
-  { id: 'col1', label: 'Column header 1' },
+  {
+    id: 'col1',
+    label: 'Column header 1',
+    labelStyle: { height: '140px' },
+  },
   { id: 'col2', label: 'Column header 2' },
   { id: 'col3', label: 'Column header 3' },
   { id: 'col4', label: 'Column header 4' },

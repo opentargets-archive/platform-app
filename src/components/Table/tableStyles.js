@@ -71,6 +71,14 @@ export const tableStyles = makeStyles(theme => ({
     position: 'relative',
     top: '6px',
   },
+  slantedDiv: {
+    transform: 'translate(25px, 51px) rotate(315deg)',
+    width: '30px',
+  },
+  slantedSpan: {
+    borderBottom: '1px solid #ccc',
+    padding: '5px 10px',
+  },
 }));
 
 export const globalSearchStyles = makeStyles(theme => ({

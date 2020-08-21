@@ -42,23 +42,29 @@ function HeaderCell({
     ...labelStyle,
   };
 
-  const labelInnerComponent = tooltip ? (
-    <Badge
-      badgeContent={
-        <Tooltip
-          interactive
-          placement="top"
-          classes={tooltipClasses}
-          title={tooltip}
-        >
-          <TooltipIcon className={classes.tooltipIcon} />
-        </Tooltip>
-      }
-    >
-      {label}
-    </Badge>
-  ) : (
-    label
+  const labelInnerComponent = (
+    <div className={classes.slantedDiv}>
+      <span className={classes.slantedSpan}>
+        {tooltip ? (
+          <Badge
+            badgeContent={
+              <Tooltip
+                interactive
+                placement="top"
+                classes={tooltipClasses}
+                title={tooltip}
+              >
+                <TooltipIcon className={classes.tooltipIcon} />
+              </Tooltip>
+            }
+          >
+            {label}
+          </Badge>
+        ) : (
+          label
+        )}
+      </span>
+    </div>
   );
 
   return (
