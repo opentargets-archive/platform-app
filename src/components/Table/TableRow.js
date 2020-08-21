@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Hidden, TableCell, TableRow as MUITableRow } from '@material-ui/core';
 import _ from 'lodash';
 
@@ -20,12 +21,16 @@ function TableRow({ columns, hover, isFixedRow, noWrap, row, style }) {
               column.align ? column.align : column.numeric ? 'right' : 'left'
             }
             classes={{
-              root: `
-                ${classes.cell}
-                ${classes.cellBody}
-                ${column.numeric ? classes.tabularNums : ''}
-                ${column.sticky ? classes.cellSticky : ''}
-                ${noWrap ? classes.noWrap : ''}`,
+              root: classNames(
+                classes.cell,
+                classes.cellBody,
+                column.cellClasses,
+                {
+                  [classes.tabularNums]: column.numeric,
+                  [classes.cellSticky]: column.sticky,
+                  [classes.noWrap]: noWrap,
+                }
+              ),
             }}
             component={column.sticky ? 'th' : 'td'}
             key={index}

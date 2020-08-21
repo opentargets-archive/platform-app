@@ -18,7 +18,7 @@ import TableRow from './TableRow';
 import { tableStyles } from './tableStyles';
 
 const Table = ({
-  classes,
+  classes = {},
   slanted,
   sortBy,
   order,
