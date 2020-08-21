@@ -86,7 +86,10 @@ const TargetPage = ({ history, location, match }) => {
         scrollButtons="auto"
       >
         <Tab value="overview" label="Profile" />
-        <Tab value="classic-associations" label="Associations (classic)" />
+        <Tab
+          value={`https://www.targetvalidation.org/target/${ensgId}`}
+          label="View this page in the classic view"
+        />
         <Tab
           value={`https://www.targetvalidation.org/target/${ensgId}/associations`}
           label="View associated diseases"
