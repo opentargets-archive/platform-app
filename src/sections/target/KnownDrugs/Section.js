@@ -211,7 +211,6 @@ const Section = ({ ensgId }) => {
   return (
     <Table
       loading={loading}
-      stickyHeader
       showGlobalFilter
       globalFilter={globalFilter}
       dataDownloader

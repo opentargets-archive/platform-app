@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import {
   Grid,
   TableContainer,
@@ -18,7 +17,6 @@ import TableRow from './TableRow';
 import { tableStyles } from './tableStyles';
 
 const Table = ({
-  stickyHeader,
   sortBy,
   order,
   page,
@@ -82,16 +80,11 @@ const Table = ({
           </Grid>
         )}
       </Grid>
-      <TableContainer
-        className={classNames(classes.container, {
-          [classes.stickyHeader]: stickyHeader,
-        })}
-      >
+      <TableContainer className={classes.container}>
         <MUITable
           classes={{
             root: `${classes.table} ${fixed ? classes.tableFixed : ''}`,
           }}
-          stickyHeader={stickyHeader}
         >
           <TableHeader
             classes={classes}
@@ -101,7 +94,6 @@ const Table = ({
             order={order}
             sortBy={sortBy}
             onRequestSort={handleSort}
-            stickyHeader={stickyHeader}
           />
           <TableBody>
             {rows.map((row, i) => (

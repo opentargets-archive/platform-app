@@ -22,9 +22,6 @@ export const tableStyles = makeStyles(theme => ({
       borderLeft: 'none',
     },
   },
-  headerCellSticky: {
-    zIndex: 3,
-  },
   cellSticky: {
     position: 'sticky',
     left: 0,
@@ -34,9 +31,6 @@ export const tableStyles = makeStyles(theme => ({
     marginTop: '2rem',
     overflowX: 'auto',
     paddingRight: '.1rem', // fixes horizontal scrollbar
-  },
-  stickyHeader: {
-    maxHeight: 440,
   },
   rowFixed: {
     backgroundColor: theme.palette.grey[300],
