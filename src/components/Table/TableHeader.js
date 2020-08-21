@@ -26,6 +26,7 @@ function HeaderCell({
   labelStyle,
   minWidth,
   noWrapHeader,
+  slanted,
   sortable = false,
   sortParams,
   sticky = false,
@@ -43,8 +44,8 @@ function HeaderCell({
   };
 
   const labelInnerComponent = (
-    <div className={classes.slantedDiv}>
-      <span className={classes.slantedSpan}>
+    <div className={slanted ? classes.slantedDiv : null}>
+      <span className={slanted ? classes.slantedSpan : null}>
         {tooltip ? (
           <Badge
             badgeContent={
@@ -91,6 +92,7 @@ function HeaderCell({
 }
 
 function TableHeader({
+  slanted,
   columns,
   headerGroups,
   noWrapHeader,
@@ -124,6 +126,7 @@ function TableHeader({
         {columns.map((column, index) => (
           <Hidden {...getHiddenBreakpoints(column)} key={index}>
             <HeaderCell
+              slanted={slanted}
               align={
                 column.align ? column.align : column.numeric ? 'right' : 'left'
               }
