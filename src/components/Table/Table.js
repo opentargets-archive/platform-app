@@ -1,8 +1,9 @@
 import React from 'react';
+import classNames from 'classnames';
 import {
   Grid,
   TableContainer,
-  Table as MUITable,
+  Table as MuiTable,
   TableBody,
   TableCell,
   TablePagination,
@@ -17,6 +18,8 @@ import TableRow from './TableRow';
 import { tableStyles } from './tableStyles';
 
 const Table = ({
+  classes,
+  slanted,
   sortBy,
   order,
   page,
@@ -43,7 +46,7 @@ const Table = ({
   ActionsComponent,
 }) => {
   const emptyRows = pageSize - rows.length;
-  const classes = tableStyles();
+  const defaultClasses = tableStyles();
 
   const handleGlobalFilterChange = newGlobalFilter => {
     if (newGlobalFilter !== globalFilter) {
@@ -66,12 +69,18 @@ const Table = ({
     <Grid container direction="column">
       <Grid item container>
         {showGlobalFilter && (
-          <Grid className={classes.filter} item xs={12} md={5} lg={7}>
+          <Grid className={defaultClasses.filter} item xs={12} md={5} lg={7}>
             <GlobalFilter onGlobalFilterChange={handleGlobalFilterChange} />
           </Grid>
         )}
         {dataDownloader && (
-          <Grid className={classes.downloader} item xs={12} md={7} lg={5}>
+          <Grid
+            className={defaultClasses.downloader}
+            item
+            xs={12}
+            md={7}
+            lg={5}
+          >
             <DataDownloader
               columns={columns}
               rows={dataDownloaderRows}
@@ -80,14 +89,15 @@ const Table = ({
           </Grid>
         )}
       </Grid>
-      <TableContainer className={classes.container}>
-        <MUITable
-          classes={{
-            root: `${classes.table} ${fixed ? classes.tableFixed : ''}`,
-          }}
+      <TableContainer className={defaultClasses.container}>
+        <MuiTable
+          className={classNames(defaultClasses.table, classes.table, {
+            [defaultClasses.tableFixed]: fixed,
+          })}
         >
           <TableHeader
-            classes={classes}
+            slanted={slanted}
+            classes={defaultClasses}
             columns={columns}
             headerGroups={headerGroups}
             noWrapHeader={noWrapHeader}
@@ -110,17 +120,21 @@ const Table = ({
               <MUITableRow style={{ height: `${1.6875 * emptyRows}rem` }}>
                 <TableCell
                   colSpan={columns.length}
-                  classes={{ root: `${classes.cellBody} ${classes.noData}` }}
+                  classes={{
+                    root: `${defaultClasses.cellBody} ${defaultClasses.noData}`,
+                  }}
                 >
                   {!rows.length && 'No data'}
                 </TableCell>
               </MUITableRow>
             )}
           </TableBody>
-        </MUITable>
+        </MuiTable>
       </TableContainer>
       <Grid item container justify="flex-end">
-        {loading && <CircularProgress className={classes.progress} size={22} />}
+        {loading && (
+          <CircularProgress className={defaultClasses.progress} size={22} />
+        )}
         <TablePagination
           ActionsComponent={ActionsComponent}
           backIconButtonProps={{ disabled: loading || page === 0 }}
