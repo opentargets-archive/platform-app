@@ -20,13 +20,13 @@ import useDynamicColspan from '../../hooks/useDynamicColspans';
 
 function HeaderCell({
   align,
+  slanted,
   colspan,
   isHeaderGroup = false,
   label,
   labelStyle,
   minWidth,
   noWrapHeader,
-  slanted,
   sortable = false,
   sortParams,
   sticky = false,
@@ -92,7 +92,6 @@ function HeaderCell({
 }
 
 function TableHeader({
-  slanted,
   columns,
   headerGroups,
   noWrapHeader,
@@ -126,7 +125,7 @@ function TableHeader({
         {columns.map((column, index) => (
           <Hidden {...getHiddenBreakpoints(column)} key={index}>
             <HeaderCell
-              slanted={slanted}
+              slanted={column.slanted}
               align={
                 column.align ? column.align : column.numeric ? 'right' : 'left'
               }
