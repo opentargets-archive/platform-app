@@ -19,7 +19,6 @@ import { tableStyles } from './tableStyles';
 
 const Table = ({
   classes = {},
-  slanted,
   sortBy,
   order,
   page,
@@ -96,7 +95,6 @@ const Table = ({
           })}
         >
           <TableHeader
-            slanted={slanted}
             classes={defaultClasses}
             columns={columns}
             headerGroups={headerGroups}
