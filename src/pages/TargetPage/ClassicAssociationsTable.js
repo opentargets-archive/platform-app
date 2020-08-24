@@ -66,7 +66,10 @@ const useStyles = makeStyles({
   nameCell: {
     border: '1px solid #ccc',
     width: '220px',
-    padding: 0,
+    padding: '0 0.5rem 0 0',
+    '&:first-child': {
+      paddingLeft: 0,
+    },
   },
   name: {
     width: '220px',
