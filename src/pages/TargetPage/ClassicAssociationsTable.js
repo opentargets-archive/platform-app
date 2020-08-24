@@ -52,12 +52,27 @@ const color = d3
 const useStyles = makeStyles({
   table: {
     width: 'unset',
+    tableLayout: 'fixed',
   },
   cell: {
-    width: '30px',
+    width: '50px',
     textAlign: 'center',
     border: '1px solid #ccc',
-    padding: '10px 5px',
+    padding: 0,
+    '&:last-child': {
+      paddingRight: 0,
+    },
+  },
+  nameCell: {
+    border: '1px solid #ccc',
+    width: '220px',
+    padding: 0,
+  },
+  name: {
+    width: '220px',
+    textAlign: 'end',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
 });
 
@@ -66,8 +81,15 @@ function getColumns(classes) {
     {
       id: 'name',
       label: 'Name',
-      labelStyle: { height: '140px', padding: 0 },
-      cellClasses: classes.cell,
+      labelStyle: {
+        height: '140px',
+        textAlign: 'end',
+        verticalAlign: 'bottom',
+      },
+      cellClasses: classes.nameCell,
+      renderCell: row => {
+        return <div className={classes.name}>{row.name}</div>;
+      },
     },
     {
       id: 'genetic_association',
@@ -121,33 +143,13 @@ function getColumns(classes) {
   ];
 }
 
-function getRows() {
-  return [
-    {
-      col1: 1,
-      col2: 2,
-      col3: 3,
-      col4: 4,
-      col5: 5,
-      col6: 6,
-    },
-    {
-      col1: 1,
-      col2: 2,
-      col3: 3,
-      col4: 4,
-      col5: 5,
-      col6: 6,
-    },
-    {
-      col1: 1,
-      col2: 2,
-      col3: 3,
-      col4: 4,
-      col5: 5,
-      col6: 6,
-    },
-  ];
+function getRows(data) {
+  return data.map(d => {
+    const row = {
+      name: d.disease.name,
+    };
+    return row;
+  });
 }
 
 const ClassicAssociationsTable = ({ ensgId }) => {
