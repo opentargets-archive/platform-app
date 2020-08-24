@@ -71,7 +71,7 @@ export const tableStyles = makeStyles(theme => ({
     top: '6px',
   },
   slantedDiv: {
-    transform: 'translate(25px, 51px) rotate(315deg)',
+    transform: 'translate(36px, 51px) rotate(315deg)',
     width: '30px',
   },
   slantedSpan: {
