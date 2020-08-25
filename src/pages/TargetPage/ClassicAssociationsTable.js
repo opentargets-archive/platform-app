@@ -296,18 +296,31 @@ const ClassicAssociationsTable = ({ ensgId }) => {
     client: client3,
   });
 
+  function handlePageChange(page) {
+    setPage(page);
+  }
+
+  function handleRowsPerPageChange(pageSize) {
+    setPageSize(pageSize);
+  }
+
   if (error) return null;
 
   const columns = getColumns(classes);
   const rows = getRows(data?.target.associatedDiseases ?? []);
+
   return (
     <Table
+      loading={loading}
       classes={{ table: classes.table }}
-      page={0}
+      page={page}
       columns={columns}
       rows={rows}
-      pageSize={3}
-      rowCount={3}
+      pageSize={pageSize}
+      rowCount={600}
+      rowsPerPageOptions={[10, 50, 200, 500]}
+      onPageChange={handlePageChange}
+      onRowsPerPageChange={handleRowsPerPageChange}
     />
   );
 };
