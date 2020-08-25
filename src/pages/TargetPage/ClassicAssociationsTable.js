@@ -91,7 +91,33 @@ function getColumns(classes) {
       },
       cellClasses: classes.nameCell,
       renderCell: row => {
-        return <div className={classes.name}>{row.name}</div>;
+        return (
+          <div title={row.name} className={classes.name}>
+            {row.name}
+          </div>
+        );
+      },
+    },
+    {
+      id: 'overall',
+      label: 'Overall association score',
+      labelStyle: {
+        height: '140px',
+        padding: 0,
+      },
+      slanted: true,
+      cellClasses: classes.cell,
+      renderCell: row => {
+        return (
+          <div
+            title={row.overall.toFixed(2)}
+            style={{
+              backgroundColor: color(row.overall),
+              width: '100%',
+              height: '19px',
+            }}
+          />
+        );
       },
     },
     {
@@ -100,6 +126,22 @@ function getColumns(classes) {
       labelStyle: { height: '140px', padding: 0 },
       cellClasses: classes.cell,
       slanted: true,
+      renderCell: row => {
+        return (
+          <div
+            title={
+              row.genetic_association
+                ? row.genetic_association.toFixed(2)
+                : 'No data'
+            }
+            style={{
+              backgroundColor: color(row.genetic_association),
+              width: '100%',
+              height: '19px',
+            }}
+          />
+        );
+      },
     },
     {
       id: 'somatic_mutation',
@@ -107,6 +149,20 @@ function getColumns(classes) {
       labelStyle: { height: '140px', padding: 0 },
       cellClasses: classes.cell,
       slanted: true,
+      renderCell: row => {
+        return (
+          <div
+            title={
+              row.somatic_mutation ? row.somatic_mutation.toFixed(2) : 'No data'
+            }
+            style={{
+              backgroundColor: color(row.somatic_mutation),
+              width: '100%',
+              height: '19px',
+            }}
+          />
+        );
+      },
     },
     {
       id: 'known_drug',
@@ -114,6 +170,18 @@ function getColumns(classes) {
       labelStyle: { height: '140px', padding: 0 },
       cellClasses: classes.cell,
       slanted: true,
+      renderCell: row => {
+        return (
+          <div
+            title={row.known_drug ? row.known_drug.toFixed(2) : 'No data'}
+            style={{
+              backgroundColor: color(row.known_drug),
+              width: '100%',
+              height: '19px',
+            }}
+          />
+        );
+      },
     },
     {
       id: 'affected_pathway',
@@ -121,6 +189,20 @@ function getColumns(classes) {
       labelStyle: { height: '140px', padding: 0 },
       cellClasses: classes.cell,
       slanted: true,
+      renderCell: row => {
+        return (
+          <div
+            title={
+              row.affected_pathway ? row.affected_pathway.toFixed(2) : 'No data'
+            }
+            style={{
+              backgroundColor: color(row.affected_pathway),
+              width: '100%',
+              height: '19px',
+            }}
+          />
+        );
+      },
     },
     {
       id: 'rna_expression',
@@ -128,6 +210,20 @@ function getColumns(classes) {
       labelStyle: { height: '140px', padding: 0 },
       cellClasses: classes.cell,
       slanted: true,
+      renderCell: row => {
+        return (
+          <div
+            title={
+              row.rna_expression ? row.rna_expression.toFixed(2) : 'No data'
+            }
+            style={{
+              backgroundColor: color(row.rna_expression),
+              width: '100%',
+              height: '19px',
+            }}
+          />
+        );
+      },
     },
     {
       id: 'literature',
@@ -135,6 +231,18 @@ function getColumns(classes) {
       labelStyle: { height: '140px', padding: 0 },
       cellClasses: classes.cell,
       slanted: true,
+      renderCell: row => {
+        return (
+          <div
+            title={row.literature ? row.literature.toFixed(2) : 'No data'}
+            style={{
+              backgroundColor: color(row.literature),
+              width: '100%',
+              height: '19px',
+            }}
+          />
+        );
+      },
     },
     {
       id: 'animal_model',
@@ -142,6 +250,18 @@ function getColumns(classes) {
       labelStyle: { height: '140px', padding: 0 },
       cellClasses: classes.cell,
       slanted: true,
+      renderCell: row => {
+        return (
+          <div
+            title={row.animal_model ? row.animal_model.toFixed(2) : 'No data'}
+            style={{
+              backgroundColor: color(row.animal_model),
+              width: '100%',
+              height: '19px',
+            }}
+          />
+        );
+      },
     },
   ];
 }
@@ -150,7 +270,15 @@ function getRows(data) {
   return data.map(d => {
     const row = {
       name: d.disease.name,
+      overall: d.score,
     };
+    dataTypes.forEach(dataType => {
+      const index = d.idPerDT.indexOf(dataType.id);
+
+      if (index !== -1) {
+        row[dataType.id] = d.scorePerDT[index];
+      }
+    });
     return row;
   });
 }
