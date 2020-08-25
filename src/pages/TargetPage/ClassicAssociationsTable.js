@@ -57,7 +57,7 @@ const useStyles = makeStyles({
   cell: {
     width: '50px',
     textAlign: 'center',
-    border: '1px solid #ccc',
+    border: '1px solid #eeefef',
     padding: 0,
     '&:last-child': {
       paddingRight: 0,
