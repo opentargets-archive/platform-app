@@ -115,7 +115,7 @@ function getColumns(classes) {
         return (
           <div
             className={classes.scoreCell}
-            title={row.overall.toFixed(2)}
+            title={`Score: ${row.overall.toFixed(2)}`}
             style={{
               backgroundColor: color(row.overall),
             }}
@@ -135,7 +135,7 @@ function getColumns(classes) {
             className={classes.scoreCell}
             title={
               row.genetic_association
-                ? row.genetic_association.toFixed(2)
+                ? `Score: ${row.genetic_association.toFixed(2)}`
                 : 'No data'
             }
             style={{
@@ -156,7 +156,9 @@ function getColumns(classes) {
           <div
             className={classes.scoreCell}
             title={
-              row.somatic_mutation ? row.somatic_mutation.toFixed(2) : 'No data'
+              row.somatic_mutation
+                ? `Score: ${row.somatic_mutation.toFixed(2)}`
+                : 'No data'
             }
             style={{
               backgroundColor: color(row.somatic_mutation),
@@ -175,7 +177,9 @@ function getColumns(classes) {
         return (
           <div
             className={classes.scoreCell}
-            title={row.known_drug ? row.known_drug.toFixed(2) : 'No data'}
+            title={
+              row.known_drug ? `Score: ${row.known_drug.toFixed(2)}` : 'No data'
+            }
             style={{
               backgroundColor: color(row.known_drug),
             }}
@@ -194,7 +198,9 @@ function getColumns(classes) {
           <div
             className={classes.scoreCell}
             title={
-              row.affected_pathway ? row.affected_pathway.toFixed(2) : 'No data'
+              row.affected_pathway
+                ? `Score: ${row.affected_pathway.toFixed(2)}`
+                : 'No data'
             }
             style={{
               backgroundColor: color(row.affected_pathway),
@@ -214,7 +220,9 @@ function getColumns(classes) {
           <div
             className={classes.scoreCell}
             title={
-              row.rna_expression ? row.rna_expression.toFixed(2) : 'No data'
+              row.rna_expression
+                ? `Score: ${row.rna_expression.toFixed(2)}`
+                : 'No data'
             }
             style={{
               backgroundColor: color(row.rna_expression),
@@ -233,7 +241,9 @@ function getColumns(classes) {
         return (
           <div
             className={classes.scoreCell}
-            title={row.literature ? row.literature.toFixed(2) : 'No data'}
+            title={
+              row.literature ? `Score: ${row.literature.toFixed(2)}` : 'No data'
+            }
             style={{
               backgroundColor: color(row.literature),
             }}
@@ -251,7 +261,11 @@ function getColumns(classes) {
         return (
           <div
             className={classes.scoreCell}
-            title={row.animal_model ? row.animal_model.toFixed(2) : 'No data'}
+            title={
+              row.animal_model
+                ? `Score: ${row.animal_model.toFixed(2)}`
+                : 'No data'
+            }
             style={{
               backgroundColor: color(row.animal_model),
             }}
