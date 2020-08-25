@@ -77,6 +77,10 @@ const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     overflow: 'hidden',
   },
+  scoreCell: {
+    height: '19px',
+    width: '100%',
+  },
 });
 
 function getColumns(classes) {
@@ -110,11 +114,10 @@ function getColumns(classes) {
       renderCell: row => {
         return (
           <div
+            className={classes.scoreCell}
             title={row.overall.toFixed(2)}
             style={{
               backgroundColor: color(row.overall),
-              width: '100%',
-              height: '19px',
             }}
           />
         );
@@ -129,6 +132,7 @@ function getColumns(classes) {
       renderCell: row => {
         return (
           <div
+            className={classes.scoreCell}
             title={
               row.genetic_association
                 ? row.genetic_association.toFixed(2)
@@ -136,8 +140,6 @@ function getColumns(classes) {
             }
             style={{
               backgroundColor: color(row.genetic_association),
-              width: '100%',
-              height: '19px',
             }}
           />
         );
@@ -152,13 +154,12 @@ function getColumns(classes) {
       renderCell: row => {
         return (
           <div
+            className={classes.scoreCell}
             title={
               row.somatic_mutation ? row.somatic_mutation.toFixed(2) : 'No data'
             }
             style={{
               backgroundColor: color(row.somatic_mutation),
-              width: '100%',
-              height: '19px',
             }}
           />
         );
@@ -173,11 +174,10 @@ function getColumns(classes) {
       renderCell: row => {
         return (
           <div
+            className={classes.scoreCell}
             title={row.known_drug ? row.known_drug.toFixed(2) : 'No data'}
             style={{
               backgroundColor: color(row.known_drug),
-              width: '100%',
-              height: '19px',
             }}
           />
         );
@@ -192,13 +192,12 @@ function getColumns(classes) {
       renderCell: row => {
         return (
           <div
+            className={classes.scoreCell}
             title={
               row.affected_pathway ? row.affected_pathway.toFixed(2) : 'No data'
             }
             style={{
               backgroundColor: color(row.affected_pathway),
-              width: '100%',
-              height: '19px',
             }}
           />
         );
@@ -213,13 +212,12 @@ function getColumns(classes) {
       renderCell: row => {
         return (
           <div
+            className={classes.scoreCell}
             title={
               row.rna_expression ? row.rna_expression.toFixed(2) : 'No data'
             }
             style={{
               backgroundColor: color(row.rna_expression),
-              width: '100%',
-              height: '19px',
             }}
           />
         );
@@ -234,11 +232,10 @@ function getColumns(classes) {
       renderCell: row => {
         return (
           <div
+            className={classes.scoreCell}
             title={row.literature ? row.literature.toFixed(2) : 'No data'}
             style={{
               backgroundColor: color(row.literature),
-              width: '100%',
-              height: '19px',
             }}
           />
         );
@@ -253,11 +250,10 @@ function getColumns(classes) {
       renderCell: row => {
         return (
           <div
+            className={classes.scoreCell}
             title={row.animal_model ? row.animal_model.toFixed(2) : 'No data'}
             style={{
               backgroundColor: color(row.animal_model),
-              width: '100%',
-              height: '19px',
             }}
           />
         );
