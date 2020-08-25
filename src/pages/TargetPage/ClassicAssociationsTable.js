@@ -359,6 +359,7 @@ const ClassicAssociationsTable = ({ ensgId }) => {
 
   function handleRowsPerPageChange(pageSize) {
     setPageSize(pageSize);
+    setPage(0);
   }
 
   if (error) return null;
