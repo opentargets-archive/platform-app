@@ -83,7 +83,7 @@ const useStyles = makeStyles({
   },
 });
 
-function getColumns(classes) {
+function getColumns(ensemblId, classes) {
   return [
     {
       id: 'name',
@@ -131,17 +131,23 @@ function getColumns(classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.scoreCell}
-            title={
-              row.genetic_association
-                ? `Score: ${row.genetic_association.toFixed(2)}`
-                : 'No data'
-            }
-            style={{
-              backgroundColor: color(row.genetic_association),
-            }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:genetic_association`}
+          >
+            <div
+              className={classes.scoreCell}
+              title={
+                row.genetic_association
+                  ? `Score: ${row.genetic_association.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{
+                backgroundColor: color(row.genetic_association),
+              }}
+            />
+          </a>
         );
       },
     },
@@ -153,17 +159,23 @@ function getColumns(classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.scoreCell}
-            title={
-              row.somatic_mutation
-                ? `Score: ${row.somatic_mutation.toFixed(2)}`
-                : 'No data'
-            }
-            style={{
-              backgroundColor: color(row.somatic_mutation),
-            }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:somatic_mutation`}
+          >
+            <div
+              className={classes.scoreCell}
+              title={
+                row.somatic_mutation
+                  ? `Score: ${row.somatic_mutation.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{
+                backgroundColor: color(row.somatic_mutation),
+              }}
+            />
+          </a>
         );
       },
     },
@@ -175,15 +187,23 @@ function getColumns(classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.scoreCell}
-            title={
-              row.known_drug ? `Score: ${row.known_drug.toFixed(2)}` : 'No data'
-            }
-            style={{
-              backgroundColor: color(row.known_drug),
-            }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:known_drug`}
+          >
+            <div
+              className={classes.scoreCell}
+              title={
+                row.known_drug
+                  ? `Score: ${row.known_drug.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{
+                backgroundColor: color(row.known_drug),
+              }}
+            />
+          </a>
         );
       },
     },
@@ -195,17 +215,23 @@ function getColumns(classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.scoreCell}
-            title={
-              row.affected_pathway
-                ? `Score: ${row.affected_pathway.toFixed(2)}`
-                : 'No data'
-            }
-            style={{
-              backgroundColor: color(row.affected_pathway),
-            }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:affected_pathway`}
+          >
+            <div
+              className={classes.scoreCell}
+              title={
+                row.affected_pathway
+                  ? `Score: ${row.affected_pathway.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{
+                backgroundColor: color(row.affected_pathway),
+              }}
+            />
+          </a>
         );
       },
     },
@@ -217,17 +243,23 @@ function getColumns(classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.scoreCell}
-            title={
-              row.rna_expression
-                ? `Score: ${row.rna_expression.toFixed(2)}`
-                : 'No data'
-            }
-            style={{
-              backgroundColor: color(row.rna_expression),
-            }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:rna_expression`}
+          >
+            <div
+              className={classes.scoreCell}
+              title={
+                row.rna_expression
+                  ? `Score: ${row.rna_expression.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{
+                backgroundColor: color(row.rna_expression),
+              }}
+            />
+          </a>
         );
       },
     },
@@ -239,15 +271,23 @@ function getColumns(classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.scoreCell}
-            title={
-              row.literature ? `Score: ${row.literature.toFixed(2)}` : 'No data'
-            }
-            style={{
-              backgroundColor: color(row.literature),
-            }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:literature`}
+          >
+            <div
+              className={classes.scoreCell}
+              title={
+                row.literature
+                  ? `Score: ${row.literature.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{
+                backgroundColor: color(row.literature),
+              }}
+            />
+          </a>
         );
       },
     },
@@ -259,17 +299,23 @@ function getColumns(classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.scoreCell}
-            title={
-              row.animal_model
-                ? `Score: ${row.animal_model.toFixed(2)}`
-                : 'No data'
-            }
-            style={{
-              backgroundColor: color(row.animal_model),
-            }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:animal_model`}
+          >
+            <div
+              className={classes.scoreCell}
+              title={
+                row.animal_model
+                  ? `Score: ${row.animal_model.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{
+                backgroundColor: color(row.animal_model),
+              }}
+            />
+          </a>
         );
       },
     },
@@ -281,6 +327,7 @@ function getRows(data) {
     const row = {
       name: d.disease.name,
       overall: d.score,
+      efoId: d.disease.id,
     };
     dataTypes.forEach(dataType => {
       const index = d.idPerDT.indexOf(dataType.id);
@@ -316,7 +363,7 @@ const ClassicAssociationsTable = ({ ensgId }) => {
 
   if (error) return null;
 
-  const columns = getColumns(classes);
+  const columns = getColumns(ensgId, classes);
   const rows = getRows(data?.target.associatedDiseases ?? []);
 
   return (
