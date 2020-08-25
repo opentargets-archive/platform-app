@@ -64,7 +64,7 @@ const useStyles = makeStyles({
     },
   },
   nameCell: {
-    border: '1px solid #ccc',
+    border: 0,
     width: '220px',
     padding: '0 0.5rem 0 0',
     '&:first-child': {
@@ -89,7 +89,7 @@ function getColumns(ensemblId, classes) {
       id: 'name',
       label: 'Name',
       labelStyle: {
-        height: '140px',
+        height: '153px',
         textAlign: 'end',
         verticalAlign: 'bottom',
       },

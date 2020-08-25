@@ -71,11 +71,10 @@ export const tableStyles = makeStyles(theme => ({
     top: '6px',
   },
   slantedDiv: {
-    transform: 'translate(36px, 51px) rotate(315deg)',
+    transform: 'translate(14px, 58px) rotate(315deg)',
     width: '30px',
   },
   slantedSpan: {
-    borderBottom: '1px solid #ccc',
     padding: '5px 10px',
   },
 }));
