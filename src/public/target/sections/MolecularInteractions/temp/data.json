@@ -37,98 +37,149 @@
             }
         }
     ],
-    "rows":[
-        {
-            "interactorAId": "Q5S007",
-            "interactorAIdSource": "uniprotkb",
-            "interactorBId": "A0A024R745",
-            "interactorBIdSource": "uniprotkb",
-            "organismA": {
-                "mnemonic": "human",
-                "scientific_name": "Homo sapiens",
-                "taxon_id": 9606
-            },
-            "organismB": {
-                "mnemonic": "human",
-                "scientific_name": "Homo sapiens",
-                "taxon_id": 9606
-            },
-            "sourceDatabase": "intact",
-            "interactionScore": 0.35,
-            "evidences": [
+    "data": {
+        "intact": {
+            "rows": [
                 {
-                    "expansion_method_mi_identifier": "MI:1060",
-                    "expansion_method_short_name": "spoke expansion",
-                    "host_organism_scientific_name": "Homo sapiens 293 cells transformed with SV40 large T antigen",
-                    "host_organism_tax_id": 9606,
-                    "interaction_detection_method_mi_identifier": "MI:0007",
-                    "interaction_detection_method_short_name": "anti tag coip",
-                    "interaction_identifier": "EBI-21364596",
-                    "interaction_type_mi_identifier": "MI:0914",
-                    "interaction_type_short_name": "association",
-                    "participant_detection_method_mi_identifier_A": "MI:0102",
-                    "participant_detection_method_mi_identifier_B": "MI:0102",
-                    "participant_detection_method_short_name_A": "sequence tag",
-                    "participant_detection_method_short_name_B": "sequence tag",
-                    "pubmed_id": "31046837"
+                    "interactorAId": "Q5S007",
+                    "interactorAIdSource": "uniprotkb",
+                    "interactorBId": "A0A024R745",
+                    "interactorBIdSource": "uniprotkb",
+                    "organismA": {
+                        "mnemonic": "human",
+                        "scientific_name": "Homo sapiens",
+                        "taxon_id": 9606
+                    },
+                    "organismB": {
+                        "mnemonic": "human",
+                        "scientific_name": "Homo sapiens",
+                        "taxon_id": 9606
+                    },
+                    "sourceDatabase": "intact",
+                    "interactionScore": 0.35,
+                    "evidences": [
+                        {
+                            "expansion_method_mi_identifier": "MI:1060",
+                            "expansion_method_short_name": "spoke expansion",
+                            "host_organism_scientific_name": "Homo sapiens 293 cells transformed with SV40 large T antigen",
+                            "host_organism_tax_id": 9606,
+                            "interaction_detection_method_mi_identifier": "MI:0007",
+                            "interaction_detection_method_short_name": "anti tag coip",
+                            "interaction_identifier": "EBI-21364596",
+                            "interaction_type_mi_identifier": "MI:0914",
+                            "interaction_type_short_name": "association",
+                            "participant_detection_method_mi_identifier_A": "MI:0102",
+                            "participant_detection_method_mi_identifier_B": "MI:0102",
+                            "participant_detection_method_short_name_A": "sequence tag",
+                            "participant_detection_method_short_name_B": "sequence tag",
+                            "pubmed_id": "31046837"
+                        },
+                        {
+                            "expansion_method_mi_identifier": "MI:1060",
+                            "expansion_method_short_name": "spoke expansion",
+                            "host_organism_scientific_name": "Homo sapiens",
+                            "host_organism_tax_id": 9606,
+                            "interaction_detection_method_mi_identifier": "MI:0007",
+                            "interaction_detection_method_short_name": "anti tag coip",
+                            "interaction_identifier": "EBI-21364596b",
+                            "interaction_type_mi_identifier": "MI:0914",
+                            "interaction_type_short_name": "association",
+                            "participant_detection_method_mi_identifier_A": "MI:0102",
+                            "participant_detection_method_mi_identifier_B": "MI:0102",
+                            "participant_detection_method_short_name_A": "sequence tag",
+                            "participant_detection_method_short_name_B": "sequence tag",
+                            "pubmed_id": "31046837-x"
+                        }
+                    ],
+                    "biologicalRoleA": "unspecified role",
+                    "biologicalRoleB": "unspecified role"
                 },
                 {
-                    "expansion_method_mi_identifier": "MI:1060",
-                    "expansion_method_short_name": "spoke expansion",
-                    "host_organism_scientific_name": "Homo sapiens",
-                    "host_organism_tax_id": 9606,
-                    "interaction_detection_method_mi_identifier": "MI:0007",
-                    "interaction_detection_method_short_name": "anti tag coip",
-                    "interaction_identifier": "EBI-21364596b",
-                    "interaction_type_mi_identifier": "MI:0914",
-                    "interaction_type_short_name": "association",
-                    "participant_detection_method_mi_identifier_A": "MI:0102",
-                    "participant_detection_method_mi_identifier_B": "MI:0102",
-                    "participant_detection_method_short_name_A": "sequence tag",
-                    "participant_detection_method_short_name_B": "sequence tag",
-                    "pubmed_id": "31046837-x"
-                }
-            ],
-            "biologicalRoleA": "unspecified role",
-            "biologicalRoleB": "unspecified role"
-        },
-        {
-            "interactorAId": "Q5S007zz",
-            "interactorAIdSource": "uniprotkb",
-            "interactorBId": "A0A024R745zz",
-            "interactorBIdSource": "uniprotkb",
-            "organismA": {
-                "mnemonic": "human",
-                "scientific_name": "Homo sapiens",
-                "taxon_id": 9606
-            },
-            "organismB": {
-                "mnemonic": "human",
-                "scientific_name": "Homo sapiens",
-                "taxon_id": 9606
-            },
-            "sourceDatabase": "intact",
-            "interactionScore": 0.35,
-            "evidences": [
+                    "interactorAId": "Q5S007zz",
+                    "interactorAIdSource": "uniprotkb",
+                    "interactorBId": "A0A024R745zz",
+                    "interactorBIdSource": "uniprotkb",
+                    "organismA": {
+                        "mnemonic": "human",
+                        "scientific_name": "Homo sapiens",
+                        "taxon_id": 9606
+                    },
+                    "organismB": {
+                        "mnemonic": "human",
+                        "scientific_name": "Homo sapiens",
+                        "taxon_id": 9606
+                    },
+                    "sourceDatabase": "intact",
+                    "interactionScore": 0.35,
+                    "evidences": [
+                        {
+                            "expansion_method_mi_identifier": "MI:1060",
+                            "expansion_method_short_name": "spoke expansion",
+                            "host_organism_scientific_name": "Homo sapiens 293 cells transformed with SV40 large T antigen",
+                            "host_organism_tax_id": 9606,
+                            "interaction_detection_method_mi_identifier": "MI:0007",
+                            "interaction_detection_method_short_name": "anti tag coip",
+                            "interaction_identifier": "EBI-21364596",
+                            "interaction_type_mi_identifier": "MI:0914",
+                            "interaction_type_short_name": "association",
+                            "participant_detection_method_mi_identifier_A": "MI:0102",
+                            "participant_detection_method_mi_identifier_B": "MI:0102",
+                            "participant_detection_method_short_name_A": "sequence tag",
+                            "participant_detection_method_short_name_B": "sequence tag",
+                            "pubmed_id": "31046837"
+                        }
+                    ],
+                    "biologicalRoleA": "unspecified role",
+                    "biologicalRoleB": "unspecified role"
+                },
                 {
-                    "expansion_method_mi_identifier": "MI:1060",
-                    "expansion_method_short_name": "spoke expansion",
-                    "host_organism_scientific_name": "Homo sapiens 293 cells transformed with SV40 large T antigen",
-                    "host_organism_tax_id": 9606,
-                    "interaction_detection_method_mi_identifier": "MI:0007",
-                    "interaction_detection_method_short_name": "anti tag coip",
-                    "interaction_identifier": "EBI-21364596",
-                    "interaction_type_mi_identifier": "MI:0914",
-                    "interaction_type_short_name": "association",
-                    "participant_detection_method_mi_identifier_A": "MI:0102",
-                    "participant_detection_method_mi_identifier_B": "MI:0102",
-                    "participant_detection_method_short_name_A": "sequence tag",
-                    "participant_detection_method_short_name_B": "sequence tag",
-                    "pubmed_id": "31046837"
+                    "interactorAId": "WUEHRJ3434",
+                    "interactorAIdSource": "sdfsf",
+                    "interactorBId": "GEG46BR74",
+                    "interactorBIdSource": "sdfsdf",
+                    "organismA": {
+                        "mnemonic": "human",
+                        "scientific_name": "Homo sapiens",
+                        "taxon_id": 9606
+                    },
+                    "organismB": {
+                        "mnemonic": "human",
+                        "scientific_name": "Homo sapiens",
+                        "taxon_id": 9606
+                    },
+                    "sourceDatabase": "intact",
+                    "interactionScore": 0.29,
+                    "evidences": [
+                        {
+                            "expansion_method_mi_identifier": "MI:1060",
+                            "expansion_method_short_name": "spoke expansion",
+                            "host_organism_scientific_name": "Homo sapiens 293 cells transformed with SV40 large T antigen",
+                            "host_organism_tax_id": 9606,
+                            "interaction_detection_method_mi_identifier": "MI:0007",
+                            "interaction_detection_method_short_name": "anti tag coip",
+                            "interaction_identifier": "EBI-21364596",
+                            "interaction_type_mi_identifier": "MI:0914",
+                            "interaction_type_short_name": "association",
+                            "participant_detection_method_mi_identifier_A": "MI:0102",
+                            "participant_detection_method_mi_identifier_B": "MI:0102",
+                            "participant_detection_method_short_name_A": "sequence tag",
+                            "participant_detection_method_short_name_B": "sequence tag",
+                            "pubmed_id": "12046822"
+                        }
+                    ],
+                    "biologicalRoleA": "unspecified role",
+                    "biologicalRoleB": "unspecified role"
                 }
-            ],
-            "biologicalRoleA": "unspecified role",
-            "biologicalRoleB": "unspecified role"
+            ]
+        },
+        "signor": {
+            "rows": []
+        },
+        "reactome": {
+            "rows": []
+        },
+        "string": {
+            "rows": []
         }
-    ]
+    }
 }

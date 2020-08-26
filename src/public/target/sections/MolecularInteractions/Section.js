@@ -475,18 +475,19 @@ const columns = {
 const Section = ({ ensgId, symbol, data }) => {
   console.log('* ', tempData);
 
-  const [tab, setTab] = React.useState('intact');
+  const [source, setSource] = React.useState('intact');
+  const [evidenceId, setEvidenceId] = React.useState(0);
 
   const handleChange = (event, tabId) => {
     console.log('** ', tabId);
-    setTab(tabId);
+    setSource(tabId);
   };
 
   return (
     <>
       {/* Interaction Resource */}
       <Tabs
-        value={tab}
+        value={source}
         onChange={handleChange}
         aria-label="simple tabs example"
       >
@@ -511,16 +512,23 @@ const Section = ({ ensgId, symbol, data }) => {
 
       <div style={{ marginTop: '30px' }}>
         {/* intact stuff */}
-        {tab === 'intact' && (
+        {source === 'intact' && (
           <Grid container spacing={4}>
             <Grid item xs={12} md={5}>
               {/* table 1: interactions */}
               <DataTable
                 showGlobalFilter
                 columns={columns.intact.interactions}
-                rows={tempData.rows}
+                rows={tempData.data.intact.rows}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-molecular-interactions-intact`}
+                hover
+                selected
+                onRowClick={(r, i) => {
+                  setEvidenceId(i);
+                  console.log('hello ', i);
+                }}
+                rowIsSelectable
               />
             </Grid>
 
@@ -529,7 +537,7 @@ const Section = ({ ensgId, symbol, data }) => {
               <DataTable
                 showGlobalFilter
                 columns={columns.intact.evidence}
-                rows={tempData.rows[0].evidences}
+                rows={tempData.data.intact.rows[evidenceId].evidences}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-molecular-interactions-intact`}
               />
@@ -538,13 +546,13 @@ const Section = ({ ensgId, symbol, data }) => {
         )}
 
         {/* signor stuff */}
-        {tab === 'signor' && <>Placeholder for Signor data</>}
+        {source === 'signor' && <>Placeholder for Signor data</>}
 
         {/* reactome stuff */}
-        {tab === 'reactome' && <>Placeholder for Reactome data</>}
+        {source === 'reactome' && <>Placeholder for Reactome data</>}
 
         {/* string stuff */}
-        {tab === 'string' && <>Placeholder for STRING data</>}
+        {source === 'string' && <>Placeholder for STRING data</>}
       </div>
     </>
   );
