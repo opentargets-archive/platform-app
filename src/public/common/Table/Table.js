@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import {
   Grid,
@@ -43,9 +43,12 @@ const Table = ({
   globalFilter,
   rowsPerPageOptions = [],
   ActionsComponent,
+  onRowClick = () => {},
+  rowIsSelectable = false,
 }) => {
   const emptyRows = pageSize - rows.length;
   const classes = tableStyles();
+  const [selectedRow, setSelectedRow] = useState(0);
 
   const handleGlobalFilterChange = newGlobalFilter => {
     if (newGlobalFilter !== globalFilter) {
@@ -62,6 +65,10 @@ const Table = ({
   };
   const handleChangePage = (_, page) => {
     onPageChange(page);
+  };
+  const handleClick = (event, row, i) => {
+    setSelectedRow(i);
+    onRowClick(row, i);
   };
 
   return (
@@ -112,6 +119,8 @@ const Table = ({
                 key={i}
                 row={row}
                 noWrap={noWrap}
+                onClick={event => handleClick(event, row, i)}
+                selected={rowIsSelectable && selectedRow === i}
               />
             ))}
             {noWrap && emptyRows > 0 && (

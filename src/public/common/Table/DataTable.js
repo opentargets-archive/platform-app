@@ -19,6 +19,8 @@ function DataTable({
   pageSize: initialPageSize = 10,
   rows,
   rowsPerPageOptions = [],
+  onRowClick,
+  rowIsSelectable,
 }) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(initialPageSize);
@@ -82,6 +84,8 @@ function DataTable({
       onRowsPerPageChange={handleRowsPerPageChange}
       rowsPerPageOptions={rowsPerPageOptions}
       ActionsComponent={PaginationActionsComplete}
+      onRowClick={onRowClick}
+      rowIsSelectable={rowIsSelectable}
     />
   );
 }
