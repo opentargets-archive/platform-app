@@ -339,33 +339,6 @@ const styles = theme => ({
 //   }
 // }
 
-/*
-tempData.sources.map(s => (
-          <div>
-            {s.label}
-            {s.version}
-            {s.interactions.count}
-            {s.interactions.label}
-            <Card>
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  {s.label}
-                </Typography>
-                <Typography color="textSecondary">
-                  {s.version}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  {s.interactions.count} {s.interactions.label}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small">Learn More</Button>
-              </CardActions>
-            </Card>
-          </div>
-        ))
-*/
-
 const columns = {
   intact: {
     interactions: [
@@ -438,6 +411,7 @@ const columns = {
               <span
                 className="fa-layers-text fa-inverse"
                 data-fa-transform="shrink-10 left-2"
+                style={{ left: '75%' }}
               >
                 A
               </span>
@@ -631,16 +605,112 @@ const columns = {
       },
     ],
   },
+
+  reactome: {
+    // interactions table columns
+    interactions: [
+      {
+        id: 'interactorBId',
+        label: (
+          <>
+            Interactor B<br />
+            <Typography variant="caption">Species (if not human)</Typography>
+          </>
+        ),
+        renderCell: row => (
+          <>
+            {row.interactorBId}
+            {row.organismB.mnemonic.toLowerCase() !== 'human' ? (
+              <>
+                <br />
+                <Typography variant="caption">
+                  Species: {row.organismB.mnemonic}
+                </Typography>
+              </>
+            ) : null}
+          </>
+        ),
+      },
+      {
+        id: 'evidences',
+        label: <>Interaction evidence</>,
+        renderCell: row => row.evidences.length,
+      },
+    ],
+
+    // evidence table
+    evidence: [
+      {
+        id: 'interaction_identifier',
+        label: 'ID',
+      },
+      {
+        id: 'interaction',
+        label: (
+          <>
+            Interaction
+            <br />
+            <Typography variant="caption">Host organism</Typography>
+          </>
+        ),
+        renderCell: row => (
+          <>
+            {row.interaction_type_short_name}
+            <br />
+            <Typography variant="caption">
+              Organism: {row.host_organism_scientific_name}
+            </Typography>
+          </>
+        ),
+      },
+      {
+        id: 'methods',
+        label: 'Detection methods',
+        renderCell: row => (
+          <>
+            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
+              <FontAwesomeIcon icon={faCircle} size="2x" />
+              <span
+                className="fa-layers-text fa-inverse"
+                data-fa-transform="shrink-10 left-2"
+              >
+                A
+              </span>
+            </span>
+            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
+              <FontAwesomeIcon icon={faCircle} size="2x" />
+              <FontAwesomeIcon
+                icon={faArrowsAltH}
+                size="2x"
+                inverse
+                transform="shrink-6"
+              />
+            </span>
+            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
+              <FontAwesomeIcon icon={faCircle} size="2x" />
+              <span
+                className="fa-layers-text fa-inverse"
+                data-fa-transform="shrink-10 up-2"
+              >
+                B
+              </span>
+            </span>
+          </>
+        ),
+      },
+      {
+        id: 'pubmed_id',
+        label: 'Publication',
+      },
+    ],
+  },
 };
 
 const Section = ({ ensgId, symbol, data }) => {
-  console.log('* ', tempData);
-
   const [source, setSource] = React.useState('intact');
   const [evidenceId, setEvidenceId] = React.useState(0);
 
   const handleChange = (event, tabId) => {
-    console.log('** ', tabId);
     setSource(tabId);
   };
 
@@ -687,7 +757,6 @@ const Section = ({ ensgId, symbol, data }) => {
                 selected
                 onRowClick={(r, i) => {
                   setEvidenceId(i);
-                  console.log('hello ', i);
                 }}
                 rowIsSelectable
               />
@@ -721,7 +790,6 @@ const Section = ({ ensgId, symbol, data }) => {
                 selected
                 onRowClick={(r, i) => {
                   setEvidenceId(i);
-                  console.log('hello ', i);
                 }}
                 rowIsSelectable
               />
@@ -741,7 +809,37 @@ const Section = ({ ensgId, symbol, data }) => {
         )}
 
         {/* reactome stuff */}
-        {source === 'reactome' && <>Placeholder for Reactome data</>}
+        {source === 'reactome' && (
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={5}>
+              {/* table 1: interactions */}
+              <DataTable
+                showGlobalFilter
+                columns={columns.reactome.interactions}
+                rows={tempData.data.reactome.rows}
+                dataDownloader
+                dataDownloaderFileStem={`${symbol}-molecular-interactions-reactome`}
+                hover
+                selected
+                onRowClick={(r, i) => {
+                  setEvidenceId(i);
+                }}
+                rowIsSelectable
+              />
+            </Grid>
+
+            <Grid item xs={12} md={7}>
+              {/* table 2: evidence */}
+              <DataTable
+                showGlobalFilter
+                columns={columns.reactome.evidence}
+                rows={tempData.data.reactome.rows[evidenceId].evidences}
+                dataDownloader
+                dataDownloaderFileStem={`${symbol}-molecular-interactions-reactome`}
+              />
+            </Grid>
+          </Grid>
+        )}
 
         {/* string stuff */}
         {source === 'string' && <>Placeholder for STRING data</>}
