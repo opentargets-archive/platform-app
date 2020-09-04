@@ -75,9 +75,13 @@ const useStyles = makeStyles({
     textAlign: 'center',
     border: '1px solid #eeefef',
     padding: 0,
+    height: '1px', // hack
     '&:last-child': {
       paddingRight: 0,
     },
+  },
+  colorDiv: {
+    height: '100%',
   },
   nameCell: {
     textAlign: 'end',
@@ -106,7 +110,14 @@ function getColumns(ensemblId, classes) {
       slanted: true,
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
-      renderCell: () => 1,
+      renderCell: row => {
+        return (
+          <div
+            className={classes.colorDiv}
+            style={{ backgroundColor: color(row.overall) }}
+          />
+        );
+      },
     },
     {
       id: 'genetic_association',
@@ -114,7 +125,14 @@ function getColumns(ensemblId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: () => 2,
+      renderCell: row => {
+        return (
+          <div
+            className={classes.colorDiv}
+            style={{ backgroundColor: color(row.genetic_association) }}
+          />
+        );
+      },
     },
     {
       id: 'somatic_mutation',
@@ -122,7 +140,14 @@ function getColumns(ensemblId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: () => 3,
+      renderCell: row => {
+        return (
+          <div
+            className={classes.colorDiv}
+            style={{ backgroundColor: color(row.somatic_mutation) }}
+          />
+        );
+      },
     },
     {
       id: 'known_drug',
@@ -130,7 +155,14 @@ function getColumns(ensemblId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: () => 4,
+      renderCell: row => {
+        return (
+          <div
+            className={classes.colorDiv}
+            style={{ backgroundColor: color(row.known_drug) }}
+          />
+        );
+      },
     },
     {
       id: 'affected_pathway',
@@ -138,7 +170,15 @@ function getColumns(ensemblId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: () => 5,
+      renderCell: row => {
+        console.log('row.affected_pathway', row.affected_pathway);
+        return (
+          <div
+            className={classes.colorDiv}
+            style={{ backgroundColor: color(row.affected_pathway) }}
+          />
+        );
+      },
     },
     {
       id: 'rna_expression',
@@ -146,7 +186,14 @@ function getColumns(ensemblId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: () => 6,
+      renderCell: row => {
+        return (
+          <div
+            className={classes.colorDiv}
+            style={{ backgroundColor: color(row.rna_expression) }}
+          />
+        );
+      },
     },
     {
       id: 'literature',
@@ -154,7 +201,14 @@ function getColumns(ensemblId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: () => 7,
+      renderCell: row => {
+        return (
+          <div
+            className={classes.colorDiv}
+            style={{ backgroundColor: color(row.literature) }}
+          />
+        );
+      },
     },
     {
       id: 'animal_model',
@@ -162,7 +216,14 @@ function getColumns(ensemblId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: () => 8,
+      renderCell: row => {
+        return (
+          <div
+            className={classes.colorDiv}
+            style={{ backgroundColor: color(row.animal_model) }}
+          />
+        );
+      },
     },
   ];
 }
