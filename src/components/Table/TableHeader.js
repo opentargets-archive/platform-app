@@ -21,6 +21,7 @@ import useDynamicColspan from '../../hooks/useDynamicColspans';
 function HeaderCell({
   align,
   slanted,
+  className,
   colspan,
   isHeaderGroup = false,
   label,
@@ -44,35 +45,33 @@ function HeaderCell({
   };
 
   const labelInnerComponent = (
-    <div className={slanted ? classes.slantedDiv : null}>
-      <span className={slanted ? classes.slantedSpan : null}>
-        {tooltip ? (
-          <Badge
-            badgeContent={
-              <Tooltip
-                interactive
-                placement="top"
-                classes={tooltipClasses}
-                title={tooltip}
-              >
-                <TooltipIcon className={classes.tooltipIcon} />
-              </Tooltip>
-            }
-          >
-            {label}
-          </Badge>
-        ) : (
-          label
-        )}
-      </span>
-    </div>
+    <span className={slanted ? classes.slantedSpan : null}>
+      {tooltip ? (
+        <Badge
+          badgeContent={
+            <Tooltip
+              interactive
+              placement="top"
+              classes={tooltipClasses}
+              title={tooltip}
+            >
+              <TooltipIcon className={classes.tooltipIcon} />
+            </Tooltip>
+          }
+        >
+          {label}
+        </Badge>
+      ) : (
+        label
+      )}
+    </span>
   );
 
   return (
     <TableCell
       align={align}
       classes={{
-        root: classNames(classes.cell, classes.cellHeader, {
+        root: classNames(classes.cell, classes.cellHeader, className, {
           [classes.cellGroup]: isHeaderGroup,
           [classes.cellSticky]: sticky,
           [classes.noWrap]: noWrapHeader,
@@ -107,20 +106,22 @@ function TableHeader({
 
   return (
     <TableHead>
-      <TableRow>
-        {headerGroups.map((headerCell, cellIndex) => (
-          <HeaderCell
-            colspan={colspans[cellIndex]}
-            isHeaderGroup={true}
-            key={cellIndex}
-            label={headerCell.label || ''}
-            noWrapHeader={noWrapHeader}
-            sticky={headerCell.sticky || false}
-            tooltip={headerCell.tooltip}
-            tooltipStyle={headerCell.tooltipStyle || {}}
-          />
-        ))}
-      </TableRow>
+      {headerGroups.length > 0 ? (
+        <TableRow>
+          {headerGroups.map((headerCell, cellIndex) => (
+            <HeaderCell
+              colspan={colspans[cellIndex]}
+              isHeaderGroup={true}
+              key={cellIndex}
+              label={headerCell.label || ''}
+              noWrapHeader={noWrapHeader}
+              sticky={headerCell.sticky || false}
+              tooltip={headerCell.tooltip}
+              tooltipStyle={headerCell.tooltipStyle || {}}
+            />
+          ))}
+        </TableRow>
+      ) : null}
       <TableRow>
         {columns.map((column, index) => (
           <Hidden {...getHiddenBreakpoints(column)} key={index}>
@@ -142,6 +143,7 @@ function TableHeader({
                   : null
               }
               labelStyle={column.labelStyle}
+              className={column.headerClass}
               sticky={column.sticky}
               tooltip={column.tooltip}
               tooltipStyle={column.tooltipStyle}

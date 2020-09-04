@@ -50,12 +50,28 @@ const color = d3
   ]);
 
 const useStyles = makeStyles({
+  root: {
+    overflow: 'visible',
+  },
   table: {
-    width: 'unset',
     tableLayout: 'fixed',
   },
+  nameHeaderCell: {
+    width: '20%',
+    height: '140px',
+    verticalAlign: 'bottom',
+    textAlign: 'end',
+    paddingBottom: '.4rem',
+  },
+  headerCell: {
+    position: 'relative',
+    width: '10%',
+    height: '140px',
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+  },
   cell: {
-    width: '50px',
+    width: '10%',
     textAlign: 'center',
     border: '1px solid #eeefef',
     padding: 0,
@@ -64,22 +80,15 @@ const useStyles = makeStyles({
     },
   },
   nameCell: {
+    textAlign: 'end',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
     border: 0,
-    width: '220px',
+    width: '20%',
     padding: '0 0.5rem 0 0',
     '&:first-child': {
       paddingLeft: 0,
     },
-  },
-  name: {
-    width: '220px',
-    textAlign: 'end',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-  },
-  scoreCell: {
-    height: '19px',
-    width: '100%',
   },
 });
 
@@ -88,236 +97,72 @@ function getColumns(ensemblId, classes) {
     {
       id: 'name',
       label: 'Name',
-      labelStyle: {
-        height: '153px',
-        textAlign: 'end',
-        verticalAlign: 'bottom',
-      },
+      headerClass: classes.nameHeaderCell,
       cellClasses: classes.nameCell,
-      renderCell: row => {
-        return (
-          <div title={row.name} className={classes.name}>
-            {row.name}
-          </div>
-        );
-      },
     },
     {
       id: 'overall',
       label: 'Overall association score',
-      labelStyle: {
-        height: '140px',
-        padding: 0,
-      },
       slanted: true,
+      headerClass: classes.headerCell,
       cellClasses: classes.cell,
-      renderCell: row => {
-        return (
-          <div
-            className={classes.scoreCell}
-            title={`Score: ${row.overall.toFixed(2)}`}
-            style={{
-              backgroundColor: color(row.overall),
-            }}
-          />
-        );
-      },
+      renderCell: () => 1,
     },
     {
       id: 'genetic_association',
       label: 'Genetic associations',
-      labelStyle: { height: '140px', padding: 0 },
+      headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
-              row.efoId
-            }?view=sec:genetic_association`}
-          >
-            <div
-              className={classes.scoreCell}
-              title={
-                row.genetic_association
-                  ? `Score: ${row.genetic_association.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{
-                backgroundColor: color(row.genetic_association),
-              }}
-            />
-          </a>
-        );
-      },
+      renderCell: () => 2,
     },
     {
       id: 'somatic_mutation',
       label: 'Somatic mutations',
-      labelStyle: { height: '140px', padding: 0 },
+      headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
-              row.efoId
-            }?view=sec:somatic_mutation`}
-          >
-            <div
-              className={classes.scoreCell}
-              title={
-                row.somatic_mutation
-                  ? `Score: ${row.somatic_mutation.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{
-                backgroundColor: color(row.somatic_mutation),
-              }}
-            />
-          </a>
-        );
-      },
+      renderCell: () => 3,
     },
     {
       id: 'known_drug',
       label: 'Drugs',
-      labelStyle: { height: '140px', padding: 0 },
+      headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
-              row.efoId
-            }?view=sec:known_drug`}
-          >
-            <div
-              className={classes.scoreCell}
-              title={
-                row.known_drug
-                  ? `Score: ${row.known_drug.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{
-                backgroundColor: color(row.known_drug),
-              }}
-            />
-          </a>
-        );
-      },
+      renderCell: () => 4,
     },
     {
       id: 'affected_pathway',
       label: 'Pathways & systems biology',
-      labelStyle: { height: '140px', padding: 0 },
+      headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
-              row.efoId
-            }?view=sec:affected_pathway`}
-          >
-            <div
-              className={classes.scoreCell}
-              title={
-                row.affected_pathway
-                  ? `Score: ${row.affected_pathway.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{
-                backgroundColor: color(row.affected_pathway),
-              }}
-            />
-          </a>
-        );
-      },
+      renderCell: () => 5,
     },
     {
       id: 'rna_expression',
       label: 'RNA expression',
-      labelStyle: { height: '140px', padding: 0 },
+      headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
-              row.efoId
-            }?view=sec:rna_expression`}
-          >
-            <div
-              className={classes.scoreCell}
-              title={
-                row.rna_expression
-                  ? `Score: ${row.rna_expression.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{
-                backgroundColor: color(row.rna_expression),
-              }}
-            />
-          </a>
-        );
-      },
+      renderCell: () => 6,
     },
     {
       id: 'literature',
       label: 'Text mining',
-      labelStyle: { height: '140px', padding: 0 },
+      headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
-              row.efoId
-            }?view=sec:literature`}
-          >
-            <div
-              className={classes.scoreCell}
-              title={
-                row.literature
-                  ? `Score: ${row.literature.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{
-                backgroundColor: color(row.literature),
-              }}
-            />
-          </a>
-        );
-      },
+      renderCell: () => 7,
     },
     {
       id: 'animal_model',
       label: 'Animal models',
-      labelStyle: { height: '140px', padding: 0 },
+      headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
-              row.efoId
-            }?view=sec:animal_model`}
-          >
-            <div
-              className={classes.scoreCell}
-              title={
-                row.animal_model
-                  ? `Score: ${row.animal_model.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{
-                backgroundColor: color(row.animal_model),
-              }}
-            />
-          </a>
-        );
-      },
+      renderCell: () => 8,
     },
   ];
 }
@@ -370,7 +215,7 @@ const ClassicAssociationsTable = ({ ensgId }) => {
   return (
     <Table
       loading={loading}
-      classes={{ table: classes.table }}
+      classes={{ root: classes.root, table: classes.table }}
       page={page}
       columns={columns}
       rows={rows}

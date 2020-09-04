@@ -70,12 +70,12 @@ export const tableStyles = makeStyles(theme => ({
     position: 'relative',
     top: '6px',
   },
-  slantedDiv: {
-    transform: 'translate(14px, 58px) rotate(315deg)',
-    width: '30px',
-  },
   slantedSpan: {
-    padding: '5px 10px',
+    position: 'absolute',
+    display: 'inline-block',
+    transformOrigin: '0 0',
+    bottom: 0,
+    transform: 'rotate(315deg)',
   },
 }));
 

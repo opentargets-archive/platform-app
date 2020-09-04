@@ -88,7 +88,9 @@ const Table = ({
           </Grid>
         )}
       </Grid>
-      <TableContainer className={defaultClasses.container}>
+      <TableContainer
+        className={classNames(defaultClasses.container, classes.root)}
+      >
         <MuiTable
           className={classNames(defaultClasses.table, classes.table, {
             [defaultClasses.tableFixed]: fixed,
