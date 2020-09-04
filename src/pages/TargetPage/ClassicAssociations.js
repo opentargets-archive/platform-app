@@ -16,7 +16,7 @@ function ClassicAssociations({ ensgId, symbol }) {
         </Typography>
       </Grid>
       <Grid item xs={12} md={9}>
-        <Card elevation={0}>
+        <Card elevation={0} style={{ overflow: 'visible' }}>
           <CardContent>
             <ClassicAssociationsTable ensgId={ensgId} />
           </CardContent>
