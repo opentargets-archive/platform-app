@@ -114,6 +114,7 @@ function getColumns(ensemblId, classes) {
         return (
           <div
             className={classes.colorDiv}
+            title={`Score: ${row.overall.toFixed(2)}`}
             style={{ backgroundColor: color(row.overall) }}
           />
         );
@@ -127,10 +128,21 @@ function getColumns(ensemblId, classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.colorDiv}
-            style={{ backgroundColor: color(row.genetic_association) }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:genetic_association`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.genetic_association
+                  ? `Score: ${row.genetic_association.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.genetic_association) }}
+            />
+          </a>
         );
       },
     },
@@ -142,10 +154,21 @@ function getColumns(ensemblId, classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.colorDiv}
-            style={{ backgroundColor: color(row.somatic_mutation) }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:somatic_mutation`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.somatic_mutation
+                  ? `Score: ${row.somatic_mutation.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.somatic_mutation) }}
+            />
+          </a>
         );
       },
     },
@@ -157,10 +180,21 @@ function getColumns(ensemblId, classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.colorDiv}
-            style={{ backgroundColor: color(row.known_drug) }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:known_drug`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.known_drug
+                  ? `Score: ${row.known_drug.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.known_drug) }}
+            />
+          </a>
         );
       },
     },
@@ -173,10 +207,21 @@ function getColumns(ensemblId, classes) {
       renderCell: row => {
         console.log('row.affected_pathway', row.affected_pathway);
         return (
-          <div
-            className={classes.colorDiv}
-            style={{ backgroundColor: color(row.affected_pathway) }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:affected_pathway`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.affected_pathway
+                  ? `Score: ${row.affected_pathway.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.affected_pathway) }}
+            />
+          </a>
         );
       },
     },
@@ -188,10 +233,21 @@ function getColumns(ensemblId, classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.colorDiv}
-            style={{ backgroundColor: color(row.rna_expression) }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:rna_expression`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.rna_expression
+                  ? `Score: ${row.rna_expression.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.rna_expression) }}
+            />
+          </a>
         );
       },
     },
@@ -203,10 +259,21 @@ function getColumns(ensemblId, classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.colorDiv}
-            style={{ backgroundColor: color(row.literature) }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:literature`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.literature
+                  ? `Score: ${row.literature.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.literature) }}
+            />
+          </a>
         );
       },
     },
@@ -218,10 +285,21 @@ function getColumns(ensemblId, classes) {
       slanted: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.colorDiv}
-            style={{ backgroundColor: color(row.animal_model) }}
-          />
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:animal_model`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.animal_model
+                  ? `Score: ${row.animal_model.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.animal_model) }}
+            />
+          </a>
         );
       },
     },
