@@ -58,6 +58,7 @@ const useStyles = makeStyles({
   },
   nameHeaderCell: {
     width: '20%',
+    borderBottom: 0,
     height: '140px',
     verticalAlign: 'bottom',
     textAlign: 'end',
@@ -65,16 +66,24 @@ const useStyles = makeStyles({
   },
   headerCell: {
     position: 'relative',
-    width: '10%',
+    borderBottom: 0,
     height: '140px',
     whiteSpace: 'nowrap',
     textAlign: 'center',
   },
-  cell: {
-    width: '10%',
+  overallCell: {
+    border: 0,
     textAlign: 'center',
-    border: '1px solid #eeefef',
-    padding: 0,
+    paddingTop: '1px',
+    paddingBottom: '1px',
+    paddingLeft: '1px',
+    paddingRight: '10px',
+    height: '1px', // hack
+  },
+  cell: {
+    border: 0,
+    textAlign: 'center',
+    padding: '1px 1px',
     height: '1px', // hack
     '&:last-child': {
       paddingRight: 0,
@@ -82,6 +91,7 @@ const useStyles = makeStyles({
   },
   colorDiv: {
     height: '100%',
+    border: '1px solid #eeefef',
   },
   nameCell: {
     textAlign: 'end',
@@ -109,7 +119,7 @@ function getColumns(ensemblId, classes) {
       label: 'Overall association score',
       slanted: true,
       headerClass: classes.headerCell,
-      cellClasses: classes.cell,
+      cellClasses: classes.overallCell,
       renderCell: row => {
         return (
           <div
