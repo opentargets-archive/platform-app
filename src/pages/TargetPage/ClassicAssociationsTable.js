@@ -11,12 +11,17 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
   query TargetAssociationsQuery($ensemblId: String!, $page: Pagination!) {
     target(ensemblId: $ensemblId) {
       associatedDiseases(page: $page) {
-        score
-        idPerDT
-        scorePerDT
-        disease {
-          id
-          name
+        count
+        rows {
+          disease {
+            id
+            name
+          }
+          score
+          datatypeScores {
+            id
+            score
+          }
         }
       }
     }
@@ -33,21 +38,23 @@ const dataTypes = [
   { id: 'animal_model', label: 'Animal models' },
 ];
 
+const colorRange = [
+  '#e8edf1',
+  '#d2dce4',
+  '#bbcbd6',
+  '#a5b9c9',
+  '#8fa8bc',
+  '#7897ae',
+  '#6285a1',
+  '#4b7493',
+  '#356386',
+  '#1f5279',
+];
+
 const color = d3
   .scaleQuantize()
   .domain([0, 1])
-  .range([
-    '#e8edf1',
-    '#d2dce4',
-    '#bbcbd6',
-    '#a5b9c9',
-    '#8fa8bc',
-    '#7897ae',
-    '#6285a1',
-    '#4b7493',
-    '#356386',
-    '#1f5279',
-  ]);
+  .range(colorRange);
 
 const useStyles = makeStyles({
   root: {
@@ -326,24 +333,53 @@ function getColumns(ensemblId, classes) {
 }
 
 function getRows(data) {
-  return data.map(d => {
+  const { rows = [] } = data;
+  return rows.map(d => {
     const row = {
       name: d.disease.name,
-      overall: d.score,
       efoId: d.disease.id,
+      overall: d.score,
     };
     dataTypes.forEach(dataType => {
-      const index = d.idPerDT.indexOf(dataType.id);
+      const dataTypeScore = d.datatypeScores.find(
+        dataTypeScore => dataTypeScore.id === dataType.id
+      );
 
-      if (index !== -1) {
-        row[dataType.id] = d.scorePerDT[index];
+      if (dataTypeScore) {
+        row[dataType.id] = dataTypeScore.score;
       }
     });
     return row;
   });
 }
 
-const ClassicAssociationsTable = ({ ensgId }) => {
+function Legend() {
+  return (
+    <div>
+      <div />
+      No data
+      <div style={{ display: 'flex' }}>
+        <div>0</div>
+        {colorRange.map(color => {
+          return (
+            <div
+              key={color}
+              style={{
+                backgroundColor: color,
+                height: '20px',
+                width: '20px',
+              }}
+            />
+          );
+        })}
+        <div>1</div>
+      </div>
+      Score
+    </div>
+  );
+}
+
+function ClassicAssociationsTable({ ensgId }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(50);
@@ -368,22 +404,25 @@ const ClassicAssociationsTable = ({ ensgId }) => {
   if (error) return null;
 
   const columns = getColumns(ensgId, classes);
-  const rows = getRows(data?.target.associatedDiseases ?? []);
+  const rows = getRows(data?.target.associatedDiseases ?? {});
 
   return (
-    <Table
-      loading={loading}
-      classes={{ root: classes.root, table: classes.table }}
-      page={page}
-      columns={columns}
-      rows={rows}
-      pageSize={pageSize}
-      rowCount={600}
-      rowsPerPageOptions={[10, 50, 200, 500]}
-      onPageChange={handlePageChange}
-      onRowsPerPageChange={handleRowsPerPageChange}
-    />
+    <>
+      <Table
+        loading={loading}
+        classes={{ root: classes.root, table: classes.table }}
+        page={page}
+        columns={columns}
+        rows={rows}
+        pageSize={pageSize}
+        rowCount={600}
+        rowsPerPageOptions={[10, 50, 200, 500]}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={handleRowsPerPageChange}
+      />
+      <Legend />
+    </>
   );
-};
+}
 
 export default ClassicAssociationsTable;
