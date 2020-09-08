@@ -704,6 +704,69 @@ const columns = {
       },
     ],
   },
+
+  string: {
+    interactions: [
+      {
+        id: 'partner',
+        label: (
+          <>
+            Interactor B<br />
+            <Typography variant="caption">Species (if not human)</Typography>
+          </>
+        ),
+        renderCell: row => (
+          <>
+            {row.partner}
+            {row.organism.mnemonic.toLowerCase() !== 'human' ? (
+              <>
+                <br />
+                <Typography variant="caption">
+                  Species: {row.organism.mnemonic}
+                </Typography>
+              </>
+            ) : null}
+          </>
+        ),
+      },
+      {
+        id: 'overallScore',
+        label: 'Overall interaction score',
+      },
+      {
+        id: 'neighbourhood',
+        label: 'Neighbourhood',
+      },
+      {
+        id: 'geneFusion',
+        label: 'Gene fusion',
+      },
+      {
+        id: 'occurance',
+        label: 'Co-occurrance',
+      },
+      {
+        id: 'expression',
+        label: 'Co-expression',
+      },
+      {
+        id: 'experiments',
+        label: 'Experiments',
+      },
+      {
+        id: 'databases',
+        label: 'Databases',
+      },
+      {
+        id: 'textMining',
+        label: 'Text mining',
+      },
+      {
+        id: 'homology',
+        label: 'Homology',
+      },
+    ],
+  },
 };
 
 const Section = ({ ensgId, symbol, data }) => {
@@ -842,7 +905,21 @@ const Section = ({ ensgId, symbol, data }) => {
         )}
 
         {/* string stuff */}
-        {source === 'string' && <>Placeholder for STRING data</>}
+        {source === 'string' && (
+          <Grid container spacing={4}>
+            <Grid item xs={12}>
+              {/* table 1: this is the only table and will need to be a HEATMAP */}
+              <DataTable
+                showGlobalFilter
+                columns={columns.string.interactions}
+                rows={tempData.data.string.rows}
+                dataDownloader
+                dataDownloaderFileStem={`${symbol}-molecular-interactions-string`}
+                hover
+              />
+            </Grid>
+          </Grid>
+        )}
       </div>
     </>
   );

@@ -245,7 +245,38 @@
             ]
         },
         "string": {
-            "rows": []
+            "rows": [
+                {
+                    "partner": "ABC2",
+                    "organism": {
+                        "mnemonic": "human" 
+                    },
+                    "overallScore": 0.997,
+                    "neighbourhood": 1,
+                    "geneFusion": 0,
+                    "occurance": 1,
+                    "expression": 1,
+                    "experiments": 1,
+                    "databases": 1,
+                    "textMining": 1,
+                    "homology": 0
+                },
+                {
+                    "partner": "influenza",
+                    "organism": {
+                        "mnemonic": "viral protein" 
+                    },
+                    "overallScore": 0.921,
+                    "neighbourhood": 0,
+                    "geneFusion": 0,
+                    "occurance": 1,
+                    "expression": 1,
+                    "experiments": 1,
+                    "databases": 0,
+                    "textMining": 1,
+                    "homology": 0
+                }
+            ]
         }
     }
 }
