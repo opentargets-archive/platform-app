@@ -231,7 +231,6 @@ function getColumns(ensemblId, classes) {
       cellClasses: classes.cell,
       slanted: true,
       renderCell: row => {
-        console.log('row.affected_pathway', row.affected_pathway);
         return (
           <a
             href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
@@ -356,7 +355,14 @@ function getRows(data) {
 function Legend() {
   return (
     <div>
-      <div />
+      <span
+        style={{
+          display: 'inline-block',
+          border: '1px solid #eeefef',
+          height: '20px',
+          width: '20px',
+        }}
+      />
       No data
       <div style={{ display: 'flex' }}>
         <div>0</div>
@@ -374,7 +380,9 @@ function Legend() {
         })}
         <div>1</div>
       </div>
-      Score
+      <a href="https://docs.targetvalidation.org/getting-started/scoring">
+        Score
+      </a>
     </div>
   );
 }
