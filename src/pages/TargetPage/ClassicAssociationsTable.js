@@ -94,15 +94,17 @@ const useStyles = makeStyles({
     border: '1px solid #eeefef',
   },
   nameCell: {
-    textAlign: 'end',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
     border: 0,
     width: '20%',
     padding: '0 0.5rem 0 0',
     '&:first-child': {
       paddingLeft: 0,
     },
+  },
+  nameContainer: {
+    textAlign: 'end',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
 });
 
@@ -113,6 +115,13 @@ function getColumns(ensemblId, classes) {
       label: 'Name',
       headerClass: classes.nameHeaderCell,
       cellClasses: classes.nameCell,
+      renderCell: row => {
+        return (
+          <div className={classes.nameContainer} title={row.name}>
+            {row.name}
+          </div>
+        );
+      },
     },
     {
       id: 'overall',
