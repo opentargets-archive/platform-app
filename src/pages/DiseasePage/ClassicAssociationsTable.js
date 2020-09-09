@@ -66,12 +66,19 @@ const useStyles = makeStyles({
   table: {
     tableLayout: 'fixed',
   },
-  nameHeaderCell: {
+  symbolHeaderCell: {
     width: '10%',
     borderBottom: 0,
     height: '140px',
     verticalAlign: 'bottom',
     textAlign: 'end',
+    paddingBottom: '.4rem',
+  },
+  nameHeaderCell: {
+    width: '20%',
+    borderBottom: 0,
+    height: '140px',
+    verticalAlign: 'bottom',
     paddingBottom: '.4rem',
   },
   headerCell: {
@@ -103,17 +110,24 @@ const useStyles = makeStyles({
     height: '100%',
     border: '1px solid #eeefef',
   },
+  symbolCell: {
+    border: 0,
+    width: '20%',
+    padding: '0 0.5rem 0 0',
+  },
   nameCell: {
     border: 0,
     width: '10%',
-    padding: '0 0.5rem 0 0',
-    '&:first-child': {
-      paddingLeft: 0,
-    },
+    padding: '0 0 0 0.5rem',
+  },
+  symbolContainer: {
+    display: 'block',
+    textAlign: 'end',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   nameContainer: {
     display: 'block',
-    textAlign: 'end',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
   },
@@ -122,18 +136,19 @@ const useStyles = makeStyles({
 function getColumns(efoId, classes) {
   return [
     {
-      id: 'name',
+      id: 'symbol',
       label: 'Symbol',
-      headerClass: classes.nameHeaderCell,
-      cellClasses: classes.nameCell,
+      headerClass: classes.symbolHeaderCell,
+      cellClasses: classes.symbolCell,
       renderCell: row => {
         return (
           <Link
             href={`https://www.targetvalidation.org/evidence/${
               row.ensemblId
             }/${efoId}`}
-            className={classes.nameContainer}
+            className={classes.symbolContainer}
             underline="none"
+            title={row.symbol}
             color="textPrimary"
           >
             {row.symbol}
@@ -339,6 +354,26 @@ function getColumns(efoId, classes) {
         );
       },
     },
+    {
+      id: 'name',
+      label: 'Target name',
+      headerClass: classes.nameHeaderCell,
+      cellClasses: classes.nameCell,
+      renderCell: row => {
+        return (
+          <Link
+            href={`https://www.targetvalidation.org/evidence/${
+              row.ensemblId
+            }/${efoId}`}
+            className={classes.nameContainer}
+            underline="none"
+            color="textPrimary"
+          >
+            {row.name}
+          </Link>
+        );
+      },
+    },
   ];
 }
 
@@ -346,8 +381,9 @@ function getRows(data) {
   const { rows = [] } = data;
   return rows.map(d => {
     const row = {
-      symbol: d.target.approvedSymbol,
       ensemblId: d.target.id,
+      symbol: d.target.approvedSymbol,
+      name: d.target.approvedName,
       overall: d.score,
     };
     dataTypes.forEach(dataType => {
