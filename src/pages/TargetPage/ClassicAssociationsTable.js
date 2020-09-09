@@ -409,6 +409,7 @@ function ClassicAssociationsTable({ ensgId }) {
       page: { index: page, size: pageSize },
     },
     client: client3,
+    fetchPolicy: 'no-cache',
   });
 
   function handlePageChange(page) {
