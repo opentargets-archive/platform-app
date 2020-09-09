@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import * as d3 from 'd3';
 import { useQuery } from '@apollo/client';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Link } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Table } from '../../components/Table';
 
 import { client3 } from '../../client';
@@ -109,6 +111,7 @@ const useStyles = makeStyles({
     },
   },
   nameContainer: {
+    display: 'block',
     textAlign: 'end',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
@@ -124,9 +127,17 @@ function getColumns(ensemblId, classes) {
       cellClasses: classes.nameCell,
       renderCell: row => {
         return (
-          <div className={classes.nameContainer} title={row.name}>
+          <Link
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }`}
+            className={classes.nameContainer}
+            title={row.name}
+            underline="none"
+            color="textPrimary"
+          >
             {row.name}
-          </div>
+          </Link>
         );
       },
     },
@@ -380,9 +391,9 @@ function Legend() {
         })}
         <div>1</div>
       </div>
-      <a href="https://docs.targetvalidation.org/getting-started/scoring">
-        Score
-      </a>
+      <Link href="https://docs.targetvalidation.org/getting-started/scoring">
+        <FontAwesomeIcon icon={faQuestionCircle} size="xs" /> Score
+      </Link>
     </div>
   );
 }
