@@ -1,48 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import _ from 'lodash';
-import { Grid, TablePagination } from '@material-ui/core';
+import * as d3 from 'd3';
+import { useQuery } from '@apollo/client';
+import { makeStyles, Link } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { Table } from '../../components/Table';
 
-import TooltipContent from './ClassicAssociationsTooltip';
-import {
-  ClassicAssociationsDownload,
-  ClassicAssociationsLegend,
-  withScaleAssociation,
-  withTooltip,
-} from '../../components/Associations';
-import { Heatmap } from '../../components/Heatmap';
+import { client3 } from '../../client';
 
-const associationsDownloadQuery = gql`
-  query DiseaseAssociationsDownloadQuery(
-    $efoId: String!
-    $first: Int
-    $after: String
-    $facets: DiseaseTargetsConnectionFacetsInput
-    $sortBy: DiseaseTargetsConnectionSortByInput
-    $search: String
-  ) {
+const DISEASE_ASSOCIATIONS_QUERY = gql`
+  query DiseaseAssociationsQuery($efoId: String!, $page: Pagination!) {
     disease(efoId: $efoId) {
-      id
-      targetsConnection(
-        first: $first
-        after: $after
-        facets: $facets
-        sortBy: $sortBy
-        search: $search
-      ) {
-        totalCount
-        pageInfo {
-          nextCursor
-          hasNextPage
-        }
-        edges {
-          node {
+      associatedTargets(page: $page) {
+        count
+        rows {
+          target {
             id
-            symbol
+            approvedSymbol
+            approvedName
           }
           score
-          scoresByDataType {
-            dataTypeId
+          datatypeScores {
+            id
             score
           }
         }
@@ -51,164 +31,417 @@ const associationsDownloadQuery = gql`
   }
 `;
 
-const ClassicAssociationsTable = ({
-  efoId,
-  name,
-  rows,
-  dataTypes,
-  modalities,
-  sortBy,
-  search,
-  facets,
-  onSortByChange,
-  page,
-  rowsPerPage,
-  totalCount,
-  pageInfo,
-  onPaginationChange,
-  handleMouseover,
-  scaleAssociation,
-  scaleModality,
-}) => {
-  const sortByUpdateForField = field => ({
-    field: field,
-    ascending: sortBy.field === field ? !sortBy.ascending : false,
-  });
-  const directionForField = field =>
-    sortBy.field === field ? (sortBy.ascending ? 'asc' : 'desc') : 'desc';
-  const activeForField = field => sortBy.field === field;
+const dataTypes = [
+  { id: 'genetic_association', label: 'Genetic associations' },
+  { id: 'somatic_mutation', label: 'Somatic mutations' },
+  { id: 'known_drug', label: 'Drugs' },
+  { id: 'affected_pathway', label: 'Pathways & systems biology' },
+  { id: 'rna_expression', label: 'RNA expression' },
+  { id: 'literature', label: 'Text mining' },
+  { id: 'animal_model', label: 'Animal models' },
+];
 
-  const columnGroups = [
+const colorRange = [
+  '#e8edf1',
+  '#d2dce4',
+  '#bbcbd6',
+  '#a5b9c9',
+  '#8fa8bc',
+  '#7897ae',
+  '#6285a1',
+  '#4b7493',
+  '#356386',
+  '#1f5279',
+];
+
+const color = d3
+  .scaleQuantize()
+  .domain([0, 1])
+  .range(colorRange);
+
+const useStyles = makeStyles({
+  root: {
+    overflow: 'visible',
+  },
+  table: {
+    tableLayout: 'fixed',
+  },
+  nameHeaderCell: {
+    width: '10%',
+    borderBottom: 0,
+    height: '140px',
+    verticalAlign: 'bottom',
+    textAlign: 'end',
+    paddingBottom: '.4rem',
+  },
+  headerCell: {
+    position: 'relative',
+    borderBottom: 0,
+    height: '140px',
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+  },
+  overallCell: {
+    border: 0,
+    textAlign: 'center',
+    paddingTop: '1px',
+    paddingBottom: '1px',
+    paddingLeft: '1px',
+    paddingRight: '10px',
+    height: '1px', // hack
+  },
+  cell: {
+    border: 0,
+    textAlign: 'center',
+    padding: '1px 1px',
+    height: '1px', // hack
+    '&:last-child': {
+      paddingRight: 0,
+    },
+  },
+  colorDiv: {
+    height: '100%',
+    border: '1px solid #eeefef',
+  },
+  nameCell: {
+    border: 0,
+    width: '10%',
+    padding: '0 0.5rem 0 0',
+    '&:first-child': {
+      paddingLeft: 0,
+    },
+  },
+  nameContainer: {
+    display: 'block',
+    textAlign: 'end',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+  },
+});
+
+function getColumns(efoId, classes) {
+  return [
+    {
+      id: 'name',
+      label: 'Symbol',
+      headerClass: classes.nameHeaderCell,
+      cellClasses: classes.nameCell,
+      renderCell: row => {
+        return (
+          <Link
+            href={`https://www.targetvalidation.org/evidence/${
+              row.ensemblId
+            }/${efoId}`}
+            className={classes.nameContainer}
+            underline="none"
+            color="textPrimary"
+          >
+            {row.symbol}
+          </Link>
+        );
+      },
+    },
     {
       id: 'overall',
-      columns: [
-        {
-          label: 'Overall',
-          valueAccessor: d => (d.score > 0 ? d.score : NaN),
-          colorAccessor: d => scaleAssociation(d.score > 0 ? d.score : NaN),
-          isSortable: true,
-          isSortActive: activeForField('SCORE_OVERALL'),
-          sortDirection: directionForField('SCORE_OVERALL'),
-          onSort: () => onSortByChange(sortByUpdateForField('SCORE_OVERALL')),
-        },
-      ],
+      label: 'Overall association score',
+      slanted: true,
+      headerClass: classes.headerCell,
+      cellClasses: classes.overallCell,
+      renderCell: row => {
+        return (
+          <div
+            className={classes.colorDiv}
+            title={`Score: ${row.overall.toFixed(2)}`}
+            style={{ backgroundColor: color(row.overall) }}
+          />
+        );
+      },
     },
     {
-      id: 'datasources',
-      columns: dataTypes.map(dt => ({
-        label: _.startCase(dt.toLowerCase()),
-        valueAccessor: d => {
-          const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
-          return score > 0 ? score : NaN;
-        },
-        colorAccessor: d => {
-          const score = d.scoresByDataType.find(s => s.dataTypeId === dt).score;
-          return scaleAssociation(score > 0 ? score : NaN);
-        },
-        isSortable: true,
-        isSortActive: activeForField(dt),
-        sortDirection: directionForField(dt),
-        onSort: () => onSortByChange(sortByUpdateForField(dt)),
-      })),
+      id: 'genetic_association',
+      label: 'Genetic associations',
+      headerClass: classes.headerCell,
+      cellClasses: classes.cell,
+      slanted: true,
+      renderCell: row => {
+        return (
+          <a
+            href={`https://www.targetvalidation.org/evidence/${
+              row.ensemblId
+            }/${efoId}?view=sec:genetic_association`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.genetic_association
+                  ? `Score: ${row.genetic_association.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.genetic_association) }}
+            />
+          </a>
+        );
+      },
     },
     {
-      id: 'modalities',
-      columns: modalities.map(m => ({
-        label: _.startCase(m),
-        valueAccessor: d => {
-          const score = d.tractabilityScoresByModality.find(
-            s => s.modalityId === m
-          ).score;
-          return score > 0 ? score : NaN;
-        },
-        colorAccessor: d => {
-          const score = d.tractabilityScoresByModality.find(
-            s => s.modalityId === m
-          ).score;
-          return scaleModality(score > 0 ? score : NaN);
-        },
-        isSortable: false,
-      })),
+      id: 'somatic_mutation',
+      label: 'Somatic mutations',
+      headerClass: classes.headerCell,
+      cellClasses: classes.cell,
+      slanted: true,
+      renderCell: row => {
+        return (
+          <a
+            href={`https://www.targetvalidation.org/evidence/${
+              row.ensemblId
+            }/${efoId}?view=sec:somatic_mutation`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.somatic_mutation
+                  ? `Score: ${row.somatic_mutation.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.somatic_mutation) }}
+            />
+          </a>
+        );
+      },
+    },
+    {
+      id: 'known_drug',
+      label: 'Drugs',
+      headerClass: classes.headerCell,
+      cellClasses: classes.cell,
+      slanted: true,
+      renderCell: row => {
+        return (
+          <a
+            href={`https://www.targetvalidation.org/evidence/${
+              row.ensemblId
+            }/${efoId}?view=sec:known_drug`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.known_drug
+                  ? `Score: ${row.known_drug.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.known_drug) }}
+            />
+          </a>
+        );
+      },
+    },
+    {
+      id: 'affected_pathway',
+      label: 'Pathways & systems biology',
+      headerClass: classes.headerCell,
+      cellClasses: classes.cell,
+      slanted: true,
+      renderCell: row => {
+        return (
+          <a
+            href={`https://www.targetvalidation.org/evidence/${
+              row.ensemblId
+            }/${efoId}?view=sec:affected_pathway`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.affected_pathway
+                  ? `Score: ${row.affected_pathway.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.affected_pathway) }}
+            />
+          </a>
+        );
+      },
+    },
+    {
+      id: 'rna_expression',
+      label: 'RNA expression',
+      headerClass: classes.headerCell,
+      cellClasses: classes.cell,
+      slanted: true,
+      renderCell: row => {
+        return (
+          <a
+            href={`https://www.targetvalidation.org/evidence/${
+              row.ensemblId
+            }/${efoId}?view=sec:rna_expression`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.rna_expression
+                  ? `Score: ${row.rna_expression.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.rna_expression) }}
+            />
+          </a>
+        );
+      },
+    },
+    {
+      id: 'literature',
+      label: 'Text mining',
+      headerClass: classes.headerCell,
+      cellClasses: classes.cell,
+      slanted: true,
+      renderCell: row => {
+        return (
+          <a
+            href={`https://www.targetvalidation.org/evidence/${
+              row.ensemblId
+            }/${efoId}?view=sec:literature`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.literature
+                  ? `Score: ${row.literature.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.literature) }}
+            />
+          </a>
+        );
+      },
+    },
+    {
+      id: 'animal_model',
+      label: 'Animal models',
+      headerClass: classes.headerCell,
+      cellClasses: classes.cell,
+      slanted: true,
+      renderCell: row => {
+        return (
+          <a
+            href={`https://www.targetvalidation.org/evidence/${
+              row.ensemblId
+            }/${efoId}?view=sec:animal_model`}
+          >
+            <div
+              className={classes.colorDiv}
+              title={
+                row.animal_model
+                  ? `Score: ${row.animal_model.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.animal_model) }}
+            />
+          </a>
+        );
+      },
     },
   ];
+}
+
+function getRows(data) {
+  const { rows = [] } = data;
+  return rows.map(d => {
+    const row = {
+      symbol: d.target.approvedSymbol,
+      ensemblId: d.target.id,
+      overall: d.score,
+    };
+    dataTypes.forEach(dataType => {
+      const dataTypeScore = d.datatypeScores.find(
+        dataTypeScore => dataTypeScore.id === dataType.id
+      );
+
+      if (dataTypeScore) {
+        row[dataType.id] = dataTypeScore.score;
+      }
+    });
+    return row;
+  });
+}
+
+function Legend() {
   return (
-    <React.Fragment>
-      <ClassicAssociationsDownload
-        fileStem={`${efoId}-associated-targets`}
-        query={associationsDownloadQuery}
-        variables={{ efoId, sortBy, search, facets }}
-        getAfter={response =>
-          response.data &&
-          response.data.disease &&
-          response.data.disease.targetsConnection &&
-          response.data.disease.targetsConnection.pageInfo &&
-          response.data.disease.targetsConnection.pageInfo.hasNextPage
-            ? response.data.disease.targetsConnection.pageInfo.nextCursor
-            : null
-        }
-        getRows={response =>
-          response.data &&
-          response.data.disease &&
-          response.data.disease.targetsConnection &&
-          response.data.disease.targetsConnection.edges
-            ? response.data.disease.targetsConnection.edges.map(d => ({
-                ensgId: d.node.id,
-                symbol: d.node.symbol,
-                overallScore: d.score,
-                ...d.scoresByDataType.reduce((acc, dt) => {
-                  acc[dt.dataTypeId] = dt.score;
-                  return acc;
-                }, {}),
-              }))
-            : []
-        }
-        headers={[
-          { id: 'ensgId', label: 'ensgId' },
-          { id: 'symbol', label: 'symbol' },
-          { id: 'overallScore', label: 'overallScore' },
-          ...dataTypes.map(dt => ({ id: dt, label: _.camelCase(dt) })),
-        ]}
+    <div>
+      <span
+        style={{
+          display: 'inline-block',
+          border: '1px solid #eeefef',
+          height: '20px',
+          width: '20px',
+        }}
       />
-      <Heatmap
-        rowIdAccessor={d => d.target.id}
-        labelAccessor={d => d.target.symbol}
-        rows={rows}
-        columnGroups={columnGroups}
-        rowsPerPage={rowsPerPage}
-        onLabelMouseover={handleMouseover}
-      />
-      <Grid container justify="space-between" alignItems="center">
-        <Grid item>
-          <ClassicAssociationsLegend {...{ scaleAssociation, scaleModality }} />
-        </Grid>
-        <Grid item>
-          <TablePagination
-            component="div"
-            rowsPerPageOptions={[]}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            count={totalCount ? totalCount : 0}
-            backIconButtonProps={{
-              'aria-label': 'Previous Page',
-            }}
-            nextIconButtonProps={{
-              'aria-label': 'Next Page',
-            }}
-            onChangePage={(event, newPage) => {
-              const { nextCursor } = pageInfo;
-              const forward = newPage > page;
-              onPaginationChange(forward, nextCursor);
-            }}
-          />
-        </Grid>
-      </Grid>
-    </React.Fragment>
+      No data
+      <div style={{ display: 'flex' }}>
+        <div>0</div>
+        {colorRange.map(color => {
+          return (
+            <div
+              key={color}
+              style={{
+                backgroundColor: color,
+                height: '20px',
+                width: '20px',
+              }}
+            />
+          );
+        })}
+        <div>1</div>
+      </div>
+      <Link href="https://docs.targetvalidation.org/getting-started/scoring">
+        <FontAwesomeIcon icon={faQuestionCircle} size="xs" /> Score
+      </Link>
+    </div>
   );
-};
+}
 
-const tooltipElementFinder = ({ id }) =>
-  document.querySelector(`#heatmap-label-${id}`);
+function ClassicAssociationsTable({ efoId }) {
+  const classes = useStyles();
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
-export default withScaleAssociation(
-  withTooltip(ClassicAssociationsTable, TooltipContent, tooltipElementFinder)
-);
+  const { loading, error, data } = useQuery(DISEASE_ASSOCIATIONS_QUERY, {
+    variables: {
+      efoId,
+      page: { index: page, size: pageSize },
+    },
+    client: client3,
+  });
+
+  function handlePageChange(page) {
+    setPage(page);
+  }
+
+  function handleRowsPerPageChange(pageSize) {
+    setPageSize(pageSize);
+    setPage(0);
+  }
+
+  if (error) return null;
+
+  const columns = getColumns(efoId, classes);
+  const rows = getRows(data?.disease.associatedTargets ?? {});
+
+  return (
+    <>
+      <Table
+        loading={loading}
+        classes={{ root: classes.root, table: classes.table }}
+        page={page}
+        columns={columns}
+        rows={rows}
+        pageSize={pageSize}
+        rowCount={600}
+        rowsPerPageOptions={[10, 50, 200, 500]}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={handleRowsPerPageChange}
+      />
+      <Legend />
+    </>
+  );
+}
+
+export default ClassicAssociationsTable;
