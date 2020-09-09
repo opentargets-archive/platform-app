@@ -445,6 +445,7 @@ function ClassicAssociationsTable({ efoId }) {
       page: { index: page, size: pageSize },
     },
     client: client3,
+    fetchPolicy: 'no-cache',
   });
 
   function handlePageChange(page) {
