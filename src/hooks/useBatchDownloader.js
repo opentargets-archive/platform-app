@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import client from '../client';
+import defaultClient from '../client';
 import { downloaderChunkSize } from '../constants';
 
 const getRows = (data, dataPath) => _.get(data, dataPath, []);
@@ -24,6 +24,7 @@ function useBatchDownloader(
   query,
   variables,
   dataPath,
+  client = defaultClient,
   rowField = 'rows',
   countField = 'count'
 ) {
