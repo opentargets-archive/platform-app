@@ -6,13 +6,14 @@ import { makeStyles, Link } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Table } from '../../components/Table';
+import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 import { client3 } from '../../client';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
-  query DiseaseAssociationsQuery($efoId: String!, $page: Pagination!) {
+  query DiseaseAssociationsQuery($efoId: String!, $index: Int!, $size: Int!) {
     disease(efoId: $efoId) {
-      associatedTargets(page: $page) {
+      associatedTargets(page: { index: $index, size: $size }) {
         count
         rows {
           target {
@@ -140,6 +141,7 @@ function getColumns(efoId, classes) {
       label: 'Symbol',
       headerClass: classes.symbolHeaderCell,
       cellClasses: classes.symbolCell,
+      exportValue: data => data.target.approvedSymbol,
       renderCell: row => {
         return (
           <Link
@@ -162,6 +164,7 @@ function getColumns(efoId, classes) {
       slanted: true,
       headerClass: classes.headerCell,
       cellClasses: classes.overallCell,
+      exportValue: data => data.score,
       renderCell: row => {
         return (
           <div
@@ -178,6 +181,12 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'genetic_association'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -204,6 +213,12 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'somatic_mutation'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -230,6 +245,12 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'known_drug'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -256,6 +277,12 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'affected_pathway'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -282,6 +309,12 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'rna_expression'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -308,6 +341,12 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'literature'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -334,6 +373,12 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'animal_model'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -359,6 +404,7 @@ function getColumns(efoId, classes) {
       label: 'Target name',
       headerClass: classes.nameHeaderCell,
       cellClasses: classes.nameCell,
+      exportValue: data => data.target.approvedName,
       renderCell: row => {
         return (
           <Link
@@ -378,8 +424,8 @@ function getColumns(efoId, classes) {
 }
 
 function getRows(data) {
-  const { rows = [] } = data;
-  return rows.map(d => {
+  // const { rows = [] } = data;
+  return data.map(d => {
     const row = {
       ensemblId: d.target.id,
       symbol: d.target.approvedSymbol,
@@ -442,10 +488,18 @@ function ClassicAssociationsTable({ efoId }) {
   const { loading, error, data } = useQuery(DISEASE_ASSOCIATIONS_QUERY, {
     variables: {
       efoId,
-      page: { index: page, size: pageSize },
+      index: page,
+      size: pageSize,
     },
     client: client3,
   });
+
+  const getAllAssociations = useBatchDownloader(
+    DISEASE_ASSOCIATIONS_QUERY,
+    { efoId },
+    'data.disease.associatedTargets',
+    client3
+  );
 
   function handlePageChange(page) {
     setPage(page);
@@ -458,19 +512,23 @@ function ClassicAssociationsTable({ efoId }) {
 
   if (error) return null;
 
+  const { count, rows = [] } = data?.disease.associatedTargets ?? {};
   const columns = getColumns(efoId, classes);
-  const rows = getRows(data?.disease.associatedTargets ?? {});
+  const processedRows = getRows(rows);
 
   return (
     <>
       <Table
         loading={loading}
+        dataDownloader
+        dataDownloaderRows={getAllAssociations}
+        dataDownloaderFileStem={`${efoId}-associated-diseases`}
         classes={{ root: classes.root, table: classes.table }}
         page={page}
         columns={columns}
-        rows={rows}
+        rows={processedRows}
         pageSize={pageSize}
-        rowCount={600}
+        rowCount={count}
         rowsPerPageOptions={[10, 50, 200, 500]}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleRowsPerPageChange}
