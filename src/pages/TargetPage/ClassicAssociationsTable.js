@@ -21,7 +21,7 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
           }
           score
           datatypeScores {
-            id
+            componentId: id
             score
           }
         }
@@ -352,7 +352,7 @@ function getRows(data) {
     };
     dataTypes.forEach(dataType => {
       const dataTypeScore = d.datatypeScores.find(
-        dataTypeScore => dataTypeScore.id === dataType.id
+        dataTypeScore => dataTypeScore.componentId === dataType.id
       );
 
       if (dataTypeScore) {
@@ -409,7 +409,6 @@ function ClassicAssociationsTable({ ensgId }) {
       page: { index: page, size: pageSize },
     },
     client: client3,
-    fetchPolicy: 'no-cache',
   });
 
   function handlePageChange(page) {
