@@ -11,9 +11,17 @@ import useBatchDownloader from '../../hooks/useBatchDownloader';
 import { client3 } from '../../client';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
-  query DiseaseAssociationsQuery($efoId: String!, $index: Int!, $size: Int!) {
+  query DiseaseAssociationsQuery(
+    $efoId: String!
+    $index: Int!
+    $size: Int!
+    $sortBy: String!
+  ) {
     disease(efoId: $efoId) {
-      associatedTargets(page: { index: $index, size: $size }) {
+      associatedTargets(
+        orderByScore: $sortBy
+        page: { index: $index, size: $size }
+      ) {
         count
         rows {
           target {
@@ -159,18 +167,19 @@ function getColumns(efoId, classes) {
       },
     },
     {
-      id: 'overall',
+      id: 'score',
       label: 'Overall association score',
       slanted: true,
       headerClass: classes.headerCell,
       cellClasses: classes.overallCell,
+      sortable: true,
       exportValue: data => data.score,
       renderCell: row => {
         return (
           <div
             className={classes.colorDiv}
-            title={`Score: ${row.overall.toFixed(2)}`}
-            style={{ backgroundColor: color(row.overall) }}
+            title={`Score: ${row.score.toFixed(2)}`}
+            style={{ backgroundColor: color(row.score) }}
           />
         );
       },
@@ -181,6 +190,7 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
           datatypeScore => datatypeScore.componentId === 'genetic_association'
@@ -213,6 +223,7 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
           datatypeScore => datatypeScore.componentId === 'somatic_mutation'
@@ -245,6 +256,7 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
           datatypeScore => datatypeScore.componentId === 'known_drug'
@@ -277,6 +289,7 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
           datatypeScore => datatypeScore.componentId === 'affected_pathway'
@@ -309,6 +322,7 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
           datatypeScore => datatypeScore.componentId === 'rna_expression'
@@ -341,6 +355,7 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
           datatypeScore => datatypeScore.componentId === 'literature'
@@ -373,6 +388,7 @@ function getColumns(efoId, classes) {
       headerClass: classes.headerCell,
       cellClasses: classes.cell,
       slanted: true,
+      sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
           datatypeScore => datatypeScore.componentId === 'animal_model'
@@ -424,13 +440,12 @@ function getColumns(efoId, classes) {
 }
 
 function getRows(data) {
-  // const { rows = [] } = data;
   return data.map(d => {
     const row = {
       ensemblId: d.target.id,
       symbol: d.target.approvedSymbol,
       name: d.target.approvedName,
-      overall: d.score,
+      score: d.score,
     };
     dataTypes.forEach(dataType => {
       const dataTypeScore = d.datatypeScores.find(
@@ -482,6 +497,7 @@ function Legend() {
 
 function ClassicAssociationsTable({ efoId }) {
   const classes = useStyles();
+  const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(50);
 
@@ -490,6 +506,7 @@ function ClassicAssociationsTable({ efoId }) {
       efoId,
       index: page,
       size: pageSize,
+      sortBy,
     },
     client: client3,
   });
@@ -510,6 +527,10 @@ function ClassicAssociationsTable({ efoId }) {
     setPage(0);
   }
 
+  function handleSort(sortBy) {
+    setSortBy(sortBy);
+  }
+
   if (error) return null;
 
   const { count, rows = [] } = data?.disease.associatedTargets ?? {};
@@ -524,12 +545,15 @@ function ClassicAssociationsTable({ efoId }) {
         dataDownloaderRows={getAllAssociations}
         dataDownloaderFileStem={`${efoId}-associated-diseases`}
         classes={{ root: classes.root, table: classes.table }}
+        sortBy={sortBy}
+        order="asc"
         page={page}
         columns={columns}
         rows={processedRows}
         pageSize={pageSize}
         rowCount={count}
         rowsPerPageOptions={[10, 50, 200, 500]}
+        onSortBy={handleSort}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleRowsPerPageChange}
       />
