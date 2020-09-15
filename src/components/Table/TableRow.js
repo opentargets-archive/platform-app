@@ -24,7 +24,7 @@ function TableRow({ columns, hover, isFixedRow, noWrap, row, style }) {
               root: classNames(
                 classes.cell,
                 classes.cellBody,
-                column.cellClasses,
+                column.classes?.cell,
                 {
                   [classes.tabularNums]: column.numeric,
                   [classes.cellSticky]: column.sticky,

@@ -19,9 +19,8 @@ import { getHiddenBreakpoints } from './utils';
 import useDynamicColspan from '../../hooks/useDynamicColspans';
 
 function HeaderCell({
+  classes = {},
   align,
-  slanted,
-  className,
   colspan,
   isHeaderGroup = false,
   label,
@@ -36,7 +35,7 @@ function HeaderCell({
   TooltipIcon = HelpIcon,
   width,
 }) {
-  const classes = tableStyles();
+  const headerClasses = tableStyles();
   const tooltipClasses = makeStyles(tooltipStyle)();
   const style = {
     minWidth,
@@ -45,7 +44,7 @@ function HeaderCell({
   };
 
   const labelInnerComponent = (
-    <span className={slanted ? classes.slantedSpan : null}>
+    <span className={classes.innerLabel}>
       {tooltip ? (
         <Badge
           badgeContent={
@@ -55,7 +54,7 @@ function HeaderCell({
               classes={tooltipClasses}
               title={tooltip}
             >
-              <TooltipIcon className={classes.tooltipIcon} />
+              <TooltipIcon className={headerClasses.tooltipIcon} />
             </Tooltip>
           }
         >
@@ -71,18 +70,25 @@ function HeaderCell({
     <TableCell
       align={align}
       classes={{
-        root: classNames(classes.cell, classes.cellHeader, className, {
-          [classes.cellGroup]: isHeaderGroup,
-          [classes.cellSticky]: sticky,
-          [classes.noWrap]: noWrapHeader,
-        }),
+        root: classNames(
+          headerClasses.cell,
+          headerClasses.cellHeader,
+          classes.headerCell,
+          {
+            [headerClasses.cellGroup]: isHeaderGroup,
+            [headerClasses.cellSticky]: sticky,
+            [headerClasses.noWrap]: noWrapHeader,
+          }
+        ),
       }}
       colSpan={colspan}
       sortDirection={sortable && sortParams.direction}
       style={style}
     >
       {sortable ? (
-        <TableSortLabel {...sortParams}>{labelInnerComponent}</TableSortLabel>
+        <TableSortLabel className={classes.sortLabel} {...sortParams}>
+          {labelInnerComponent}
+        </TableSortLabel>
       ) : (
         labelInnerComponent
       )}
@@ -126,7 +132,6 @@ function TableHeader({
         {columns.map((column, index) => (
           <Hidden {...getHiddenBreakpoints(column)} key={index}>
             <HeaderCell
-              slanted={column.slanted}
               align={
                 column.align ? column.align : column.numeric ? 'right' : 'left'
               }
@@ -143,7 +148,7 @@ function TableHeader({
                   : null
               }
               labelStyle={column.labelStyle}
-              className={column.headerClass}
+              classes={column.classes}
               sticky={column.sticky}
               tooltip={column.tooltip}
               tooltipStyle={column.tooltipStyle}
