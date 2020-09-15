@@ -75,6 +75,17 @@ const useStyles = makeStyles({
   table: {
     tableLayout: 'fixed',
   },
+  sortLabel: {
+    top: '8px',
+  },
+  innerLabel: {
+    position: 'absolute',
+    display: 'inline-block',
+    transformOrigin: '0 0',
+    bottom: 0,
+    transform: 'rotate(315deg)',
+    marginBottom: '5px',
+  },
   symbolHeaderCell: {
     width: '10%',
     borderBottom: 0,
@@ -96,6 +107,7 @@ const useStyles = makeStyles({
     height: '140px',
     whiteSpace: 'nowrap',
     textAlign: 'center',
+    verticalAlign: 'bottom',
   },
   overallCell: {
     border: 0,
@@ -147,8 +159,10 @@ function getColumns(efoId, classes) {
     {
       id: 'symbol',
       label: 'Symbol',
-      headerClass: classes.symbolHeaderCell,
-      cellClasses: classes.symbolCell,
+      classes: {
+        headerCell: classes.symbolHeaderCell,
+        cell: classes.symbolCell,
+      },
       exportValue: data => data.target.approvedSymbol,
       renderCell: row => {
         return (
@@ -169,9 +183,12 @@ function getColumns(efoId, classes) {
     {
       id: 'score',
       label: 'Overall association score',
-      slanted: true,
-      headerClass: classes.headerCell,
-      cellClasses: classes.overallCell,
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.overallCell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
       sortable: true,
       exportValue: data => data.score,
       renderCell: row => {
@@ -187,9 +204,12 @@ function getColumns(efoId, classes) {
     {
       id: 'genetic_association',
       label: 'Genetic associations',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.cell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
       sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
@@ -220,9 +240,12 @@ function getColumns(efoId, classes) {
     {
       id: 'somatic_mutation',
       label: 'Somatic mutations',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        innerLabel: classes.innerLabel,
+        sortLabel: classes.sortLabel,
+        cell: classes.cell,
+      },
       sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
@@ -253,9 +276,12 @@ function getColumns(efoId, classes) {
     {
       id: 'known_drug',
       label: 'Drugs',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        innerLabel: classes.innerLabel,
+        sortLabel: classes.sortLabel,
+        cell: classes.cell,
+      },
       sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
@@ -286,10 +312,13 @@ function getColumns(efoId, classes) {
     {
       id: 'affected_pathway',
       label: 'Pathways & systems biology',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
       sortable: true,
+      classes: {
+        headerCell: classes.headerCell,
+        innerLabel: classes.innerLabel,
+        sortLabel: classes.sortLabel,
+        cell: classes.cell,
+      },
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
           datatypeScore => datatypeScore.componentId === 'affected_pathway'
@@ -319,9 +348,12 @@ function getColumns(efoId, classes) {
     {
       id: 'rna_expression',
       label: 'RNA expression',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        innerLabel: classes.innerLabel,
+        sortLabel: classes.sortLabel,
+        cell: classes.cell,
+      },
       sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
@@ -352,9 +384,12 @@ function getColumns(efoId, classes) {
     {
       id: 'literature',
       label: 'Text mining',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        innerLabel: classes.innerLabel,
+        sortLabel: classes.sortLabel,
+        cell: classes.cell,
+      },
       sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
@@ -385,9 +420,12 @@ function getColumns(efoId, classes) {
     {
       id: 'animal_model',
       label: 'Animal models',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        innerLabel: classes.innerLabel,
+        sortLabel: classes.sortLabel,
+        cell: classes.cell,
+      },
       sortable: true,
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
@@ -418,8 +456,10 @@ function getColumns(efoId, classes) {
     {
       id: 'name',
       label: 'Target name',
-      headerClass: classes.nameHeaderCell,
-      cellClasses: classes.nameCell,
+      classes: {
+        headerCell: classes.nameHeaderCell,
+        cell: classes.nameCell,
+      },
       exportValue: data => data.target.approvedName,
       renderCell: row => {
         return (

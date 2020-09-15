@@ -97,7 +97,6 @@ const Table = ({
           })}
         >
           <TableHeader
-            classes={defaultClasses}
             columns={columns}
             headerGroups={headerGroups}
             noWrapHeader={noWrapHeader}

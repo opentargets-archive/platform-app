@@ -70,13 +70,6 @@ export const tableStyles = makeStyles(theme => ({
     position: 'relative',
     top: '6px',
   },
-  slantedSpan: {
-    position: 'absolute',
-    display: 'inline-block',
-    transformOrigin: '0 0',
-    bottom: 0,
-    transform: 'rotate(315deg)',
-  },
 }));
 
 export const globalSearchStyles = makeStyles(theme => ({

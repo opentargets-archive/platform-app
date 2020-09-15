@@ -65,6 +65,17 @@ const useStyles = makeStyles({
   table: {
     tableLayout: 'fixed',
   },
+  sortLabel: {
+    top: '8px',
+  },
+  innerLabel: {
+    position: 'absolute',
+    display: 'inline-block',
+    transformOrigin: '0 0',
+    bottom: 0,
+    transform: 'rotate(315deg)',
+    marginBottom: '5px',
+  },
   nameHeaderCell: {
     width: '20%',
     borderBottom: 0,
@@ -79,6 +90,7 @@ const useStyles = makeStyles({
     height: '140px',
     whiteSpace: 'nowrap',
     textAlign: 'center',
+    verticalAlign: 'bottom',
   },
   overallCell: {
     border: 0,
@@ -123,8 +135,10 @@ function getColumns(ensemblId, classes) {
     {
       id: 'name',
       label: 'Name',
-      headerClass: classes.nameHeaderCell,
-      cellClasses: classes.nameCell,
+      classes: {
+        headerCell: classes.nameHeaderCell,
+        cell: classes.nameCell,
+      },
       renderCell: row => {
         return (
           <Link
@@ -142,17 +156,21 @@ function getColumns(ensemblId, classes) {
       },
     },
     {
-      id: 'overall',
+      id: 'score',
       label: 'Overall association score',
-      slanted: true,
-      headerClass: classes.headerCell,
-      cellClasses: classes.overallCell,
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.overallCell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
+      sortable: true,
       renderCell: row => {
         return (
           <div
             className={classes.colorDiv}
-            title={`Score: ${row.overall.toFixed(2)}`}
-            style={{ backgroundColor: color(row.overall) }}
+            title={`Score: ${row.score.toFixed(2)}`}
+            style={{ backgroundColor: color(row.score) }}
           />
         );
       },
@@ -160,9 +178,13 @@ function getColumns(ensemblId, classes) {
     {
       id: 'genetic_association',
       label: 'Genetic associations',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.cell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
+      sortable: true,
       renderCell: row => {
         return (
           <a
@@ -186,9 +208,13 @@ function getColumns(ensemblId, classes) {
     {
       id: 'somatic_mutation',
       label: 'Somatic mutations',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.cell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
+      sortable: true,
       renderCell: row => {
         return (
           <a
@@ -212,9 +238,13 @@ function getColumns(ensemblId, classes) {
     {
       id: 'known_drug',
       label: 'Drugs',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.cell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
+      sortable: true,
       renderCell: row => {
         return (
           <a
@@ -238,9 +268,13 @@ function getColumns(ensemblId, classes) {
     {
       id: 'affected_pathway',
       label: 'Pathways & systems biology',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.cell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
+      sortable: true,
       renderCell: row => {
         return (
           <a
@@ -264,9 +298,13 @@ function getColumns(ensemblId, classes) {
     {
       id: 'rna_expression',
       label: 'RNA expression',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.cell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
+      sortable: true,
       renderCell: row => {
         return (
           <a
@@ -290,9 +328,13 @@ function getColumns(ensemblId, classes) {
     {
       id: 'literature',
       label: 'Text mining',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.cell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
+      sortable: true,
       renderCell: row => {
         return (
           <a
@@ -316,9 +358,13 @@ function getColumns(ensemblId, classes) {
     {
       id: 'animal_model',
       label: 'Animal models',
-      headerClass: classes.headerCell,
-      cellClasses: classes.cell,
-      slanted: true,
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.cell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
+      sortable: true,
       renderCell: row => {
         return (
           <a
@@ -348,7 +394,7 @@ function getRows(data) {
     const row = {
       name: d.disease.name,
       efoId: d.disease.id,
-      overall: d.score,
+      score: d.score,
     };
     dataTypes.forEach(dataType => {
       const dataTypeScore = d.datatypeScores.find(
@@ -400,6 +446,7 @@ function Legend() {
 
 function ClassicAssociationsTable({ ensgId }) {
   const classes = useStyles();
+  const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(50);
 
@@ -431,6 +478,8 @@ function ClassicAssociationsTable({ ensgId }) {
         loading={loading}
         classes={{ root: classes.root, table: classes.table }}
         page={page}
+        sortBy={sortBy}
+        order="asc"
         columns={columns}
         rows={rows}
         pageSize={pageSize}
