@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'ot-ui';
 
-const EFOLink = ({ efoId, first }) =>
+const EFO = ({ efoId, first }) =>
   efoId ? (
     <React.Fragment>
       {first ? null : ' | '}
@@ -16,4 +16,4 @@ const EFOLink = ({ efoId, first }) =>
     </React.Fragment>
   ) : null;
 
-export default EFOLink;
+export default EFO;

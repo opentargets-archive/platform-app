@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import * as sectionsObject from './sectionIndex';
 import BaseProfile from '../../components/Profile';
-import DescriptionAndSynonyms from '../../components/DescriptionAndSynonyms';
+import { DiseaseProfileHeader } from '../../components/ProfileHeader';
 
 const sections = Object.values(sectionsObject);
 
@@ -53,7 +53,7 @@ class DiseaseProfile extends Component {
           entitySectionsAccessor,
         }}
       >
-        <DescriptionAndSynonyms description={description} synonyms={synonyms} />
+        <DiseaseProfileHeader description={description} synonyms={synonyms} />
       </BaseProfile>
     );
   }
