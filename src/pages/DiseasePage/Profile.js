@@ -1,62 +1,46 @@
-import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { print } from 'graphql/language/printer';
-import _ from 'lodash';
+import React from 'react';
+import { gql } from '@apollo/client';
 
-import * as sectionsObject from './sectionIndex';
-import BaseProfile from '../../components/Profile';
+import { createSummaryFragment } from '../../components/Summary/utils';
 import { DiseaseProfileHeader } from '../../components/ProfileHeader';
+import PlatformApiProvider from '../../contexts/PlatformApiProvider';
+import SectionContainer from '../../components/Section/SectionContainer';
+import SummaryContainer from '../../components/Summary/SummaryContainer';
 
-const sections = Object.values(sectionsObject);
+import sections from './sections';
 
-const summariesQuery = gql`
-  query DiseaseSummaryQuery($efoId: String!) {
+const PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(sections, 'Disease');
+const PROFILE = gql`
+  query ProfileQuery($efoId: String!) {
     disease(efoId: $efoId) {
       id
       name
-      ${sections
-        .filter(s => s.summaryQuery)
-        .map(s => `...disease${_.upperFirst(s.id)}Fragment`)
-        .join('\n')}
+      description
+      synonyms
+      ...ProfileSummaryFragment
     }
   }
-  ${sections
-    .filter(s => s.summaryQuery)
-    .map(s => print(s.summaryQuery))
-    .join('\n')}
+  ${PROFILE_SUMMARY_FRAGMENT}
 `;
 
-const entitySummariesAccessor = data =>
-  (data &&
-    data.disease &&
-    sections
-      .filter(s => s.summaryQuery)
-      .reduce((obj, s) => ({ ...obj, [s.id]: data.disease[s.id] }), {})) ||
-  {};
+function Profile({ efoId }) {
+  return (
+    <PlatformApiProvider entity="disease" query={PROFILE} variables={{ efoId }}>
+      <DiseaseProfileHeader />
 
-const entitySectionsAccessor = data =>
-  data && data.disease ? data.disease : {};
+      <SummaryContainer entity="disease">
+        {sections.map(({ Summary, definition }) => (
+          <Summary key={definition.id} efoId={efoId} definition={definition} />
+        ))}
+      </SummaryContainer>
 
-class DiseaseProfile extends Component {
-  render() {
-    const { efoId, name, synonyms, description } = this.props;
-    const entity = { efoId, name, synonyms, description };
-    return (
-      <BaseProfile
-        {...{
-          entity,
-          query: summariesQuery,
-          variables: { efoId },
-          sectionsOrderKey: 'diseaseSectionsOrder',
-          unorderedSections: sections,
-          entitySummariesAccessor,
-          entitySectionsAccessor,
-        }}
-      >
-        <DiseaseProfileHeader description={description} synonyms={synonyms} />
-      </BaseProfile>
-    );
-  }
+      <SectionContainer entity="disease">
+        {sections.map(({ Body, definition }) => (
+          <Body key={definition.id} efoId={efoId} definition={definition} />
+        ))}
+      </SectionContainer>
+    </PlatformApiProvider>
+  );
 }
 
-export default DiseaseProfile;
+export default Profile;

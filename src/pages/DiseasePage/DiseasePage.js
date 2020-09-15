@@ -11,12 +11,10 @@ import Profile from './Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
 const DISEASE_PAGE_QUERY = gql`
-  query DiseaseQuery($efoId: String!) {
+  query DiseasePageQuery($efoId: String!) {
     disease(efoId: $efoId) {
       id
       name
-      description
-      synonyms
     }
   }
 `;
@@ -34,7 +32,7 @@ function DiseasePage({ history, location, match }) {
     );
   }
 
-  const { name, description, synonyms } = data.disease;
+  const { name } = data.disease;
 
   return (
     <BasePage>
@@ -52,14 +50,7 @@ function DiseasePage({ history, location, match }) {
         <RoutingTab
           label="Profile"
           path="/disease/:efoId"
-          component={() => (
-            <Profile
-              efoId={efoId}
-              name={name}
-              description={description}
-              synonyms={synonyms}
-            />
-          )}
+          component={() => <Profile efoId={efoId} />}
         />
         <RoutingTab
           label="Classic view"
