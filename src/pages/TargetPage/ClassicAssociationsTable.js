@@ -6,13 +6,22 @@ import { makeStyles, Link } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Table } from '../../components/Table';
+import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 import { client3 } from '../../client';
 
 const TARGET_ASSOCIATIONS_QUERY = gql`
-  query TargetAssociationsQuery($ensemblId: String!, $page: Pagination!) {
+  query TargetAssociationsQuery(
+    $ensemblId: String!
+    $index: Int!
+    $size: Int!
+    $sortBy: String!
+  ) {
     target(ensemblId: $ensemblId) {
-      associatedDiseases(page: $page) {
+      associatedDiseases(
+        orderByScore: $sortBy
+        page: { index: $index, size: $size }
+      ) {
         count
         rows {
           disease {
@@ -139,6 +148,7 @@ function getColumns(ensemblId, classes) {
         headerCell: classes.nameHeaderCell,
         cell: classes.nameCell,
       },
+      exportValue: data => data.disease.name,
       renderCell: row => {
         return (
           <Link
@@ -185,6 +195,12 @@ function getColumns(ensemblId, classes) {
         innerLabel: classes.innerLabel,
       },
       sortable: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'genetic_association'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -215,6 +231,12 @@ function getColumns(ensemblId, classes) {
         innerLabel: classes.innerLabel,
       },
       sortable: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'somatic_mutation'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -245,6 +267,12 @@ function getColumns(ensemblId, classes) {
         innerLabel: classes.innerLabel,
       },
       sortable: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'known_drug'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -275,6 +303,12 @@ function getColumns(ensemblId, classes) {
         innerLabel: classes.innerLabel,
       },
       sortable: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'affected_pathway'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -305,6 +339,12 @@ function getColumns(ensemblId, classes) {
         innerLabel: classes.innerLabel,
       },
       sortable: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'rna_expression'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -335,6 +375,12 @@ function getColumns(ensemblId, classes) {
         innerLabel: classes.innerLabel,
       },
       sortable: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'literature'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -365,6 +411,12 @@ function getColumns(ensemblId, classes) {
         innerLabel: classes.innerLabel,
       },
       sortable: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'animal_model'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
       renderCell: row => {
         return (
           <a
@@ -389,8 +441,7 @@ function getColumns(ensemblId, classes) {
 }
 
 function getRows(data) {
-  const { rows = [] } = data;
-  return rows.map(d => {
+  return data.map(d => {
     const row = {
       name: d.disease.name,
       efoId: d.disease.id,
@@ -453,10 +504,19 @@ function ClassicAssociationsTable({ ensgId }) {
   const { loading, error, data } = useQuery(TARGET_ASSOCIATIONS_QUERY, {
     variables: {
       ensemblId: ensgId,
-      page: { index: page, size: pageSize },
+      index: page,
+      size: pageSize,
+      sortBy,
     },
     client: client3,
   });
+
+  const getAllAssociations = useBatchDownloader(
+    TARGET_ASSOCIATIONS_QUERY,
+    { ensemblId: ensgId, sortBy },
+    'data.target.associatedDiseases',
+    client3
+  );
 
   function handlePageChange(page) {
     setPage(page);
@@ -473,21 +533,26 @@ function ClassicAssociationsTable({ ensgId }) {
 
   if (error) return null;
 
+  const { count, rows = [] } = data?.target.associatedDiseases ?? {};
   const columns = getColumns(ensgId, classes);
-  const rows = getRows(data?.target.associatedDiseases ?? {});
+  const processedRows = getRows(rows);
 
   return (
     <>
       <Table
+        showGlobalFilter
         loading={loading}
+        dataDownloader
+        dataDownloaderRows={getAllAssociations}
+        dataDownloaderFileStem={`${ensgId}-associated-targets`}
         classes={{ root: classes.root, table: classes.table }}
         page={page}
         sortBy={sortBy}
         order="asc"
         columns={columns}
-        rows={rows}
+        rows={processedRows}
         pageSize={pageSize}
-        rowCount={600}
+        rowCount={count}
         rowsPerPageOptions={[10, 50, 200, 500]}
         onSortBy={handleSort}
         onPageChange={handlePageChange}
