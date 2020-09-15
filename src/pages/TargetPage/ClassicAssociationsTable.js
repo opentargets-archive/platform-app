@@ -467,6 +467,10 @@ function ClassicAssociationsTable({ ensgId }) {
     setPage(0);
   }
 
+  function handleSort(sortBy) {
+    setSortBy(sortBy);
+  }
+
   if (error) return null;
 
   const columns = getColumns(ensgId, classes);
@@ -485,6 +489,7 @@ function ClassicAssociationsTable({ ensgId }) {
         pageSize={pageSize}
         rowCount={600}
         rowsPerPageOptions={[10, 50, 200, 500]}
+        onSortBy={handleSort}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleRowsPerPageChange}
       />
