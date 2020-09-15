@@ -1,13 +1,41 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/client';
-import { loader } from 'graphql.macro';
+import { useQuery, gql } from '@apollo/client';
+
 import { Link, significantFigures } from 'ot-ui';
 
+import Description from './Description';
 import LinearVenn, { LinearVennLegend } from '../../../components/LinearVenn';
 import { Table, PaginationActionsComplete } from '../../../components/Table';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
+import SectionItem from '../../../components/Section/SectionItem';
 
-const RELATED_DISEASES_QUERY = loader('./sectionQuery.gql');
+const RELATED_DISEASES_QUERY = gql`
+  query RelatedDiseasesQuery(
+    $efoId: String!
+    $index: Int! = 0
+    $size: Int! = 10
+  ) {
+    disease(efoId: $efoId) {
+      id
+      relatedDiseases(page: { index: $index, size: $size }) {
+        count
+        maxCountAOrB
+        rows {
+          id
+          countA
+          countB
+          countAOrB
+          countAAndB
+          score
+          B {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
 
 const columns = (name, maxCountAOrB) => [
   {
@@ -82,14 +110,11 @@ const columns = (name, maxCountAOrB) => [
   },
 ];
 
-const Section = ({ efoId, name }) => {
+const Body = ({ definition, efoId }) => {
   const [page, setPage] = useState(0);
 
-  const { data, loading, fetchMore } = useQuery(RELATED_DISEASES_QUERY, {
-    variables: {
-      efoId,
-    },
-    notifyOnNetworkStatusChange: true,
+  const { loading, error, data, fetchMore } = useQuery(RELATED_DISEASES_QUERY, {
+    variables: { efoId },
   });
 
   const getWholeDataset = useBatchDownloader(
@@ -101,9 +126,7 @@ const Section = ({ efoId, name }) => {
   const handlePageChange = newPage => {
     setPage(newPage);
     fetchMore({
-      variables: {
-        index: newPage,
-      },
+      variables: { index: newPage },
       updateQuery: (prev, { fetchMoreResult }) => {
         return fetchMoreResult;
       },
@@ -114,19 +137,26 @@ const Section = ({ efoId, name }) => {
     data?.disease.relatedDiseases ?? {};
 
   return (
-    <Table
-      loading={loading}
-      columns={columns(name, maxCountAOrB)}
-      dataDownloader
-      dataDownloaderFileStem={`${efoId}-related_diseases`}
-      dataDownloaderRows={getWholeDataset}
-      rows={rows}
-      rowCount={count}
-      page={page}
-      onPageChange={handlePageChange}
-      ActionsComponent={PaginationActionsComplete}
+    <SectionItem
+      definition={definition}
+      request={{ loading, error, data }}
+      renderDescription={data => <Description name={data.disease.name} />}
+      renderBody={data => (
+        <Table
+          loading={loading}
+          columns={columns(data.disease.name, maxCountAOrB)}
+          dataDownloader
+          dataDownloaderFileStem={`${efoId}-related_diseases`}
+          dataDownloaderRows={getWholeDataset}
+          rows={rows}
+          rowCount={count}
+          page={page}
+          onPageChange={handlePageChange}
+          ActionsComponent={PaginationActionsComplete}
+        />
+      )}
     />
   );
 };
 
-export default Section;
+export default Body;
