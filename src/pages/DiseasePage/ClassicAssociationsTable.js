@@ -190,7 +190,6 @@ function getColumns(efoId, classes) {
         innerLabel: classes.innerLabel,
       },
       sortable: true,
-      exportValue: data => data.score,
       renderCell: row => {
         return (
           <div
@@ -553,7 +552,7 @@ function ClassicAssociationsTable({ efoId }) {
 
   const getAllAssociations = useBatchDownloader(
     DISEASE_ASSOCIATIONS_QUERY,
-    { efoId },
+    { efoId, sortBy },
     'data.disease.associatedTargets',
     client3
   );
