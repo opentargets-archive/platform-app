@@ -580,6 +580,7 @@ function ClassicAssociationsTable({ efoId }) {
   return (
     <>
       <Table
+        showGlobalFilter
         loading={loading}
         dataDownloader
         dataDownloaderRows={getAllAssociations}
