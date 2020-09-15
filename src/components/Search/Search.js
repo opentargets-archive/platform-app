@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import {
+  Box,
   CircularProgress,
-  makeStyles,
-  InputBase,
   Input,
+  InputBase,
+  makeStyles,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { Search as SearchIcon, ArrowDropDown } from '@material-ui/icons';
@@ -18,17 +19,23 @@ import Group from './Group';
 const SEARCH_QUERY = loader('./SearchQuery.gql');
 
 const useStyles = makeStyles(theme => ({
-  listbox: { maxHeight: 'fit-content', color: theme.palette.text.primary },
-  option: { display: 'block', padding: '0 .5rem' },
+  container: {
+    width: '100%',
+  },
+  containerEmbedded: {
+    minWidth: '400px',
+  },
+  input: {
+    width: '100%',
+  },
   inputBase: {
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.secondary,
     width: '100%',
   },
-  input: {
-    width: '100%',
-  },
   inputBaseInput: { padding: '.25rem .5rem' },
+  listbox: { maxHeight: 'fit-content', color: theme.palette.text.primary },
+  option: { display: 'block', padding: '0 .5rem' },
   root: {
     width: '100%',
   },
@@ -113,78 +120,82 @@ function Search({ autoFocus = false, embedded = false }) {
   const classes = useStyles();
 
   return (
-    <Autocomplete
-      autoHighlight
-      freeSolo
-      forcePopupIcon
-      disablePortal
-      clearOnEscape={false}
-      classes={{
-        listbox: classes.listbox,
-        option: classes.option,
-        root: classes.root,
-      }}
-      filterOptions={(o, s) => searchResults}
-      getOptionLabel={option => (option.id ? option.id : option)}
-      getOptionSelected={(option, value) => option.id === value}
-      groupBy={option => (option.type === 'topHit' ? 'topHit' : option.entity)}
-      loading={loading}
-      noOptionsText="No results"
-      options={searchResults}
-      onChange={handleSelectOption}
-      onOpen={() => {
-        if (inputValue) setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      open={open}
-      popupIcon={open ? <ArrowDropDown /> : <SearchIcon />}
-      renderOption={option => <Option data={option} />}
-      renderGroup={group => (
-        <Group key={group.key} name={group.group} children={group.children} />
-      )}
-      renderInput={params =>
-        !embedded ? (
-          <Input
-            className={classes.input}
-            inputProps={params.inputProps}
-            ref={params.InputProps.ref}
-            endAdornment={
-              loading ? (
-                <CircularProgress color="inherit" size={20} />
-              ) : (
-                params.InputProps.endAdornment
-              )
-            }
-            placeholder="Search for a target, drug, disease, or phenotype"
-            onChange={handleChangeInputValue}
-            value={inputValue}
-          />
-        ) : (
-          <InputBase
-            autoFocus={autoFocus}
-            classes={{
-              root: classes.inputBase,
-              input: classes.inputBaseInput,
-            }}
-            inputProps={params.inputProps}
-            ref={params.InputProps.ref}
-            endAdornment={
-              loading ? (
-                <CircularProgress color="inherit" size={20} />
-              ) : (
-                params.InputProps.endAdornment
-              )
-            }
-            placeholder="Search for a target, drug, disease, or phenotype"
-            onChange={handleChangeInputValue}
-            value={inputValue}
-          />
-        )
-      }
-      value={inputValue}
-    />
+    <Box className={!embedded ? classes.container : classes.containerEmbedded}>
+      <Autocomplete
+        autoHighlight
+        freeSolo
+        forcePopupIcon
+        disablePortal
+        clearOnEscape={false}
+        classes={{
+          listbox: classes.listbox,
+          option: classes.option,
+          root: classes.root,
+        }}
+        filterOptions={(o, s) => searchResults}
+        getOptionLabel={option => (option.id ? option.id : option)}
+        getOptionSelected={(option, value) => option.id === value}
+        groupBy={option =>
+          option.type === 'topHit' ? 'topHit' : option.entity
+        }
+        loading={loading}
+        noOptionsText="No results"
+        options={searchResults}
+        onChange={handleSelectOption}
+        onOpen={() => {
+          if (inputValue) setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
+        open={open}
+        popupIcon={open ? <ArrowDropDown /> : <SearchIcon />}
+        renderOption={option => <Option data={option} />}
+        renderGroup={group => (
+          <Group key={group.key} name={group.group} children={group.children} />
+        )}
+        renderInput={params =>
+          !embedded ? (
+            <Input
+              className={classes.input}
+              inputProps={params.inputProps}
+              ref={params.InputProps.ref}
+              endAdornment={
+                loading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : (
+                  params.InputProps.endAdornment
+                )
+              }
+              placeholder="Search for a target, drug, disease, or phenotype"
+              onChange={handleChangeInputValue}
+              value={inputValue}
+            />
+          ) : (
+            <InputBase
+              autoFocus={autoFocus}
+              classes={{
+                root: classes.inputBase,
+                input: classes.inputBaseInput,
+              }}
+              inputProps={params.inputProps}
+              ref={params.InputProps.ref}
+              endAdornment={
+                loading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : (
+                  params.InputProps.endAdornment
+                )
+              }
+              placeholder="Search..."
+              onChange={handleChangeInputValue}
+              value={inputValue}
+            />
+          )
+        }
+        value={inputValue}
+      />
+    </Box>
   );
 }
 
