@@ -18,7 +18,7 @@ const DISEASE_PAGE_QUERY = gql`
   }
 `;
 
-function DiseasePage({ history, location, match }) {
+function DiseasePage({ match }) {
   const { efoId } = match.params;
   const { loading, data } = useQuery(DISEASE_PAGE_QUERY, {
     variables: { efoId },
@@ -26,9 +26,7 @@ function DiseasePage({ history, location, match }) {
 
   if (loading) return null;
   if (data && !data.disease) {
-    return (
-      <Redirect to={{ pathname: '/search', search: `?q=${efoId}&page=1` }} />
-    );
+    return <Redirect to={{ pathname: '/notFoundPage' }} />;
   }
 
   const { name } = data.disease;
