@@ -3,9 +3,11 @@ import { Helmet } from 'react-helmet';
 
 import Search from './Search';
 import { Page, NavBar, Footer } from 'ot-ui';
-import { externalLinks, mainMenuItems } from '../constants';
+import { appTitle, externalLinks, mainMenuItems } from '../constants';
 
-const BasePage = ({ children }) => {
+const BasePage = ({ title, children }) => {
+  const composedTitle = `${title ? title + ' | ' : ''} ${appTitle}`;
+
   return (
     <Page
       header={
@@ -17,10 +19,7 @@ const BasePage = ({ children }) => {
       }
       footer={<Footer externalLinks={externalLinks} />}
     >
-      <Helmet
-        defaultTitle="Open Targets Platform"
-        titleTemplate="%s | Open Targets Platform"
-      />
+      <Helmet title={composedTitle} />
       {children}
     </Page>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
+import { Helmet } from 'react-helmet';
 
 import { Link, NavBar, Footer } from 'ot-ui';
 
@@ -7,7 +8,7 @@ import HomeBox from './HomeBox';
 import Search from '../../components/Search';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
-import { externalLinks, mainMenuItems } from '../../constants';
+import { appTitle, externalLinks, mainMenuItems } from '../../constants';
 
 const useStyles = makeStyles({
   links: {
@@ -37,6 +38,7 @@ const HomePage = () => {
 
   return (
     <>
+      <Helmet title={appTitle} />
       <Grid container justify="center" alignItems="center">
         <Splash />
         <NavBar

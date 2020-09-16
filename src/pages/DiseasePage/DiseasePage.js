@@ -1,7 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Redirect } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 
 import BasePage from '../../components/BasePage';
 import ClassicAssociations from './ClassicAssociations';
@@ -35,11 +34,8 @@ function DiseasePage({ history, location, match }) {
   const { name } = data.disease;
 
   return (
-    <BasePage>
-      <Helmet>
-        <title>{name}</title>
-      </Helmet>
-      <Header efoId={efoId} name={name} />
+    <BasePage title={data?.disease.name}>
+      <Header efoId={efoId} name={data?.disease.name} />
 
       <RoutingTabs>
         <RoutingTab
