@@ -1,0 +1,791 @@
+{
+  "consts": {
+    "datatypesOrder": [
+      "GENETIC_ASSOCIATION",
+      "SOMATIC_MUTATION",
+      "KNOWN_DRUG",
+      "AFFECTED_PATHWAY",
+      "RNA_EXPRESSION",
+      "LITERATURE",
+      "ANIMAL_MODEL"
+    ],
+    "DATATYPES": "datatype",
+    "PATHWAY": "pathway",
+    "DATASOURCES": "datasources",
+    "THERAPEUTIC_AREAS": "therapeutic_area",
+    "TARGET": "target",
+    "TARGET_CLASS": "target_class",
+    "UNIQUE_TARGET_COUNT": "unique_target_count",
+    "UNIQUE_DISEASE_COUNT": "unique_disease_count",
+    "DATA_DISTRIBUTION": "data_distribution",
+    "SCORE_MIN": "score_min",
+    "SCORE_MAX": "score_max",
+    "SCORE_STR": "score_str",
+    "defaults": { "STRINGENCY": 1, "SCORE_MIN": 0, "SCORE_MAX": 1 },
+    "OK": "ok",
+    "ACCESS_LEVEL_PUBLIC": "public",
+    "ACCESS_LEVEL_PRIVATE": "private",
+    "ACCESS_LEVEL_PUBLIC_DIR": "<span class='ot-access-public' title='public data'></span>",
+    "ACCESS_LEVEL_PRIVATE_DIR": "<span class='ot-access-private' title='private data'></span>",
+    "CTTV_ROOT_URI": "http://www.targetvalidation.org/cttv_root",
+    "CTTV_ROOT_NAME": "CTTV Root",
+    "CTTV_ROOT_CODE": "cttv_root",
+    "PROXY": "/proxy/"
+  },
+  "datasources": {
+    "CANCER_GENE_CENSUS": {
+      "id": "cancer_gene_census",
+      "label": "Cancer Gene Census",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/somatic-mutations#cancer-gene-census",
+      "infoTemplate": "cancer-gene-census.md",
+      "description": ""
+    },
+    "CHEMBL": {
+      "id": "chembl",
+      "label": "ChEMBL",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/drugs#chembl",
+      "infoTemplate": "chembl.md",
+      "description": ""
+    },
+    "EPMC": {
+      "id": "europepmc",
+      "label": "Europe PMC",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/text-mining#europe-pmc",
+      "infoTemplate": "europe-pmc.md",
+      "description": ""
+    },
+    "EVA": {
+      "id": "eva",
+      "label": "European Variation Archive (EVA)",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/genetic-associations#european-variation-archive-eva",
+      "infoTemplate": "eva.md",
+      "description": ""
+    },
+    "EVA_SOMATIC": {
+      "id": "eva_somatic",
+      "label": "European Variation Archive (EVA)",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/somatic-mutations#european-variation-archive-eva",
+      "infoTemplate": "eva-somatic.md",
+      "description": ""
+    },
+    "EXPRESSION_ATLAS": {
+      "id": "expression_atlas",
+      "label": "Expression Atlas",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/rna-expression#expression-atlas",
+      "infoTemplate": "expression-atlas.md",
+      "description": ""
+    },
+    "GENE_2_PHENOTYPE": {
+      "id": "gene2phenotype",
+      "label": "Gene2Phenotype",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/genetic-associations#gene-2-phenotype",
+      "infoTemplate": "gene2phenotype.md",
+      "description": ""
+    },
+    "GENOMICS_ENGLAND": {
+      "id": "genomics_england",
+      "label": "Genomics England PanelApp",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/genetic-associations#genomics-england-panelapp",
+      "infoTemplate": "genomics-england.md",
+      "description": ""
+    },
+    "GWAS": {
+      "id": "gwas_catalog",
+      "label": "GWAS catalog",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/genetic-associations#gwas-catalog",
+      "infoTemplate": "gwas-catalog.md",
+      "description": ""
+    },
+    "INTOGEN": {
+      "id": "intogen",
+      "label": "IntOGen",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/somatic-mutations#intogen",
+      "infoTemplate": "intogen.md",
+      "description": ""
+    },
+    "PHENODIGM": {
+      "id": "phenodigm",
+      "label": "PhenoDigm",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/animal-models#phenodigm",
+      "infoTemplate": "phenodigm.md",
+      "description": ""
+    },
+    "PHEWAS": {
+      "id": "phewas_catalog",
+      "label": "PheWAS catalog",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/genetic-associations#phewas-catalog",
+      "infoTemplate": "phewas-catalog.md",
+      "description": ""
+    },
+    "PHEWAS_23andme": {
+      "id": "23andme",
+      "label": "23andMe",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/introduction",
+      "infoTemplate": "23andme.md",
+      "description": ""
+    },
+    "PROGENY": {
+      "id": "progeny",
+      "label": "PROGENy",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/affected-pathways#progeny",
+      "infoTemplate": "progeny.md",
+      "description": ""
+    },
+    "REACTOME": {
+      "id": "reactome",
+      "label": "Reactome",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/affected-pathways#reactome",
+      "infoTemplate": "reactome.md",
+      "description": ""
+    },
+    "SLAPENRICH": {
+      "id": "slapenrich",
+      "label": "SLAPenrich",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/affected-pathways#slapenrich",
+      "infoTemplate": "slapenrich.md",
+      "description": ""
+    },
+    "UNIPROT": {
+      "id": "uniprot",
+      "label": "UniProt",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/genetic-associations#uniprot",
+      "infoTemplate": "uniprot.md",
+      "description": ""
+    },
+    "UNIPROT_LITERATURE": {
+      "id": "uniprot_literature",
+      "label": "UniProt literature",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/genetic-associations#uniprot-literature",
+      "infoTemplate": "uniprot-literature.md",
+      "description": ""
+    },
+    "UNIPROT_SOMATIC": {
+      "id": "uniprot_somatic",
+      "label": "UniProt",
+      "infoUrl": "https://docs.targetvalidation.org/data-sources/somatic-mutations#uniprot-somatic",
+      "infoTemplate": "uniprot-somatic.md",
+      "description": ""
+    }
+  },
+  "datatypes": {
+    "GENETIC_ASSOCIATION": {
+      "id": "genetic_association",
+      "label": "Genetic associations",
+      "shortLabel": "Genetics",
+      "infoTemplate": "genetic-association.md",
+      "datasources": [
+        "GWAS",
+        "GENOMICS_ENGLAND",
+        "PHEWAS",
+        "UNIPROT",
+        "UNIPROT_LITERATURE",
+        "EVA",
+        "GENE_2_PHENOTYPE"
+      ]
+    },
+    "SOMATIC_MUTATION": {
+      "id": "somatic_mutation",
+      "label": "Somatic mutations",
+      "shortLabel": "Somatic",
+      "infoTemplate": "somatic-mutation.md",
+      "datasources": [
+        "CANCER_GENE_CENSUS",
+        "UNIPROT_SOMATIC",
+        "EVA_SOMATIC",
+        "INTOGEN"
+      ]
+    },
+    "KNOWN_DRUG": {
+      "id": "known_drug",
+      "label": "Drugs",
+      "shortLabel": "Drugs",
+      "infoTemplate": "known-drug.md",
+      "datasources": ["CHEMBL"]
+    },
+    "RNA_EXPRESSION": {
+      "id": "rna_expression",
+      "label": "RNA expression",
+      "shortLabel": "RNA",
+      "infoTemplate": "rna-expression.md",
+      "datasources": ["EXPRESSION_ATLAS"]
+    },
+    "AFFECTED_PATHWAY": {
+      "id": "affected_pathway",
+      "label": "Affected pathways",
+      "shortLabel": "Pathways",
+      "infoTemplate": "affected-pathways.md",
+      "datasources": ["REACTOME", "SLAPENRICH", "PROGENY"]
+    },
+    "ANIMAL_MODEL": {
+      "id": "animal_model",
+      "label": "Animal models",
+      "shortLabel": "Models",
+      "infoTemplate": "animal-models.md",
+      "datasources": ["PHENODIGM"]
+    },
+    "LITERATURE": {
+      "id": "literature",
+      "label": "Text mining",
+      "shortLabel": "Text Mining",
+      "infoTemplate": "literature.md",
+      "datasources": ["EPMC"]
+    }
+  },
+  "definitions": {
+    "ENRICHMENT.DISEASES": {
+      "description": "This is the probability (expressed as a p-value) of finding a disease associated with this set of targets. The lower this value, the higher the probability your targets are specific to the disease.",
+      "link": ""
+    },
+    "ENRICHMENT.GO": {
+      "description": "This is the probability (expressed as a p-value) of finding a Gene Ontology term associated with this set of targets. The lower this value, the higher the higher the probability your targets are specific to the term.",
+      "link": ""
+    },
+    "ENRICHMENT.PATHWAYS": {
+      "description": "This is the probability (expressed as a p-value) of finding a pathway associated with this set of targets. The lower this value, the higher the probability your targets are specific to the pathway.",
+      "link": ""
+    },
+    "KEEPLOADEDLISTS": {
+      "description": "If this option is checked your lists will be stored in the browser for easier access. You can still remove them at any time.",
+      "link": ""
+    },
+    "TEP": {
+      "description": "TEPs provide a critical mass of reagents and knowledge on a protein target to allow rapid biochemical and chemical exploration and characterisation of proteins with genetic linkage to key disease areas. Click on this icon to know more about TEPs.",
+      "link": "http://www.thesgc.org/tep"
+    },
+    "FACET.SPECIFICITY": {
+      "description": "Show only targets which are expressed in the selected tissues <strong>more than</strong> the rest of the tissues.",
+      "link": "https://docs.targetvalidation.org/faq/tissue-specificity.html"
+    },
+    "FACET.BASELINE": {
+      "description": "Each target has an expression level per tissue based on normalised counts. You can filter targets by a set of tissues and an expression level.",
+      "link": ""
+    },
+    "GENETIC.VARIANT": {
+      "description": "Variant: The ID of the genetic variant, a locus where the nucleotide sequence differs between individuals",
+      "link": "/variants"
+    },
+    "GENETIC.VARIANT-TYPE": {
+      "description": "Variant type: Predicted consequence of variants (germline or somatic) on genes associated with diseases",
+      "link": "/variants"
+    }
+  },
+  "dictionary": {
+    "AFFECTED_PATHWAY": "Affected pathways",
+    "ANIMAL_MODEL": "Animal models",
+    "ASSOCIATION_SCORE": "Overall association score",
+    "CANCER_GENE_CENSUS": "Cancer Gene Census",
+    "CHEMBL": "CHEMBL",
+    "COMMON_DISEASES": "Common diseases",
+    "CTTV_PIPELINE": "Open Targets pipeline",
+    "DATA_DISTRIBUTION": "Data distribution",
+    "DATATYPES": "Data types",
+    "DATA_TYPES": "Data types",
+    "DISEASE": "Disease",
+    "DISGENET": "DisGeNET",
+    "ENSEMBL_ID": "Ensembl ID",
+    "EPMC": "Europe PMC",
+    "EVA": "European Variation Archive (EVA)",
+    "EVA_SOMATIC": "European Variation Archive (EVA)",
+    "EXP_DISEASE_ASSOC_LABEL": "targets_associated_with_",
+    "EXP_TARGET_ASSOC_LABEL": "diseases_associated_with_",
+    "EXPRESSION_ATLAS": "Expression Atlas",
+    "GENE_2_PHENOTYPE": "Gene2Phenotype",
+    "GENETIC_ASSOCIATION": "Genetic associations",
+    "GENOMICS_ENGLAND": "Genomics England PanelApp",
+    "GWAS": "GWAS catalog",
+    "INTOGEN": "IntOGen",
+    "KNOWN_DRUG": "Drugs",
+    "LITERATURE": "Text mining",
+    "MOUSE_MODEL": "Animal models",
+    "NA": "N/A",
+    "NO_DATA": "No data",
+    "NO_DESCRIPTION": "No description available",
+    "PATHWAY": "Pathway types",
+    "PHENODIGM": "Phenodigm",
+    "PHEWAS": "PheWAS catalog",
+    "PHEWAS_23andme": "23andme",
+    "PVALUE": "p-value",
+    "RARE_DISEASES": "Rare diseases",
+    "REACTOME": "Reactome",
+    "RNA_EXPRESSION": "RNA expression",
+    "SCORE": "Association strength",
+    "SLAPENRICH": "SLAPenrich",
+    "SOMATIC_MUTATION": "Somatic mutations",
+    "TARGET_NAME": "Target name",
+    "TARGET_SYMBOL": "Target symbol",
+    "THERAPEUTIC_AREA": "Therapeutic area",
+    "THERAPEUTIC_AREAS": "Therapeutic areas",
+    "TARGET_CLASS": "Target class",
+    "UNIPROT": "UniProt",
+    "UNIPROT_LITERATURE": "UniProt literature",
+    "UNIPROT_SOMATIC": "UniProt somatic",
+    "UP_OR_DOWN": "unclassified"
+  },
+  "general": {
+    "mastheadNavigationMenu": [
+      {
+        "label": "About",
+        "href": "/about",
+        "menu": [
+          { "label": "Open Targets Platform", "href": "/about" },
+          {
+            "label": "Open Targets Consortium",
+            "href": "//www.opentargets.org/"
+          }
+        ]
+      },
+      {
+        "label": "Help",
+        "href": "",
+        "menu": [
+          {
+            "label": "Documentation & FAQs",
+            "href": "https://docs.targetvalidation.org/"
+          },
+          {
+            "label": "support@targetvalidation.org",
+            "href": "mailto:support@targetvalidation.org?Subject=Target%20Validation%20Platform%20-%20help%20request"
+          },
+          { "label": "Outreach and tutorials", "href": "/outreach" }
+        ]
+      },
+      {
+        "label": "API",
+        "href": "",
+        "menu": [
+          {
+            "label": "API documentation",
+            "href": "https://api.opentargets.io/v3/platform/docs/swagger-ui"
+          },
+          {
+            "label": "Python client",
+            "href": "http://opentargets.readthedocs.io/",
+            "target": "_blank"
+          }
+        ]
+      },
+      { "label": "Downloads", "href": "/downloads/data" },
+      { "label": "Blog", "href": "//blog.opentargets.org/" }
+    ],
+    "show_access_level": false,
+    "enableFooterSignupForm": true,
+    "dumps_link": "/downloads/data",
+    "evidence_sources": {
+      "genetic_association": {
+        "common": ["GWAS", "PHEWAS"],
+        "rare": [
+          "UNIPROT",
+          "EVA",
+          "UNIPROT_LITERATURE",
+          "GENE_2_PHENOTYPE",
+          "GENOMICS_ENGLAND"
+        ]
+      },
+      "somatic_mutation": [
+        "CANCER_GENE_CENSUS",
+        "UNIPROT_SOMATIC",
+        "EVA_SOMATIC",
+        "INTOGEN"
+      ],
+      "known_drug": ["CHEMBL"],
+      "rna_expression": ["EXPRESSION_ATLAS"],
+      "pathway": ["REACTOME", "SLAPENRICH", "PROGENY"],
+      "animal_model": ["PHENODIGM"],
+      "literature": ["EPMC"]
+    },
+    "summaryTargetList": [
+      {
+        "name": "diseases",
+        "element": "multiple-targets-associations-summary",
+        "heading": "Diseases associated"
+      },
+      {
+        "name": "pathways",
+        "element": "multiple-targets-pathways-summary",
+        "heading": "Pathways"
+      },
+      {
+        "name": "go",
+        "element": "multiple-targets-go-summary",
+        "heading": "Gene Ontology"
+      },
+      {
+        "name": "tractability",
+        "element": "multiple-targets-tractability-summary",
+        "heading": "Tractability information"
+      },
+      {
+        "name": "drugs",
+        "element": "multiple-targets-drugs-summary",
+        "heading": "Drugs"
+      },
+      {
+        "name": "interactions",
+        "element": "multiple-targets-interactions-summary",
+        "heading": "Interactions between targets",
+        "dependencies": {
+          "build/interactionsViewer.min.js": { "format": "global" },
+          "build/interactionsViewer.css": { "loader": "css" }
+        }
+      }
+    ],
+    "diseaseAssociations": { "showPrioritisationView": true },
+    "diseaseSections": [
+      {
+        "name": "relatedDisases",
+        "element": "ot-related-diseases",
+        "heading": "Similar diseases (based on targets in common)",
+        "track": true,
+        "config": { "id": "related_diseases" }
+      },
+      {
+        "name": "phenotypes",
+        "element": "ot-phenotypes-display",
+        "heading": "Phenotypes",
+        "track": true,
+        "config": { "id": "phenotypes" }
+      },
+      {
+        "name": "drugs",
+        "element": "ot-drugs-display",
+        "heading": "Drugs",
+        "track": true,
+        "config": { "id": "known_drug" }
+      },
+      {
+        "name": "bibliographyChips",
+        "element": "ot-bibliography-target-chips",
+        "heading": "Bibliography",
+        "track": true,
+        "config": { "id": "bibliography" }
+      },
+      {
+        "name": "classification",
+        "element": "ot-disease-classification",
+        "heading": "Classification",
+        "visible": "true",
+        "track": true,
+        "config": { "id": "classification" }
+      }
+    ],
+    "targetSections": [
+      {
+        "name": "drugs",
+        "element": "ot-drugs-display",
+        "heading": "Drugs",
+        "track": true,
+        "config": { "id": "known_drug" }
+      },
+      {
+        "name": "targetTractability",
+        "element": "ot-target-tractability",
+        "heading": "Target tractability",
+        "track": true,
+        "config": { "id": "tractability" }
+      },
+      {
+        "name": "uniprot",
+        "element": "ot-target-features",
+        "heading": "Protein information",
+        "dependencies": {
+          "https://ebi-uniprot.github.io/CDN/protvista/protvista.min.js": {
+            "format": "global"
+          },
+          "https://ebi-uniprot.github.io/CDN/protvista/css/main.css!": {
+            "loader": "css"
+          }
+        },
+        "track": true,
+        "config": { "id": "protein_information" }
+      },
+      {
+        "name": "pathways",
+        "element": "ot-target-pathways",
+        "heading": "Pathways",
+        "track": true,
+        "config": { "id": "affected_pathway" }
+      },
+      {
+        "name": "relatedTargets",
+        "element": "ot-related-targets",
+        "heading": "Similar targets (based on diseases in common)",
+        "track": true,
+        "config": { "id": "related_targets" }
+      },
+      {
+        "name": "genomeBrowser",
+        "element": "ot-genome-browser",
+        "heading": "Variants, isoforms and genomic context",
+        "track": true,
+        "config": { "id": "genome_browser" }
+      },
+      {
+        "name": "interactionsViewer",
+        "element": "ot-interactions-viewer",
+        "heading": "Protein interactions",
+        "dependencies": {
+          "build/interactionsViewer.min.js": { "format": "global" },
+          "build/interactionsViewer.css": { "loader": "css" }
+        },
+        "track": true,
+        "config": { "id": "protein_interactions" }
+      },
+      {
+        "name": "baselineExpression",
+        "element": "ot-baseline-expression",
+        "heading": "RNA and protein baseline expression",
+        "dependencies": {
+          "https://www.ebi.ac.uk/gxa/resources/js/lib/fetch-polyfill.min.js": {
+            "format": "global"
+          },
+          "https://www.ebi.ac.uk/gxa/resources/js-bundles/vendorCommons.bundle.js": {
+            "format": "global"
+          },
+          "https://www.ebi.ac.uk/gxa/resources/css/alt-customized-bootstrap-3.3.5.css!": {
+            "loader": "css"
+          },
+          "https://www.ebi.ac.uk/gxa/resources/js-bundles/expressionAtlasHeatmapHighcharts.bundle.js": {
+            "format": "global",
+            "deps": [
+              "https://www.ebi.ac.uk/gxa/resources/js/lib/fetch-polyfill.min.js",
+              "https://www.ebi.ac.uk/gxa/resources/js-bundles/vendorCommons.bundle.js"
+            ]
+          }
+        },
+        "track": true,
+        "config": { "id": "expression" }
+      },
+      {
+        "name": "mousePhenotypes",
+        "element": "ot-mouse-phenotypes",
+        "heading": "Mouse phenotypes",
+        "track": true,
+        "config": { "id": "mouse_phenotypes" }
+      },
+      {
+        "name": "proteinStructure",
+        "element": "ot-pdb-target",
+        "heading": "Protein structure",
+        "dependencies": { "vendor/bio-pv.min.js": { "format": "global" } },
+        "track": true,
+        "config": { "id": "protein_structure" }
+      },
+      {
+        "name": "geneOntology",
+        "element": "ot-gene-ontology",
+        "heading": "Gene ontology",
+        "track": true,
+        "config": { "id": "gene_ontology" }
+      },
+      {
+        "name": "geneTree",
+        "element": "ot-gene-tree",
+        "heading": "Gene tree",
+        "track": true,
+        "config": { "id": "gene_tree" }
+      },
+      {
+        "name": "bibliographyChips",
+        "element": "ot-bibliography-target-chips",
+        "heading": "Bibliography",
+        "track": true,
+        "config": { "id": "bibliography" }
+      },
+      {
+        "name": "cancerHallmark",
+        "element": "ot-cancer-hallmark",
+        "heading": "Cancer hallmarks",
+        "track": true,
+        "config": { "id": "hallmarks" }
+      },
+      {
+        "name": "biomarkers",
+        "element": "ot-biomarkers",
+        "heading": "Cancer biomarkers",
+        "track": true,
+        "config": { "id": "biomarkers" }
+      }
+    ],
+    "evidenceSections": [
+      {
+        "name": "geneticAssociation",
+        "element": "ot-genetic-association",
+        "heading": "Genetic associations",
+        "track": true,
+        "config": { "datatype": "genetic_association" }
+      },
+      {
+        "name": "somaticMutation",
+        "element": "ot-somatic-mutation",
+        "heading": "Somatic mutation",
+        "track": true,
+        "config": { "datatype": "somatic_mutation" }
+      },
+      {
+        "name": "drugs",
+        "element": "ot-drugs-display",
+        "heading": "Drugs",
+        "track": true,
+        "config": { "datatype": "known_drug" }
+      },
+      {
+        "name": "affectedPathway",
+        "element": "ot-affected-pathway",
+        "heading": "Affected pathways",
+        "track": true,
+        "config": { "datatype": "affected_pathway" }
+      },
+      {
+        "name": "rnaEvidence",
+        "element": "ot-rna-evidence",
+        "heading": "RNA expression",
+        "track": true,
+        "config": { "datatype": "rna_expression" }
+      },
+      {
+        "name": "textMining",
+        "element": "ot-text-mining",
+        "heading": "Text mining",
+        "track": true,
+        "config": { "datatype": "literature" }
+      },
+      {
+        "name": "animalModel",
+        "element": "ot-animal-model",
+        "heading": "Animal models",
+        "track": true,
+        "config": { "datatype": "animal_model" }
+      }
+    ],
+    "facets": {
+      "datatypeView": {
+        "key": "datatype",
+        "options": {
+          "element": "datatype-view-facet",
+          "heading": "Show",
+          "open": true,
+          "customView": true
+        }
+      },
+      "datatype": {
+        "key": "datatype",
+        "options": {
+          "element": "datatype-facet",
+          "heading": "Data type",
+          "open": true
+        }
+      },
+      "therapeuticArea": {
+        "key": "therapeutic_area",
+        "options": {
+          "element": "therapeutic-area-facet",
+          "heading": "Therapeutic area",
+          "open": false
+        }
+      },
+      "pathway": {
+        "key": "pathway",
+        "options": {
+          "element": "pathway-facet",
+          "heading": "Pathway types",
+          "open": false
+        }
+      },
+      "targetClass": {
+        "key": "target_class",
+        "options": {
+          "element": "target-class-facet",
+          "heading": "Target class",
+          "open": false
+        }
+      },
+      "rnaExpression": {
+        "key": "rna_expression",
+        "options": {
+          "element": "rna-expression-facet",
+          "heading": "RNA tissue expression",
+          "open": false
+        }
+      },
+      "rnaSpecificity": {
+        "key": "rna_specificity",
+        "options": {
+          "element": "rna-specificity-facet",
+          "heading": "RNA tissue specificity",
+          "open": false
+        }
+      }
+    },
+    "targetAssociationsFacets": {
+      "count": "unique_disease_count",
+      "facets": [{ "type": "datatype" }, { "type": "therapeuticArea" }]
+    },
+    "targetListLimit": 200,
+    "diseaseAssociationsFacets": {
+      "count": "unique_target_count",
+      "facets": [
+        { "type": "datatype" },
+        { "type": "pathway" },
+        { "type": "targetClass" },
+        { "type": "rnaSpecificity" }
+      ]
+    },
+    "diseasePrioritizationFacets": {
+      "count": "unique_target_count",
+      "facets": [
+        { "type": "datatypeView" },
+        { "type": "pathway" },
+        { "type": "targetClass" },
+        { "type": "rnaSpecificity" }
+      ]
+    },
+    "searchExamples": {
+      "targets": [
+        { "label": "IL13", "id": "ENSG00000169194" },
+        { "label": "TSLP", "id": "ENSG00000145777" },
+        { "label": "ADAM33", "id": "ENSG00000149451" },
+        { "label": "CFTR", "id": "ENSG00000001626" },
+        { "label": "KIT", "id": "ENSG00000157404" },
+        { "label": "NOD2", "id": "ENSG00000167207" },
+        { "label": "TYK2", "id": "ENSG00000105397" },
+        { "label": "TNF", "id": "ENSG00000232810" },
+        { "label": "PTGS2", "id": "ENSG00000073756" },
+        { "label": "ADORA3", "id": "ENSG00000282608" },
+        { "label": "APP", "id": "ENSG00000142192" },
+        { "label": "GRIN3A", "id": "ENSG00000198785" },
+        { "label": "IL2RA", "id": "ENSG00000134460" },
+        { "label": "ACHE", "id": "ENSG00000087085" },
+        { "label": "SNCA", "id": "ENSG00000145335" },
+        { "label": "BRAF", "id": "ENSG00000157764" },
+        { "label": "BRCA2", "id": "ENSG00000139618" },
+        { "label": "KRAS", "id": "ENSG00000133703" },
+        { "label": "PTEN", "id": "ENSG00000171862" },
+        { "label": "TP53", "id": "ENSG00000141510" }
+      ],
+      "diseases": [
+        { "label": "asthma", "id": "EFO_0000270" },
+        { "label": "lung disease", "id": "EFO_0003818" },
+        { "label": "childhood onset asthma", "id": "EFO_0004591" },
+        { "label": "pneumonia", "id": "EFO_0003106" },
+        { "label": "Cystic fibrosis", "id": "Orphanet_586" },
+        { "label": "inflammatory bowel disease", "id": "EFO_0003767" },
+        { "label": "Crohn's disease", "id": "EFO_0000384" },
+        { "label": "ulcerative colitis", "id": "EFO_0000729" },
+        { "label": "liver disease", "id": "EFO_0001421" },
+        { "label": "rheumatoid arthritis", "id": "EFO_0000685" },
+        { "label": "brain disease", "id": "EFO_0005774" },
+        { "label": "multiple sclerosis", "id": "EFO_0003885" },
+        { "label": "schizophrenia", "id": "EFO_0000692" },
+        { "label": "Alzheimers disease", "id": "EFO_0000249" },
+        { "label": "dementia", "id": "HP_0000726" },
+        { "label": "Noonan syndrome", "id": "Orphanet_648" },
+        { "label": "melanoma", "id": "EFO_0000756" },
+        { "label": "leukemia", "id": "EFO_0000565" },
+        { "label": "liver disease", "id": "EFO_0001421" },
+        { "label": "Cowden syndrome", "id": "Orphanet_201" }
+      ]
+    },
+    "api": "https://open-targets-eu-dev.appspot.com/",
+    "version": "3.9.1"
+  }
+}

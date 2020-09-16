@@ -78,7 +78,7 @@ To customise the platform app:
 
 BrowserStack has allowed us to do cross-browser testing of the platform app at no cost.
 
-<img src="./tools-icons/Browserstack-logo.svg" alt="BrowserStack" width="400">
+<img src="./.github/docs/Browserstack-logo.svg" alt="BrowserStack" width="400">
 
 ## Copyright
 
