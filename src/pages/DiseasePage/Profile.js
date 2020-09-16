@@ -2,7 +2,7 @@ import React from 'react';
 import { gql } from '@apollo/client';
 
 import { createSummaryFragment } from '../../components/Summary/utils';
-import { DiseaseProfileHeader } from '../../components/ProfileHeader';
+import { DescriptionAndSynonyms } from '../../components/ProfileHeader';
 import PlatformApiProvider from '../../contexts/PlatformApiProvider';
 import SectionContainer from '../../components/Section/SectionContainer';
 import SummaryContainer from '../../components/Summary/SummaryContainer';
@@ -15,26 +15,26 @@ const PROFILE = gql`
     disease(efoId: $efoId) {
       id
       name
-      description
-      synonyms
       ...ProfileSummaryFragment
+      ...ProfileHeaderFragment
     }
   }
   ${PROFILE_SUMMARY_FRAGMENT}
+  ${DescriptionAndSynonyms.fragments.profileHeader}
 `;
 
 function Profile({ efoId }) {
   return (
     <PlatformApiProvider entity="disease" query={PROFILE} variables={{ efoId }}>
-      <DiseaseProfileHeader />
+      <DescriptionAndSynonyms />
 
-      <SummaryContainer entity="disease">
+      <SummaryContainer>
         {sections.map(({ Summary, definition }) => (
           <Summary key={definition.id} efoId={efoId} definition={definition} />
         ))}
       </SummaryContainer>
 
-      <SectionContainer entity="disease">
+      <SectionContainer>
         {sections.map(({ Body, definition }) => (
           <Body key={definition.id} efoId={efoId} definition={definition} />
         ))}
