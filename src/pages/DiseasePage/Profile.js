@@ -23,7 +23,7 @@ const PROFILE = gql`
   ${DescriptionAndSynonyms.fragments.profileHeader}
 `;
 
-function Profile({ efoId }) {
+function Profile({ efoId, name }) {
   return (
     <PlatformApiProvider entity="disease" query={PROFILE} variables={{ efoId }}>
       <DescriptionAndSynonyms />
