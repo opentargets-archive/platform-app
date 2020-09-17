@@ -22,12 +22,14 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
     $ensemblId: String!
     $index: Int!
     $size: Int!
+    $filter: String
     $sortBy: String!
   ) {
     target(ensemblId: $ensemblId) {
       associatedDiseases(
-        orderByScore: $sortBy
         page: { index: $index, size: $size }
+        orderByScore: $sortBy
+        BFilter: $filter
       ) {
         count
         rows {
@@ -504,6 +506,7 @@ function Legend() {
 
 function ClassicAssociationsTable({ ensgId, symbol }) {
   const classes = useStyles();
+  const [filter, setFilter] = useState();
   const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(50);
@@ -513,6 +516,7 @@ function ClassicAssociationsTable({ ensgId, symbol }) {
       ensemblId: ensgId,
       index: page,
       size: pageSize,
+      filter,
       sortBy,
     },
     client: client3,
@@ -520,7 +524,7 @@ function ClassicAssociationsTable({ ensgId, symbol }) {
 
   const getAllAssociations = useBatchDownloader(
     TARGET_ASSOCIATIONS_QUERY,
-    { ensemblId: ensgId, sortBy },
+    { ensemblId: ensgId, filter, sortBy },
     'data.target.associatedDiseases',
     client3
   );
@@ -536,6 +540,11 @@ function ClassicAssociationsTable({ ensgId, symbol }) {
 
   function handleSort(sortBy) {
     setSortBy(sortBy);
+  }
+
+  function handleGlobalFilterChange(filter) {
+    setFilter(filter);
+    setPage(0);
   }
 
   if (error) return null;
@@ -570,6 +579,7 @@ function ClassicAssociationsTable({ ensgId, symbol }) {
               pageSize={pageSize}
               rowCount={count}
               rowsPerPageOptions={[10, 50, 200, 500]}
+              onGlobalFilterChange={handleGlobalFilterChange}
               onSortBy={handleSort}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
