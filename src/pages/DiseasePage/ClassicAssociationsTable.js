@@ -22,12 +22,14 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
     $efoId: String!
     $index: Int!
     $size: Int!
+    $filter: String
     $sortBy: String!
   ) {
     disease(efoId: $efoId) {
       associatedTargets(
-        orderByScore: $sortBy
         page: { index: $index, size: $size }
+        orderByScore: $sortBy
+        BFilter: $filter
       ) {
         count
         rows {
@@ -543,6 +545,7 @@ function Legend() {
 
 function ClassicAssociationsTable({ efoId, name }) {
   const classes = useStyles();
+  const [filter, setFilter] = useState();
   const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(50);
@@ -552,6 +555,7 @@ function ClassicAssociationsTable({ efoId, name }) {
       efoId,
       index: page,
       size: pageSize,
+      filter,
       sortBy,
     },
     client: client3,
@@ -559,7 +563,7 @@ function ClassicAssociationsTable({ efoId, name }) {
 
   const getAllAssociations = useBatchDownloader(
     DISEASE_ASSOCIATIONS_QUERY,
-    { efoId, sortBy },
+    { efoId, filter, sortBy },
     'data.disease.associatedTargets',
     client3
   );
@@ -577,8 +581,9 @@ function ClassicAssociationsTable({ efoId, name }) {
     setSortBy(sortBy);
   }
 
-  function handleGlobalFilterChange(stuff) {
-    // console.log('handleGlobalChange stuff', stuff);
+  function handleGlobalFilterChange(filter) {
+    setFilter(filter);
+    setPage(0);
   }
 
   if (error) return null;
