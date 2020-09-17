@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import * as d3 from 'd3';
 import { useQuery } from '@apollo/client';
-import { makeStyles, Link } from '@material-ui/core';
+import {
+  makeStyles,
+  Link,
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+} from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Table } from '../../components/Table';
@@ -534,7 +541,7 @@ function Legend() {
   );
 }
 
-function ClassicAssociationsTable({ efoId }) {
+function ClassicAssociationsTable({ efoId, name }) {
   const classes = useStyles();
   const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
@@ -570,6 +577,10 @@ function ClassicAssociationsTable({ efoId }) {
     setSortBy(sortBy);
   }
 
+  function handleGlobalFilterChange(stuff) {
+    // console.log('handleGlobalChange stuff', stuff);
+  }
+
   if (error) return null;
 
   const { count, rows = [] } = data?.disease.associatedTargets ?? {};
@@ -578,26 +589,39 @@ function ClassicAssociationsTable({ efoId }) {
 
   return (
     <>
-      <Table
-        showGlobalFilter
-        loading={loading}
-        dataDownloader
-        dataDownloaderRows={getAllAssociations}
-        dataDownloaderFileStem={`${efoId}-associated-diseases`}
-        classes={{ root: classes.root, table: classes.table }}
-        sortBy={sortBy}
-        order="asc"
-        page={page}
-        columns={columns}
-        rows={processedRows}
-        pageSize={pageSize}
-        rowCount={count}
-        rowsPerPageOptions={[10, 50, 200, 500]}
-        onSortBy={handleSort}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleRowsPerPageChange}
-      />
-      <Legend />
+      <Grid item xs={12}>
+        <Typography variant="h6">
+          <strong>{count} targets</strong> associated with{' '}
+          <strong>{name}</strong>
+        </Typography>
+      </Grid>
+      <Grid item xs={12} md={9}>
+        <Card elevation={0} style={{ overflow: 'visible' }}>
+          <CardContent>
+            <Table
+              showGlobalFilter
+              loading={loading}
+              dataDownloader
+              dataDownloaderRows={getAllAssociations}
+              dataDownloaderFileStem={`${efoId}-associated-diseases`}
+              classes={{ root: classes.root, table: classes.table }}
+              sortBy={sortBy}
+              order="asc"
+              page={page}
+              columns={columns}
+              rows={processedRows}
+              pageSize={pageSize}
+              rowCount={count}
+              rowsPerPageOptions={[10, 50, 200, 500]}
+              onGlobalFilterChange={handleGlobalFilterChange}
+              onSortBy={handleSort}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+            />
+            <Legend />
+          </CardContent>
+        </Card>
+      </Grid>
     </>
   );
 }
