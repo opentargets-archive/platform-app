@@ -125,19 +125,18 @@ const useStyles = makeStyles({
     paddingBottom: '1px',
     paddingLeft: '1px',
     paddingRight: '10px',
-    height: '1px', // hack
   },
   cell: {
     border: 0,
     textAlign: 'center',
     padding: '1px 1px',
-    height: '1px', // hack
     '&:last-child': {
       paddingRight: 0,
     },
   },
-  colorDiv: {
-    height: '100%',
+  colorSpan: {
+    display: 'block',
+    height: '16px',
     border: '1px solid #eeefef',
   },
   symbolCell: {
@@ -201,8 +200,8 @@ function getColumns(efoId, classes) {
       sortable: true,
       renderCell: row => {
         return (
-          <div
-            className={classes.colorDiv}
+          <span
+            className={classes.colorSpan}
             title={`Score: ${row.score.toFixed(2)}`}
             style={{ backgroundColor: color(row.score) }}
           />
@@ -232,8 +231,8 @@ function getColumns(efoId, classes) {
               row.ensemblId
             }/${efoId}?view=sec:genetic_association`}
           >
-            <div
-              className={classes.colorDiv}
+            <span
+              className={classes.colorSpan}
               title={
                 row.genetic_association
                   ? `Score: ${row.genetic_association.toFixed(2)}`
@@ -268,8 +267,8 @@ function getColumns(efoId, classes) {
               row.ensemblId
             }/${efoId}?view=sec:somatic_mutation`}
           >
-            <div
-              className={classes.colorDiv}
+            <span
+              className={classes.colorSpan}
               title={
                 row.somatic_mutation
                   ? `Score: ${row.somatic_mutation.toFixed(2)}`
@@ -304,8 +303,8 @@ function getColumns(efoId, classes) {
               row.ensemblId
             }/${efoId}?view=sec:known_drug`}
           >
-            <div
-              className={classes.colorDiv}
+            <span
+              className={classes.colorSpan}
               title={
                 row.known_drug
                   ? `Score: ${row.known_drug.toFixed(2)}`
@@ -340,8 +339,8 @@ function getColumns(efoId, classes) {
               row.ensemblId
             }/${efoId}?view=sec:affected_pathway`}
           >
-            <div
-              className={classes.colorDiv}
+            <span
+              className={classes.colorSpan}
               title={
                 row.affected_pathway
                   ? `Score: ${row.affected_pathway.toFixed(2)}`
@@ -376,8 +375,8 @@ function getColumns(efoId, classes) {
               row.ensemblId
             }/${efoId}?view=sec:rna_expression`}
           >
-            <div
-              className={classes.colorDiv}
+            <span
+              className={classes.colorSpan}
               title={
                 row.rna_expression
                   ? `Score: ${row.rna_expression.toFixed(2)}`
@@ -412,8 +411,8 @@ function getColumns(efoId, classes) {
               row.ensemblId
             }/${efoId}?view=sec:literature`}
           >
-            <div
-              className={classes.colorDiv}
+            <span
+              className={classes.colorSpan}
               title={
                 row.literature
                   ? `Score: ${row.literature.toFixed(2)}`
@@ -448,8 +447,8 @@ function getColumns(efoId, classes) {
               row.ensemblId
             }/${efoId}?view=sec:animal_model`}
           >
-            <div
-              className={classes.colorDiv}
+            <span
+              className={classes.colorSpan}
               title={
                 row.animal_model
                   ? `Score: ${row.animal_model.toFixed(2)}`
