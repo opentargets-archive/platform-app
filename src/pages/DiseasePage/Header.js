@@ -2,14 +2,18 @@ import React from 'react';
 import { faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
 import HeaderBase from '../../components/Header';
-import EFO from '../../components/ExternalLink/EFO';
+import { ExternalLink } from '../../components/ExternalLink';
 
-const Header = ({ efoId, name }) => (
-  <HeaderBase
-    title={name}
-    Icon={faStethoscope}
-    externalLinks={<EFO efoId={efoId} first />}
-  />
-);
+function Header({ efoId, name }) {
+  const efoUrl = `https://www.ebi.ac.uk/ols/ontologies/efo/terms?short_form=${efoId}`;
+
+  return (
+    <HeaderBase
+      title={name}
+      Icon={faStethoscope}
+      externalLinks={<ExternalLink title="EFO" id={efoId} url={efoUrl} />}
+    />
+  );
+}
 
 export default Header;

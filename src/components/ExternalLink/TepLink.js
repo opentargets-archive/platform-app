@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
-import { Tooltip, withStyles } from '@material-ui/core';
+import React from 'react';
+import { makeStyles, Tooltip } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
 
 import { Link } from 'ot-ui';
 
-const styles = () => ({
+const useStyles = makeStyles({
   helpIcon: {
     fontSize: '10px',
   },
@@ -157,15 +157,18 @@ const teps = {
   },
 };
 
-const Tep = ({ classes, ensgId, symbol }) => {
-  return teps[ensgId] ? (
-    <Fragment>
-      {' '}
-      | Target Enabling Package
+function TepLink({ ensgId, symbol }) {
+  const classes = useStyles();
+
+  if (!teps[ensgId]) return null;
+
+  return (
+    <span>
+      Target Enabling Package
       <Tooltip
         classes={{ tooltip: classes.tepTooltip }}
         title={
-          <Fragment>
+          <>
             <Link external to="https://www.thesgc.org">
               TEPs
             </Link>{' '}
@@ -173,7 +176,7 @@ const Tep = ({ classes, ensgId, symbol }) => {
             target to allow rapid biochemical and chemical exploration and
             characterisation of proteins with genetic linkage to key disease
             areas.
-          </Fragment>
+          </>
         }
         placement="top"
         interactive
@@ -186,8 +189,8 @@ const Tep = ({ classes, ensgId, symbol }) => {
       <Link external to={teps[ensgId].link}>
         {symbol}
       </Link>
-    </Fragment>
-  ) : null;
-};
+    </span>
+  );
+}
 
-export default withStyles(styles)(Tep);
+export default TepLink;
