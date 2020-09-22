@@ -14,7 +14,7 @@ export function createSummaryFragment(sections, entity) {
   });
 
   return gql`
-    fragment ProfileSummaryFragment on ${entity} {
+    fragment ${entity}ProfileSummaryFragment on ${entity} {
       ${
         sectionFragmentNames.length
           ? sectionFragmentNames.map(sfn => `...${sfn}`).join('\n')
