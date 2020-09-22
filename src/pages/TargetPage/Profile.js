@@ -1,87 +1,55 @@
-import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { print } from 'graphql/language/printer';
-import _ from 'lodash';
+import React from 'react';
+import { gql } from '@apollo/client';
 
-import * as sectionsObject from './sectionIndex';
-import BaseProfile from '../../components/Profile';
-import DescriptionAndSynonyms from '../../components/DescriptionAndSynonyms';
+import { createSummaryFragment } from '../../components/Summary/utils';
+import PlatformApiProvider from '../../contexts/PlatformApiProvider';
+import ProfileHeader from './ProfileHeader';
 
-const sections = Object.values(sectionsObject);
+import sections from './sections';
+import SummaryContainer from '../../components/Summary/SummaryContainer';
+import SectionContainer from '../../components/Section/SectionContainer';
 
-const summariesQuery = gql`
-  query TargetSummaryQuery($ensgId: String!) {
+const PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(sections, 'Target');
+const PROFILE_QUERY = gql`
+  query ProfileQuery($ensgId: String!) {
     target(ensemblId: $ensgId) {
       id
-      approvedSymbol
-      approvedName
-      bioType
-      hgncId
-      nameSynonyms
-      symbolSynonyms
-      proteinAnnotations {
-        id
-        functions
-      }
-
-      ${sections
-        .filter(s => s.summaryQuery)
-        .map(s => `...target${_.upperFirst(s.id)}Fragment`)
-        .join('\n')}
+      ...TargetProfileHeaderFragment
+      ...TargetProfileSummaryFragment
     }
   }
-
-  ${sections
-    .filter(s => s.summaryQuery)
-    .map(s => print(s.summaryQuery))
-    .join('\n')}
+  ${ProfileHeader.fragments.profileHeader}
+  ${PROFILE_SUMMARY_FRAGMENT}
 `;
 
-const entitySummariesAccessor = data => {
-  if (data && data.target) {
-    return sections
-      .filter(s => s.summaryQuery)
-      .reduce(
-        (obj, s) => Object.assign(obj, { [s.id]: data.target[s.id] }),
-        {}
-      );
-  } else {
-    return {};
-  }
-};
+function Profile({ match }) {
+  const { ensgId } = match.params;
 
-const entitySectionsAccessor = data => {
-  return data && data.target ? data.target : {};
-};
+  return (
+    <PlatformApiProvider
+      entity="target"
+      query={PROFILE_QUERY}
+      variables={{ ensgId }}
+    >
+      <ProfileHeader />
 
-class TargetProfile extends Component {
-  render() {
-    const {
-      ensgId,
-      uniprotId,
-      symbol,
-      name,
-      synonyms,
-      description,
-    } = this.props;
+      <SummaryContainer>
+        {sections.map(({ Summary, definition }) => (
+          <Summary
+            key={definition.id}
+            ensgId={ensgId}
+            definition={definition}
+          />
+        ))}
+      </SummaryContainer>
 
-    const entity = { ensgId, uniprotId, symbol, name, synonyms, description };
-    return (
-      <BaseProfile
-        {...{
-          entity,
-          query: summariesQuery,
-          variables: { ensgId },
-          sectionsOrderKey: 'targetSectionsOrder',
-          unorderedSections: sections,
-          entitySummariesAccessor,
-          entitySectionsAccessor,
-        }}
-      >
-        <DescriptionAndSynonyms description={description} synonyms={synonyms} />
-      </BaseProfile>
-    );
-  }
+      <SectionContainer>
+        {sections.map(({ Body, definition }) => (
+          <Body key={definition.id} ensgId={ensgId} definition={definition} />
+        ))}
+      </SectionContainer>
+    </PlatformApiProvider>
+  );
 }
 
-export default TargetProfile;
+export default Profile;

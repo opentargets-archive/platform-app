@@ -12,7 +12,7 @@ import SearchPage from './pages/SearchPage';
 import DiseasePage from './pages/DiseasePage';
 import DownloadsPage from './pages/DownloadsPage';
 // import DrugPage from './pages/DrugPage';
-// import TargetPage from './pages/TargetPage';
+import TargetPage from './pages/TargetPage';
 // import EvidenceByDatatypePage from './pages/EvidenceByDatatypePage';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -32,8 +32,8 @@ class App extends Component {
                 <Route path="/search" component={SearchPage} />
                 <Route path="/downloads" component={DownloadsPage} />
                 <Route path="/disease/:efoId" component={DiseasePage} />
-                {/* <Route path="/target/:ensgId" component={TargetPage} />
-                <Route path="/drug/:chemblId" component={DrugPage} />
+                <Route path="/target/:ensgId" component={TargetPage} />
+                {/*<Route path="/drug/:chemblId" component={DrugPage} />
                 <Route
                   path="/evidence/:ensgId/:efoId"
                   component={EvidenceByDatatypePage}

@@ -1,108 +1,69 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Redirect, Switch, Route, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
-import { Tabs, Tab } from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
 
 import BasePage from '../../components/BasePage';
-import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
 import { oldPlatformUrl } from '../../constants';
-import Profile from './Profile';
+import Profile from '../TargetPage/Profile';
+import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
 const TARGET_PAGE_QUERY = gql`
-  query TargetQuery($ensgId: String!) {
+  query TargetPageQuery($ensgId: String!) {
     target(ensemblId: $ensgId) {
       id
       approvedSymbol
       approvedName
-      bioType
-      hgncId
-      nameSynonyms
-      symbolSynonyms
       proteinAnnotations {
         id
-        functions
       }
     }
   }
 `;
 
-const TargetPage = ({ location, match }) => {
+function TargetPage({ match }) {
   const { ensgId } = match.params;
+  const { data } = useQuery(TARGET_PAGE_QUERY, { variables: { ensgId } });
 
-  const { loading, data } = useQuery(TARGET_PAGE_QUERY, {
-    variables: { ensgId },
-  });
-
-  if (loading) return null;
+  // TODO: handle errors/loading
+  if (!data) return null;
   if (data && !data.target) {
     return <Redirect to={{ pathname: '/notFoundPage' }} />;
   }
 
-  const { approvedSymbol: symbol, approvedName: name } = data.target;
-  const uniprotId = data.target.proteinAnnotations?.id;
-  const description = data.target.proteinAnnotations?.functions?.[0];
-  const synonyms = data.target.symbolSynonyms;
+  const ids = {
+    ensgId,
+    uniprotId: data.target.proteinAnnotations?.id,
+    symbol: data.target.approvedSymbol,
+    name: data.target.approvedName,
+  };
 
   return (
-    <BasePage>
-      <Helmet>
-        <title>{symbol}</title>
-      </Helmet>
-      <Header
-        ensgId={ensgId}
-        uniprotId={uniprotId}
-        symbol={symbol}
-        name={name}
-      />
-      <Tabs
-        value={
-          location.pathname.includes('associations')
-            ? `${match.url}/associations`
-            : location.pathname
-        }
-      >
-        <Tab
-          value={`${match.url}/associations`}
-          component={Link}
-          to={`${match.url}/associations`}
-          label="Associated diseases"
-        />
-        <Tab
-          value={match.url}
-          component={Link}
+    <BasePage title={data.target.approvedSymbol}>
+      <Header ids={ids} />
+
+      <RoutingTabs>
+        <RoutingTab
           label="Profile"
-          to={match.url}
+          path="/target/:ensgId"
+          component={Profile}
         />
-        <Tab
-          component="a"
-          href={`${oldPlatformUrl}/target/${ensgId}/associations`}
-          label="Classic view"
+        <RoutingTab
+          label="View this page in the classic view"
+          url={`${oldPlatformUrl}/target/${ensgId}`}
         />
-      </Tabs>
-      <Switch>
-        <Route path={`${match.path}/associations`}>
-          <ClassicAssociations
-            ensgId={ensgId}
-            uniprotId={uniprotId}
-            symbol={symbol}
-            name={name}
-          />
-        </Route>
-        <Route path={match.path}>
-          <Profile
-            ensgId={ensgId}
-            uniprotId={uniprotId}
-            symbol={symbol}
-            name={name}
-            synonyms={synonyms}
-            description={description}
-          />
-        </Route>
-      </Switch>
+        <RoutingTab
+          label="Associations (classic)"
+          path="/target/:ensgId/classic-associations"
+          component={() => <>Classic associations</>}
+        />
+        <RoutingTab
+          label="View associated diseases"
+          url={`${oldPlatformUrl}/target/${ensgId}/associations`}
+        />
+      </RoutingTabs>
     </BasePage>
   );
-};
+}
 
 export default TargetPage;
