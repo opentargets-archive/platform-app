@@ -1,6 +1,5 @@
 import React from 'react';
 import { CardContent, makeStyles, Typography } from '@material-ui/core';
-import WarningIcon from '@material-ui/icons/Warning';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,7 +8,6 @@ import { Link } from 'ot-ui';
 import Chip from '../../components/Chip';
 import LongList from '../../components/LongList';
 import LongText from '../../components/LongText';
-import WarningTooltip from '../../components/WarningTooltip';
 import WithdrawnNotice from '../../components/WithdrawnNotice';
 
 const useStyles = makeStyles({
@@ -33,19 +31,10 @@ const DrugDetail = ({ data }) => {
         <Link to={`/drug/${data.id}`}>{data.name}</Link>
       </Typography>
       <Typography color="primary">
-        <FontAwesomeIcon icon={faPrescriptionBottleAlt} size="md" /> Drug
+        <FontAwesomeIcon icon={faPrescriptionBottleAlt} /> Drug
       </Typography>
       <LongText lineLimit={4}>{data.description}</LongText>
-      {data.hasBeenWithdrawn && (
-        <Typography className={classes.subtitle} color="error">
-          Withdrawn Drug{' '}
-          <WarningTooltip
-            title={<WithdrawnNotice withdrawnNotice={data.withdrawnNotice} />}
-          >
-            <WarningIcon className={classes.icon} />
-          </WarningTooltip>
-        </Typography>
-      )}
+      <WithdrawnNotice withdrawnNotice={data.withdrawnNotice} />
       <Typography className={classes.subtitle} variant="subtitle1">
         Drug Type
       </Typography>

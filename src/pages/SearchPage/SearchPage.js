@@ -86,7 +86,6 @@ const SearchFilters = withStyles(styles)(
             <>
               <FontAwesomeIcon
                 icon={faDna}
-                size="md"
                 fixedWidth
                 className={classes.labelIcon}
               />
@@ -108,7 +107,6 @@ const SearchFilters = withStyles(styles)(
             <>
               <FontAwesomeIcon
                 icon={faStethoscope}
-                size="md"
                 fixedWidth
                 className={classes.labelIcon}
               />
@@ -130,7 +128,6 @@ const SearchFilters = withStyles(styles)(
             <>
               <FontAwesomeIcon
                 icon={faPrescriptionBottleAlt}
-                size="md"
                 fixedWidth
                 className={classes.labelIcon}
               />

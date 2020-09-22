@@ -33,7 +33,7 @@ const TargetDetail = ({ classes, data }) => {
         </Typography>
         <Typography variant="subtitle2">{approvedName}</Typography>
         <Typography color="primary">
-          <FontAwesomeIcon icon={faDna} size="md" /> Target
+          <FontAwesomeIcon icon={faDna} /> Target
         </Typography>
         {functions ? <LongText lineLimit={4}>{functions[0]}</LongText> : null}
         <Typography className={classes.subtitle} variant="subtitle1">
