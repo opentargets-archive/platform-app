@@ -20,7 +20,7 @@ function Synonyms({ children, loading = false }) {
 
   return (
     <>
-      <Typography variant="subtitle2">Description</Typography>
+      <Typography variant="subtitle2">Synonyms</Typography>
       {loading ? loadingContent : content}
     </>
   );
