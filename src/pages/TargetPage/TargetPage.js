@@ -23,24 +23,27 @@ const TARGET_PAGE_QUERY = gql`
 
 function TargetPage({ match }) {
   const { ensgId } = match.params;
-  const { data } = useQuery(TARGET_PAGE_QUERY, { variables: { ensgId } });
+  const { loading, data } = useQuery(TARGET_PAGE_QUERY, {
+    variables: { ensgId },
+  });
 
   // TODO: handle errors/loading
-  if (!data) return null;
   if (data && !data.target) {
     return <Redirect to={{ pathname: '/notFoundPage' }} />;
   }
 
-  const ids = {
-    ensgId,
-    uniprotId: data.target.proteinAnnotations?.id,
-    symbol: data.target.approvedSymbol,
-    name: data.target.approvedName,
-  };
+  const { approvedSymbol: symbol, approvedName: name } = data?.target || {};
+  const uniprotId = data?.target.proteinAnnotations?.id;
 
   return (
-    <BasePage title={data.target.approvedSymbol}>
-      <Header ids={ids} />
+    <BasePage title={symbol}>
+      <Header
+        loading={loading}
+        ensgId={ensgId}
+        uniprotId={uniprotId}
+        symbol={symbol}
+        name={name}
+      />
 
       <RoutingTabs>
         <RoutingTab

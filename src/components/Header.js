@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -35,6 +36,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Header({
+  loading,
   Icon,
   title,
   subtitle = null,
@@ -66,15 +68,15 @@ function Header({
                 noWrap
                 title={title}
               >
-                {title}
+                {loading ? <Skeleton width="10vw" /> : title}
               </Typography>
               <Typography className={classes.subtitle} variant="subtitle2">
-                {subtitle}
+                {loading ? <Skeleton width="25vw" /> : subtitle}
               </Typography>
             </Grid>
             <Grid container>
               <Typography variant="body2" className={classes.externalLinks}>
-                {externalLinks}
+                {loading ? <Skeleton width="50vw" /> : externalLinks}
               </Typography>
             </Grid>
           </Grid>

@@ -9,8 +9,7 @@ import {
 } from '../../components/ExternalLink';
 import HeaderBase from '../../components/Header';
 
-function Header({ ids }) {
-  const { ensgId, uniprotId, symbol, name } = ids;
+function Header({ loading, ensgId, uniprotId, symbol, name }) {
   const ensemblUrl = `http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`;
   const uniprotUrl = `https://www.uniprot.org/uniprot/${uniprotId}`;
   const genecardsUrl = `https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`;
@@ -19,6 +18,7 @@ function Header({ ids }) {
 
   return (
     <HeaderBase
+      loading={loading}
       title={symbol}
       subtitle={name}
       Icon={faDna}

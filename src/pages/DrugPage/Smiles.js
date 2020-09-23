@@ -49,7 +49,7 @@ let SmilesHelper = class extends Component {
         smilesDrawer.draw(tree, chemblId);
       },
       () => {
-        console.log('error parsing smiles');
+        console.error('error parsing smiles');
       }
     );
   }
@@ -71,7 +71,7 @@ let SmilesHelper = class extends Component {
           smilesDrawer.draw(tree, `${chemblId}-modal`);
         },
         () => {
-          console.log('error parsing smiles');
+          console.error('error parsing smiles');
         }
       );
     }
@@ -104,7 +104,7 @@ SmilesHelper = withStyles(styles)(SmilesHelper);
 
 class Smiles extends Component {
   state = {
-    smiles: null,
+    smiles: undefined,
   };
 
   componentDidMount() {
@@ -114,19 +114,21 @@ class Smiles extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        if (data.molecule_type === 'Small molecule') {
-          this.setState({
-            smiles: data.molecule_structures
-              ? data.molecule_structures.canonical_smiles
+        this.setState({
+          smiles:
+            data.molecule_type === 'Small molecule'
+              ? data.molecule_structures?.canonical_smiles
               : null,
-          });
-        }
+        });
       });
   }
 
   render() {
     const { chemblId } = this.props;
     const { smiles } = this.state;
+
+    if (smiles === null) return null;
+
     return smiles ? (
       <SmilesHelper chemblId={chemblId} smiles={smiles} />
     ) : (

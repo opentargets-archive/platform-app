@@ -33,16 +33,20 @@ const DRUG_PAGE_QUERY = gql`
 
 function DrugPage({ match }) {
   const { chemblId } = match.params;
-  const { data } = useQuery(DRUG_PAGE_QUERY, { variables: { chemblId } });
+  const { loading, data } = useQuery(DRUG_PAGE_QUERY, {
+    variables: { chemblId },
+  });
 
   // TODO: handle errors/loading
   if (data && !data.drug) {
     return <Redirect to={{ pathname: '/notFoundPage' }} />;
   }
 
+  const { name } = data?.drug || {};
+
   return (
-    <BasePage title={data?.drug.name || chemblId}>
-      <Header chemblId={chemblId} name={data?.drug.name} />
+    <BasePage title={name || chemblId}>
+      <Header loading={loading} chemblId={chemblId} name={name} />
 
       <RoutingTabs>
         <RoutingTab

@@ -20,19 +20,20 @@ const DISEASE_PAGE_QUERY = gql`
 
 function DiseasePage({ match }) {
   const { efoId } = match.params;
-  const { data } = useQuery(DISEASE_PAGE_QUERY, { variables: { efoId } });
+  const { loading, data } = useQuery(DISEASE_PAGE_QUERY, {
+    variables: { efoId },
+  });
 
   // TODO: handle errors/loading
-  if (!data) return null;
   if (data && !data.disease) {
     return <Redirect to={{ pathname: '/notFoundPage' }} />;
   }
 
-  const { name } = data.disease;
+  const { name } = data?.disease || {};
 
   return (
-    <BasePage title={data.disease.name}>
-      <Header efoId={efoId} name={data.disease.name} />
+    <BasePage title={name}>
+      <Header loading={loading} efoId={efoId} name={name} />
 
       <RoutingTabs>
         <RoutingTab

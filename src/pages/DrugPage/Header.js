@@ -4,11 +4,12 @@ import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 import { ExternalLink } from '../../components/ExternalLink';
 import HeaderBase from '../../components/Header';
 
-function DrugHeader({ chemblId, name }) {
+function DrugHeader({ loading, chemblId, name }) {
   const chemblUrl = `https://www.ebi.ac.uk/chembl/compound_report_card/${chemblId}/`;
 
   return (
     <HeaderBase
+      loading={loading}
       title={name}
       subtitle={null}
       Icon={faPrescriptionBottleAlt}
