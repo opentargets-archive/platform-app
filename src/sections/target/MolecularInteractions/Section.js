@@ -22,7 +22,7 @@ import { faCircle, faArrowsAltH } from '@fortawesome/free-solid-svg-icons';
 
 import { Button, ListTooltip } from 'ot-ui';
 
-import DataTable from '../../../common/Table/DataTable';
+import DataTable from '../../../components/Table/DataTable';
 
 import tempData from './temp/data.json';
 
