@@ -17,12 +17,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faArrowsAltH } from '@fortawesome/free-solid-svg-icons';
-
 import { Button, ListTooltip } from 'ot-ui';
 
 import DataTable from '../../../components/Table/DataTable';
+import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
 
 import tempData from './temp/data.json';
 
@@ -406,34 +404,9 @@ const columns = {
         label: 'Detection methods',
         renderCell: row => (
           <>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <span
-                className="fa-layers-text fa-inverse"
-                data-fa-transform="shrink-10 left-2"
-                style={{ left: '75%' }}
-              >
-                A
-              </span>
-            </span>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <FontAwesomeIcon
-                icon={faArrowsAltH}
-                size="2x"
-                inverse
-                transform="shrink-6"
-              />
-            </span>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <span
-                className="fa-layers-text fa-inverse"
-                data-fa-transform="shrink-10 up-2"
-              >
-                B
-              </span>
-            </span>
+            <MethodIconText>A</MethodIconText>
+            <MethodIconArrow />
+            <MethodIconText>B</MethodIconText>
           </>
         ),
         //   exportValue: row => (row.disease ? label(row.disease.name) : naLabel),
@@ -503,24 +476,8 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <span
-                className="fa-layers-text fa-inverse"
-                data-fa-transform="shrink-10"
-              >
-                A
-              </span>
-            </span>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <span
-                className="fa-layers-text fa-inverse"
-                data-fa-transform="shrink-10 left-2"
-              >
-                B
-              </span>
-            </span>
+            <MethodIconText>A</MethodIconText>
+            <MethodIconText>B</MethodIconText>
           </>
         ),
       },
@@ -568,33 +525,9 @@ const columns = {
         label: 'Detection methods',
         renderCell: row => (
           <>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <span
-                className="fa-layers-text fa-inverse"
-                data-fa-transform="shrink-10 left-2"
-              >
-                A
-              </span>
-            </span>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <FontAwesomeIcon
-                icon={faArrowsAltH}
-                size="2x"
-                inverse
-                transform="shrink-6"
-              />
-            </span>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <span
-                className="fa-layers-text fa-inverse"
-                data-fa-transform="shrink-10 up-2"
-              >
-                B
-              </span>
-            </span>
+            <MethodIconText>A</MethodIconText>
+            <MethodIconArrow />
+            <MethodIconText>B</MethodIconText>
           </>
         ),
         //   exportValue: row => (row.disease ? label(row.disease.name) : naLabel),
@@ -668,33 +601,9 @@ const columns = {
         label: 'Detection methods',
         renderCell: row => (
           <>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <span
-                className="fa-layers-text fa-inverse"
-                data-fa-transform="shrink-10 left-2"
-              >
-                A
-              </span>
-            </span>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <FontAwesomeIcon
-                icon={faArrowsAltH}
-                size="2x"
-                inverse
-                transform="shrink-6"
-              />
-            </span>
-            <span className="fa-layers fa-fw" style={{ marginRight: '20px' }}>
-              <FontAwesomeIcon icon={faCircle} size="2x" />
-              <span
-                className="fa-layers-text fa-inverse"
-                data-fa-transform="shrink-10 up-2"
-              >
-                B
-              </span>
-            </span>
+            <MethodIconText>A</MethodIconText>
+            <MethodIconArrow />
+            <MethodIconText>B</MethodIconText>
           </>
         ),
       },
