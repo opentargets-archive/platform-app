@@ -11,7 +11,7 @@ import SectionContainer from '../../components/Section/SectionContainer';
 
 const PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(sections, 'Target');
 const PROFILE_QUERY = gql`
-  query ProfileQuery($ensgId: String!) {
+  query TargetProfileQuery($ensgId: String!) {
     target(ensemblId: $ensgId) {
       id
       ...TargetProfileHeaderFragment

@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import {
   Description,
   ProfileHeader as BaseProfileHeader,
-  Synonyms,
+  ChipList,
 } from '../../components/ProfileHeader';
 import usePlatformApi from '../../hooks/usePlatformApi';
 
@@ -30,7 +30,9 @@ function ProfileHeader() {
   return (
     <BaseProfileHeader>
       <Description loading={loading}>{description}</Description>
-      <Synonyms loading={loading}>{synonyms}</Synonyms>
+      <ChipList title="Synonyms" loading={loading}>
+        {synonyms}
+      </ChipList>
     </BaseProfileHeader>
   );
 }

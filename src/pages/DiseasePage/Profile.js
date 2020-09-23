@@ -11,7 +11,7 @@ import sections from './sections';
 
 const PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(sections, 'Disease');
 const PROFILE_QUERY = gql`
-  query ProfileQuery($efoId: String!) {
+  query DiseaseProfileQuery($efoId: String!) {
     disease(efoId: $efoId) {
       id
       name
