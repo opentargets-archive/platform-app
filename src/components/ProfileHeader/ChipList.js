@@ -6,7 +6,8 @@ import Chip from '../Chip';
 import LongList from '../LongList';
 
 function ChipList({ children, title, loading = false, inline }) {
-  const loadingContent = <Skeleton count={1} />;
+  if (inline && loading) return <Skeleton count={1} />;
+
   const content = children ? (
     <LongList
       terms={children}
@@ -24,7 +25,7 @@ function ChipList({ children, title, loading = false, inline }) {
         {title}
         {inline ? ': ' : ''}
       </Typography>
-      {loading ? loadingContent : content}
+      {loading ? <Skeleton count={1} /> : content}
     </Box>
   );
 }
