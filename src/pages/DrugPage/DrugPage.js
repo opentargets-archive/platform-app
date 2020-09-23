@@ -1,16 +1,15 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Redirect } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 
 import BasePage from '../../components/BasePage';
 import Header from './Header';
 import { oldPlatformUrl } from '../../constants';
-import Profile from './Profile';
+import Profile from '../DrugPage/Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
 const DRUG_PAGE_QUERY = gql`
-  query DrugQuery($chemblId: String!) {
+  query DrugPageQuery($chemblId: String!) {
     drug(chemblId: $chemblId) {
       id
       name
@@ -32,52 +31,32 @@ const DRUG_PAGE_QUERY = gql`
   }
 `;
 
-const DrugPage = ({ match }) => {
+function DrugPage({ match }) {
   const { chemblId } = match.params;
-  const { loading, data } = useQuery(DRUG_PAGE_QUERY, {
-    variables: { chemblId },
-  });
+  const { data } = useQuery(DRUG_PAGE_QUERY, { variables: { chemblId } });
 
-  if (loading) return null;
+  // TODO: handle errors/loading
   if (data && !data.drug) {
     return <Redirect to={{ pathname: '/notFoundPage' }} />;
   }
 
-  const { drug } = data;
-
   return (
-    <BasePage>
-      <Helmet>
-        <title>{drug ? drug.name : chemblId}</title>
-      </Helmet>
-      <Header chemblId={chemblId} name={drug.name} />
+    <BasePage title={data?.drug.name || chemblId}>
+      <Header chemblId={chemblId} name={data?.drug.name} />
 
       <RoutingTabs>
         <RoutingTab
           label="Profile"
           path="/drug/:chemblId"
-          component={() => (
-            <Profile
-              chemblId={chemblId}
-              name={drug.name}
-              description={drug.description}
-              type={drug.drugType}
-              tradeNames={drug.tradeNames}
-              maximumClinicalTrialPhase={drug.maximumClinicalTrialPhase}
-              yearOfFirstApproval={drug.yearOfFirstApproval}
-              synonyms={drug.synonyms}
-              hasBeenWithdrawn={drug.hasBeenWithdrawn}
-              withdrawnNotice={drug.withdrawnNotice}
-            />
-          )}
+          component={Profile}
         />
         <RoutingTab
-          label="Classic view"
+          label="View this page in the classic view"
           url={`${oldPlatformUrl}/summary?drug=${chemblId}`}
         />
       </RoutingTabs>
     </BasePage>
   );
-};
+}
 
 export default DrugPage;

@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import SmilesDrawer from 'smiles-drawer';
-import { Modal, Paper, withStyles } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { Modal, Paper, withStyles } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
+import SmilesDrawer from 'smiles-drawer';
 
 const styles = theme => ({
   container: {
     border: `1px solid ${theme.palette.grey[300]}`,
-    height: '240px',
     cursor: 'pointer',
+    height: '240px',
+    marginLeft: 'auto',
+    width: 'fit-content',
   },
   modal: {
     width: '800px',
@@ -124,7 +127,16 @@ class Smiles extends Component {
   render() {
     const { chemblId } = this.props;
     const { smiles } = this.state;
-    return smiles && <SmilesHelper chemblId={chemblId} smiles={smiles} />;
+    return smiles ? (
+      <SmilesHelper chemblId={chemblId} smiles={smiles} />
+    ) : (
+      <Skeleton
+        style={{ marginLeft: 'auto' }}
+        height="240px"
+        variant="rect"
+        width="450px"
+      />
+    );
   }
 }
 
