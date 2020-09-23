@@ -11,6 +11,10 @@ const sectionStyles = makeStyles(theme => ({
   avatarError: {
     backgroundColor: theme.palette.secondary.main,
   },
+  cardHeaderAction: {
+    alignSelf: 'unset',
+    margin: 0,
+  },
   cardHeader: {
     paddingTop: 8,
     paddingBottom: 8,

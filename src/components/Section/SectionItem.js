@@ -3,11 +3,11 @@ import classNames from 'classnames';
 import {
   Avatar,
   Card,
+  CardContent,
   CardHeader,
   Grid,
   LinearProgress,
   Typography,
-  CardContent,
 } from '@material-ui/core';
 import { Element } from 'react-scroll';
 
@@ -16,7 +16,13 @@ import SectionError from './SectionError';
 import sectionStyles from './sectionStyles';
 import { createShortName } from '../Summary/utils';
 
-function SectionItem({ definition, request, renderDescription, renderBody }) {
+function SectionItem({
+  definition,
+  request,
+  renderDescription,
+  renderBody,
+  tags,
+}) {
   const classes = sectionStyles();
   const { loading, error, data } = request;
   const shortName = createShortName(definition);
@@ -27,7 +33,10 @@ function SectionItem({ definition, request, renderDescription, renderBody }) {
         <Card elevation={0}>
           <ErrorBoundary>
             <CardHeader
-              className={classes.cardHeader}
+              classes={{
+                root: classes.cardHeader,
+                action: classes.cardHeaderAction,
+              }}
               avatar={
                 <Avatar
                   className={classNames({
@@ -61,6 +70,7 @@ function SectionItem({ definition, request, renderDescription, renderBody }) {
                   {data && renderDescription(data)}
                 </Typography>
               }
+              action={tags}
             />
             {loading && <LinearProgress />}
             {error && <SectionError error={error} />}
