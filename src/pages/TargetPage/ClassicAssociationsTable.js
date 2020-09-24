@@ -496,7 +496,7 @@ function Legend() {
   );
 }
 
-function ClassicAssociationsTable({ ensgId, symbol }) {
+function ClassicAssociationsTable({ ensgId }) {
   const classes = useStyles();
   const [filter, setFilter] = useState(null);
   const [sortBy, setSortBy] = useState('score');

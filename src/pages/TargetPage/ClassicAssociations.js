@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import { Grid, Card, CardContent, Typography } from '@material-ui/core';
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Tabs,
+  Tab,
+} from '@material-ui/core';
 import { client3 } from '../../client';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
+import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
+import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 
 const ASSOCIATIONS_COUNT_QUERY = gql`
   query TargetAssociationsQuery($ensemblId: String!) {
@@ -16,12 +25,17 @@ const ASSOCIATIONS_COUNT_QUERY = gql`
 `;
 
 function ClassicAssociations({ ensgId, symbol }) {
+  const [tab, setTab] = useState('heatmap');
   const { data } = useQuery(ASSOCIATIONS_COUNT_QUERY, {
     variables: {
       ensemblId: ensgId,
     },
     client: client3,
   });
+
+  function handleTabChange(_, tab) {
+    setTab(tab);
+  }
 
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
@@ -34,9 +48,27 @@ function ClassicAssociations({ ensgId, symbol }) {
         </Typography>
       </Grid>
       <Grid item xs={12} md={9}>
+        <Tabs
+          value={tab}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          <Tab value="heatmap" label="Table" />
+          <Tab value="bubbles" label="Bubbles" />
+          <Tab value="dag" label="Graph" />
+        </Tabs>
         <Card elevation={0} style={{ overflow: 'visible' }}>
           <CardContent>
-            <ClassicAssociationsTable ensgId={ensgId} symbol={symbol} />
+            {tab === 'heatmap' && (
+              <ClassicAssociationsTable ensgId={ensgId} symbol={symbol} />
+            )}
+            {tab === 'bubbles' && (
+              <ClassicAssociationsBubbles ensgId={ensgId} symbol={symbol} />
+            )}
+            {tab === 'dag' && (
+              <ClassicAssociationsDAG ensgId={ensgId} symbol={symbol} />
+            )}
           </CardContent>
         </Card>
       </Grid>
