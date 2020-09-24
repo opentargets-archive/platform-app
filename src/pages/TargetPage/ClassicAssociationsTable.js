@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import * as d3 from 'd3';
 import { useQuery } from '@apollo/client';
-import {
-  makeStyles,
-  Link,
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-} from '@material-ui/core';
+import { makeStyles, Link } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Table } from '../../components/Table';
@@ -505,7 +498,7 @@ function Legend() {
 
 function ClassicAssociationsTable({ ensgId, symbol }) {
   const classes = useStyles();
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState(null);
   const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(50);
@@ -515,7 +508,7 @@ function ClassicAssociationsTable({ ensgId, symbol }) {
       ensemblId: ensgId,
       index: page,
       size: pageSize,
-      filter,
+      filter: filter === '' ? null : filter,
       sortBy,
     },
     client: client3,
@@ -554,39 +547,27 @@ function ClassicAssociationsTable({ ensgId, symbol }) {
 
   return (
     <>
-      <Grid item xs={12}>
-        <Typography variant="h6">
-          <strong>{count} diseases</strong> associated with{' '}
-          <strong>{symbol}</strong>
-        </Typography>
-      </Grid>
-      <Grid item xs={12} md={9}>
-        <Card elevation={0} style={{ overflow: 'visible' }}>
-          <CardContent>
-            <Table
-              showGlobalFilter
-              loading={loading}
-              dataDownloader
-              dataDownloaderRows={getAllAssociations}
-              dataDownloaderFileStem={`${ensgId}-associated-targets`}
-              classes={{ root: classes.root, table: classes.table }}
-              page={page}
-              sortBy={sortBy}
-              order="asc"
-              columns={columns}
-              rows={processedRows}
-              pageSize={pageSize}
-              rowCount={count}
-              rowsPerPageOptions={[10, 50, 200, 500]}
-              onGlobalFilterChange={handleGlobalFilterChange}
-              onSortBy={handleSort}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-            />
-            <Legend />
-          </CardContent>
-        </Card>
-      </Grid>
+      <Table
+        showGlobalFilter
+        loading={loading}
+        dataDownloader
+        dataDownloaderRows={getAllAssociations}
+        dataDownloaderFileStem={`${ensgId}-associated-targets`}
+        classes={{ root: classes.root, table: classes.table }}
+        page={page}
+        sortBy={sortBy}
+        order="asc"
+        columns={columns}
+        rows={processedRows}
+        pageSize={pageSize}
+        rowCount={count}
+        rowsPerPageOptions={[10, 50, 200, 500]}
+        onGlobalFilterChange={handleGlobalFilterChange}
+        onSortBy={handleSort}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={handleRowsPerPageChange}
+      />
+      <Legend />
     </>
   );
 }
