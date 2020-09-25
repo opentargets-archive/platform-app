@@ -13,6 +13,7 @@ import { client3 } from '../../client';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
+import { Facets } from '../../components/Facets';
 
 const ASSOCIATIONS_COUNT_QUERY = gql`
   query TargetAssociationsQuery($ensemblId: String!) {
@@ -46,6 +47,13 @@ function ClassicAssociations({ ensgId, symbol }) {
           ) : null}
           <strong> diseases</strong> associated with <strong>{symbol}</strong>
         </Typography>
+      </Grid>{' '}
+      <Grid item xs={12} md={3}>
+        <Card elevation={0}>
+          <CardContent>
+            <Facets entity="target" id={ensgId} />
+          </CardContent>
+        </Card>
       </Grid>
       <Grid item xs={12} md={9}>
         <Tabs
