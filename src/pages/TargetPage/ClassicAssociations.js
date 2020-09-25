@@ -11,14 +11,35 @@ import {
 } from '@material-ui/core';
 import { client3 } from '../../client';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
+import Wrapper from './Wrapper';
 import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
+import { Facets } from '../../components/Facets';
 
-const ASSOCIATIONS_COUNT_QUERY = gql`
-  query TargetAssociationsQuery($ensemblId: String!) {
+const TARGET_ASSOCIATIONS_QUERY = gql`
+  query TargetAssociationsQuery(
+    $ensemblId: String!
+    $aggregationFilters: [AggregationFilter!]
+  ) {
     target(ensemblId: $ensemblId) {
-      associatedDiseases {
+      approvedName
+      associatedDiseases(aggregationFilters: $aggregationFilters) {
         count
+        aggregations {
+          uniques
+          aggs {
+            name
+            uniques
+            rows {
+              key
+              uniques
+              aggs {
+                key
+                uniques
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -26,28 +47,54 @@ const ASSOCIATIONS_COUNT_QUERY = gql`
 
 function ClassicAssociations({ ensgId, symbol }) {
   const [tab, setTab] = useState('heatmap');
-  const { data } = useQuery(ASSOCIATIONS_COUNT_QUERY, {
+  const [aggregationFilters, setAggregationFilters] = useState([]);
+  const { loading, data, refetch } = useQuery(TARGET_ASSOCIATIONS_QUERY, {
     variables: {
       ensemblId: ensgId,
+      aggregationFilters,
     },
     client: client3,
   });
 
-  function handleTabChange(_, tab) {
+  const handleTabChange = (_, tab) => {
     setTab(tab);
-  }
+  };
+
+  const handleChangeFilters = newFilters => {
+    setAggregationFilters(newFilters);
+    refetch();
+  };
+
+  const facetData = data?.target?.associatedDiseases.aggregations.aggs;
 
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h6">
           {data ? (
-            <strong>{data.target.associatedDiseases.count}</strong>
-          ) : null}
-          <strong> diseases</strong> associated with <strong>{symbol}</strong>
+            <>
+              <strong>{data.target.associatedDiseases.count} diseases</strong>{' '}
+              associated with <strong>{symbol}</strong>
+            </>
+          ) : (
+            <strong>Loading...</strong>
+          )}
         </Typography>
+      </Grid>{' '}
+      <Grid item xs={12} lg={3}>
+        <Card elevation={0}>
+          <CardContent>
+            <Facets
+              entity="target"
+              id={ensgId}
+              loading={loading}
+              data={facetData}
+              onChange={handleChangeFilters}
+            />
+          </CardContent>
+        </Card>
       </Grid>
-      <Grid item xs={12} md={9}>
+      <Grid item xs={12} lg={9}>
         <Tabs
           value={tab}
           onChange={handleTabChange}
@@ -61,13 +108,25 @@ function ClassicAssociations({ ensgId, symbol }) {
         <Card elevation={0} style={{ overflow: 'visible' }}>
           <CardContent>
             {tab === 'heatmap' && (
-              <ClassicAssociationsTable ensgId={ensgId} symbol={symbol} />
+              <ClassicAssociationsTable
+                ensgId={ensgId}
+                symbol={symbol}
+                aggregationFilters={aggregationFilters}
+              />
             )}
             {tab === 'bubbles' && (
-              <ClassicAssociationsBubbles ensgId={ensgId} symbol={symbol} />
+              <Wrapper
+                ensemblId={ensgId}
+                symbol={symbol}
+                Component={ClassicAssociationsBubbles}
+              />
             )}
             {tab === 'dag' && (
-              <ClassicAssociationsDAG ensgId={ensgId} symbol={symbol} />
+              <Wrapper
+                ensemblId={ensgId}
+                symbol={symbol}
+                Component={ClassicAssociationsDAG}
+              />
             )}
           </CardContent>
         </Card>

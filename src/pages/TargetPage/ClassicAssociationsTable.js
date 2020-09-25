@@ -17,12 +17,14 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
     $size: Int!
     $filter: String
     $sortBy: String!
+    $aggregationFilters: [AggregationFilter!]
   ) {
     target(ensemblId: $ensemblId) {
       associatedDiseases(
         page: { index: $index, size: $size }
         orderByScore: $sortBy
         BFilter: $filter
+        aggregationFilters: $aggregationFilters
       ) {
         count
         rows {
@@ -496,7 +498,7 @@ function Legend() {
   );
 }
 
-function ClassicAssociationsTable({ ensgId }) {
+function ClassicAssociationsTable({ ensgId, aggregationFilters }) {
   const classes = useStyles();
   const [filter, setFilter] = useState(null);
   const [sortBy, setSortBy] = useState('score');
@@ -510,6 +512,7 @@ function ClassicAssociationsTable({ ensgId }) {
       size: pageSize,
       filter: filter === '' ? null : filter,
       sortBy,
+      aggregationFilters,
     },
     client: client3,
   });

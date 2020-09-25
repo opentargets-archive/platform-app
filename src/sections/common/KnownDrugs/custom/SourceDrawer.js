@@ -4,9 +4,9 @@ import {
   List,
   ListItem,
   Drawer,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  ExpansionPanel,
+  AccordionSummary,
+  AccordionDetails,
+  Accordion,
   Box,
   Paper,
   IconButton,
@@ -42,10 +42,10 @@ const sourceDrawerStyles = makeStyles(theme => ({
     fontSize: '1.2rem',
     fontWeight: 'bold',
   },
-  expansionPanelExpanded: {
+  AccordionExpanded: {
     margin: '1rem !important',
   },
-  expansionPanelRoot: {
+  AccordionRoot: {
     border: '1px solid #ccc',
     margin: '1rem 1rem 0 1rem',
     padding: '1rem',
@@ -53,12 +53,12 @@ const sourceDrawerStyles = makeStyles(theme => ({
       backgroundColor: 'transparent',
     },
   },
-  expansionPanelSubtitle: {
+  AccordionSubtitle: {
     color: theme.palette.grey[400],
     fontSize: '0.8rem',
     fontStyle: 'italic',
   },
-  expansionPanelTitle: {
+  AccordionTitle: {
     color: theme.palette.grey[700],
     fontSize: '1rem',
     fontWeight: 'bold',
@@ -138,29 +138,29 @@ function SourceDrawer({ references }) {
 
       <Box className={classes.drawerBody}>
         {Object.keys(groupedReferences).map(group => (
-          <ExpansionPanel
+          <Accordion
             elevation={0}
             key={group}
             classes={{
-              root: classes.expansionPanelRoot,
-              expanded: classes.expansionPanelExpanded,
+              root: classes.AccordionRoot,
+              expanded: classes.AccordionExpanded,
             }}
             defaultExpanded={
               groupedReferences[group].length < 10 ||
               Object.keys(groupedReferences).length === 1
             }
           >
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Box classes={{ root: classes.summaryBoxRoot }}>
-                <Typography className={classes.expansionPanelTitle}>
+                <Typography className={classes.AccordionTitle}>
                   {tableSourceLabel(group)}
                 </Typography>
-                <Typography className={classes.expansionPanelSubtitle}>
+                <Typography className={classes.AccordionSubtitle}>
                   {groupedReferences[group].length} references
                 </Typography>
               </Box>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
+            </AccordionSummary>
+            <AccordionDetails>
               <List>
                 {groupedReferences[group].map((item, itemIndex) => (
                   <ListItem key={itemIndex}>
@@ -170,8 +170,8 @@ function SourceDrawer({ references }) {
                   </ListItem>
                 ))}
               </List>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+            </AccordionDetails>
+          </Accordion>
         ))}
       </Box>
     </>
