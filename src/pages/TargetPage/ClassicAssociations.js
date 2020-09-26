@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { client3 } from '../../client';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
-import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
+import BubbleWrapper from './BubbleWrapper';
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 
 const ASSOCIATIONS_COUNT_QUERY = gql`
@@ -64,7 +64,7 @@ function ClassicAssociations({ ensgId, symbol }) {
               <ClassicAssociationsTable ensgId={ensgId} symbol={symbol} />
             )}
             {tab === 'bubbles' && (
-              <ClassicAssociationsBubbles ensgId={ensgId} symbol={symbol} />
+              <BubbleWrapper ensemblId={ensgId} symbol={symbol} />
             )}
             {tab === 'dag' && (
               <ClassicAssociationsDAG ensgId={ensgId} symbol={symbol} />
