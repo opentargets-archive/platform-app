@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
-import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import { client3 } from '../../client';
+import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 const therapeuticAreasURL =
   'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/therapeutic_area.txt';
 const efoURL =
   'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl';
 
-const BUBBLES_QUERY = gql`
-  query BubblesQuery($ensemblId: String!, $index: Int!, $size: Int!) {
+const ASSOCIATIONS_QUERY = gql`
+  query AssociationsQuery($ensemblId: String!, $index: Int!, $size: Int!) {
     target(ensemblId: $ensemblId) {
       associatedDiseases(page: { index: $index, size: $size }) {
         count
@@ -54,19 +54,19 @@ function Wrapper({ ensemblId, symbol, Component }) {
   const [associations, setAssociations] = useState();
   const [therapeuticAreas, setTherapeuticAreas] = useState();
 
+  const getAllAssociations = useBatchDownloader(
+    ASSOCIATIONS_QUERY,
+    { ensemblId },
+    'data.target.associatedDiseases',
+    client3
+  );
+
   useEffect(
     () => {
       const promises = [
         fetch(therapeuticAreasURL).then(res => res.text()),
         fetch(efoURL).then(res => res.text()),
-        client3.query({
-          query: BUBBLES_QUERY,
-          variables: {
-            ensemblId,
-            index: 0,
-            size: 2000,
-          },
-        }),
+        getAllAssociations(),
       ];
       Promise.all(promises).then(data => {
         const nodes = data[1]
@@ -75,7 +75,7 @@ function Wrapper({ ensemblId, symbol, Component }) {
           .map(JSON.parse);
 
         nodes.push({ id: 'EFO_ROOT', name: 'root', parentIds: [] });
-        setAssociations(data[2].data.target.associatedDiseases.rows);
+        setAssociations(data[2]);
         setTherapeuticAreas(data[0].trim().split('\n'));
         setNodes(nodes);
       });
