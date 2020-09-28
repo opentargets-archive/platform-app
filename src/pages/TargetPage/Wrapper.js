@@ -49,7 +49,7 @@ const dataTypeMap = {
   ANIMAL_MODELS: 'animal_model',
 };
 
-function BubbleWrapper({ ensemblId, symbol }) {
+function Wrapper({ ensemblId, symbol, Component }) {
   const [nodes, setNodes] = useState();
   const [associations, setAssociations] = useState();
   const [therapeuticAreas, setTherapeuticAreas] = useState();
@@ -130,7 +130,7 @@ function BubbleWrapper({ ensemblId, symbol }) {
   });
 
   return (
-    <ClassicAssociationsBubbles
+    <Component
       ensgId={ensemblId}
       symbol={symbol}
       data={rows}
@@ -140,4 +140,4 @@ function BubbleWrapper({ ensemblId, symbol }) {
   );
 }
 
-export default BubbleWrapper;
+export default Wrapper;
