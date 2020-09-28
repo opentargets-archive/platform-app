@@ -151,11 +151,23 @@ class ClassicAssociationsBubbles extends React.Component {
     });
     const nodes = therapeuticAreaTree.descendants();
 
-    // color scale
+    const colorRange = [
+      '#e8edf1',
+      '#d2dce4',
+      '#bbcbd6',
+      '#a5b9c9',
+      '#8fa8bc',
+      '#7897ae',
+      '#6285a1',
+      '#4b7493',
+      '#356386',
+      '#1f5279',
+    ];
+
     const color = d3
-      .scaleLinear()
+      .scaleQuantize()
       .domain([0, 1])
-      .range(['#fff', theme.palette.primary.main]);
+      .range(colorRange);
 
     return (
       <div ref={measureRef}>
