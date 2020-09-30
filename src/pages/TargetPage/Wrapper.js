@@ -80,6 +80,7 @@ function Wrapper({ ensemblId, symbol, Component }) {
         setNodes(nodes);
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [ensemblId]
   );
 
