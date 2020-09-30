@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useQuery } from '@apollo/client';
+import React, { useEffect, useState } from 'react';
+import { useLazyQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import {
   Grid,
@@ -16,9 +16,12 @@ import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 import { Facets } from '../../components/Facets';
 
 const ASSOCIATIONS_COUNT_QUERY = gql`
-  query TargetAssociationsQuery($ensemblId: String!) {
+  query TargetAssociationsQuery(
+    $ensemblId: String!
+    $aggregationFilters: [AggregationFilter!]
+  ) {
     target(ensemblId: $ensemblId) {
-      associatedDiseases {
+      associatedDiseases(aggregationFilters: $aggregationFilters) {
         count
       }
     }
@@ -27,16 +30,27 @@ const ASSOCIATIONS_COUNT_QUERY = gql`
 
 function ClassicAssociations({ ensgId, symbol }) {
   const [tab, setTab] = useState('heatmap');
-  const { data } = useQuery(ASSOCIATIONS_COUNT_QUERY, {
+  const [aggregationFilters, setAggregationFilters] = useState([]);
+  const [getAssociations, { data }] = useLazyQuery(ASSOCIATIONS_COUNT_QUERY, {
     variables: {
       ensemblId: ensgId,
+      aggregationFilters,
     },
     client: client3,
   });
 
-  function handleTabChange(_, tab) {
+  useEffect(
+    () => {
+      getAssociations(aggregationFilters);
+    },
+    [aggregationFilters, getAssociations]
+  );
+
+  const handleTabChange = (_, tab) => {
     setTab(tab);
-  }
+  };
+
+  const handleChangeFilters = newFilters => setAggregationFilters(newFilters);
 
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
@@ -51,7 +65,11 @@ function ClassicAssociations({ ensgId, symbol }) {
       <Grid item xs={12} md={3}>
         <Card elevation={0}>
           <CardContent>
-            <Facets entity="target" id={ensgId} />
+            <Facets
+              entity="target"
+              id={ensgId}
+              onChange={handleChangeFilters}
+            />
           </CardContent>
         </Card>
       </Grid>
@@ -69,7 +87,11 @@ function ClassicAssociations({ ensgId, symbol }) {
         <Card elevation={0} style={{ overflow: 'visible' }}>
           <CardContent>
             {tab === 'heatmap' && (
-              <ClassicAssociationsTable ensgId={ensgId} symbol={symbol} />
+              <ClassicAssociationsTable
+                ensgId={ensgId}
+                symbol={symbol}
+                aggregationFilters={aggregationFilters}
+              />
             )}
             {tab === 'bubbles' && (
               <ClassicAssociationsBubbles ensgId={ensgId} symbol={symbol} />
