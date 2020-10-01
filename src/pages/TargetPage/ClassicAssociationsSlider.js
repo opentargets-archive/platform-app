@@ -19,7 +19,7 @@ const ClassicAssociationsSlider = ({ classes, value, onChange }) => (
     </Typography>
     <Slider
       classes={{
-        container: classes.container,
+        root: classes.container,
       }}
       defaultValue={value}
       value={value}

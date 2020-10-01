@@ -13,11 +13,16 @@ const TooltipContent = ({ data }) => (
         <br />
         <Link to={`/disease/${data.id}`}>Disease profile</Link>
         <br />
-        <Link to={`/disease/${data.id}/classic-associations`}>
+        {/* <Link to={`/disease/${data.id}/classic-associations`}>
           Disease associations
         </Link>
-        <br />
-        <Link to={`/evidence/${data.target.ensgId}/${data.id}`}>
+        <br /> */}
+        <Link
+          to={`https://targetvalidation.org/evidence/${data.target.ensgId}/${
+            data.id
+          }`}
+          external
+        >
           Association evidence
         </Link>
       </Typography>

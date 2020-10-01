@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import { client3 } from '../../client';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
+import Wrapper from './Wrapper';
 import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 import { Facets } from '../../components/Facets';
@@ -114,10 +115,18 @@ function ClassicAssociations({ ensgId, symbol }) {
               />
             )}
             {tab === 'bubbles' && (
-              <ClassicAssociationsBubbles ensgId={ensgId} symbol={symbol} />
+              <Wrapper
+                ensemblId={ensgId}
+                symbol={symbol}
+                Component={ClassicAssociationsBubbles}
+              />
             )}
             {tab === 'dag' && (
-              <ClassicAssociationsDAG ensgId={ensgId} symbol={symbol} />
+              <Wrapper
+                ensemblId={ensgId}
+                symbol={symbol}
+                Component={ClassicAssociationsDAG}
+              />
             )}
           </CardContent>
         </Card>
