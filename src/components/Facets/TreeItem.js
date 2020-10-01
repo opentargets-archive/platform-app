@@ -27,6 +27,7 @@ function TreeItem({
           <FormControlLabel
             control={
               <Checkbox
+                disabled={!count}
                 color="primary"
                 checked={checked}
                 indeterminate={indeterminate}

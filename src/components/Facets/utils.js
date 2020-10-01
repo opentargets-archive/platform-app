@@ -1,18 +1,39 @@
-export const getIdFromEntity = entity =>
-  ({
-    disease: 'efoId',
-    drug: 'chemblId',
-    target: 'ensemblId',
-  }[entity]);
-
-export const fixLabel = caption => {
-  const spacedCaption = caption
+export const fixLabel = label => {
+  const spacedLabel = label
     .replace(/_/g, ' ')
     .replace(/([A-Z]+)/g, ' $1')
     .replace(/([A-Z][a-z])/g, ' $1');
 
-  return `${spacedCaption.charAt(0).toUpperCase()}${spacedCaption.slice(1)}`;
+  return `${spacedLabel.charAt(0).toUpperCase()}${spacedLabel.slice(1)}`;
 };
+
+const extractLevel = level =>
+  level?.map(agg => ({
+    nodeId: agg.key || agg.name,
+    label: fixLabel(agg.key || agg.name),
+    count: agg.uniques,
+    checked: false,
+    aggs: extractLevel(agg.aggs || agg.rows),
+  }));
+
+export const prepareFacetData = data => extractLevel(data) || [];
+
+const updateLevel = (facets, data = []) => {
+  facets.forEach(facet => {
+    const newFacet = data.find(
+      newFacet => facet.nodeId === (newFacet.key || newFacet.name)
+    );
+    const newCount = newFacet?.uniques || 0;
+    facet.count = newCount;
+
+    if (facet.aggs) updateLevel(facet.aggs, newFacet?.aggs || newFacet?.rows);
+  });
+
+  return facets;
+};
+
+export const updateFacetCounts = (facets, data) =>
+  updateLevel([...facets], data);
 
 // Facet tree tools
 export const traverse = (tree, path, parent) => {
@@ -33,7 +54,7 @@ export const setAllChildren = (tree, value) =>
 export const hassAllChildrenChecked = level =>
   level.aggs?.every(agg => agg.checked);
 
-export const hasSomeChildrenChecke = level =>
+export const hasSomeChildrenChecked = level =>
   level.aggs?.some(agg => agg.checked) && !hassAllChildrenChecked(level);
 
 const dfs = (tree, path = [], pathList = []) => {

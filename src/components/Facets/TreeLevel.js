@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TreeItem from './TreeItem';
-import { hasSomeChildrenChecke } from './utils';
+import { hasSomeChildrenChecked } from './utils';
 
 function TreeLevel({ levelId, aggs, onSelectionChange }) {
   const handleSelectionChange = newSelection => {
@@ -15,7 +15,7 @@ function TreeLevel({ levelId, aggs, onSelectionChange }) {
       label={agg.label}
       count={agg.count}
       checked={agg.checked}
-      indeterminate={hasSomeChildrenChecke(agg)}
+      indeterminate={hasSomeChildrenChecked(agg)}
       onClick={handleSelectionChange}
     >
       {agg.aggs && (
