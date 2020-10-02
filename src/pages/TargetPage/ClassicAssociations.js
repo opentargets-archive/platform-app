@@ -80,7 +80,7 @@ function ClassicAssociations({ ensgId, symbol }) {
           )}
         </Typography>
       </Grid>{' '}
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12} lg={3}>
         <Card elevation={0}>
           <CardContent>
             <Facets
@@ -93,7 +93,7 @@ function ClassicAssociations({ ensgId, symbol }) {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} md={9}>
+      <Grid item xs={12} lg={9}>
         <Tabs
           value={tab}
           onChange={handleTabChange}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, IconButton } from '@material-ui/core';
+import { Box, IconButton, makeStyles } from '@material-ui/core';
 import { Clear } from '@material-ui/icons';
 import { Skeleton } from '@material-ui/lab';
 
@@ -13,11 +13,18 @@ import {
   setAllChildren,
   traverse,
 } from './utils';
-import facetStyles from './facetStyles';
+
+const useStyles = makeStyles({
+  facetSummary: {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+});
 
 function Facets({ loading, data, onChange }) {
   const [facets, setFacets] = useState([]);
-  const classes = facetStyles();
+  const classes = useStyles();
 
   useEffect(
     () => {

@@ -4,17 +4,31 @@ import {
   AccordionDetails,
   AccordionSummary,
   IconButton,
+  makeStyles,
   Typography,
 } from '@material-ui/core';
 import { ChevronRight, Clear, ExpandMore } from '@material-ui/icons';
 import { TreeView } from '@material-ui/lab';
 
-import facetStyles from './facetStyles';
 import { hasAnyDescendantChecked } from './utils';
 import TreeLevel from './TreeLevel';
 
+const useStyles = makeStyles({
+  accordionSummaryContent: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: 0,
+  },
+  clearButtonRoot: {
+    height: 'unset',
+  },
+  facetRoot: {
+    width: '100%',
+  },
+});
+
 function Facet({ treeId, label, aggs, onSelectionChange }) {
-  const classes = facetStyles();
+  const classes = useStyles();
 
   const handleSelectionChange = newSelection => {
     onSelectionChange(newSelection);

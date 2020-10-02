@@ -1,8 +1,59 @@
 import React from 'react';
-import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
+import {
+  Checkbox,
+  FormControlLabel,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import { TreeItem as MUITreeItem } from '@material-ui/lab';
 
-import facetStyles from './facetStyles';
+const useStyles = makeStyles(theme => ({
+  countLabel: {
+    fontSize: '.7rem',
+    fontWeight: 'bold',
+    color: theme.palette.grey[500],
+  },
+
+  formControlLabelRoot: {
+    minWidth: '85%',
+  },
+  FormControlLabelLabel: {
+    fontSize: '.9rem',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  treeItemRoot: {
+    '&:focus > $treeItemContent $treeItemLabel': {
+      backgroundColor: 'transparent',
+    },
+    '&$treeItemSelected > $treeItemContent $treeItemLabel': {
+      backgroundColor: 'transparent',
+    },
+    '&$treeItemSelected:focus > $treeItemContent $treeItemLabel': {
+      backgroundColor: 'transparent',
+    },
+    '&$treeItemSelected > $treeItemContent $treeItemLabel:hover': {
+      backgroundColor: 'transparent',
+    },
+  },
+
+  treeItemContent: {
+    '&:hover': {
+      backgroundColor: theme.palette.grey[200],
+    },
+  },
+  treeItemSelected: {},
+  treeItemLabel: {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '91%',
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+  },
+}));
 
 function TreeItem({
   nodeId,
@@ -13,7 +64,7 @@ function TreeItem({
   onClick,
   ...other
 }) {
-  const classes = facetStyles();
+  const classes = useStyles();
 
   const handleClick = event => {
     event.preventDefault();
@@ -22,7 +73,12 @@ function TreeItem({
 
   return (
     <MUITreeItem
-      classes={{ label: classes.treeItemLabel }}
+      classes={{
+        root: classes.treeItemRoot,
+        content: classes.treeItemContent,
+        label: classes.treeItemLabel,
+        selected: classes.treeItemSelected,
+      }}
       label={
         <>
           <FormControlLabel
