@@ -48,14 +48,17 @@ export const traverse = (tree, path, parent) => {
 export const setAllChildren = (tree, value) =>
   tree?.aggs?.forEach(branch => {
     branch.checked = value;
-    setAllChildren(branch.aggs, value);
+    setAllChildren(branch, value);
   });
 
-export const hassAllChildrenChecked = level =>
+export const hasAllChildrenChecked = level =>
   level.aggs?.every(agg => agg.checked);
 
 export const hasSomeChildrenChecked = level =>
-  level.aggs?.some(agg => agg.checked) && !hassAllChildrenChecked(level);
+  level.aggs?.some(agg => agg.checked) && !hasAllChildrenChecked(level);
+
+export const hasAnyDescendantChecked = aggs =>
+  aggs?.some(agg => agg.checked || hasAnyDescendantChecked(agg.aggs));
 
 const dfs = (tree, path = [], pathList = []) => {
   tree.forEach(branch => {
