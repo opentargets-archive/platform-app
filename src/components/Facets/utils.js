@@ -14,6 +14,7 @@ const extractLevel = level =>
     count: agg.uniques,
     checked: false,
     aggs: extractLevel(agg.aggs || agg.rows),
+    root: !!agg.name,
   }));
 
 export const prepareFacetData = data => extractLevel(data) || [];

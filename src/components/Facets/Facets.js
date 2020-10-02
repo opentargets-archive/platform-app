@@ -43,11 +43,13 @@ function Facets({ loading, data, onChange }) {
     const newFacets = [...facets];
 
     const [node, parent] = traverse(newFacets, changePath);
+
     const newValue = value ?? !node.checked;
 
     node.checked = newValue;
     if (!newValue && parent) parent.checked = false;
-    if (parent && hasAllChildrenChecked(parent)) parent.checked = true;
+    if (parent && !parent.root && hasAllChildrenChecked(parent))
+      parent.checked = true;
     setAllChildren(node, newValue);
 
     const filters = getFilters(newFacets);
