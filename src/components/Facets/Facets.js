@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { Box, IconButton } from '@material-ui/core';
+import { Clear } from '@material-ui/icons';
 import { Skeleton } from '@material-ui/lab';
 
 import Facet from './Facet';
 import {
   getFilters,
-  hassAllChildrenChecked,
+  hasAllChildrenChecked,
+  hasAnyDescendantChecked,
   prepareFacetData,
   updateFacetCounts,
   setAllChildren,
   traverse,
 } from './utils';
+import facetStyles from './facetStyles';
 
 function Facets({ loading, data, onChange }) {
   const [facets, setFacets] = useState([]);
+  const classes = facetStyles();
 
   useEffect(
     () => {
@@ -27,16 +32,28 @@ function Facets({ loading, data, onChange }) {
     [data, facets.length]
   );
 
-  const handleFilterChange = changePath => {
+  const handleFilterChange = (changePath, value) => {
     const newFacets = [...facets];
 
     const [node, parent] = traverse(newFacets, changePath);
-    const newValue = !node.checked;
+    const newValue = value ?? !node.checked;
 
     node.checked = newValue;
-    if (!newValue) parent.checked = false;
-    if (hassAllChildrenChecked(parent)) parent.checked = true;
+    if (!newValue && parent) parent.checked = false;
+    if (parent && hasAllChildrenChecked(parent)) parent.checked = true;
     setAllChildren(node, newValue);
+
+    const filters = getFilters(newFacets);
+
+    onChange(filters);
+  };
+
+  const handleClickClear = () => {
+    const newFacets = [...facets];
+
+    newFacets.forEach(facet => {
+      setAllChildren(facet, false);
+    });
 
     const filters = getFilters(newFacets);
 
@@ -45,7 +62,14 @@ function Facets({ loading, data, onChange }) {
 
   return (
     <>
-      <h4>Filter by</h4>
+      <Box className={classes.facetSummary}>
+        <h3>Filter by</h3>
+        {hasAnyDescendantChecked(facets) && (
+          <IconButton onClick={handleClickClear}>
+            <Clear />
+          </IconButton>
+        )}
+      </Box>
 
       {loading && !facets.length ? (
         <Skeleton variant="rect" height={48} />
