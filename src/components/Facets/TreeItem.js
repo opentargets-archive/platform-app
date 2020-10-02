@@ -22,9 +22,14 @@ function TreeItem({
 
   return (
     <MUITreeItem
+      classes={{ label: classes.treeItemLabel }}
       label={
-        <div className={classes.treeItemLabelRoot}>
+        <>
           <FormControlLabel
+            classes={{
+              root: classes.formControlLabelRoot,
+              label: classes.FormControlLabelLabel,
+            }}
             control={
               <Checkbox
                 disabled={!count}
@@ -33,14 +38,10 @@ function TreeItem({
                 indeterminate={indeterminate}
               />
             }
-            label={
-              <Typography className={classes.treeItemLabelText}>
-                {label}
-              </Typography>
-            }
+            label={<span title={label}>{label}</span>}
           />
-          <Typography variant="caption">{count}</Typography>
-        </div>
+          <Typography className={classes.countLabel}>{count}</Typography>
+        </>
       }
       nodeId={nodeId}
       onLabelClick={handleClick}
