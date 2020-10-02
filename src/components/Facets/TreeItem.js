@@ -68,7 +68,7 @@ function TreeItem({
 
   const handleClick = event => {
     event.preventDefault();
-    onClick([nodeId]);
+    if (count) onClick([nodeId]);
   };
 
   return (
