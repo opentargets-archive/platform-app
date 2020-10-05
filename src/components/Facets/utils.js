@@ -1,8 +1,7 @@
 export const fixLabel = label => {
   const spacedLabel = label
     .replace(/_/g, ' ')
-    .replace(/([A-Z]+)/g, ' $1')
-    .replace(/([A-Z][a-z])/g, ' $1');
+    .replace(/([a-z])([A-Z]+[a-z])/g, '$1 $2');
 
   return `${spacedLabel.charAt(0).toUpperCase()}${spacedLabel.slice(1)}`;
 };
