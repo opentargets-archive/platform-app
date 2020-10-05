@@ -9,9 +9,17 @@ const efoURL =
   'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl';
 
 const ASSOCIATIONS_QUERY = gql`
-  query AssociationsQuery($ensemblId: String!, $index: Int!, $size: Int!) {
+  query AssociationsQuery(
+    $ensemblId: String!
+    $index: Int!
+    $size: Int!
+    $aggregationFilters: [AggregationFilter!]
+  ) {
     target(ensemblId: $ensemblId) {
-      associatedDiseases(page: { index: $index, size: $size }) {
+      associatedDiseases(
+        page: { index: $index, size: $size }
+        aggregationFilters: $aggregationFilters
+      ) {
         count
         rows {
           disease {
@@ -49,14 +57,14 @@ const dataTypeMap = {
   ANIMAL_MODELS: 'animal_model',
 };
 
-function Wrapper({ ensemblId, symbol, Component }) {
+function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
   const [nodes, setNodes] = useState();
   const [associations, setAssociations] = useState();
   const [therapeuticAreas, setTherapeuticAreas] = useState();
 
   const getAllAssociations = useBatchDownloader(
     ASSOCIATIONS_QUERY,
-    { ensemblId },
+    { ensemblId, aggregationFilters },
     'data.target.associatedDiseases',
     client3
   );
@@ -81,7 +89,7 @@ function Wrapper({ ensemblId, symbol, Component }) {
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [ensemblId]
+    [ensemblId, aggregationFilters]
   );
 
   if (!nodes || !associations || !therapeuticAreas) {

@@ -119,6 +119,7 @@ function ClassicAssociations({ ensgId, symbol }) {
                 ensemblId={ensgId}
                 symbol={symbol}
                 Component={ClassicAssociationsBubbles}
+                aggregationFilters={aggregationFilters}
               />
             )}
             {tab === 'dag' && (
@@ -126,6 +127,7 @@ function ClassicAssociations({ ensgId, symbol }) {
                 ensemblId={ensgId}
                 symbol={symbol}
                 Component={ClassicAssociationsDAG}
+                aggregationFilters={aggregationFilters}
               />
             )}
           </CardContent>
