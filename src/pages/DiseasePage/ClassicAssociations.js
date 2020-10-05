@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { gql, useQuery } from '@apollo/client';
+import { Skeleton } from '@material-ui/lab';
 
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { client3 } from '../../client';
@@ -77,10 +78,14 @@ function ClassicAssociations({ efoId, name }) {
       <Grid item xs={12} md={9}>
         <Card elevation={0} style={{ overflow: 'visible' }}>
           <CardContent>
-            <ClassicAssociationsTable
-              efoId={efoId}
-              aggregationFilters={aggregationFilters}
-            />
+            {loading && !data ? (
+              <Skeleton variant="rect" height="40vh" />
+            ) : (
+              <ClassicAssociationsTable
+                efoId={efoId}
+                aggregationFilters={aggregationFilters}
+              />
+            )}
           </CardContent>
         </Card>
       </Grid>
