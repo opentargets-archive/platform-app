@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import * as d3 from 'd3';
 import { useQuery } from '@apollo/client';
-import {
-  makeStyles,
-  Link,
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-} from '@material-ui/core';
+import { makeStyles, Link } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Table } from '../../components/Table';
@@ -24,12 +17,14 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
     $size: Int!
     $filter: String
     $sortBy: String!
+    $aggregationFilters: [AggregationFilter!]
   ) {
     disease(efoId: $efoId) {
       associatedTargets(
         page: { index: $index, size: $size }
         orderByScore: $sortBy
         BFilter: $filter
+        aggregationFilters: $aggregationFilters
       ) {
         count
         rows {
@@ -542,7 +537,7 @@ function Legend() {
   );
 }
 
-function ClassicAssociationsTable({ efoId, name }) {
+function ClassicAssociationsTable({ efoId, aggregationFilters }) {
   const classes = useStyles();
   const [filter, setFilter] = useState();
   const [sortBy, setSortBy] = useState('score');
@@ -556,6 +551,7 @@ function ClassicAssociationsTable({ efoId, name }) {
       size: pageSize,
       filter,
       sortBy,
+      aggregationFilters,
     },
     client: client3,
   });
@@ -593,39 +589,27 @@ function ClassicAssociationsTable({ efoId, name }) {
 
   return (
     <>
-      <Grid item xs={12}>
-        <Typography variant="h6">
-          <strong>{count} targets</strong> associated with{' '}
-          <strong>{name}</strong>
-        </Typography>
-      </Grid>
-      <Grid item xs={12} md={9}>
-        <Card elevation={0} style={{ overflow: 'visible' }}>
-          <CardContent>
-            <Table
-              showGlobalFilter
-              loading={loading}
-              dataDownloader
-              dataDownloaderRows={getAllAssociations}
-              dataDownloaderFileStem={`${efoId}-associated-diseases`}
-              classes={{ root: classes.root, table: classes.table }}
-              sortBy={sortBy}
-              order="asc"
-              page={page}
-              columns={columns}
-              rows={processedRows}
-              pageSize={pageSize}
-              rowCount={count}
-              rowsPerPageOptions={[10, 50, 200, 500]}
-              onGlobalFilterChange={handleGlobalFilterChange}
-              onSortBy={handleSort}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-            />
-            <Legend />
-          </CardContent>
-        </Card>
-      </Grid>
+      <Table
+        showGlobalFilter
+        loading={loading}
+        dataDownloader
+        dataDownloaderRows={getAllAssociations}
+        dataDownloaderFileStem={`${efoId}-associated-diseases`}
+        classes={{ root: classes.root, table: classes.table }}
+        sortBy={sortBy}
+        order="asc"
+        page={page}
+        columns={columns}
+        rows={processedRows}
+        pageSize={pageSize}
+        rowCount={count}
+        rowsPerPageOptions={[10, 50, 200, 500]}
+        onGlobalFilterChange={handleGlobalFilterChange}
+        onSortBy={handleSort}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={handleRowsPerPageChange}
+      />
+      <Legend />
     </>
   );
 }
