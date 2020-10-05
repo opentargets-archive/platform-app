@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Facet({ treeId, label, aggs, onSelectionChange }) {
+function Facet({ loading, treeId, label, aggs, onSelectionChange }) {
   const classes = useStyles();
 
   const handleSelectionChange = newSelection => {
@@ -49,6 +49,7 @@ function Facet({ treeId, label, aggs, onSelectionChange }) {
         {hasAnyDescendantChecked(aggs) && (
           <IconButton
             className={classes.clearButtonRoot}
+            disabled={loading}
             onClick={handleClickClear}
           >
             <Clear />
@@ -63,6 +64,7 @@ function Facet({ treeId, label, aggs, onSelectionChange }) {
           defaultExpandIcon={<ChevronRight />}
         >
           <TreeLevel
+            loading={loading}
             levelId={treeId}
             aggs={aggs}
             onSelectionChange={handleSelectionChange}
