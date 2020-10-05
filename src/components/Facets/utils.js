@@ -8,14 +8,16 @@ export const fixLabel = label => {
 };
 
 const extractLevel = level =>
-  level?.map(agg => ({
-    nodeId: agg.key || agg.name,
-    label: fixLabel(agg.key || agg.name),
-    count: agg.uniques,
-    checked: false,
-    aggs: extractLevel(agg.aggs || agg.rows),
-    root: !!agg.name,
-  }));
+  level
+    ?.map(agg => ({
+      nodeId: agg.key || agg.name,
+      label: fixLabel(agg.key || agg.name),
+      count: agg.uniques,
+      checked: false,
+      aggs: extractLevel(agg.aggs || agg.rows),
+      root: !!agg.name,
+    }))
+    .sort((a, b) => a.nodeId.localeCompare(b.nodeId));
 
 export const prepareFacetData = data => extractLevel(data) || [];
 
