@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, IconButton, makeStyles } from '@material-ui/core';
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  makeStyles,
+} from '@material-ui/core';
 import { Clear } from '@material-ui/icons';
 import { Skeleton } from '@material-ui/lab';
 
@@ -19,6 +24,14 @@ const useStyles = makeStyles({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    display: 'flex',
+
+    '& > div': {
+      marginRight: '.5rem',
+    },
   },
 });
 
@@ -73,26 +86,34 @@ function Facets({ loading, data, onChange }) {
     <>
       <Box className={classes.facetSummary}>
         <h3>Filter by</h3>
+        {loading && facets.length > 0 && (
+          // Facets update, show a loading indicator
+          <Box className={classes.loadingContainer}>
+            <CircularProgress size={24} /> Updating facets...
+          </Box>
+        )}
         {hasAnyDescendantChecked(facets) && (
-          <IconButton onClick={handleClickClear}>
+          <IconButton disabled={loading} onClick={handleClickClear}>
             <Clear />
           </IconButton>
         )}
       </Box>
 
-      {loading && !facets.length ? (
+      {loading && !facets.length > 0 && (
+        // Initial load, show skeleton
         <Skeleton variant="rect" height={48} />
-      ) : (
+      )}
+      {facets.length > 0 &&
         facets.map(facet => (
           <Facet
+            loading={loading}
             key={facet.nodeId}
             treeId={facet.nodeId}
             label={facet.label}
             aggs={facet.aggs}
             onSelectionChange={handleFilterChange}
           />
-        ))
-      )}
+        ))}
     </>
   );
 }
