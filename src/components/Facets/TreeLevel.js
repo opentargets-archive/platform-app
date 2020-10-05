@@ -3,7 +3,7 @@ import React from 'react';
 import TreeItem from './TreeItem';
 import { hasSomeChildrenChecked } from './utils';
 
-function TreeLevel({ levelId, aggs, onSelectionChange }) {
+function TreeLevel({ loading, levelId, aggs, onSelectionChange }) {
   const handleSelectionChange = newSelection => {
     onSelectionChange([levelId, ...newSelection]);
   };
@@ -11,6 +11,7 @@ function TreeLevel({ levelId, aggs, onSelectionChange }) {
   return aggs.map(agg => (
     <TreeItem
       key={agg.nodeId}
+      loading={loading}
       nodeId={agg.nodeId}
       label={agg.label}
       count={agg.count}
@@ -18,8 +19,9 @@ function TreeLevel({ levelId, aggs, onSelectionChange }) {
       indeterminate={hasSomeChildrenChecked(agg)}
       onClick={handleSelectionChange}
     >
-      {agg.aggs && (
+      {agg.aggs && agg.aggs.length > 0 && (
         <TreeLevel
+          loading={loading}
           levelId={agg.nodeId}
           aggs={agg.aggs}
           onSelectionChange={handleSelectionChange}

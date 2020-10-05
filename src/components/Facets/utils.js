@@ -1,21 +1,22 @@
 export const fixLabel = label => {
   const spacedLabel = label
     .replace(/_/g, ' ')
-    .replace(/([A-Z]+)/g, ' $1')
-    .replace(/([A-Z][a-z])/g, ' $1');
+    .replace(/([a-z])([A-Z]+[a-z])/g, '$1 $2');
 
   return `${spacedLabel.charAt(0).toUpperCase()}${spacedLabel.slice(1)}`;
 };
 
 const extractLevel = level =>
-  level?.map(agg => ({
-    nodeId: agg.key || agg.name,
-    label: fixLabel(agg.key || agg.name),
-    count: agg.uniques,
-    checked: false,
-    aggs: extractLevel(agg.aggs || agg.rows),
-    root: !!agg.name,
-  }));
+  level
+    ?.map(agg => ({
+      nodeId: agg.key || agg.name,
+      label: fixLabel(agg.key || agg.name),
+      count: agg.uniques,
+      checked: false,
+      aggs: extractLevel(agg.aggs || agg.rows),
+      root: !!agg.name,
+    }))
+    .sort((a, b) => a.nodeId.localeCompare(b.nodeId));
 
 export const prepareFacetData = data => extractLevel(data) || [];
 

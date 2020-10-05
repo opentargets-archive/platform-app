@@ -56,6 +56,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function TreeItem({
+  loading,
   nodeId,
   label,
   count,
@@ -68,7 +69,7 @@ function TreeItem({
 
   const handleClick = event => {
     event.preventDefault();
-    if (count) onClick([nodeId]);
+    if (!loading && count) onClick([nodeId]);
   };
 
   return (
@@ -88,7 +89,7 @@ function TreeItem({
             }}
             control={
               <Checkbox
-                disabled={!count}
+                disabled={loading || !count}
                 color="primary"
                 checked={checked}
                 indeterminate={indeterminate}
