@@ -18,7 +18,7 @@ function TreeLevel({ levelId, aggs, onSelectionChange }) {
       indeterminate={hasSomeChildrenChecked(agg)}
       onClick={handleSelectionChange}
     >
-      {agg.aggs && (
+      {agg.aggs && agg.aggs.length > 0 && (
         <TreeLevel
           levelId={agg.nodeId}
           aggs={agg.aggs}
