@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/client';
-import gql from 'graphql-tag';
 import {
-  Grid,
   Card,
   CardContent,
+  Grid,
   Typography,
   Tabs,
   Tab,
 } from '@material-ui/core';
-import { client3 } from '../../client';
-import ClassicAssociationsTable from './ClassicAssociationsTable';
-import Wrapper from './Wrapper';
-import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
+import { gql, useQuery } from '@apollo/client';
+
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
+import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
+import ClassicAssociationsTable from './ClassicAssociationsTable';
+import { client3 } from '../../client';
 import { Facets } from '../../components/Facets';
+import Wrapper from './Wrapper';
 
 const TARGET_ASSOCIATIONS_QUERY = gql`
   query TargetAssociationsQuery(
@@ -49,10 +49,7 @@ function ClassicAssociations({ ensgId, symbol }) {
   const [tab, setTab] = useState('heatmap');
   const [aggregationFilters, setAggregationFilters] = useState([]);
   const { loading, data, refetch } = useQuery(TARGET_ASSOCIATIONS_QUERY, {
-    variables: {
-      ensemblId: ensgId,
-      aggregationFilters,
-    },
+    variables: { ensemblId: ensgId, aggregationFilters },
     client: client3,
   });
 
@@ -85,8 +82,6 @@ function ClassicAssociations({ ensgId, symbol }) {
         <Card elevation={0}>
           <CardContent>
             <Facets
-              entity="target"
-              id={ensgId}
               loading={loading}
               data={facetData}
               onChange={handleChangeFilters}
@@ -110,7 +105,6 @@ function ClassicAssociations({ ensgId, symbol }) {
             {tab === 'heatmap' && (
               <ClassicAssociationsTable
                 ensgId={ensgId}
-                symbol={symbol}
                 aggregationFilters={aggregationFilters}
               />
             )}
