@@ -1,29 +1,45 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import client from '../../../client';
 import _ from 'lodash';
+import { loader } from 'graphql.macro';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import FormControl from '@material-ui/core/FormControl';
+// import FormGroup from '@material-ui/core/FormGroup';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
-import Chip from '@material-ui/core/Chip';
+// import Chip from '@material-ui/core/Chip';
 
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+// import Card from '@material-ui/core/Card';
+// import CardContent from '@material-ui/core/CardContent';
+// import CardActions from '@material-ui/core/CardActions';
 
-import AppBar from '@material-ui/core/AppBar';
+// import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
+// import Box from '@material-ui/core/Box';
 
-import { Button, ListTooltip } from 'ot-ui';
+// import { Button, ListTooltip } from 'ot-ui';
 
 import DataTable from '../../../components/Table/DataTable';
 import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
 
-import summaryData from './temp/summary.json';
-import interactionsData from './temp/LRRK2_interactions.json';
+// import summaryData from './temp/summary.json';
+// import interactionsData from './temp/LRRK2_interactions.json';
+
+const INTERACTIONS_QUERY = loader('./sectionQuery.gql');
+
+const fetchInteractions = (ensgId, sourceDatabase, index, size) => {
+  return client.query({
+    query: INTERACTIONS_QUERY,
+    variables: {
+      ensgId,
+      sourceDatabase,
+      index,
+      size,
+    },
+  });
+};
 
 const styles = theme => ({
   formControl: {
@@ -53,7 +69,7 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.targetB}
+            {row.targetB.approvedSymbol}
             {/* <br />
             <Typography variant="caption">
               {row.organismB.taxon_id}
@@ -63,14 +79,15 @@ const columns = {
           </>
         ),
       },
-      // {
-      //   id: 'interactionScore',
-      //   label: 'Score',
-      // },
+      {
+        id: 'scoring',
+        label: 'Score',
+        renderCell: row => row.scoring,
+      },
       {
         id: 'evidences',
         label: 'Interaction evidence',
-        renderCell: row => row.sizeEvidences,
+        renderCell: row => row.count,
         //   exportValue: row => (row.disease ? label(row.disease.name) : naLabel),
       },
     ],
@@ -120,29 +137,29 @@ const columns = {
   signor: {
     // interactions table columns
     interactions: [
-      // {
-      //   id: 'targetA',
-      //   label: (
-      //     <>
-      //       Interactor A
-      //       {/* <br />
-      //       <Typography variant="caption">Species (if not human)</Typography> */}
-      //     </>
-      //   ),
-      //   renderCell: row => (
-      //     <>
-      //       {row.targetA}
-      //       {/* {row.organismA.mnemonic.toLowerCase() !== 'human' ? (
-      //         <>
-      //           <br />
-      //           <Typography variant="caption">
-      //             Species: {row.organismA.mnemonic}
-      //           </Typography>
-      //         </>
-      //       ) : null} */}
-      //     </>
-      //   ),
-      // },
+      {
+        id: 'targetA',
+        label: (
+          <>
+            Interactor A
+            {/* <br />
+            <Typography variant="caption">Species (if not human)</Typography> */}
+          </>
+        ),
+        renderCell: row => (
+          <>
+            {row.targetA.approvedSymbol}
+            {/* {row.organismA.mnemonic.toLowerCase() !== 'human' ? (
+              <>
+                <br />
+                <Typography variant="caption">
+                  Species: {row.organismA.mnemonic}
+                </Typography>
+              </>
+            ) : null} */}
+          </>
+        ),
+      },
       {
         id: 'targetB',
         label: (
@@ -154,7 +171,7 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.targetB}
+            {row.targetB.approvedSymbol}
             {/* {row.organismB.mnemonic.toLowerCase() !== 'human' ? (
               <>
                 <br />
@@ -166,26 +183,36 @@ const columns = {
           </>
         ),
       },
-      // {
-      //   id: 'role',
-      //   label: (
-      //     <>
-      //       Biological
-      //       <br />
-      //       role
-      //     </>
-      //   ),
-      //   renderCell: row => (
-      //     <>
-      //       <MethodIconText>A</MethodIconText>
-      //       <MethodIconText>B</MethodIconText>
-      //     </>
-      //   ),
-      // },
+      {
+        id: 'role',
+        label: (
+          <>
+            Biological
+            <br />
+            role
+          </>
+        ),
+        renderCell: row => (
+          <>
+            <span title={row.intABiologicalRole}>
+              <MethodIconText>A</MethodIconText>
+            </span>
+            <span title={row.intBBiologicalRole}>
+              <MethodIconText>B</MethodIconText>
+            </span>
+          </>
+        ),
+      },
       {
         id: 'sizeEvidences',
-        label: <>Interaction evidence</>,
-        renderCell: row => row.sizeEvidences,
+        label: (
+          <>
+            Interaction
+            <br />
+            evidence
+          </>
+        ),
+        renderCell: row => row.count,
         //   exportValue: row => (row.disease ? label(row.disease.name) : naLabel),
       },
     ],
@@ -248,7 +275,7 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.targetB}
+            {row.targetB.approvedSymbol}
             {/* {row.organismB.mnemonic.toLowerCase() !== 'human' ? (
               <>
                 <br />
@@ -263,7 +290,7 @@ const columns = {
       {
         id: 'sizeEvidences',
         label: <>Interaction evidence</>,
-        renderCell: row => row.sizeEvidences,
+        renderCell: row => row.count,
       },
     ],
 
@@ -316,76 +343,138 @@ const columns = {
         id: 'partner',
         label: (
           <>
-            Interactor B<br />
-            <Typography variant="caption">Species (if not human)</Typography>
+            Interactor B
+            {/* <br />
+            <Typography variant="caption">Species (if not human)</Typography> */}
           </>
         ),
         renderCell: row => (
           <>
-            {row.partner}
-            {row.organism.mnemonic.toLowerCase() !== 'human' ? (
+            {row.targetB.approvedSymbol}
+            {/* {row.organism.mnemonic.toLowerCase() !== 'human' ? (
               <>
                 <br />
                 <Typography variant="caption">
                   Species: {row.organism.mnemonic}
                 </Typography>
               </>
-            ) : null}
+            ) : null} */}
           </>
         ),
       },
       {
         id: 'overallScore',
         label: 'Overall interaction score',
+        renderCell: row => row.scoring,
       },
       {
         id: 'neighbourhood',
         label: 'Neighbourhood',
+        renderCell: () => 'N/A',
       },
       {
         id: 'geneFusion',
         label: 'Gene fusion',
+        renderCell: () => 'N/A',
       },
       {
         id: 'occurance',
         label: 'Co-occurrance',
+        renderCell: () => 'N/A',
       },
       {
         id: 'expression',
         label: 'Co-expression',
+        renderCell: () => 'N/A',
       },
       {
         id: 'experiments',
         label: 'Experiments',
+        renderCell: () => 'N/A',
       },
       {
         id: 'databases',
         label: 'Databases',
+        renderCell: () => 'N/A',
       },
       {
         id: 'textMining',
         label: 'Text mining',
+        renderCell: () => 'N/A',
       },
       {
         id: 'homology',
         label: 'Homology',
+        renderCell: () => 'N/A',
       },
     ],
   },
 };
 
 const Section = ({ ensgId, symbol, data }) => {
-  const [source, setSource] = React.useState('intact');
-  const [evidenceId, setEvidenceId] = React.useState(0);
+  const [source, setSource] = useState('intact');
+  const [evidenceId, setEvidenceId] = useState(0);
+  const [intactData, setIntactData] = useState([]);
+  const [intactCount, setIntactCount] = useState(0);
+  const [signorData, setSignorData] = useState([]);
+  const [signorCount, setSignorCount] = useState(0);
+  const [reactomeData, setReactomeData] = useState([]);
+  const [reactomeCount, setReactomeCount] = useState(0);
+  const [stringData, setStringData] = useState([]);
+  const [stringCount, setStringCount] = useState(0);
+  const index = 0;
+  const size = 10;
+  const sources = [
+    { label: 'IntAct', id: 'intact', countType: 'molecular interactions' },
+    {
+      label: 'Signor',
+      id: 'signor',
+      countType: 'directional, causal interactions',
+    },
+    {
+      label: 'Reactome',
+      id: 'reactome',
+      countType: 'pathway-based interactions',
+    },
+    { label: 'String', id: 'string', countType: 'functional interactions' },
+  ];
 
   const handleChange = (event, tabId) => {
     setSource(tabId);
   };
 
-  // parse temp data
-  // const tempData = {
-  //   intact:
-  // }
+  useEffect(
+    () => {
+      fetchInteractions(ensgId, source, index, size).then(res => {
+        if (res.data.target.interactions) {
+          setIntactData(res.data.target.interactions.rows);
+          setIntactCount(res.data.target.interactions.count);
+        }
+      });
+    },
+    [ensgId]
+  );
+
+  fetchInteractions(ensgId, 'signor', index, size).then(res => {
+    if (res.data.target.interactions) {
+      setSignorData(res.data.target.interactions.rows);
+      setSignorCount(res.data.target.interactions.count);
+    }
+  });
+
+  fetchInteractions(ensgId, 'reactome', index, size).then(res => {
+    if (res.data.target.interactions) {
+      setReactomeData(res.data.target.interactions.rows);
+      setReactomeCount(res.data.target.interactions.count);
+    }
+  });
+
+  fetchInteractions(ensgId, 'string', index, size).then(res => {
+    if (res.data.target.interactions) {
+      setStringData(res.data.target.interactions.rows);
+      setStringCount(res.data.target.interactions.count);
+    }
+  });
 
   return (
     <>
@@ -395,23 +484,35 @@ const Section = ({ ensgId, symbol, data }) => {
         onChange={handleChange}
         aria-label="simple tabs example"
       >
-        {summaryData.data.map((s, i) => (
-          <Tab
-            label={
-              <>
-                <Typography variant="h6">{s.label}</Typography>
-                <Typography variant="caption" display="block" gutterBottom>
-                  {s.version}
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  {s.interactions.count} {s.interactions.label}
-                </Typography>
-              </>
-            }
-            value={s.id}
-            key={i}
-          />
-        ))}
+        {sources.map((s, i) => {
+          const count =
+            s.id === 'intact'
+              ? intactCount
+              : s.id === 'signor'
+              ? signorCount
+              : s.id === 'reactome'
+              ? reactomeCount
+              : s.id === 'string'
+              ? stringCount
+              : 0;
+          return (
+            <Tab
+              label={
+                <>
+                  <Typography variant="h6">{s.label}</Typography>
+                  {/* <Typography variant="caption" display="block" gutterBottom>
+                    {s.version}
+                  </Typography> */}
+                  <Typography variant="body2" gutterBottom>
+                    {count} {s.countType}
+                  </Typography>
+                </>
+              }
+              value={s.id}
+              key={i}
+            />
+          );
+        })}
       </Tabs>
 
       <div style={{ marginTop: '30px' }}>
@@ -423,9 +524,7 @@ const Section = ({ ensgId, symbol, data }) => {
               <DataTable
                 showGlobalFilter
                 columns={columns.intact.interactions}
-                rows={interactionsData.filter(
-                  r => r.sourceDatabase === 'intact'
-                )}
+                rows={intactData}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-molecular-interactions-intact`}
                 hover
@@ -458,9 +557,7 @@ const Section = ({ ensgId, symbol, data }) => {
               <DataTable
                 showGlobalFilter
                 columns={columns.signor.interactions}
-                rows={interactionsData.filter(
-                  r => r.sourceDatabase === 'signor'
-                )}
+                rows={signorData}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-molecular-interactions-signor`}
                 hover
@@ -493,9 +590,7 @@ const Section = ({ ensgId, symbol, data }) => {
               <DataTable
                 showGlobalFilter
                 columns={columns.reactome.interactions}
-                rows={interactionsData.filter(
-                  r => r.sourceDatabase === 'reactome'
-                )}
+                rows={reactomeData}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-molecular-interactions-reactome`}
                 hover
@@ -528,9 +623,7 @@ const Section = ({ ensgId, symbol, data }) => {
               <DataTable
                 showGlobalFilter
                 columns={columns.string.interactions}
-                rows={interactionsData.filter(
-                  r => r.sourceDatabase === 'string'
-                )}
+                rows={stringData}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-molecular-interactions-string`}
                 hover

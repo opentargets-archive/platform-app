@@ -1,0 +1,6 @@
+fragment targetInteractionsFragment on Target {
+  id
+  interactions {
+    count
+  }
+}

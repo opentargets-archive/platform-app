@@ -1,0 +1,66 @@
+query InteractionsSectionQuery(
+  $ensgId: String!
+  $sourceDatabase: String
+  $index: Int = 0
+  $size: Int = 10
+) {
+  target(ensemblId: $ensgId) {
+    id
+    approvedName
+    approvedSymbol
+    
+    interactions(sourceDatabase:$sourceDatabase page:{index:$index, size:$size}) {
+      count
+      rows {
+        intA
+        targetA {
+          approvedSymbol
+        }
+        intB
+        targetB {
+          approvedSymbol
+        }
+        intABiologicalRole
+        intBBiologicalRole
+        scoring
+        count
+        sourceDatabase
+        evidences {
+          causalInteraction
+          evidenceScore
+          expansionMethodMiIdentifier
+          expansionMethodShortName
+          hostOrganismScientificName
+          hostOrganismTaxId
+          intASource
+          intBSource
+          interactionDetectionMethodMiIdentifier
+          interactionDetectionMethodShortName
+          interactionIdentifier
+          interactionResources {
+            databaseVersion
+            sourceDatabase
+          }
+          interactionScore
+          interactionTypeMiIdentifier
+          interactionTypeShortName
+          participantDetectionMethodMiIdentifierA
+          participantDetectionMethodMiIdentifierB
+          participantDetectionMethodShortNameA
+          participantDetectionMethodShortNameB
+          speciesA {
+            mnemonic
+            scientificName
+            taxonId
+          }
+          speciesB {
+            mnemonic
+            scientificName
+            taxonId
+          }
+          pubmedId
+        }
+      }
+    }
+  }
+}

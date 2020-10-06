@@ -18,7 +18,7 @@ export const targetSectionsDefaultOrder = [
   // 'variation',
   // 'orthologs',
   // 'bibliography',
-  'molecularInteractions',
+  'interactions',
 ];
 
 export const diseaseSectionsDefaultOrder = [
