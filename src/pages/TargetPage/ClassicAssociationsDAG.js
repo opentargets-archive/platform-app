@@ -7,6 +7,7 @@ import withTheme from '@material-ui/core/styles/withTheme';
 import { DownloadSVGPlot } from 'ot-ui';
 
 import withTooltip from '../../components/Associations/withTooltip';
+import Legend from '../../components/Legend';
 import TooltipContent from './ClassicAssociationsTooltip';
 import Slider from './ClassicAssociationsSlider';
 
@@ -419,6 +420,7 @@ class ClassicAssociationsDAG extends React.Component {
             </svg>
           </div>
         </DownloadSVGPlot>
+        <Legend />
       </div>
     );
   }

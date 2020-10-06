@@ -26,10 +26,12 @@ function Legend() {
           height: '20px',
           width: '20px',
         }}
-      />
-      No data
+      />{' '}
+      <span style={{ position: 'relative', bottom: '5px' }}>No data</span>
       <div style={{ display: 'flex' }}>
-        <div>0</div>
+        <div style={{ height: '20px', width: '20px', textAlign: 'center' }}>
+          0
+        </div>
         {colorRange.map(color => {
           return (
             <div
@@ -42,7 +44,9 @@ function Legend() {
             />
           );
         })}
-        <div>1</div>
+        <div style={{ height: '20px', width: '20px', textAlign: 'center' }}>
+          1
+        </div>
       </div>
       <Link href="https://docs.targetvalidation.org/getting-started/scoring">
         <FontAwesomeIcon icon={faQuestionCircle} size="xs" /> Score

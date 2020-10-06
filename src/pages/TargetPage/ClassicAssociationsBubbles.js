@@ -8,6 +8,7 @@ import { DownloadSVGPlot } from 'ot-ui';
 import withTooltip from '../../components/Associations/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
 import Slider from './ClassicAssociationsSlider';
+import Legend from '../../components/Legend';
 
 const getTherapeuticAreaTree = ({
   ensgId,
@@ -272,6 +273,7 @@ class ClassicAssociationsBubbles extends React.Component {
             </svg>
           </div>
         </DownloadSVGPlot>
+        <Legend />
       </div>
     );
   }
