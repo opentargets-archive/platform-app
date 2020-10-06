@@ -19,6 +19,7 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
     $aggregationFilters: [AggregationFilter!]
   ) {
     target(ensemblId: $ensemblId) {
+      id
       associatedDiseases(
         page: { index: $index, size: $size }
         orderByScore: $sortBy

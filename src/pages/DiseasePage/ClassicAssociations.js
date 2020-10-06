@@ -12,6 +12,7 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
     $aggregationFilters: [AggregationFilter!]
   ) {
     disease(efoId: $efoId) {
+      id
       name
       associatedTargets(aggregationFilters: $aggregationFilters) {
         count
