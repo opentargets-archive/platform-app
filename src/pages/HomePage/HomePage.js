@@ -52,8 +52,8 @@ const HomePage = () => {
             <Link to={`/target/${targets[1].id}`}>{targets[1].label}</Link>
             <Link to={`/disease/${diseases[0].id}`}>{diseases[0].label}</Link>
             <Link to={`/disease/${diseases[1].id}`}>{diseases[1].label}</Link>
-            <Link to={`/drug/${drugs[0].id}`}>{drugs[0].label}</Link>
-            <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
+            <Link to={`/drug/${drugs[0].id}/profile`}>{drugs[0].label}</Link>
+            <Link to={`/drug/${drugs[1].id}/profile`}>{drugs[1].label}</Link>
           </Grid>
           <Grid
             className={classes.api}

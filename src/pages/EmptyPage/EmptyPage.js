@@ -38,8 +38,8 @@ const EmptyPage = ({ classes, children }) => {
           <Link to="/target/ENSG00000105810">CDK6</Link>
           <Link to="/disease/EFO_0003086">kidney disease</Link>
           <Link to="/target/ENSG00000145777">ENSG00000145777</Link>
-          <Link to="/drug/CHEMBL112">acetaminophen</Link>
-          <Link to="/drug/CHEMBL3137343">Keytruda</Link>
+          <Link to="/drug/CHEMBL112/profile">acetaminophen</Link>
+          <Link to="/drug/CHEMBL3137343/profile">Keytruda</Link>
         </Grid>
       </Typography>
       <Typography gutterBottom>You might also want to ...</Typography>

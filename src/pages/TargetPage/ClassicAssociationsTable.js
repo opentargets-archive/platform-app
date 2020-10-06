@@ -53,17 +53,31 @@ const dataTypes = [
   { id: 'animal_model', label: 'Animal models' },
 ];
 
+// const colorRange = [
+//   '#e8edf1',
+//   '#d2dce4',
+//   '#bbcbd6',
+//   '#a5b9c9',
+//   '#8fa8bc',
+//   '#7897ae',
+//   '#6285a1',
+//   '#4b7493',
+//   '#356386',
+//   '#1f5279',
+// ];
+
 const colorRange = [
-  '#e8edf1',
-  '#d2dce4',
-  '#bbcbd6',
-  '#a5b9c9',
-  '#8fa8bc',
-  '#7897ae',
-  '#6285a1',
-  '#4b7493',
-  '#356386',
-  '#1f5279',
+  '#ffffff',
+  '#e5edf4',
+  '#ccdcea',
+  '#b2cbe0',
+  '#99b9d6',
+  '#7fa8cc',
+  '#6697c1',
+  '#4c85b7',
+  '#3274ad',
+  '#1963a3',
+  '#005299',
 ];
 
 const color = d3
@@ -74,6 +88,7 @@ const color = d3
 const useStyles = makeStyles({
   root: {
     overflow: 'visible',
+    padding: '2rem 3rem 0 0',
   },
   table: {
     tableLayout: 'fixed',
@@ -115,6 +130,7 @@ const useStyles = makeStyles({
   },
   cell: {
     border: 0,
+    height: '20px',
     textAlign: 'center',
     padding: '1px 1px',
     '&:last-child': {
@@ -123,7 +139,7 @@ const useStyles = makeStyles({
   },
   colorSpan: {
     display: 'block',
-    height: '16px',
+    height: '20px',
     border: '1px solid #eeefef',
   },
   nameCell: {

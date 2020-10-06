@@ -259,3 +259,6 @@ export const naLabel = 'N/A';
 
 // Google analytics ID.
 export const googleAnalyticsID = 'UA-101860681-10';
+
+// Old platform-app url.
+export const oldPlatformUrl = 'https://www.targetvalidation.org';

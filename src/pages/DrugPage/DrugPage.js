@@ -1,18 +1,15 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
-import { Route, Switch } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+import { Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Typography } from '@material-ui/core';
-
-import { Tabs, Tab } from 'ot-ui';
 
 import BasePage from '../../components/BasePage';
-import EmptyPage from '../EmptyPage';
 import Header from './Header';
+import { oldPlatformUrl } from '../../constants';
 import Profile from './Profile';
+import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
-const DRUG_QUERY = gql`
+const DRUG_PAGE_QUERY = gql`
   query DrugQuery($chemblId: String!) {
     drug(chemblId: $chemblId) {
       id
@@ -36,30 +33,15 @@ const DRUG_QUERY = gql`
 `;
 
 const DrugPage = ({ match, history, location }) => {
-  const handleChange = (event, value) => {
-    if (value.indexOf('http' === 0)) {
-      // navigte to external page: first store current page
-      // for back button to work correctly
-      // TODO: this link will be removed after alpha/beta
-      history.push(match.url);
-      window.location.replace(value);
-    } else {
-      const path = value === 'overview' ? match.url : `${match.url}/${value}`;
-      history.push(path);
-    }
-  };
-
-  const tab = location.pathname.endsWith('associations')
-    ? location.pathname.split('/').pop()
-    : 'overview';
-
   const { chemblId } = match.params;
-
-  const { loading, error, data } = useQuery(DRUG_QUERY, {
+  const { loading, data } = useQuery(DRUG_PAGE_QUERY, {
     variables: { chemblId },
   });
 
-  if (loading || error) return null;
+  if (loading) return null;
+  if (data && !data.drug) {
+    return <Redirect to={{ pathname: '/notFoundPage' }} />;
+  }
 
   const { drug } = data;
 
@@ -68,48 +50,32 @@ const DrugPage = ({ match, history, location }) => {
       <Helmet>
         <title>{drug ? drug.name : chemblId}</title>
       </Helmet>
-      {drug ? (
-        <>
-          <Header chemblId={chemblId} name={drug.name} />
+      <Header chemblId={chemblId} name={drug.name} />
 
-          <Tabs
-            value={tab}
-            onChange={handleChange}
-            variant="scrollable"
-            scrollButtons="auto"
-          >
-            <Tab value="overview" label="Profile" />
-            <Tab
-              value={`https://www.targetvalidation.org/summary?drug=${chemblId}`}
-              label="View this page in the classic view"
+      <RoutingTabs>
+        <RoutingTab
+          label="Profile"
+          path="/drug/:chemblId/profile"
+          component={() => (
+            <Profile
+              chemblId={chemblId}
+              name={drug.name}
+              description={drug.description}
+              type={drug.drugType}
+              tradeNames={drug.tradeNames}
+              maximumClinicalTrialPhase={drug.maximumClinicalTrialPhase}
+              yearOfFirstApproval={drug.yearOfFirstApproval}
+              synonyms={drug.synonyms}
+              hasBeenWithdrawn={drug.hasBeenWithdrawn}
+              withdrawnNotice={drug.withdrawnNotice}
             />
-          </Tabs>
-
-          <Switch>
-            <Route
-              path={match.path}
-              render={() => (
-                <Profile
-                  chemblId={chemblId}
-                  name={drug.name}
-                  description={drug.description}
-                  type={drug.drugType}
-                  tradeNames={drug.tradeNames}
-                  maximumClinicalTrialPhase={drug.maximumClinicalTrialPhase}
-                  yearOfFirstApproval={drug.yearOfFirstApproval}
-                  synonyms={drug.synonyms}
-                  hasBeenWithdrawn={drug.hasBeenWithdrawn}
-                  withdrawnNotice={drug.withdrawnNotice}
-                />
-              )}
-            />
-          </Switch>
-        </>
-      ) : (
-        <EmptyPage>
-          <Typography>404 Page Not Found</Typography>
-        </EmptyPage>
-      )}
+          )}
+        />
+        <RoutingTab
+          label="Classic view"
+          url={`${oldPlatformUrl}/summary?drug=${chemblId}`}
+        />
+      </RoutingTabs>
     </BasePage>
   );
 };
