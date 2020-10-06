@@ -38,7 +38,7 @@ const getColumns = (critVal, maxLlr, classes) => {
       id: 'llr',
       label: `Log likelihood ratio (CV = ${critVal.toFixed(2)})`,
       renderCell: d => {
-        const w = ((d.llr / maxLlr) * 85).toFixed(2); // scale to max 85% of the width to allows space for label
+        const w = ((d.logLR / maxLlr) * 85).toFixed(2); // scale to max 85% of the width to allows space for label
         return (
           <div className={classes.levelBarContainer}>
             <div
@@ -47,7 +47,7 @@ const getColumns = (critVal, maxLlr, classes) => {
                 width: `${w}%`,
               }}
             />
-            <div>{d.llr.toFixed(2)}</div>
+            <div>{d.logLR.toFixed(2)}</div>
           </div>
         );
       },
@@ -76,12 +76,13 @@ const Section = ({ chemblId, classes, name }) => {
     });
   };
 
-  const { critVal = 0, rows = [], count } = data?.drug?.adverseEvents ?? {};
+  const { criticalValue = 0, rows = [], count } =
+    data?.drug?.adverseEvents ?? {};
 
   // TODO: Change GraphQL schema to have a maxLlr field instead of having to
   // get the first item of adverse events to get the largest llr since
   // items are sorted in decreasing llr order.
-  const maxLlr = data?.drug?.maxLlr.rows[0].llr;
+  const maxLlr = data?.drug?.maxLlr.rows[0].logLR;
 
   const getAllAdverseEvents = useBatchDownloader(
     ADVERSE_EVENTS_QUERY,
@@ -97,7 +98,7 @@ const Section = ({ chemblId, classes, name }) => {
       dataDownloaderRows={getAllAdverseEvents}
       dataDownloaderFileStem={`${name}-adverse-events`}
       loading={loading}
-      columns={getColumns(critVal, maxLlr, classes)}
+      columns={getColumns(criticalValue, maxLlr, classes)}
       rows={rows}
       rowCount={count}
       page={page}

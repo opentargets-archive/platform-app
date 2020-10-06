@@ -1,22 +1,18 @@
-query AdverseEventsQuery(
-  $chemblId: String!
-  $index: Int = 0
-  $size: Int = 10
-) {
+query AdverseEventsQuery($chemblId: String!, $index: Int = 0, $size: Int = 10) {
   drug(chemblId: $chemblId) {
     id
     maxLlr: adverseEvents(page: { index: 0, size: 1 }) {
       rows {
-        llr
+        logLR
       }
     }
     adverseEvents(page: { index: $index, size: $size }) {
-      critVal
+      criticalValue
       count
       rows {
         name
         count
-        llr
+        logLR
       }
     }
   }
