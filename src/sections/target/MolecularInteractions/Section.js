@@ -93,7 +93,7 @@ const columns = {
     ],
     evidence: [
       {
-        id: 'interaction_identifier',
+        id: 'interactionIdentifier',
         label: 'Identifier',
       },
       {
@@ -107,10 +107,10 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.interaction_type_short_name}
+            {row.interactionTypeShortName}
             <br />
             <Typography variant="caption">
-              {row.host_organism_scientific_name}
+              {row.hostOrganismScientificName}
             </Typography>
           </>
         ),
@@ -125,10 +125,9 @@ const columns = {
             <MethodIconText>B</MethodIconText>
           </>
         ),
-        //   exportValue: row => (row.disease ? label(row.disease.name) : naLabel),
       },
       {
-        id: 'pubmed_id',
+        id: 'pubmedId',
         label: 'Publication',
       },
     ],
@@ -213,14 +212,13 @@ const columns = {
           </>
         ),
         renderCell: row => row.count,
-        //   exportValue: row => (row.disease ? label(row.disease.name) : naLabel),
       },
     ],
 
     // evidence table
     evidence: [
       {
-        id: 'interaction_identifier',
+        id: 'interactionIdentifier',
         label: 'ID',
       },
       {
@@ -234,10 +232,10 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.interaction_type_short_name}
+            {row.interactionTypeShortName}
             <br />
             <Typography variant="caption">
-              Organism: {row.host_organism_scientific_name}
+              Organism: {row.hostOrganismScientificName}
             </Typography>
           </>
         ),
@@ -252,10 +250,9 @@ const columns = {
             <MethodIconText>B</MethodIconText>
           </>
         ),
-        //   exportValue: row => (row.disease ? label(row.disease.name) : naLabel),
       },
       {
-        id: 'pubmed_id',
+        id: 'pubmedId',
         label: 'Publication',
       },
     ],
@@ -297,7 +294,7 @@ const columns = {
     // evidence table
     evidence: [
       {
-        id: 'interaction_identifier',
+        id: 'interactionIdentifier',
         label: 'ID',
       },
       {
@@ -311,10 +308,10 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.interaction_type_short_name}
+            {row.interactionTypeShortName}
             <br />
             <Typography variant="caption">
-              Organism: {row.host_organism_scientific_name}
+              Organism: {row.hostOrganismScientificName}
             </Typography>
           </>
         ),
@@ -331,7 +328,7 @@ const columns = {
         ),
       },
       {
-        id: 'pubmed_id',
+        id: 'pubmedId',
         label: 'Publication',
       },
     ],
@@ -414,14 +411,22 @@ const columns = {
 const Section = ({ ensgId, symbol, data }) => {
   const [source, setSource] = useState('intact');
   const [evidenceId, setEvidenceId] = useState(0);
+
   const [intactData, setIntactData] = useState([]);
   const [intactCount, setIntactCount] = useState(0);
+  const [intactEvidence, setIntactEvidence] = useState([]);
+
   const [signorData, setSignorData] = useState([]);
   const [signorCount, setSignorCount] = useState(0);
+  const [signorEvidence, setSignorEvidence] = useState([]);
+
   const [reactomeData, setReactomeData] = useState([]);
   const [reactomeCount, setReactomeCount] = useState(0);
+  const [reactomeEvidence, setReactomeEvidence] = useState([]);
+
   const [stringData, setStringData] = useState([]);
   const [stringCount, setStringCount] = useState(0);
+
   const index = 0;
   const size = 10;
   const sources = [
@@ -449,33 +454,35 @@ const Section = ({ ensgId, symbol, data }) => {
         if (res.data.target.interactions) {
           setIntactData(res.data.target.interactions.rows);
           setIntactCount(res.data.target.interactions.count);
+          setIntactEvidence(res.data.target.interactions.rows[0].evidences);
+        }
+      });
+
+      fetchInteractions(ensgId, 'signor', index, size).then(res => {
+        if (res.data.target.interactions) {
+          setSignorData(res.data.target.interactions.rows);
+          setSignorCount(res.data.target.interactions.count);
+          setSignorEvidence(res.data.target.interactions.rows[0].evidences);
+        }
+      });
+
+      fetchInteractions(ensgId, 'reactome', index, size).then(res => {
+        if (res.data.target.interactions) {
+          setReactomeData(res.data.target.interactions.rows);
+          setReactomeCount(res.data.target.interactions.count);
+          setReactomeEvidence(res.data.target.interactions.rows[0].evidences);
+        }
+      });
+
+      fetchInteractions(ensgId, 'string', index, size).then(res => {
+        if (res.data.target.interactions) {
+          setStringData(res.data.target.interactions.rows);
+          setStringCount(res.data.target.interactions.count);
         }
       });
     },
     [ensgId]
   );
-
-  fetchInteractions(ensgId, 'signor', index, size).then(res => {
-    if (res.data.target.interactions) {
-      setSignorData(res.data.target.interactions.rows);
-      setSignorCount(res.data.target.interactions.count);
-    }
-  });
-
-  fetchInteractions(ensgId, 'reactome', index, size).then(res => {
-    if (res.data.target.interactions) {
-      setReactomeData(res.data.target.interactions.rows);
-      setReactomeCount(res.data.target.interactions.count);
-    }
-  });
-
-  fetchInteractions(ensgId, 'string', index, size).then(res => {
-    if (res.data.target.interactions) {
-      setStringData(res.data.target.interactions.rows);
-      setStringCount(res.data.target.interactions.count);
-    }
-  });
-
   return (
     <>
       {/* Interaction Resource */}
@@ -530,22 +537,25 @@ const Section = ({ ensgId, symbol, data }) => {
                 hover
                 selected
                 onRowClick={(r, i) => {
-                  setEvidenceId(i);
+                  {
+                    /* setEvidenceId(i); */
+                  }
+                  setIntactEvidence(r.evidences);
                 }}
                 rowIsSelectable
               />
             </Grid>
 
             {/* table 2: evidence */}
-            {/* <Grid item xs={12} md={7}>              
+            <Grid item xs={12} md={7}>
               <DataTable
                 showGlobalFilter
                 columns={columns.intact.evidence}
-                rows={tempData.data.intact.rows[evidenceId].evidences}
+                rows={intactEvidence}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-molecular-interactions-intact`}
               />
-            </Grid> */}
+            </Grid>
           </Grid>
         )}
 
@@ -563,22 +573,23 @@ const Section = ({ ensgId, symbol, data }) => {
                 hover
                 selected
                 onRowClick={(r, i) => {
-                  setEvidenceId(i);
+                  console.log(i, r);
+                  setSignorEvidence(r.evidences);
                 }}
                 rowIsSelectable
               />
             </Grid>
 
             {/* table 2: evidence */}
-            {/* <Grid item xs={12} md={7}>              
+            <Grid item xs={12} md={7}>
               <DataTable
                 showGlobalFilter
                 columns={columns.signor.evidence}
-                rows={tempData.data.signor.rows[evidenceId].evidences}
+                rows={signorEvidence}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-molecular-interactions-signor`}
               />
-            </Grid> */}
+            </Grid>
           </Grid>
         )}
 
@@ -596,22 +607,22 @@ const Section = ({ ensgId, symbol, data }) => {
                 hover
                 selected
                 onRowClick={(r, i) => {
-                  setEvidenceId(i);
+                  setReactomeEvidence(r.evidences);
                 }}
                 rowIsSelectable
               />
             </Grid>
 
             {/* table 2: evidence */}
-            {/* <Grid item xs={12} md={7}>  
+            <Grid item xs={12} md={7}>
               <DataTable
                 showGlobalFilter
                 columns={columns.reactome.evidence}
-                rows={tempData.data.reactome.rows[evidenceId].evidences}
+                rows={reactomeEvidence}
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-molecular-interactions-reactome`}
               />
-            </Grid> */}
+            </Grid>
           </Grid>
         )}
 

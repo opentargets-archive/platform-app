@@ -8,7 +8,7 @@ const MethodIconText = props => (
     <span
       className="fa-layers-text fa-inverse"
       data-fa-transform="shrink-10 left-2"
-      style={{ left: '75%' }}
+      style={{ left: '82%' }}
     >
       {props.children}
     </span>
