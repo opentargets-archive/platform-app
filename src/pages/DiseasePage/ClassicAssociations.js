@@ -4,7 +4,6 @@ import { gql, useQuery } from '@apollo/client';
 import { Skeleton } from '@material-ui/lab';
 
 import ClassicAssociationsTable from './ClassicAssociationsTable';
-import { client3 } from '../../client';
 import { Facets } from '../../components/Facets';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
@@ -40,7 +39,6 @@ function ClassicAssociations({ efoId, name }) {
   const [aggregationFilters, setAggregationFilters] = useState([]);
   const { loading, data, refetch } = useQuery(DISEASE_ASSOCIATIONS_QUERY, {
     variables: { efoId, aggregationFilters },
-    client: client3,
   });
 
   const handleChangeFilters = newFilters => {

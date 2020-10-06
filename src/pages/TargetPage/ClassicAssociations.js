@@ -13,7 +13,6 @@ import { Skeleton } from '@material-ui/lab';
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
-import { client3 } from '../../client';
 import { Facets } from '../../components/Facets';
 import Wrapper from './Wrapper';
 
@@ -51,7 +50,6 @@ function ClassicAssociations({ ensgId, symbol }) {
   const [aggregationFilters, setAggregationFilters] = useState([]);
   const { loading, data, refetch } = useQuery(TARGET_ASSOCIATIONS_QUERY, {
     variables: { ensemblId: ensgId, aggregationFilters },
-    client: client3,
   });
 
   const handleTabChange = (_, tab) => {

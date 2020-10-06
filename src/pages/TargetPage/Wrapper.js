@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
-import { client3 } from '../../client';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 const therapeuticAreasURL =
@@ -16,6 +15,7 @@ const ASSOCIATIONS_QUERY = gql`
     $aggregationFilters: [AggregationFilter!]
   ) {
     target(ensemblId: $ensemblId) {
+      id
       associatedDiseases(
         page: { index: $index, size: $size }
         aggregationFilters: $aggregationFilters
@@ -65,8 +65,7 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
   const getAllAssociations = useBatchDownloader(
     ASSOCIATIONS_QUERY,
     { ensemblId, aggregationFilters },
-    'data.target.associatedDiseases',
-    client3
+    'data.target.associatedDiseases'
   );
 
   useEffect(

@@ -3,12 +3,9 @@ import gql from 'graphql-tag';
 import * as d3 from 'd3';
 import { useQuery } from '@apollo/client';
 import { makeStyles, Link } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Table } from '../../components/Table';
+import Legend from '../../components/Legend';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
-
-import { client3 } from '../../client';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
   query DiseaseAssociationsQuery(
@@ -502,41 +499,6 @@ function getRows(data) {
   });
 }
 
-function Legend() {
-  return (
-    <div>
-      <span
-        style={{
-          display: 'inline-block',
-          border: '1px solid #eeefef',
-          height: '20px',
-          width: '20px',
-        }}
-      />
-      No data
-      <div style={{ display: 'flex' }}>
-        <div>0</div>
-        {colorRange.map(color => {
-          return (
-            <div
-              key={color}
-              style={{
-                backgroundColor: color,
-                height: '20px',
-                width: '20px',
-              }}
-            />
-          );
-        })}
-        <div>1</div>
-      </div>
-      <Link href="https://docs.targetvalidation.org/getting-started/scoring">
-        <FontAwesomeIcon icon={faQuestionCircle} size="xs" /> Score
-      </Link>
-    </div>
-  );
-}
-
 function ClassicAssociationsTable({ efoId, aggregationFilters }) {
   const classes = useStyles();
   const [filter, setFilter] = useState();
@@ -553,14 +515,12 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
       sortBy,
       aggregationFilters,
     },
-    client: client3,
   });
 
   const getAllAssociations = useBatchDownloader(
     DISEASE_ASSOCIATIONS_QUERY,
     { efoId, filter, sortBy },
-    'data.disease.associatedTargets',
-    client3
+    'data.disease.associatedTargets'
   );
 
   function handlePageChange(page) {
