@@ -45,7 +45,7 @@ const HomePage = () => {
           items={mainMenuItems}
           placement="bottom-end"
         />
-        <HomeBox name="Platform">
+        <HomeBox>
           <Search autoFocus />
           <Grid className={classes.links} container justify="space-around">
             <Link to={`/target/${targets[0].id}`}>{targets[0].label}</Link>
