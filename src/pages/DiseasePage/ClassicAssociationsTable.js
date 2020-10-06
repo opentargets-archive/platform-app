@@ -89,6 +89,7 @@ const color = d3
 const useStyles = makeStyles({
   root: {
     overflow: 'visible',
+    padding: '2rem 2rem 0 0',
   },
   table: {
     tableLayout: 'fixed',
@@ -137,6 +138,7 @@ const useStyles = makeStyles({
   },
   cell: {
     border: 0,
+    height: '20px',
     textAlign: 'center',
     padding: '1px 1px',
     '&:last-child': {
@@ -145,7 +147,7 @@ const useStyles = makeStyles({
   },
   colorSpan: {
     display: 'block',
-    height: '16px',
+    height: '20px',
     border: '1px solid #eeefef',
   },
   symbolCell: {
@@ -477,6 +479,7 @@ function getColumns(efoId, classes) {
         cell: classes.nameCell,
       },
       exportValue: data => data.target.approvedName,
+      hidden: ['smDown', 'lgOnly'],
       renderCell: row => {
         return (
           <Link

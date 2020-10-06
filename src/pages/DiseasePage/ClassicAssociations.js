@@ -75,7 +75,7 @@ function ClassicAssociations({ efoId, name }) {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} md={9}>
+      <Grid item xs={12} lg={9}>
         <Card elevation={0} style={{ overflow: 'visible' }}>
           <CardContent>
             {loading && !data ? (

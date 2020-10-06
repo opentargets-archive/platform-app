@@ -88,6 +88,7 @@ const color = d3
 const useStyles = makeStyles({
   root: {
     overflow: 'visible',
+    padding: '2rem 3rem 0 0',
   },
   table: {
     tableLayout: 'fixed',
@@ -129,6 +130,7 @@ const useStyles = makeStyles({
   },
   cell: {
     border: 0,
+    height: '20px',
     textAlign: 'center',
     padding: '1px 1px',
     '&:last-child': {
@@ -137,7 +139,7 @@ const useStyles = makeStyles({
   },
   colorSpan: {
     display: 'block',
-    height: '16px',
+    height: '20px',
     border: '1px solid #eeefef',
   },
   nameCell: {
