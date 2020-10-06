@@ -53,17 +53,31 @@ const dataTypes = [
   { id: 'animal_model', label: 'Animal models' },
 ];
 
+// const colorRange = [
+//   '#e8edf1',
+//   '#d2dce4',
+//   '#bbcbd6',
+//   '#a5b9c9',
+//   '#8fa8bc',
+//   '#7897ae',
+//   '#6285a1',
+//   '#4b7493',
+//   '#356386',
+//   '#1f5279',
+// ];
+
 const colorRange = [
-  '#e8edf1',
-  '#d2dce4',
-  '#bbcbd6',
-  '#a5b9c9',
-  '#8fa8bc',
-  '#7897ae',
-  '#6285a1',
-  '#4b7493',
-  '#356386',
-  '#1f5279',
+  '#005299',
+  '#1963a3',
+  '#3274ad',
+  '#4c85b7',
+  '#6697c1',
+  '#7fa8cc',
+  '#99b9d6',
+  '#b2cbe0',
+  '#ccdcea',
+  '#e5edf4',
+  '#ffffff',
 ];
 
 const color = d3
