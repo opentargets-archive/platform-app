@@ -1,16 +1,13 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
-import { Route, Switch } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+import { Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-import { Tabs, Tab } from 'ot-ui';
-
-import Associations from './Associations';
 import BasePage from '../../components/BasePage';
-import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
+import { oldPlatformUrl } from '../../constants';
 import Profile from './Profile';
+import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
 const DISEASE_QUERY = gql`
   query DiseaseQuery($efoId: String!) {
@@ -23,70 +20,52 @@ const DISEASE_QUERY = gql`
   }
 `;
 
-const DiseasePage = ({ history, location, match }) => {
-  const handleChange = (event, value) => {
-    if (value.indexOf('http') === 0) {
-      // navigte to external page: first store current page
-      // for back button to work correctly
-      // TODO: this link will be removed after alpha/beta
-      history.push(match.url);
-      window.location.replace(value);
-    } else {
-      const path = value === 'overview' ? match.url : `${match.url}/${value}`;
-      history.push(path);
-    }
-  };
-
-  const tab = location.pathname.endsWith('associations')
-    ? location.pathname.split('/').pop()
-    : 'overview';
+function DiseasePage({ history, location, match }) {
   const { efoId } = match.params;
-
-  const { loading, error, data } = useQuery(DISEASE_QUERY, {
+  const { loading, error, data } = useQuery(DISEASE_PAGE_QUERY, {
     variables: { efoId },
   });
 
-  if (loading || error) return null;
+  // TODO: handle errors/loading
+  if (data && !data.disease) {
+    return (
+      <Redirect to={{ pathname: '/search', search: `?q=${efoId}&page=1` }} />
+    );
+  }
 
-  const { name, description, synonyms } = data.disease;
+  const { name, description, synonyms } = data?.disease || {};
 
   return (
     <BasePage>
       <Helmet>
-        <title>{name}</title>
+        <title>{data?.disease.name}</title>
       </Helmet>
-      <Header {...{ efoId, name, description, synonyms }} />
-      <Tabs
-        value={tab}
-        onChange={handleChange}
-        variant="scrollable"
-        scrollButtons="auto"
-      >
-        {/* <Tab value="classic-associations" label="Associations (classic)" />
-        <Tab value="associations" label="Associations (dynamic)" /> */}
-        <Tab value="overview" label="Profile" />
-        <Tab value="classic-associations" label="Associations (classic)" />
-        <Tab
-          value={`https://www.targetvalidation.org/disease/${efoId}/associations`}
+      <Header efoId={efoId} name={data?.disease.name} />
+
+      <RoutingTabs>
+        <RoutingTab
+          label="Profile"
+          path="/disease/:efoId"
+          component={() => (
+            <Profile {...{ efoId, name, description, synonyms }} />
+          )}
+        />
+        <RoutingTab
+          label="View this page in the classic view"
+          url={`${oldPlatformUrl}/disease/${efoId}`}
+        />
+        <RoutingTab
+          label="Associations (classic)"
+          path="/disease/:efoId/classic-associations"
+          component={() => <Associations efoId={efoId} name={name} />}
+        />
+        <RoutingTab
           label="View associated targets"
+          url={`${oldPlatformUrl}/disease/${efoId}/associations`}
         />
-      </Tabs>
-      <Switch>
-        <Route
-          path={`${match.path}/classic-associations`}
-          render={() => <ClassicAssociations efoId={efoId} name={name} />}
-        />
-        <Route
-          path={`${match.path}/associations`}
-          render={() => <Associations efoId={efoId} name={name} />}
-        />
-        <Route
-          path={match.path}
-          render={() => <Profile {...{ efoId, name, description, synonyms }} />}
-        />
-      </Switch>
+      </RoutingTabs>
     </BasePage>
   );
-};
+}
 
 export default DiseasePage;
