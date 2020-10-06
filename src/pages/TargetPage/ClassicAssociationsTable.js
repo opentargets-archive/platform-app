@@ -67,17 +67,17 @@ const dataTypes = [
 // ];
 
 const colorRange = [
-  '#005299',
-  '#1963a3',
-  '#3274ad',
-  '#4c85b7',
-  '#6697c1',
-  '#7fa8cc',
-  '#99b9d6',
-  '#b2cbe0',
-  '#ccdcea',
-  '#e5edf4',
   '#ffffff',
+  '#e5edf4',
+  '#ccdcea',
+  '#b2cbe0',
+  '#99b9d6',
+  '#7fa8cc',
+  '#6697c1',
+  '#4c85b7',
+  '#3274ad',
+  '#1963a3',
+  '#005299',
 ];
 
 const color = d3
