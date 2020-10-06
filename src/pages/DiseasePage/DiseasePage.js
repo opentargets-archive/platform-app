@@ -4,12 +4,13 @@ import { Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import BasePage from '../../components/BasePage';
+import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
 import { oldPlatformUrl } from '../../constants';
 import Profile from './Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
-const DISEASE_QUERY = gql`
+const DISEASE_PAGE_QUERY = gql`
   query DiseaseQuery($efoId: String!) {
     disease(efoId: $efoId) {
       id
@@ -22,45 +23,46 @@ const DISEASE_QUERY = gql`
 
 function DiseasePage({ history, location, match }) {
   const { efoId } = match.params;
-  const { loading, error, data } = useQuery(DISEASE_PAGE_QUERY, {
+  const { loading, data } = useQuery(DISEASE_PAGE_QUERY, {
     variables: { efoId },
   });
 
-  // TODO: handle errors/loading
+  if (loading) return null;
   if (data && !data.disease) {
     return (
       <Redirect to={{ pathname: '/search', search: `?q=${efoId}&page=1` }} />
     );
   }
 
-  const { name, description, synonyms } = data?.disease || {};
+  const { name, description, synonyms } = data.disease;
 
   return (
     <BasePage>
       <Helmet>
-        <title>{data?.disease.name}</title>
+        <title>{name}</title>
       </Helmet>
-      <Header efoId={efoId} name={data?.disease.name} />
+      <Header efoId={efoId} name={name} />
 
       <RoutingTabs>
         <RoutingTab
-          label="Profile"
+          label="Associated targets"
           path="/disease/:efoId"
+          component={() => <ClassicAssociations efoId={efoId} name={name} />}
+        />
+        <RoutingTab
+          label="Profile"
+          path="/disease/:efoId/profile"
           component={() => (
-            <Profile {...{ efoId, name, description, synonyms }} />
+            <Profile
+              efoId={efoId}
+              name={name}
+              description={description}
+              synonyms={synonyms}
+            />
           )}
         />
         <RoutingTab
-          label="View this page in the classic view"
-          url={`${oldPlatformUrl}/disease/${efoId}`}
-        />
-        <RoutingTab
-          label="Associations (classic)"
-          path="/disease/:efoId/classic-associations"
-          component={() => <Associations efoId={efoId} name={name} />}
-        />
-        <RoutingTab
-          label="View associated targets"
+          label="Classic view"
           url={`${oldPlatformUrl}/disease/${efoId}/associations`}
         />
       </RoutingTabs>

@@ -1,18 +1,16 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
-import { Route, Switch } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+import { Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-import { Tabs, Tab } from 'ot-ui';
-
-import Associations from './Associations';
 import BasePage from '../../components/BasePage';
 import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
+import { oldPlatformUrl } from '../../constants';
 import Profile from './Profile';
+import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
-const TARGET_QUERY = gql`
+const TARGET_PAGE_QUERY = gql`
   query TargetQuery($ensgId: String!) {
     target(ensemblId: $ensgId) {
       id
@@ -31,104 +29,65 @@ const TARGET_QUERY = gql`
 `;
 
 const TargetPage = ({ history, location, match }) => {
-  const handleChange = (event, value) => {
-    if (value.indexOf('http') === 0) {
-      // navigte to external page: first store current page
-      // for back button to work correctly
-      // TODO: this link will be removed after alpha/beta
-      history.push(match.url);
-      window.location.replace(value);
-    } else {
-      const path = value === 'overview' ? match.url : `${match.url}/${value}`;
-      history.push(path);
-    }
-  };
-
-  const tab = location.pathname.endsWith('associations')
-    ? location.pathname.split('/').pop()
-    : 'overview';
-
   const { ensgId } = match.params;
 
-  const { loading, error, data } = useQuery(TARGET_QUERY, {
+  const { loading, data } = useQuery(TARGET_PAGE_QUERY, {
     variables: { ensgId },
   });
 
-  if (loading || error) return null;
+  if (loading) return null;
+  if (data && !data.target) {
+    return <Redirect to={{ pathname: '/notFoundPage' }} />;
+  }
 
-  const {
-    approvedSymbol,
-    approvedName,
-    proteinAnnotations,
-    symbolSynonyms,
-  } = data.target;
-  const uniprotId = proteinAnnotations ? proteinAnnotations.id : null;
-  const description =
-    proteinAnnotations && proteinAnnotations.functions
-      ? proteinAnnotations.functions[0]
-      : null;
+  const { approvedSymbol: symbol, approvedName: name } = data.target;
+  const uniprotId = data.target.proteinAnnotations?.id;
+  const description = data.target.proteinAnnotations?.functions?.[0];
+  const synonyms = data.target.symbolSynonyms;
 
   return (
     <BasePage>
       <Helmet>
-        <title>{approvedSymbol}</title>
+        <title>{symbol}</title>
       </Helmet>
       <Header
         ensgId={ensgId}
         uniprotId={uniprotId}
-        symbol={approvedSymbol}
-        name={approvedName}
+        symbol={symbol}
+        name={name}
       />
-      <Tabs
-        value={tab}
-        onChange={handleChange}
-        variant="scrollable"
-        scrollButtons="auto"
-      >
-        <Tab value="overview" label="Profile" />
-        <Tab value="classic-associations" label="Associations (classic)" />
-        <Tab
-          value={`https://www.targetvalidation.org/target/${ensgId}/associations`}
-          label="View associated diseases"
-        />
-      </Tabs>
-      <Switch>
-        <Route
-          path={`${match.path}/classic-associations`}
-          render={() => (
+      <RoutingTabs>
+        <RoutingTab
+          label="Associated diseases"
+          path="/target/:ensgId"
+          component={() => (
             <ClassicAssociations
               ensgId={ensgId}
               uniprotId={uniprotId}
-              symbol={approvedSymbol}
-              name={approvedName}
+              symbol={symbol}
+              name={name}
             />
           )}
         />
-        <Route
-          path={`${match.path}/associations`}
-          render={() => (
-            <Associations
-              ensgId={ensgId}
-              uniprotId={uniprotId}
-              symbol={approvedSymbol}
-              name={approvedName}
-            />
-          )}
-        />
-        <Route
-          path={match.path}
-          render={() => (
+        <RoutingTab
+          label="Profile"
+          path="/target/:ensgId/profile"
+          component={() => (
             <Profile
               ensgId={ensgId}
               uniprotId={uniprotId}
-              symbol={approvedSymbol}
-              name={approvedName}
-              synonyms={symbolSynonyms}
+              symbol={symbol}
+              name={name}
+              synonyms={synonyms}
               description={description}
             />
           )}
         />
-      </Switch>
+        <RoutingTab
+          label="Classic view"
+          url={`${oldPlatformUrl}/target/${ensgId}/associations`}
+        />
+      </RoutingTabs>
     </BasePage>
   );
 };

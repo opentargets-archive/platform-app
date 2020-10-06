@@ -33,7 +33,7 @@ class App extends Component {
                 <Route path="/downloads" component={DownloadsPage} />
                 <Route path="/disease/:efoId" component={DiseasePage} />
                 <Route path="/target/:ensgId" component={TargetPage} />
-                <Route path="/drug/:chemblId" component={DrugPage} />
+                <Route path="/drug/:chemblId/profile" component={DrugPage} />
                 <Route
                   path="/evidence/:ensgId/:efoId"
                   component={EvidenceByDatatypePage}

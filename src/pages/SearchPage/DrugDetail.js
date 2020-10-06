@@ -30,7 +30,7 @@ const DrugDetail = ({ data }) => {
   return (
     <CardContent>
       <Typography color="primary" variant="h5">
-        <Link to={`/drug/${data.id}`}>{data.name}</Link>
+        <Link to={`/drug/${data.id}/profile`}>{data.name}</Link>
       </Typography>
       <Typography color="primary">
         <FontAwesomeIcon icon={faPrescriptionBottleAlt} size="md" /> Drug

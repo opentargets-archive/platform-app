@@ -75,7 +75,9 @@ const getColumns = ({ filters }) => {
       id: 'drug',
       label: 'Drug',
       renderCell: d => (
-        <Link to={'/drug/' + d.drug.id}>{_.capitalize(d.drug.name)}</Link>
+        <Link to={'/drug/' + d.drug.id + '/profile'}>
+          {_.capitalize(d.drug.name)}
+        </Link>
       ),
       comparator: generateComparatorFromAccessor(d => d.drug.name),
       export: d => d.drug.name,

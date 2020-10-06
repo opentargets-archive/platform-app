@@ -48,7 +48,9 @@ const columnPool = {
       {
         id: 'drug',
         propertyPath: 'drug.id',
-        renderCell: d => <Link to={`/drug/${d.drug.id}`}>{d.drug.name}</Link>,
+        renderCell: d => (
+          <Link to={`/drug/${d.drug.id}/profile`}>{d.drug.name}</Link>
+        ),
       },
       {
         id: 'type',
