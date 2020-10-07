@@ -55,7 +55,7 @@ function ClassicAssociations({ efoId, name }) {
         <Typography variant="h6">
           {data ? (
             <>
-              <strong>{data.disease.associatedTargets.count} diseases</strong>{' '}
+              <strong>{data.disease.associatedTargets.count} targets</strong>{' '}
               associated with <strong>{data.disease.name}</strong>
             </>
           ) : (
