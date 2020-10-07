@@ -9,6 +9,7 @@ import withTooltip from '../../components/Associations/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
 import Slider from './ClassicAssociationsSlider';
 import Legend from '../../components/Legend';
+import { colorRange } from '../../constants';
 
 const getTherapeuticAreaTree = ({
   ensgId,
@@ -151,19 +152,6 @@ class ClassicAssociationsBubbles extends React.Component {
       diameter,
     });
     const nodes = therapeuticAreaTree.descendants();
-
-    const colorRange = [
-      '#e8edf1',
-      '#d2dce4',
-      '#bbcbd6',
-      '#a5b9c9',
-      '#8fa8bc',
-      '#7897ae',
-      '#6285a1',
-      '#4b7493',
-      '#356386',
-      '#1f5279',
-    ];
 
     const color = d3
       .scaleQuantize()
