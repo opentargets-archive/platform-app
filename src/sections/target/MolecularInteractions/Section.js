@@ -51,6 +51,12 @@ const styles = theme => ({
   },
 });
 
+const filterStringEvidence = (evidences, id) => {
+  return evidences
+    .filter(e => e.interactionDetectionMethodShortName === id)
+    .map(e => e.evidenceScore / 1000);
+};
+
 const columns = {
   intact: {
     interactions: [
@@ -361,48 +367,56 @@ const columns = {
       },
       {
         id: 'overallScore',
-        label: 'Overall interaction score',
-        renderCell: row => row.scoring,
+        label: (
+          <>
+            Overall
+            <br />
+            interaction score
+          </>
+        ),
+        renderCell: row => row.scoring / 1000,
       },
       {
         id: 'neighbourhood',
         label: 'Neighbourhood',
-        renderCell: () => 'N/A',
+        renderCell: () => '',
       },
       {
         id: 'geneFusion',
         label: 'Gene fusion',
-        renderCell: () => 'N/A',
+        renderCell: () => '',
       },
       {
         id: 'occurance',
         label: 'Co-occurrance',
-        renderCell: () => 'N/A',
+        renderCell: () => '',
       },
       {
         id: 'expression',
         label: 'Co-expression',
-        renderCell: () => 'N/A',
+        renderCell: row =>
+          filterStringEvidence(row.evidences, 'coexpression_transferred'),
       },
       {
         id: 'experiments',
         label: 'Experiments',
-        renderCell: () => 'N/A',
+        renderCell: row =>
+          filterStringEvidence(row.evidences, 'experiment description'),
       },
       {
         id: 'databases',
         label: 'Databases',
-        renderCell: () => 'N/A',
+        renderCell: row => filterStringEvidence(row.evidences, 'database'),
       },
       {
         id: 'textMining',
         label: 'Text mining',
-        renderCell: () => 'N/A',
+        renderCell: row => filterStringEvidence(row.evidences, 'text mining'),
       },
       {
         id: 'homology',
         label: 'Homology',
-        renderCell: () => 'N/A',
+        renderCell: row => filterStringEvidence(row.evidences, 'by homology'),
       },
     ],
   },
