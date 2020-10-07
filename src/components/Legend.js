@@ -2,19 +2,7 @@ import React from 'react';
 import { Link } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-
-const colorRange = [
-  '#e8edf1',
-  '#d2dce4',
-  '#bbcbd6',
-  '#a5b9c9',
-  '#8fa8bc',
-  '#7897ae',
-  '#6285a1',
-  '#4b7493',
-  '#356386',
-  '#1f5279',
-];
+import { colorRange } from '../constants';
 
 function Legend() {
   return (

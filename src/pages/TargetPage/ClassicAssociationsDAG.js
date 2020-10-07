@@ -10,6 +10,7 @@ import withTooltip from '../../components/Associations/withTooltip';
 import Legend from '../../components/Legend';
 import TooltipContent from './ClassicAssociationsTooltip';
 import Slider from './ClassicAssociationsSlider';
+import { colorRange } from '../../constants';
 
 const d3 = Object.assign({}, d3Base, d3DagBase);
 
@@ -215,19 +216,6 @@ class ClassicAssociationsDAG extends React.Component {
 
     // compute layout
     layout(dag);
-
-    const colorRange = [
-      '#e8edf1',
-      '#d2dce4',
-      '#bbcbd6',
-      '#a5b9c9',
-      '#8fa8bc',
-      '#7897ae',
-      '#6285a1',
-      '#4b7493',
-      '#356386',
-      '#1f5279',
-    ];
 
     const color = d3
       .scaleQuantize()

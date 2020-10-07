@@ -6,6 +6,7 @@ import { makeStyles, Link } from '@material-ui/core';
 import { Table } from '../../components/Table';
 import Legend from '../../components/Legend';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
+import { colorRange } from '../../constants';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
   query DiseaseAssociationsQuery(
@@ -50,33 +51,6 @@ const dataTypes = [
   { id: 'rna_expression', label: 'RNA expression' },
   { id: 'literature', label: 'Text mining' },
   { id: 'animal_model', label: 'Animal models' },
-];
-
-// const colorRange = [
-//   '#e8edf1',
-//   '#d2dce4',
-//   '#bbcbd6',
-//   '#a5b9c9',
-//   '#8fa8bc',
-//   '#7897ae',
-//   '#6285a1',
-//   '#4b7493',
-//   '#356386',
-//   '#1f5279',
-// ];
-
-const colorRange = [
-  // '#ffffff',
-  '#e5edf4',
-  '#ccdcea',
-  '#b2cbe0',
-  '#99b9d6',
-  '#7fa8cc',
-  '#6697c1',
-  '#4c85b7',
-  '#3274ad',
-  '#1963a3',
-  '#005299',
 ];
 
 const color = d3
