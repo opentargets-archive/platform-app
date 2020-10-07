@@ -62,7 +62,11 @@ function Search({ autoFocus = false, embedded = false }) {
     if (option.type === 'search') {
       history.push(`/search?q=${option.name}&page=1`);
     } else {
-      history.push(`/${option.entity}/${option.id}`);
+      history.push(
+        `/${option.entity}/${option.id}${
+          option.entity === 'drug' ? '/profile' : ''
+        }`
+      );
     }
   };
 
