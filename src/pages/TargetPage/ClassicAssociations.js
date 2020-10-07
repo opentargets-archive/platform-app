@@ -15,17 +15,42 @@ import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { Facets } from '../../components/Facets';
 import Wrapper from './Wrapper';
+import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 const TARGET_ASSOCIATIONS_QUERY = gql`
   query TargetAssociationsQuery(
     $ensemblId: String!
+    $index: Int!
+    $size: Int!
+    $BFilter: String
+    $orderByScore: String!
     $aggregationFilters: [AggregationFilter!]
   ) {
     target(ensemblId: $ensemblId) {
       id
       approvedName
-      associatedDiseases(aggregationFilters: $aggregationFilters) {
+      associatedDiseases(
+        page: { index: $index, size: $size }
+        orderByScore: $orderByScore
+        BFilter: $BFilter
+        aggregationFilters: $aggregationFilters
+      ) {
         count
+
+        # Associations (actual data)
+        rows {
+          disease {
+            id
+            name
+          }
+          score
+          datatypeScores {
+            componentId: id
+            score
+          }
+        }
+
+        # Aggregations (facet tree)
         aggregations {
           uniques
           aggs {
@@ -49,18 +74,53 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
 function ClassicAssociations({ ensgId, symbol }) {
   const [tab, setTab] = useState('heatmap');
   const [aggregationFilters, setAggregationFilters] = useState([]);
-  const { loading, data, refetch } = useQuery(TARGET_ASSOCIATIONS_QUERY, {
-    variables: { ensemblId: ensgId, aggregationFilters },
+  const [filter, setFilter] = useState(null);
+  const [sortBy, setSortBy] = useState('score');
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
+  const { loading, data } = useQuery(TARGET_ASSOCIATIONS_QUERY, {
+    variables: {
+      ensemblId: ensgId,
+      index: page,
+      size: pageSize,
+      BFilter: filter,
+      orderByScore: sortBy,
+      aggregationFilters,
+    },
   });
 
   const handleTabChange = (_, tab) => {
     setTab(tab);
   };
 
-  const handleChangeFilters = newFilters => {
+  const handleAggregationFiltersChange = newFilters => {
     setAggregationFilters(newFilters);
-    refetch();
+    setPage(0);
   };
+
+  const handlePageChange = page => {
+    setPage(page);
+  };
+
+  const handlePageSizeChange = pageSize => {
+    setPageSize(pageSize);
+    setPage(0);
+  };
+
+  const handleSortByChange = sortBy => {
+    setSortBy(sortBy);
+  };
+
+  const handleFilterChange = filter => {
+    setFilter(filter);
+    setPage(0);
+  };
+
+  const handleGetAllAssociations = useBatchDownloader(
+    TARGET_ASSOCIATIONS_QUERY,
+    { ensemblId: ensgId, filter, sortBy },
+    'data.target.associatedDiseases'
+  );
 
   const facetData = data?.target?.associatedDiseases.aggregations.aggs;
 
@@ -86,7 +146,7 @@ function ClassicAssociations({ ensgId, symbol }) {
             <Facets
               loading={loading}
               data={facetData}
-              onChange={handleChangeFilters}
+              onChange={handleAggregationFiltersChange}
             />
           </CardContent>
         </Card>
@@ -111,7 +171,15 @@ function ClassicAssociations({ ensgId, symbol }) {
                 {tab === 'heatmap' && (
                   <ClassicAssociationsTable
                     ensgId={ensgId}
-                    aggregationFilters={aggregationFilters}
+                    data={data}
+                    sortBy={sortBy}
+                    page={page}
+                    pageSize={pageSize}
+                    onChangeFilter={handleFilterChange}
+                    onChangeSortBy={handleSortByChange}
+                    onChangePage={handlePageChange}
+                    onChangePageSize={handlePageSizeChange}
+                    onGetAllAssociations={handleGetAllAssociations}
                   />
                 )}
                 {tab === 'bubbles' && (

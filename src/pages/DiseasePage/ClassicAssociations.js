@@ -5,17 +5,43 @@ import { Skeleton } from '@material-ui/lab';
 
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { Facets } from '../../components/Facets';
+import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
   query DiseaseAssociationsQuery(
     $efoId: String!
+    $index: Int!
+    $size: Int!
+    $BFilter: String
+    $orderByScore: String!
     $aggregationFilters: [AggregationFilter!]
   ) {
     disease(efoId: $efoId) {
       id
       name
-      associatedTargets(aggregationFilters: $aggregationFilters) {
+      associatedTargets(
+        page: { index: $index, size: $size }
+        orderByScore: $orderByScore
+        BFilter: $BFilter
+        aggregationFilters: $aggregationFilters
+      ) {
         count
+
+        # Associations (actual data)
+        rows {
+          target {
+            id
+            approvedSymbol
+            approvedName
+          }
+          score
+          datatypeScores {
+            componentId: id
+            score
+          }
+        }
+
+        # Aggregations (facet tree)
         aggregations {
           uniques
           aggs {
@@ -36,16 +62,51 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
   }
 `;
 
-function ClassicAssociations({ efoId, name }) {
+function ClassicAssociations({ efoId }) {
   const [aggregationFilters, setAggregationFilters] = useState([]);
-  const { loading, data, refetch } = useQuery(DISEASE_ASSOCIATIONS_QUERY, {
-    variables: { efoId, aggregationFilters },
+  const [filter, setFilter] = useState(null);
+  const [sortBy, setSortBy] = useState('score');
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
+  const { loading, data } = useQuery(DISEASE_ASSOCIATIONS_QUERY, {
+    variables: {
+      efoId,
+      index: page,
+      size: pageSize,
+      BFilter: filter,
+      orderByScore: sortBy,
+      aggregationFilters,
+    },
   });
 
-  const handleChangeFilters = newFilters => {
+  const handleAggregationFiltersChange = newFilters => {
     setAggregationFilters(newFilters);
-    refetch();
+    setPage(0);
   };
+
+  const handlePageChange = page => {
+    setPage(page);
+  };
+
+  const handlePageSizeChange = pageSize => {
+    setPageSize(pageSize);
+    setPage(0);
+  };
+
+  const handleSortByChange = sortBy => {
+    setSortBy(sortBy);
+  };
+
+  const handleFilterChange = filter => {
+    setFilter(filter);
+    setPage(0);
+  };
+
+  const handleGetAllAssociations = useBatchDownloader(
+    DISEASE_ASSOCIATIONS_QUERY,
+    { efoId, filter, sortBy },
+    'data.target.associatedDiseases'
+  );
 
   const facetData = data?.disease?.associatedTargets.aggregations.aggs;
 
@@ -69,7 +130,7 @@ function ClassicAssociations({ efoId, name }) {
             <Facets
               loading={loading}
               data={facetData}
-              onChange={handleChangeFilters}
+              onChange={handleAggregationFiltersChange}
             />
           </CardContent>
         </Card>
@@ -82,7 +143,15 @@ function ClassicAssociations({ efoId, name }) {
             ) : (
               <ClassicAssociationsTable
                 efoId={efoId}
-                aggregationFilters={aggregationFilters}
+                data={data}
+                sortBy={sortBy}
+                page={page}
+                pageSize={pageSize}
+                onChangeFilter={handleFilterChange}
+                onChangeSortBy={handleSortByChange}
+                onChangePage={handlePageChange}
+                onChangePageSize={handlePageSizeChange}
+                onGetAllAssociations={handleGetAllAssociations}
               />
             )}
           </CardContent>

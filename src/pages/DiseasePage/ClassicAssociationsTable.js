@@ -1,47 +1,9 @@
-import React, { useState } from 'react';
-import gql from 'graphql-tag';
+import React from 'react';
 import * as d3 from 'd3';
-import { useQuery } from '@apollo/client';
 import { makeStyles, Link } from '@material-ui/core';
 import { Table } from '../../components/Table';
 import Legend from '../../components/Legend';
-import useBatchDownloader from '../../hooks/useBatchDownloader';
 import { colorRange } from '../../constants';
-
-const DISEASE_ASSOCIATIONS_QUERY = gql`
-  query DiseaseAssociationsQuery(
-    $efoId: String!
-    $index: Int!
-    $size: Int!
-    $filter: String
-    $sortBy: String!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    disease(efoId: $efoId) {
-      id
-      associatedTargets(
-        page: { index: $index, size: $size }
-        orderByScore: $sortBy
-        BFilter: $filter
-        aggregationFilters: $aggregationFilters
-      ) {
-        count
-        rows {
-          target {
-            id
-            approvedSymbol
-            approvedName
-          }
-          score
-          datatypeScores {
-            componentId: id
-            score
-          }
-        }
-      }
-    }
-  }
-`;
 
 const dataTypes = [
   { id: 'genetic_association', label: 'Genetic associations' },
@@ -491,51 +453,21 @@ function getRows(data) {
   });
 }
 
-function ClassicAssociationsTable({ efoId, aggregationFilters }) {
+function ClassicAssociationsTable({
+  efoId,
+  loading,
+  data,
+  sortBy,
+  page,
+  pageSize,
+  onChangeFilter,
+  onChangeSortBy,
+  onChangePage,
+  onChangePageSize,
+  onGetAllAssociations,
+}) {
   const classes = useStyles();
-  const [filter, setFilter] = useState();
-  const [sortBy, setSortBy] = useState('score');
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(50);
-
-  const { loading, error, data } = useQuery(DISEASE_ASSOCIATIONS_QUERY, {
-    variables: {
-      efoId,
-      index: page,
-      size: pageSize,
-      filter,
-      sortBy,
-      aggregationFilters,
-    },
-  });
-
-  const getAllAssociations = useBatchDownloader(
-    DISEASE_ASSOCIATIONS_QUERY,
-    { efoId, filter, sortBy },
-    'data.disease.associatedTargets'
-  );
-
-  function handlePageChange(page) {
-    setPage(page);
-  }
-
-  function handleRowsPerPageChange(pageSize) {
-    setPageSize(pageSize);
-    setPage(0);
-  }
-
-  function handleSort(sortBy) {
-    setSortBy(sortBy);
-  }
-
-  function handleGlobalFilterChange(filter) {
-    setFilter(filter);
-    setPage(0);
-  }
-
-  if (error) return null;
-
-  const { count, rows = [] } = data?.disease.associatedTargets ?? {};
+  const { count, rows = [] } = data?.disease.associatedTargets || {};
   const columns = getColumns(efoId, classes);
   const processedRows = getRows(rows);
 
@@ -545,7 +477,7 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
         showGlobalFilter
         loading={loading}
         dataDownloader
-        dataDownloaderRows={getAllAssociations}
+        dataDownloaderRows={onGetAllAssociations}
         dataDownloaderFileStem={`${efoId}-associated-diseases`}
         classes={{ root: classes.root, table: classes.table }}
         sortBy={sortBy}
@@ -556,10 +488,10 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
         pageSize={pageSize}
         rowCount={count}
         rowsPerPageOptions={[10, 50, 200, 500]}
-        onGlobalFilterChange={handleGlobalFilterChange}
-        onSortBy={handleSort}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleRowsPerPageChange}
+        onGlobalFilterChange={onChangeFilter}
+        onSortBy={onChangeSortBy}
+        onPageChange={onChangePage}
+        onRowsPerPageChange={onChangePageSize}
       />
       <Legend />
     </>
