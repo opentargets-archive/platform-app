@@ -75,7 +75,7 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.targetB.approvedSymbol}
+            {row.targetB && row.targetB.approvedSymbol}
             {/* <br />
             <Typography variant="caption">
               {row.organismB.taxon_id}
@@ -153,7 +153,7 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.targetA.approvedSymbol}
+            {row.targetA && row.targetA.approvedSymbol}
             {/* {row.organismA.mnemonic.toLowerCase() !== 'human' ? (
               <>
                 <br />
@@ -176,7 +176,7 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.targetB.approvedSymbol}
+            {row.targetB && row.targetB.approvedSymbol}
             {/* {row.organismB.mnemonic.toLowerCase() !== 'human' ? (
               <>
                 <br />
@@ -278,7 +278,7 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.targetB.approvedSymbol}
+            {row.targetB && row.targetB.approvedSymbol}
             {/* {row.organismB.mnemonic.toLowerCase() !== 'human' ? (
               <>
                 <br />
@@ -353,7 +353,7 @@ const columns = {
         ),
         renderCell: row => (
           <>
-            {row.targetB.approvedSymbol}
+            {row.targetB && row.targetB.approvedSymbol}
             {/* {row.organism.mnemonic.toLowerCase() !== 'human' ? (
               <>
                 <br />
