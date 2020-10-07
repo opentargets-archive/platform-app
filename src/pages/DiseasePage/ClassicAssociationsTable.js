@@ -66,7 +66,7 @@ const dataTypes = [
 // ];
 
 const colorRange = [
-  '#ffffff',
+  // '#ffffff',
   '#e5edf4',
   '#ccdcea',
   '#b2cbe0',
