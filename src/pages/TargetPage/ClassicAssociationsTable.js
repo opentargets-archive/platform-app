@@ -8,8 +8,6 @@ import useBatchDownloader from '../../hooks/useBatchDownloader';
 import Legend from '../../components/Legend';
 import { colorRange } from '../../constants';
 
-import { client3 } from '../../client';
-
 const TARGET_ASSOCIATIONS_QUERY = gql`
   query TargetAssociationsQuery(
     $ensemblId: String!
@@ -469,14 +467,12 @@ function ClassicAssociationsTable({ ensgId, aggregationFilters }) {
       sortBy,
       aggregationFilters,
     },
-    client: client3,
   });
 
   const getAllAssociations = useBatchDownloader(
     TARGET_ASSOCIATIONS_QUERY,
     { ensemblId: ensgId, filter, sortBy },
-    'data.target.associatedDiseases',
-    client3
+    'data.target.associatedDiseases'
   );
 
   function handlePageChange(page) {
