@@ -105,7 +105,7 @@ function ClassicAssociations({ efoId }) {
   const handleGetAllAssociations = useBatchDownloader(
     DISEASE_ASSOCIATIONS_QUERY,
     { efoId, filter, sortBy },
-    'data.target.associatedDiseases'
+    'data.disease.associatedTargets'
   );
 
   const facetData = data?.disease?.associatedTargets.aggregations.aggs;
