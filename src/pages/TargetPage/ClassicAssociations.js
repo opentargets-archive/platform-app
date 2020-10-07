@@ -70,7 +70,9 @@ function ClassicAssociations({ ensgId, symbol }) {
         <Typography variant="h6">
           {data ? (
             <>
-              <strong>{data.target.associatedDiseases.count} diseases</strong>{' '}
+              <strong>
+                {data.target.associatedDiseases.count} diseases or phenotypes
+              </strong>{' '}
               associated with <strong>{symbol}</strong>
             </>
           ) : (
