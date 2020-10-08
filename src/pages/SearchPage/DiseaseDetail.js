@@ -21,7 +21,7 @@ const DiseaseDetail = ({ classes, data }) => {
   return (
     <CardContent>
       <Typography color="primary" variant="h5">
-        <Link to={`/disease/${id}`}>{name}</Link>
+        <Link to={`/disease/${id}/associations`}>{name}</Link>
       </Typography>
       <Typography color="primary">
         <FontAwesomeIcon icon={faStethoscope} size="md" /> Disease or phenotype
