@@ -1,14 +1,14 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Switch, Route, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { Tabs, Tab } from '@material-ui/core';
 
 import BasePage from '../../components/BasePage';
 import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
 import { oldPlatformUrl } from '../../constants';
 import Profile from './Profile';
-import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
 const TARGET_PAGE_QUERY = gql`
   query TargetQuery($ensgId: String!) {
@@ -28,7 +28,7 @@ const TARGET_PAGE_QUERY = gql`
   }
 `;
 
-const TargetPage = ({ history, location, match }) => {
+const TargetPage = ({ location, match }) => {
   const { ensgId } = match.params;
 
   const { loading, data } = useQuery(TARGET_PAGE_QUERY, {
@@ -56,38 +56,51 @@ const TargetPage = ({ history, location, match }) => {
         symbol={symbol}
         name={name}
       />
-      <RoutingTabs>
-        <RoutingTab
+      <Tabs
+        value={
+          location.pathname.includes('associations')
+            ? `${match.url}/associations`
+            : location.pathname
+        }
+      >
+        <Tab
+          value={`${match.url}/associations`}
+          component={Link}
+          to={`${match.url}/associations`}
           label="Associated diseases"
-          path="/target/:ensgId/associations"
-          component={() => (
-            <ClassicAssociations
-              ensgId={ensgId}
-              uniprotId={uniprotId}
-              symbol={symbol}
-              name={name}
-            />
-          )}
         />
-        <RoutingTab
+        <Tab
+          value={match.url}
+          component={Link}
           label="Profile"
-          path="/target/:ensgId"
-          component={() => (
-            <Profile
-              ensgId={ensgId}
-              uniprotId={uniprotId}
-              symbol={symbol}
-              name={name}
-              synonyms={synonyms}
-              description={description}
-            />
-          )}
+          to={match.url}
         />
-        <RoutingTab
+        <Tab
+          component="a"
+          href={`${oldPlatformUrl}/target/${ensgId}/associations`}
           label="Classic view"
-          url={`${oldPlatformUrl}/target/${ensgId}/associations`}
         />
-      </RoutingTabs>
+      </Tabs>
+      <Switch>
+        <Route path={`${match.path}/associations`}>
+          <ClassicAssociations
+            ensgId={ensgId}
+            uniprotId={uniprotId}
+            symbol={symbol}
+            name={name}
+          />
+        </Route>
+        <Route path={match.path}>
+          <Profile
+            ensgId={ensgId}
+            uniprotId={uniprotId}
+            symbol={symbol}
+            name={name}
+            synonyms={synonyms}
+            description={description}
+          />
+        </Route>
+      </Switch>
     </BasePage>
   );
 };
