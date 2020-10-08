@@ -46,12 +46,12 @@ function DiseasePage({ history, location, match }) {
       <RoutingTabs>
         <RoutingTab
           label="Associated targets"
-          path="/disease/:efoId"
+          path="/disease/:efoId/associations"
           component={() => <ClassicAssociations efoId={efoId} name={name} />}
         />
         <RoutingTab
           label="Profile"
-          path="/disease/:efoId/profile"
+          path="/disease/:efoId"
           component={() => (
             <Profile
               efoId={efoId}

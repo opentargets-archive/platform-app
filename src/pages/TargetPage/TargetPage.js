@@ -59,7 +59,7 @@ const TargetPage = ({ history, location, match }) => {
       <RoutingTabs>
         <RoutingTab
           label="Associated diseases"
-          path="/target/:ensgId"
+          path="/target/:ensgId/associations"
           component={() => (
             <ClassicAssociations
               ensgId={ensgId}
@@ -71,7 +71,7 @@ const TargetPage = ({ history, location, match }) => {
         />
         <RoutingTab
           label="Profile"
-          path="/target/:ensgId/profile"
+          path="/target/:ensgId"
           component={() => (
             <Profile
               ensgId={ensgId}
