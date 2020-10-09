@@ -8,7 +8,7 @@ import {
 } from '../../components/ProfileHeader';
 import usePlatformApi from '../../hooks/usePlatformApi';
 
-const PROFILE_HEADER_FRAGMENT = gql`
+const TARGET_PROFILE_HEADER_FRAGMENT = gql`
   fragment TargetProfileHeaderFragment on Target {
     proteinAnnotations {
       id
@@ -38,7 +38,7 @@ function ProfileHeader() {
 }
 
 ProfileHeader.fragments = {
-  profileHeader: PROFILE_HEADER_FRAGMENT,
+  profileHeader: TARGET_PROFILE_HEADER_FRAGMENT,
 };
 
 export default ProfileHeader;

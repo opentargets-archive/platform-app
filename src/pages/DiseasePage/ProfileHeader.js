@@ -8,7 +8,7 @@ import {
 } from '../../components/ProfileHeader';
 import usePlatformApi from '../../hooks/usePlatformApi';
 
-const PROFILE_HEADER_FRAGMENT = gql`
+const DISEASE_PROFILE_HEADER_FRAGMENT = gql`
   fragment DiseaseProfileHeaderFragment on Disease {
     description
     synonyms
@@ -32,7 +32,7 @@ function ProfileHeader() {
 }
 
 ProfileHeader.fragments = {
-  profileHeader: PROFILE_HEADER_FRAGMENT,
+  profileHeader: DISEASE_PROFILE_HEADER_FRAGMENT,
 };
 
 export default ProfileHeader;

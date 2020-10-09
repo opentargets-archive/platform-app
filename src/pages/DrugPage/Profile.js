@@ -9,8 +9,8 @@ import sections from './sections';
 import SummaryContainer from '../../components/Summary/SummaryContainer';
 import SectionContainer from '../../components/Section/SectionContainer';
 
-const PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(sections, 'Drug');
-const PROFILE_QUERY = gql`
+const DRUG_PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(sections, 'Drug');
+const DRUG_PROFILE_QUERY = gql`
   query DrugProfileQuery($chemblId: String!) {
     drug(chemblId: $chemblId) {
       id
@@ -19,7 +19,7 @@ const PROFILE_QUERY = gql`
     }
   }
   ${ProfileHeader.fragments.profileHeader}
-  ${PROFILE_SUMMARY_FRAGMENT}
+  ${DRUG_PROFILE_SUMMARY_FRAGMENT}
 `;
 
 function Profile({ match }) {
@@ -28,7 +28,7 @@ function Profile({ match }) {
   return (
     <PlatformApiProvider
       entity="drug"
-      query={PROFILE_QUERY}
+      query={DRUG_PROFILE_QUERY}
       variables={{ chemblId }}
     >
       <ProfileHeader chemblId={chemblId} />

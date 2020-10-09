@@ -9,8 +9,11 @@ import sections from './sections';
 import SummaryContainer from '../../components/Summary/SummaryContainer';
 import SectionContainer from '../../components/Section/SectionContainer';
 
-const PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(sections, 'Target');
-const PROFILE_QUERY = gql`
+const TARGET_PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(
+  sections,
+  'Target'
+);
+const TARGET_PROFILE_QUERY = gql`
   query TargetProfileQuery($ensgId: String!) {
     target(ensemblId: $ensgId) {
       id
@@ -19,7 +22,7 @@ const PROFILE_QUERY = gql`
     }
   }
   ${ProfileHeader.fragments.profileHeader}
-  ${PROFILE_SUMMARY_FRAGMENT}
+  ${TARGET_PROFILE_SUMMARY_FRAGMENT}
 `;
 
 function Profile({ match }) {
@@ -28,7 +31,7 @@ function Profile({ match }) {
   return (
     <PlatformApiProvider
       entity="target"
-      query={PROFILE_QUERY}
+      query={TARGET_PROFILE_QUERY}
       variables={{ ensgId }}
     >
       <ProfileHeader />

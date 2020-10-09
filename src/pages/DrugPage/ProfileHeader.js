@@ -12,7 +12,7 @@ import Smiles from './Smiles';
 import usePlatformApi from '../../hooks/usePlatformApi';
 import WithdrawnNotice from '../../components/WithdrawnNotice';
 
-const PROFILE_HEADER_FRAGMENT = gql`
+const DRUG_PROFILE_HEADER_FRAGMENT = gql`
   fragment DrugProfileHeaderFragment on Drug {
     description
     drugType
@@ -83,7 +83,7 @@ function ProfileHeader({ chemblId }) {
 }
 
 ProfileHeader.fragments = {
-  profileHeader: PROFILE_HEADER_FRAGMENT,
+  profileHeader: DRUG_PROFILE_HEADER_FRAGMENT,
 };
 
 export default ProfileHeader;

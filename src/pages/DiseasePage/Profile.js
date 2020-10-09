@@ -9,8 +9,11 @@ import SummaryContainer from '../../components/Summary/SummaryContainer';
 
 import sections from './sections';
 
-const PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(sections, 'Disease');
-const PROFILE_QUERY = gql`
+const DISEASE_PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(
+  sections,
+  'Disease'
+);
+const DISEASE_PROFILE_QUERY = gql`
   query DiseaseProfileQuery($efoId: String!) {
     disease(efoId: $efoId) {
       id
@@ -20,14 +23,14 @@ const PROFILE_QUERY = gql`
     }
   }
   ${ProfileHeader.fragments.profileHeader}
-  ${PROFILE_SUMMARY_FRAGMENT}
+  ${DISEASE_PROFILE_SUMMARY_FRAGMENT}
 `;
 
 function Profile({ efoId, name }) {
   return (
     <PlatformApiProvider
       entity="disease"
-      query={PROFILE_QUERY}
+      query={DISEASE_PROFILE_QUERY}
       variables={{ efoId }}
     >
       <ProfileHeader />

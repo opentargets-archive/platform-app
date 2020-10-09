@@ -32,17 +32,17 @@ function TargetPage({ match }) {
     return <Redirect to={{ pathname: '/notFoundPage' }} />;
   }
 
-  const { approvedSymbol: symbol, approvedName: name } = data?.target || {};
+  const { approvedSymbol, approvedName } = data?.target || {};
   const uniprotId = data?.target.proteinAnnotations?.id;
 
   return (
-    <BasePage title={symbol}>
+    <BasePage title={approvedSymbol}>
       <Header
         loading={loading}
         ensgId={ensgId}
         uniprotId={uniprotId}
-        symbol={symbol}
-        name={name}
+        symbol={approvedSymbol}
+        name={approvedName}
       />
 
       <RoutingTabs>

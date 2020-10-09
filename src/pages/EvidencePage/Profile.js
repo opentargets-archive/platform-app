@@ -1,60 +1,62 @@
-import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { print } from 'graphql/language/printer';
-import _ from 'lodash';
+import React from 'react';
+import { gql } from '@apollo/client';
 
-import * as sectionsObject from './sectionIndex';
-import BaseProfile from '../common/Profile';
+// import { createSummaryFragment } from '../../components/Summary/utils';
+import PlatformApiProvider from '../../contexts/PlatformApiProvider';
+import SectionContainer from '../../components/Section/SectionContainer';
+import SummaryContainer from '../../components/Summary/SummaryContainer';
 
-const sections = Object.values(sectionsObject);
+import sections from './sections';
+import ProfileHeader from './ProfileHeader';
 
-const summariesQuery = gql`
-  query EvidenceSummaryQuery($ensgId: String!, $efoId: String!) {
-    evidence(ensgId: $ensgId, efoId: $efoId) {
-      summaries {
-        ${sections
-          .filter(s => s.summaryQuery)
-          .map(s => `...evidence${_.upperFirst(s.id)}Fragment`)
-          .join('\n')}
-      }
+// const EVIDENCE_PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(
+//   sections,
+//   'Evidence'
+// );
+const EVIDENCE_PROFILE_QUERY = gql`
+  query EvidenceProfileQuery($ensgId: String!, $efoId: String!) {
+    target(ensemblId: $ensgId) {
+      id
+      ...EvidenceProfileTargetHeaderFragment
     }
+    disease(efoId: $efoId) {
+      id
+      ...EvidenceProfileDiseaseHeaderFragment
+    }
+    # evidence(ensgId: $ensgId, efoId: $efoId) {
+    #   id
+    #   ...EvidenceProfileSummaryFragment
+    # }
   }
-  ${sections
-    .filter(s => s.summaryQuery)
-    .map(s => print(s.summaryQuery))
-    .join('\n')}
+  ${ProfileHeader.fragments.profileHeaderTarget}
+  ${ProfileHeader.fragments.profileHeaderDisease}
 `;
+// ${EVIDENCE_PROFILE_SUMMARY_FRAGMENT}
 
-const entitySummariesAccessor = data =>
-  data && data.evidence && data.evidence.summaries
-    ? data.evidence.summaries
-    : null;
-const entitySectionsAccessor = data =>
-  data && data.evidence && data.evidence.details ? data.evidence.details : null;
+function Profile({ match }) {
+  const { ensgId, efoId } = match.params;
 
-class EvidenceProfile extends Component {
-  render() {
-    const { ensgId, efoId, target, disease } = this.props;
-    const entity = {
-      ensgId,
-      efoId,
-      target,
-      disease,
-    };
-    return (
-      <BaseProfile
-        {...{
-          entity,
-          query: summariesQuery,
-          variables: { ensgId, efoId },
-          sectionsOrderKey: 'evidenceSectionsOrder',
-          unorderedSections: sections,
-          entitySummariesAccessor,
-          entitySectionsAccessor,
-        }}
-      />
-    );
-  }
+  return (
+    <PlatformApiProvider
+      entity="evidence"
+      query={EVIDENCE_PROFILE_QUERY}
+      variables={{ ensgId, efoId }}
+    >
+      <ProfileHeader />
+
+      <SummaryContainer>
+        {sections.map(({ Summary, definition }) => (
+          <Summary key={definition.id} efoId={efoId} definition={definition} />
+        ))}
+      </SummaryContainer>
+
+      <SectionContainer>
+        {sections.map(({ Body, definition }) => (
+          <Body key={definition.id} efoId={efoId} definition={definition} />
+        ))}
+      </SectionContainer>
+    </PlatformApiProvider>
+  );
 }
 
-export default EvidenceProfile;
+export default Profile;
