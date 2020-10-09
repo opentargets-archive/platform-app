@@ -14,7 +14,7 @@ import DownloadsPage from './pages/DownloadsPage';
 import DrugPage from './pages/DrugPage';
 import TargetPage from './pages/TargetPage';
 import EvidenceByDatatypePage from './pages/EvidenceByDatatypePage';
-import notFoundPage from './pages/NotFoundPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 class App extends Component {
   componentDidMount() {
@@ -33,12 +33,12 @@ class App extends Component {
                 <Route path="/downloads" component={DownloadsPage} />
                 <Route path="/disease/:efoId" component={DiseasePage} />
                 <Route path="/target/:ensgId" component={TargetPage} />
-                <Route path="/drug/:chemblId/profile" component={DrugPage} />
+                <Route path="/drug/:chemblId" component={DrugPage} />
                 <Route
                   path="/evidence/:ensgId/:efoId"
                   component={EvidenceByDatatypePage}
                 />
-                <Route component={notFoundPage} />
+                <Route component={NotFoundPage} />
               </Switch>
             </GoogleAnalyticsWrapper>
           </Router>

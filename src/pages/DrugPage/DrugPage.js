@@ -32,7 +32,7 @@ const DRUG_PAGE_QUERY = gql`
   }
 `;
 
-const DrugPage = ({ match, history, location }) => {
+const DrugPage = ({ match }) => {
   const { chemblId } = match.params;
   const { loading, data } = useQuery(DRUG_PAGE_QUERY, {
     variables: { chemblId },
@@ -55,7 +55,7 @@ const DrugPage = ({ match, history, location }) => {
       <RoutingTabs>
         <RoutingTab
           label="Profile"
-          path="/drug/:chemblId/profile"
+          path="/drug/:chemblId"
           component={() => (
             <Profile
               chemblId={chemblId}

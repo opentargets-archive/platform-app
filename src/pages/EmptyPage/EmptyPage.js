@@ -35,11 +35,11 @@ const EmptyPage = ({ classes, children }) => {
       <Typography className={classes.suggestions} variant="caption">
         <Grid container justify="space-between">
           Try:
-          <Link to="/target/ENSG00000105810">CDK6</Link>
-          <Link to="/disease/EFO_0003086">kidney disease</Link>
-          <Link to="/target/ENSG00000145777">ENSG00000145777</Link>
-          <Link to="/drug/CHEMBL112/profile">acetaminophen</Link>
-          <Link to="/drug/CHEMBL3137343/profile">Keytruda</Link>
+          <Link to="/target/ENSG00000105810/associations">CDK6</Link>
+          <Link to="/disease/EFO_0003086/associations">kidney disease</Link>
+          <Link to="/target/ENSG00000145777/associations">ENSG00000145777</Link>
+          <Link to="/drug/CHEMBL112">acetaminophen</Link>
+          <Link to="/drug/CHEMBL3137343">Keytruda</Link>
         </Grid>
       </Typography>
       <Typography gutterBottom>You might also want to ...</Typography>

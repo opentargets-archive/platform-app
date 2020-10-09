@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 import {
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom';
+import {
   Card,
   CardContent,
   Grid,
@@ -47,15 +54,12 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
 `;
 
 function ClassicAssociations({ ensgId, symbol }) {
-  const [tab, setTab] = useState('heatmap');
+  const match = useRouteMatch();
+  const location = useLocation();
   const [aggregationFilters, setAggregationFilters] = useState([]);
   const { loading, data, refetch } = useQuery(TARGET_ASSOCIATIONS_QUERY, {
     variables: { ensemblId: ensgId, aggregationFilters },
   });
-
-  const handleTabChange = (_, tab) => {
-    setTab(tab);
-  };
 
   const handleChangeFilters = newFilters => {
     setAggregationFilters(newFilters);
@@ -92,45 +96,55 @@ function ClassicAssociations({ ensgId, symbol }) {
         </Card>
       </Grid>
       <Grid item xs={12} lg={9}>
-        <Tabs
-          value={tab}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-        >
-          <Tab value="heatmap" label="Table" />
-          <Tab value="bubbles" label="Bubbles" />
-          <Tab value="dag" label="Graph" />
+        <Tabs value={location.pathname}>
+          <Tab
+            component={Link}
+            value={match.url}
+            label="Table"
+            to={match.url}
+          />
+          <Tab
+            component={Link}
+            value={`${match.url}/bubbles`}
+            label="Bubbles"
+            to={`${match.url}/bubbles`}
+          />
+          <Tab
+            component={Link}
+            value={`${match.url}/graph`}
+            label="Graph"
+            to={`${match.url}/graph`}
+          />
         </Tabs>
         <Card elevation={0} style={{ overflow: 'visible' }}>
           <CardContent>
             {loading && !data ? (
               <Skeleton variant="rect" height="40vh" />
             ) : (
-              <>
-                {tab === 'heatmap' && (
-                  <ClassicAssociationsTable
-                    ensgId={ensgId}
-                    aggregationFilters={aggregationFilters}
-                  />
-                )}
-                {tab === 'bubbles' && (
+              <Switch>
+                <Route path={`${match.path}/bubbles`}>
                   <Wrapper
                     ensemblId={ensgId}
                     symbol={symbol}
                     Component={ClassicAssociationsBubbles}
                     aggregationFilters={aggregationFilters}
                   />
-                )}
-                {tab === 'dag' && (
+                </Route>
+                <Route path={`${match.path}/graph`}>
                   <Wrapper
                     ensemblId={ensgId}
                     symbol={symbol}
                     Component={ClassicAssociationsDAG}
                     aggregationFilters={aggregationFilters}
                   />
-                )}
-              </>
+                </Route>
+                <Route path={match.path}>
+                  <ClassicAssociationsTable
+                    ensgId={ensgId}
+                    aggregationFilters={aggregationFilters}
+                  />
+                </Route>
+              </Switch>
             )}
           </CardContent>
         </Card>

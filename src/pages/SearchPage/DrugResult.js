@@ -24,7 +24,7 @@ const styles = theme => ({
 const DrugResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
-      <Link to={`drug/${data.id}/profile`} className={classes.subtitle}>
+      <Link to={`drug/${data.id}`} className={classes.subtitle}>
         <FontAwesomeIcon
           icon={faPrescriptionBottleAlt}
           size="md"

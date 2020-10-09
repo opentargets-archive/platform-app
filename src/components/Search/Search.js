@@ -64,7 +64,7 @@ function Search({ autoFocus = false, embedded = false }) {
     } else {
       history.push(
         `/${option.entity}/${option.id}${
-          option.entity === 'drug' ? '/profile' : ''
+          option.entity !== 'drug' ? '/associations' : ''
         }`
       );
     }
