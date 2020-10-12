@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const SUMMARY_FRAGMENT = gql`
+const PHENOTYPES_SUMMARY_FRAGMENT = gql`
   fragment PhenotypesSummaryFragment on Disease {
     name
     phenotypes {
@@ -16,7 +16,7 @@ const SUMMARY_FRAGMENT = gql`
 `;
 
 function Summary({ definition }) {
-  const request = usePlatformApi(SUMMARY_FRAGMENT);
+  const request = usePlatformApi(PHENOTYPES_SUMMARY_FRAGMENT);
 
   return (
     <SummaryItem
@@ -27,6 +27,6 @@ function Summary({ definition }) {
   );
 }
 
-Summary.fragments = { PhenotypesSummaryFragment: SUMMARY_FRAGMENT };
+Summary.fragments = { PhenotypesSummaryFragment: PHENOTYPES_SUMMARY_FRAGMENT };
 
 export default Summary;

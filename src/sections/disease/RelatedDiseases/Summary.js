@@ -4,8 +4,8 @@ import { gql } from '@apollo/client';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const SUMMARY_FRAGMENT = gql`
-  fragment RelatedDiseasesFragment on Disease {
+const RELATED_DISEASES_SUMMARY_FRAGMENT = gql`
+  fragment RelatedDiseasesSummaryFragment on Disease {
     relatedDiseases {
       count
     }
@@ -13,7 +13,7 @@ const SUMMARY_FRAGMENT = gql`
 `;
 
 function Summary({ definition }) {
-  const request = usePlatformApi(SUMMARY_FRAGMENT);
+  const request = usePlatformApi(RELATED_DISEASES_SUMMARY_FRAGMENT);
 
   return (
     <SummaryItem
@@ -31,7 +31,7 @@ function Summary({ definition }) {
 }
 
 Summary.fragments = {
-  RelatedDiseasesFragment: SUMMARY_FRAGMENT,
+  RelatedDiseasesSummaryFragment: RELATED_DISEASES_SUMMARY_FRAGMENT,
 };
 
 export default Summary;

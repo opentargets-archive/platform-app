@@ -110,7 +110,7 @@ const columns = (name, maxCountAOrB) => [
   },
 ];
 
-const Body = ({ definition, efoId }) => {
+function Body({ definition, efoId }) {
   const [page, setPage] = useState(0);
 
   const { loading, error, data, fetchMore } = useQuery(RELATED_DISEASES_QUERY, {
@@ -157,6 +157,6 @@ const Body = ({ definition, efoId }) => {
       )}
     />
   );
-};
+}
 
 export default Body;
