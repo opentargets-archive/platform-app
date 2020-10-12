@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 
-import OntologySubgraph from './custom/OntologySubgraph';
+import Description from './Description';
+import OntologySubgraph from './OntologySubgraph';
+import SectionItem from '../../../components/Section/SectionItem';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const getSubgraph = ({
   efoId,
@@ -71,9 +74,11 @@ const getSubgraph = ({
   return prunedGraph;
 };
 
-const Section = ({ efoId, name }) => {
+function Body({ definition, efoId }) {
   const [therapeuticAreas, setTherapeuticAreas] = useState(null);
   const [efoNodes, setEfoNodes] = useState(null);
+
+  const request = usePlatformApi();
 
   useEffect(() => {
     let isCurrent = true;
@@ -148,7 +153,20 @@ const Section = ({ efoId, name }) => {
     downMethod,
   });
 
-  return <OntologySubgraph efoId={efoId} name={name} subgraph={subgraph} />;
-};
+  return (
+    <SectionItem
+      definition={definition}
+      request={request}
+      renderDescription={data => <Description name={data.disease.name} />}
+      renderBody={data => (
+        <OntologySubgraph
+          efoId={efoId}
+          name={data.disease.name}
+          subgraph={subgraph}
+        />
+      )}
+    />
+  );
+}
 
-export default Section;
+export default Body;

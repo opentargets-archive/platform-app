@@ -1,8 +1,10 @@
-export const id = 'ontology';
-export const name = 'Ontology';
+export const definition = {
+  id: 'ontology',
+  name: 'Ontology',
+  shortHand: 'O',
+  // All terms are in the ontology.
+  hasData: () => true,
+};
 
-export const hasSummaryData = () => true; // all terms are in the ontology
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Body } from './Body';
+export { default as Summary } from './Summary';
