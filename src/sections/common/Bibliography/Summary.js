@@ -1,38 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import SummaryItem from '../../../components/Summary/SummaryItem';
 
-import { commaSeparate } from 'ot-ui';
+import { getStats } from './Api';
 
-import { getStats } from './custom/Api';
+function Summary({ definition, id }) {
+  const [request, setRequest] = useState({ loading: true });
 
-class Summary extends React.Component {
-  state = {
-    bibliographyCount: 0,
-  };
-  componentDidMount() {
-    const { keyword, setHasSummaryData, setHasSummaryError } = this.props;
-    getStats([{ key: keyword }]).then(
-      result => {
-        this.setState({
-          bibliographyCount: result.hits.total,
-        });
-        setHasSummaryData(result.hits.total > 0);
-      },
-      error => {
-        setHasSummaryError(true);
-      }
-    );
-  }
-  render() {
-    const { bibliographyCount } = this.state;
-    return bibliographyCount === 0 ? (
-      '(no data)'
-    ) : (
-      <>
-        {commaSeparate(bibliographyCount)} publication
-        {bibliographyCount === 1 ? '' : 's'}
-      </>
-    );
-  }
+  useEffect(
+    () => {
+      let isCurrent = true;
+
+      getStats([{ key: id }]).then(
+        res => {
+          if (isCurrent) {
+            setRequest({ loading: false, data: { count: res.hits.total } });
+          }
+        },
+        err => {
+          if (isCurrent) {
+            setRequest({ loading: false, error: err });
+          }
+        }
+      );
+
+      return () => {
+        isCurrent = false;
+      };
+    },
+    [id]
+  );
+
+  return (
+    <SummaryItem
+      definition={definition}
+      request={request}
+      renderSummary={data => (
+        <>
+          {data.count.toLocaleString()} publication
+          {data.count === 1 ? '' : 's'}
+        </>
+      )}
+    />
+  );
 }
 
 export default Summary;

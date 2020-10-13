@@ -5,8 +5,10 @@ import classNames from 'classnames';
 
 import { Typography, Button } from 'ot-ui';
 
-import Publication from './custom/Publication';
-import { getAggregationsData, getPublicationsData } from './custom/Api';
+import Publication from './Publication';
+import { getAggregationsData, getPublicationsData } from './Api';
+import SectionItem from '../../../components/Section/SectionItem';
+import Description from './Description';
 
 const aggtype = [
   { value: 'top_chunks_significant_terms', label: 'Concepts' },
@@ -50,10 +52,11 @@ const styles = theme => ({
 class Section extends Component {
   constructor(props) {
     super(props);
-    const { keyword, label } = props;
-    const searchTerm = { key: keyword, label };
+    const { id, label } = props;
+    const searchTerm = { key: id, label };
     this.state = {
       bibliographyCount: 0,
+      isLoading: true,
       hasData: false,
       hasError: false,
       aggregations: {},
@@ -106,6 +109,7 @@ class Section extends Component {
         this.setState({
           aggregations: {},
           hasError: true,
+          isLoading: false,
         });
       }
     );
@@ -113,6 +117,7 @@ class Section extends Component {
 
   // Get the data for the publications
   getPublications = append => {
+    this.setState({ isLoading: true });
     const { hits } = this.state;
     const last = hits[hits.length - 1];
     const after = append ? last.sort[0] : undefined;
@@ -124,15 +129,10 @@ class Section extends Component {
           after && afterId
             ? this.state.hits.concat(resp.hits.hits)
             : resp.hits.hits;
-        this.setState({
-          hits: hits,
-        });
+        this.setState({ hits: hits, isLoading: false });
       },
       error => {
-        this.setState({
-          hits: [],
-          hasError: true,
-        });
+        this.setState({ hits: [], hasError: true, isLoading: false });
       }
     );
   };
@@ -179,114 +179,122 @@ class Section extends Component {
       selectedAggregation,
       hits,
       selected,
+      isLoading,
+      hasError,
+      hasData,
     } = this.state;
-    const { classes } = this.props;
+    const { classes, definition, label } = this.props;
 
     return (
-      <Fragment>
-        <Grid
-          container
-          direction="column"
-          justify="flex-start"
-          alignItems="stretch"
-          spacing={2}
-        >
-          <Grid item xs={12}>
-            {/* Dropdown menu */}
-            <Select
-              options={aggtype}
-              defaultValue={selectedAggregation}
-              onChange={this.aggtypeFilterHandler}
-              className={classNames(classes.dropDown)}
-            />
-
-            {/* Chips */}
-            <Fragment>
-              {selected.map((sel, i) => {
-                return i > 0 ? (
-                  <Chip
-                    key={i}
-                    variant="outlined"
-                    label={sel.label || sel.key}
-                    onDelete={() => this.deselectChip(i)}
-                    className={classes.chip}
-                  />
-                ) : null;
-              })}
-              {aggregations[selectedAggregation.value]
-                ? aggregations[selectedAggregation.value].buckets.map(
-                    (agg, i) => (
-                      <Chip
-                        color="primary"
-                        key={i}
-                        label={agg.label || agg.key}
-                        onClick={() => this.selectChip(agg)}
-                        className={classNames(classes.chip, classes.linkChip)}
-                      />
-                    )
-                  )
-                : null}
-            </Fragment>
-          </Grid>
-
-          <Grid item xs={12}>
-            {/* Total result */}
-            <Typography variant="body2">
-              Showing {Math.min(hits.length, bibliographyCount)} of{' '}
-              {bibliographyCount} results
-            </Typography>
-
-            {/* Publications */}
-            <Grid
-              container
-              direction="column"
-              justify="flex-start"
-              alignItems="stretch"
-              spacing={2}
-            >
-              {hits.map((hit, i) => {
-                return (
-                  <Grid item xs={12} key={i}>
-                    <Publication
-                      pmId={hit._source.pub_id}
-                      title={hit._source.title}
-                      authors={
-                        (hit._source.authors || []).map(a => ({
-                          lastName: a.LastName,
-                          initials: a.Initials,
-                        })) || []
-                      }
-                      journal={{
-                        title: hit._source.journal.title,
-                        date: hit._source.pub_date,
-                        ref: hit._source.journal_reference,
-                      }}
-                      hasAbstract={hit._source.abstract}
-                    />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Grid>
-
-          {/* Load more, if any */}
-          {hits.length < bibliographyCount ? (
+      <SectionItem
+        definition={definition}
+        request={{ loading: isLoading, error: hasError, data: hasData }}
+        renderDescription={() => <Description label={label} />}
+        renderBody={() => (
+          <Grid
+            container
+            direction="column"
+            justify="flex-start"
+            alignItems="stretch"
+            spacing={2}
+          >
             <Grid item xs={12}>
-              <Button
-                variant="contained"
-                size="medium"
-                color="primary"
-                onClick={() => {
-                  this.getPublications(true);
-                }}
-                className={classes.linkChip}
-              >
-                Load more papers
-              </Button>
+              {/* Dropdown menu */}
+              <Select
+                options={aggtype}
+                defaultValue={selectedAggregation}
+                onChange={this.aggtypeFilterHandler}
+                className={classNames(classes.dropDown)}
+              />
+
+              {/* Chips */}
+              <Fragment>
+                {selected.map((sel, i) => {
+                  return i > 0 ? (
+                    <Chip
+                      key={i}
+                      variant="outlined"
+                      label={sel.label || sel.key}
+                      onDelete={() => this.deselectChip(i)}
+                      className={classes.chip}
+                    />
+                  ) : null;
+                })}
+                {aggregations[selectedAggregation.value]
+                  ? aggregations[selectedAggregation.value].buckets.map(
+                      (agg, i) => (
+                        <Chip
+                          color="primary"
+                          key={i}
+                          label={agg.label || agg.key}
+                          onClick={() => this.selectChip(agg)}
+                          className={classNames(classes.chip, classes.linkChip)}
+                        />
+                      )
+                    )
+                  : null}
+              </Fragment>
             </Grid>
-          ) : null}
-        </Grid>
-      </Fragment>
+
+            <Grid item xs={12}>
+              {/* Total result */}
+              <Typography variant="body2">
+                Showing {Math.min(hits.length, bibliographyCount)} of{' '}
+                {bibliographyCount} results
+              </Typography>
+
+              {/* Publications */}
+              <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="stretch"
+                spacing={2}
+              >
+                {hits.map((hit, i) => {
+                  return (
+                    <Grid item xs={12} key={i}>
+                      <Publication
+                        pmId={hit._source.pub_id}
+                        title={hit._source.title}
+                        authors={
+                          (hit._source.authors || []).map(a => ({
+                            lastName: a.LastName,
+                            initials: a.Initials,
+                          })) || []
+                        }
+                        journal={{
+                          title: hit._source.journal.title,
+                          date: hit._source.pub_date,
+                          ref: hit._source.journal_reference,
+                        }}
+                        hasAbstract={hit._source.abstract}
+                      />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Grid>
+
+            {/* Load more, if any */}
+            {hits.length < bibliographyCount ? (
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="primary"
+                  onClick={() => {
+                    this.getPublications(true);
+                  }}
+                  className={classes.linkChip}
+                >
+                  Load more papers
+                </Button>
+              </Grid>
+            ) : null}
+          </Grid>
+        )}
+      />
     );
   }
 }
