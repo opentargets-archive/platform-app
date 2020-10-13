@@ -74,7 +74,7 @@ const getSubgraph = ({
   return prunedGraph;
 };
 
-function Body({ definition, efoId }) {
+function Body({ definition, id: efoId, label: name }) {
   const [therapeuticAreas, setTherapeuticAreas] = useState(null);
   const [efoNodes, setEfoNodes] = useState(null);
 
@@ -157,13 +157,9 @@ function Body({ definition, efoId }) {
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={data => <Description name={data.disease.name} />}
+      renderDescription={data => <Description name={name} />}
       renderBody={data => (
-        <OntologySubgraph
-          efoId={efoId}
-          name={data.disease.name}
-          subgraph={subgraph}
-        />
+        <OntologySubgraph efoId={efoId} name={name} subgraph={subgraph} />
       )}
     />
   );

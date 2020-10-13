@@ -110,7 +110,7 @@ const columns = (name, maxCountAOrB) => [
   },
 ];
 
-function Body({ definition, efoId }) {
+function Body({ definition, id: efoId, label: name }) {
   const [page, setPage] = useState(0);
 
   const { loading, error, data, fetchMore } = useQuery(RELATED_DISEASES_QUERY, {
@@ -140,11 +140,11 @@ function Body({ definition, efoId }) {
     <SectionItem
       definition={definition}
       request={{ loading, error, data }}
-      renderDescription={data => <Description name={data.disease.name} />}
+      renderDescription={data => <Description name={name} />}
       renderBody={data => (
         <Table
           loading={loading}
-          columns={columns(data.disease.name, maxCountAOrB)}
+          columns={columns(name, maxCountAOrB)}
           dataDownloader
           dataDownloaderFileStem={`${efoId}-related_diseases`}
           dataDownloaderRows={getWholeDataset}

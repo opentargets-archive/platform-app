@@ -6,7 +6,6 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const PHENOTYPES_SUMMARY_FRAGMENT = gql`
   fragment PhenotypesSummaryFragment on Disease {
-    name
     phenotypes {
       disease
       name

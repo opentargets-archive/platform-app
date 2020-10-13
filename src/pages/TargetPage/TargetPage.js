@@ -49,7 +49,9 @@ function TargetPage({ match }) {
         <RoutingTab
           label="Profile"
           path="/target/:ensgId"
-          component={Profile}
+          component={() => (
+            <Profile ensgId={ensgId} approvedSymbol={approvedSymbol} />
+          )}
         />
         <RoutingTab
           label="View this page in the classic view"

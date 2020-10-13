@@ -17,7 +17,6 @@ const DISEASE_PROFILE_QUERY = gql`
   query DiseaseProfileQuery($efoId: String!) {
     disease(efoId: $efoId) {
       id
-      name
       ...DiseaseProfileHeaderFragment
       ...DiseaseProfileSummaryFragment
     }
@@ -37,13 +36,23 @@ function Profile({ efoId, name }) {
 
       <SummaryContainer>
         {sections.map(({ Summary, definition }) => (
-          <Summary key={definition.id} efoId={efoId} definition={definition} />
+          <Summary
+            key={definition.id}
+            id={efoId}
+            label={name}
+            definition={definition}
+          />
         ))}
       </SummaryContainer>
 
       <SectionContainer>
         {sections.map(({ Body, definition }) => (
-          <Body key={definition.id} efoId={efoId} definition={definition} />
+          <Body
+            key={definition.id}
+            id={efoId}
+            label={name}
+            definition={definition}
+          />
         ))}
       </SectionContainer>
     </PlatformApiProvider>

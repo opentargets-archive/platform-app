@@ -22,9 +22,7 @@ const DRUG_PROFILE_QUERY = gql`
   ${DRUG_PROFILE_SUMMARY_FRAGMENT}
 `;
 
-function Profile({ match }) {
-  const { chemblId } = match.params;
-
+function Profile({ chemblId, name }) {
   return (
     <PlatformApiProvider
       entity="drug"
@@ -38,6 +36,7 @@ function Profile({ match }) {
           <Summary
             key={definition.id}
             chemblId={chemblId}
+            label={name}
             definition={definition}
           />
         ))}
@@ -48,6 +47,7 @@ function Profile({ match }) {
           <Body
             key={definition.id}
             chemblId={chemblId}
+            label={name}
             definition={definition}
           />
         ))}

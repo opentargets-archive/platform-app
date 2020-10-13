@@ -24,14 +24,14 @@ const columns = [
   },
 ];
 
-function Body({ definition }) {
+function Body({ definition, label: name }) {
   const request = usePlatformApi();
 
   return (
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={data => <Description name={data.disease.name} />}
+      renderDescription={data => <Description name={name} />}
       renderBody={data => (
         <DataTable
           columns={columns}

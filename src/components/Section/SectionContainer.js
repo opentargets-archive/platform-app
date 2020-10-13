@@ -9,9 +9,9 @@ function SectionContainer({ children }) {
   const sectionOrder = ls.get(`${entity}SectionsOrder`);
 
   const sectionMap = React.Children.toArray(children).reduce((acc, child) => {
-    // Filter sections without data by looking at the summary data.
-    const { id, hasData } = child.props.definition;
-    const shouldRender = data && hasData(data?.[entity]);
+    // Filter platform-api sections without data.
+    const { id, hasData, external } = child.props.definition;
+    const shouldRender = data && (external || hasData(data?.[entity]));
 
     return {
       ...acc,

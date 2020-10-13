@@ -52,7 +52,7 @@ function DrugPage({ match }) {
         <RoutingTab
           label="Profile"
           path="/drug/:chemblId"
-          component={Profile}
+          component={() => <Profile chemblId={chemblId} name={name} />}
         />
         <RoutingTab
           label="View this page in the classic view"
