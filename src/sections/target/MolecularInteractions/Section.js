@@ -24,8 +24,8 @@ import Tab from '@material-ui/core/Tab';
 import DataTable from '../../../components/Table/DataTable';
 import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
 
-// import summaryData from './temp/summary.json';
-// import interactionsData from './temp/LRRK2_interactions.json';
+// import { Heatmap } from '../../../components/Heatmap';
+// import * as d3 from 'd3';
 
 const INTERACTIONS_QUERY = loader('./sectionQuery.gql');
 
@@ -462,6 +462,16 @@ const Section = ({ ensgId, symbol, data }) => {
     setSource(tabId);
   };
 
+  // TODO: re-enable for heatmap
+  // const scaleAssociation = d3
+  //         .scaleLinear()
+  //         .domain([0, 1])
+  //         .range([
+  //           '#f00',
+  //           '#fff'
+  //         ])
+  //         .unknown('#fff');
+
   useEffect(
     () => {
       fetchInteractions(ensgId, source, index, size).then(res => {
@@ -653,6 +663,19 @@ const Section = ({ ensgId, symbol, data }) => {
                 dataDownloaderFileStem={`${symbol}-molecular-interactions-string`}
                 hover
               />
+              {/* <Heatmap
+                rowIdAccessor={row => row.targetB ? row.targetB.approvedSymbol : row.intB}
+                labelAccessor={row => row.targetB ? row.targetB.approvedSymbol : row.intB}
+                rows={stringData}
+                columnGroups={[
+                    {
+                      id: '',
+                      columns: columns.string.interactions
+                    },
+                  ]}
+                rowsPerPage={10}
+                onLabelMouseover={()=>null}
+              /> */}
             </Grid>
           </Grid>
         )}
