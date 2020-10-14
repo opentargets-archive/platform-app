@@ -31,7 +31,7 @@ function Body({ definition, label: name }) {
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={data => <Description name={name} />}
+      renderDescription={() => <Description name={name} />}
       renderBody={data => (
         <DataTable
           columns={columns}

@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import ReactGA from 'react-ga';
-import { loader } from 'graphql.macro';
 import { Link } from 'ot-ui';
 
 import client from '../../../client';
-import SourceDrawer from '../../common/KnownDrugs/custom/SourceDrawer';
+import { naLabel } from '../../../constants';
+import SourceDrawer from './SourceDrawer';
 import { Table, getPage } from '../../../components/Table';
 import useCursorBatchDownloader from '../../../hooks/useCursorBatchDownloader';
-import { naLabel } from '../../../constants';
-
-const KNOWN_DRUGS_QUERY = loader('./sectionQuery.gql');
+import SectionItem from '../../../components/Section/SectionItem';
 
 const columnPool = {
-  clinicalTrialsColumns: {
+  clinicalTrials: {
     label: 'Clinical trials information',
     columns: [
       {
@@ -30,7 +27,7 @@ const columnPool = {
       },
     ],
   },
-  diseaseColumns: {
+  disease: {
     label: 'Disease information',
     columns: [
       {
@@ -42,7 +39,7 @@ const columnPool = {
       },
     ],
   },
-  drugColumns: {
+  drug: {
     label: 'Drug information',
     columns: [
       {
@@ -65,7 +62,7 @@ const columnPool = {
       },
     ],
   },
-  targetColumns: {
+  target: {
     label: 'Target information',
     columns: [
       {
@@ -87,47 +84,16 @@ const columnPool = {
   },
 };
 
-const columnsToShow = [
-  columnPool.diseaseColumns,
-  columnPool.drugColumns,
-  columnPool.targetColumns,
-  columnPool.clinicalTrialsColumns,
-];
-
-const stickyColumn = 'drug';
-
-const columns = [];
-
-columnsToShow.forEach(columnGroup => {
-  columns.push(
-    ...columnGroup.columns.map(column =>
-      column.id === stickyColumn ? { ...column, sticky: true } : column
-    )
-  );
-});
-
-const headerGroups = [
-  ...columnsToShow.map(group => ({
-    colspan: group.columns.length,
-    label: group.label,
-  })),
-];
-
-const fetchDrugs = (efoId, cursor, size, freeTextQuery) => {
-  return client.query({
-    query: KNOWN_DRUGS_QUERY,
-    variables: {
-      efoId,
-      cursor,
-      size: size * 10, // fetch 10 pages ahead of time
-      freeTextQuery,
-    },
-  });
-};
-
 const INIT_PAGE_SIZE = 10;
 
-const Section = ({ efoId }) => {
+function Body({
+  definition,
+  efoId,
+  BODY_QUERY,
+  Description,
+  columnsToShow,
+  stickyColumn,
+}) {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [cursor, setCursor] = useState(null);
@@ -135,6 +101,35 @@ const Section = ({ efoId }) => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(INIT_PAGE_SIZE);
   const [globalFilter, setGlobalFilter] = useState('');
+
+  const columns = [];
+
+  columnsToShow.forEach(columnGroupName => {
+    columns.push(
+      ...columnPool[columnGroupName].columns.map(column =>
+        column.id === stickyColumn ? { ...column, sticky: true } : column
+      )
+    );
+  });
+
+  const headerGroups = [
+    ...columnsToShow.map(columnGroupName => ({
+      colspan: columnPool[columnGroupName].columns.length,
+      label: columnPool[columnGroupName].label,
+    })),
+  ];
+
+  const fetchDrugs = (efoId, cursor, size, freeTextQuery) => {
+    return client.query({
+      query: BODY_QUERY,
+      variables: {
+        efoId,
+        cursor,
+        size: size * 10, // fetch 10 pages ahead of time
+        freeTextQuery,
+      },
+    });
+  };
 
   useEffect(
     () => {
@@ -146,11 +141,12 @@ const Section = ({ efoId }) => {
         setRows(rows);
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [efoId]
   );
 
   const getWholeDataset = useCursorBatchDownloader(
-    KNOWN_DRUGS_QUERY,
+    BODY_QUERY,
     { efoId },
     'data.disease.knownDrugs'
   );
@@ -192,11 +188,6 @@ const Section = ({ efoId }) => {
 
   const handleGlobalFilterChange = newGlobalFilter => {
     setLoading(true);
-    ReactGA.event({
-      category: 'Disease Profile Page',
-      action: 'Typed in knownDrugs widget search',
-      label: newGlobalFilter,
-    });
     fetchDrugs(efoId, null, pageSize, newGlobalFilter).then(res => {
       const { cursor, count, rows: newRows = [] } =
         res.data.disease.knownDrugs ?? {};
@@ -210,26 +201,33 @@ const Section = ({ efoId }) => {
   };
 
   return (
-    <Table
-      loading={loading}
-      stickyHeader
-      showGlobalFilter
-      globalFilter={globalFilter}
-      dataDownloader
-      dataDownloaderRows={getWholeDataset}
-      dataDownloaderFileStem={`${efoId}-known-drugs`}
-      headerGroups={headerGroups}
-      columns={columns}
-      rows={getPage(rows, page, pageSize)}
-      rowCount={count}
-      rowsPerPageOptions={[10, 25, 100]}
-      page={page}
-      pageSize={pageSize}
-      onGlobalFilterChange={handleGlobalFilterChange}
-      onPageChange={handlePageChange}
-      onRowsPerPageChange={handleRowsPerPageChange}
+    <SectionItem
+      definition={definition}
+      request={{ loading, error: false, data: count > 0 }}
+      renderDescription={() => <Description label="asdf" />}
+      renderBody={() => (
+        <Table
+          loading={loading}
+          stickyHeader
+          showGlobalFilter
+          globalFilter={globalFilter}
+          dataDownloader
+          dataDownloaderRows={getWholeDataset}
+          dataDownloaderFileStem={`${efoId}-known-drugs`}
+          headerGroups={headerGroups}
+          columns={columns}
+          rows={getPage(rows, page, pageSize)}
+          rowCount={count}
+          rowsPerPageOptions={[10, 25, 100]}
+          page={page}
+          pageSize={pageSize}
+          onGlobalFilterChange={handleGlobalFilterChange}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleRowsPerPageChange}
+        />
+      )}
     />
   );
-};
+}
 
-export default Section;
+export default Body;
