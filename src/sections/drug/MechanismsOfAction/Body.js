@@ -1,7 +1,33 @@
 import React, { Fragment } from 'react';
+import { gql, useQuery } from '@apollo/client';
+
 import { Link } from 'ot-ui';
 
 import DataTable from '../../../components/Table/DataTable';
+import SectionItem from '../../../components/Section/SectionItem';
+import Description from './Description';
+
+const MECHANISMS_OF_ACTION_QUERY = gql`
+  query MechanismsOfActionSectionQuery($chemblId: String!) {
+    drug(chemblId: $chemblId) {
+      id
+      mechanismsOfAction {
+        rows {
+          mechanismOfAction
+          targetName
+          targets {
+            id
+            approvedSymbol
+          }
+          references {
+            source
+            urls
+          }
+        }
+      }
+    }
+  }
+`;
 
 const columns = [
   {
@@ -55,14 +81,29 @@ const columns = [
   },
 ];
 
-const Section = ({ chemblId, data }) => (
-  <DataTable
-    showGlobalFilter
-    columns={columns}
-    rows={data.rows}
-    dataDownloader
-    dataDownloaderFileStem={`${chemblId}-mechanisms-of-action`}
-  />
-);
+function Body({ definition, id: chemblId, label: name }) {
+  const { loading, error, data } = useQuery(MECHANISMS_OF_ACTION_QUERY, {
+    variables: { chemblId },
+  });
 
-export default Section;
+  const rows = data?.drug.mechanismsOfAction.rows || [];
+
+  return (
+    <SectionItem
+      definition={definition}
+      request={{ loading, error, data }}
+      renderDescription={() => <Description name={name} />}
+      renderBody={() => (
+        <DataTable
+          showGlobalFilter
+          columns={columns}
+          rows={rows}
+          dataDownloader
+          dataDownloaderFileStem={`${chemblId}-mechanisms-of-action`}
+        />
+      )}
+    />
+  );
+}
+
+export default Body;

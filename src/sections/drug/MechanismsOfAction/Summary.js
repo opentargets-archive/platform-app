@@ -1,14 +1,42 @@
 import React from 'react';
+import { gql } from '@apollo/client';
 
-const Summary = ({ data }) => {
-  const { uniqueActionTypes, uniqueTargetTypes } = data;
+import SummaryItem from '../../../components/Summary/SummaryItem';
+import usePlatformApi from '../../../hooks/usePlatformApi';
+
+const MECHANISM_OF_ACTION_SUMMARY_FRAGMENT = gql`
+  fragment MechanismsOfActionSummaryFragment on Drug {
+    mechanismsOfAction {
+      uniqueActionTypes
+      uniqueTargetTypes
+    }
+  }
+`;
+
+function Summary({ definition }) {
+  const request = usePlatformApi(MECHANISM_OF_ACTION_SUMMARY_FRAGMENT);
+
   return (
-    <>
-      {uniqueActionTypes.length > 0 ? uniqueActionTypes.join(' • ') : null}
-      <br />
-      {uniqueTargetTypes.length > 0 ? uniqueTargetTypes.join(' • ') : null}
-    </>
+    <SummaryItem
+      definition={definition}
+      request={request}
+      renderSummary={data => (
+        <>
+          {data.mechanismsOfAction.uniqueActionTypes.length > 0
+            ? data.mechanismsOfAction.uniqueActionTypes.join(' • ')
+            : null}
+          <br />
+          {data.mechanismsOfAction.uniqueTargetTypes.length > 0
+            ? data.mechanismsOfAction.uniqueTargetTypes.join(' • ')
+            : null}
+        </>
+      )}
+    />
   );
+}
+
+Summary.fragments = {
+  MechanismsOfActionSummaryFragment: MECHANISM_OF_ACTION_SUMMARY_FRAGMENT,
 };
 
 export default Summary;
