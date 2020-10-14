@@ -109,7 +109,6 @@ class Section extends Component {
         this.setState({
           aggregations: {},
           hasError: true,
-          isLoading: false,
         });
       }
     );
