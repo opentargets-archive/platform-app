@@ -88,7 +88,8 @@ const INIT_PAGE_SIZE = 10;
 
 function Body({
   definition,
-  efoId,
+  entity,
+  variables,
   BODY_QUERY,
   Description,
   columnsToShow,
@@ -119,11 +120,11 @@ function Body({
     })),
   ];
 
-  const fetchDrugs = (efoId, cursor, size, freeTextQuery) => {
+  const fetchDrugs = (variables, cursor, size, freeTextQuery) => {
     return client.query({
       query: BODY_QUERY,
       variables: {
-        efoId,
+        ...variables,
         cursor,
         size: size * 10, // fetch 10 pages ahead of time
         freeTextQuery,
@@ -133,8 +134,8 @@ function Body({
 
   useEffect(
     () => {
-      fetchDrugs(efoId, null, INIT_PAGE_SIZE).then(res => {
-        const { cursor, count, rows } = res.data.disease.knownDrugs;
+      fetchDrugs(variables, null, INIT_PAGE_SIZE).then(res => {
+        const { cursor, count, rows } = res.data[entity].knownDrugs;
         setLoading(false);
         setCursor(cursor);
         setCount(count);
@@ -142,13 +143,13 @@ function Body({
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [efoId]
+    [variables]
   );
 
   const getWholeDataset = useCursorBatchDownloader(
     BODY_QUERY,
-    { efoId },
-    'data.disease.knownDrugs'
+    variables,
+    `data[${entity}].knownDrugs`
   );
 
   const handlePageChange = newPage => {
@@ -157,8 +158,8 @@ function Body({
       (cursor === null || cursor.length !== 0)
     ) {
       setLoading(true);
-      fetchDrugs(efoId, cursor, pageSize, globalFilter).then(res => {
-        const { cursor, rows: newRows } = res.data.disease.knownDrugs;
+      fetchDrugs(variables, cursor, pageSize, globalFilter).then(res => {
+        const { cursor, rows: newRows } = res.data[entity].knownDrugs;
         setLoading(false);
         setCursor(cursor);
         setPage(newPage);
@@ -172,8 +173,8 @@ function Body({
   const handleRowsPerPageChange = newPageSize => {
     if (newPageSize > rows.length) {
       setLoading(true);
-      fetchDrugs(efoId, cursor, newPageSize, globalFilter).then(res => {
-        const { cursor, rows: newRows } = res.data.disease.knownDrugs;
+      fetchDrugs(variables, cursor, newPageSize, globalFilter).then(res => {
+        const { cursor, rows: newRows } = res.data[entity].knownDrugs;
         setLoading(false);
         setCursor(cursor);
         setPage(0);
@@ -188,9 +189,9 @@ function Body({
 
   const handleGlobalFilterChange = newGlobalFilter => {
     setLoading(true);
-    fetchDrugs(efoId, null, pageSize, newGlobalFilter).then(res => {
+    fetchDrugs(variables, null, pageSize, newGlobalFilter).then(res => {
       const { cursor, count, rows: newRows = [] } =
-        res.data.disease.knownDrugs ?? {};
+        res.data[entity].knownDrugs ?? {};
       setLoading(false);
       setPage(0);
       setCursor(cursor);
@@ -199,6 +200,8 @@ function Body({
       setRows(newRows);
     });
   };
+
+  const id = variables[Object.keys(variables)[0]];
 
   return (
     <SectionItem
@@ -213,7 +216,7 @@ function Body({
           globalFilter={globalFilter}
           dataDownloader
           dataDownloaderRows={getWholeDataset}
-          dataDownloaderFileStem={`${efoId}-known-drugs`}
+          dataDownloaderFileStem={`${id}-known-drugs`}
           headerGroups={headerGroups}
           columns={columns}
           rows={getPage(rows, page, pageSize)}

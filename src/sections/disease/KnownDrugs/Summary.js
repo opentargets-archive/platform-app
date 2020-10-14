@@ -4,7 +4,7 @@ import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const KNOWN_DRUGS_SUMMARY_FRAGMENT = gql`
-  fragment KnownDrugsSummaryFragment on Disease {
+  fragment DiseaseKnownDrugsSummaryFragment on Disease {
     knownDrugs {
       count
       uniqueDrugs
@@ -31,7 +31,7 @@ function Summary({ definition }) {
 }
 
 Summary.fragments = {
-  KnownDrugsSummaryFragment: KNOWN_DRUGS_SUMMARY_FRAGMENT,
+  DiseaseKnownDrugsSummaryFragment: KNOWN_DRUGS_SUMMARY_FRAGMENT,
 };
 
 export default Summary;
