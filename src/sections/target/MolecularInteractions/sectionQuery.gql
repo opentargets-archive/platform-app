@@ -26,38 +26,38 @@ query InteractionsSectionQuery(
         count
         sourceDatabase
         evidences {
-          causalInteraction
+          # causalInteraction
           evidenceScore
-          expansionMethodMiIdentifier
-          expansionMethodShortName
+          # expansionMethodMiIdentifier
+          # expansionMethodShortName
           hostOrganismScientificName
-          hostOrganismTaxId
-          intASource
-          intBSource
+          # hostOrganismTaxId
+          # intASource
+          # intBSource
           interactionDetectionMethodMiIdentifier
           interactionDetectionMethodShortName
           interactionIdentifier
-          interactionResources {
-            databaseVersion
-            sourceDatabase
-          }
-          interactionScore
-          interactionTypeMiIdentifier
+          # interactionResources {
+          #   databaseVersion
+          #   sourceDatabase
+          # }
+          # interactionScore
+          # interactionTypeMiIdentifier
           interactionTypeShortName
-          # participantDetectionMethodMiIdentifierA
-          # participantDetectionMethodMiIdentifierB
-          # participantDetectionMethodShortNameA
-          # participantDetectionMethodShortNameB
-          speciesA {
-            mnemonic
-            scientificName
-            taxonId
-          }
-          speciesB {
-            mnemonic
-            scientificName
-            taxonId
-          }
+            # participantDetectionMethodMiIdentifierA
+            # participantDetectionMethodMiIdentifierB
+            # participantDetectionMethodShortNameA
+            # participantDetectionMethodShortNameB
+          # speciesA {
+          #   mnemonic
+          #   scientificName
+          #   taxonId
+          # }
+          # speciesB {
+          #   mnemonic
+          #   scientificName
+          #   taxonId
+          # }
           pubmedId
         }
       }

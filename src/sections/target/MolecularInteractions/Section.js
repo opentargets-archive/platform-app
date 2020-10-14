@@ -443,7 +443,7 @@ const Section = ({ ensgId, symbol, data }) => {
   const [stringCount, setStringCount] = useState(0);
 
   const index = 0;
-  const size = 10;
+  const size = 5000;
   const sources = [
     { label: 'IntAct', id: 'intact', countType: 'molecular interactions' },
     {
