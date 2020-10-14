@@ -38,7 +38,7 @@ function Profile({ ensgId, approvedSymbol }) {
         {sections.map(({ Summary, definition }) => (
           <Summary
             key={definition.id}
-            ensgId={ensgId}
+            id={ensgId}
             label={approvedSymbol}
             definition={definition}
           />
@@ -49,7 +49,7 @@ function Profile({ ensgId, approvedSymbol }) {
         {sections.map(({ Body, definition }) => (
           <Body
             key={definition.id}
-            ensgId={ensgId}
+            id={ensgId}
             label={approvedSymbol}
             definition={definition}
           />
