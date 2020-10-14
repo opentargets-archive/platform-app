@@ -35,7 +35,7 @@ function Profile({ chemblId, name }) {
         {sections.map(({ Summary, definition }) => (
           <Summary
             key={definition.id}
-            chemblId={chemblId}
+            id={chemblId}
             label={name}
             definition={definition}
           />
@@ -46,7 +46,7 @@ function Profile({ chemblId, name }) {
         {sections.map(({ Body, definition }) => (
           <Body
             key={definition.id}
-            chemblId={chemblId}
+            id={chemblId}
             label={name}
             definition={definition}
           />
