@@ -12,6 +12,7 @@ const Description = ({ name }) => (
     >
       Open Targets
     </Link>
+    .
   </React.Fragment>
 );
 

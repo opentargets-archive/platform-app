@@ -1,15 +1,40 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/client';
-import { loader } from 'graphql.macro';
+import { gql, useQuery } from '@apollo/client';
+import { makeStyles } from '@material-ui/core';
 import _ from 'lodash';
-import { withStyles } from '@material-ui/core';
 
+import Description from './Description';
+import SectionItem from '../../../components/Section/SectionItem';
 import { Table, PaginationActionsComplete } from '../../../components/Table';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
 
-const ADVERSE_EVENTS_QUERY = loader('./sectionQuery.gql');
+const ADVERSE_EVENTS_QUERY = gql`
+  query AdverseEventsQuery(
+    $chemblId: String!
+    $index: Int = 0
+    $size: Int = 10
+  ) {
+    drug(chemblId: $chemblId) {
+      id
+      maxLlr: adverseEvents(page: { index: 0, size: 1 }) {
+        rows {
+          logLR
+        }
+      }
+      adverseEvents(page: { index: $index, size: $size }) {
+        criticalValue
+        count
+        rows {
+          name
+          count
+          logLR
+        }
+      }
+    }
+  }
+`;
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   levelBarContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -20,7 +45,7 @@ const styles = theme => ({
     height: '10px',
     marginRight: '5px',
   },
-});
+}));
 
 const getColumns = (critVal, maxLlr, classes) => {
   return [
@@ -55,13 +80,11 @@ const getColumns = (critVal, maxLlr, classes) => {
   ];
 };
 
-const Section = ({ chemblId, classes, name }) => {
+function Body({ definition, id: chemblId, label: name }) {
+  const classes = useStyles();
   const [page, setPage] = useState(0);
-  const { data, loading, fetchMore } = useQuery(ADVERSE_EVENTS_QUERY, {
-    variables: {
-      chemblId,
-    },
-    notifyOnNetworkStatusChange: true,
+  const { loading, error, data, fetchMore } = useQuery(ADVERSE_EVENTS_QUERY, {
+    variables: { chemblId },
   });
 
   const handlePageChange = newPage => {
@@ -86,26 +109,31 @@ const Section = ({ chemblId, classes, name }) => {
 
   const getAllAdverseEvents = useBatchDownloader(
     ADVERSE_EVENTS_QUERY,
-    {
-      chemblId,
-    },
+    { chemblId },
     'data.drug.adverseEvents'
   );
 
   return (
-    <Table
-      dataDownloader
-      dataDownloaderRows={getAllAdverseEvents}
-      dataDownloaderFileStem={`${name}-adverse-events`}
-      loading={loading}
-      columns={getColumns(criticalValue, maxLlr, classes)}
-      rows={rows}
-      rowCount={count}
-      page={page}
-      onPageChange={handlePageChange}
-      ActionsComponent={PaginationActionsComplete}
+    <SectionItem
+      definition={definition}
+      request={{ loading, error, data }}
+      renderDescription={data => <Description name={name} />}
+      renderBody={data => (
+        <Table
+          dataDownloader
+          dataDownloaderRows={getAllAdverseEvents}
+          dataDownloaderFileStem={`${name}-adverse-events`}
+          loading={loading}
+          columns={getColumns(criticalValue, maxLlr, classes)}
+          rows={rows}
+          rowCount={count}
+          page={page}
+          onPageChange={handlePageChange}
+          ActionsComponent={PaginationActionsComplete}
+        />
+      )}
     />
   );
-};
+}
 
-export default withStyles(styles)(Section);
+export default Body;
