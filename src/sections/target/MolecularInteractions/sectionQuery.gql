@@ -44,10 +44,10 @@ query InteractionsSectionQuery(
           interactionScore
           interactionTypeMiIdentifier
           interactionTypeShortName
-          participantDetectionMethodMiIdentifierA
-          participantDetectionMethodMiIdentifierB
-          participantDetectionMethodShortNameA
-          participantDetectionMethodShortNameB
+          # participantDetectionMethodMiIdentifierA
+          # participantDetectionMethodMiIdentifierB
+          # participantDetectionMethodShortNameA
+          # participantDetectionMethodShortNameB
           speciesA {
             mnemonic
             scientificName
