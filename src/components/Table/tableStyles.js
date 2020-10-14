@@ -55,6 +55,7 @@ export const tableStyles = makeStyles(theme => ({
   },
   downloader: {
     order: 1,
+    marginLeft: 'auto',
     [theme.breakpoints.down('sm')]: {
       order: 0,
     },
