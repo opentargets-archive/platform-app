@@ -379,17 +379,18 @@ const columns = {
       {
         id: 'neighbourhood',
         label: 'Neighbourhood',
-        renderCell: () => '',
+        renderCell: row =>
+          filterStringEvidence(row.evidences, 'neighborhood_transferred'),
       },
       {
         id: 'geneFusion',
         label: 'Gene fusion',
-        renderCell: () => '',
+        renderCell: row => filterStringEvidence(row.evidences, 'domain fusion'),
       },
       {
         id: 'occurance',
         label: 'Co-occurrance',
-        renderCell: () => '',
+        renderCell: row => filterStringEvidence(row.evidences, 'coexpression'),
       },
       {
         id: 'expression',
