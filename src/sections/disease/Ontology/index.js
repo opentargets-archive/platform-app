@@ -4,6 +4,7 @@ export const definition = {
   shortHand: 'O',
   // All terms are in the ontology.
   hasData: () => true,
+  external: true,
 };
 
 export { default as Body } from './Body';

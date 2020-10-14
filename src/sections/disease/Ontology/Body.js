@@ -4,7 +4,6 @@ import _ from 'lodash';
 import Description from './Description';
 import OntologySubgraph from './OntologySubgraph';
 import SectionItem from '../../../components/Section/SectionItem';
-import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const getSubgraph = ({
   efoId,
@@ -77,15 +76,22 @@ const getSubgraph = ({
 function Body({ definition, id: efoId, label: name }) {
   const [therapeuticAreas, setTherapeuticAreas] = useState(null);
   const [efoNodes, setEfoNodes] = useState(null);
-
-  const request = usePlatformApi();
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isCurrent = true;
+
     fetch(
       'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/therapeutic_area.txt'
     )
-      .then(res => res.text())
+      .then(
+        res => res.text(),
+        err => {
+          setLoading(false);
+          setError(err);
+        }
+      )
       .then(text => {
         if (isCurrent) {
           setTherapeuticAreas(text.trim().split('\n'));
@@ -102,7 +108,13 @@ function Body({ definition, id: efoId, label: name }) {
     fetch(
       'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl'
     )
-      .then(res => res.text())
+      .then(
+        res => res.text(),
+        err => {
+          setLoading(false);
+          setError(err);
+        }
+      )
       .then(lines => {
         if (isCurrent) {
           const nodes = lines
@@ -115,6 +127,7 @@ function Body({ definition, id: efoId, label: name }) {
           nodes.push({ id: 'EFO_ROOT', name: 'root', parentIds: [] });
 
           setEfoNodes(nodes);
+          setLoading(false);
         }
       });
 
@@ -123,10 +136,8 @@ function Body({ definition, id: efoId, label: name }) {
     };
   }, []);
 
-  if (!(therapeuticAreas && efoNodes)) return null;
-
   // make sure that every therapeutic area has as parent the root node
-  const nodes = efoNodes.map(node => {
+  const nodes = efoNodes?.map(node => {
     const newNode = {
       ...node,
     };
@@ -138,27 +149,30 @@ function Body({ definition, id: efoId, label: name }) {
     return newNode;
   });
 
-  const nodesById = nodes.reduce((acc, d) => {
+  const nodesById = nodes?.reduce((acc, d) => {
     acc[d.id] = d;
     return acc;
   }, {});
   const upMethod = 'root';
   const downMethod = 1;
-  const subgraph = getSubgraph({
-    efoId,
-    nodes,
-    therapeuticAreas,
-    nodesById,
-    upMethod,
-    downMethod,
-  });
+  const subgraph =
+    therapeuticAreas &&
+    efoNodes &&
+    getSubgraph({
+      efoId,
+      nodes,
+      therapeuticAreas,
+      nodesById,
+      upMethod,
+      downMethod,
+    });
 
   return (
     <SectionItem
       definition={definition}
-      request={request}
-      renderDescription={data => <Description name={name} />}
-      renderBody={data => (
+      request={{ loading, error, data: subgraph }}
+      renderDescription={() => <Description name={name} />}
+      renderBody={() => (
         <OntologySubgraph efoId={efoId} name={name} subgraph={subgraph} />
       )}
     />
