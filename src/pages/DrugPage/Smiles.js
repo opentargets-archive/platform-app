@@ -108,19 +108,27 @@ class Smiles extends Component {
   };
 
   componentDidMount() {
+    this.mounted = true;
+
     const { chemblId } = this.props;
     fetch(
       `https://www.ebi.ac.uk/chembl/api/data/molecule/${chemblId}?format=json`
     )
       .then(res => res.json())
       .then(data => {
-        this.setState({
-          smiles:
-            data.molecule_type === 'Small molecule'
-              ? data.molecule_structures?.canonical_smiles
-              : null,
-        });
+        if (this.mounted) {
+          this.setState({
+            smiles:
+              data.molecule_type === 'Small molecule'
+                ? data.molecule_structures?.canonical_smiles
+                : null,
+          });
+        }
       });
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   render() {
