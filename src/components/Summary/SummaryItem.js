@@ -81,6 +81,7 @@ function SummaryItem({ definition, request, renderSummary }) {
                 [classes.subheaderError]: error,
               })}
             >
+              {error && 'An error occurred while loading this section'}
               {loading && 'Loading...'}
               {!loading && data && !hasData && 'no data'}
               {!loading && data && hasData && renderSummary(data)}

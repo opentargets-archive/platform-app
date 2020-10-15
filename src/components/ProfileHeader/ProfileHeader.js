@@ -4,7 +4,6 @@ import { Grid, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles({
   profileHeaderContainer: {
     marginTop: '.5rem',
-    marginBottom: '1rem',
   },
   profileHeaderSection: {
     marginBottom: '5px',

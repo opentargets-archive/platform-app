@@ -10,7 +10,7 @@ function Header({ loading, efoId, name }) {
   return (
     <HeaderBase
       loading={loading}
-      title={name}
+      title={name || 'Missing name'}
       Icon={faStethoscope}
       externalLinks={<ExternalLink title="EFO" id={efoId} url={efoUrl} />}
     />
