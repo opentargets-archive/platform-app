@@ -1,15 +1,9 @@
-import { loader } from 'graphql.macro';
-
-export const id = 'cancerBiomarkers';
-export const name = 'Cancer Biomarkers';
-
-export const hasSummaryData = data => {
-  return data && data.uniqueBiomarkers > 0;
+export const definition = {
+  id: 'cancerBiomarkers',
+  name: 'Cancer Biomarkers',
+  shortName: 'CB',
+  hasData: data => data.cancerBiomarkers?.uniqueBiomarkers > 0 || false,
 };
 
-export const summaryQuery = loader('./summaryQuery.gql');
-// export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';
