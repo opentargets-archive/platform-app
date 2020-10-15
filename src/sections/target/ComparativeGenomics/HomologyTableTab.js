@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { DataDownloader, OtTableRF, Link, significantFigures } from 'ot-ui';
 
@@ -28,6 +28,41 @@ const homologyTypeDictionary = {
   ortholog_one2many: 'orthologue: 1 to many',
   within_species_paralog: 'paralogue',
 };
+
+export async function getData(ensgId) {
+  const urlData = `https://rest.ensembl.org/homology/id/${ensgId}.json?format=full;sequence=none;type=all;target_taxon=9606;target_taxon=10090;target_taxon=10141;target_taxon=9544;target_taxon=9615;target_taxon=9986;target_taxon=10116;target_taxon=9823;target_taxon=8364;target_taxon=7955;target_taxon=9598;target_taxon=7227;target_taxon=6239`;
+  const urlTargetIdLookup = 'https://rest.ensembl.org/lookup/id/';
+  const resData = await fetch(urlData);
+  const rawData = await resData.json();
+  const homologies = rawData.data[0].homologies.filter(
+    d => scientificName2CommonName[d.target.species]
+  );
+  const targetIds = homologies.map(d => d.target.id);
+  const resTargetIdLookup = await fetch(urlTargetIdLookup, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ids: targetIds }),
+  });
+  const targetIdLookup = resTargetIdLookup.json();
+  const rows = homologies
+    .filter(d => Object.keys(homologyTypeDictionary).indexOf(d.type) >= 0)
+    .map(d => ({
+      dNdS: d.dn_ds,
+      species: scientificName2CommonName[d.target.species],
+      speciesId: d.target.species,
+      homologyType: homologyTypeDictionary[d.type],
+      queryPercentageIdentity: d.source.perc_id,
+      targetPercentageIdentity: d.target.perc_id,
+      targetGeneId: d.target.id,
+      targetGeneSymbol: targetIdLookup[d.target.id]
+        ? targetIdLookup[d.target.id].display_name
+        : null,
+    }));
+
+  return { rows };
+}
 
 const columns = [
   {
@@ -110,71 +145,17 @@ const downloadColumns = [
   },
 ];
 
-const HomologyTableTab = ({ ensgId, symbol }) => {
-  const [rows, setRows] = useState(null);
-
-  useEffect(
-    () => {
-      let isCurrent = true;
-      fetch(
-        `https://rest.ensembl.org/homology/id/${ensgId}.json?format=full;sequence=none;type=all;target_taxon=9606;target_taxon=10090;target_taxon=10141;target_taxon=9544;target_taxon=9615;target_taxon=9986;target_taxon=10116;target_taxon=9823;target_taxon=8364;target_taxon=7955;target_taxon=9598;target_taxon=7227;target_taxon=6239`
-      )
-        .then(res => res.json())
-        .then(res => {
-          const homologies = res.data[0].homologies.filter(
-            d => scientificName2CommonName[d.target.species]
-          );
-
-          const targetIds = homologies.map(d => d.target.id);
-          fetch('https://rest.ensembl.org/lookup/id/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ ids: targetIds }),
-          })
-            .then(res => res.json())
-            .then(targetIdLookup => {
-              const rows = homologies
-                .filter(
-                  d => Object.keys(homologyTypeDictionary).indexOf(d.type) >= 0
-                )
-                .map(d => ({
-                  dNdS: d.dn_ds,
-                  species: scientificName2CommonName[d.target.species],
-                  speciesId: d.target.species,
-                  homologyType: homologyTypeDictionary[d.type],
-                  queryPercentageIdentity: d.source.perc_id,
-                  targetPercentageIdentity: d.target.perc_id,
-                  targetGeneId: d.target.id,
-                  targetGeneSymbol: targetIdLookup[d.target.id]
-                    ? targetIdLookup[d.target.id].display_name
-                    : null,
-                }));
-              if (isCurrent) {
-                setRows(rows);
-              }
-            });
-        });
-      return () => {
-        isCurrent = false;
-      };
-    },
-    [ensgId]
-  );
-
-  if (!rows) return null;
-
+function HomologyTableTab({ approvedSymbol, request }) {
   return (
     <>
       <DataDownloader
         tableHeaders={downloadColumns}
-        rows={rows}
-        fileStem={`${symbol}-orthologues`}
+        rows={request.data.rows}
+        fileStem={`${approvedSymbol}-orthologues`}
       />
-      <OtTableRF loading={rows === null} columns={columns} data={rows} />
+      <OtTableRF loading={false} columns={columns} data={request.data.rows} />
     </>
   );
-};
+}
 
 export default HomologyTableTab;

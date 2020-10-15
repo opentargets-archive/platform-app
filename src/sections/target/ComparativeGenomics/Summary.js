@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
+import { useEffect, useState } from 'react';
+
+import SummaryItem from '../../../components/Summary/SummaryItem';
 
 const speciesSubset = [
   'homo_sapiens',
@@ -16,17 +19,25 @@ const speciesSubset = [
   'caenorhabditis_elegans',
 ];
 
-const Summary = ({ ensgId, setHasSummaryData }) => {
-  const [orthologueCount, setOrthologueCount] = useState(null);
-  const [numSpecies, setNumSpecies] = useState(null);
+function Summary({ definition, id: ensgId }) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState();
+  const [data, setData] = useState();
 
   useEffect(
     () => {
       let isCurrent = true;
+
       fetch(
         `https://rest.ensembl.org/homology/id/${ensgId}.json?format=full;sequence=none;type=all;target_taxon=9606;target_taxon=10090;target_taxon=10141;target_taxon=9544;target_taxon=9615;target_taxon=9986;target_taxon=10116;target_taxon=9823;target_taxon=8364;target_taxon=7955;target_taxon=9598;target_taxon=7227;target_taxon=6239`
       )
-        .then(res => res.json())
+        .then(
+          res => res.json(),
+          err => {
+            setError(err);
+            setLoading(false);
+          }
+        )
         .then(data => {
           const { homologies } = data.data[0];
           let orthologueCount = 0;
@@ -46,22 +57,27 @@ const Summary = ({ ensgId, setHasSummaryData }) => {
           });
 
           if (isCurrent) {
-            setHasSummaryData(orthologueCount > 0);
-            setOrthologueCount(orthologueCount);
-            setNumSpecies(speciesSet.size);
+            setData({ orthologueCount, numSpecies: speciesSet.size });
+            setLoading(false);
           }
         });
+
       return () => {
         isCurrent = false;
       };
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [ensgId]
   );
 
-  if (!orthologueCount) return '(no data)';
-
-  return `${orthologueCount} orthologues in ${numSpecies} species`;
-};
+  return (
+    <SummaryItem
+      definition={definition}
+      request={{ loading, error, data }}
+      renderSummary={data =>
+        `${data.orthologueCount} orthologues in ${data.numSpecies} species`
+      }
+    />
+  );
+}
 
 export default Summary;

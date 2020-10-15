@@ -11,7 +11,7 @@ function SectionContainer({ children }) {
   const sectionMap = React.Children.toArray(children).reduce((acc, child) => {
     // Filter platform-api sections without data.
     const { id, hasData, external } = child.props.definition;
-    const shouldRender = data && (external || hasData(data?.[entity]));
+    const shouldRender = external || (data && hasData(data?.[entity]));
 
     return {
       ...acc,

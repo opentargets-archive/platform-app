@@ -1,11 +1,15 @@
 import React from 'react';
-import { withContentRect } from 'react-measure';
-import * as d3 from 'd3';
 import targetGeneTree from 'cttv.targetGeneTree';
+import { withContentRect } from 'react-measure';
 
-// // TODO: update tntvis to use the latest version of d3 (not v3 as here)
-// // this file is a tweaked version of that in the `tnt.tooltip` dep
-// const d3 = window.d3;
+export function getData(ensgId) {
+  console.log('getting genetretab data');
+  return { hi: ensgId };
+}
+
+// TODO: update tntvis to use the latest version of d3 (not v3 as here)
+// this file is a tweaked version of that in the `tnt.tooltip` dep
+const d3 = window.d3;
 
 // TODO: Currently, when a resize occurs, we just
 // redraw the widget, meaning internal state is lost.
@@ -13,10 +17,12 @@ import targetGeneTree from 'cttv.targetGeneTree';
 // some investigation needs to be done into tntvis.
 class GeneTreeTab extends React.Component {
   state = {};
+
   static getDerivedStateFromProps(props) {
     const { width = 600 } = props.contentRect.bounds;
     return { width };
   }
+
   _render = (ensgId, width) => {
     // clear previous (if existed)
     d3.select('#otTargetGeneTree')
