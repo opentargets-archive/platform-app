@@ -99,17 +99,21 @@ class Section extends Component {
   getAggregations = () => {
     getAggregationsData(this.state.selected).then(
       resp => {
-        this.setState({
-          bibliographyCount: resp.hits.total,
-          hasData: resp.hits.total > 0,
-          aggregations: this.filterAggregations(resp.aggregations),
-        });
+        if (this.mounted) {
+          this.setState({
+            bibliographyCount: resp.hits.total,
+            hasData: resp.hits.total > 0,
+            aggregations: this.filterAggregations(resp.aggregations),
+          });
+        }
       },
       error => {
-        this.setState({
-          aggregations: {},
-          hasError: true,
-        });
+        if (this.mounted) {
+          this.setState({
+            aggregations: {},
+            hasError: true,
+          });
+        }
       }
     );
   };
@@ -128,10 +132,14 @@ class Section extends Component {
           after && afterId
             ? this.state.hits.concat(resp.hits.hits)
             : resp.hits.hits;
-        this.setState({ hits: hits, isLoading: false });
+        if (this.mounted) {
+          this.setState({ hits: hits, isLoading: false });
+        }
       },
       error => {
-        this.setState({ hits: [], hasError: true, isLoading: false });
+        if (this.mounted) {
+          this.setState({ hits: [], hasError: true, isLoading: false });
+        }
       }
     );
   };
@@ -161,7 +169,12 @@ class Section extends Component {
   };
 
   componentDidMount() {
+    this.mounted = true;
     this.getData();
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   componentDidUpdate(prevProps, prevState) {

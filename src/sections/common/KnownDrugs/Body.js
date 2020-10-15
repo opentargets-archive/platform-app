@@ -134,13 +134,22 @@ function Body({
 
   useEffect(
     () => {
+      let isCurrent = true;
+
       fetchDrugs(variables, null, INIT_PAGE_SIZE).then(res => {
         const { cursor, count, rows } = res.data[entity].knownDrugs;
-        setLoading(false);
-        setCursor(cursor);
-        setCount(count);
-        setRows(rows);
+
+        if (isCurrent) {
+          setLoading(false);
+          setCursor(cursor);
+          setCount(count);
+          setRows(rows);
+        }
       });
+
+      return () => {
+        isCurrent = false;
+      };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [variables]
