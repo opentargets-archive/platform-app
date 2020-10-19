@@ -1,9 +1,9 @@
 // Section imports
+import * as BaselineExpression from '../../sections/target/Expression';
 import * as Bibliography from '../../sections/common/Bibliography';
 import * as CancerBiomarkers from '../../sections/target/CancerBiomarkers';
 import * as ChemicalProbes from '../../sections/target/ChemicalProbes';
 import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics';
-// import * as Expression from '../../sections/target/Expression';
 // import * as GeneOntology from '../../sections/target/GeneOntology';
 // import * as Hallmarks from '../../sections/target/CancerHallmarks';
 // import * as KnownDrugs from '../../sections/target/KnownDrugs';
@@ -18,6 +18,7 @@ import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics'
 // import * as Variation from '../../sections/target/Variation';
 
 export default [
+  BaselineExpression,
   Bibliography,
   CancerBiomarkers,
   ChemicalProbes,

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Tabs, Tab } from 'ot-ui';
 
-import GeneTreeTab, { getData as getTreeData } from './GeneTreeTab';
+import GeneTreeTab from './GeneTreeTab';
 import HomologyTableTab, { getData as getTableData } from './HomologyTableTab';
 
 import SectionItem from '../../../components/Section/SectionItem';
@@ -12,14 +12,12 @@ function Body({ definition, id: ensgId, label: approvedSymbol }) {
   const defaultTab = 'table';
   const [tab, setTab] = useState(defaultTab);
   const [requestTable, setRequestTable] = useState({ loading: true });
-  const [requestTree, setRequestTree] = useState({ loading: true });
   const [request, setRequest] = {
     table: [requestTable, setRequestTable],
-    tree: [requestTree, setRequestTree],
+    tree: [{ loading: false, data: true }, undefined],
   }[tab];
   const getData = {
     table: getTableData,
-    tree: getTreeData,
   }[tab];
 
   const handleChangeTab = (_, tab) => {
@@ -39,7 +37,7 @@ function Body({ definition, id: ensgId, label: approvedSymbol }) {
         }
       }
 
-      if (!request.data) {
+      if (!request.data && getData) {
         setRequest({ loading: true });
         updateData();
       }
@@ -61,18 +59,13 @@ function Body({ definition, id: ensgId, label: approvedSymbol }) {
           <Tabs
             value={tab}
             onChange={handleChangeTab}
-            variant="scrollable"
-            scrollButtons="auto"
             style={{ marginBottom: '1rem' }}
           >
             <Tab value="table" label="Homology table" />
             <Tab value="tree" label="Gene tree" />
           </Tabs>
           {tab === 'table' ? (
-            <HomologyTableTab
-              approvedSymbol={approvedSymbol}
-              request={{ data }}
-            />
+            <HomologyTableTab approvedSymbol={approvedSymbol} data={data} />
           ) : null}
           {tab === 'tree' ? (
             <GeneTreeTab ensgId={ensgId} symbol={approvedSymbol} />

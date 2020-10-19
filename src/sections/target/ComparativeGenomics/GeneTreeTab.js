@@ -2,11 +2,6 @@ import React from 'react';
 import targetGeneTree from 'cttv.targetGeneTree';
 import { withContentRect } from 'react-measure';
 
-export function getData(ensgId) {
-  console.log('getting genetretab data');
-  return { hi: ensgId };
-}
-
 // TODO: update tntvis to use the latest version of d3 (not v3 as here)
 // this file is a tweaked version of that in the `tnt.tooltip` dep
 const d3 = window.d3;

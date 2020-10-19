@@ -1,7 +1,7 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
-import { Grid, withStyles } from '@material-ui/core';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
+import { Grid } from '@material-ui/core';
+import client from '../../../client';
 
 import { DataDownloader } from 'ot-ui';
 
@@ -29,11 +29,12 @@ const EXPRESSION_QUERY = gql`
   }
 `;
 
-const styles = () => ({
-  description: {
-    fontStyle: 'italic',
-  },
-});
+export function getData(ensgId) {
+  return client.query({
+    query: EXPRESSION_QUERY,
+    variables: { ensemblId: ensgId },
+  });
+}
 
 const headers = [
   { id: 'label', label: 'Tissue' },
@@ -53,31 +54,19 @@ const getDownloadRows = expressions => {
   }));
 };
 
-const SummaryPanel = ({ ensgId, symbol }) => {
-  const { loading, error, data } = useQuery(EXPRESSION_QUERY, {
-    variables: { ensemblId: ensgId },
-  });
-
-  if (loading || error) return null;
-
-  const { expressions } = data.target;
-
+function SummaryTab({ approvedSymbol, data }) {
   return (
     <Grid container justify="center">
       <Grid item xs={12} lg={8}>
         <DataDownloader
           tableHeaders={headers}
-          rows={getDownloadRows(expressions)}
-          fileStem={`${symbol}-expression`}
+          rows={getDownloadRows(data.target.expressions)}
+          fileStem={`${approvedSymbol}-expression`}
         />
-        <SummaryTable data={expressions} />
+        <SummaryTable data={data.target.expressions} />
       </Grid>
     </Grid>
   );
-};
+}
 
-const SummaryTab = ({ ensgId, symbol }) => {
-  return <SummaryPanel ensgId={ensgId} symbol={symbol} />;
-};
-
-export default withStyles(styles)(SummaryTab);
+export default SummaryTab;

@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 
-import ErrorBoundary from '../../../../components/ErrorBoundary';
+import ErrorBoundary from '../../../components/ErrorBoundary';
 
 const ExpressionAtlasHeatmap = lazy(() =>
   import('expression-atlas-heatmap-highcharts')
