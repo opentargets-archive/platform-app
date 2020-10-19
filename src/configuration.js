@@ -13,7 +13,7 @@ export const targetSectionsDefaultOrder = [
   'pathways',
   'relatedTargets',
   'cancerBiomarkers',
-  'hallmarks',
+  'cancerHallmarks',
   'mousePhenotypes',
   'variation',
   'orthologs',
