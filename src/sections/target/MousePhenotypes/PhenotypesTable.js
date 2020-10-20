@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { DataDownloader, OtTableRF, Link } from 'ot-ui';
 
-import MouseModelAllelicComposition from '../../../../components/MouseModelAllelicComposition';
+import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
 
 const getColumns = (
   mouseGeneOptions,
