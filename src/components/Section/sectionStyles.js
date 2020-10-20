@@ -22,11 +22,16 @@ const sectionStyles = makeStyles(theme => ({
   cardContent: {
     borderTop: `1px solid ${theme.palette.grey[300]}`,
   },
-  descriptionHasData: {
-    color: theme.palette.grey[700],
+  description: {
+    fontStyle: 'italic',
+    fontSize: '0.8rem',
+    color: theme.palette.grey[400],
   },
   descriptionError: {
     color: theme.palette.secondary.main,
+  },
+  descriptionHasData: {
+    color: theme.palette.grey[700],
   },
   title: {
     color: theme.palette.grey[400],
@@ -38,11 +43,6 @@ const sectionStyles = makeStyles(theme => ({
   },
   titleError: {
     color: theme.palette.secondary.main,
-  },
-  description: {
-    fontStyle: 'italic',
-    fontSize: '0.8rem',
-    color: theme.palette.grey[400],
   },
 }));
 
