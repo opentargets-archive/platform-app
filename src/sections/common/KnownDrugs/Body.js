@@ -216,7 +216,7 @@ function Body({
     <SectionItem
       definition={definition}
       request={{ loading, error: false, data: count > 0 }}
-      renderDescription={() => <Description label="asdf" />}
+      renderDescription={Description}
       renderBody={() => (
         <Table
           loading={loading}

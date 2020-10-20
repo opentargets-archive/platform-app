@@ -1,7 +1,0 @@
-fragment targetKnownDrugsFragment on Target {
-  knownDrugs {
-    count
-    uniqueDrugs
-    uniqueDiseases
-  }
-}

@@ -45,14 +45,14 @@ const KNOWN_DRUGS_BODY_QUERY = gql`
   }
 `;
 
-function Body({ id: efoId, definition }) {
+function Body({ definition, id: efoId, label: name }) {
   return (
     <KnownDrugsBody
       definition={definition}
       entity="disease"
       variables={{ efoId }}
       BODY_QUERY={KNOWN_DRUGS_BODY_QUERY}
-      Description={Description}
+      Description={() => <Description name={name} />}
       columnsToShow={['disease', 'drug', 'target', 'clinicalTrials']}
       stickyColumn="drug"
     />

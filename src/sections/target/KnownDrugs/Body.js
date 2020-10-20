@@ -6,12 +6,12 @@ import Description from './Description';
 
 const KNOWN_DRUGS_BODY_QUERY = gql`
   query KnownDrugsQuery(
-    $chemblId: String!
+    $ensgId: String!
     $cursor: [String!]
     $freeTextQuery: String
     $size: Int = 10
   ) {
-    drug(chemblId: $chemblId) {
+    target(ensemblId: $ensgId) {
       id
       knownDrugs(cursor: $cursor, freeTextQuery: $freeTextQuery, size: $size) {
         count
@@ -27,27 +27,29 @@ const KNOWN_DRUGS_BODY_QUERY = gql`
             id
             name
           }
-          target {
+          drug {
             id
-            approvedName
-            approvedSymbol
+            name
           }
+          drugType
+          mechanismOfAction
+          activity
         }
       }
     }
   }
 `;
 
-function Body({ definition, id: chemblId, label: name }) {
+function Body({ definition, id: ensgId, label: approvedSymbol }) {
   return (
     <KnownDrugsBody
       definition={definition}
-      entity="drug"
-      variables={{ chemblId }}
+      entity="target"
+      variables={{ ensgId }}
       BODY_QUERY={KNOWN_DRUGS_BODY_QUERY}
-      Description={() => <Description name={name} />}
-      columnsToShow={['disease', 'target', 'clinicalTrials']}
-      stickyColumn="disease"
+      Description={() => <Description approvedSymbol={approvedSymbol} />}
+      columnsToShow={['drug', 'disease', 'clinicalTrials']}
+      stickyColumn="drug"
     />
   );
 }
