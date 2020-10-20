@@ -1,7 +1,0 @@
-fragment targetGeneOntologyFragment on Target {
-  geneOntology {
-    term
-    # get all fields sectionQuery will want, to let Apollo cache the rows
-    id
-  }
-}

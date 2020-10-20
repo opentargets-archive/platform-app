@@ -8,7 +8,7 @@ import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics'
 import * as GeneOntology from '../../sections/target/GeneOntology';
 import * as KnownDrugs from '../../sections/target/KnownDrugs';
 import * as MousePhenotypes from '../../sections/target/MousePhenotypes';
-// import * as Pathways from '../../sections/target/Pathways';
+import * as Pathways from '../../sections/target/Pathways';
 // import * as Protein from '../../sections/target/ProteinInformation';
 // import * as ProteinInteractions from '../../sections/target/ProteinInteractions';
 // import * as RelatedTargets from '../../sections/target/RelatedTargets';
@@ -27,4 +27,5 @@ export default [
   GeneOntology,
   KnownDrugs,
   MousePhenotypes,
+  Pathways,
 ];
