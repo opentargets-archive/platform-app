@@ -28,6 +28,7 @@ import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
 // import * as d3 from 'd3';
 
 const INTERACTIONS_QUERY = loader('./sectionQuery.gql');
+const SECTION_COUNTS_QUERY = loader('./sectionCountsQuery.gql');
 
 const fetchInteractions = (ensgId, sourceDatabase, index, size) => {
   return client.query({
@@ -37,6 +38,15 @@ const fetchInteractions = (ensgId, sourceDatabase, index, size) => {
       sourceDatabase,
       index,
       size,
+    },
+  });
+};
+
+const fetchSummaryCounts = ensgId => {
+  return client.query({
+    query: SECTION_COUNTS_QUERY,
+    variables: {
+      ensgId,
     },
   });
 };
@@ -425,7 +435,6 @@ const columns = {
 
 const Section = ({ ensgId, symbol, data }) => {
   const [source, setSource] = useState('intact');
-  const [evidenceId, setEvidenceId] = useState(0);
 
   const [intactData, setIntactData] = useState([]);
   const [intactCount, setIntactCount] = useState(0);
@@ -445,21 +454,45 @@ const Section = ({ ensgId, symbol, data }) => {
   const index = 0;
   const size = 5000;
   const sources = [
-    { label: 'IntAct', id: 'intact', countType: 'molecular interactions' },
+    {
+      label: 'IntAct',
+      id: 'intact',
+      countType: 'molecular interactions',
+      count: intactCount,
+      data: intactData,
+      setData: setIntactData,
+      setEvidence: setIntactEvidence,
+    },
     {
       label: 'Signor',
       id: 'signor',
       countType: 'directional, causal interactions',
+      count: signorCount,
+      data: signorData,
+      setData: setSignorData,
+      setEvidence: setSignorEvidence,
     },
     {
       label: 'Reactome',
       id: 'reactome',
       countType: 'pathway-based interactions',
+      count: reactomeCount,
+      data: reactomeData,
+      setData: setReactomeData,
+      setEvidence: setReactomeEvidence,
     },
-    { label: 'String', id: 'string', countType: 'functional interactions' },
+    {
+      label: 'String',
+      id: 'string',
+      countType: 'functional interactions',
+      count: stringCount,
+      data: stringData,
+      setData: setStringData,
+      setEvidence: () => {},
+    },
   ];
 
-  const handleChange = (event, tabId) => {
+  const onTabChange = (event, tabId) => {
     setSource(tabId);
   };
 
@@ -473,60 +506,47 @@ const Section = ({ ensgId, symbol, data }) => {
   //         ])
   //         .unknown('#fff');
 
+  // load tabs summary counts
   useEffect(
     () => {
-      fetchInteractions(ensgId, source, index, size).then(res => {
-        if (res.data.target.interactions) {
-          setIntactData(res.data.target.interactions.rows);
-          setIntactCount(res.data.target.interactions.count);
-          setIntactEvidence(res.data.target.interactions.rows[0].evidences);
-        }
-      });
-
-      fetchInteractions(ensgId, 'signor', index, size).then(res => {
-        if (res.data.target.interactions) {
-          setSignorData(res.data.target.interactions.rows);
-          setSignorCount(res.data.target.interactions.count);
-          setSignorEvidence(res.data.target.interactions.rows[0].evidences);
-        }
-      });
-
-      fetchInteractions(ensgId, 'reactome', index, size).then(res => {
-        if (res.data.target.interactions) {
-          setReactomeData(res.data.target.interactions.rows);
-          setReactomeCount(res.data.target.interactions.count);
-          setReactomeEvidence(res.data.target.interactions.rows[0].evidences);
-        }
-      });
-
-      fetchInteractions(ensgId, 'string', index, size).then(res => {
-        if (res.data.target.interactions) {
-          setStringData(res.data.target.interactions.rows);
-          setStringCount(res.data.target.interactions.count);
-        }
+      fetchSummaryCounts(ensgId).then(res => {
+        setIntactCount(res.data.target.intact.count);
+        setSignorCount(res.data.target.signor.count);
+        setReactomeCount(res.data.target.reactome.count);
+        setStringCount(res.data.target.string.count);
       });
     },
     [ensgId]
   );
+
+  // load tab data when new tab selected (also on first load)
+  useEffect(
+    () => {
+      fetchInteractions(ensgId, source, index, size).then(res => {
+        if (res.data.target.interactions) {
+          sources
+            .filter(s => s.id === source)
+            .forEach(s => {
+              s.setData(res.data.target.interactions.rows);
+              if (s.setEvidence) {
+                s.setEvidence(res.data.target.interactions.rows[0].evidences);
+              }
+            });
+        }
+      });
+    },
+    [source]
+  );
+
   return (
     <>
       {/* Interaction Resource */}
       <Tabs
         value={source}
-        onChange={handleChange}
+        onChange={onTabChange}
         aria-label="simple tabs example"
       >
         {sources.map((s, i) => {
-          const count =
-            s.id === 'intact'
-              ? intactCount
-              : s.id === 'signor'
-              ? signorCount
-              : s.id === 'reactome'
-              ? reactomeCount
-              : s.id === 'string'
-              ? stringCount
-              : 0;
           return (
             <Tab
               label={
@@ -536,7 +556,7 @@ const Section = ({ ensgId, symbol, data }) => {
                     {s.version}
                   </Typography> */}
                   <Typography variant="body2" gutterBottom>
-                    {count} {s.countType}
+                    {s.count} {s.countType}
                   </Typography>
                 </>
               }
@@ -562,9 +582,6 @@ const Section = ({ ensgId, symbol, data }) => {
                 hover
                 selected
                 onRowClick={(r, i) => {
-                  {
-                    /* setEvidenceId(i); */
-                  }
                   setIntactEvidence(r.evidences);
                 }}
                 rowIsSelectable
@@ -598,7 +615,6 @@ const Section = ({ ensgId, symbol, data }) => {
                 hover
                 selected
                 onRowClick={(r, i) => {
-                  console.log(i, r);
                   setSignorEvidence(r.evidences);
                 }}
                 rowIsSelectable

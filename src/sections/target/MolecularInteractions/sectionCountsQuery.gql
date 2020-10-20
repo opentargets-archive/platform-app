@@ -1,0 +1,19 @@
+query InteractionsSectionQuery(
+  $ensgId: String!
+) {
+  target(ensemblId: $ensgId) {
+    id
+    intact: interactions(sourceDatabase:"intact") {
+      count
+    }
+    signor: interactions(sourceDatabase:"signor") {
+      count
+    }
+    reactome: interactions(sourceDatabase:"reactome") {
+      count
+    }
+    string: interactions(sourceDatabase:"string") {
+      count
+    }
+  }
+}
