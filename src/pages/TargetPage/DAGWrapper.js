@@ -37,7 +37,27 @@ const ASSOCIATIONS_QUERY = gql`
   }
 `;
 
-function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
+const dts = [
+  'TEXT_MINING',
+  'DIFFERENTIAL_EXPRESSION',
+  'GENETIC_ASSOCIATION',
+  'SOMATIC_MUTATION',
+  'KNOWN_DRUGS',
+  'ANIMAL_MODELS',
+  'PATHWAYS',
+];
+
+const dataTypeMap = {
+  GENETIC_ASSOCIATION: 'genetic_association',
+  SOMATIC_MUTATION: 'somatic_mutation',
+  KNOWN_DRUGS: 'known_drug',
+  PATHWAYS: 'affected_pathway',
+  DIFFERENTIAL_EXPRESSION: 'rna_expression',
+  TEXT_MINING: 'literature',
+  ANIMAL_MODELS: 'animal_model',
+};
+
+function DAGWrapper({ ensemblId, symbol, Component, aggregationFilters }) {
   const [nodes, setNodes] = useState();
   const [associations, setAssociations] = useState();
   const [therapeuticAreas, setTherapeuticAreas] = useState();
@@ -61,6 +81,7 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
           .split('\n')
           .map(JSON.parse);
 
+        nodes.push({ id: 'EFO_ROOT', name: 'root', parentIds: [] });
         setAssociations(data[2]);
         setTherapeuticAreas(data[0].trim().split('\n'));
         setNodes(nodes);
@@ -74,14 +95,57 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
     return null;
   }
 
+  // make sure that every therapeutic area has as parent the root node
+  const efoNodes = nodes.map(node => {
+    const newNode = {
+      ...node,
+    };
+
+    if (therapeuticAreas.includes(node.id)) {
+      newNode.parentIds = ['EFO_ROOT'];
+    }
+
+    return newNode;
+  });
+
+  const efo = {
+    nodes: efoNodes,
+    therapeuticAreas,
+  };
+
+  const rows = associations.map(assoc => {
+    return {
+      data: {
+        id: assoc.disease.id,
+        name: assoc.disease.name,
+        score: assoc.score,
+        target: {
+          ensgId: ensemblId,
+        },
+      },
+      disease: assoc.disease,
+      score: assoc.score,
+      scoresByDataType: dts.map(dt => {
+        const scoreObj = assoc.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === dataTypeMap[dt]
+        );
+        return {
+          dataTypeId: dt,
+          score: scoreObj === undefined ? 0 : scoreObj.score,
+        };
+      }),
+    };
+  });
+
   return (
     <Component
       ensgId={ensemblId}
       symbol={symbol}
-      efo={nodes}
-      associations={associations}
+      data={rows}
+      efo={efo}
+      selectedTherapeuticAreas={[]}
     />
   );
 }
 
-export default Wrapper;
+export default DAGWrapper;
