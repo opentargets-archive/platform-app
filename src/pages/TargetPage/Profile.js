@@ -4,10 +4,11 @@ import { gql } from '@apollo/client';
 import { createSummaryFragment } from '../../components/Summary/utils';
 import PlatformApiProvider from '../../contexts/PlatformApiProvider';
 import ProfileHeader from './ProfileHeader';
-
-import sections from './sections';
 import SummaryContainer from '../../components/Summary/SummaryContainer';
 import SectionContainer from '../../components/Section/SectionContainer';
+import SectionOrderProvider from '../../contexts/SectionOrderProvider';
+
+import sections from './sections';
 
 const TARGET_PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(
   sections,
@@ -33,28 +34,29 @@ function Profile({ ensgId, approvedSymbol }) {
       variables={{ ensgId }}
     >
       <ProfileHeader />
+      <SectionOrderProvider sections={sections}>
+        <SummaryContainer>
+          {sections.map(({ Summary, definition }) => (
+            <Summary
+              key={definition.id}
+              id={ensgId}
+              label={approvedSymbol}
+              definition={definition}
+            />
+          ))}
+        </SummaryContainer>
 
-      <SummaryContainer>
-        {sections.map(({ Summary, definition }) => (
-          <Summary
-            key={definition.id}
-            id={ensgId}
-            label={approvedSymbol}
-            definition={definition}
-          />
-        ))}
-      </SummaryContainer>
-
-      <SectionContainer>
-        {sections.map(({ Body, definition }) => (
-          <Body
-            key={definition.id}
-            id={ensgId}
-            label={approvedSymbol}
-            definition={definition}
-          />
-        ))}
-      </SectionContainer>
+        <SectionContainer>
+          {sections.map(({ Body, definition }) => (
+            <Body
+              key={definition.id}
+              id={ensgId}
+              label={approvedSymbol}
+              definition={definition}
+            />
+          ))}
+        </SectionContainer>
+      </SectionOrderProvider>
     </PlatformApiProvider>
   );
 }

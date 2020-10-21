@@ -1,21 +1,12 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import ls from 'local-storage';
 
 import summaryStyles from './summaryStyles';
-import usePlatformApi from '../../hooks/usePlatformApi';
+import useSectionOrder from '../../hooks/useSectionOrder';
 
 function SummaryContainer({ children }) {
   const classes = summaryStyles();
-  const { entity } = usePlatformApi();
-  const summaryOrder = ls.get(`${entity}SectionsOrder`);
-  const summaryMap = React.Children.toArray(children).reduce(
-    (acc, child) => ({
-      ...acc,
-      [child.props.definition.id]: child,
-    }),
-    {}
-  );
+  const { sectionOrder } = useSectionOrder();
 
   return (
     <Grid
@@ -24,7 +15,11 @@ function SummaryContainer({ children }) {
       container
       spacing={1}
     >
-      {summaryOrder.map(summaryItem => summaryMap[summaryItem])}
+      {sectionOrder.map(sectionId =>
+        React.Children.toArray(children).find(
+          child => child.props.definition.id === sectionId
+        )
+      )}
     </Grid>
   );
 }

@@ -23,7 +23,9 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   containerEmbedded: {
-    minWidth: '400px',
+    minWidth: '447px',
+    [theme.breakpoints.only('sm')]: { minWidth: '48%' },
+    [theme.breakpoints.only('xs')]: { display: 'none' },
   },
   input: {
     width: '100%',

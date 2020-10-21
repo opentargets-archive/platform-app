@@ -1,28 +1,34 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import ls from 'local-storage';
 
-import usePlatformApi from '../../hooks/usePlatformApi';
+import { NavPanel } from '../NavPanel';
+import useSectionOrder from '../../hooks/useSectionOrder';
 
 function SectionContainer({ children }) {
-  const { data, entity } = usePlatformApi();
-  const sectionOrder = ls.get(`${entity}SectionsOrder`);
+  const { sectionOrder, updateSectionOrder, shouldRender } = useSectionOrder();
+  const sortedChildren = sectionOrder.map(sectionId =>
+    React.Children.toArray(children).find(
+      child => child.props.definition.id === sectionId
+    )
+  );
 
-  const sectionMap = React.Children.toArray(children).reduce((acc, child) => {
-    // Filter platform-api sections without data.
-    const { id, hasData, external } = child.props.definition;
-    const shouldRender = external || (data && hasData(data?.[entity]));
-
-    return {
-      ...acc,
-      [id]: shouldRender ? child : null,
-    };
-  }, {});
+  const handleSectionReorder = newSectionOrder => {
+    updateSectionOrder(newSectionOrder);
+  };
 
   return (
-    <Grid id="summary-section" container spacing={1}>
-      {sectionOrder.map(id => sectionMap[id])}
-    </Grid>
+    <>
+      <NavPanel
+        sections={sortedChildren}
+        onSectionReorder={handleSectionReorder}
+        shouldRender={shouldRender}
+      />
+      <Grid id="summary-section" container spacing={1}>
+        {sortedChildren.map(Section =>
+          shouldRender(Section) ? Section : null
+        )}
+      </Grid>
+    </>
   );
 }
 
