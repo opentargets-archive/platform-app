@@ -129,9 +129,7 @@ function Body({ definition, id: ensgId, label: approvedSymbol }) {
     <SectionItem
       definition={definition}
       request={{ loading, error, data }}
-      renderDescription={data => (
-        <Description approvedSymbol={approvedSymbol} />
-      )}
+      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
       renderBody={data => {
         const { count, maxCountAOrB, rows = [] } = data.target.relatedTargets;
 

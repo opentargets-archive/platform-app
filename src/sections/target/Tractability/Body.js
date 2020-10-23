@@ -3,6 +3,11 @@ import classNames from 'classnames';
 import { Typography, makeStyles } from '@material-ui/core';
 import _ from 'lodash';
 
+import Summary from './Summary';
+import usePlatformApi from '../../../hooks/usePlatformApi';
+import SectionItem from '../../../components/Section/SectionItem';
+import Description from './Description';
+
 // generate classNames to share between the components in this file
 const useStyles = makeStyles(theme => ({
   table: {
@@ -20,43 +25,6 @@ const useStyles = makeStyles(theme => ({
     color: 'white',
   },
 }));
-
-const Section = ({ symbol, data }) => {
-  const smallMoleculeBuckets = _.get(data, 'smallmolecule.buckets', []);
-  const antibodyBuckets = _.get(data, 'antibody.buckets', []);
-  const otherModalitiesBuckets = _.get(data, 'otherModalities.buckets', []);
-
-  return (
-    <>
-      <Typography variant="h6">Small molecule</Typography>
-      {smallMoleculeBuckets.length > 0 ? (
-        <SmallMoleculeTable buckets={smallMoleculeBuckets} />
-      ) : (
-        <Typography>
-          No small molecule tractability data for {symbol} available
-        </Typography>
-      )}
-      <Typography variant="h6">Antibody</Typography>
-      {antibodyBuckets.length > 0 ? (
-        <AntibodyTable buckets={antibodyBuckets} />
-      ) : (
-        <Typography>
-          No antibody tractability data for {symbol} available
-        </Typography>
-      )}
-      <Typography variant="h6">
-        Other modalities (protein, enzyme, oligonucleotide, etc.)
-      </Typography>
-      {otherModalitiesBuckets.length > 0 ? (
-        <OtherModalitiesTable buckets={otherModalitiesBuckets} />
-      ) : (
-        <Typography variant="body2">
-          No other modalities tractability data for {symbol} available
-        </Typography>
-      )}
-    </>
-  );
-};
 
 const SmallMoleculeTable = ({ buckets }) => {
   const classes = useStyles();
@@ -90,7 +58,7 @@ const SmallMoleculeTable = ({ buckets }) => {
           </BucketCell>
           {/* predicted tractable */}
           <BucketCell isPurple={buckets.includes(5)}>
-            DrugEBIlity score > 0.7
+            DrugEBIlity score &gt; 0.7
           </BucketCell>
           <BucketCell isPurple={buckets.includes(6)}>
             DrugEBIlity score 0 to 0.7
@@ -193,4 +161,66 @@ const BucketCell = ({ isPurple, children }) => {
   );
 };
 
-export default Section;
+function Body({ definition, label: approvedSymbol }) {
+  const request = usePlatformApi(Summary.fragments.TractabilitySummaryFragment);
+
+  return (
+    <SectionItem
+      definition={definition}
+      request={request}
+      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderBody={data => {
+        const smallMoleculeBuckets = _.get(
+          data.tractability,
+          'smallmolecule.buckets',
+          []
+        );
+        const antibodyBuckets = _.get(
+          data.tractability,
+          'antibody.buckets',
+          []
+        );
+        const otherModalitiesBuckets = _.get(
+          data.tractability,
+          'otherModalities.buckets',
+          []
+        );
+
+        return (
+          <>
+            <Typography variant="h6">Small molecule</Typography>
+            {smallMoleculeBuckets.length > 0 ? (
+              <SmallMoleculeTable buckets={smallMoleculeBuckets} />
+            ) : (
+              <Typography>
+                No small molecule tractability data for {approvedSymbol}{' '}
+                available
+              </Typography>
+            )}
+            <Typography variant="h6">Antibody</Typography>
+            {antibodyBuckets.length > 0 ? (
+              <AntibodyTable buckets={antibodyBuckets} />
+            ) : (
+              <Typography>
+                No antibody tractability data for {approvedSymbol} available
+              </Typography>
+            )}
+            <Typography variant="h6">
+              Other modalities (protein, enzyme, oligonucleotide, etc.)
+            </Typography>
+            {otherModalitiesBuckets.length > 0 ? (
+              <OtherModalitiesTable buckets={otherModalitiesBuckets} />
+            ) : (
+              <Typography variant="body2">
+                No other modalities tractability data for {approvedSymbol}{' '}
+                available
+              </Typography>
+            )}
+          </>
+        );
+      }}
+    />
+  );
+}
+
+export default Body;

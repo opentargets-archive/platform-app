@@ -48,9 +48,7 @@ function Body({ definition, label: approvedSymbol }) {
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={data => (
-        <Description approvedSymbol={approvedSymbol} />
-      )}
+      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
       renderBody={data => (
         <SafetyTables
           symbol={approvedSymbol}
