@@ -1,14 +1,40 @@
 import React, { useState } from 'react';
-import { loader } from 'graphql.macro';
-import { useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 
 import { Link, significantFigures } from 'ot-ui';
 
-import { Table, PaginationActionsComplete } from '../../../components/Table';
+import Description from './Description';
 import LinearVenn, { LinearVennLegend } from '../../../components/LinearVenn';
+import { Table, PaginationActionsComplete } from '../../../components/Table';
+import SectionItem from '../../../components/Section/SectionItem';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
 
-const RELATED_TARGETS_QUERY = loader('./sectionQuery.gql');
+const RELATED_TARGETS_QUERY = gql`
+  query RelatedTargetsQuery(
+    $ensemblId: String!
+    $index: Int! = 0
+    $size: Int! = 10
+  ) {
+    target(ensemblId: $ensemblId) {
+      id
+      relatedTargets(page: { index: $index, size: $size }) {
+        count
+        maxCountAOrB
+        rows {
+          id
+          countA
+          countB
+          countAAndB
+          score
+          B {
+            approvedSymbol
+            id
+          }
+        }
+      }
+    }
+  }
+`;
 
 const columns = (symbol, maxCountAOrB) => [
   {
@@ -72,10 +98,10 @@ const columns = (symbol, maxCountAOrB) => [
   },
 ];
 
-const Section = ({ ensgId, symbol }) => {
+function Body({ definition, id: ensgId, label: approvedSymbol }) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const { data, loading, fetchMore } = useQuery(RELATED_TARGETS_QUERY, {
+  const { loading, error, data, fetchMore } = useQuery(RELATED_TARGETS_QUERY, {
     variables: {
       ensemblId: ensgId,
       size: pageSize,
@@ -85,45 +111,49 @@ const Section = ({ ensgId, symbol }) => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const handleTableAction = ({ page, pageSize }) => {
-    setPage(page);
-    setPageSize(pageSize);
+  const getAllRelatedTargets = useBatchDownloader(
+    RELATED_TARGETS_QUERY,
+    { ensemblId: ensgId },
+    'data.target.relatedTargets'
+  );
+
+  const handlePageChange = newPage => {
+    setPage(newPage);
     fetchMore({
-      variables: {
-        index: page,
-        size: pageSize,
-      },
+      variables: { index: newPage },
       updateQuery: (prev, { fetchMoreResult }) => {
-        return fetchMoreResult ? fetchMoreResult : prev;
+        return fetchMoreResult;
       },
     });
   };
 
-  const getAllRelatedTargets = useBatchDownloader(
-    RELATED_TARGETS_QUERY,
-    {
-      ensemblId: ensgId,
-    },
-    'data.target.relatedTargets'
-  );
-
-  const { maxCountAOrB, rows = [], count } = data?.target?.relatedTargets ?? {};
-
   return (
-    <Table
-      page={page}
-      pageSize={pageSize}
-      loading={loading}
-      dataDownloader
-      dataDownloaderRows={getAllRelatedTargets}
-      dataDownloaderFileStem={`${ensgId}-related-targets`}
-      columns={columns(symbol, maxCountAOrB)}
-      rows={rows}
-      rowCount={count}
-      onTableAction={handleTableAction}
-      ActionsComponent={PaginationActionsComplete}
+    <SectionItem
+      definition={definition}
+      request={{ loading, error, data }}
+      renderDescription={data => (
+        <Description approvedSymbol={approvedSymbol} />
+      )}
+      renderBody={data => {
+        const { count, maxCountAOrB, rows = [] } = data.target.relatedTargets;
+
+        return (
+          <Table
+            loading={loading}
+            columns={columns(approvedSymbol, maxCountAOrB)}
+            dataDownloader
+            dataDownloaderRows={getAllRelatedTargets}
+            dataDownloaderFileStem={`${ensgId}-related-targets`}
+            rows={rows}
+            rowCount={count}
+            page={page}
+            onPageChange={handlePageChange}
+            ActionsComponent={PaginationActionsComplete}
+          />
+        );
+      }}
     />
   );
-};
+}
 
-export default Section;
+export default Body;

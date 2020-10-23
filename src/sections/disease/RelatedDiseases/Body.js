@@ -115,6 +115,7 @@ function Body({ definition, id: efoId, label: name }) {
 
   const { loading, error, data, fetchMore } = useQuery(RELATED_DISEASES_QUERY, {
     variables: { efoId },
+    notifyOnNetworkStatusChange: true,
   });
 
   const getWholeDataset = useBatchDownloader(
@@ -133,28 +134,29 @@ function Body({ definition, id: efoId, label: name }) {
     });
   };
 
-  const { count, maxCountAOrB, rows = [] } =
-    data?.disease.relatedDiseases ?? {};
-
   return (
     <SectionItem
       definition={definition}
       request={{ loading, error, data }}
       renderDescription={data => <Description name={name} />}
-      renderBody={data => (
-        <Table
-          loading={loading}
-          columns={columns(name, maxCountAOrB)}
-          dataDownloader
-          dataDownloaderFileStem={`${efoId}-related_diseases`}
-          dataDownloaderRows={getWholeDataset}
-          rows={rows}
-          rowCount={count}
-          page={page}
-          onPageChange={handlePageChange}
-          ActionsComponent={PaginationActionsComplete}
-        />
-      )}
+      renderBody={data => {
+        const { count, maxCountAOrB, rows = [] } = data.disease.relatedDiseases;
+
+        return (
+          <Table
+            loading={loading}
+            columns={columns(name, maxCountAOrB)}
+            dataDownloader
+            dataDownloaderFileStem={`${efoId}-related_diseases`}
+            dataDownloaderRows={getWholeDataset}
+            rows={rows}
+            rowCount={count}
+            page={page}
+            onPageChange={handlePageChange}
+            ActionsComponent={PaginationActionsComplete}
+          />
+        );
+      }}
     />
   );
 }
