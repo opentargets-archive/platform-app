@@ -50,7 +50,7 @@
     "query-string": "^6.10.1",
     "react": "^16.8.6",
     "react-app-polyfill": "^1.0.6",
-    "react-beautiful-dnd": "^11.0.3",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.8.6",
     "react-ga": "^3.0.0",
     "react-helmet": "^6.0.0",
