@@ -1,9 +1,0 @@
-query TepSectionQuery($ensgId: String!) {
-  target(ensemblId: $ensgId) {
-    id
-    tep {
-      uri
-      name
-    }
-  }
-}
