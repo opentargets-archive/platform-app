@@ -100,11 +100,9 @@ const columns = (symbol, maxCountAOrB) => [
 
 function Body({ definition, id: ensgId, label: approvedSymbol }) {
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
   const { loading, error, data, fetchMore } = useQuery(RELATED_TARGETS_QUERY, {
     variables: {
       ensemblId: ensgId,
-      size: pageSize,
     },
     // this option is set to true so that we get an updated value of loading
     // when using fetchMore later

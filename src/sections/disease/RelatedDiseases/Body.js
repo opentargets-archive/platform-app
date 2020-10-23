@@ -138,7 +138,7 @@ function Body({ definition, id: efoId, label: name }) {
     <SectionItem
       definition={definition}
       request={{ loading, error, data }}
-      renderDescription={data => <Description name={name} />}
+      renderDescription={() => <Description name={name} />}
       renderBody={data => {
         const { count, maxCountAOrB, rows = [] } = data.disease.relatedDiseases;
 

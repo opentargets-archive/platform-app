@@ -4,7 +4,7 @@ import { Typography, Divider, Box, Tooltip } from '@material-ui/core';
 
 import { Link } from 'ot-ui';
 
-import DataTable from '../../../../components/Table/DataTable';
+import DataTable from '../../../components/Table/DataTable';
 
 const SafetyTables = ({ symbol, data }) => {
   const { adverseEffects, safetyRiskInfo, tox21, etox } = data;

@@ -1,4 +1,4 @@
-fragment targetSafetyFragment on Target {
+fragment SafetySummaryFragment on Target {
   # fetch the data the section needs, in order to see its availability
   safety {
     adverseEffects {

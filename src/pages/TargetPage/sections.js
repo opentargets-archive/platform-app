@@ -12,7 +12,7 @@ import * as Pathways from '../../sections/target/Pathways';
 // import * as Protein from '../../sections/target/ProteinInformation';
 // import * as ProteinInteractions from '../../sections/target/ProteinInteractions';
 import * as RelatedTargets from '../../sections/target/RelatedTargets';
-// import * as Safety from '../../sections/target/Safety';
+import * as Safety from '../../sections/target/Safety';
 // import * as Tep from '../../sections/target/Tep';
 // import * as Tractability from '../../sections/target/Tractability';
 // import * as Variation from '../../sections/target/Variation';
@@ -29,4 +29,5 @@ export default [
   MousePhenotypes,
   Pathways,
   RelatedTargets,
+  Safety,
 ];
