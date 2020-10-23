@@ -15,7 +15,7 @@ import * as RelatedTargets from '../../sections/target/RelatedTargets';
 import * as Safety from '../../sections/target/Safety';
 import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
-// import * as Variation from '../../sections/target/Variation';
+import * as Variation from '../../sections/target/Variation';
 
 export default [
   BaselineExpression,
@@ -32,4 +32,5 @@ export default [
   Safety,
   Tep,
   Tractability,
+  Variation,
 ];

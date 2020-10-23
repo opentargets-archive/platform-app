@@ -1,12 +1,14 @@
 import React from 'react';
-import { withContentRect } from 'react-measure';
 import { Typography } from '@material-ui/core';
+import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
-
-import { Link } from 'ot-ui';
 
 import board from 'tnt.genome';
 import cttvApi from 'cttv.api';
+import { Link } from 'ot-ui';
+
+import Description from './Description';
+import SectionItem from '../../../components/Section/SectionItem';
 import targetGenomeBrowser from 'cttv.genome';
 
 // TODO: Currently, when a resize occurs, we just
@@ -15,10 +17,12 @@ import targetGenomeBrowser from 'cttv.genome';
 // some investigation needs to be done into tntvis.
 class Section extends React.Component {
   state = {};
+
   static getDerivedStateFromProps(props) {
     const { width = 600 } = props.contentRect.bounds;
     return { width };
   }
+
   _render = (ensgId, width) => {
     // clear previous (if existed)
     d3.select('#otTargetGenomeBrowser')
@@ -32,53 +36,73 @@ class Section extends React.Component {
       .gene(ensgId)
       .context(20)
       .width(width);
+
     browser
       .rest()
       .prefix('')
       .protocol('https')
       .domain('rest.ensembl.org');
+
     const api = cttvApi()
       .prefix('https://platform-api.opentargets.io')
       .verbose(false);
+
     const theme = targetGenomeBrowser()
       .efo(null)
       .cttvRestApi(api);
+
     theme(browser, document.getElementById('otTargetGenomeBrowser'));
+
     this.browser = browser;
   };
+
   componentDidMount() {
-    const { ensgId } = this.props;
+    const { id: ensgId } = this.props;
     const { width } = this.state;
     this._render(ensgId, width);
   }
   componentDidUpdate() {
-    const { ensgId } = this.props;
+    const { id: ensgId } = this.props;
     const { width } = this.state;
     if (this.browser.width() !== width) {
       this._render(ensgId, width);
     }
   }
   render() {
-    const { ensgId, name, measureRef } = this.props;
+    const {
+      definition,
+      id: ensgId,
+      label: approvedSymbol,
+      measureRef,
+    } = this.props;
     return (
-      <div id="otTargetGenomeBrowserContainer" ref={measureRef}>
-        <Typography>
-          <strong>Gene information</strong>
-        </Typography>
-        <Typography variant="body2">
-          <strong>Ensembl ID: </strong>
-          <Link
-            external
-            to={`http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`}
-          >
-            {ensgId}
-          </Link>
-          <br />
-          <strong>Description: </strong>
-          {name}
-        </Typography>
-        <div id="otTargetGenomeBrowser" />
-      </div>
+      <SectionItem
+        definition={definition}
+        request={{ data: true }}
+        renderDescription={() => (
+          <Description approvedSymbol={approvedSymbol} />
+        )}
+        renderBody={() => (
+          <div id="otTargetGenomeBrowserContainer" ref={measureRef}>
+            <Typography>
+              <strong>Gene information</strong>
+            </Typography>
+            <Typography variant="body2">
+              <strong>Ensembl ID: </strong>
+              <Link
+                external
+                to={`http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`}
+              >
+                {ensgId}
+              </Link>
+              <br />
+              <strong>Description: </strong>
+              {approvedSymbol}
+            </Typography>
+            <div id="otTargetGenomeBrowser" />
+          </div>
+        )}
+      />
     );
   }
 }
