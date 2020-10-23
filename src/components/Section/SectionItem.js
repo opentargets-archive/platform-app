@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {
   Avatar,
+  Box,
   Card,
   CardContent,
   CardHeader,
@@ -72,7 +73,11 @@ function SectionItem({
               }
               action={tags}
             />
-            {loading && <LinearProgress />}
+            {loading ? (
+              <LinearProgress />
+            ) : (
+              <Box className={classes.loadingPlaceholder} />
+            )}
             {error && <SectionError error={error} />}
             {data && (
               <CardContent className={classes.cardContent}>

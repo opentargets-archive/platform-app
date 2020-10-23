@@ -33,6 +33,9 @@ const sectionStyles = makeStyles(theme => ({
   descriptionHasData: {
     color: theme.palette.grey[700],
   },
+  loadingPlaceholder: {
+    paddingTop: '.1rem',
+  },
   title: {
     color: theme.palette.grey[400],
     fontWeight: 'bold',
