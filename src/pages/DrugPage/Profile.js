@@ -5,9 +5,11 @@ import { createSummaryFragment } from '../../components/Summary/utils';
 import PlatformApiProvider from '../../contexts/PlatformApiProvider';
 import ProfileHeader from './ProfileHeader';
 
-import sections from './sections';
-import SummaryContainer from '../../components/Summary/SummaryContainer';
 import SectionContainer from '../../components/Section/SectionContainer';
+import SectionOrderProvider from '../../contexts/SectionOrderProvider';
+import SummaryContainer from '../../components/Summary/SummaryContainer';
+
+import sections from './sections';
 
 const DRUG_PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(sections, 'Drug');
 const DRUG_PROFILE_QUERY = gql`
@@ -29,29 +31,31 @@ function Profile({ chemblId, name }) {
       query={DRUG_PROFILE_QUERY}
       variables={{ chemblId }}
     >
-      <ProfileHeader chemblId={chemblId} />
+      <SectionOrderProvider sections={sections}>
+        <ProfileHeader chemblId={chemblId} />
 
-      <SummaryContainer>
-        {sections.map(({ Summary, definition }) => (
-          <Summary
-            key={definition.id}
-            id={chemblId}
-            label={name}
-            definition={definition}
-          />
-        ))}
-      </SummaryContainer>
+        <SummaryContainer>
+          {sections.map(({ Summary, definition }) => (
+            <Summary
+              key={definition.id}
+              id={chemblId}
+              label={name}
+              definition={definition}
+            />
+          ))}
+        </SummaryContainer>
 
-      <SectionContainer>
-        {sections.map(({ Body, definition }) => (
-          <Body
-            key={definition.id}
-            id={chemblId}
-            label={name}
-            definition={definition}
-          />
-        ))}
-      </SectionContainer>
+        <SectionContainer>
+          {sections.map(({ Body, definition }) => (
+            <Body
+              key={definition.id}
+              id={chemblId}
+              label={name}
+              definition={definition}
+            />
+          ))}
+        </SectionContainer>
+      </SectionOrderProvider>
     </PlatformApiProvider>
   );
 }

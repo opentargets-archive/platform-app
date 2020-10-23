@@ -33,8 +33,8 @@ function Profile({ ensgId, approvedSymbol }) {
       query={TARGET_PROFILE_QUERY}
       variables={{ ensgId }}
     >
-      <ProfileHeader />
       <SectionOrderProvider sections={sections}>
+        <ProfileHeader />
         <SummaryContainer>
           {sections.map(({ Summary, definition }) => (
             <Summary
