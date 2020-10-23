@@ -4,16 +4,8 @@ import { Helmet } from 'react-helmet';
 import Search from './Search';
 import { Page, NavBar, Footer } from 'ot-ui';
 import { appTitle, externalLinks, mainMenuItems } from '../constants';
-import { Box, makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles({
-  footerContainer: {
-    zIndex: 1001,
-  },
-});
 
 const BasePage = ({ title, children }) => {
-  const classes = useStyles();
   const composedTitle = `${title ? title + ' | ' : ''} ${appTitle}`;
 
   return (
@@ -25,11 +17,7 @@ const BasePage = ({ title, children }) => {
           items={mainMenuItems}
         />
       }
-      footer={
-        <Box className={classes.footerContainer}>
-          <Footer externalLinks={externalLinks} />
-        </Box>
-      }
+      footer={<Footer externalLinks={externalLinks} />}
     >
       <Helmet title={composedTitle} />
       {children}

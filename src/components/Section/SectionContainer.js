@@ -21,7 +21,6 @@ function SectionContainer({ children }) {
       <NavPanel
         sections={sortedChildren}
         onSectionReorder={handleSectionReorder}
-        shouldRender={shouldRender}
       />
       <Grid id="summary-section" container spacing={1}>
         {sortedChildren.map(Section =>
