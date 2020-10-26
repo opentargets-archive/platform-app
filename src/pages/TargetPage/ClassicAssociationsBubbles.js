@@ -40,12 +40,14 @@ function buildHierarchicalData(associations, idToDisease) {
         tasMap[ta].push({
           id: association.disease.id,
           name: association.disease.name,
+          score: association.score,
         });
       } else {
         tasMap[ta] = [
           {
             id: association.disease.id,
             name: association.disease.name,
+            score: association.score,
           },
         ];
       }
@@ -65,44 +67,12 @@ function buildHierarchicalData(associations, idToDisease) {
   };
 }
 
-// pack layout
-// const packRoot = d3.hierarchy(data);
-// const packLayout = d3.pack().size([300, 300]).padding(10);
-
-// packRoot.sum(function(d) {
-//   return d.value;
-// });
-
-// packLayout(packRoot);
-
-// const packGroups = d3.select('svg.pack g')
-//   .selectAll('g')
-//   .data(packRoot.descendants())
-//   .enter()
-//   .append('g')
-//   .attr('transform', d => `translate(${d.x},${d.y})`);
-
-// packGroups.append('circle')
-//   .attr('r', d => d.r)
-//   .attr('fill', 'cadetblue')
-//   .attr('opacity', 0.3);
-
-// packGroups.append('text')
-//   .attr('dy', 4)
-//   .attr('font-family', '"Helvetica Neue", Helvetica, sans-serif')
-//   .attr('font-size', '10px')
-//   .attr('fill', 'white')
-//   .attr('text-anchor', 'middle') // useful attribute to center text around x value
-//   .text(d => d.children === undefined ? d.data.name : '');
-
 function ClassicAssociationsBubbles({ efo, associations }) {
   const svgRef = useRef(null);
   const idToDisease = efo.reduce((acc, disease) => {
     acc[disease.id] = disease;
     return acc;
   }, {});
-
-  // console.log('lol', d3.hierarchy(hierarchicalData));
 
   useEffect(
     () => {
@@ -112,40 +82,35 @@ function ClassicAssociationsBubbles({ efo, associations }) {
       const packLayout = d3
         .pack()
         .size([300, 300])
-        .padding(10);
+        .padding(2);
 
-      root.sum(d => {
-        console.log('d.value', d.value);
-        return d.value;
-      });
+      root.sum(d => d.score);
 
       packLayout(root);
 
       console.log('root', root);
 
-      // const groups = d3
-      //   .select(svgRef.current)
-      //   .select('g')
-      //   .selectAll('g')
-      //   .data(root.descendants())
-      //   .enter()
-      //   .append('g')
-      //   .attr('transform', d => `translate(${d.x},${d.y})`);
+      const groups = d3
+        .select(svgRef.current)
+        .select('g')
+        .selectAll('g')
+        .data(root.descendants())
+        .enter()
+        .append('g')
+        .attr('transform', d => `translate(${d.x},${d.y})`);
 
-      // groups
-      //   .append('circle')
-      //   .attr('r', d => d.r)
-      //   .attr('fill', 'cadetblue')
-      //   .attr('opacity', 0.3);
-      // console.log('groups', groups);
+      groups
+        .append('circle')
+        .attr('r', d => d.r)
+        .attr('fill', 'cadetblue')
+        .attr('opacity', 0.3);
     },
     [associations, idToDisease]
   );
 
   return (
     <div>
-      Bubbles
-      <svg ref={svgRef}>
+      <svg ref={svgRef} height="300" width="300">
         <g />
       </svg>
     </div>
