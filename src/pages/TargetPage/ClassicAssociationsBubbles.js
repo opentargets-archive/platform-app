@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import * as d3 from 'd3';
 
 function findTas(id, idToDisease) {
@@ -36,30 +36,28 @@ function buildHierarchicalData(associations, idToDisease) {
   associations.forEach(association => {
     const tas = findTas(association.disease.id, idToDisease);
     tas.forEach(ta => {
+      const assocData = {
+        id: association.disease.id,
+        uniqueId: `${ta}-${association.disease.id}`,
+        name: association.disease.name,
+        score: association.score,
+      };
       if (tasMap[ta]) {
-        tasMap[ta].push({
-          id: association.disease.id,
-          name: association.disease.name,
-          score: association.score,
-        });
+        tasMap[ta].push(assocData);
       } else {
-        tasMap[ta] = [
-          {
-            id: association.disease.id,
-            name: association.disease.name,
-            score: association.score,
-          },
-        ];
+        tasMap[ta] = [assocData];
       }
     });
   });
 
   return {
     id: 'EFO_ROOT',
+    uniqueId: 'EFO_ROOT',
     name: 'root',
     children: Object.entries(tasMap).map(([taId, descendants]) => {
       return {
         id: taId,
+        uniqueId: taId,
         name: idToDisease[taId].name,
         children: descendants,
       };
@@ -74,44 +72,30 @@ function ClassicAssociationsBubbles({ efo, associations }) {
     return acc;
   }, {});
 
-  useEffect(
-    () => {
-      const hierarchicalData = buildHierarchicalData(associations, idToDisease);
-      console.log('hierarchicalData', hierarchicalData);
-      const root = d3.hierarchy(hierarchicalData);
-      const packLayout = d3
-        .pack()
-        .size([300, 300])
-        .padding(2);
+  const hierarchicalData = buildHierarchicalData(associations, idToDisease);
+  const root = d3.hierarchy(hierarchicalData);
+  const packLayout = d3
+    .pack()
+    .size([300, 300])
+    .padding(2);
 
-      root.sum(d => d.score);
+  root.sum(d => d.score);
 
-      packLayout(root);
-
-      console.log('root', root);
-
-      const groups = d3
-        .select(svgRef.current)
-        .select('g')
-        .selectAll('g')
-        .data(root.descendants())
-        .enter()
-        .append('g')
-        .attr('transform', d => `translate(${d.x},${d.y})`);
-
-      groups
-        .append('circle')
-        .attr('r', d => d.r)
-        .attr('fill', 'cadetblue')
-        .attr('opacity', 0.3);
-    },
-    [associations, idToDisease]
-  );
+  packLayout(root);
 
   return (
     <div>
       <svg ref={svgRef} height="300" width="300">
-        <g />
+        {root.descendants().map(descendant => {
+          return (
+            <g
+              key={descendant.data.uniqueId}
+              transform={`translate(${descendant.x}, ${descendant.y})`}
+            >
+              <circle r={descendant.r} fill="cadetblue" opacity="0.3" />
+            </g>
+          );
+        })}
       </svg>
     </div>
   );
