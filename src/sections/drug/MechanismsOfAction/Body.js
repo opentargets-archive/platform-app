@@ -82,26 +82,28 @@ const columns = [
 ];
 
 function Body({ definition, id: chemblId, label: name }) {
-  const { loading, error, data } = useQuery(MECHANISMS_OF_ACTION_QUERY, {
+  const request = useQuery(MECHANISMS_OF_ACTION_QUERY, {
     variables: { chemblId },
   });
-
-  const rows = data?.drug.mechanismsOfAction.rows || [];
 
   return (
     <SectionItem
       definition={definition}
-      request={{ loading, error, data }}
+      request={request}
       renderDescription={() => <Description name={name} />}
-      renderBody={() => (
-        <DataTable
-          showGlobalFilter
-          columns={columns}
-          rows={rows}
-          dataDownloader
-          dataDownloaderFileStem={`${chemblId}-mechanisms-of-action`}
-        />
-      )}
+      renderBody={data => {
+        const rows = data.drug.mechanismsOfAction.rows;
+
+        return (
+          <DataTable
+            showGlobalFilter
+            columns={columns}
+            rows={rows}
+            dataDownloader
+            dataDownloaderFileStem={`${chemblId}-mechanisms-of-action`}
+          />
+        );
+      }}
     />
   );
 }

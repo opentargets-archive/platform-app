@@ -99,14 +99,6 @@ function Body({ definition, id: chemblId, label: name }) {
     });
   };
 
-  const { criticalValue = 0, rows = [], count } =
-    data?.drug?.adverseEvents ?? {};
-
-  // TODO: Change GraphQL schema to have a maxLlr field instead of having to
-  // get the first item of adverse events to get the largest llr since
-  // items are sorted in decreasing llr order.
-  const maxLlr = data?.drug?.maxLlr.rows[0].logLR;
-
   const getAllAdverseEvents = useBatchDownloader(
     ADVERSE_EVENTS_QUERY,
     { chemblId },
@@ -117,21 +109,29 @@ function Body({ definition, id: chemblId, label: name }) {
     <SectionItem
       definition={definition}
       request={{ loading, error, data }}
-      renderDescription={data => <Description name={name} />}
-      renderBody={data => (
-        <Table
-          dataDownloader
-          dataDownloaderRows={getAllAdverseEvents}
-          dataDownloaderFileStem={`${name}-adverse-events`}
-          loading={loading}
-          columns={getColumns(criticalValue, maxLlr, classes)}
-          rows={rows}
-          rowCount={count}
-          page={page}
-          onPageChange={handlePageChange}
-          ActionsComponent={PaginationActionsComplete}
-        />
-      )}
+      renderDescription={() => <Description name={name} />}
+      renderBody={data => {
+        // TODO: Change GraphQL schema to have a maxLlr field instead of having
+        // to get the first item of adverse events to get the largest llr since
+        // items are sorted in decreasing llr order.
+        const maxLlr = data.drug.maxLlr.rows[0].logLR;
+        const { criticalValue, rows, count } = data.drug.adverseEvents;
+
+        return (
+          <Table
+            dataDownloader
+            dataDownloaderRows={getAllAdverseEvents}
+            dataDownloaderFileStem={`${name}-adverse-events`}
+            loading={loading}
+            columns={getColumns(criticalValue, maxLlr, classes)}
+            rows={rows}
+            rowCount={count}
+            page={page}
+            onPageChange={handlePageChange}
+            ActionsComponent={PaginationActionsComplete}
+          />
+        );
+      }}
     />
   );
 }

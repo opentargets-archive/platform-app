@@ -62,30 +62,30 @@ const columns = [
 ];
 
 function Body({ definition, id: chemblId, label: name }) {
-  const { loading, error, data } = useQuery(INDICATIONS_QUERY, {
-    variables: { chemblId },
-  });
-
-  const { rows } = data?.drug.indications || {};
+  const request = useQuery(INDICATIONS_QUERY, { variables: { chemblId } });
 
   return (
     <SectionItem
       definition={definition}
-      request={{ loading, error, data }}
-      renderDescription={data => <Description name={name} />}
-      renderBody={data => (
-        <DataTable
-          columns={columns}
-          dataDownloader
-          dataDownloaderFileStem={`${chemblId}-indications`}
-          rows={rows}
-          showGlobalFilter
-          sortBy="maxPhaseForIndication"
-          order="desc"
-          rowsPerPageOptions={[10, 25, 100]}
-          ActionsComponent={PaginationActionsComplete}
-        />
-      )}
+      request={request}
+      renderDescription={() => <Description name={name} />}
+      renderBody={data => {
+        const { rows } = data.drug.indications;
+
+        return (
+          <DataTable
+            columns={columns}
+            dataDownloader
+            dataDownloaderFileStem={`${chemblId}-indications`}
+            rows={rows}
+            showGlobalFilter
+            sortBy="maxPhaseForIndication"
+            order="desc"
+            rowsPerPageOptions={[10, 25, 100]}
+            ActionsComponent={PaginationActionsComplete}
+          />
+        );
+      }}
     />
   );
 }

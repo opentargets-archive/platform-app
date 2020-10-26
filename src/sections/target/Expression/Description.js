@@ -4,7 +4,7 @@ import { Link } from 'ot-ui';
 
 function Description({ approvedSymbol }) {
   return (
-    <React.Fragment>
+    <>
       RNA and protein baseline expression for <strong>{approvedSymbol}</strong>.
       Source:{' '}
       <Link external to="https://www.ebi.ac.uk/gxa/home">
@@ -19,7 +19,7 @@ function Description({ approvedSymbol }) {
         GTEx
       </Link>
       .
-    </React.Fragment>
+    </>
   );
 }
 

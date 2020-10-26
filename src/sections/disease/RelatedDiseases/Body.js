@@ -140,7 +140,7 @@ function Body({ definition, id: efoId, label: name }) {
       request={{ loading, error, data }}
       renderDescription={() => <Description name={name} />}
       renderBody={data => {
-        const { count, maxCountAOrB, rows = [] } = data.disease.relatedDiseases;
+        const { count, maxCountAOrB, rows } = data.disease.relatedDiseases;
 
         return (
           <Table

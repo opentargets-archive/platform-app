@@ -4,7 +4,7 @@ import { Link } from 'ot-ui';
 
 function Description({ approvedSymbol }) {
   return (
-    <React.Fragment>
+    <>
       Known target safety effects and target safety risk information for{' '}
       <strong>{approvedSymbol}</strong>. Source:{' '}
       <Link
@@ -14,7 +14,7 @@ function Description({ approvedSymbol }) {
         Open Targets
       </Link>
       .
-    </React.Fragment>
+    </>
   );
 }
 

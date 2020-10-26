@@ -6,6 +6,7 @@ import Description from './Description';
 import { DataTable } from '../../../components/Table';
 import SectionItem from '../../../components/Section/SectionItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import Summary from './Summary';
 
 const columns = [
   {
@@ -25,7 +26,7 @@ const columns = [
 ];
 
 function Body({ definition, label: name }) {
-  const request = usePlatformApi();
+  const request = usePlatformApi(Summary.fragments.PhenotypesSummaryFragment);
 
   return (
     <SectionItem
@@ -37,7 +38,7 @@ function Body({ definition, label: name }) {
           columns={columns}
           dataDownloader
           dataDownloaderFileStem="phenotypes"
-          rows={data.disease.phenotypes}
+          rows={data.phenotypes}
           showGlobalFilter
         />
       )}

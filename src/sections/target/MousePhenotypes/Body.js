@@ -6,7 +6,7 @@ import Summary from './Summary';
 import PhenotypesTable from './PhenotypesTable';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-function Body({ definition, id: ensgId, label: approvedSymbol }) {
+function Body({ definition, label: approvedSymbol }) {
   const request = usePlatformApi(
     Summary.fragments.MousePhenotypesSummaryFragment
   );

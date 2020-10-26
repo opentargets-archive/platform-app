@@ -18,8 +18,9 @@ const extractCategory = row => ({
   term: row.term.substring(2),
 });
 
-function Section({ definition, id: ensgId, label: approvedSymbol }) {
+function Section({ definition, label: approvedSymbol }) {
   const request = usePlatformApi(Summary.fragments.GeneOntologySummaryFragment);
+
   return (
     <SectionItem
       definition={definition}

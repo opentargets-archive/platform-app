@@ -3,7 +3,7 @@ import { Link } from 'ot-ui';
 
 function Description({ name }) {
   return (
-    <React.Fragment>
+    <>
       Investigational and approved indications for <strong>{name}</strong>{' '}
       curated from clinical trial records and post-marketing package inserts.
       Source:{' '}
@@ -11,7 +11,7 @@ function Description({ name }) {
         ChEMBL
       </Link>
       .
-    </React.Fragment>
+    </>
   );
 }
 

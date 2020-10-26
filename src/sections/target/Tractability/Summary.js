@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import { gql } from '@apollo/client';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
@@ -31,15 +30,16 @@ function Summary({ definition }) {
       renderSummary={data => {
         const sources = [];
 
-        if (_.get(data.tractability, 'antibody.buckets.length', 0) > 0) {
+        if (data.tractability.antibody?.buckets?.length > 0) {
           sources.push('antibody');
         }
-        if (_.get(data.tractability, 'smallmolecule.buckets.length', 0) > 0) {
+        if (data.tractability.smallmolecule?.buckets?.length > 0) {
           sources.push('small molecule');
         }
-        if (_.get(data.tractability, 'otherModalities.buckets.length', 0) > 0) {
+        if (data.tractability.otherModalities?.buckets?.length > 0) {
           sources.push('other modalities');
         }
+
         return sources.length > 0 ? sources.join(' • ') : null;
       }}
     />

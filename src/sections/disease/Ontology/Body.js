@@ -172,8 +172,8 @@ function Body({ definition, id: efoId, label: name }) {
       definition={definition}
       request={{ loading, error, data: subgraph }}
       renderDescription={() => <Description name={name} />}
-      renderBody={() => (
-        <OntologySubgraph efoId={efoId} name={name} subgraph={subgraph} />
+      renderBody={data => (
+        <OntologySubgraph efoId={efoId} name={name} subgraph={data} />
       )}
     />
   );

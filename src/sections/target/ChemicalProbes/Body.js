@@ -32,12 +32,12 @@ const columns = [
 ];
 
 function Body({ definition, id: ensgId, label: approvedSymbol }) {
-  const { loading, error, data } = usePlatformApi();
+  const request = usePlatformApi();
 
   return (
     <SectionItem
       definition={definition}
-      request={{ loading, error, data }}
+      request={request}
       renderDescription={() => <Description label={approvedSymbol} />}
       renderBody={data => {
         const { probeminer, rows } = data.target.chemicalProbes;

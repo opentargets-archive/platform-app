@@ -3,7 +3,7 @@ import { Link } from 'ot-ui';
 
 function Description({ approvedSymbol }) {
   return (
-    <React.Fragment>
+    <>
       Potent, selective and cell-permeable chemical modulators for{' '}
       <strong>{approvedSymbol}</strong>. Source:{' '}
       <Link external to="https://www.thesgc.org/chemical-probes">
@@ -18,7 +18,7 @@ function Description({ approvedSymbol }) {
         ChemicalProbes.org
       </Link>
       .
-    </React.Fragment>
+    </>
   );
 }
 

@@ -45,6 +45,7 @@ function Summary({ definition }) {
           data.hallmarks.rows.filter(d => d.suppress),
           'label'
         );
+
         return (
           <>
             {hallmarks.length} hallmarks

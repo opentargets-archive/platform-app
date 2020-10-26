@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Typography, makeStyles } from '@material-ui/core';
-import _ from 'lodash';
 
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -170,21 +169,11 @@ function Body({ definition, label: approvedSymbol }) {
       request={request}
       renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
       renderBody={data => {
-        const smallMoleculeBuckets = _.get(
-          data.tractability,
-          'smallmolecule.buckets',
-          []
-        );
-        const antibodyBuckets = _.get(
-          data.tractability,
-          'antibody.buckets',
-          []
-        );
-        const otherModalitiesBuckets = _.get(
-          data.tractability,
-          'otherModalities.buckets',
-          []
-        );
+        const antibodyBuckets = data.tractability.antibody?.buckets || [];
+        const smallMoleculeBuckets =
+          data.tractability.smallmolecule?.buckets || [];
+        const otherModalitiesBuckets =
+          data.tractability.otherModalities?.buckets || [];
 
         return (
           <>
