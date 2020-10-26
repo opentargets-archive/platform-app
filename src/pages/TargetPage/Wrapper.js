@@ -78,6 +78,7 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
     <Component
       ensgId={ensemblId}
       symbol={symbol}
+      therapeuticAreas={therapeuticAreas}
       efo={nodes}
       associations={associations}
     />
