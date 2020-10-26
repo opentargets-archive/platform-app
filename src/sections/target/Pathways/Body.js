@@ -9,7 +9,7 @@ import Summary from './Summary';
 import SectionItem from '../../../components/Section/SectionItem';
 import Description from './Description';
 
-const PathwaysDetail = ({ definition, label: approvedSymbol }) => {
+function Body({ definition, label: approvedSymbol }) {
   const defaultTab = 'overview';
   const [tab, setTab] = useState(defaultTab);
   const request = usePlatformApi(Summary.fragments.PathwaysSummaryFragment);
@@ -73,6 +73,6 @@ const PathwaysDetail = ({ definition, label: approvedSymbol }) => {
       }}
     />
   );
-};
+}
 
-export default PathwaysDetail;
+export default Body;
