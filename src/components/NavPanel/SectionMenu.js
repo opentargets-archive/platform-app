@@ -4,7 +4,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { List } from '@material-ui/core';
 
 import navPanelStyles from './navPanelStyles';
-import SectionItem from './SectionItem';
+import SectionMenuItem from './SectionMenuItem';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -15,7 +15,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-function SectionList({ sections, onSectionReorder }) {
+function SectionMenu({ sections, onSectionReorder }) {
   const classes = navPanelStyles();
 
   const handleSectionDrop = result => {
@@ -41,7 +41,7 @@ function SectionList({ sections, onSectionReorder }) {
             {...provided.droppableProps}
           >
             {sections.map((section, index) => (
-              <SectionItem
+              <SectionMenuItem
                 key={section.props.definition.id}
                 index={index}
                 section={section}
@@ -55,4 +55,4 @@ function SectionList({ sections, onSectionReorder }) {
   );
 }
 
-export default SectionList;
+export default SectionMenu;

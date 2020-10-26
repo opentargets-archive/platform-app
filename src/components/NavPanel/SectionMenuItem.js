@@ -7,7 +7,7 @@ import { scroller } from 'react-scroll';
 import navPanelStyles from './navPanelStyles';
 import useSectionOrder from '../../hooks/useSectionOrder';
 
-function SectionItem({ index, section }) {
+function SectionMenuItem({ index, section }) {
   const classes = navPanelStyles();
   const { shouldRender } = useSectionOrder();
   const { id, name, shortName } = section.props.definition;
@@ -54,4 +54,4 @@ function SectionItem({ index, section }) {
   );
 }
 
-export default SectionItem;
+export default SectionMenuItem;

@@ -3,7 +3,7 @@ import { Drawer } from '@material-ui/core';
 
 import GoBackButton from './GoBackButton';
 import navPanelStyles from './navPanelStyles';
-import SectionList from './SectionList';
+import SectionMenu from './SectionMenu';
 
 function NavPanel({ ...props }) {
   const classes = navPanelStyles();
@@ -14,7 +14,7 @@ function NavPanel({ ...props }) {
       classes={{ root: classes.drawer, paper: classes.paper }}
     >
       <GoBackButton />
-      <SectionList {...props} />
+      <SectionMenu {...props} />
     </Drawer>
   );
 }
