@@ -87,12 +87,28 @@ function ClassicAssociationsBubbles({ efo, associations }) {
                 fill="cadetblue"
                 opacity="0.3"
               />
-              {d.parent && d.parent.data.uniqueId === 'EFO_ROOT' ? (
+              {d.data.uniqueId === 'EFO_ROOT' ? null : d.parent &&
+                d.parent.data.uniqueId === 'EFO_ROOT' ? (
                 <text textAnchor="middle" fontSize="12">
                   <textPath startOffset="50%" xlinkHref={`#${d.data.uniqueId}`}>
                     {d.data.name}
                   </textPath>
                 </text>
+              ) : d.r > 15 ? (
+                <>
+                  <clipPath id={`clip-${d.data.uniqueId}`}>
+                    <circle cx={d.x} cy={d.y} r={d.r} />
+                  </clipPath>
+                  <text
+                    x={d.x}
+                    y={d.y}
+                    fontSize="12"
+                    textAnchor="middle"
+                    clipPath={`url(#clip-${d.data.uniqueId})`}
+                  >
+                    {d.data.name}
+                  </text>
+                </>
               ) : null}
             </g>
           );
