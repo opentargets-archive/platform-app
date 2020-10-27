@@ -4,24 +4,18 @@ import * as d3 from 'd3';
 function findTas(id, idToDisease) {
   const tas = new Set();
   const diseaseNode = idToDisease[id];
-
   if (diseaseNode.parentIds.length === 0) {
     return tas;
   }
-
   const queue = [id];
-
   while (queue.length > 0) {
     const diseaseId = queue.shift();
     const node = idToDisease[diseaseId];
-
     if (node.parentIds.length === 0) {
       tas.add(diseaseId);
     }
-
     for (let i = 0; i < node.parentIds.length; i++) {
       const parentId = node.parentIds[i];
-
       if (!queue.includes(parentId)) {
         queue.push(parentId);
       }
@@ -51,9 +45,7 @@ function buildHierarchicalData(associations, idToDisease) {
   });
 
   return {
-    id: 'EFO_ROOT',
     uniqueId: 'EFO_ROOT',
-    name: 'root',
     children: Object.entries(tasMap).map(([taId, descendants]) => {
       return {
         id: taId,
@@ -72,27 +64,36 @@ function ClassicAssociationsBubbles({ efo, associations }) {
     return acc;
   }, {});
 
+  const size = 800;
   const hierarchicalData = buildHierarchicalData(associations, idToDisease);
   const root = d3.hierarchy(hierarchicalData);
   const packLayout = d3
     .pack()
-    .size([300, 300])
+    .size([size, size])
     .padding(2);
-
   root.sum(d => d.score);
-
   packLayout(root);
 
   return (
     <div>
-      <svg ref={svgRef} height="300" width="300">
-        {root.descendants().map(descendant => {
+      <svg ref={svgRef} height={size} width={size}>
+        {root.descendants().map(d => {
           return (
-            <g
-              key={descendant.data.uniqueId}
-              transform={`translate(${descendant.x}, ${descendant.y})`}
-            >
-              <circle r={descendant.r} fill="cadetblue" opacity="0.3" />
+            <g key={d.data.uniqueId}>
+              <path
+                id={d.data.uniqueId}
+                d={`M ${d.x}, ${d.y + d.r} a ${d.r},${d.r} 0 1,1 0,-${2 *
+                  d.r} a ${d.r},${d.r} 0 1,1 0,${2 * d.r}`}
+                fill="cadetblue"
+                opacity="0.3"
+              />
+              {d.parent && d.parent.data.uniqueId === 'EFO_ROOT' ? (
+                <text textAnchor="middle" fontSize="12">
+                  <textPath startOffset="50%" xlinkHref={`#${d.data.uniqueId}`}>
+                    {d.data.name}
+                  </textPath>
+                </text>
+              ) : null}
             </g>
           );
         })}
