@@ -106,10 +106,18 @@ function ClassicAssociationsBubbles({ efo, associations }) {
                     textAnchor="middle"
                     alignmentBaseline="middle"
                   >
-                    {d.data.name}
+                    {d.data.name.split(' ').map((word, i, words) => {
+                      return (
+                        <tspan
+                          key={i}
+                          x="0"
+                          y={`${i - words.length / 2 + 0.8}em`}
+                        >
+                          {word}
+                        </tspan>
+                      );
+                    })}
                   </text>
-                  <line x1="0" y1="0" x2={d.r} y2="0" stroke="red" />
-                  <line x1="0" y1="0" x2="0" y2={d.r} stroke="red" />
                 </>
               ) : null}
             </g>
