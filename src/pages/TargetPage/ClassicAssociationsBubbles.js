@@ -103,6 +103,8 @@ function ClassicAssociationsBubbles({ efo, associations }) {
                   <text
                     clipPath={`url(#clip-${d.data.uniqueId})`}
                     fontSize="11"
+                    textAnchor="middle"
+                    alignmentBaseline="middle"
                   >
                     {d.data.name}
                   </text>
