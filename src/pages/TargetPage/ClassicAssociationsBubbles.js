@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 import { useTheme } from '@material-ui/core/styles';
+import { Tooltip } from '@material-ui/core';
+import { DownloadSVGPlot } from 'ot-ui';
 import Slider from './ClassicAssociationsSlider';
 import Legend from '../../components/Legend';
 import { colorRange } from '../../constants';
@@ -68,6 +70,7 @@ const color = d3
   .range(colorRange);
 
 function ClassicAssociationsBubbles({
+  symbol,
   efo,
   associations,
   measureRef,
@@ -95,63 +98,82 @@ function ClassicAssociationsBubbles({
   return (
     <div ref={measureRef}>
       <Slider value={minScore} onChange={(_, val) => setMinScore(val)} />
-      <svg ref={svgRef} height={size} width={size}>
-        {root.descendants().map(d => {
-          return (
-            <g key={d.data.uniqueId} transform={`translate(${d.x},${d.y})`}>
-              <path
-                id={d.data.uniqueId}
-                d={`M 0, ${d.r} a ${d.r},${d.r} 0 1,1 0,-${2 * d.r} a ${d.r},${
-                  d.r
-                } 0 1,1 0,${2 * d.r}`}
-                stroke={
-                  d.data.uniqueId !== 'EFO_ROOT'
-                    ? theme.palette.grey[400]
-                    : 'none'
-                }
-                fill={
-                  d.data.uniqueId === 'EFO_ROOT'
-                    ? theme.palette.grey[50]
-                    : d.parent.data.uniqueId === 'EFO_ROOT'
-                    ? 'none'
-                    : color(d.data.score)
-                }
-              />
-              {d.data.uniqueId === 'EFO_ROOT' ? null : d.parent &&
-                d.parent.data.uniqueId === 'EFO_ROOT' ? (
-                <text textAnchor="middle" fontSize="12">
-                  <textPath startOffset="50%" xlinkHref={`#${d.data.uniqueId}`}>
-                    {d.data.name}
-                  </textPath>
-                </text>
-              ) : d.r > 15 ? (
-                <>
-                  <clipPath id={`clip-${d.data.uniqueId}`}>
-                    <circle cx="0" cy="0" r={d.r} />
-                  </clipPath>
-                  <text
-                    clipPath={`url(#clip-${d.data.uniqueId})`}
-                    fontSize="11"
-                    textAnchor="middle"
-                  >
-                    {d.data.name.split(' ').map((word, i, words) => {
-                      return (
-                        <tspan
-                          key={i}
-                          x="0"
-                          y={`${i - words.length / 2 + 0.8}em`}
-                        >
-                          {word}
-                        </tspan>
-                      );
-                    })}
-                  </text>
-                </>
-              ) : null}
-            </g>
-          );
-        })}
-      </svg>
+      <DownloadSVGPlot
+        svgContainer={svgRef}
+        filenameStem={`${symbol}-associated-diseases-bubbles`}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          ref={svgRef}
+          height={size}
+          width={size}
+        >
+          {root.descendants().map(d => {
+            return (
+              <g key={d.data.uniqueId} transform={`translate(${d.x},${d.y})`}>
+                <path
+                  id={d.data.uniqueId}
+                  d={`M 0, ${d.r} a ${d.r},${d.r} 0 1,1 0,-${2 * d.r} a ${
+                    d.r
+                  },${d.r} 0 1,1 0,${2 * d.r}`}
+                  stroke={
+                    d.data.uniqueId !== 'EFO_ROOT'
+                      ? theme.palette.grey[400]
+                      : 'none'
+                  }
+                  fill={
+                    d.data.uniqueId === 'EFO_ROOT'
+                      ? theme.palette.grey[50]
+                      : d.parent.data.uniqueId === 'EFO_ROOT'
+                      ? 'none'
+                      : color(d.data.score)
+                  }
+                />
+
+                {d.data.uniqueId === 'EFO_ROOT' ? null : d.parent &&
+                  d.parent.data.uniqueId === 'EFO_ROOT' ? (
+                  <Tooltip title={d.data.name} interactive placement="top">
+                    <text textAnchor="middle" fontSize="12">
+                      <textPath
+                        startOffset="50%"
+                        xlinkHref={`#${d.data.uniqueId}`}
+                      >
+                        {d.data.name}
+                      </textPath>
+                    </text>
+                  </Tooltip>
+                ) : d.r > 15 ? (
+                  <>
+                    <clipPath id={`clip-${d.data.uniqueId}`}>
+                      <circle cx="0" cy="0" r={d.r} />
+                    </clipPath>
+                    <Tooltip title={d.data.name} interactive placement="top">
+                      <text
+                        clipPath={`url(#clip-${d.data.uniqueId})`}
+                        fontSize="11"
+                        textAnchor="middle"
+                      >
+                        {d.data.name.split(' ').map((word, i, words) => {
+                          return (
+                            <tspan
+                              key={i}
+                              x="0"
+                              y={`${i - words.length / 2 + 0.8}em`}
+                            >
+                              {word}
+                            </tspan>
+                          );
+                        })}
+                      </text>
+                    </Tooltip>
+                  </>
+                ) : null}
+              </g>
+            );
+          })}
+        </svg>
+      </DownloadSVGPlot>
       <Legend />
     </div>
   );
