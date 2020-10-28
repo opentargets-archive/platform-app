@@ -54,14 +54,14 @@ const getDownloadRows = expressions => {
   }));
 };
 
-function SummaryTab({ approvedSymbol, data }) {
+function SummaryTab({ symbol, data }) {
   return (
     <Grid container justify="center">
       <Grid item xs={12} lg={8}>
         <DataDownloader
           tableHeaders={headers}
           rows={getDownloadRows(data.target.expressions)}
-          fileStem={`${approvedSymbol}-expression`}
+          fileStem={`${symbol}-expression`}
         />
         <SummaryTable data={data.target.expressions} />
       </Grid>

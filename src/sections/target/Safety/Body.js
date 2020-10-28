@@ -41,17 +41,17 @@ const extractAssayFields = toxicityRow => ({
   assayType: _.upperFirst(toxicityRow.experimentDetails.assayFormatType),
 });
 
-function Body({ definition, label: approvedSymbol }) {
+function Body({ definition, label: symbol }) {
   const request = usePlatformApi(Summary.fragments.SafetySummaryFragment);
 
   return (
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => (
         <SafetyTables
-          symbol={approvedSymbol}
+          symbol={symbol}
           data={{
             adverseEffects: data.safety.adverseEffects.map(row => ({
               organsSystemsAffected: row.organsSystemsAffected

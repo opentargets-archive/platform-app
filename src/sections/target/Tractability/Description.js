@@ -2,11 +2,10 @@ import React from 'react';
 
 import { Link } from 'ot-ui';
 
-function Description({ approvedSymbol }) {
+function Description({ symbol }) {
   return (
     <>
-      Target druggability assessment for <strong>{approvedSymbol}</strong>.
-      Source:{' '}
+      Target druggability assessment for <strong>{symbol}</strong>. Source:{' '}
       <Link
         external
         to="https://docs.targetvalidation.org/getting-started/target-tractability"

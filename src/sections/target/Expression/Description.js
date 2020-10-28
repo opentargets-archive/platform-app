@@ -2,11 +2,10 @@ import React from 'react';
 
 import { Link } from 'ot-ui';
 
-function Description({ approvedSymbol }) {
+function Description({ symbol }) {
   return (
     <>
-      RNA and protein baseline expression for <strong>{approvedSymbol}</strong>.
-      Source:{' '}
+      RNA and protein baseline expression for <strong>{symbol}</strong>. Source:{' '}
       <Link external to="https://www.ebi.ac.uk/gxa/home">
         ExpressionAtlas
       </Link>

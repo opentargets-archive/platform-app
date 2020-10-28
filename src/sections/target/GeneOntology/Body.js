@@ -18,18 +18,18 @@ const extractCategory = row => ({
   term: row.term.substring(2),
 });
 
-function Section({ definition, label: approvedSymbol }) {
+function Section({ definition, label: symbol }) {
   const request = usePlatformApi(Summary.fragments.GeneOntologySummaryFragment);
 
   return (
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => (
         <OntologyTable
           rows={data.geneOntology.map(extractCategory)}
-          symbol={approvedSymbol}
+          symbol={symbol}
           uniprotId={data.proteinAnnotations?.id}
         />
       )}

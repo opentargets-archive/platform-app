@@ -31,14 +31,14 @@ const columns = [
   },
 ];
 
-function Body({ definition, id: ensgId, label: approvedSymbol }) {
+function Body({ definition, label: symbol }) {
   const request = usePlatformApi();
 
   return (
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description label={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => {
         const { probeminer, rows } = data.target.chemicalProbes;
 
@@ -49,7 +49,7 @@ function Body({ definition, id: ensgId, label: approvedSymbol }) {
                 <DataDownloader
                   tableHeaders={columns}
                   rows={data.rows}
-                  fileStem={`${approvedSymbol}-chemical-probes`}
+                  fileStem={`${symbol}-chemical-probes`}
                 />
                 <OtTableRF columns={columns} data={rows} />
               </>

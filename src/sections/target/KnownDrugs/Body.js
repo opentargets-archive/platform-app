@@ -40,14 +40,14 @@ const KNOWN_DRUGS_BODY_QUERY = gql`
   }
 `;
 
-function Body({ definition, id: ensgId, label: approvedSymbol }) {
+function Body({ definition, id: ensgId, label: symbol }) {
   return (
     <KnownDrugsBody
       definition={definition}
       entity="target"
       variables={{ ensgId }}
       BODY_QUERY={KNOWN_DRUGS_BODY_QUERY}
-      Description={() => <Description approvedSymbol={approvedSymbol} />}
+      Description={() => <Description symbol={symbol} />}
       columnsToShow={['drug', 'disease', 'clinicalTrials']}
       stickyColumn="drug"
     />

@@ -95,7 +95,7 @@ const columns = [
   },
 ];
 
-function Section({ definition, id: ensgId, label: approvedSymbol }) {
+function Section({ definition, id: ensgId, label: symbol }) {
   const request = useBatchQuery(
     BIOMARKERS_QUERY,
     { ensgId: ensgId },
@@ -106,14 +106,14 @@ function Section({ definition, id: ensgId, label: approvedSymbol }) {
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => (
         <DataTable
           showGlobalFilter
           columns={columns}
           rows={data}
           dataDownloader
-          dataDownloaderFileStem={`${approvedSymbol}-cancer-biomarkers`}
+          dataDownloaderFileStem={`${symbol}-cancer-biomarkers`}
         />
       )}
     />

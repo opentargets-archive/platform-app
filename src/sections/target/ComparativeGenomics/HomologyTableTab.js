@@ -145,13 +145,13 @@ const downloadColumns = [
   },
 ];
 
-function HomologyTableTab({ approvedSymbol, data }) {
+function HomologyTableTab({ symbol, data }) {
   return (
     <>
       <DataDownloader
         tableHeaders={downloadColumns}
         rows={data.rows}
-        fileStem={`${approvedSymbol}-orthologues`}
+        fileStem={`${symbol}-orthologues`}
       />
       <OtTableRF columns={columns} data={data.rows} />
     </>

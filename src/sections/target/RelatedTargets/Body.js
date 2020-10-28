@@ -98,7 +98,7 @@ const columns = (symbol, maxCountAOrB) => [
   },
 ];
 
-function Body({ definition, id: ensgId, label: approvedSymbol }) {
+function Body({ definition, id: ensgId, label: symbol }) {
   const [page, setPage] = useState(0);
   const { loading, error, data, fetchMore } = useQuery(RELATED_TARGETS_QUERY, {
     variables: {
@@ -129,14 +129,14 @@ function Body({ definition, id: ensgId, label: approvedSymbol }) {
     <SectionItem
       definition={definition}
       request={{ loading, error, data }}
-      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => {
         const { count, maxCountAOrB, rows = [] } = data.target.relatedTargets;
 
         return (
           <Table
             loading={loading}
-            columns={columns(approvedSymbol, maxCountAOrB)}
+            columns={columns(symbol, maxCountAOrB)}
             dataDownloader
             dataDownloaderRows={getAllRelatedTargets}
             dataDownloaderFileStem={`${ensgId}-related-targets`}

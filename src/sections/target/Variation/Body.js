@@ -69,19 +69,12 @@ class Section extends React.Component {
     }
   }
   render() {
-    const {
-      definition,
-      id: ensgId,
-      label: approvedSymbol,
-      measureRef,
-    } = this.props;
+    const { definition, id: ensgId, label: symbol, measureRef } = this.props;
     return (
       <SectionItem
         definition={definition}
         request={{ data: true }}
-        renderDescription={() => (
-          <Description approvedSymbol={approvedSymbol} />
-        )}
+        renderDescription={() => <Description symbol={symbol} />}
         renderBody={() => (
           <div id="otTargetGenomeBrowserContainer" ref={measureRef}>
             <Typography>
@@ -97,7 +90,7 @@ class Section extends React.Component {
               </Link>
               <br />
               <strong>Description: </strong>
-              {approvedSymbol}
+              {symbol}
             </Typography>
             <div id="otTargetGenomeBrowser" />
           </div>

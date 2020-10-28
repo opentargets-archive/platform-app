@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Link } from 'ot-ui';
 
-function Description({ approvedSymbol }) {
+function Description({ symbol }) {
   return (
     <>
       Known target safety effects and target safety risk information for{' '}
-      <strong>{approvedSymbol}</strong>. Source:{' '}
+      <strong>{symbol}</strong>. Source:{' '}
       <Link
         external
         to="https://docs.targetvalidation.org/getting-started/target-safety"

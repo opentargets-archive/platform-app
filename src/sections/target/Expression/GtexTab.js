@@ -5,9 +5,9 @@ import { DownloadSVGPlot } from 'ot-ui';
 
 import GtexVariability from './GtexVariability';
 
-export async function getData(approvedSymbol) {
+export async function getData(symbol) {
   try {
-    const urlGene = `https://www.gtexportal.org/rest/v1/reference/gene?geneId=${approvedSymbol}&v=clversion`;
+    const urlGene = `https://www.gtexportal.org/rest/v1/reference/gene?geneId=${symbol}&v=clversion`;
     const resGene = await fetch(urlGene);
     const rawGene = await resGene.json();
     const { gencodeId } = rawGene.gene[0];
@@ -54,13 +54,13 @@ const transformData = data => {
   });
 };
 
-function GtexTab({ approvedSymbol, data }) {
+function GtexTab({ symbol, data }) {
   const gtexVariability = useRef();
 
   return (
     <DownloadSVGPlot
       svgContainer={gtexVariability}
-      filenameStem={`${approvedSymbol}-gtex`}
+      filenameStem={`${symbol}-gtex`}
     >
       <GtexVariability data={data} ref={gtexVariability} />
     </DownloadSVGPlot>

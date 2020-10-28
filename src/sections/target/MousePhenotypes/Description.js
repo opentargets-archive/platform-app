@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'ot-ui';
 
-function Description({ approvedSymbol }) {
+function Description({ symbol }) {
   return (
     <>
-      Phenotypes associated with <strong>{approvedSymbol}</strong> murine
-      homologue(s). Source:{' '}
+      Phenotypes associated with <strong>{symbol}</strong> murine homologue(s).
+      Source:{' '}
       <Link external to="http://www.informatics.jax.org/phenotypes.shtml">
         MGI
       </Link>

@@ -9,7 +9,7 @@ import Summary from './Summary';
 import SectionItem from '../../../components/Section/SectionItem';
 import Description from './Description';
 
-function Body({ definition, label: approvedSymbol }) {
+function Body({ definition, label: symbol }) {
   const defaultTab = 'overview';
   const [tab, setTab] = useState(defaultTab);
   const request = usePlatformApi(Summary.fragments.PathwaysSummaryFragment);
@@ -22,7 +22,7 @@ function Body({ definition, label: approvedSymbol }) {
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => {
         const uniprotId = data.proteinAnnotations?.id;
         const lowLevelPathways = data.reactome.map(
@@ -58,15 +58,12 @@ function Body({ definition, label: approvedSymbol }) {
             </Tabs>
             {tab === 'overview' ? (
               <OverviewTab
-                symbol={approvedSymbol}
+                symbol={symbol}
                 lowLevelPathways={lowLevelPathways}
               />
             ) : null}
             {tab === 'browser' ? (
-              <BrowserTab
-                symbol={approvedSymbol}
-                lowLevelPathways={lowLevelPathways}
-              />
+              <BrowserTab symbol={symbol} lowLevelPathways={lowLevelPathways} />
             ) : null}
           </>
         );

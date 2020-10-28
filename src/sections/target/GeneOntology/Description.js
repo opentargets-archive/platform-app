@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'ot-ui';
 
-function Description({ approvedSymbol }) {
+function Description({ symbol }) {
   return (
     <>
-      Annotations for <strong>{approvedSymbol}</strong>. Source:{' '}
+      Annotations for <strong>{symbol}</strong>. Source:{' '}
       <Link external to="https://www.uniprot.org/">
         UniProt
       </Link>

@@ -44,7 +44,7 @@ const columns = [
   },
 ];
 
-function Section({ definition, id: ensgId, label: approvedSymbol }) {
+function Section({ definition, id: ensgId, label: symbol }) {
   const request = usePlatformApi(
     Summary.fragments.CancerHallmarksSummaryFragment
   );
@@ -53,7 +53,7 @@ function Section({ definition, id: ensgId, label: approvedSymbol }) {
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => {
         const roleInCancer = data.hallmarks.attributes.filter(
           a => a.name === 'role in cancer'
@@ -86,7 +86,7 @@ function Section({ definition, id: ensgId, label: approvedSymbol }) {
             <DataTable
               columns={columns}
               dataDownloader
-              dataDownloaderFileStem={`${approvedSymbol}-hallmarks`}
+              dataDownloaderFileStem={`${symbol}-hallmarks`}
               rows={rows}
               noWrap={false}
             />

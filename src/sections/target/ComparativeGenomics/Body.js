@@ -8,7 +8,7 @@ import HomologyTableTab, { getData as getTableData } from './HomologyTableTab';
 import SectionItem from '../../../components/Section/SectionItem';
 import Description from './Description';
 
-function Body({ definition, id: ensgId, label: approvedSymbol }) {
+function Body({ definition, id: ensgId, label: symbol }) {
   const defaultTab = 'table';
   const [tab, setTab] = useState(defaultTab);
   const [requestTable, setRequestTable] = useState({ loading: true });
@@ -53,7 +53,7 @@ function Body({ definition, id: ensgId, label: approvedSymbol }) {
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => (
         <>
           <Tabs
@@ -65,10 +65,10 @@ function Body({ definition, id: ensgId, label: approvedSymbol }) {
             <Tab value="tree" label="Gene tree" />
           </Tabs>
           {tab === 'table' ? (
-            <HomologyTableTab approvedSymbol={approvedSymbol} data={data} />
+            <HomologyTableTab symbol={symbol} data={data} />
           ) : null}
           {tab === 'tree' ? (
-            <GeneTreeTab ensgId={ensgId} symbol={approvedSymbol} />
+            <GeneTreeTab ensgId={ensgId} symbol={symbol} />
           ) : null}
         </>
       )}

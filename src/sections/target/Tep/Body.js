@@ -6,14 +6,14 @@ import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const Section = ({ definition, label: approvedSymbol }) => {
+const Section = ({ definition, label: symbol }) => {
   const request = usePlatformApi(Summary.fragments.TepSummaryFragment);
 
   return (
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => (
         <>
           Learn more about the{' '}

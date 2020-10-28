@@ -9,7 +9,7 @@ import AtlasTab from './AtlasTab';
 import GtexTab, { getData as getGtexData } from './GtexTab';
 import SummaryTab, { getData as getSummaryData } from './SummaryTab';
 
-function Section({ definition, id: ensgId, label: approvedSymbol }) {
+function Section({ definition, id: ensgId, label: symbol }) {
   const defaultTab = 'summary';
   const [tab, setTab] = useState(defaultTab);
   const [requestSummary, setRequestSummary] = useState({ loading: true });
@@ -53,7 +53,7 @@ function Section({ definition, id: ensgId, label: approvedSymbol }) {
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => (
         <>
           <Tabs
@@ -65,15 +65,9 @@ function Section({ definition, id: ensgId, label: approvedSymbol }) {
             <Tab value="atlas" label="Experiments (Expression Atlas)" />
             <Tab value="gtex" label="Variation (GTEx)" />
           </Tabs>
-          {tab === 'summary' && (
-            <SummaryTab approvedSymbol={approvedSymbol} data={data} />
-          )}
-          {tab === 'atlas' && (
-            <AtlasTab ensgId={ensgId} approvedSymbol={approvedSymbol} />
-          )}
-          {tab === 'gtex' && (
-            <GtexTab approvedSymbol={approvedSymbol} data={data} />
-          )}
+          {tab === 'summary' && <SummaryTab symbol={symbol} data={data} />}
+          {tab === 'atlas' && <AtlasTab ensgId={ensgId} symbol={symbol} />}
+          {tab === 'gtex' && <GtexTab symbol={symbol} data={data} />}
         </>
       )}
     />

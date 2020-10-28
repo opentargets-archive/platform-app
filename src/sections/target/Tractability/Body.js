@@ -160,14 +160,14 @@ const BucketCell = ({ isPurple, children }) => {
   );
 };
 
-function Body({ definition, label: approvedSymbol }) {
+function Body({ definition, label: symbol }) {
   const request = usePlatformApi(Summary.fragments.TractabilitySummaryFragment);
 
   return (
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description approvedSymbol={approvedSymbol} />}
+      renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => {
         const antibodyBuckets = data.tractability.antibody?.buckets || [];
         const smallMoleculeBuckets =
@@ -182,8 +182,7 @@ function Body({ definition, label: approvedSymbol }) {
               <SmallMoleculeTable buckets={smallMoleculeBuckets} />
             ) : (
               <Typography>
-                No small molecule tractability data for {approvedSymbol}{' '}
-                available
+                No small molecule tractability data for {symbol} available
               </Typography>
             )}
             <Typography variant="h6">Antibody</Typography>
@@ -191,7 +190,7 @@ function Body({ definition, label: approvedSymbol }) {
               <AntibodyTable buckets={antibodyBuckets} />
             ) : (
               <Typography>
-                No antibody tractability data for {approvedSymbol} available
+                No antibody tractability data for {symbol} available
               </Typography>
             )}
             <Typography variant="h6">
@@ -201,8 +200,7 @@ function Body({ definition, label: approvedSymbol }) {
               <OtherModalitiesTable buckets={otherModalitiesBuckets} />
             ) : (
               <Typography variant="body2">
-                No other modalities tractability data for {approvedSymbol}{' '}
-                available
+                No other modalities tractability data for {symbol} available
               </Typography>
             )}
           </>
