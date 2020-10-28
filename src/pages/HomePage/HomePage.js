@@ -45,13 +45,21 @@ const HomePage = () => {
           items={mainMenuItems}
           placement="bottom-end"
         />
-        <HomeBox name="Platform">
+        <HomeBox>
           <Search autoFocus />
           <Grid className={classes.links} container justify="space-around">
-            <Link to={`/target/${targets[0].id}`}>{targets[0].label}</Link>
-            <Link to={`/target/${targets[1].id}`}>{targets[1].label}</Link>
-            <Link to={`/disease/${diseases[0].id}`}>{diseases[0].label}</Link>
-            <Link to={`/disease/${diseases[1].id}`}>{diseases[1].label}</Link>
+            <Link to={`/target/${targets[0].id}/associations`}>
+              {targets[0].label}
+            </Link>
+            <Link to={`/target/${targets[1].id}/associations`}>
+              {targets[1].label}
+            </Link>
+            <Link to={`/disease/${diseases[0].id}/associations`}>
+              {diseases[0].label}
+            </Link>
+            <Link to={`/disease/${diseases[1].id}/associations`}>
+              {diseases[1].label}
+            </Link>
             <Link to={`/drug/${drugs[0].id}`}>{drugs[0].label}</Link>
             <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
           </Grid>

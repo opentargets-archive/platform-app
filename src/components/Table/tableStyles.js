@@ -43,7 +43,6 @@ export const tableStyles = makeStyles(theme => ({
   },
   table: {
     tableLayout: 'auto',
-    width: '100%',
   },
   tableFixed: {
     tableLayout: 'fixed',

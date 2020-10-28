@@ -1,13 +1,15 @@
 import React from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
-import { withTheme } from '@material-ui/core';
+import withTheme from '@material-ui/core/styles/withTheme';
 
 import { DownloadSVGPlot } from 'ot-ui';
 
-import { withTooltip } from '../../components/Associations';
+import withTooltip from '../../components/Associations/withTooltip';
 import TooltipContent from './ClassicAssociationsTooltip';
 import Slider from './ClassicAssociationsSlider';
+import Legend from '../../components/Legend';
+import { colorRange } from '../../constants';
 
 const getTherapeuticAreaTree = ({
   ensgId,
@@ -135,6 +137,7 @@ class ClassicAssociationsBubbles extends React.Component {
       handleMouseover,
       selectedTherapeuticAreas,
     } = this.props;
+
     const { width, minimumScore } = this.state;
     const height = 800;
     const diameter = Math.min(width, height); // TODO: replace 600 with eg page height / 2
@@ -150,11 +153,10 @@ class ClassicAssociationsBubbles extends React.Component {
     });
     const nodes = therapeuticAreaTree.descendants();
 
-    // color scale
     const color = d3
-      .scaleLinear()
+      .scaleQuantize()
       .domain([0, 1])
-      .range(['#fff', theme.palette.primary.main]);
+      .range(colorRange);
 
     return (
       <div ref={measureRef}>
@@ -259,6 +261,7 @@ class ClassicAssociationsBubbles extends React.Component {
             </svg>
           </div>
         </DownloadSVGPlot>
+        <Legend />
       </div>
     );
   }

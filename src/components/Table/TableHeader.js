@@ -19,6 +19,7 @@ import { getHiddenBreakpoints } from './utils';
 import useDynamicColspan from '../../hooks/useDynamicColspans';
 
 function HeaderCell({
+  classes = {},
   align,
   colspan,
   isHeaderGroup = false,
@@ -34,7 +35,7 @@ function HeaderCell({
   TooltipIcon = HelpIcon,
   width,
 }) {
-  const classes = tableStyles();
+  const headerClasses = tableStyles();
   const tooltipClasses = makeStyles(tooltipStyle)();
   const style = {
     minWidth,
@@ -42,41 +43,52 @@ function HeaderCell({
     ...labelStyle,
   };
 
-  const labelInnerComponent = tooltip ? (
-    <Badge
-      badgeContent={
-        <Tooltip
-          interactive
-          placement="top"
-          classes={tooltipClasses}
-          title={tooltip}
+  const labelInnerComponent = (
+    <span className={classes.innerLabel}>
+      {tooltip ? (
+        <Badge
+          badgeContent={
+            <Tooltip
+              interactive
+              placement="top"
+              classes={tooltipClasses}
+              title={tooltip}
+            >
+              <TooltipIcon className={headerClasses.tooltipIcon} />
+            </Tooltip>
+          }
         >
-          <TooltipIcon className={classes.tooltipIcon} />
-        </Tooltip>
-      }
-    >
-      {label}
-    </Badge>
-  ) : (
-    label
+          {label}
+        </Badge>
+      ) : (
+        label
+      )}
+    </span>
   );
 
   return (
     <TableCell
       align={align}
       classes={{
-        root: classNames(classes.cell, classes.cellHeader, {
-          [classes.cellGroup]: isHeaderGroup,
-          [classes.cellSticky]: sticky,
-          [classes.noWrap]: noWrapHeader,
-        }),
+        root: classNames(
+          headerClasses.cell,
+          headerClasses.cellHeader,
+          classes.headerCell,
+          {
+            [headerClasses.cellGroup]: isHeaderGroup,
+            [headerClasses.cellSticky]: sticky,
+            [headerClasses.noWrap]: noWrapHeader,
+          }
+        ),
       }}
       colSpan={colspan}
       sortDirection={sortable && sortParams.direction}
       style={style}
     >
       {sortable ? (
-        <TableSortLabel {...sortParams}>{labelInnerComponent}</TableSortLabel>
+        <TableSortLabel className={classes.sortLabel} {...sortParams}>
+          {labelInnerComponent}
+        </TableSortLabel>
       ) : (
         labelInnerComponent
       )}
@@ -100,20 +112,22 @@ function TableHeader({
 
   return (
     <TableHead>
-      <TableRow>
-        {headerGroups.map((headerCell, cellIndex) => (
-          <HeaderCell
-            colspan={colspans[cellIndex]}
-            isHeaderGroup={true}
-            key={cellIndex}
-            label={headerCell.label || ''}
-            noWrapHeader={noWrapHeader}
-            sticky={headerCell.sticky || false}
-            tooltip={headerCell.tooltip}
-            tooltipStyle={headerCell.tooltipStyle || {}}
-          />
-        ))}
-      </TableRow>
+      {headerGroups.length > 0 ? (
+        <TableRow>
+          {headerGroups.map((headerCell, cellIndex) => (
+            <HeaderCell
+              colspan={colspans[cellIndex]}
+              isHeaderGroup={true}
+              key={cellIndex}
+              label={headerCell.label || ''}
+              noWrapHeader={noWrapHeader}
+              sticky={headerCell.sticky || false}
+              tooltip={headerCell.tooltip}
+              tooltipStyle={headerCell.tooltipStyle || {}}
+            />
+          ))}
+        </TableRow>
+      ) : null}
       <TableRow>
         {columns.map((column, index) => (
           <Hidden {...getHiddenBreakpoints(column)} key={index}>
@@ -134,6 +148,7 @@ function TableHeader({
                   : null
               }
               labelStyle={column.labelStyle}
+              classes={column.classes}
               sticky={column.sticky}
               tooltip={column.tooltip}
               tooltipStyle={column.tooltipStyle}

@@ -259,3 +259,20 @@ export const naLabel = 'N/A';
 
 // Google analytics ID.
 export const googleAnalyticsID = 'UA-101860681-10';
+
+// Old platform-app url.
+export const oldPlatformUrl = 'https://www.targetvalidation.org';
+
+export const colorRange = [
+  // '#ffffff',
+  '#e5edf4',
+  '#ccdcea',
+  '#b2cbe0',
+  '#99b9d6',
+  '#7fa8cc',
+  '#6697c1',
+  '#4c85b7',
+  '#3274ad',
+  '#1963a3',
+  '#005299',
+];

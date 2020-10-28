@@ -19,9 +19,10 @@ const client = new ApolloClient({
   cache: new InMemoryCache({ fragmentMatcher }),
 });
 
+// This endpoint is being used for associations
 const client3 = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api-dora-dot-open-targets-eu-dev.appspot.com/graphql',
+    uri: 'https://platform-api-alpha.opentargets.io/api/v4/graphql',
   }),
   cache: new InMemoryCache(),
 });

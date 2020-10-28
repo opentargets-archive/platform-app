@@ -315,7 +315,7 @@ class DAGViewer extends React.Component {
                   fontSize={12}
                 >
                   <title>{d.data.name}</title>
-                  {textWithEllipsis(d.data.name, textThreshold)}
+                  {textWithEllipsis(d.data.name || 'No name', textThreshold)}
                 </text>
               ))}
             </g>

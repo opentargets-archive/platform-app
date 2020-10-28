@@ -24,7 +24,10 @@ const styles = theme => ({
 const DiseaseResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
-      <Link to={`/disease/${data.id}`} className={classes.subtitle}>
+      <Link
+        to={`/disease/${data.id}/associations`}
+        className={classes.subtitle}
+      >
         <FontAwesomeIcon
           icon={faStethoscope}
           size="md"

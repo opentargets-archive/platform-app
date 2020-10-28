@@ -29,7 +29,7 @@ const TargetDetail = ({ classes, data }) => {
     <>
       <CardContent>
         <Typography color="primary" variant="h5">
-          <Link to={`/target/${id}`}>{approvedSymbol}</Link>
+          <Link to={`/target/${id}/associations`}>{approvedSymbol}</Link>
         </Typography>
         <Typography variant="subtitle2">{approvedName}</Typography>
         <Typography color="primary">

@@ -2,13 +2,15 @@ import React from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3Base from 'd3';
 import * as d3DagBase from 'd3-dag';
-import { withTheme } from '@material-ui/core';
+import withTheme from '@material-ui/core/styles/withTheme';
 
 import { DownloadSVGPlot } from 'ot-ui';
 
-import { withTooltip } from '../../components/Associations';
+import withTooltip from '../../components/Associations/withTooltip';
+import Legend from '../../components/Legend';
 import TooltipContent from './ClassicAssociationsTooltip';
 import Slider from './ClassicAssociationsSlider';
+import { colorRange } from '../../constants';
 
 const d3 = Object.assign({}, d3Base, d3DagBase);
 
@@ -215,11 +217,10 @@ class ClassicAssociationsDAG extends React.Component {
     // compute layout
     layout(dag);
 
-    // color scale
     const color = d3
-      .scaleLinear()
+      .scaleQuantize()
       .domain([0, 1])
-      .range(['#fff', theme.palette.primary.main]);
+      .range(colorRange);
 
     // constants
     const nodeRadius = 4;
@@ -407,6 +408,7 @@ class ClassicAssociationsDAG extends React.Component {
             </svg>
           </div>
         </DownloadSVGPlot>
+        <Legend />
       </div>
     );
   }
