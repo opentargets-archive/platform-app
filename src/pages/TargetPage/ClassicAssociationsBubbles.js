@@ -79,11 +79,12 @@ function ClassicAssociationsBubbles({ efo, associations }) {
       <svg ref={svgRef} height={size} width={size}>
         {root.descendants().map(d => {
           return (
-            <g key={d.data.uniqueId}>
+            <g key={d.data.uniqueId} transform={`translate(${d.x},${d.y})`}>
               <path
                 id={d.data.uniqueId}
-                d={`M ${d.x}, ${d.y + d.r} a ${d.r},${d.r} 0 1,1 0,-${2 *
-                  d.r} a ${d.r},${d.r} 0 1,1 0,${2 * d.r}`}
+                d={`M 0, ${d.r} a ${d.r},${d.r} 0 1,1 0,-${2 * d.r} a ${d.r},${
+                  d.r
+                } 0 1,1 0,${2 * d.r}`}
                 fill="cadetblue"
                 opacity="0.3"
               />
@@ -97,17 +98,16 @@ function ClassicAssociationsBubbles({ efo, associations }) {
               ) : d.r > 15 ? (
                 <>
                   <clipPath id={`clip-${d.data.uniqueId}`}>
-                    <circle cx={d.x} cy={d.y} r={d.r} />
+                    <circle cx="0" cy="0" r={d.r} />
                   </clipPath>
                   <text
-                    x={d.x}
-                    y={d.y}
-                    fontSize="12"
-                    textAnchor="middle"
                     clipPath={`url(#clip-${d.data.uniqueId})`}
+                    fontSize="11"
                   >
                     {d.data.name}
                   </text>
+                  <line x1="0" y1="0" x2={d.r} y2="0" stroke="red" />
+                  <line x1="0" y1="0" x2="0" y2={d.r} stroke="red" />
                 </>
               ) : null}
             </g>
