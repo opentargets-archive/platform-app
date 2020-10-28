@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 
 function findTas(id, idToDisease) {
@@ -57,14 +58,19 @@ function buildHierarchicalData(associations, idToDisease) {
   };
 }
 
-function ClassicAssociationsBubbles({ efo, associations }) {
+function ClassicAssociationsBubbles({
+  efo,
+  associations,
+  measureRef,
+  contentRect,
+}) {
+  const { width: size = 100 } = contentRect.bounds;
   const svgRef = useRef(null);
   const idToDisease = efo.reduce((acc, disease) => {
     acc[disease.id] = disease;
     return acc;
   }, {});
 
-  const size = 800;
   const hierarchicalData = buildHierarchicalData(associations, idToDisease);
   const root = d3.hierarchy(hierarchicalData);
   const packLayout = d3
@@ -75,7 +81,7 @@ function ClassicAssociationsBubbles({ efo, associations }) {
   packLayout(root);
 
   return (
-    <div>
+    <div ref={measureRef}>
       <svg ref={svgRef} height={size} width={size}>
         {root.descendants().map(d => {
           return (
@@ -104,7 +110,6 @@ function ClassicAssociationsBubbles({ efo, associations }) {
                     clipPath={`url(#clip-${d.data.uniqueId})`}
                     fontSize="11"
                     textAnchor="middle"
-                    alignmentBaseline="middle"
                   >
                     {d.data.name.split(' ').map((word, i, words) => {
                       return (
@@ -128,4 +133,4 @@ function ClassicAssociationsBubbles({ efo, associations }) {
   );
 }
 
-export default ClassicAssociationsBubbles;
+export default withContentRect('bounds')(ClassicAssociationsBubbles);
