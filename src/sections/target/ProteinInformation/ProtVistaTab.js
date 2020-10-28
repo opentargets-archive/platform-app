@@ -10,8 +10,8 @@ function loadWebComponent(name, wc) {
 
 loadWebComponent('protvista-uniprot', ProtvistaUniprot);
 
-const ProtVistaRenderer = ({ uniprotId }) => {
+function ProtVistaTab({ uniprotId }) {
   return <protvista-uniprot accession={uniprotId} />;
-};
+}
 
-export default ProtVistaRenderer;
+export default ProtVistaTab;
