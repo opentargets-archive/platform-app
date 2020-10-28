@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
+import { useTheme } from '@material-ui/core/styles';
+import { colorRange } from '../../constants';
 
 function findTas(id, idToDisease) {
   const tas = new Set();
@@ -58,6 +60,11 @@ function buildHierarchicalData(associations, idToDisease) {
   };
 }
 
+const color = d3
+  .scaleQuantize()
+  .domain([0, 1])
+  .range(colorRange);
+
 function ClassicAssociationsBubbles({
   efo,
   associations,
@@ -66,6 +73,7 @@ function ClassicAssociationsBubbles({
 }) {
   const { width: size = 100 } = contentRect.bounds;
   const svgRef = useRef(null);
+  const theme = useTheme();
   const idToDisease = efo.reduce((acc, disease) => {
     acc[disease.id] = disease;
     return acc;
@@ -91,8 +99,18 @@ function ClassicAssociationsBubbles({
                 d={`M 0, ${d.r} a ${d.r},${d.r} 0 1,1 0,-${2 * d.r} a ${d.r},${
                   d.r
                 } 0 1,1 0,${2 * d.r}`}
-                fill="cadetblue"
-                opacity="0.3"
+                stroke={
+                  d.data.uniqueId !== 'EFO_ROOT'
+                    ? theme.palette.grey[400]
+                    : 'none'
+                }
+                fill={
+                  d.data.uniqueId === 'EFO_ROOT'
+                    ? theme.palette.grey[50]
+                    : d.parent.data.uniqueId === 'EFO_ROOT'
+                    ? 'none'
+                    : color(d.data.score)
+                }
               />
               {d.data.uniqueId === 'EFO_ROOT' ? null : d.parent &&
                 d.parent.data.uniqueId === 'EFO_ROOT' ? (
