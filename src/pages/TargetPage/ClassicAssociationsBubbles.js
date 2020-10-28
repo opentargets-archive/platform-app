@@ -1,7 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 import { useTheme } from '@material-ui/core/styles';
+import Slider from './ClassicAssociationsSlider';
+import Legend from '../../components/Legend';
 import { colorRange } from '../../constants';
 
 function findTas(id, idToDisease) {
@@ -71,15 +73,17 @@ function ClassicAssociationsBubbles({
   measureRef,
   contentRect,
 }) {
-  const { width: size = 100 } = contentRect.bounds;
+  const [minScore, setMinScore] = useState(0.1);
   const svgRef = useRef(null);
   const theme = useTheme();
+  const assocs = associations.filter(assoc => assoc.score >= minScore);
+  const { width: size = 100 } = contentRect.bounds;
   const idToDisease = efo.reduce((acc, disease) => {
     acc[disease.id] = disease;
     return acc;
   }, {});
 
-  const hierarchicalData = buildHierarchicalData(associations, idToDisease);
+  const hierarchicalData = buildHierarchicalData(assocs, idToDisease);
   const root = d3.hierarchy(hierarchicalData);
   const packLayout = d3
     .pack()
@@ -90,6 +94,7 @@ function ClassicAssociationsBubbles({
 
   return (
     <div ref={measureRef}>
+      <Slider value={minScore} onChange={(_, val) => setMinScore(val)} />
       <svg ref={svgRef} height={size} width={size}>
         {root.descendants().map(d => {
           return (
@@ -147,6 +152,7 @@ function ClassicAssociationsBubbles({
           );
         })}
       </svg>
+      <Legend />
     </div>
   );
 }
