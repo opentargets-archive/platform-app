@@ -1,24 +1,47 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Tooltip, Typography, Link } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { significantFigures } from 'ot-ui';
+
+const useStyles = makeStyles(theme => ({
+  tooltip: {
+    backgroundColor: 'white',
+    border: `1px solid ${theme.palette.grey[400]}`,
+  },
+}));
 
 function AssociationTooltip({ ensemblId, efoId, name, score, children }) {
+  const classes = useStyles();
   return (
     <Tooltip
+      classes={{ tooltip: classes.tooltip }}
       title={
         <>
-          <Typography>{name}</Typography>
-          {score ? <Typography>association score: {score}</Typography> : null}
+          <Typography variant="subtitle2" align="center" color="textPrimary">
+            {name}
+          </Typography>
+          {score ? (
+            <Typography variant="body2" align="center" color="textPrimary">
+              association score: {significantFigures(score)}
+            </Typography>
+          ) : null}
           <Link
             component={RouterLink}
             to={`/disease/${efoId}`}
             underline="none"
+            display="block"
+            align="center"
+            variant="body2"
           >
             Disease profile
           </Link>
           <Link
             href={`https://www.targetvalidation.org/evidence/${ensemblId}/${efoId}`}
             underline="none"
+            display="block"
+            align="center"
+            variant="body2"
           >
             Association evidence
           </Link>
