@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar, ListItem, ListItemText } from '@material-ui/core';
 import classNames from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
+import { DragIndicator } from '@material-ui/icons';
 import { scroller } from 'react-scroll';
 
 import navPanelStyles from './navPanelStyles';
@@ -47,6 +48,7 @@ function SectionMenuItem({ index, section }) {
                 className: classes.listItemLabel,
               }}
             />
+            <DragIndicator className={classes.dragIndicator} />
           </ListItem>
         </div>
       )}

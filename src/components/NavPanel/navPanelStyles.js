@@ -1,8 +1,11 @@
 import { makeStyles } from '@material-ui/core';
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const navPanelStyles = makeStyles(theme => ({
+  dragIndicator: {
+    cursor: 'grab',
+  },
   drawer: {
     flexShrink: 0,
     transition: theme.transitions.create(['width'], {
@@ -53,7 +56,7 @@ const navPanelStyles = makeStyles(theme => ({
     width: '10.1rem',
     whiteSpace: 'normal',
   },
-  listItemText: {
+  listItemTxt: {
     margin: 0,
   },
   listItemAvatarHome: {
