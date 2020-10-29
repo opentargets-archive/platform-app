@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 import { useTheme } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { DownloadSVGPlot } from 'ot-ui';
 import Slider from './ClassicAssociationsSlider';
 import AssociationTooltip from './AssociationTooltip';
@@ -104,73 +104,49 @@ function ClassicAssociationsBubbles({
   packLayout(root);
 
   return (
-    <div ref={measureRef}>
+    <>
       <DownloadSVGPlot
         svgContainer={svgRef}
         filenameStem={`${symbol}-associated-diseases-bubbles`}
       >
         <Slider value={minScore} onChange={(_, val) => setMinScore(val)} />
-        {size ? (
-          assocs.length > 0 ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              ref={svgRef}
-              height={size}
-              width={size}
-            >
-              {root.descendants().map(d => {
-                return (
-                  <g
-                    key={d.data.uniqueId}
-                    transform={`translate(${d.x},${d.y})`}
-                  >
-                    <path
-                      id={d.data.uniqueId}
-                      d={`M 0, ${d.r} a ${d.r},${d.r} 0 1,1 0,-${2 * d.r} a ${
-                        d.r
-                      },${d.r} 0 1,1 0,${2 * d.r}`}
-                      stroke={
-                        d.data.uniqueId !== 'EFO_ROOT'
-                          ? theme.palette.grey[400]
-                          : 'none'
-                      }
-                      fill={
-                        d.data.uniqueId === 'EFO_ROOT'
-                          ? theme.palette.grey[50]
-                          : d.parent.data.uniqueId === 'EFO_ROOT'
-                          ? 'none'
-                          : color(d.data.score)
-                      }
-                    />
+        <Grid item ref={measureRef} md={10} style={{ margin: '0 auto' }}>
+          {size ? (
+            assocs.length > 0 ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                ref={svgRef}
+                height={size}
+                width={size}
+              >
+                {root.descendants().map(d => {
+                  return (
+                    <g
+                      key={d.data.uniqueId}
+                      transform={`translate(${d.x},${d.y})`}
+                    >
+                      <path
+                        id={d.data.uniqueId}
+                        d={`M 0, ${d.r} a ${d.r},${d.r} 0 1,1 0,-${2 * d.r} a ${
+                          d.r
+                        },${d.r} 0 1,1 0,${2 * d.r}`}
+                        stroke={
+                          d.data.uniqueId !== 'EFO_ROOT'
+                            ? theme.palette.grey[400]
+                            : 'none'
+                        }
+                        fill={
+                          d.data.uniqueId === 'EFO_ROOT'
+                            ? theme.palette.grey[50]
+                            : d.parent.data.uniqueId === 'EFO_ROOT'
+                            ? 'none'
+                            : color(d.data.score)
+                        }
+                      />
 
-                    {d.data.uniqueId === 'EFO_ROOT' ? null : d.parent &&
-                      d.parent.data.uniqueId === 'EFO_ROOT' ? (
-                      <AssociationTooltip
-                        ensemblId={ensemblId}
-                        efoId={d.data.id}
-                        name={d.data.name}
-                        score={d.data.score}
-                      >
-                        <text
-                          textAnchor="middle"
-                          fontSize="12"
-                          fontWeight="bold"
-                          fill={theme.palette.grey[400]}
-                        >
-                          <textPath
-                            startOffset="50%"
-                            xlinkHref={`#${d.data.uniqueId}`}
-                          >
-                            {d.data.name}
-                          </textPath>
-                        </text>
-                      </AssociationTooltip>
-                    ) : d.r > 15 ? (
-                      <>
-                        <clipPath id={`clip-${d.data.uniqueId}`}>
-                          <circle cx="0" cy="0" r={d.r} />
-                        </clipPath>
+                      {d.data.uniqueId === 'EFO_ROOT' ? null : d.parent &&
+                        d.parent.data.uniqueId === 'EFO_ROOT' ? (
                         <AssociationTooltip
                           ensemblId={ensemblId}
                           efoId={d.data.id}
@@ -178,38 +154,64 @@ function ClassicAssociationsBubbles({
                           score={d.data.score}
                         >
                           <text
-                            clipPath={`url(#clip-${d.data.uniqueId})`}
-                            fontSize="11"
                             textAnchor="middle"
+                            fontSize="12"
+                            fontWeight="bold"
+                            fill={theme.palette.grey[400]}
                           >
-                            {d.data.name.split(' ').map((word, i, words) => {
-                              return (
-                                <tspan
-                                  key={i}
-                                  x="0"
-                                  y={`${i - words.length / 2 + 0.8}em`}
-                                >
-                                  {word}
-                                </tspan>
-                              );
-                            })}
+                            <textPath
+                              startOffset="50%"
+                              xlinkHref={`#${d.data.uniqueId}`}
+                            >
+                              {d.data.name}
+                            </textPath>
                           </text>
                         </AssociationTooltip>
-                      </>
-                    ) : null}
-                  </g>
-                );
-              })}
-            </svg>
-          ) : (
-            <Typography align="center">
-              No associations with score greater than or equal to {minScore}
-            </Typography>
-          )
-        ) : null}
+                      ) : d.r > 15 ? (
+                        <>
+                          <clipPath id={`clip-${d.data.uniqueId}`}>
+                            <circle cx="0" cy="0" r={d.r} />
+                          </clipPath>
+                          <AssociationTooltip
+                            ensemblId={ensemblId}
+                            efoId={d.data.id}
+                            name={d.data.name}
+                            score={d.data.score}
+                          >
+                            <text
+                              clipPath={`url(#clip-${d.data.uniqueId})`}
+                              fontSize="11"
+                              textAnchor="middle"
+                            >
+                              {d.data.name.split(' ').map((word, i, words) => {
+                                return (
+                                  <tspan
+                                    key={i}
+                                    x="0"
+                                    y={`${i - words.length / 2 + 0.8}em`}
+                                  >
+                                    {word}
+                                  </tspan>
+                                );
+                              })}
+                            </text>
+                          </AssociationTooltip>
+                        </>
+                      ) : null}
+                    </g>
+                  );
+                })}
+              </svg>
+            ) : (
+              <Typography align="center">
+                No associations with score greater than or equal to {minScore}
+              </Typography>
+            )
+          ) : null}
+        </Grid>
       </DownloadSVGPlot>
       <Legend />
-    </div>
+    </>
   );
 }
 
