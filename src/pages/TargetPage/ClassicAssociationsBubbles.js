@@ -2,9 +2,9 @@ import React, { useRef, useState } from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 import { useTheme } from '@material-ui/core/styles';
-import { Tooltip } from '@material-ui/core';
 import { DownloadSVGPlot } from 'ot-ui';
 import Slider from './ClassicAssociationsSlider';
+import AssociationTooltip from './AssociationTooltip';
 import Legend from '../../components/Legend';
 import { colorRange } from '../../constants';
 
@@ -34,12 +34,17 @@ function findTas(id, idToDisease) {
 
 function buildHierarchicalData(associations, idToDisease) {
   const tasMap = {};
+  const tasScore = {};
   associations.forEach(association => {
-    const tas = findTas(association.disease.id, idToDisease);
+    const diseaseId = association.disease.id;
+    if (idToDisease[diseaseId].parentIds.length === 0) {
+      tasScore[diseaseId] = association.score;
+    }
+    const tas = findTas(diseaseId, idToDisease);
     tas.forEach(ta => {
       const assocData = {
-        id: association.disease.id,
-        uniqueId: `${ta}-${association.disease.id}`,
+        id: diseaseId,
+        uniqueId: `${ta}-${diseaseId}`,
         name: association.disease.name,
         score: association.score,
       };
@@ -58,6 +63,7 @@ function buildHierarchicalData(associations, idToDisease) {
         id: taId,
         uniqueId: taId,
         name: idToDisease[taId].name,
+        score: tasScore[taId],
         children: descendants,
       };
     }),
@@ -70,6 +76,7 @@ const color = d3
   .range(colorRange);
 
 function ClassicAssociationsBubbles({
+  ensemblId,
   symbol,
   efo,
   associations,
@@ -97,11 +104,11 @@ function ClassicAssociationsBubbles({
 
   return (
     <div ref={measureRef}>
-      <Slider value={minScore} onChange={(_, val) => setMinScore(val)} />
       <DownloadSVGPlot
         svgContainer={svgRef}
         filenameStem={`${symbol}-associated-diseases-bubbles`}
       >
+        <Slider value={minScore} onChange={(_, val) => setMinScore(val)} />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -133,7 +140,12 @@ function ClassicAssociationsBubbles({
 
                 {d.data.uniqueId === 'EFO_ROOT' ? null : d.parent &&
                   d.parent.data.uniqueId === 'EFO_ROOT' ? (
-                  <Tooltip title={d.data.name} interactive placement="top">
+                  <AssociationTooltip
+                    ensemblId={ensemblId}
+                    efoId={d.data.id}
+                    name={d.data.name}
+                    score={d.data.score}
+                  >
                     <text textAnchor="middle" fontSize="12">
                       <textPath
                         startOffset="50%"
@@ -142,13 +154,18 @@ function ClassicAssociationsBubbles({
                         {d.data.name}
                       </textPath>
                     </text>
-                  </Tooltip>
+                  </AssociationTooltip>
                 ) : d.r > 15 ? (
                   <>
                     <clipPath id={`clip-${d.data.uniqueId}`}>
                       <circle cx="0" cy="0" r={d.r} />
                     </clipPath>
-                    <Tooltip title={d.data.name} interactive placement="top">
+                    <AssociationTooltip
+                      ensemblId={ensemblId}
+                      efoId={d.data.id}
+                      name={d.data.name}
+                      score={d.data.score}
+                    >
                       <text
                         clipPath={`url(#clip-${d.data.uniqueId})`}
                         fontSize="11"
@@ -166,7 +183,7 @@ function ClassicAssociationsBubbles({
                           );
                         })}
                       </text>
-                    </Tooltip>
+                    </AssociationTooltip>
                   </>
                 ) : null}
               </g>
