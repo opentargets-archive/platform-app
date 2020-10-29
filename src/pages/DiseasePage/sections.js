@@ -6,9 +6,9 @@ import * as Phenotypes from '../../sections/disease/Phenotypes';
 import * as RelatedDiseases from '../../sections/disease/RelatedDiseases';
 
 export default [
-  Bibliography,
-  KnownDrugs,
   Ontology,
-  RelatedDiseases,
+  KnownDrugs,
   Phenotypes,
+  RelatedDiseases,
+  Bibliography,
 ];

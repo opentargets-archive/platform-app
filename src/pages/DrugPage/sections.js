@@ -6,9 +6,9 @@ import * as MechanismsOfAction from '../../sections/drug/MechanismsOfAction';
 import * as Pharmacovigilance from '../../sections/drug/AdverseEvents';
 
 export default [
-  Bibliography,
-  ClinicalPrecedence,
   Indications,
   MechanismsOfAction,
+  ClinicalPrecedence,
   Pharmacovigilance,
+  Bibliography,
 ];
