@@ -55,7 +55,7 @@ function DrugPage({ match }) {
           component={() => <Profile chemblId={chemblId} name={name} />}
         />
         <RoutingTab
-          label="View this page in the classic view"
+          label="Classic view"
           url={`${oldPlatformUrl}/summary?drug=${chemblId}`}
         />
       </RoutingTabs>

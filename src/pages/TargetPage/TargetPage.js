@@ -7,6 +7,7 @@ import Header from './Header';
 import { oldPlatformUrl } from '../../constants';
 import Profile from '../TargetPage/Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
+import ClassicAssociations from '../TargetPage/ClassicAssociations';
 
 const TARGET_PAGE_QUERY = gql`
   query TargetPageQuery($ensgId: String!) {
@@ -27,7 +28,6 @@ function TargetPage({ match }) {
     variables: { ensgId },
   });
 
-  // TODO: handle errors/loading
   if (data && !data.target) {
     return <Redirect to={{ pathname: '/notFoundPage' }} />;
   }
@@ -47,6 +47,13 @@ function TargetPage({ match }) {
 
       <RoutingTabs>
         <RoutingTab
+          label="Associated diseases"
+          path="/target/:ensgId/associations"
+          component={() => (
+            <ClassicAssociations ensgId={ensgId} symbol={approvedSymbol} />
+          )}
+        />
+        <RoutingTab
           label="Profile"
           path="/target/:ensgId"
           component={() => (
@@ -54,17 +61,8 @@ function TargetPage({ match }) {
           )}
         />
         <RoutingTab
-          label="View this page in the classic view"
+          label="Classic view"
           url={`${oldPlatformUrl}/target/${ensgId}`}
-        />
-        <RoutingTab
-          label="Associations (classic)"
-          path="/target/:ensgId/classic-associations"
-          component={() => <>Classic associations</>}
-        />
-        <RoutingTab
-          label="View associated diseases"
-          url={`${oldPlatformUrl}/target/${ensgId}/associations`}
         />
       </RoutingTabs>
     </BasePage>

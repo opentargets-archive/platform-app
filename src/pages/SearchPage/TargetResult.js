@@ -24,7 +24,7 @@ const styles = theme => ({
 const TargetResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
-      <Link to={`/target/${data.id}`} className={classes.subtitle}>
+      <Link to={`/target/${data.id}/associations`} className={classes.subtitle}>
         <FontAwesomeIcon icon={faDna} className={classes.icon} />{' '}
         {data.approvedSymbol}
       </Link>
