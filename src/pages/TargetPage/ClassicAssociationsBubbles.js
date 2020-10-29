@@ -99,7 +99,7 @@ function ClassicAssociationsBubbles({
   const packLayout = d3
     .pack()
     .size([size, size])
-    .padding(2);
+    .padding(node => (node.data.uniqueId === 'EFO_ROOT' ? 17 : 2));
   root.sum(d => d.score);
   packLayout(root);
 
@@ -152,7 +152,12 @@ function ClassicAssociationsBubbles({
                         name={d.data.name}
                         score={d.data.score}
                       >
-                        <text textAnchor="middle" fontSize="12">
+                        <text
+                          textAnchor="middle"
+                          fontSize="12"
+                          fontWeight="bold"
+                          fill={theme.palette.grey[400]}
+                        >
                           <textPath
                             startOffset="50%"
                             xlinkHref={`#${d.data.uniqueId}`}
