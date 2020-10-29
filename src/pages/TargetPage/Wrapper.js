@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 
-const therapeuticAreasURL =
-  'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/therapeutic_area.txt';
 const efoURL =
   'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl';
 
@@ -40,7 +38,6 @@ const ASSOCIATIONS_QUERY = gql`
 function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
   const [nodes, setNodes] = useState();
   const [associations, setAssociations] = useState();
-  const [therapeuticAreas, setTherapeuticAreas] = useState();
 
   const getAllAssociations = useBatchDownloader(
     ASSOCIATIONS_QUERY,
@@ -51,26 +48,23 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
   useEffect(
     () => {
       const promises = [
-        fetch(therapeuticAreasURL).then(res => res.text()),
         fetch(efoURL).then(res => res.text()),
         getAllAssociations(),
       ];
       Promise.all(promises).then(data => {
-        const nodes = data[1]
+        const nodes = data[0]
           .trim()
           .split('\n')
           .map(JSON.parse);
-
-        setAssociations(data[2]);
-        setTherapeuticAreas(data[0].trim().split('\n'));
         setNodes(nodes);
+        setAssociations(data[1]);
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [ensemblId, aggregationFilters]
   );
 
-  if (!nodes || !associations || !therapeuticAreas) {
+  if (!nodes || !associations) {
     return null;
   }
 
@@ -78,7 +72,6 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
     <Component
       ensemblId={ensemblId}
       symbol={symbol}
-      therapeuticAreas={therapeuticAreas}
       efo={nodes}
       associations={associations}
     />
