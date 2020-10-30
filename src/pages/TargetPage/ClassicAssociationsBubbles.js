@@ -1,277 +1,214 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
-import withTheme from '@material-ui/core/styles/withTheme';
-
+import { useTheme } from '@material-ui/core/styles';
+import { Grid, Typography } from '@material-ui/core';
 import { DownloadSVGPlot } from 'ot-ui';
-
-import withTooltip from '../../components/Associations/withTooltip';
-import TooltipContent from './ClassicAssociationsTooltip';
 import Slider from './ClassicAssociationsSlider';
+import AssociationTooltip from './AssociationTooltip';
 import Legend from '../../components/Legend';
 import { colorRange } from '../../constants';
 
-const getTherapeuticAreaTree = ({
-  ensgId,
-  symbol,
-  data,
-  efo,
-  selectedTherapeuticAreas,
-  diameter,
-}) => {
-  const efoById = new Map(efo.nodes.map(d => [d.id, d]));
-  // note: requested that we only show therapeutic area circles selected
-  //       when faceted by therapeutic area, even if a disease has other
-  //       therapeutic area ancestors; potentially confusing, but this is
-  //       how webapp works
-  const relevantTherapeuticAreas =
-    selectedTherapeuticAreas.length > 0
-      ? selectedTherapeuticAreas
-      : efo.therapeuticAreas;
-  const therapeuticAreasIds = new Set(relevantTherapeuticAreas);
-  const therapeuticAreas = relevantTherapeuticAreas.map(taId => {
-    const { id, name } = efoById.get(taId);
-    return { id, name };
-  });
-  const nodes = data.map(d => ({
-    id: d.disease.id,
-    name: d.disease.name,
-    score: d.score,
-  }));
-  const nodesById = new Map([...nodes.map(d => [d.id, d])]);
-  const wantedDiseaseIds = new Set(nodesById.keys());
-  const wantedDiseaseIdsByTherapeuticAreaId = new Map([
-    ...therapeuticAreas.map(d => [d.id, new Set()]),
-  ]);
-
-  // helper method
-  const getInducedParentIds = (inducedParentIds, directParentIds) => {
-    if (directParentIds.size > 0) {
-      // add the direct parents
-      for (let directParentId of directParentIds) {
-        inducedParentIds.add(directParentId);
-      }
-
-      // get all the parents' parents
-      const allNextDirectParentIds = new Set();
-      for (let directParentId of directParentIds) {
-        const { parentIds: nextDirectParentIds } = efoById.get(directParentId);
-        for (let nextDirectParentId of nextDirectParentIds) {
-          allNextDirectParentIds.add(nextDirectParentId);
-        }
-      }
-
-      return getInducedParentIds(inducedParentIds, allNextDirectParentIds);
-    } else {
-      return inducedParentIds;
-    }
-  };
-
-  [...wantedDiseaseIds].forEach(efoId => {
-    const { parentIds: directParentIds } = efoById.get(efoId);
-    const ancestors = getInducedParentIds(new Set(), new Set(directParentIds));
-    const therapeuticAreaIds = [...ancestors].filter(d =>
-      therapeuticAreasIds.has(d)
-    );
-    therapeuticAreaIds.forEach(taId => {
-      wantedDiseaseIdsByTherapeuticAreaId.get(taId).add(efoId);
-    });
-  });
-
-  const hierarchicalData = {
-    id: 'EFO_ROOT',
-    uniqueId: 'EFO_ROOT',
-    name: 'root',
-    isTherapeuticArea: false,
-    target: { ensgId, symbol },
-    children: therapeuticAreas.map(ta => ({
-      id: ta.id,
-      uniqueId: ta.id,
-      name: ta.name,
-      isTherapeuticArea: true,
-      target: { ensgId, symbol },
-      children: [...wantedDiseaseIdsByTherapeuticAreaId.get(ta.id)]
-        .map(d => nodesById.get(d))
-        .map(d => ({
-          ...d,
-          uniqueId: `${ta.id}-${d.id}`, // need uniqueId as diseases can fall into multiple therapeutic areas
-          isTherapeuticArea: false,
-          target: { ensgId, symbol },
-          value: d.score,
-          children: [],
-        })),
-    })),
-  };
-
-  return d3
-    .pack()
-    .size([diameter, diameter])
-    .padding(d => (d.data.id === 'EFO_ROOT' ? 17 : 2))(
-    d3
-      .hierarchy(hierarchicalData)
-      .sum(d => d.value)
-      .sort((a, b) => b.value - a.value)
-  );
-};
-
-class ClassicAssociationsBubbles extends React.Component {
-  state = {
-    minimumScore: 0.1,
-  };
-  svgContainer = React.createRef();
-  static getDerivedStateFromProps(props) {
-    const { width = 600 } = props.contentRect.bounds;
-    return { width };
+function findTas(id, idToDisease) {
+  const tas = new Set();
+  const diseaseNode = idToDisease[id];
+  if (diseaseNode.parentIds.length === 0) {
+    return tas;
   }
-  onMinimumScoreChange = (_, value) => {
-    this.setState({ minimumScore: value });
-  };
-  render() {
-    const {
-      measureRef,
-      ensgId,
-      symbol,
-      theme,
-      data,
-      efo,
-      handleMouseover,
-      selectedTherapeuticAreas,
-    } = this.props;
+  const queue = [id];
+  while (queue.length > 0) {
+    const diseaseId = queue.shift();
+    const node = idToDisease[diseaseId];
+    if (node.parentIds.length === 0) {
+      tas.add(diseaseId);
+    }
+    for (let i = 0; i < node.parentIds.length; i++) {
+      const parentId = node.parentIds[i];
+      if (!queue.includes(parentId)) {
+        queue.push(parentId);
+      }
+    }
+  }
 
-    const { width, minimumScore } = this.state;
-    const height = 800;
-    const diameter = Math.min(width, height); // TODO: replace 600 with eg page height / 2
+  return tas;
+}
 
-    const filteredData = data.filter(d => d.score > minimumScore);
-    const therapeuticAreaTree = getTherapeuticAreaTree({
-      ensgId,
-      symbol,
-      data: filteredData,
-      efo,
-      selectedTherapeuticAreas,
-      diameter,
+function buildHierarchicalData(associations, idToDisease) {
+  const tasMap = {};
+  const tasScore = {};
+  associations.forEach(association => {
+    const diseaseId = association.disease.id;
+    if (idToDisease[diseaseId].parentIds.length === 0) {
+      tasScore[diseaseId] = association.score;
+    }
+    const tas = findTas(diseaseId, idToDisease);
+    tas.forEach(ta => {
+      const assocData = {
+        id: diseaseId,
+        uniqueId: `${ta}-${diseaseId}`,
+        name: association.disease.name,
+        score: association.score,
+      };
+      if (tasMap[ta]) {
+        tasMap[ta].push(assocData);
+      } else {
+        tasMap[ta] = [assocData];
+      }
     });
-    const nodes = therapeuticAreaTree.descendants();
+  });
 
-    const color = d3
-      .scaleQuantize()
-      .domain([0, 1])
-      .range(colorRange);
+  return {
+    uniqueId: 'EFO_ROOT',
+    children: Object.entries(tasMap).map(([taId, descendants]) => {
+      return {
+        id: taId,
+        uniqueId: taId,
+        name: idToDisease[taId].name,
+        score: tasScore[taId],
+        children: descendants,
+      };
+    }),
+  };
+}
 
-    return (
-      <div ref={measureRef}>
-        <DownloadSVGPlot
-          svgContainer={this.svgContainer}
-          filenameStem={`${symbol}-associated-diseases--bubbles`}
-        >
-          <Slider value={minimumScore} onChange={this.onMinimumScoreChange} />
-          <div ref={this.svgContainer}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              width={width}
-              height={height}
-              viewBox={`0 0 ${width} ${height}`}
-              textAnchor="middle"
-              style={{ font: '10px sans-serif' }}
-              alignmentBaseline="center"
-            >
-              <g transform={`translate(${width / 2 - diameter / 2},0)`}>
-                {nodes.map(d => (
-                  <g
-                    key={d.data.uniqueId}
-                    transform={`translate(${d.x},${d.y})`}
-                  >
-                    <circle
-                      id={`tree-node-${d.data.uniqueId}`}
-                      cx={0}
-                      cy={0}
-                      r={d.r}
-                      stroke={
-                        d.data.id !== 'EFO_ROOT'
-                          ? theme.palette.grey[400]
-                          : 'none'
-                      }
-                      fill={
-                        d.data.id === 'EFO_ROOT'
-                          ? theme.palette.grey[50]
-                          : d.data.isTherapeuticArea
-                          ? 'none'
-                          : color(d.data.score)
-                      }
-                      onMouseOver={() => {
-                        if (d.data.id !== 'EFO_ROOT') {
-                          handleMouseover(d.data);
-                        }
-                      }}
-                    />
+const color = d3
+  .scaleQuantize()
+  .domain([0, 1])
+  .range(colorRange);
 
-                    {/* therapeutic areas only */}
-                    {d.data.isTherapeuticArea && d.children && (
-                      <React.Fragment>
+function ClassicAssociationsBubbles({
+  ensemblId,
+  symbol,
+  efo,
+  associations,
+  measureRef,
+  contentRect,
+}) {
+  const [minScore, setMinScore] = useState(0.1);
+  const svgRef = useRef(null);
+  const theme = useTheme();
+  const assocs = associations.filter(assoc => assoc.score >= minScore);
+  const { width: size } = contentRect.bounds;
+  const idToDisease = efo.reduce((acc, disease) => {
+    acc[disease.id] = disease;
+    return acc;
+  }, {});
+
+  const hierarchicalData = buildHierarchicalData(assocs, idToDisease);
+  const root = d3.hierarchy(hierarchicalData);
+  const packLayout = d3
+    .pack()
+    .size([size, size])
+    .padding(node => (node.data.uniqueId === 'EFO_ROOT' ? 17 : 2));
+  root.sum(d => d.score);
+  packLayout(root);
+
+  return (
+    <>
+      <DownloadSVGPlot
+        svgContainer={svgRef}
+        filenameStem={`${symbol}-associated-diseases-bubbles`}
+      >
+        <Slider value={minScore} onChange={(_, val) => setMinScore(val)} />
+        <Grid item ref={measureRef} md={10} style={{ margin: '0 auto' }}>
+          {size ? (
+            assocs.length > 0 ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                ref={svgRef}
+                height={size}
+                width={size}
+              >
+                {root.descendants().map(d => {
+                  return (
+                    <g
+                      key={d.data.uniqueId}
+                      transform={`translate(${d.x},${d.y})`}
+                    >
+                      <AssociationTooltip
+                        ensemblId={ensemblId}
+                        efoId={d.data.id}
+                        name={d.data.name}
+                        score={d.data.score}
+                      >
                         <path
-                          id={`text-path-${d.data.id}`}
-                          fill="none"
-                          d={`M${-(d.r + 3)},${0} A${d.r + 3},${d.r +
-                            3} 0 0 1 ${d.r + 3},${0}`}
+                          id={d.data.uniqueId}
+                          d={`M 0, ${d.r} a ${d.r},${d.r} 0 1,1 0,-${2 *
+                            d.r} a ${d.r},${d.r} 0 1,1 0,${2 * d.r}`}
+                          stroke={
+                            d.data.uniqueId !== 'EFO_ROOT'
+                              ? theme.palette.grey[400]
+                              : 'none'
+                          }
+                          fill={
+                            d.data.uniqueId === 'EFO_ROOT'
+                              ? theme.palette.grey[50]
+                              : d.parent.data.uniqueId === 'EFO_ROOT'
+                              ? theme.palette.grey[50]
+                              : color(d.data.score)
+                          }
+                          pointerEvents={
+                            d.data.uniqueId === 'EFO_ROOT' ? 'none' : 'auto'
+                          }
                         />
+                      </AssociationTooltip>
+                      {d.data.uniqueId === 'EFO_ROOT' ? null : d.parent &&
+                        d.parent.data.uniqueId === 'EFO_ROOT' ? (
                         <text
                           textAnchor="middle"
-                          fontWeight="bold"
                           fontSize="12"
+                          fontWeight="bold"
                           fill={theme.palette.grey[400]}
+                          pointerEvents="none"
                         >
                           <textPath
                             startOffset="50%"
-                            xlinkHref={`#text-path-${d.data.id}`}
+                            xlinkHref={`#${d.data.uniqueId}`}
                           >
                             {d.data.name}
                           </textPath>
                         </text>
-                      </React.Fragment>
-                    )}
-
-                    {/* diseases only (leaves) with large radius */}
-                    {!d.children && d.r > 10 && (
-                      <React.Fragment>
-                        <clipPath id={`clip-${d.data.id}`}>
-                          <circle cx={0} cy={0} r={d.r} />
-                        </clipPath>
-                        <text
-                          x={0}
-                          y={0}
-                          clipPath={`url(#clip-${d.data.id})`}
-                          pointerEvents="none"
-                        >
-                          {d.data.name.split(' ').map((w, i, nodes) => (
-                            <tspan
-                              key={i}
-                              x={0}
-                              y={`${i - nodes.length / 2 + 0.8}em`}
-                            >
-                              {w}
-                            </tspan>
-                          ))}
-                        </text>
-                      </React.Fragment>
-                    )}
-                  </g>
-                ))}
-              </g>
-            </svg>
-          </div>
-        </DownloadSVGPlot>
-        <Legend />
-      </div>
-    );
-  }
+                      ) : d.r > 15 ? (
+                        <>
+                          <clipPath id={`clip-${d.data.uniqueId}`}>
+                            <circle cx="0" cy="0" r={d.r} />
+                          </clipPath>
+                          <text
+                            clipPath={`url(#clip-${d.data.uniqueId})`}
+                            fontSize="11"
+                            textAnchor="middle"
+                            pointerEvents="none"
+                          >
+                            {d.data.name.split(' ').map((word, i, words) => {
+                              return (
+                                <tspan
+                                  key={i}
+                                  x="0"
+                                  y={`${i - words.length / 2 + 0.8}em`}
+                                >
+                                  {word}
+                                </tspan>
+                              );
+                            })}
+                          </text>
+                        </>
+                      ) : null}
+                    </g>
+                  );
+                })}
+              </svg>
+            ) : (
+              <Typography align="center">
+                No associations with score greater than or equal to {minScore}
+              </Typography>
+            )
+          ) : null}
+        </Grid>
+      </DownloadSVGPlot>
+      <Legend />
+    </>
+  );
 }
 
-const tooltipElementFinder = ({ uniqueId }) =>
-  document.querySelector(`#tree-node-${uniqueId}`);
-
-export default withTooltip(
-  withTheme(withContentRect('bounds')(ClassicAssociationsBubbles)),
-  TooltipContent,
-  tooltipElementFinder
-);
+export default withContentRect('bounds')(ClassicAssociationsBubbles);
