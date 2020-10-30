@@ -26,7 +26,7 @@ const TARGET_PROFILE_QUERY = gql`
   ${TARGET_PROFILE_SUMMARY_FRAGMENT}
 `;
 
-function Profile({ ensgId, approvedSymbol }) {
+function Profile({ ensgId, symbol }) {
   return (
     <PlatformApiProvider
       entity="target"
@@ -40,7 +40,7 @@ function Profile({ ensgId, approvedSymbol }) {
             <Summary
               key={definition.id}
               id={ensgId}
-              label={approvedSymbol}
+              label={symbol}
               definition={definition}
             />
           ))}
@@ -51,7 +51,7 @@ function Profile({ ensgId, approvedSymbol }) {
             <Body
               key={definition.id}
               id={ensgId}
-              label={approvedSymbol}
+              label={symbol}
               definition={definition}
             />
           ))}
