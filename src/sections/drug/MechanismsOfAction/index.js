@@ -1,20 +1,12 @@
-import { loader } from 'graphql.macro';
-
-export const id = 'mechanismsOfAction';
-export const name = 'Mechanisms of Action';
-export const shortName = 'MA';
-
-export const hasSummaryData = data => {
-  return (
-    data &&
-    data.uniqueActionTypes.length > 0 &&
-    data.uniqueTargetTypes.length > 0
-  );
+export const definition = {
+  id: 'mechanismsOfAction',
+  name: 'Mechanisms of Action',
+  shortName: 'MA',
+  hasData: data =>
+    (data.mechanismsOfAction?.uniqueActionTypes.length > 0 &&
+      data.mechanismsOfAction?.uniqueTargetTypes.length > 0) ||
+    false,
 };
 
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';

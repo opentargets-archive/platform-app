@@ -1,14 +1,9 @@
-import { loader } from 'graphql.macro';
+export const definition = {
+  id: 'phenotypes',
+  name: 'Phenotypes',
+  shortName: 'PH',
+  hasData: data => data.phenotypes.length > 0,
+};
 
-export const id = 'phenotypes';
-export const name = 'Phenotypes';
-export const shortName = 'PH';
-
-export const hasSummaryData = data => data.length > 0;
-
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';

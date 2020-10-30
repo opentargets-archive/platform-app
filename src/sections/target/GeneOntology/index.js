@@ -1,13 +1,9 @@
-import { loader } from 'graphql.macro';
+export const definition = {
+  id: 'geneOntology',
+  name: 'Gene Ontology',
+  shortName: 'GO',
+  hasData: data => data.geneOntology.length > 0,
+};
 
-export const id = 'geneOntology';
-export const name = 'Gene Ontology';
-
-export const hasSummaryData = data => data.length;
-
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';

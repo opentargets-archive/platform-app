@@ -250,6 +250,9 @@ export const particlesConfig = {
   retina_detect: true,
 };
 
+// App title.
+export const appTitle = 'Open Targets Platform';
+
 // Chunk sizes for server side pagination/download.
 export const tableChunkSize = 100;
 export const downloaderChunkSize = 2500;

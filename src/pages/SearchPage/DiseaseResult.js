@@ -28,11 +28,7 @@ const DiseaseResult = ({ classes, data, highlights }) => {
         to={`/disease/${data.id}/associations`}
         className={classes.subtitle}
       >
-        <FontAwesomeIcon
-          icon={faStethoscope}
-          size="md"
-          className={classes.icon}
-        />{' '}
+        <FontAwesomeIcon icon={faStethoscope} className={classes.icon} />{' '}
         {data.name}
       </Link>
       {data.description && (

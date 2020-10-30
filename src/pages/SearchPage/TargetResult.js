@@ -25,7 +25,7 @@ const TargetResult = ({ classes, data, highlights }) => {
   return (
     <div className={classes.container}>
       <Link to={`/target/${data.id}/associations`} className={classes.subtitle}>
-        <FontAwesomeIcon icon={faDna} size="md" className={classes.icon} />{' '}
+        <FontAwesomeIcon icon={faDna} className={classes.icon} />{' '}
         {data.approvedSymbol}
       </Link>
       {data.proteinAnnotations ? (

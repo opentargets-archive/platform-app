@@ -1,7 +1,0 @@
-fragment targetCancerBiomarkersFragment on Target {
-  cancerBiomarkers {
-    uniqueDrugs
-    uniqueDiseases
-    uniqueBiomarkers
-  }
-}

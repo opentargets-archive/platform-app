@@ -1,6 +1,0 @@
-fragment drugMechanismsOfActionFragment on Drug {
-  mechanismsOfAction {
-    uniqueActionTypes
-    uniqueTargetTypes
-  }
-}

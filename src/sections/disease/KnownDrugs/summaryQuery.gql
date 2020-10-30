@@ -1,7 +1,0 @@
-fragment diseaseKnownDrugsFragment on Disease {
-  knownDrugs {
-    count
-    uniqueDrugs
-    uniqueTargets
-  }
-}

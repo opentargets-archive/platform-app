@@ -1,13 +1,9 @@
-import { loader } from 'graphql.macro';
+export const definition = {
+  id: 'cancerHallmarks',
+  name: 'Cancer Hallmarks',
+  shortName: 'CH',
+  hasData: data => data.hallmarks?.rows.length > 0,
+};
 
-export const id = 'hallmarks';
-export const name = 'Cancer Hallmarks';
-
-export const hasSummaryData = data => data && data.rows.length > 0;
-
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';
