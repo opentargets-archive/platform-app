@@ -1,9 +1,9 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Redirect } from 'react-router-dom';
 
 import BasePage from '../../components/BasePage';
 import Header from './Header';
+import NotFoundPage from '../NotFoundPage';
 import { oldPlatformUrl } from '../../constants';
 import Profile from './Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
@@ -27,9 +27,8 @@ function EvidencePage({ match }) {
     variables: { ensgId, efoId },
   });
 
-  // TODO: handle errors/loading
   if (data && !(data.target && data.disease)) {
-    return <Redirect to={{ pathname: '/notFoundPage' }} />;
+    return <NotFoundPage />;
   }
 
   const { approvedSymbol } = data?.target || {};

@@ -1,10 +1,10 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Redirect } from 'react-router-dom';
 
 import BasePage from '../../components/BasePage';
 import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
+import NotFoundPage from '../NotFoundPage';
 import { oldPlatformUrl } from '../../constants';
 import Profile from './Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
@@ -24,9 +24,8 @@ function DiseasePage({ match }) {
     variables: { efoId },
   });
 
-  // TODO: handle errors/loading
   if (data && !data.disease) {
-    return <Redirect to={{ pathname: '/notFoundPage' }} />;
+    return <NotFoundPage />;
   }
 
   const { name } = data?.disease || {};

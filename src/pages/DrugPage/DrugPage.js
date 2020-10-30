@@ -1,9 +1,9 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Redirect } from 'react-router-dom';
 
 import BasePage from '../../components/BasePage';
 import Header from './Header';
+import NotFoundPage from '../NotFoundPage';
 import { oldPlatformUrl } from '../../constants';
 import Profile from '../DrugPage/Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
@@ -37,9 +37,8 @@ function DrugPage({ match }) {
     variables: { chemblId },
   });
 
-  // TODO: handle errors/loading
   if (data && !data.drug) {
-    return <Redirect to={{ pathname: '/notFoundPage' }} />;
+    return <NotFoundPage />;
   }
 
   const { name } = data?.drug || {};
