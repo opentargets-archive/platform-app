@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client';
 
-export function createSummaryFragment(sections, entity) {
+export function createSummaryFragment(sections, entity, fragmentName) {
   const sectionFragments = [];
   const sectionFragmentNames = [];
+  const fragmentNameStr = fragmentName || `${entity}ProfileSummaryFragment`;
 
   sections.forEach(section => {
     if (!section.Summary.fragments) return;
@@ -14,7 +15,7 @@ export function createSummaryFragment(sections, entity) {
   });
 
   return gql`
-    fragment ${entity}ProfileSummaryFragment on ${entity} {
+    fragment ${fragmentNameStr} on ${entity} {
       ${
         sectionFragmentNames.length
           ? sectionFragmentNames.map(sfn => `...${sfn}`).join('\n')
