@@ -1,13 +1,9 @@
-import { loader } from 'graphql.macro';
+export const definition = {
+  id: 'otGenetics',
+  name: 'Open Targets Genetics',
+  shortName: 'OG',
+  hasData: data => data.evidences.count > 0,
+};
 
-export const id = 'otGenetics';
-export const name = 'Open Targets Genetics Portal';
-
-export const hasSummaryData = ({ variantCount }) => variantCount > 0;
-
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';
