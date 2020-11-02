@@ -11,3 +11,8 @@ export const safeToString = x => {
       return x + '';
   }
 };
+
+export const identifiersOrgLink = (prefix, accession, resource) =>
+  `https://identifiers.org/${
+    resource ? resource + '/' : ''
+  }${prefix}:${accession}`;
