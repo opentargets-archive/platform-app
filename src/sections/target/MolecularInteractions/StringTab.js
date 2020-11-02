@@ -2,14 +2,19 @@ import React, { Fragment, useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { loader } from 'graphql.macro';
 import client from '../../../client';
+import { withTheme } from '@material-ui/core';
 
 import DataTable from '../../../components/Table/DataTable';
 import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
 
 import Grid from '@material-ui/core/Grid';
 
-// import { Heatmap } from '../../../components/Heatmap';
-// import * as d3 from 'd3';
+import {
+  Heatmap,
+  HeatmapTable,
+  HeatmapCell,
+} from '../../../components/Heatmap';
+import * as d3 from 'd3';
 
 const INTERACTIONS_QUERY = loader('./sectionStringQuery.gql');
 const getData = (ensgId, sourceDatabase, index, size) => {
@@ -35,6 +40,10 @@ const columns = {
           <Typography variant="caption">Species (if not human)</Typography> */}
         </>
       ),
+      verticalHeader: true,
+      align: 'center',
+      // firstInHeaderGroup: true,
+      // lastInHeaderGroup: true,
       renderCell: row => (
         <>
           {row.targetB ? row.targetB.approvedSymbol : row.intB}
@@ -58,61 +67,100 @@ const columns = {
           interaction score
         </>
       ),
-      renderCell: row => row.scoring,
+      verticalHeader: true,
+      align: 'center',
+      // renderCell: row => row.scoring,
+      renderCell: row => (
+        <HeatmapCell value={row.scoring} colorScale={colorScale} />
+      ),
     },
     {
       id: 'neighbourhood',
       label: 'Neighbourhood',
-      renderCell: row =>
-        filterStringEvidence(row.evidences, 'gene neighbourhood'),
+      verticalHeader: true,
+      align: 'center',
+      // firstInHeaderGroup: false,
+      // lastInHeaderGroup: false,
+      renderCell: row => getScoreForColumn(row.evidences, 'gene neighbourhood'),
     },
     {
       id: 'geneFusion',
       label: 'Gene fusion',
-      renderCell: row => filterStringEvidence(row.evidences, 'domain fusion'),
+      verticalHeader: true,
+      align: 'center',
+      renderCell: row => getScoreForColumn(row.evidences, 'domain fusion'),
     },
     {
       id: 'occurance',
       label: 'Co-occurrance',
-      renderCell: row => filterStringEvidence(row.evidences, 'cooccurence'),
+      verticalHeader: true,
+      align: 'center',
+      renderCell: row => getScoreForColumn(row.evidences, 'cooccurence'),
     },
     {
       id: 'expression',
       label: 'Co-expression',
-      renderCell: row => filterStringEvidence(row.evidences, 'coexpression'),
+      verticalHeader: true,
+      align: 'center',
+      renderCell: row => getScoreForColumn(row.evidences, 'coexpression'),
     },
     {
       id: 'experiments',
       label: 'Experiments',
-      renderCell: row => filterStringEvidence(row.evidences, 'experimental'),
+      verticalHeader: true,
+      align: 'center',
+      renderCell: row => getScoreForColumn(row.evidences, 'experimental'),
     },
     {
       id: 'databases',
       label: 'Databases',
-      renderCell: row => filterStringEvidence(row.evidences, 'database'),
+      verticalHeader: true,
+      align: 'center',
+      renderCell: row => getScoreForColumn(row.evidences, 'database'),
     },
     {
       id: 'textMining',
       label: 'Text mining',
-      renderCell: row => filterStringEvidence(row.evidences, 'text mining'),
+      verticalHeader: true,
+      align: 'center',
+      renderCell: row => getScoreForColumn(row.evidences, 'text mining'),
     },
     {
       id: 'homology',
       label: 'Homology',
-      renderCell: row => filterStringEvidence(row.evidences, 'by homology'),
+      verticalHeader: true,
+      align: 'center',
+      renderCell: row => getScoreForColumn(row.evidences, 'by homology'),
     },
   ],
 };
 
-const filterStringEvidence = (evidences, id) => {
-  return evidences
+const getScoreForColumn = (evidences, id) => {
+  const score = evidences
     .filter(e => e.interactionDetectionMethodShortName === id)
-    .map(e => e.evidenceScore);
+    .map(e => e.evidenceScore)[0];
+  return <HeatmapCell value={score} colorScale={colorScale} />;
 };
 
 const id = 'string';
 const index = 0;
 const size = 5000;
+
+// TODO: re-enable for heatmap
+// const scaleAssociation = d3
+//   .scaleLinear()
+//   .domain([0, 1])
+//   .range([
+//     '#f00',
+//     '#fff'
+//   ])
+//   .unknown('#fff');
+
+const colorScale = d3
+  .scaleLinear()
+  .domain([0, Math.PI ** 2 / 6])
+  // .range(['#fff', theme.palette.primary.main]);
+  .range(['#fff', '#0e5299']);
 
 function StringTab({ ensgId, symbol }) {
   const [data, setData] = useState([]);
@@ -129,44 +177,29 @@ function StringTab({ ensgId, symbol }) {
     [ensgId]
   );
 
-  // TODO: re-enable for heatmap
-  // const scaleAssociation = d3
-  //         .scaleLinear()
-  //         .domain([0, 1])
-  //         .range([
-  //           '#f00',
-  //           '#fff'
-  //         ])
-  //         .unknown('#fff');
-
   return (
     <Grid container spacing={4}>
       <Grid item xs={12}>
         {/* table 1: this is the only table and will need to be a HEATMAP */}
-        <DataTable
+        {/* <DataTable
           showGlobalFilter
           columns={columns.interactions}
           rows={data}
           dataDownloader
           dataDownloaderFileStem={`${symbol}-molecular-interactions-string`}
           hover
+        /> */}
+        <HeatmapTable
+          loading={false}
+          error={false}
+          columns={columns.interactions}
+          headerGroups={[]}
+          data={data}
         />
-        {/* <Heatmap
-            rowIdAccessor={row => row.targetB ? row.targetB.approvedSymbol : row.intB}
-            labelAccessor={row => row.targetB ? row.targetB.approvedSymbol : row.intB}
-            rows={stringData}
-            columnGroups={[
-                {
-                  id: '',
-                  columns: columns.string.interactions
-                },
-              ]}
-            rowsPerPage={10}
-            onLabelMouseover={()=>null}
-          /> */}
       </Grid>
     </Grid>
   );
 }
 
-export default StringTab;
+// export default StringTab;
+export default withTheme(StringTab);

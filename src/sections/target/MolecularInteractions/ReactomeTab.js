@@ -131,9 +131,6 @@ function ReactomeTab({ ensgId, symbol }) {
           selected
           onRowClick={(r, i) => {
             setEvidence(r.evidences);
-            {
-              /* setEvidence(source, r.evidences) */
-            }
           }}
           rowIsSelectable
         />

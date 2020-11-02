@@ -47,7 +47,7 @@ const Table = ({
   rowIsSelectable = false,
 }) => {
   const emptyRows = pageSize - rows.length;
-  const classes = tableStyles();
+  // const classes = tableStyles();
   const [selectedRow, setSelectedRow] = useState(0);
   const defaultClasses = tableStyles();
 
