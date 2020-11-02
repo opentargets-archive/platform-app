@@ -17,13 +17,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache({ fragmentMatcher }),
 });
 
-// This endpoint is being used for associations
-const client3 = new ApolloClient({
+const betaClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://platform-api-alpha.opentargets.io/api/v4/graphql',
+    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
   }),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({ fragmentMatcher }),
 });
 
-export { client3 };
+export { betaClient };
 export default client;
