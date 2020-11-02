@@ -3,11 +3,12 @@ import { gql } from '@apollo/client';
 
 // import { createSummaryFragment } from '../../components/Summary/utils';
 import PlatformApiProvider from '../../contexts/PlatformApiProvider';
+import ProfileHeader from './ProfileHeader';
 import SectionContainer from '../../components/Section/SectionContainer';
+import SectionOrderProvider from '../../contexts/SectionOrderProvider';
 import SummaryContainer from '../../components/Summary/SummaryContainer';
 
 import sections from './sections';
-import ProfileHeader from './ProfileHeader';
 
 // const EVIDENCE_PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(
 //   sections,
@@ -42,19 +43,25 @@ function Profile({ match }) {
       query={EVIDENCE_PROFILE_QUERY}
       variables={{ ensgId, efoId }}
     >
-      <ProfileHeader />
+      <SectionOrderProvider sections={sections}>
+        <ProfileHeader />
 
-      <SummaryContainer>
-        {sections.map(({ Summary, definition }) => (
-          <Summary key={definition.id} efoId={efoId} definition={definition} />
-        ))}
-      </SummaryContainer>
+        <SummaryContainer>
+          {sections.map(({ Summary, definition }) => (
+            <Summary
+              key={definition.id}
+              efoId={efoId}
+              definition={definition}
+            />
+          ))}
+        </SummaryContainer>
 
-      <SectionContainer>
-        {sections.map(({ Body, definition }) => (
-          <Body key={definition.id} efoId={efoId} definition={definition} />
-        ))}
-      </SectionContainer>
+        <SectionContainer>
+          {sections.map(({ Body, definition }) => (
+            <Body key={definition.id} efoId={efoId} definition={definition} />
+          ))}
+        </SectionContainer>
+      </SectionOrderProvider>
     </PlatformApiProvider>
   );
 }
