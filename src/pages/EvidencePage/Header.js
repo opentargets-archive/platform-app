@@ -3,11 +3,11 @@ import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
 
 import HeaderBase from '../../components/Header';
 
-function EvidenceHeader({ loading, approvedSymbol, name }) {
+function EvidenceHeader({ loading, symbol, name }) {
   return (
     <HeaderBase
       loading={loading}
-      title={`Evidence for ${approvedSymbol} in ${name}`}
+      title={`Evidence for ${symbol} in ${name}`}
       Icon={faProjectDiagram}
       externalLinks="There should be some links here!"
     />
