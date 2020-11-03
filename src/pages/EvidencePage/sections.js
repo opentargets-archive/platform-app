@@ -2,11 +2,8 @@
 // import * as gwasCatalog from './sections/GWASCatalog';
 // import * as eva from './sections/EVA';
 // import * as evaSomatic from './sections/EVASomatic';
-// import * as intogen from './sections/IntOGen';
 // import * as cancerGeneCensus from './sections/CancerGeneCensus';
 // import * as reactome from './sections/Reactome';
-// import * as progeny from './sections/PROGENy';
-// import * as slapenrich from './sections/SLAPenrich';
 // import * as crispr from './sections/CRISPR';
 // import * as sysBio from './sections/SysBio';
 // import * as drugs from './sections/Drugs';
@@ -15,18 +12,24 @@
 // import * as animalModels from './sections/AnimalModels';
 // import * as uniProt from './sections/UniProt';
 // import * as uniProtSomatic from './sections/UniProtSomatic';
-import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as ClinGen from '../../sections/evidence/ClinGen';
 import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
 import * as GenomicsEngland from '../../sections/evidence/GenomicsEngland';
+import * as IntOgen from '../../sections/evidence/intOgen';
 import * as OTGenetics from '../../sections/evidence/OTGenetics';
 import * as PheWASCatalog from '../../sections/evidence/PheWASCatalog';
+import * as Progeny from '../../sections/evidence/Progeny';
+import * as SlapEnrich from '../../sections/evidence/SlapEnrich';
+import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 
 export default [
   ClinGen,
   Gene2Phenotype,
   GenomicsEngland,
+  IntOgen,
   OTGenetics,
   PheWASCatalog,
+  Progeny,
+  SlapEnrich,
   UniProtLiterature,
 ];
