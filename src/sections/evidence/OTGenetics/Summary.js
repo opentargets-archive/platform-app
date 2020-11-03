@@ -6,7 +6,7 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const OPEN_TARGETS_GENETICS_SUMMARY_FRAGMENT = gql`
   fragment OpenTargetsGeneticsSummaryFragment on Disease {
-    evidences(
+    openTargetsGenetics: evidences(
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["ot_genetics_portal"]
@@ -24,8 +24,8 @@ function Summary({ definition }) {
       definition={definition}
       request={request}
       renderSummary={data =>
-        `${data.evidences.count} entr${
-          data.evidences.count === 1 ? 'y' : 'ies'
+        `${data.openTargetsGenetics.count} entr${
+          data.openTargetsGenetics.count === 1 ? 'y' : 'ies'
         }`
       }
     />

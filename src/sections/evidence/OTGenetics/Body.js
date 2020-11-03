@@ -6,11 +6,13 @@ import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import Description from './Description';
-import { identifiersOrgLink } from '../../../utils/global';
+import { identifiersOrgLink, literatureUrl } from '../../../utils/global';
 import { naLabel } from '../../../constants';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
 import { Typography } from '@material-ui/core';
+import usePlatformApi from '../../../hooks/usePlatformApi';
+import Summary from './Summary';
 
 const otgStudyUrl = id => `https://genetics.opentargets.org/study/${id}`;
 const otgVariantUrl = id => `https://genetics.opentargets.org/variant/${id}`;
@@ -38,7 +40,7 @@ const columns = [
     id: 'literature',
     renderCell: ({ literature, publicationYear, publicationFirstAuthor }) =>
       literature ? (
-        <Link external to={identifiersOrgLink('pmc', `PMC${literature}`)}>
+        <Link external to={literatureUrl(literature[0])}>
           {publicationFirstAuthor} et al, {publicationYear}
         </Link>
       ) : (
@@ -135,8 +137,14 @@ const columns = [
 ];
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
+  const {
+    data: {
+      openTargetsGenetics: { count: size },
+    },
+  } = usePlatformApi(Summary.fragments.OpenTargetsGeneticsSummaryFragment);
+
   const request = useQuery(OPEN_TARGETS_GENETICS_QUERY, {
-    variables: { ensemblId: ensgId, efoId },
+    variables: { ensemblId: ensgId, efoId, size },
     client: betaClient,
   });
 
