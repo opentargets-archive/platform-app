@@ -31,16 +31,16 @@ function EvidencePage({ match }) {
     return <NotFoundPage />;
   }
 
-  const { approvedSymbol } = data?.target || {};
+  const { approvedSymbol: symbol } = data?.target || {};
   const { name } = data?.disease || {};
 
   return (
-    <BasePage title={`Evidence for ${approvedSymbol} in ${name}`}>
+    <BasePage title={`Evidence for ${symbol} in ${name}`}>
       <Header
         loading={loading}
         efoId={efoId}
         ensgId={ensgId}
-        approvedSymbol={approvedSymbol}
+        symbol={symbol}
         name={name}
       />
 
@@ -48,7 +48,14 @@ function EvidencePage({ match }) {
         <RoutingTab
           label="Profile"
           path="/evidence/:ensgId/:efoId"
-          component={Profile}
+          component={() => (
+            <Profile
+              ensgId={ensgId}
+              efoId={efoId}
+              symbol={symbol}
+              name={name}
+            />
+          )}
         />
         <RoutingTab
           label="View this page in the classic view"

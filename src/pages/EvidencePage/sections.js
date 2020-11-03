@@ -19,5 +19,6 @@
 // import * as uniProt from './sections/UniProt';
 // import * as uniProtSomatic from './sections/UniProtSomatic';
 // import * as uniProtLiterature from './sections/UniProtLiterature';
+import * as OTGenetics from '../../sections/evidence/OTGenetics';
 
-export default [];
+export default [OTGenetics];
