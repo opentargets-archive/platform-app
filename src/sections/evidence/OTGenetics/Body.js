@@ -5,9 +5,9 @@ import { Link } from 'ot-ui';
 
 import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
+import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { identifiersOrgLink, literatureUrl } from '../../../utils/global';
-import { naLabel } from '../../../constants';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
 import { Typography } from '@material-ui/core';
@@ -159,6 +159,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           dataDownloader
           dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
           rows={data.disease.evidences.rows}
+          pageSize={10}
+          rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
         />
       )}
