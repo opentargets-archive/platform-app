@@ -3,7 +3,6 @@
 // import * as phewasCatalog from './sections/PheWASCatalog';
 // import * as eva from './sections/EVA';
 // import * as evaSomatic from './sections/EVASomatic';
-// import * as genomicsEngland from './sections/GenomicsEngland';
 // import * as intogen from './sections/IntOGen';
 // import * as cancerGeneCensus from './sections/CancerGeneCensus';
 // import * as reactome from './sections/Reactome';
@@ -20,6 +19,13 @@
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as ClinGen from '../../sections/evidence/ClinGen';
 import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
+import * as GenomicsEngland from './sections/GenomicsEngland';
 import * as OTGenetics from '../../sections/evidence/OTGenetics';
 
-export default [ClinGen, Gene2Phenotype, OTGenetics, UniProtLiterature];
+export default [
+  ClinGen,
+  Gene2Phenotype,
+  GenomicsEngland,
+  OTGenetics,
+  UniProtLiterature,
+];
