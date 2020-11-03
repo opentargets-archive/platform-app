@@ -16,3 +16,8 @@ export const identifiersOrgLink = (prefix, accession, resource) =>
   `https://identifiers.org/${
     resource ? resource + '/' : ''
   }${prefix}:${accession}`;
+
+export const literatureUrl = id =>
+  id.startsWith('PMC')
+    ? identifiersOrgLink('pmc', id)
+    : identifiersOrgLink('pubmed', id);

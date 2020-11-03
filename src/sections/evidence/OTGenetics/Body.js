@@ -6,7 +6,7 @@ import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import Description from './Description';
-import { identifiersOrgLink } from '../../../utils/global';
+import { identifiersOrgLink, literatureUrl } from '../../../utils/global';
 import { naLabel } from '../../../constants';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -40,7 +40,7 @@ const columns = [
     id: 'literature',
     renderCell: ({ literature, publicationYear, publicationFirstAuthor }) =>
       literature ? (
-        <Link external to={identifiersOrgLink('pmc', `PMC${literature}`)}>
+        <Link external to={literatureUrl(literature[0])}>
           {publicationFirstAuthor} et al, {publicationYear}
         </Link>
       ) : (
