@@ -11,6 +11,8 @@ import { naLabel } from '../../../constants';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
 import { Typography } from '@material-ui/core';
+import usePlatformApi from '../../../hooks/usePlatformApi';
+import Summary from './Summary';
 
 const otgStudyUrl = id => `https://genetics.opentargets.org/study/${id}`;
 const otgVariantUrl = id => `https://genetics.opentargets.org/variant/${id}`;
@@ -135,8 +137,14 @@ const columns = [
 ];
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
+  const {
+    data: {
+      openTargetsGenetics: { count: size },
+    },
+  } = usePlatformApi(Summary.fragments.OpenTargetsGeneticsSummaryFragment);
+
   const request = useQuery(OPEN_TARGETS_GENETICS_QUERY, {
-    variables: { ensemblId: ensgId, efoId },
+    variables: { ensemblId: ensgId, efoId, size },
     client: betaClient,
   });
 
