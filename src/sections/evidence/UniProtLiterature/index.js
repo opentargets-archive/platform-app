@@ -2,7 +2,7 @@ export const definition = {
   id: 'uniprotLiterature',
   name: 'UniProt Literature',
   shortName: 'UL',
-  hasData: data => true,
+  hasData: ({ uniprotLiteratureSummary }) => uniprotLiteratureSummary.count > 0,
 };
 
 export { default as Summary } from './Summary';
