@@ -37,7 +37,7 @@ const CLINGEN_QUERY = gql`
 
 const columns = [
   {
-    id: 'disease.id',
+    id: 'disease.name',
     label: 'Disease/phenotype',
     renderCell: ({ disease }) => {
       return (
@@ -90,7 +90,14 @@ function Body(props) {
       )}
       renderBody={({ disease }) => {
         const { rows } = disease.evidences;
-        return <DataTable columns={columns} rows={rows} dataDownloader />;
+        return (
+          <DataTable
+            columns={columns}
+            rows={rows}
+            dataDownloader
+            showGlobalFilter
+          />
+        );
       }}
     />
   );
