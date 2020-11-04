@@ -4,7 +4,7 @@ import { loader } from 'graphql.macro';
 import { Link } from 'ot-ui';
 
 import { betaClient } from '../../../client';
-import { DataTable } from '../../../components/Table';
+import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';
@@ -12,6 +12,7 @@ import SectionItem from '../../../components/Section/SectionItem';
 
 const g2pUrl = id =>
   `https://www.ebi.ac.uk/gene2phenotype/search?panel=ALL&search_term=${id}`;
+const epmcUrl = id => `https://europepmc.org/MED/${id}`;
 
 const OPEN_TARGETS_GENETICS_QUERY = loader('./sectionQuery.gql');
 
@@ -42,6 +43,19 @@ const columns = [
       ) : (
         naLabel
       ),
+  },
+  {
+    id: 'literature',
+    renderCell: ({ literature }) => {
+      const literatureList =
+        literature?.map(id => ({
+          name: id,
+          url: epmcUrl(id),
+          group: 'literature',
+        })) || [];
+
+      return <TableDrawer entries={literatureList} />;
+    },
   },
 ];
 
