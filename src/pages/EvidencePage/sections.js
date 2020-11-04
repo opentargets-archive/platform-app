@@ -17,9 +17,9 @@
 // import * as animalModels from './sections/AnimalModels';
 // import * as uniProt from './sections/UniProt';
 // import * as uniProtSomatic from './sections/UniProtSomatic';
-// import * as uniProtLiterature from './sections/UniProtLiterature';
+import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as ClinGen from '../../sections/evidence/ClinGen';
 import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
 import * as OTGenetics from '../../sections/evidence/OTGenetics';
 
-export default [ClinGen, Gene2Phenotype, OTGenetics];
+export default [ClinGen, Gene2Phenotype, OTGenetics, UniProtLiterature];
