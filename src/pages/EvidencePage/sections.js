@@ -19,7 +19,7 @@
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as ClinGen from '../../sections/evidence/ClinGen';
 import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
-import * as GenomicsEngland from './sections/GenomicsEngland';
+import * as GenomicsEngland from '../../sections/evidence/GenomicsEngland';
 import * as OTGenetics from '../../sections/evidence/OTGenetics';
 
 export default [
