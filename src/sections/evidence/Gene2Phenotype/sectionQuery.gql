@@ -1,14 +1,22 @@
-query Gene2PhenotypeSectionQuery($ensgId: String!, $efoId: String!) {
-  evidence(ensgId: $ensgId, efoId: $efoId) {
-    details {
-      gene2Phenotype {
-        rows {
-          disease {
-            id
-            name
-          }
-          panelsUrl
-          pmId
+query OpenTargetsGeneticsQuery($ensemblId: String!, $efoId: String!) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      datasourceIds: ["gene2phenotype"]
+    ) {
+      rows {
+        id
+        disease {
+          id
+          name
+        }
+        diseaseFromSource
+        allelicRequirement
+        confidence
+        target {
+          approvedSymbol
         }
       }
     }

@@ -1,13 +1,9 @@
-import { loader } from 'graphql.macro';
+export const definition = {
+  id: 'gene2Phenotype',
+  name: 'Gene2Phenotype',
+  shortName: 'GP',
+  hasData: data => data.gene2Phenotype.count > 0,
+};
 
-export const id = 'gene2Phenotype';
-export const name = 'Gene2Phenotype';
-
-export const hasSummaryData = ({ hasPanel }) => hasPanel;
-
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';

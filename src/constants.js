@@ -279,3 +279,5 @@ export const colorRange = [
   '#1963a3',
   '#005299',
 ];
+
+export const defaultRowsPerPageOptions = [10, 25, 100];
