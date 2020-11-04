@@ -3,18 +3,21 @@ import { gql, useQuery } from '@apollo/client';
 import { Link as RouterLink } from 'react-router-dom';
 import { Link } from '@material-ui/core';
 import { betaClient } from '../../../client';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
+import Summary from './Summary';
 import Description from './Description';
 
 const CLINGEN_QUERY = gql`
-  query ClingenQuery($ensemblId: String!, $efoId: String!) {
+  query ClingenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
     disease(efoId: $efoId) {
       id
       evidences(
         ensemblIds: [$ensemblId]
         enableIndirect: true
         datasourceIds: ["clingen"]
+        size: $size
       ) {
         count
         rows {
@@ -34,6 +37,7 @@ const CLINGEN_QUERY = gql`
 
 const columns = [
   {
+    id: 'disease.id',
     label: 'Disease/phenotype',
     renderCell: ({ disease }) => {
       return (
@@ -69,8 +73,11 @@ const columns = [
 function Body(props) {
   const { definition, id, label } = props;
   const { ensgId: ensemblId, efoId } = id;
+  const { data: summaryData } = usePlatformApi(
+    Summary.fragments.ClinGenSummaryFragment
+  );
   const request = useQuery(CLINGEN_QUERY, {
-    variables: { ensemblId, efoId },
+    variables: { ensemblId, efoId, size: summaryData.clingenSummary.count },
     client: betaClient,
   });
 
@@ -83,7 +90,7 @@ function Body(props) {
       )}
       renderBody={({ disease }) => {
         const { rows } = disease.evidences;
-        return <DataTable columns={columns} rows={rows} />;
+        return <DataTable columns={columns} rows={rows} dataDownloader />;
       }}
     />
   );
