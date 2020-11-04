@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Description = ({ target, disease }) => (
-  <React.Fragment>
-    Genetic associations between <strong>{target.symbol}</strong> and{' '}
-    <strong>{disease.name}</strong>.
-  </React.Fragment>
+const Description = ({ symbol, diseaseName }) => (
+  <>
+    Genetic associations between <strong>{symbol}</strong> and{' '}
+    <strong>{diseaseName}</strong>.
+  </>
 );
 
 export default Description;
