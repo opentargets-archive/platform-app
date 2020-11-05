@@ -10,8 +10,7 @@ import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
-
-const epmcUrl = id => `https://europepmc.org/article/MED/${id}`;
+import { epmcUrl } from '../../../utils/urls';
 
 const INTOGEN_QUERY = gql`
   query IntOgenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {

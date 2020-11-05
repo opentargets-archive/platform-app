@@ -1,13 +1,9 @@
-import { loader } from 'graphql.macro';
+export const definition = {
+  id: 'cancerGeneCensus',
+  name: 'Cancer Gene Census',
+  shortName: 'CG',
+  hasData: ({ cancerGeneCensusSummary }) => cancerGeneCensusSummary.count > 0,
+};
 
-export const id = 'cancerGeneCensus';
-export const name = 'Cancer Gene Census';
-
-export const hasSummaryData = ({ hasMutations }) => hasMutations;
-
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';

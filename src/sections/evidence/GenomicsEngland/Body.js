@@ -11,10 +11,10 @@ import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { epmcUrl } from '../../../utils/urls';
 
 const geUrl = (id, approvedSymbol) =>
   `https://panelapp.genomicsengland.co.uk/panels/${id}/gene/${approvedSymbol}`;
-const epmcUrl = id => `https://europepmc.org/article/MED/${id}`;
 
 const GENOMICS_ENGLAND_QUERY = loader('./sectionQuery.gql');
 

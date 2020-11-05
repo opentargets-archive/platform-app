@@ -10,18 +10,14 @@ import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
 
-const UNIPROT_LITERATURE_QUERY = gql`
-  query UniprotLiteratureQuery(
-    $ensemblId: String!
-    $efoId: String!
-    $size: Int!
-  ) {
+const CANCER_GENE_CENSUS_QUERY = gql`
+  query PhewasCatalogQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
     disease(efoId: $efoId) {
       id
       evidences(
         ensemblIds: [$ensemblId]
         enableIndirect: true
-        datasourceIds: ["uniprot_literature"]
+        datasourceIds: ["cancer_gene_census"]
         size: $size
       ) {
         rows {
@@ -29,10 +25,11 @@ const UNIPROT_LITERATURE_QUERY = gql`
             id
             name
           }
-          target {
-            proteinAnnotations {
-              id
-            }
+          variations {
+            functionalConsequence
+            numberSamplesWithMutationType
+            numberSamplesTested
+            inheritancePattern
           }
           literature
         }
@@ -54,17 +51,43 @@ const columns = [
     },
   },
   {
-    id: 'target.proteinAnnotations.id',
-    label: 'Uniprot - Pathology & Biotech',
-    renderCell: ({ target }) => {
+    id: 'variations.functionalConsequence',
+    label: 'Mutation type',
+    renderCell: ({ variations }) => {
       return (
-        <Link
-          href={`http://www.uniprot.org/uniprot/${
-            target.proteinAnnotations.id
-          }#pathology_and_biotech`}
-        >
-          {target.proteinAnnotations.id}
-        </Link>
+        <ul>
+          {variations.map(({ functionalConsequence }) => (
+            <li key={functionalConsequence}>{functionalConsequence}</li>
+          ))}
+        </ul>
+      );
+    },
+  },
+  {
+    label: 'Samples',
+    renderCell: ({ variations }) => {
+      return (
+        <ul>
+          {variations.map(
+            ({ numberSamplesWithMutationType, numberSamplesTested }, i) => (
+              <li key={i}>
+                {numberSamplesWithMutationType}/{numberSamplesTested}
+              </li>
+            )
+          )}
+        </ul>
+      );
+    },
+  },
+  {
+    label: 'Cellular mechanism',
+    renderCell: ({ variations }) => {
+      return (
+        <ul>
+          {variations.map(({ inheritancePattern }, i) => (
+            <li key={i}>{inheritancePattern}</li>
+          ))}
+        </ul>
       );
     },
   },
@@ -93,17 +116,18 @@ const columns = [
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(
-    Summary.fragments.UniprotLiteratureSummary
+    Summary.fragments.CancerGeneCensusSummary
   );
 
-  const request = useQuery(UNIPROT_LITERATURE_QUERY, {
+  const request = useQuery(CANCER_GENE_CENSUS_QUERY, {
     variables: {
       ensemblId,
       efoId,
-      size: summaryData.uniprotLiteratureSummary.count,
+      size: summaryData.cancerGeneCensusSummary.count,
     },
     client: betaClient,
   });
+
   return (
     <SectionItem
       definition={definition}

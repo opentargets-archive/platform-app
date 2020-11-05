@@ -9,10 +9,10 @@ import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
+import { epmcUrl } from '../../../utils/urls';
 
 const g2pUrl = id =>
   `https://www.ebi.ac.uk/gene2phenotype/search?panel=ALL&search_term=${id}`;
-const epmcUrl = id => `https://europepmc.org/article/MED/${id}`;
 
 const OPEN_TARGETS_GENETICS_QUERY = loader('./sectionQuery.gql');
 
