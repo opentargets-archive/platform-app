@@ -1,9 +1,7 @@
 // Section imports
 // import * as gwasCatalog from './sections/GWASCatalog';
-import * as PheWASCatalog from '../../sections/evidence/PheWASCatalog';
 // import * as eva from './sections/EVA';
 // import * as evaSomatic from './sections/EVASomatic';
-// import * as genomicsEngland from './sections/GenomicsEngland';
 // import * as intogen from './sections/IntOGen';
 // import * as cancerGeneCensus from './sections/CancerGeneCensus';
 // import * as reactome from './sections/Reactome';
@@ -20,12 +18,15 @@ import * as PheWASCatalog from '../../sections/evidence/PheWASCatalog';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as ClinGen from '../../sections/evidence/ClinGen';
 import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
+import * as GenomicsEngland from '../../sections/evidence/GenomicsEngland';
 import * as OTGenetics from '../../sections/evidence/OTGenetics';
+import * as PheWASCatalog from '../../sections/evidence/PheWASCatalog';
 
 export default [
   ClinGen,
   Gene2Phenotype,
+  GenomicsEngland,
   OTGenetics,
-  UniProtLiterature,
   PheWASCatalog,
+  UniProtLiterature,
 ];

@@ -9,12 +9,14 @@ import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
+import Summary from './Summary';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const g2pUrl = id =>
-  `https://www.ebi.ac.uk/gene2phenotype/search?panel=ALL&search_term=${id}`;
+const geUrl = (id, approvedSymbol) =>
+  `https://panelapp.genomicsengland.co.uk/panels/${id}/gene/${approvedSymbol}`;
 const epmcUrl = id => `https://europepmc.org/article/MED/${id}`;
 
-const OPEN_TARGETS_GENETICS_QUERY = loader('./sectionQuery.gql');
+const GENOMICS_ENGLAND_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
@@ -34,15 +36,23 @@ const columns = [
     id: 'allelicRequirement',
   },
   {
-    id: 'confidence',
-    renderCell: ({ confidence, target: { approvedSymbol } }) =>
-      confidence && approvedSymbol ? (
-        <Link external to={g2pUrl(approvedSymbol)}>
-          {confidence}
+    id: 'studyId',
+    label: 'Genomics England Panel',
+    renderCell: ({ studyId, target: { approvedSymbol } }) =>
+      studyId && approvedSymbol ? (
+        <Link external to={geUrl(studyId, approvedSymbol)}>
+          {studyId}
         </Link>
       ) : (
         naLabel
       ),
+  },
+  {
+    id: 'confidence',
+    numeric: true,
+    sortable: true,
+    renderCell: ({ confidence }) =>
+      confidence ? parseFloat(confidence.toFixed(3)) : naLabel,
   },
   {
     id: 'literature',
@@ -67,8 +77,14 @@ const columns = [
 ];
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
-  const request = useQuery(OPEN_TARGETS_GENETICS_QUERY, {
-    variables: { ensemblId: ensgId, efoId },
+  const {
+    data: {
+      genomicsEngland: { count: size },
+    },
+  } = usePlatformApi(Summary.fragments.GenomicsEnglandSummaryFragment);
+
+  const request = useQuery(GENOMICS_ENGLAND_QUERY, {
+    variables: { ensemblId: ensgId, efoId, size },
     client: betaClient,
   });
 

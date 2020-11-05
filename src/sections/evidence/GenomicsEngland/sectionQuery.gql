@@ -1,21 +1,23 @@
-query GenomicsEnglandSectionQuery($ensgId: String!, $efoId: String!) {
-  evidence(ensgId: $ensgId, efoId: $efoId) {
-    details {
-      genomicsEngland {
-        rows {
-          disease {
-            id
-            name
-          }
-          panel {
-            id
-            url
-          }
-          source {
-            url
-            name
-          }
+query GenomicsEnglandQuery($ensemblId: String!, $efoId: String!) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      datasourceIds: ["genomics_england"]
+    ) {
+      rows {
+        disease {
+          id
+          name
         }
+        target {
+          approvedSymbol
+        }
+        diseaseFromSource
+        studyId
+        confidence
+        literature
       }
     }
   }
