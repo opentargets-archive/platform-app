@@ -5,7 +5,8 @@ import { Link } from '@material-ui/core';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
-import { DataTable } from '../../../components/Table';
+import { DataTable, TableDrawer } from '../../../components/Table';
+import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -70,16 +71,21 @@ const columns = [
   {
     label: 'Literature',
     renderCell: ({ literature }) => {
-      const queryString = literature
-        .map(lit => {
-          return `EXT_ID:${lit}`;
-        })
-        .join(' OR ');
-      return (
-        <Link href={`https://europepmc.org/search?query=${queryString}`}>
-          {literature.length} publication{literature.length > 1 ? 's' : null}
-        </Link>
-      );
+      const literatureList =
+        literature?.reduce((acc, id) => {
+          if (id === 'NA') return acc;
+
+          return [
+            ...acc,
+            {
+              name: id,
+              url: epmcUrl(id),
+              group: 'literature',
+            },
+          ];
+        }, []) || [];
+
+      return <TableDrawer entries={literatureList} />;
     },
   },
 ];
