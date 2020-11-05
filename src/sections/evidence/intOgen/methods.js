@@ -1,4 +1,4 @@
-const Methods = {
+const methods = {
   columnTooltip: {
     description:
       'The current version of the intOGen pipeline uses seven methods to identify cancer driver genes from somatic point mutations - HotMAPS, dNDScv, smRegions, CBaSE, FML, MutPanning, and CLUSTL. The pipeline also uses a combination of methods. For further information on the methods, please click here visit the intOGen FAQ.',
@@ -45,4 +45,4 @@ const Methods = {
   },
 };
 
-export default Methods;
+export default methods;
