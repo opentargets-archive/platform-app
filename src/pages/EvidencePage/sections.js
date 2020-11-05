@@ -6,7 +6,6 @@
 // import * as intogen from './sections/IntOGen';
 // import * as cancerGeneCensus from './sections/CancerGeneCensus';
 // import * as reactome from './sections/Reactome';
-// import * as slapenrich from './sections/SLAPenrich';
 // import * as crispr from './sections/CRISPR';
 // import * as sysBio from './sections/SysBio';
 // import * as drugs from './sections/Drugs';
@@ -20,6 +19,7 @@ import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
 import * as GenomicsEngland from '../../sections/evidence/GenomicsEngland';
 import * as OTGenetics from '../../sections/evidence/OTGenetics';
 import * as Progeny from '../../sections/evidence/Progeny';
+import * as SlapEnrich from '../../sections/evidence/SlapEnrich';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 
 export default [
@@ -28,5 +28,6 @@ export default [
   GenomicsEngland,
   OTGenetics,
   Progeny,
+  SlapEnrich,
   UniProtLiterature,
 ];
