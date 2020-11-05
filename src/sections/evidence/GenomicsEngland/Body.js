@@ -9,6 +9,8 @@ import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
+import Summary from './Summary';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const geUrl = (id, approvedSymbol) =>
   `https://panelapp.genomicsengland.co.uk/panels/${id}/gene/${approvedSymbol}`;
@@ -75,8 +77,14 @@ const columns = [
 ];
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
+  const {
+    data: {
+      genomicsEngland: { count: size },
+    },
+  } = usePlatformApi(Summary.fragments.GenomicsEnglandSummaryFragment);
+
   const request = useQuery(GENOMICS_ENGLAND_QUERY, {
-    variables: { ensemblId: ensgId, efoId },
+    variables: { ensemblId: ensgId, efoId, size },
     client: betaClient,
   });
 
