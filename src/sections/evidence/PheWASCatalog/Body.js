@@ -109,7 +109,6 @@ function Body({ definition, id, label }) {
       )}
       renderBody={({ disease }) => {
         const { rows } = disease.evidences;
-        console.log('rows', rows);
         return (
           <DataTable
             columns={columns}
