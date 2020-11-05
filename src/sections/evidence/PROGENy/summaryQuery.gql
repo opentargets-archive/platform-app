@@ -1,9 +1,0 @@
-fragment evidenceProgenyFragment on EvidenceSummaries {
-  progeny {
-    pathwayCount
-    sources {
-      name
-      url
-    }
-  }
-}
