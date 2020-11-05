@@ -15,7 +15,7 @@
 import * as ClinGen from '../../sections/evidence/ClinGen';
 import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
 import * as GenomicsEngland from '../../sections/evidence/GenomicsEngland';
-import * as IntOgen from '../../sections/evidence/intOgen';
+import * as IntOgen from '../../sections/evidence/IntOgen';
 import * as OTGenetics from '../../sections/evidence/OTGenetics';
 import * as PheWASCatalog from '../../sections/evidence/PheWASCatalog';
 import * as Progeny from '../../sections/evidence/Progeny';
