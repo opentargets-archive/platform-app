@@ -61,7 +61,8 @@ function ProfileHeader() {
     synonyms: diseaseSynonyms,
   } = data?.disease || {};
   const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
-  const { id: ensgId, approvedSymbol, targetSynonyms } = data?.target || {};
+  const { id: ensgId, approvedSymbol, symbolSynonyms: targetSynonyms } =
+    data?.target || {};
 
   return (
     <BaseProfileHeader>
@@ -79,8 +80,8 @@ function ProfileHeader() {
             }
           />
           <CardContent className={classes.cardContent}>
-            <Description>{diseaseDescription}</Description>
-            <ChipList title="Synonyms">{diseaseSynonyms}</ChipList>
+            <Description>{targetDescription}</Description>
+            <ChipList title="Synonyms">{targetSynonyms}</ChipList>
           </CardContent>
         </Card>
       )}
@@ -98,8 +99,8 @@ function ProfileHeader() {
             }
           />
           <CardContent className={classes.cardContent}>
-            <Description>{targetDescription}</Description>
-            <ChipList title="Synonyms">{targetSynonyms}</ChipList>
+            <Description>{diseaseDescription}</Description>
+            <ChipList title="Synonyms">{diseaseSynonyms}</ChipList>
           </CardContent>
         </Card>
       )}
