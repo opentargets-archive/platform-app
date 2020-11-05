@@ -1,6 +1,5 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
-import { loader } from 'graphql.macro';
+import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
 
 import { betaClient } from '../../../client';
@@ -12,7 +11,29 @@ import ScientificNotation from '../../../components/ScientificNotation';
 
 const reactomeUrl = id => `http://www.reactome.org/PathwayBrowser/#${id}`;
 
-const SLAPENRICH_QUERY = loader('./sectionQuery.gql');
+const SLAPENRICH_QUERY = gql`
+  query SlapEnrichQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+    disease(efoId: $efoId) {
+      id
+      evidences(
+        ensemblIds: [$ensemblId]
+        enableIndirect: true
+        size: $size
+        datasourceIds: ["slapenrich"]
+      ) {
+        rows {
+          disease {
+            id
+            name
+          }
+          pathwayId
+          pathwayName
+          resourceScore
+        }
+      }
+    }
+  }
+`;
 
 const columns = [
   {
