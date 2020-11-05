@@ -1,0 +1,31 @@
+query IntOgenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      size: $size
+      datasourceIds: ["intogen"]
+    ) {
+      rows {
+        disease {
+          id
+          name
+        }
+        target {
+          approvedSymbol
+        }
+        variations {
+          inheritancePattern
+          numberMutatedSamples
+          numberSamplesTested
+        }
+        resourceScore
+        significantDriverMethods
+        cohortId
+        cohortShortName
+        cohortDescription
+      }
+    }
+  }
+}

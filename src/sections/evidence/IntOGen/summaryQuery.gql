@@ -1,9 +1,0 @@
-fragment evidenceIntogenFragment on EvidenceSummaries {
-  intogen {
-    hasMutations
-    sources {
-      name
-      url
-    }
-  }
-}

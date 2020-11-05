@@ -4,12 +4,12 @@ import { gql } from '@apollo/client';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const SYSBIO_SUMMARY_FRAGMENT = gql`
-  fragment SysBioSummaryFragment on Disease {
-    sysBio: evidences(
+const SLAPENRICH_SUMMARY_FRAGMENT = gql`
+  fragment SlapEnrichSummaryFragment on Disease {
+    slapEnrich: evidences(
       ensemblIds: [$ensgId]
       enableIndirect: true
-      datasourceIds: ["sysbio"]
+      datasourceIds: ["slapenrich"]
     ) {
       count
     }
@@ -17,21 +17,23 @@ const SYSBIO_SUMMARY_FRAGMENT = gql`
 `;
 
 function Summary({ definition }) {
-  const request = usePlatformApi(SYSBIO_SUMMARY_FRAGMENT);
+  const request = usePlatformApi(SLAPENRICH_SUMMARY_FRAGMENT);
 
   return (
     <SummaryItem
       definition={definition}
       request={request}
       renderSummary={data =>
-        `${data.sysBio.count} entr${data.sysBio.count === 1 ? 'y' : 'ies'}`
+        `${data.slapEnrich.count} entr${
+          data.slapEnrich.count === 1 ? 'y' : 'ies'
+        }`
       }
     />
   );
 }
 
 Summary.fragments = {
-  SysBioSummaryFragment: SYSBIO_SUMMARY_FRAGMENT,
+  SlapEnrichSummaryFragment: SLAPENRICH_SUMMARY_FRAGMENT,
 };
 
 export default Summary;

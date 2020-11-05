@@ -1,11 +1,13 @@
 import React from 'react';
 
+import { decimalPlaces } from '../constants';
+
 function ScientificNotation({ number }) {
   if (!number) return null;
 
-  let [mantissa, exponent] = number.toString().split('e');
+  let [mantissa, exponent] = number.toExponential().split('e');
 
-  mantissa = parseFloat(parseFloat(mantissa).toFixed(14));
+  mantissa = parseFloat(parseFloat(mantissa).toFixed(decimalPlaces));
   exponent = exponent.charAt(0) === '+' ? exponent.slice(1) : exponent;
 
   return (

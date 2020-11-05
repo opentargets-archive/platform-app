@@ -1,8 +1,8 @@
 export const definition = {
-  id: 'sysBio',
-  name: 'Systems Biology',
-  shortName: 'SB',
-  hasData: data => data.sysBio.count > 0,
+  id: 'slapEnrich',
+  name: 'SlapEnrich',
+  shortName: 'SE',
+  hasData: data => data.slapEnrich.count > 0,
 };
 
 export { default as Summary } from './Summary';
