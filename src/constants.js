@@ -281,3 +281,5 @@ export const colorRange = [
 ];
 
 export const defaultRowsPerPageOptions = [10, 25, 100];
+
+export const decimalPlaces = 3;
