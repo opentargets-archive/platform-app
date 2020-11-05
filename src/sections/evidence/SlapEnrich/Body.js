@@ -9,6 +9,8 @@ import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
 import ScientificNotation from '../../../components/ScientificNotation';
+import Summary from './Summary';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const reactomeUrl = id => `http://www.reactome.org/PathwayBrowser/#${id}`;
 
@@ -47,8 +49,14 @@ const columns = [
 ];
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
+  const {
+    data: {
+      slapEnrich: { count: size },
+    },
+  } = usePlatformApi(Summary.fragments.SlapEnrichSummaryFragment);
+
   const request = useQuery(SLAPENRICH_QUERY, {
-    variables: { ensemblId: ensgId, efoId },
+    variables: { ensemblId: ensgId, efoId, size },
     client: betaClient,
   });
 
