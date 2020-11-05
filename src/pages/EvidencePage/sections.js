@@ -5,7 +5,6 @@
 // import * as cancerGeneCensus from './sections/CancerGeneCensus';
 // import * as reactome from './sections/Reactome';
 // import * as crispr from './sections/CRISPR';
-// import * as sysBio from './sections/SysBio';
 // import * as drugs from './sections/Drugs';
 // import * as differentialExpression from './sections/DifferentialExpression';
 // import * as textMining from './sections/TextMining';
@@ -20,6 +19,7 @@ import * as OTGenetics from '../../sections/evidence/OTGenetics';
 import * as PheWASCatalog from '../../sections/evidence/PheWASCatalog';
 import * as Progeny from '../../sections/evidence/Progeny';
 import * as SlapEnrich from '../../sections/evidence/SlapEnrich';
+import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 
 export default [
@@ -31,5 +31,6 @@ export default [
   PheWASCatalog,
   Progeny,
   SlapEnrich,
+  SysBio,
   UniProtLiterature,
 ];

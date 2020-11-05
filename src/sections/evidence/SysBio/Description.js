@@ -1,10 +1,12 @@
 import React from 'react';
 
-const Description = ({ target, disease }) => (
-  <React.Fragment>
-    Associated pathways between <strong>{target.symbol}</strong> and{' '}
-    <strong>{disease.name}</strong>.
-  </React.Fragment>
-);
+function Description({ symbol, name }) {
+  return (
+    <>
+      Genetic associations between <strong>{symbol}</strong> and{' '}
+      <strong>{name}</strong>.
+    </>
+  );
+}
 
 export default Description;
