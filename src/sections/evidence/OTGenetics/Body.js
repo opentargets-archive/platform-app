@@ -12,9 +12,9 @@ import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 
-const epmcUrl = id => `https://europepmc.org/article/MED/${id}`;
 const otgStudyUrl = id => `https://genetics.opentargets.org/study/${id}`;
 const otgVariantUrl = id => `https://genetics.opentargets.org/variant/${id}`;
 
