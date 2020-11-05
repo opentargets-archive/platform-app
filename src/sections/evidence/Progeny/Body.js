@@ -8,6 +8,8 @@ import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
 import ScientificNotation from '../../../components/ScientificNotation';
+import Summary from './Summary';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const reactomeUrl = id => `http://www.reactome.org/PathwayBrowser/#${id}`;
 
@@ -68,8 +70,14 @@ const columns = [
 ];
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
+  const {
+    data: {
+      progeny: { count: size },
+    },
+  } = usePlatformApi(Summary.fragments.ProgenySummaryFragment);
+
   const request = useQuery(PROGENY_QUERY, {
-    variables: { ensemblId: ensgId, efoId },
+    variables: { ensemblId: ensgId, efoId, size },
     client: betaClient,
   });
 
