@@ -21,10 +21,7 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={({ crisprSummary }) => {
-        const { count } = crisprSummary;
-        return `${count} variant${count > 1 ? 's' : ''}`;
-      }}
+      renderSummary={() => 'CRISPR screen prioritised'}
     />
   );
 }
@@ -34,8 +31,3 @@ Summary.fragments = {
 };
 
 export default Summary;
-
-// const Summary = ({ hasCrispr }) =>
-//   hasCrispr ? 'CRISPR screen prioritised' : null;
-
-// export default Summary;
