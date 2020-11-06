@@ -2,7 +2,6 @@
 // import * as gwasCatalog from './sections/GWASCatalog';
 // import * as eva from './sections/EVA';
 // import * as evaSomatic from './sections/EVASomatic';
-// import * as reactome from './sections/Reactome';
 // import * as drugs from './sections/Drugs';
 // import * as differentialExpression from './sections/DifferentialExpression';
 // import * as textMining from './sections/TextMining';
@@ -22,6 +21,9 @@ import * as Progeny from '../../sections/evidence/Progeny';
 import * as SlapEnrich from '../../sections/evidence/SlapEnrich';
 import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
+import * as CancerGeneCensus from '../../sections/evidence/CancerGeneCensus';
+import * as CRISPR from '../../sections/evidence/CRISPR';
+import * as Reactome from '../../sections/evidence/Reactome';
 
 export default [
   CancerGeneCensus,
@@ -37,4 +39,7 @@ export default [
   SlapEnrich,
   SysBio,
   UniProtLiterature,
+  CancerGeneCensus,
+  CRISPR,
+  Reactome,
 ];
