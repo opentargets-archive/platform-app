@@ -1,9 +1,0 @@
-fragment evidenceCrisprFragment on EvidenceSummaries {
-  crispr {
-    hasCrispr
-    sources {
-      name
-      url
-    }
-  }
-}
