@@ -9,30 +9,32 @@
 // import * as animalModels from './sections/AnimalModels';
 // import * as uniProt from './sections/UniProt';
 // import * as uniProtSomatic from './sections/UniProtSomatic';
+import * as CancerGeneCensus from '../../sections/evidence/CancerGeneCensus';
 import * as ClinGen from '../../sections/evidence/ClinGen';
+import * as CRISPR from '../../sections/evidence/CRISPR';
 import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
 import * as GenomicsEngland from '../../sections/evidence/GenomicsEngland';
 import * as IntOgen from '../../sections/evidence/IntOgen';
 import * as OTGenetics from '../../sections/evidence/OTGenetics';
+import * as Phenodigm from '../../sections/evidence/Phenodigm';
 import * as PheWASCatalog from '../../sections/evidence/PheWASCatalog';
 import * as Progeny from '../../sections/evidence/Progeny';
 import * as SlapEnrich from '../../sections/evidence/SlapEnrich';
 import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
-import * as CancerGeneCensus from '../../sections/evidence/CancerGeneCensus';
-import * as CRISPR from '../../sections/evidence/CRISPR';
 
 export default [
+  CancerGeneCensus,
   ClinGen,
+  CRISPR,
   Gene2Phenotype,
   GenomicsEngland,
   IntOgen,
   OTGenetics,
+  Phenodigm,
   PheWASCatalog,
   Progeny,
   SlapEnrich,
   SysBio,
   UniProtLiterature,
-  CancerGeneCensus,
-  CRISPR,
 ];
