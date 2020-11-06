@@ -12,10 +12,9 @@ import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
-import { epmcUrl } from '../../../utils/urls';
+import { epmcUrl, otgStudyUrl } from '../../../utils/urls';
 import Summary from './Summary';
 
-const otgStudyUrl = id => `https://genetics.opentargets.org/study/${id}`;
 const otgVariantUrl = id => `https://genetics.opentargets.org/variant/${id}`;
 
 const OPEN_TARGETS_GENETICS_QUERY = loader('./sectionQuery.gql');
@@ -23,6 +22,7 @@ const OPEN_TARGETS_GENETICS_QUERY = loader('./sectionQuery.gql');
 const columns = [
   {
     id: 'disease',
+    label: 'Disease/phenotype',
     renderCell: ({ disease }) => (
       <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
     ),
@@ -30,7 +30,7 @@ const columns = [
   },
   {
     id: 'diseaseFromSource',
-    label: 'Reported Trait',
+    label: 'Reported disease/phenotype',
     renderCell: ({ diseaseFromSource, studyId }) => (
       <Link external to={otgStudyUrl(studyId)}>
         {diseaseFromSource ? diseaseFromSource : studyId}
