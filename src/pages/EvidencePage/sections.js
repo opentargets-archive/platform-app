@@ -24,6 +24,7 @@ import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as CancerGeneCensus from '../../sections/evidence/CancerGeneCensus';
 import * as CRISPR from '../../sections/evidence/CRISPR';
 import * as Reactome from '../../sections/evidence/Reactome';
+import * as Chembl from '../../sections/evidence/Chembl';
 
 export default [
   CancerGeneCensus,
@@ -42,4 +43,5 @@ export default [
   CancerGeneCensus,
   CRISPR,
   Reactome,
+  Chembl,
 ];
