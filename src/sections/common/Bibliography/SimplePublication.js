@@ -41,7 +41,10 @@ class SimplePublication extends Component {
         </Typography>
 
         {/* paper data */}
-        <Typography variant={variant === 'small' ? 'caption' : 'body2'}>
+        <Typography
+          variant={variant === 'small' ? 'caption' : 'body2'}
+          style={{ whiteSpace: 'normal' }}
+        >
           {/* authors */}
           {authors
             .map((author, i) => {
