@@ -25,9 +25,7 @@ import * as Reactome from '../../sections/evidence/Reactome';
 import * as Chembl from '../../sections/evidence/Chembl';
 
 export default [
-  CancerGeneCensus,
   ClinGen,
-  CRISPR,
   Gene2Phenotype,
   GenomicsEngland,
   IntOgen,
