@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from '@material-ui/core';
+import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -25,7 +24,12 @@ const REACTOME_QUERY = gql`
             id
             name
           }
+          pathwayId
+          pathwayName
           targetModulation
+          variations {
+            variantAminoacidDescription
+          }
           literature
         }
       }
@@ -38,18 +42,56 @@ const columns = [
     id: 'disease.name',
     label: 'Disease/phenotype',
     renderCell: ({ disease }) => {
-      return (
-        <Link component={RouterLink} to={`/disease/${disease.id}`}>
-          {disease.name}
-        </Link>
-      );
+      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
     },
   },
   {
+    id: 'pathwayName',
+    label: 'Pathway',
+    renderCell: ({ pathwayId, pathwayName }) => (
+      <Link
+        external
+        to={`http://www.reactome.org/PathwayBrowser/#${pathwayId}`}
+      >
+        {pathwayName}
+      </Link>
+    ),
+  },
+  {
+    id: 'targetModulation',
     label: 'Target modulation',
   },
   {
     label: 'Amino acid variation',
+    renderCell: ({ variations }) => {
+      return variations.length > 0 ? (
+        <ul style={{ margin: 0, paddingLeft: '17px' }}>
+          {variations.map(({ variantAminoacidDescription }) => (
+            <li key={variantAminoacidDescription}>
+              {variantAminoacidDescription}
+            </li>
+          ))}
+        </ul>
+      ) : null;
+    },
+  },
+  {
+    id: 'literature',
+    label: 'Literature',
+    renderCell: ({ literature = [] }) => {
+      const literatureList = [];
+      literature.forEach(id => {
+        if (id !== 'NA') {
+          literatureList.push({
+            name: id,
+            url: epmcUrl(id),
+            group: 'literature',
+          });
+        }
+      });
+
+      return <TableDrawer entries={literatureList} />;
+    },
   },
 ];
 
