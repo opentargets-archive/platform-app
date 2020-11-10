@@ -10,7 +10,7 @@ import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
 
-const CRISPER_QUERY = gql`
+const CRISPR_QUERY = gql`
   query crisprQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
     disease(efoId: $efoId) {
       id
@@ -73,7 +73,7 @@ function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(Summary.fragments.crisprSummary);
 
-  const request = useQuery(CRISPER_QUERY, {
+  const request = useQuery(CRISPR_QUERY, {
     variables: {
       ensemblId,
       efoId,
