@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import Typography from '@material-ui/core/Typography';
+import { Typography, Tooltip } from '@material-ui/core';
 import { loader } from 'graphql.macro';
 import client from '../../../client';
 
@@ -7,6 +7,7 @@ import DataTable from '../../../components/Table/DataTable';
 import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
 
 import Grid from '@material-ui/core/Grid';
+import { Link } from 'ot-ui';
 
 const INTERACTIONS_QUERY = loader('./sectionQuery.gql');
 const getData = (ensgId, sourceDatabase, index, size) => {
@@ -21,6 +22,12 @@ const getData = (ensgId, sourceDatabase, index, size) => {
   });
 };
 
+const onLinkClick = function(e) {
+  // handler to stop propagation of clicks on links in table rows
+  // to avoid selection of a different row
+  e.stopPropagation();
+};
+
 const columns = {
   interactions: [
     {
@@ -28,23 +35,30 @@ const columns = {
       label: (
         <>
           Interactor B
-          {/* <br />
-            <Typography variant="caption">
-            Alt ID
-            <br />
+          <br />
+          <Typography variant="caption">
             Species
-            </Typography> */}
+            <br />
+            Ald ID
+          </Typography>
         </>
       ),
       renderCell: row => (
         <>
           {row.targetB ? row.targetB.approvedSymbol : row.intB}
-          {/* <br />
-            <Typography variant="caption">
-            {row.organismB.taxon_id}
+          <br />
+          <Typography variant="caption">
+            Species: {row.targetB ? 'human' : 'non-human'}
             <br />
-            Human
-            </Typography> */}
+            Alt ID:{' '}
+            <Link
+              to={`http://uniprot.org/uniprot/${row.intB}`}
+              onClick={onLinkClick}
+              external
+            >
+              {row.intB}
+            </Link>
+          </Typography>
         </>
       ),
     },
@@ -55,7 +69,13 @@ const columns = {
     },
     {
       id: 'evidences',
-      label: 'Interaction evidence',
+      label: (
+        <>
+          Interaction
+          <br />
+          evidence
+        </>
+      ),
       renderCell: row => row.count,
       //   exportValue: row => (row.disease ? label(row.disease.name) : naLabel),
     },
@@ -65,6 +85,17 @@ const columns = {
     {
       id: 'interactionIdentifier',
       label: 'Identifier',
+      renderCell: row => (
+        <Link
+          to={`http://www.ebi.ac.uk/intact/interaction/${
+            row.interactionIdentifier
+          }`}
+          onClick={onLinkClick}
+          external
+        >
+          {row.interactionIdentifier}
+        </Link>
+      ),
     },
     {
       id: 'interaction',
@@ -90,7 +121,13 @@ const columns = {
       label: 'Detection methods',
       renderCell: row => (
         <>
-          <MethodIconText>A</MethodIconText>
+          <Tooltip
+            title={row.participantDetectionMethodA[0].shortName}
+            placement="top"
+            interactive
+          >
+            <MethodIconText>A</MethodIconText>
+          </Tooltip>
           <MethodIconArrow />
           <MethodIconText>B</MethodIconText>
         </>
