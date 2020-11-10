@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Description = ({ target, disease }) => (
-  <React.Fragment>
-    Associated pathways between <strong>{target.symbol}</strong> and{' '}
-    <strong>{disease.name}</strong>.
-  </React.Fragment>
+const Description = ({ symbol, name }) => (
+  <>
+    Associated pathways between <strong>{symbol}</strong> and{' '}
+    <strong>{name}</strong>.
+  </>
 );
 
 export default Description;

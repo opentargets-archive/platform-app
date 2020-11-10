@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from '@material-ui/core';
+import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -10,14 +9,14 @@ import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
 
-const CRISPR_QUERY = gql`
-  query crisprQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+const REACTOME_QUERY = gql`
+  query reactomeQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
     disease(efoId: $efoId) {
       id
       evidences(
         ensemblIds: [$ensemblId]
         enableIndirect: true
-        datasourceIds: ["crispr"]
+        datasourceIds: ["reactome"]
         size: $size
       ) {
         rows {
@@ -25,7 +24,12 @@ const CRISPR_QUERY = gql`
             id
             name
           }
-          resourceScore
+          pathwayId
+          pathwayName
+          targetModulation
+          variations {
+            variantAminoacidDescription
+          }
           literature
         }
       }
@@ -38,19 +42,41 @@ const columns = [
     id: 'disease.name',
     label: 'Disease/phenotype',
     renderCell: ({ disease }) => {
-      return (
-        <Link component={RouterLink} to={`/disease/${disease.id}`}>
-          {disease.name}
-        </Link>
-      );
+      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
     },
   },
   {
-    id: 'resourceScore',
-    label: 'Priority score',
-    renderCell: ({ resourceScore }) => resourceScore.toFixed(3),
+    id: 'pathwayName',
+    label: 'Pathway',
+    renderCell: ({ pathwayId, pathwayName }) => (
+      <Link
+        external
+        to={`http://www.reactome.org/PathwayBrowser/#${pathwayId}`}
+      >
+        {pathwayName}
+      </Link>
+    ),
   },
   {
+    id: 'targetModulation',
+    label: 'Target modulation',
+  },
+  {
+    label: 'Amino acid variation',
+    renderCell: ({ variations }) => {
+      return variations.length > 0 ? (
+        <ul style={{ margin: 0, paddingLeft: '17px' }}>
+          {variations.map(({ variantAminoacidDescription }) => (
+            <li key={variantAminoacidDescription}>
+              {variantAminoacidDescription}
+            </li>
+          ))}
+        </ul>
+      ) : null;
+    },
+  },
+  {
+    id: 'literature',
     label: 'Literature',
     renderCell: ({ literature = [] }) => {
       const literatureList = [];
@@ -71,13 +97,15 @@ const columns = [
 
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
-  const { data: summaryData } = usePlatformApi(Summary.fragments.crisprSummary);
+  const { data: summaryData } = usePlatformApi(
+    Summary.fragments.reactomeSummary
+  );
 
-  const request = useQuery(CRISPR_QUERY, {
+  const request = useQuery(REACTOME_QUERY, {
     variables: {
       ensemblId,
       efoId,
-      size: summaryData.crisprSummary.count,
+      size: summaryData.reactomeSummary.count,
     },
     client: betaClient,
   });
