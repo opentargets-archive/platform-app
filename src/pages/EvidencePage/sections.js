@@ -8,9 +8,7 @@
 // import * as animalModels from './sections/AnimalModels';
 // import * as uniProt from './sections/UniProt';
 // import * as uniProtSomatic from './sections/UniProtSomatic';
-import * as CancerGeneCensus from '../../sections/evidence/CancerGeneCensus';
 import * as ClinGen from '../../sections/evidence/ClinGen';
-import * as CRISPR from '../../sections/evidence/CRISPR';
 import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
 import * as GenomicsEngland from '../../sections/evidence/GenomicsEngland';
 import * as IntOgen from '../../sections/evidence/IntOgen';
