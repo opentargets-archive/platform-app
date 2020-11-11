@@ -1,6 +1,6 @@
 // Section imports
 // import * as gwasCatalog from './sections/GWASCatalog';
-// import * as eva from './sections/EVA';
+import * as EVA from '../../sections/evidence/EVA';
 // import * as evaSomatic from './sections/EVASomatic';
 // import * as drugs from './sections/Drugs';
 // import * as differentialExpression from './sections/DifferentialExpression';
@@ -40,4 +40,5 @@ export default [
   CRISPR,
   Reactome,
   Chembl,
+  EVA,
 ];

@@ -1,9 +1,0 @@
-fragment evidenceEvaFragment on EvidenceSummaries {
-  eva {
-    variantCount
-    sources {
-      name
-      url
-    }
-  }
-}
