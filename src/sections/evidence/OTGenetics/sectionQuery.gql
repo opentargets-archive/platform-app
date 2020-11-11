@@ -31,7 +31,10 @@ query OpenTargetsGeneticsQuery(
         oddsRatio
         confidenceIntervalLower
         confidenceIntervalUpper
-        variantFunctionalConsequenceId
+        variantFunctionalConsequence {
+          id
+          label
+        }
         resourceScore
       }
     }

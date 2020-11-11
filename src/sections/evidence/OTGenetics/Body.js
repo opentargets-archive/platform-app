@@ -7,7 +7,7 @@ import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
-import { identifiersOrgLink } from '../../../utils/global';
+import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
 import { Typography } from '@material-ui/core';
@@ -81,13 +81,16 @@ const columns = [
   {
     id: 'variantFunctionalConsequenceId',
     label: 'Functional Consequence',
-    renderCell: ({ variantFunctionalConsequenceId }) =>
-      variantFunctionalConsequenceId ? (
+    renderCell: ({ variantFunctionalConsequence }) =>
+      variantFunctionalConsequence ? (
         <Link
           external
-          to={identifiersOrgLink('SO', variantFunctionalConsequenceId.slice(3))}
+          to={identifiersOrgLink(
+            'SO',
+            variantFunctionalConsequence.id.slice(3)
+          )}
         >
-          {variantFunctionalConsequenceId}
+          {sentenceCase(variantFunctionalConsequence.label)}
         </Link>
       ) : (
         naLabel

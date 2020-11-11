@@ -23,4 +23,10 @@ export const literatureUrl = id =>
     : identifiersOrgLink('pubmed', id);
 
 export const sentenceCase = str =>
-  str ? str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase() : str;
+  str
+    ? str.charAt(0).toUpperCase() +
+      str
+        .slice(1)
+        .replace(/_/g, ' ')
+        .toLocaleLowerCase()
+    : str;

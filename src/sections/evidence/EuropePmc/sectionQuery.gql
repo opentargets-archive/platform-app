@@ -1,0 +1,40 @@
+query IntOgenQuery(
+  $ensemblId: String!
+  $efoId: String!
+  $size: Int!
+  $cursor: [String!]
+) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      size: $size
+      datasourceIds: ["europepmc"]
+      cursor: $cursor
+    ) {
+      count
+      cursor
+      rows {
+        disease {
+          name
+          id
+        }
+        target {
+          approvedSymbol
+          id
+        }
+        literature
+        textMiningSentences {
+          tStart
+          tEnd
+          dStart
+          dEnd
+          section
+          text
+        }
+        resourceScore
+      }
+    }
+  }
+}
