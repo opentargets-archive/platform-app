@@ -13,36 +13,30 @@ query InteractionsSectionQuery(
       count
       rows {
         intA
+        intABiologicalRole
         targetA {
           approvedSymbol
         }
+        speciesA {
+          mnemonic
+        }
         intB
+        intBBiologicalRole
         targetB {
           approvedSymbol
         }
-        intABiologicalRole
-        intBBiologicalRole
+        speciesB {
+          mnemonic
+        }
         scoring
         count
         sourceDatabase
         evidences {
-          # causalInteraction
           evidenceScore
-          # expansionMethodMiIdentifier
-          # expansionMethodShortName
           hostOrganismScientificName
-          # hostOrganismTaxId
-          # intASource
-          # intBSource
           interactionDetectionMethodMiIdentifier
           interactionDetectionMethodShortName
           interactionIdentifier
-          # interactionResources {
-          #   databaseVersion
-          #   sourceDatabase
-          # }
-          # interactionScore
-          # interactionTypeMiIdentifier
           interactionTypeShortName
           participantDetectionMethodA {
             miIdentifier
@@ -53,16 +47,6 @@ query InteractionsSectionQuery(
             shortName
           } 
           interactionDetectionMethodShortName
-          # speciesA {
-          #   mnemonic
-          #   scientificName
-          #   taxonId
-          # }
-          # speciesB {
-          #   mnemonic
-          #   scientificName
-          #   taxonId
-          # }
           pubmedId
         }
       }

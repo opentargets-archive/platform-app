@@ -10,8 +10,18 @@ import { useTheme } from '@material-ui/core/styles';
 
 function MethodIcon(props) {
   const theme = useTheme();
+  const title = !props.enabled
+    ? 'no data'
+    : Array.isArray(props.tooltip)
+    ? props.tooltip.map((m, i) => (
+        <span key={i}>
+          {m}
+          <br />
+        </span>
+      ))
+    : props.tooltip;
   return (
-    <Tooltip title={props.enabled ? props.tooltip : 'no data'} placement="top">
+    <Tooltip title={<>{title}</>} placement="top">
       <span
         className="fa-layers fa-fw"
         style={{
@@ -32,7 +42,7 @@ const MethodIconText = props => {
       <span
         className="fa-layers-text fa-inverse"
         data-fa-transform="shrink-10 left-2"
-        style={{ left: '82%' }}
+        style={{ left: '80%' }}
       >
         {props.children}
       </span>

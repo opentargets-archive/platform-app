@@ -48,7 +48,7 @@ const columns = {
           {row.targetB ? row.targetB.approvedSymbol : row.intB}
           <br />
           <Typography variant="caption">
-            Species: {row.targetB ? 'human' : 'non-human'}
+            Species: {row.speciesB.mnemonic}
             <br />
             Alt ID:{' '}
             <Link
@@ -148,16 +148,7 @@ const columns = {
       renderCell: row => (
         <>
           <MethodIconText
-            tooltip={
-              <>
-                {row.participantDetectionMethodA.map(m => (
-                  <>
-                    {' '}
-                    {m.shortName} <br />{' '}
-                  </>
-                ))}
-              </>
-            }
+            tooltip={row.participantDetectionMethodA.map(m => m.shortName)}
             enabled={
               row.participantDetectionMethodA &&
               row.participantDetectionMethodA.length > 0
@@ -184,6 +175,12 @@ const columns = {
     {
       id: 'pubmedId',
       label: 'Publication',
+      renderCell: d =>
+        d.pubmedId ? (
+          <Link external to={`http://europepmc.org/abstract/MED/${d.pubmedId}`}>
+            {d.pubmedId}
+          </Link>
+        ) : null,
     },
   ],
 };
