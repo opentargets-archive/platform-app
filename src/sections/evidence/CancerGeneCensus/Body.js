@@ -11,7 +11,11 @@ import Summary from './Summary';
 import Description from './Description';
 
 const CANCER_GENE_CENSUS_QUERY = gql`
-  query PhewasCatalogQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+  query CancerGeneCensusQuery(
+    $ensemblId: String!
+    $efoId: String!
+    $size: Int!
+  ) {
     disease(efoId: $efoId) {
       id
       evidences(
@@ -26,7 +30,10 @@ const CANCER_GENE_CENSUS_QUERY = gql`
             name
           }
           variations {
-            functionalConsequence
+            functionalConsequence {
+              id
+              label
+            }
             numberSamplesWithMutationType
             numberSamplesTested
             inheritancePattern
@@ -51,13 +58,15 @@ const columns = [
     },
   },
   {
-    id: 'variations.functionalConsequence',
+    id: 'variations.functionalConsequence.name',
     label: 'Mutation type',
     renderCell: ({ variations }) => {
       return (
-        <ul>
+        <ul style={{ margin: 0, paddingLeft: '17px' }}>
           {variations.map(({ functionalConsequence }) => (
-            <li key={functionalConsequence}>{functionalConsequence}</li>
+            <li key={functionalConsequence.id}>
+              {functionalConsequence.label}
+            </li>
           ))}
         </ul>
       );
@@ -67,7 +76,7 @@ const columns = [
     label: 'Samples',
     renderCell: ({ variations }) => {
       return (
-        <ul>
+        <ul style={{ margin: 0, paddingLeft: '17px' }}>
           {variations.map(
             ({ numberSamplesWithMutationType, numberSamplesTested }, i) => (
               <li key={i}>
@@ -83,7 +92,7 @@ const columns = [
     label: 'Cellular mechanism',
     renderCell: ({ variations }) => {
       return (
-        <ul>
+        <ul style={{ margin: 0, paddingLeft: '17px' }}>
           {variations.map(({ inheritancePattern }, i) => (
             <li key={i}>{inheritancePattern}</li>
           ))}
