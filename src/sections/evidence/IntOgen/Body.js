@@ -77,8 +77,9 @@ const columns = [
     ),
     renderCell: ({ significantDriverMethods }) =>
       significantDriverMethods
-        ? significantDriverMethods.map(am => (
+        ? significantDriverMethods.map((am, index) => (
             <Tooltip
+              key={index}
               title={(methods[am] || {}).description}
               placement="top"
               interactive
