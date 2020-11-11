@@ -68,6 +68,32 @@ const columns = {
       renderCell: row => row.scoring,
     },
     {
+      id: 'scoring',
+      label: (
+        <>
+          Biological
+          <br />
+          role
+        </>
+      ),
+      renderCell: row => (
+        <>
+          <MethodIconText
+            tooltip={row.intABiologicalRole}
+            enabled={row.intABiologicalRole}
+          >
+            A
+          </MethodIconText>
+          <MethodIconText
+            tooltip={row.intBBiologicalRole}
+            enabled={row.intBBiologicalRole}
+          >
+            B
+          </MethodIconText>
+        </>
+      ),
+    },
+    {
       id: 'evidences',
       label: (
         <>
@@ -121,15 +147,37 @@ const columns = {
       label: 'Detection methods',
       renderCell: row => (
         <>
-          <Tooltip
-            title={row.participantDetectionMethodA[0].shortName}
-            placement="top"
-            interactive
+          <MethodIconText
+            tooltip={
+              <>
+                {row.participantDetectionMethodA.map(m => (
+                  <>
+                    {' '}
+                    {m.shortName} <br />{' '}
+                  </>
+                ))}
+              </>
+            }
+            enabled={
+              row.participantDetectionMethodA &&
+              row.participantDetectionMethodA.length > 0
+            }
           >
-            <MethodIconText>A</MethodIconText>
-          </Tooltip>
-          <MethodIconArrow />
-          <MethodIconText>B</MethodIconText>
+            A
+          </MethodIconText>
+          <MethodIconArrow
+            tooltip={row.interactionDetectionMethodShortName}
+            enabled={row.interactionDetectionMethodShortName}
+          />
+          <MethodIconText
+            tooltip={row.participantDetectionMethodB[0].shortName}
+            enabled={
+              row.participantDetectionMethodB &&
+              row.participantDetectionMethodB.length > 0
+            }
+          >
+            B
+          </MethodIconText>
         </>
       ),
     },
