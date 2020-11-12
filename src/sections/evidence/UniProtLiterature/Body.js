@@ -73,16 +73,14 @@ const columns = [
     renderCell: ({ literature }) => {
       const literatureList =
         literature?.reduce((acc, id) => {
-          if (id === 'NA') return acc;
-
-          return [
-            ...acc,
-            {
+          if (id !== 'NA') {
+            acc.push({
               name: id,
               url: epmcUrl(id),
               group: 'literature',
-            },
-          ];
+            });
+          }
+          return acc;
         }, []) || [];
 
       return <TableDrawer entries={literatureList} />;

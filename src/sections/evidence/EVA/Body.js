@@ -110,17 +110,19 @@ const columns = [
   },
   {
     label: 'Literature',
-    renderCell: ({ literature = [] }) => {
-      const literatureList = [];
-      literature.forEach(id => {
-        if (id !== 'NA') {
-          literatureList.push({
-            name: id,
-            url: epmcUrl(id),
-            group: 'Literature',
-          });
-        }
-      });
+    renderCell: ({ literature }) => {
+      const literatureList =
+        literature?.reduce((acc, id) => {
+          if (id !== 'NA') {
+            acc.push({
+              name: id,
+              url: epmcUrl(id),
+              group: 'literature',
+            });
+          }
+          return acc;
+        }, []) || [];
+
       return <TableDrawer entries={literatureList} caption="Literature" />;
     },
   },
