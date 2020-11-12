@@ -7,6 +7,7 @@ import DataTable from '../../../components/Table/DataTable';
 import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
 
 import Grid from '@material-ui/core/Grid';
+import { Link } from 'ot-ui';
 
 const INTERACTIONS_QUERY = loader('./sectionQuery.gql');
 const getData = (ensgId, sourceDatabase, index, size) => {
@@ -21,6 +22,12 @@ const getData = (ensgId, sourceDatabase, index, size) => {
   });
 };
 
+const onLinkClick = function(e) {
+  // handler to stop propagation of clicks on links in table rows
+  // to avoid selection of a different row
+  e.stopPropagation();
+};
+
 const columns = {
   // interactions table columns
   interactions: [
@@ -29,21 +36,30 @@ const columns = {
       label: (
         <>
           Interactor A
-          {/* <br />
-          <Typography variant="caption">Species (if not human)</Typography> */}
+          <br />
+          <Typography variant="caption">
+            Species
+            <br />
+            Ald ID
+          </Typography>
         </>
       ),
       renderCell: row => (
         <>
           {row.targetA ? row.targetA.approvedSymbol : row.intA}
-          {/* {row.organismA.mnemonic.toLowerCase() !== 'human' ? (
-            <>
-              <br />
-              <Typography variant="caption">
-                Species: {row.organismA.mnemonic}
-              </Typography>
-            </>
-          ) : null} */}
+          <br />
+          <Typography variant="caption">
+            Species: {row.speciesA.mnemonic}
+            <br />
+            Alt ID:{' '}
+            <Link
+              to={`http://uniprot.org/uniprot/${row.intA}`}
+              onClick={onLinkClick}
+              external
+            >
+              {row.intA}
+            </Link>
+          </Typography>
         </>
       ),
     },
@@ -52,21 +68,30 @@ const columns = {
       label: (
         <>
           Interactor B
-          {/* <br />
-          <Typography variant="caption">Species (if not human)</Typography> */}
+          <br />
+          <Typography variant="caption">
+            Species
+            <br />
+            Ald ID
+          </Typography>
         </>
       ),
       renderCell: row => (
         <>
           {row.targetB ? row.targetB.approvedSymbol : row.intB}
-          {/* {row.organismB.mnemonic.toLowerCase() !== 'human' ? (
-            <>
-              <br />
-              <Typography variant="caption">
-                Species: {row.organismB.mnemonic}
-              </Typography>
-            </>
-          ) : null} */}
+          <br />
+          <Typography variant="caption">
+            Species: {row.speciesB.mnemonic}
+            <br />
+            Alt ID:{' '}
+            <Link
+              to={`http://uniprot.org/uniprot/${row.intB}`}
+              onClick={onLinkClick}
+              external
+            >
+              {row.intB}
+            </Link>
+          </Typography>
         </>
       ),
     },
@@ -81,17 +106,23 @@ const columns = {
       ),
       renderCell: row => (
         <>
-          <span title={row.intABiologicalRole}>
-            <MethodIconText>A</MethodIconText>
-          </span>
-          <span title={row.intBBiologicalRole}>
-            <MethodIconText>B</MethodIconText>
-          </span>
+          <MethodIconText
+            tooltip={row.intABiologicalRole}
+            enabled={row.intABiologicalRole}
+          >
+            A
+          </MethodIconText>
+          <MethodIconText
+            tooltip={row.intBBiologicalRole}
+            enabled={row.intBBiologicalRole}
+          >
+            B
+          </MethodIconText>
         </>
       ),
     },
     {
-      id: 'sizeEvidences',
+      id: 'evidences',
       label: (
         <>
           Interaction
@@ -107,7 +138,7 @@ const columns = {
   evidence: [
     {
       id: 'interactionIdentifier',
-      label: 'ID',
+      label: 'Identifier',
     },
     {
       id: 'interaction',
@@ -123,7 +154,7 @@ const columns = {
           {row.interactionTypeShortName}
           <br />
           <Typography variant="caption">
-            Organism: {row.hostOrganismScientificName}
+            {row.hostOrganismScientificName}
           </Typography>
         </>
       ),
@@ -133,15 +164,44 @@ const columns = {
       label: 'Detection methods',
       renderCell: row => (
         <>
-          <MethodIconText>A</MethodIconText>
-          <MethodIconArrow />
-          <MethodIconText>B</MethodIconText>
+          <MethodIconText
+            tooltip={row.participantDetectionMethodA.map(m => m.shortName)}
+            enabled={
+              row.participantDetectionMethodA &&
+              row.participantDetectionMethodA.length > 0 &&
+              row.participantDetectionMethodA[0].shortName
+            }
+          >
+            A
+          </MethodIconText>
+          <MethodIconArrow
+            tooltip={row.interactionDetectionMethodShortName}
+            enabled={row.interactionDetectionMethodShortName}
+          />
+          <MethodIconText
+            tooltip={row.participantDetectionMethodB[0].shortName}
+            enabled={
+              row.participantDetectionMethodB &&
+              row.participantDetectionMethodB.length > 0 &&
+              row.participantDetectionMethodB[0].shortName
+            }
+          >
+            B
+          </MethodIconText>
         </>
       ),
     },
     {
       id: 'pubmedId',
       label: 'Publication',
+      renderCell: d =>
+        d.pubmedId && d.pubmedId.indexOf('unassigned') === -1 ? (
+          <Link external to={`http://europepmc.org/abstract/MED/${d.pubmedId}`}>
+            {d.pubmedId}
+          </Link>
+        ) : (
+          d.pubmedId
+        ),
     },
   ],
 };

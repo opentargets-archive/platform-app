@@ -68,7 +68,7 @@ const columns = {
       renderCell: row => row.scoring,
     },
     {
-      id: 'scoring',
+      id: 'biologicalRole',
       label: (
         <>
           Biological
@@ -151,7 +151,8 @@ const columns = {
             tooltip={row.participantDetectionMethodA.map(m => m.shortName)}
             enabled={
               row.participantDetectionMethodA &&
-              row.participantDetectionMethodA.length > 0
+              row.participantDetectionMethodA.length > 0 &&
+              row.participantDetectionMethodA[0].shortName
             }
           >
             A
@@ -164,7 +165,8 @@ const columns = {
             tooltip={row.participantDetectionMethodB[0].shortName}
             enabled={
               row.participantDetectionMethodB &&
-              row.participantDetectionMethodB.length > 0
+              row.participantDetectionMethodB.length > 0 &&
+              row.participantDetectionMethodB[0].shortName
             }
           >
             B
@@ -176,11 +178,13 @@ const columns = {
       id: 'pubmedId',
       label: 'Publication',
       renderCell: d =>
-        d.pubmedId ? (
+        d.pubmedId && d.pubmedId.indexOf('unassigned') === -1 ? (
           <Link external to={`http://europepmc.org/abstract/MED/${d.pubmedId}`}>
             {d.pubmedId}
           </Link>
-        ) : null,
+        ) : (
+          d.pubmedId
+        ),
     },
   ],
 };
