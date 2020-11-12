@@ -31,6 +31,7 @@ export default [
   CRISPR,
   EuropePmc,
   EVA,
+  EVASomatic,
   Gene2Phenotype,
   GenomicsEngland,
   IntOgen,
@@ -42,9 +43,4 @@ export default [
   SlapEnrich,
   SysBio,
   UniProtLiterature,
-  CancerGeneCensus,
-  CRISPR,
-  Reactome,
-  Chembl,
-  EVASomatic,
 ];
