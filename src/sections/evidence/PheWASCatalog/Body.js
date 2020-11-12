@@ -1,13 +1,16 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from '@material-ui/core';
+
+import { Link } from 'ot-ui';
+
 import { betaClient } from '../../../client';
-import usePlatformApi from '../../../hooks/usePlatformApi';
-import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
-import Summary from './Summary';
 import Description from './Description';
+import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
+import { naLabel } from '../../../constants';
+import SectionItem from '../../../components/Section/SectionItem';
+import Summary from './Summary';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const PHEWAS_CATALOG_QUERY = gql`
   query PhewasCatalogQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
@@ -26,7 +29,10 @@ const PHEWAS_CATALOG_QUERY = gql`
           }
           diseaseFromSource
           variantRsId
-          variantFunctionalConsequenceId
+          variantFunctionalConsequence {
+            id
+            label
+          }
           resourceScore
           studyCases
           oddsRatio
@@ -41,11 +47,7 @@ const columns = [
     id: 'disease.name',
     label: 'Disease/phenotype',
     renderCell: ({ disease }) => {
-      return (
-        <Link component={RouterLink} to={`/disease/${disease.id}`}>
-          {disease.name}
-        </Link>
-      );
+      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
     },
   },
   {
@@ -58,7 +60,8 @@ const columns = [
     renderCell: ({ variantRsId }) => {
       return (
         <Link
-          href={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
+          external
+          to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
         >
           {variantRsId}
         </Link>
@@ -66,8 +69,24 @@ const columns = [
     },
   },
   {
-    id: 'variantFunctionalConsequenceId',
-    label: 'Functional consequence',
+    id: 'variantFunctionalConsequence',
+    label: 'Functional Consequence',
+    renderCell: ({ variantFunctionalConsequence }) =>
+      variantFunctionalConsequence ? (
+        <Link
+          external
+          to={identifiersOrgLink(
+            'SO',
+            variantFunctionalConsequence.id.slice(3)
+          )}
+        >
+          {sentenceCase(variantFunctionalConsequence.label)}
+        </Link>
+      ) : (
+        naLabel
+      ),
+    filterValue: ({ variantFunctionalConsequence }) =>
+      variantFunctionalConsequence.label,
   },
   {
     id: 'resourceScore',
