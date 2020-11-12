@@ -4,9 +4,14 @@ import { loader } from 'graphql.macro';
 import client from '../../../client';
 
 import DataTable from '../../../components/Table/DataTable';
-import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
+import {
+  MethodIconText,
+  MethodIconArrow,
+  MethodIconExpandArrow,
+} from './custom/MethodIcons';
 
 import Grid from '@material-ui/core/Grid';
+import { Link } from 'ot-ui';
 
 const INTERACTIONS_QUERY = loader('./sectionQuery.gql');
 const getData = (ensgId, sourceDatabase, index, size) => {
@@ -21,6 +26,12 @@ const getData = (ensgId, sourceDatabase, index, size) => {
   });
 };
 
+const onLinkClick = function(e) {
+  // handler to stop propagation of clicks on links in table rows
+  // to avoid selection of a different row
+  e.stopPropagation();
+};
+
 const columns = {
   // interactions table columns
   interactions: [
@@ -29,21 +40,30 @@ const columns = {
       label: (
         <>
           Interactor B
-          {/* <br />
-          <Typography variant="caption">Species (if not human)</Typography> */}
+          <br />
+          <Typography variant="caption">
+            Species
+            <br />
+            Ald ID
+          </Typography>
         </>
       ),
       renderCell: row => (
         <>
           {row.targetB ? row.targetB.approvedSymbol : row.intB}
-          {/* {row.organismB.mnemonic.toLowerCase() !== 'human' ? (
-            <>
-              <br />
-              <Typography variant="caption">
-                Species: {row.organismB.mnemonic}
-              </Typography>
-            </>
-          ) : null} */}
+          <br />
+          <Typography variant="caption">
+            Species: {row.speciesB.mnemonic}
+            <br />
+            Alt ID:{' '}
+            <Link
+              to={`http://uniprot.org/uniprot/${row.intB}`}
+              onClick={onLinkClick}
+              external
+            >
+              {row.intB}
+            </Link>
+          </Typography>
         </>
       ),
     },
@@ -59,6 +79,17 @@ const columns = {
     {
       id: 'interactionIdentifier',
       label: 'ID',
+      renderCell: row => (
+        <Link
+          to={`https://reactome.org/content/detail/${
+            row.interactionIdentifier
+          }`}
+          onClick={onLinkClick}
+          external
+        >
+          {row.interactionIdentifier}
+        </Link>
+      ),
     },
     {
       id: 'interaction',
@@ -84,15 +115,48 @@ const columns = {
       label: 'Detection methods',
       renderCell: row => (
         <>
-          <MethodIconText>A</MethodIconText>
-          <MethodIconArrow />
-          <MethodIconText>B</MethodIconText>
+          <MethodIconText
+            tooltip={row.participantDetectionMethodA.map(m => m.shortName)}
+            enabled={
+              row.participantDetectionMethodA &&
+              row.participantDetectionMethodA.length > 0 &&
+              row.participantDetectionMethodA[0].shortName
+            }
+          >
+            A
+          </MethodIconText>
+          <MethodIconArrow
+            tooltip={row.interactionDetectionMethodShortName}
+            enabled={row.interactionDetectionMethodShortName}
+          />
+          <MethodIconText
+            tooltip={row.participantDetectionMethodB[0].shortName}
+            enabled={
+              row.participantDetectionMethodB &&
+              row.participantDetectionMethodB.length > 0 &&
+              row.participantDetectionMethodB[0].shortName
+            }
+          >
+            B
+          </MethodIconText>
+          <MethodIconExpandArrow
+            tooltip={row.expansionMethodShortName}
+            enabled={row.expansionMethodShortName}
+          />
         </>
       ),
     },
     {
       id: 'pubmedId',
       label: 'Publication',
+      renderCell: d =>
+        d.pubmedId && d.pubmedId.indexOf('unassigned') === -1 ? (
+          <Link external to={`http://europepmc.org/abstract/MED/${d.pubmedId}`}>
+            {d.pubmedId}
+          </Link>
+        ) : (
+          d.pubmedId
+        ),
     },
   ],
 };

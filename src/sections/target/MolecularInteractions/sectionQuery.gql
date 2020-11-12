@@ -47,6 +47,7 @@ query InteractionsSectionQuery(
             shortName
           } 
           interactionDetectionMethodShortName
+          expansionMethodShortName
           pubmedId
         }
       }
