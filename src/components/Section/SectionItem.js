@@ -68,7 +68,7 @@ function SectionItem({
                     [classes.descriptionError]: error,
                   })}
                 >
-                  {data && renderDescription(data)}
+                  {renderDescription()}
                 </Typography>
               }
               action={tags}
