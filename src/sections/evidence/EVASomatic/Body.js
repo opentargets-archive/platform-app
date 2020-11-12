@@ -94,18 +94,18 @@ const columns = [
   },
   {
     label: 'Literature',
-    renderCell: data => {
-      const literature = data.literature || [];
-      const literatureList = [];
-      literature.forEach(id => {
-        if (id !== 'NA') {
-          literatureList.push({
-            name: id,
-            url: epmcUrl(id),
-            group: 'literature',
-          });
-        }
-      });
+    renderCell: ({ literature }) => {
+      const literatureList =
+        literature?.reduce((acc, id) => {
+          if (id !== 'NA') {
+            acc.push({
+              name: id,
+              url: epmcUrl(id),
+              group: 'literature',
+            });
+          }
+          return acc;
+        }, []) || [];
 
       return <TableDrawer entries={literatureList} />;
     },
