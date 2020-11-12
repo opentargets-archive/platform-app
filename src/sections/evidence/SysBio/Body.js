@@ -28,7 +28,7 @@ const INTOGEN_QUERY = gql`
             name
           }
           literature
-          experimentOverview
+          studyOverview
         }
       }
     }
@@ -44,10 +44,10 @@ const columns = [
     filterValue: ({ disease }) => disease.name,
   },
   {
-    id: 'experimentOverview',
-    propertyPath: 'experimentOverview',
-    renderCell: ({ experimentOverview }) =>
-      experimentOverview ? experimentOverview : naLabel,
+    id: 'studyOverview',
+    propertyPath: 'studyOverview',
+    renderCell: ({ studyOverview }) =>
+      studyOverview ? studyOverview : naLabel,
   },
   {
     id: 'literature',
