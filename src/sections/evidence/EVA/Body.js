@@ -110,7 +110,8 @@ const columns = [
   },
   {
     label: 'Literature',
-    renderCell: ({ literature = [] }) => {
+    renderCell: data => {
+      const literature = data.literature || [];
       const literatureList = [];
       literature.forEach(id => {
         if (id !== 'NA') {
