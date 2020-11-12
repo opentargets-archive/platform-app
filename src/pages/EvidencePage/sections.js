@@ -1,12 +1,11 @@
 // Section imports
 // import * as gwasCatalog from './sections/GWASCatalog';
-// import * as evaSomatic from './sections/EVASomatic';
+import * as EVASomatic from '../../sections/evidence/EVASomatic';
 // import * as drugs from './sections/Drugs';
 // import * as differentialExpression from './sections/DifferentialExpression';
 // import * as animalModels from './sections/AnimalModels';
 // import * as uniProt from './sections/UniProt';
 // import * as uniProtSomatic from './sections/UniProtSomatic';
-
 import * as CancerGeneCensus from '../../sections/evidence/CancerGeneCensus';
 import * as ClinGen from '../../sections/evidence/ClinGen';
 import * as Chembl from '../../sections/evidence/Chembl';
@@ -32,6 +31,7 @@ export default [
   CRISPR,
   EuropePmc,
   EVA,
+  EVASomatic,
   Gene2Phenotype,
   GenomicsEngland,
   IntOgen,
