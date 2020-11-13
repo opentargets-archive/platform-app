@@ -1,265 +1,120 @@
 import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
+import { ExpandMore, Info } from '@material-ui/icons';
+import {
+  faBox,
+  faDna,
+  faFile,
+  faStethoscope,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Link } from 'ot-ui';
 
 import BasePage from '../../components/BasePage';
+import releases from './releases';
 
-const releases = [
-  {
-    version: '19.06',
-    date: '2019 Jun',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/19.06/output/19.06_association_data.json.gz',
-      size: '270MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/19.06/output/19.06_evidence_data.json.gz',
-      size: '2.72Gb',
-    },
+const useStyles = makeStyles(theme => ({
+  accordionSummary: {
+    alignItems: 'center',
+    margin: 0,
   },
-  {
-    version: '19.04',
-    date: '2019 Apr',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/19.04/output/19.04_association_data.json.gz',
-      size: '272MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/19.04/output/19.04_evidence_data.json.gz',
-      size: '2.67Gb',
-    },
+  artifact: {
+    border: `1px solid ${theme.palette.grey[300]}`,
+    backgroundColor: theme.palette.grey[100],
+    display: 'inline-flex',
+    listStyle: 'none',
+    margin: '.5rem',
   },
-  {
-    version: '19.02',
-    date: '2019 Feb',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/19.02/output/19.02_association_data.json.gz',
-      size: '257MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/19.02/output/19.02_evidence_data.json.gz',
-      size: '2.67Gb',
-    },
+  artifactTitle: {
+    color: theme.palette.grey[700],
+    fontWeight: 'bold',
+    fontSize: '1rem',
   },
-  {
-    version: '18.12',
-    date: '2018 Dec',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.12/output/18.12_association_data.json.gz',
-      size: '252MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.12/output/18.12_evidence_data.json.gz',
-      size: '2.45Gb',
-    },
+  artifactCardHeader: {
+    padding: '.25rem',
+    backgroundColor: theme.palette.grey[100],
   },
-  {
-    version: '18.10',
-    date: '2018 Oct',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.10/18.10_association_data.json.gz',
-      size: '234MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.10/18.10_evidence_data.json.gz',
-      size: '2.67Gb',
-    },
+  avatar: {
+    color: 'white',
+    backgroundColor: theme.palette.primary.main,
+    marginRight: '1rem',
   },
-  {
-    version: '18.08',
-    date: '2018 Aug',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.08/18.08_association_data.json.gz',
-      size: '202MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.08/18.08_evidence_data.json.gz',
-      size: '2.44Gb',
-    },
+  cardContent: {
+    borderTop: `1px solid ${theme.palette.grey[300]}`,
+    display: 'flex',
+    justifyContent: 'space-evenly',
   },
-  {
-    version: '18.06',
-    date: '2018 Jun',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.06/18.06_association_data.json.gz',
-      size: '189MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.06/18.06_evidence_data.json.gz',
-      size: '2.3Gb',
-    },
+  file: {
+    alignItems: 'center',
+    color: theme.palette.grey[800],
+    display: 'flex',
+    flexDirection: 'column',
+    width: '8rem',
   },
-  {
-    version: '18.04',
-    date: '2018 Apr',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.04/18.04_association_data.json.gz',
-      size: '178MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.04/18.04_evidence_data.json.gz',
-      size: '6.04Gb',
-    },
+  fileName: {
+    fontSize: '.85rem',
+    fontWeight: 'bold',
   },
-  {
-    version: '18.02',
-    date: '2018 Feb',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.02/18.02_association_data.json.gz',
-      size: '172MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/18.02/18.02_evidence_data.json.gz',
-      size: '5.49Gb',
-    },
+  note: {
+    marginBottom: '2rem',
   },
-  {
-    version: '17.12',
-    date: '2017 Dec',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/17.12/17.12_association_data.json.gz',
-      size: '171MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/17.12/17.12_evidence_data.json.gz',
-      size: '5.05Gb',
-    },
+  noteContainer: {
+    alignItems: 'center',
+    display: 'flex',
   },
-  {
-    version: '17.09',
-    date: '2017 Sep',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/17.09/17.09_association_data.json.gz',
-      size: '198MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/17.09/17.09_evidence_data.json.gz',
-      size: '5.19Gb',
-    },
+  noteIcon: {
+    fontSize: '3rem',
+    marginRight: '1rem',
   },
-  {
-    version: '17.06',
-    date: '2017 Jun',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/17.06/17.06_association_data.json.gz',
-      size: '233MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/17.06/17.06_evidence_data.json.gz',
-      size: '5.1Gb',
-    },
+  title: {
+    color: theme.palette.grey[700],
+    fontWeight: 'bold',
+    fontSize: '1.2rem',
   },
-  {
-    version: '17.04',
-    date: '2017 Apr',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/17.04/17.04_association_data.json.gz',
-      size: '207MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/17.04/17.04_evidence_data.json.gz',
-      size: '4.4Gb',
-    },
+  titleIcon: {
+    color: 'white',
   },
-  {
-    version: '17.02',
-    date: '2017 Feb',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/17.02/17.02_association_data.json.gz',
-      size: '215MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/17.02/17.02_evidence_data.json.gz',
-      size: '4.35Gb',
-    },
-  },
-  {
-    version: '16.12',
-    date: '2016 Dec',
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/16.12/16.12_evidence_data.json.gz',
-      size: '4.35Gb',
-    },
-  },
-  {
-    version: '16.09',
-    date: '2016 Sep',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/16.04/16.08_association_data_fixed.json.gz',
-      size: '179MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/16.08/16.08_evidence_data.json.gz',
-      size: '1.7Gb',
-    },
-  },
-  {
-    version: '16.08',
-    date: '2016 Aug',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/16.08/16.08_association_data.json.gz',
-      size: '179MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/16.08/16.08_evidence_data.json.gz',
-      size: '1.7Gb',
-    },
-  },
-  {
-    version: '16.04',
-    date: '2016 Apr',
-    associations: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/16.04/16.04_association_data.json.gz',
-      size: '148MB',
-    },
-    evidence: {
-      url:
-        'https://storage.googleapis.com/open-targets-data-releases/16.04/16.04_evidence_data.json.gz',
-      size: '1.3Gb',
-    },
-  },
-];
+}));
 
-const DownloadsPage = () => {
+const mapFile = url => {
+  let format = '';
+  const fileNameParts = url.split('.');
+
+  if (fileNameParts[fileNameParts.length - 1].toLowerCase() === 'gz') {
+    fileNameParts.pop();
+    format = 'GZipped';
+  }
+
+  return [format, fileNameParts.pop().toUpperCase()].join(' ');
+};
+
+const mapIcon = artifact =>
+  ({
+    'Target list': <FontAwesomeIcon icon={faDna} />,
+    'Disease list': <FontAwesomeIcon icon={faStethoscope} />,
+  }[artifact.name] ||
+  (artifact.shortName || artifact.name.slice(0, 2).toUpperCase()));
+
+function DownloadsPage() {
+  const classes = useStyles();
+
   return (
     <BasePage>
       <Grid container>
-        <Grid item xs={12} md={6}>
+        <Grid item>
           <Typography variant="h5" component="h1" paragraph>
             Data Download
           </Typography>
@@ -281,46 +136,85 @@ const DownloadsPage = () => {
             </Link>{' '}
             for further details.
           </Typography>
-          <Typography paragraph>
-            <strong>NOTE</strong>: The files below are useful only if you want
-            to analyze the data. They are not a database dump and cannot be
-            easily used to replicate the platform locally/somewhere else.
-          </Typography>
 
-          {releases.map(release => (
-            <React.Fragment key={release.version}>
-              <Typography variant="h6" component="h2">
-                {release.date}
-              </Typography>
+          <Grid item container md={12} lg={8} xl={6} className={classes.note}>
+            <Card variant="outlined">
+              <CardContent>
+                <Box className={classes.noteContainer}>
+                  <Info className={classes.noteIcon} />
+                  <Typography>
+                    The files below are useful only if you want to analyze the
+                    data. They are not a database dump and cannot be easily used
+                    to replicate the platform locally/somewhere else.
+                  </Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
 
-              <ul>
-                {release.associations ? (
-                  <li>
-                    <Typography>
-                      <Link external to={release.associations.url}>
-                        Associations objects
-                      </Link>{' '}
-                      ({release.associations.size})
-                    </Typography>
-                  </li>
-                ) : null}
-                {release.evidence ? (
-                  <li>
-                    <Typography>
-                      <Link external to={release.evidence.url}>
-                        Evidence objects
-                      </Link>{' '}
-                      ({release.evidence.size})
-                    </Typography>
-                  </li>
-                ) : null}
-              </ul>
-            </React.Fragment>
+          {releases.map((release, index) => (
+            <Accordion
+              key={release.version}
+              defaultExpanded={index === 0}
+              variant="outlined"
+            >
+              <AccordionSummary
+                classes={{ content: classes.accordionSummary }}
+                expandIcon={<ExpandMore />}
+              >
+                <Avatar className={classes.avatar}>
+                  <FontAwesomeIcon icon={faBox} className={classes.titleIcon} />
+                </Avatar>
+                <Typography className={classes.title}>
+                  {release.date}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.cardContent}>
+                <Grid container spacing={2}>
+                  {release.artifacts.map(artifact => (
+                    <Grid key={artifact.name} item xs={12} sm={6} lg={4} xl={2}>
+                      <Card variant="outlined">
+                        <CardHeader
+                          className={classes.artifactCardHeader}
+                          avatar={
+                            <Avatar className={classes.avatar}>
+                              {mapIcon(artifact)}
+                            </Avatar>
+                          }
+                          title={artifact.name}
+                          titleTypographyProps={{
+                            className: classes.artifactTitle,
+                          }}
+                        />
+                        <CardContent className={classes.cardContent}>
+                          {artifact.files.map((file, index) => (
+                            <Link
+                              external
+                              key={index}
+                              className={classes.file}
+                              to={file.url}
+                            >
+                              <FontAwesomeIcon icon={faFile} size="4x" />
+                              <Typography className={classes.fileName}>
+                                {mapFile(file.url)}
+                              </Typography>
+                              <Typography variant="subtitle2">
+                                {file.size}
+                              </Typography>
+                            </Link>
+                          ))}
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
           ))}
         </Grid>
       </Grid>
     </BasePage>
   );
-};
+}
 
 export default DownloadsPage;
