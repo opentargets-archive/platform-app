@@ -8,12 +8,13 @@ query InteractionsSectionQuery(
     id
     interactions(sourceDatabase:$sourceDatabase page:{index:$index, size:$size}) {
       rows {
+        intA
         intB
         targetB {
           approvedSymbol
+          id
         }
         scoring
-        count
         evidences {
           evidenceScore
           interactionDetectionMethodShortName

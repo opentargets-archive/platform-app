@@ -2,13 +2,14 @@ import React, { Fragment, useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { loader } from 'graphql.macro';
 import client from '../../../client';
-import { withTheme, makeStyles, Link } from '@material-ui/core';
+import { withTheme, makeStyles } from '@material-ui/core';
 
 import DataTable from '../../../components/Table/DataTable';
 import Legend from '../../../components/Legend';
 import { colorRange } from '../../../constants';
 
 import Grid from '@material-ui/core/Grid';
+import { Link } from 'ot-ui';
 
 import * as d3 from 'd3';
 
@@ -102,28 +103,20 @@ function getColumns(classes) {
   return [
     {
       id: 'partner',
-      label: (
-        <>
-          Interactor B
-          {/* <br />
-          <Typography variant="caption">Species (if not human)</Typography> */}
-        </>
-      ),
+      label: <>Interactor B</>,
       classes: {
         headerCell: classes.nameHeaderCell,
         cell: classes.nameCell,
       },
       renderCell: row => (
         <span className={classes.nameContainer}>
-          {row.targetB ? row.targetB.approvedSymbol : row.intB}
-          {/* {row.organism.mnemonic.toLowerCase() !== 'human' ? (
-            <>
-              <br />
-              <Typography variant="caption">
-                Species: {row.organism.mnemonic}
-              </Typography>
-            </>
-          ) : null} */}
+          {row.targetB ? (
+            <Link to={`/target/${row.targetB.id}`}>
+              {row.targetB.approvedSymbol}
+            </Link>
+          ) : (
+            row.intB
+          )}
         </span>
       ),
     },
@@ -142,7 +135,16 @@ function getColumns(classes) {
         sortLabel: classes.sortLabel,
         innerLabel: classes.innerLabel,
       },
-      renderCell: row => getHeatmapCell(row.scoring, classes),
+      renderCell: row => (
+        <Link
+          external
+          to={`https://string-db.org/api/json/network?identifiers=${
+            row.intA
+          }%0d${row.intB}`}
+        >
+          {row.scoring.toFixed(3)}
+        </Link>
+      ),
     },
     {
       id: 'neighbourhood',

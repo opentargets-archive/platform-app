@@ -8,6 +8,22 @@ const Description = ({ name }) => (
     <Link to="https://docs.targetvalidation.org/data-sources/" external>
       Open Targets
     </Link>
+    ,{' '}
+    <Link to="https://docs.targetvalidation.org/data-sources/" external>
+      IntAct
+    </Link>
+    ,{' '}
+    <Link to="https://docs.targetvalidation.org/data-sources/" external>
+      Signor
+    </Link>
+    ,{' '}
+    <Link to="https://docs.targetvalidation.org/data-sources/" external>
+      Reactome
+    </Link>
+    ,{' '}
+    <Link to="https://docs.targetvalidation.org/data-sources/" external>
+      String
+    </Link>
   </React.Fragment>
 );
 
