@@ -60,6 +60,7 @@
     "react-scroll": "^1.7.16",
     "react-select": "^2.4.3",
     "react-sticky": "^6.0.3",
+    "refiner-js": "^1.0.1",
     "smiles-drawer": "^1.1.22",
     "source-map-explorer": "^2.0.0",
     "tnt.api": "^0.1.1",
