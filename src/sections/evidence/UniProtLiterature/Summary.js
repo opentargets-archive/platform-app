@@ -9,6 +9,7 @@ const UNIPROT_LITERATURE_SUMMARY = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["uniprot_literature"]
+      size: 0
     ) {
       count
     }

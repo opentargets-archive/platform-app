@@ -10,6 +10,7 @@ const INTOGEN_SUMMARY_FRAGMENT = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["intogen"]
+      size: 0
     ) {
       count
     }

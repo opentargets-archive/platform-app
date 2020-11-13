@@ -9,6 +9,7 @@ const REACTOME_SUMMARY = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["reactome"]
+      size: 0
     ) {
       count
     }

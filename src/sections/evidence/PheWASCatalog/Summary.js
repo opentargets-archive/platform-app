@@ -9,6 +9,7 @@ const PHEWAS_CATALOG_SUMMARY = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["phewas_catalog"]
+      size: 0
     ) {
       count
     }

@@ -9,6 +9,7 @@ const EVA_SOMATIC_SUMMARY = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["eva_somatic"]
+      size: 0
     ) {
       count
     }

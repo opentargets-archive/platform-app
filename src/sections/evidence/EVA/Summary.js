@@ -9,6 +9,7 @@ const EVA_SUMMARY = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["eva"]
+      size: 0
     ) {
       count
     }

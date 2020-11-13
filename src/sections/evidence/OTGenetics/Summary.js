@@ -10,6 +10,7 @@ const OPEN_TARGETS_GENETICS_SUMMARY_FRAGMENT = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["ot_genetics_portal"]
+      size: 0
     ) {
       count
     }

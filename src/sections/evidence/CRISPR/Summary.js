@@ -9,6 +9,7 @@ const CRISPR_SUMMARY = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["crispr"]
+      size: 0
     ) {
       count
     }

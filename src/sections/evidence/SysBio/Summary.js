@@ -10,6 +10,7 @@ const SYSBIO_SUMMARY_FRAGMENT = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["sysbio"]
+      size: 0
     ) {
       count
     }
