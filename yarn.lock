@@ -13811,6 +13811,11 @@ redux@^4.0.4:
     loose-envify "^1.4.0"
     symbol-observable "^1.2.0"
 
+refiner-js@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/refiner-js/-/refiner-js-1.0.1.tgz#7dc71b4d828793a3baca5752526a7f840505bdef"
+  integrity sha512-k8AWRzOOa+FfV1stuJZfCA7qxdI7fqqpu9171X3EN29KoDPir8IedttHQWANDBvrW4lmCUgg5T5hWUVXwUtiAw==
+
 regenerate-unicode-properties@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/regenerate-unicode-properties/-/regenerate-unicode-properties-8.2.0.tgz#e5de7111d655e7ba60c057dbe9ff37c87e65cdec"
