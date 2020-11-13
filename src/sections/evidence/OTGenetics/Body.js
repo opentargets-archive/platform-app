@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
+
 import { Link } from 'ot-ui';
 
 import { betaClient } from '../../../client';
@@ -39,6 +40,7 @@ const columns = [
   },
   {
     id: 'literature',
+    label: 'Publication',
     renderCell: ({ literature, publicationYear, publicationFirstAuthor }) =>
       literature ? (
         <Link external to={epmcUrl(literature[0])}>
@@ -47,6 +49,8 @@ const columns = [
       ) : (
         naLabel
       ),
+    filterValue: ({ literature, publicationYear, publicationFirstAuthor }) =>
+      `${literature} ${publicationYear} ${publicationFirstAuthor}`,
   },
   {
     id: 'variantId',
@@ -77,6 +81,7 @@ const columns = [
         )}
       </>
     ),
+    filterValue: ({ variantId, variantRsId }) => `${variantId} ${variantRsId}`,
   },
   {
     id: 'variantFunctionalConsequenceId',
@@ -95,10 +100,18 @@ const columns = [
       ) : (
         naLabel
       ),
+    filterValue: ({ variantFunctionalConsequence }) =>
+      `${variantFunctionalConsequence.label} ${
+        variantFunctionalConsequence.id
+      }`,
   },
   {
     id: 'resourceScore',
-    label: 'Study p-value',
+    label: (
+      <>
+        Association <i>p</i>-value
+      </>
+    ),
     numeric: true,
     sortable: true,
     renderCell: ({ resourceScore }) => (
@@ -109,9 +122,11 @@ const columns = [
   },
   {
     id: 'studySampleSize',
+    label: 'Sample size',
     numeric: true,
+    sortable: true,
     renderCell: ({ studySampleSize }) =>
-      studySampleSize ? studySampleSize : naLabel,
+      studySampleSize ? parseInt(studySampleSize).toLocaleString() : naLabel,
   },
   {
     id: 'oddsRatio',
@@ -133,7 +148,19 @@ const columns = [
   },
   {
     id: 'locus2GeneScore',
-    label: 'Locus to Gene Score',
+    label: 'L2G score',
+    tooltip: (
+      <>
+        Causal inference score - see{' '}
+        <Link
+          external
+          to="https://docs.targetvalidation.org/data-sources/genetic-associations#open-targets-genetics-portal"
+        >
+          our documentation
+        </Link>{' '}
+        for more information.
+      </>
+    ),
     numeric: true,
     sortable: true,
     renderCell: ({ locus2GeneScore }) => parseFloat(locus2GeneScore.toFixed(5)),
@@ -162,10 +189,12 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           columns={columns}
           dataDownloader
           dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
+          order="desc"
           rows={data.disease.evidences.rows}
           pageSize={10}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
+          sortBy="locus2GeneScore"
         />
       )}
     />
