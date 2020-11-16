@@ -66,6 +66,11 @@ const columns = [
     },
   },
   {
+    filterValue: ({ variations }) => {
+      return variations
+        .map(({ variantAminoacidDescription }) => variantAminoacidDescription)
+        .join();
+    },
     label: 'Amino acid variation',
     renderCell: ({ variations }) => {
       return variations.length > 1 ? (
