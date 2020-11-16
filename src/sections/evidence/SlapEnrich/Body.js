@@ -48,7 +48,7 @@ const columns = [
   },
   {
     id: 'pathwayName',
-    label: 'Pathway',
+    label: 'Significant pathway',
     renderCell: ({ pathwayName, pathwayId }) =>
       pathwayName && pathwayId ? (
         <Link external to={reactomeUrl(pathwayId)}>
@@ -60,7 +60,11 @@ const columns = [
   },
   {
     id: 'resourceScore',
-    label: 'Study p-value',
+    label: (
+      <>
+        <i>p</i>-value
+      </>
+    ),
     numeric: true,
     sortable: true,
     renderCell: ({ resourceScore }) => (
@@ -91,10 +95,12 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           columns={columns}
           dataDownloader
           dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
+          order="asc"
           rows={data.disease.evidences.rows}
           pageSize={10}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
+          sortBy="resourceScore"
         />
       )}
     />
