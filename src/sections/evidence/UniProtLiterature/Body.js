@@ -55,7 +55,7 @@ const columns = [
   },
   {
     id: 'target.proteinAnnotations.id',
-    label: 'Uniprot - Pathology & Biotech',
+    label: 'Reported protein',
     renderCell: ({ target }) => {
       return (
         <Link
