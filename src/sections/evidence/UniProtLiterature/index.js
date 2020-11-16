@@ -1,13 +1,9 @@
-import { loader } from 'graphql.macro';
+export const definition = {
+  id: 'uniprotLiterature',
+  name: 'UniProt Literature',
+  shortName: 'UL',
+  hasData: ({ uniprotLiteratureSummary }) => uniprotLiteratureSummary.count > 0,
+};
 
-export const id = 'uniProtLiterature';
-export const name = 'UniProt Literature';
-
-export const hasSummaryData = ({ hasVariants }) => hasVariants;
-
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';

@@ -1,13 +1,9 @@
-import { loader } from 'graphql.macro';
+export const definition = {
+  id: 'sysBio',
+  name: 'Systems Biology',
+  shortName: 'SB',
+  hasData: data => data.sysBio.count > 0,
+};
 
-export const id = 'sysBio';
-export const name = 'Systems Biology';
-
-export const hasSummaryData = ({ hasSysBio }) => hasSysBio;
-
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';

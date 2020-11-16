@@ -1,33 +1,41 @@
-query OtGeneticsSectionQuery($ensgId: String!, $efoId: String!) {
-  evidence(ensgId: $ensgId, efoId: $efoId) {
-    details {
-      otGenetics {
-        rows {
-          reportedTrait{
-            name
-            url
-          }
-          publications{
-            authors
-            year
-            url
-            pmId
-          }
-          variant{
-            id
-            url
-          }
-          pval{
-            mantissa
-            exponent
-            value
-          }
-          genePrioritisationScore
-          source{
-            name
-            url
-          }
+query OpenTargetsGeneticsQuery(
+  $ensemblId: String!
+  $efoId: String!
+  $size: Int!
+) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      size: $size
+      datasourceIds: ["ot_genetics_portal"]
+    ) {
+      rows {
+        id
+        disease {
+          id
+          name
         }
+        diseaseFromSource
+        studyId
+        studySampleSize
+        variantId
+        variantRsId
+        resourceScoreExponent
+        resourceScoreMantissa
+        locus2GeneScore
+        literature
+        publicationYear
+        publicationFirstAuthor
+        oddsRatio
+        confidenceIntervalLower
+        confidenceIntervalUpper
+        variantFunctionalConsequence {
+          id
+          label
+        }
+        resourceScore
       }
     }
   }

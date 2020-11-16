@@ -24,7 +24,7 @@ const DiseaseDetail = ({ classes, data }) => {
         <Link to={`/disease/${id}/associations`}>{name}</Link>
       </Typography>
       <Typography color="primary">
-        <FontAwesomeIcon icon={faStethoscope} size="md" /> Disease or phenotype
+        <FontAwesomeIcon icon={faStethoscope} /> Disease or phenotype
       </Typography>
       <LongText lineLimit={4}>{description}</LongText>
       {therapeuticAreas.length > 0 && (

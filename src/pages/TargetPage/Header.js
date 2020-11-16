@@ -1,32 +1,51 @@
 import React from 'react';
+import { Button } from '@material-ui/core';
 import { faDna } from '@fortawesome/free-solid-svg-icons';
 
-import Header from '../../components/Header';
-import GeneticsLink from './GeneticsLink';
-import CRISPRdepmap from './externalLinks/CRISPRdepmap';
-import Ensembl from './externalLinks/Ensembl';
-import GeneCards from './externalLinks/GeneCards';
-import HGNC from './externalLinks/HGNC';
-import TEP from './externalLinks/TEP';
-import UniProt from './externalLinks/UniProt';
+import {
+  CrisprDepmapLink,
+  ExternalLink,
+  TepLink,
+} from '../../components/ExternalLink';
+import HeaderBase from '../../components/Header';
 
-const TargetHeader = ({ ensgId, uniprotId, symbol, name }) => (
-  <Header
-    title={symbol}
-    subtitle={name}
-    Icon={faDna}
-    externalLinks={
-      <React.Fragment>
-        <Ensembl ensgId={ensgId} first />
-        <UniProt uniprotId={uniprotId} />
-        <GeneCards symbol={symbol} />
-        <HGNC symbol={symbol} />
-        <CRISPRdepmap symbol={symbol} />
-        <TEP ensgId={ensgId} symbol={symbol} />
-      </React.Fragment>
-    }
-    rightContent={<GeneticsLink ensgId={ensgId} symbol={symbol} />}
-  />
-);
+function Header({ loading, ensgId, uniprotId, symbol, name }) {
+  const ensemblUrl = `http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`;
+  const uniprotUrl = `https://www.uniprot.org/uniprot/${uniprotId}`;
+  const genecardsUrl = `https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`;
+  const hgncUrl = `https://www.genenames.org/tools/search/#!/all?query=${symbol}`;
+  const geneticsUrl = `https://genetics.opentargets.org/gene/${ensgId}`;
 
-export default TargetHeader;
+  return (
+    <HeaderBase
+      loading={loading}
+      title={symbol}
+      subtitle={name}
+      Icon={faDna}
+      externalLinks={
+        <>
+          <ExternalLink title="Ensembl" id={ensgId} url={ensemblUrl} />
+          <ExternalLink title="UniProt" id={uniprotId} url={uniprotUrl} />
+          <ExternalLink title="GeneCards" id={symbol} url={genecardsUrl} />
+          <ExternalLink title="HGNC" id={symbol} url={hgncUrl} />
+          <CrisprDepmapLink symbol={symbol} />
+          <TepLink ensgId={ensgId} symbol={symbol} />
+        </>
+      }
+      rightContent={
+        <Button
+          href={geneticsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          color="primary"
+          variant="contained"
+          disableElevation
+        >
+          View {symbol} in Open Targets Genetics
+        </Button>
+      }
+    />
+  );
+}
+
+export default Header;

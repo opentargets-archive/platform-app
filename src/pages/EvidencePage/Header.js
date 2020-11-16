@@ -1,13 +1,17 @@
 import React from 'react';
+import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
 
-import Header from '../common/Header';
-import { faDna } from '@fortawesome/free-solid-svg-icons';
+import HeaderBase from '../../components/Header';
 
-const EvidenceHeader = ({ target, disease }) => (
-  <Header
-    title={`Evidence for ${target.symbol} in ${disease.name}`}
-    Icon={faDna}
-  />
-);
+function EvidenceHeader({ loading, symbol, name }) {
+  return (
+    <HeaderBase
+      loading={loading}
+      title={`Evidence for ${symbol} in ${name}`}
+      Icon={faProjectDiagram}
+      externalLinks="There should be some links here!"
+    />
+  );
+}
 
 export default EvidenceHeader;

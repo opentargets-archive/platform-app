@@ -1,11 +1,14 @@
 import React from 'react';
-import { Grid, Typography, withStyles } from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const styles = theme => ({
-  titleContainer: {
-    marginBottom: '10px',
+const useStyles = makeStyles(theme => ({
+  externalLinks: {
+    '& > :not(:first-child):before': {
+      content: '" | "',
+    },
   },
   mainIconContainer: {
     width: '56px',
@@ -13,63 +16,75 @@ const styles = theme => ({
     marginRight: '4px',
   },
   mainIcon: {
-    // width: '40px',
     height: '65px',
     color: theme.palette.primary.main,
-    // marginRight: '12px',
-  },
-  title: {
-    color: theme.palette.primary.main,
-    fontWeight: 500,
   },
   subtitle: {
     display: 'flex',
     paddingLeft: '5px',
     alignItems: 'center',
   },
-});
+  title: {
+    color: theme.palette.primary.main,
+    fontWeight: 500,
+  },
+  titleContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '10px',
+  },
+}));
 
-const Header = ({
-  classes,
+function Header({
+  loading,
   Icon,
   title,
   subtitle = null,
   externalLinks,
   rightContent = null,
-}) => (
-  <Grid
-    className={classes.titleContainer}
-    container
-    justify="space-between"
-    id="profile-page-header-block"
-  >
-    <Grid item zeroMinWidth>
-      <Grid container wrap="nowrap">
-        <Grid item className={classes.mainIconContainer}>
-          <FontAwesomeIcon icon={Icon} size="3x" className={classes.mainIcon} />
-        </Grid>
-        <Grid item zeroMinWidth>
-          <Grid container>
-            <Typography
-              className={classes.title}
-              variant="h4"
-              noWrap
-              title={title}
-            >
-              {title}
-            </Typography>
-            <Typography className={classes.subtitle} variant="subtitle2">
-              {subtitle}
-            </Typography>
+}) {
+  const classes = useStyles();
+
+  return (
+    <Grid
+      className={classes.titleContainer}
+      container
+      id="profile-page-header-block"
+    >
+      <Grid item zeroMinWidth>
+        <Grid container wrap="nowrap">
+          <Grid item className={classes.mainIconContainer}>
+            <FontAwesomeIcon
+              icon={Icon}
+              size="3x"
+              className={classes.mainIcon}
+            />
           </Grid>
-          <Grid container>
-            <Typography variant="body2">{externalLinks}</Typography>
+          <Grid item zeroMinWidth>
+            <Grid container>
+              <Typography
+                className={classes.title}
+                variant="h4"
+                noWrap
+                title={title}
+              >
+                {loading ? <Skeleton width="10vw" /> : title}
+              </Typography>
+              <Typography className={classes.subtitle} variant="subtitle2">
+                {loading ? <Skeleton width="25vw" /> : subtitle}
+              </Typography>
+            </Grid>
+            <Grid container>
+              <Typography variant="body2" className={classes.externalLinks}>
+                {loading ? <Skeleton width="50vw" /> : externalLinks}
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
+      <Grid item>{rightContent}</Grid>
     </Grid>
-    <Grid item>{rightContent}</Grid>
-  </Grid>
-);
+  );
+}
 
-export default withStyles(styles)(Header);
+export default Header;

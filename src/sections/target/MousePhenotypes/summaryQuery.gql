@@ -1,9 +1,0 @@
-fragment targetMousePhenotypesFragment on Target {
-  mousePhenotypes {
-    phenotypes {
-      genotypePhenotype {
-        label
-      }
-    }
-  }
-}

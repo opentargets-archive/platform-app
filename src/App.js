@@ -13,7 +13,7 @@ import DiseasePage from './pages/DiseasePage';
 import DownloadsPage from './pages/DownloadsPage';
 import DrugPage from './pages/DrugPage';
 import TargetPage from './pages/TargetPage';
-import EvidenceByDatatypePage from './pages/EvidenceByDatatypePage';
+import EvidencePage from './pages/EvidencePage';
 import NotFoundPage from './pages/NotFoundPage';
 
 class App extends Component {
@@ -36,7 +36,7 @@ class App extends Component {
                 <Route path="/drug/:chemblId" component={DrugPage} />
                 <Route
                   path="/evidence/:ensgId/:efoId"
-                  component={EvidenceByDatatypePage}
+                  component={EvidencePage}
                 />
                 <Route component={NotFoundPage} />
               </Switch>

@@ -1,4 +1,34 @@
-const Summary = ({ hasCrispr }) =>
-  hasCrispr ? 'CRISPR screen prioritised' : null;
+import React from 'react';
+import { gql } from '@apollo/client';
+import usePlatformApi from '../../../hooks/usePlatformApi';
+import SummaryItem from '../../../components/Summary/SummaryItem';
+
+const CRISPR_SUMMARY = gql`
+  fragment crisprSummary on Disease {
+    crisprSummary: evidences(
+      ensemblIds: [$ensgId]
+      enableIndirect: true
+      datasourceIds: ["crispr"]
+      size: 0
+    ) {
+      count
+    }
+  }
+`;
+
+function Summary({ definition }) {
+  const request = usePlatformApi(CRISPR_SUMMARY);
+  return (
+    <SummaryItem
+      definition={definition}
+      request={request}
+      renderSummary={() => 'CRISPR screen prioritised'}
+    />
+  );
+}
+
+Summary.fragments = {
+  crisprSummary: CRISPR_SUMMARY,
+};
 
 export default Summary;

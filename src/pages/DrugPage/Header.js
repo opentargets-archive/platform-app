@@ -1,16 +1,23 @@
 import React from 'react';
 import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 
-import Header from '../../components/Header';
-import ChEMBL from './externalLinks/ChEMBL';
+import { ExternalLink } from '../../components/ExternalLink';
+import HeaderBase from '../../components/Header';
 
-const DrugHeader = ({ chemblId, name }) => (
-  <Header
-    title={name}
-    subtitle={null}
-    Icon={faPrescriptionBottleAlt}
-    externalLinks={<ChEMBL chemblId={chemblId} first />}
-  />
-);
+function DrugHeader({ loading, chemblId, name }) {
+  const chemblUrl = `https://www.ebi.ac.uk/chembl/compound_report_card/${chemblId}/`;
+
+  return (
+    <HeaderBase
+      loading={loading}
+      title={name}
+      subtitle={null}
+      Icon={faPrescriptionBottleAlt}
+      externalLinks={
+        <ExternalLink title="ChEMBL" id={chemblId} url={chemblUrl} />
+      }
+    />
+  );
+}
 
 export default DrugHeader;

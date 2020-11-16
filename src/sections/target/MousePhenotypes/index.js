@@ -1,13 +1,9 @@
-import { loader } from 'graphql.macro';
+export const definition = {
+  id: 'mousePhenotypes',
+  name: 'Mouse Phenotypes',
+  shortName: 'MP',
+  hasData: data => data.mousePhenotypes.length > 0,
+};
 
-export const id = 'mousePhenotypes';
-export const name = 'Mouse Phenotypes';
-
-export const hasSummaryData = mousePhenotypes => mousePhenotypes.length > 0;
-
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';

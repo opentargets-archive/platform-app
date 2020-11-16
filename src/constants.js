@@ -250,6 +250,9 @@ export const particlesConfig = {
   retina_detect: true,
 };
 
+// App title.
+export const appTitle = 'Open Targets Platform';
+
 // Chunk sizes for server side pagination/download.
 export const tableChunkSize = 100;
 export const downloaderChunkSize = 2500;
@@ -276,3 +279,7 @@ export const colorRange = [
   '#1963a3',
   '#005299',
 ];
+
+export const defaultRowsPerPageOptions = [10, 25, 100];
+
+export const decimalPlaces = 3;

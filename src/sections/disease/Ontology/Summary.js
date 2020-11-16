@@ -1,42 +1,38 @@
-import { useState, useEffect } from 'react';
-import { loader } from 'graphql.macro';
-import client from '../../../client';
+import React from 'react';
+import { gql } from '@apollo/client';
 
-const DISEASE_SUMMARY_QUERY = loader('./summaryQuery.gql');
+import SummaryItem from '../../../components/Summary/SummaryItem';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const Summary = ({ efoId }) => {
-  const [data, setData] = useState(null);
+const ONTOLOGY_SUMMARY_FRAGMENT = gql`
+  fragment OntologySummaryFragment on Disease {
+    id
+    name
+    isTherapeuticArea
+    therapeuticAreas {
+      id
+    }
+  }
+`;
 
-  useEffect(
-    () => {
-      let isCurrent = true;
-      // The GraphQL schema for the disease ontology data does not follow the
-      // assumptions made in the UI code to query for the section data.
-      // Hence, making the call for the data in this way.
-      client
-        .query({
-          query: DISEASE_SUMMARY_QUERY,
-          variables: {
-            efoId,
-          },
-        })
-        .then(res => {
-          if (isCurrent) {
-            setData(res.data.disease);
-          }
-        });
-      return () => {
-        isCurrent = false;
-      };
-    },
-    [efoId]
+function Summary({ definition }) {
+  const request = usePlatformApi(ONTOLOGY_SUMMARY_FRAGMENT);
+
+  return (
+    <SummaryItem
+      definition={definition}
+      request={request}
+      renderSummary={data =>
+        data.isTherapeuticArea
+          ? 'Therapeutic area'
+          : `Belongs to ${data.therapeuticAreas.length} therapeutic areas`
+      }
+    />
   );
+}
 
-  if (!data) return null;
-
-  return data.isTherapeuticArea
-    ? 'Therapeutic area'
-    : `Belongs to ${data.therapeuticAreas.length} therapeutic areas`;
+Summary.fragments = {
+  OntologySummaryFragment: ONTOLOGY_SUMMARY_FRAGMENT,
 };
 
 export default Summary;

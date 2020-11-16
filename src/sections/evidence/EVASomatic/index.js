@@ -1,13 +1,9 @@
-import { loader } from 'graphql.macro';
+export const definition = {
+  id: 'evaSomatic',
+  name: 'EVA Somatic',
+  shortName: 'ES',
+  hasData: ({ evaSomaticSummary }) => evaSomaticSummary.count > 0,
+};
 
-export const id = 'evaSomatic';
-export const name = 'EVA Somatic';
-
-export const hasSummaryData = ({ variantCount }) => variantCount > 0;
-
-export const summaryQuery = loader('./summaryQuery.gql');
-export const sectionQuery = loader('./sectionQuery.gql');
-
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';

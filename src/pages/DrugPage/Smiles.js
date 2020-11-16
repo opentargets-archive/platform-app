@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import SmilesDrawer from 'smiles-drawer';
-import { Modal, Paper, withStyles } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { Modal, Paper, withStyles } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
+import SmilesDrawer from 'smiles-drawer';
 
 const styles = theme => ({
   container: {
     border: `1px solid ${theme.palette.grey[300]}`,
-    height: '240px',
     cursor: 'pointer',
+    height: '240px',
+    marginLeft: 'auto',
+    width: 'fit-content',
   },
   modal: {
     width: '800px',
@@ -46,7 +49,7 @@ let SmilesHelper = class extends Component {
         smilesDrawer.draw(tree, chemblId);
       },
       () => {
-        console.log('error parsing smiles');
+        console.error('error parsing smiles');
       }
     );
   }
@@ -68,7 +71,7 @@ let SmilesHelper = class extends Component {
           smilesDrawer.draw(tree, `${chemblId}-modal`);
         },
         () => {
-          console.log('error parsing smiles');
+          console.error('error parsing smiles');
         }
       );
     }
@@ -101,30 +104,49 @@ SmilesHelper = withStyles(styles)(SmilesHelper);
 
 class Smiles extends Component {
   state = {
-    smiles: null,
+    smiles: undefined,
   };
 
   componentDidMount() {
+    this.mounted = true;
+
     const { chemblId } = this.props;
     fetch(
       `https://www.ebi.ac.uk/chembl/api/data/molecule/${chemblId}?format=json`
     )
       .then(res => res.json())
       .then(data => {
-        if (data.molecule_type === 'Small molecule') {
+        if (this.mounted) {
           this.setState({
-            smiles: data.molecule_structures
-              ? data.molecule_structures.canonical_smiles
-              : null,
+            smiles:
+              data.molecule_type === 'Small molecule'
+                ? data.molecule_structures?.canonical_smiles
+                : null,
           });
         }
       });
   }
 
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
   render() {
     const { chemblId } = this.props;
     const { smiles } = this.state;
-    return smiles && <SmilesHelper chemblId={chemblId} smiles={smiles} />;
+
+    if (smiles === null) return null;
+
+    return smiles ? (
+      <SmilesHelper chemblId={chemblId} smiles={smiles} />
+    ) : (
+      <Skeleton
+        style={{ marginLeft: 'auto' }}
+        height="240px"
+        variant="rect"
+        width="450px"
+      />
+    );
   }
 }
 

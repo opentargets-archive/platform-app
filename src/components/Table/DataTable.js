@@ -75,10 +75,10 @@ function DataTable({
       order={sortOrder}
       page={page}
       pageSize={pageSize}
-      dataDownloaderRows={rows}
+      dataDownloaderRows={processedRows}
       columns={columns}
       rows={getPage(processedRows, page, pageSize)}
-      rowCount={rows.length}
+      rowCount={processedRows.length}
       onGlobalFilterChange={handleGlobalFilterChange}
       onSortBy={handleSortBy}
       onPageChange={handlePageChange}

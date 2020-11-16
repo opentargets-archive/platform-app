@@ -1,9 +1,0 @@
-fragment evidenceEvaSomaticFragment on EvidenceSummaries {
-  evaSomatic {
-    variantCount
-    sources {
-      name
-      url
-    }
-  }
-}

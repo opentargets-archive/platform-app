@@ -1,9 +1,0 @@
-query DiseaseOntologySummary($efoId: String!) {
-  disease(efoId: $efoId) {
-    id
-    isTherapeuticArea
-    therapeuticAreas {
-      id
-    }
-  }
-}

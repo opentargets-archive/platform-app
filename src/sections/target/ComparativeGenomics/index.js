@@ -1,6 +1,10 @@
-export const id = 'orthologs';
-export const name = 'Comparative Genomics';
+export const definition = {
+  id: 'orthologs',
+  name: 'Comparative Genomics',
+  shortName: 'CG',
+  hasData: data => data.orthologueCount > 0,
+  external: true,
+};
 
-export { default as DescriptionComponent } from './Description';
-export { default as SummaryComponent } from './Summary';
-export { default as SectionComponent } from './Section';
+export { default as Summary } from './Summary';
+export { default as Body } from './Body';

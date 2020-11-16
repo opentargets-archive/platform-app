@@ -1,61 +1,52 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Redirect, Switch, Route, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
-import { Tabs, Tab } from '@material-ui/core';
+import { Switch, Route, Link } from 'react-router-dom';
+
+import { Tab, Tabs } from 'ot-ui';
 
 import BasePage from '../../components/BasePage';
-import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
+import NotFoundPage from '../NotFoundPage';
 import { oldPlatformUrl } from '../../constants';
-import Profile from './Profile';
+import Profile from '../TargetPage/Profile';
+import ClassicAssociations from '../TargetPage/ClassicAssociations';
 
 const TARGET_PAGE_QUERY = gql`
-  query TargetQuery($ensgId: String!) {
+  query TargetPageQuery($ensgId: String!) {
     target(ensemblId: $ensgId) {
       id
       approvedSymbol
       approvedName
-      bioType
-      hgncId
-      nameSynonyms
-      symbolSynonyms
       proteinAnnotations {
         id
-        functions
       }
     }
   }
 `;
 
-const TargetPage = ({ location, match }) => {
+function TargetPage({ location, match }) {
   const { ensgId } = match.params;
-
   const { loading, data } = useQuery(TARGET_PAGE_QUERY, {
     variables: { ensgId },
   });
 
-  if (loading) return null;
   if (data && !data.target) {
-    return <Redirect to={{ pathname: '/notFoundPage' }} />;
+    return <NotFoundPage />;
   }
 
-  const { approvedSymbol: symbol, approvedName: name } = data.target;
-  const uniprotId = data.target.proteinAnnotations?.id;
-  const description = data.target.proteinAnnotations?.functions?.[0];
-  const synonyms = data.target.symbolSynonyms;
+  const { approvedSymbol: symbol, approvedName } = data?.target || {};
+  const uniprotId = data?.target.proteinAnnotations?.id;
 
   return (
-    <BasePage>
-      <Helmet>
-        <title>{symbol}</title>
-      </Helmet>
+    <BasePage title={symbol}>
       <Header
+        loading={loading}
         ensgId={ensgId}
         uniprotId={uniprotId}
         symbol={symbol}
-        name={name}
+        name={approvedName}
       />
+
       <Tabs
         value={
           location.pathname.includes('associations')
@@ -83,26 +74,14 @@ const TargetPage = ({ location, match }) => {
       </Tabs>
       <Switch>
         <Route path={`${match.path}/associations`}>
-          <ClassicAssociations
-            ensgId={ensgId}
-            uniprotId={uniprotId}
-            symbol={symbol}
-            name={name}
-          />
+          <ClassicAssociations ensgId={ensgId} symbol={symbol} />
         </Route>
         <Route path={match.path}>
-          <Profile
-            ensgId={ensgId}
-            uniprotId={uniprotId}
-            symbol={symbol}
-            name={name}
-            synonyms={synonyms}
-            description={description}
-          />
+          <Profile ensgId={ensgId} symbol={symbol} />
         </Route>
       </Switch>
     </BasePage>
   );
-};
+}
 
 export default TargetPage;

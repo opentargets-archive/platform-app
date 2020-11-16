@@ -1,9 +1,0 @@
-fragment evidenceSlapenrichFragment on EvidenceSummaries {
-  slapenrich {
-    pathwayCount
-    sources {
-      name
-      url
-    }
-  }
-}
