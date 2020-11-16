@@ -10,6 +10,7 @@ const PROGENY_SUMMARY_FRAGMENT = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["progeny"]
+      size: 0
     ) {
       count
     }

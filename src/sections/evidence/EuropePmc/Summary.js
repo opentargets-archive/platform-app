@@ -10,6 +10,7 @@ const EUROPE_PMC_SUMMARY_FRAGMENT = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["europepmc"]
+      size: 0
     ) {
       count
     }

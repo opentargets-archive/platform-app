@@ -10,6 +10,7 @@ const GENE_2_PHENOTYPE_SUMMARY_FRAGMENT = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["gene2phenotype"]
+      size: 0
     ) {
       count
     }

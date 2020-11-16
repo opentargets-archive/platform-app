@@ -10,6 +10,7 @@ const GENOMICS_ENGLAND_SUMMARY_FRAGMENT = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["genomics_england"]
+      size: 0
     ) {
       count
     }

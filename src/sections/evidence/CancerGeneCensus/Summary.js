@@ -9,6 +9,7 @@ const CANCER_GENE_CENSUS_SUMMARY = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["cancer_gene_census"]
+      size: 0
     ) {
       count
     }

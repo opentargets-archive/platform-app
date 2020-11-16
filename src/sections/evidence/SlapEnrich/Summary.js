@@ -10,6 +10,7 @@ const SLAPENRICH_SUMMARY_FRAGMENT = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["slapenrich"]
+      size: 0
     ) {
       count
     }

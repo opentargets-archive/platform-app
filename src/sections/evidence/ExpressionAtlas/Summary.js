@@ -9,6 +9,7 @@ const EXPRESSION_ATLAS_SUMMARY = gql`
       ensemblIds: [$ensgId]
       enableIndirect: true
       datasourceIds: ["expression_atlas"]
+      size: 0
     ) {
       count
     }
