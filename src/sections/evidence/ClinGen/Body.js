@@ -6,6 +6,7 @@ import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
+import { defaultRowsPerPageOptions } from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -96,6 +97,7 @@ function Body(props) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         );
       }}
