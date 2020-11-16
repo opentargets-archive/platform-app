@@ -5,6 +5,7 @@ import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
+import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
@@ -60,19 +61,31 @@ const columns = [
   {
     id: 'targetModulation',
     label: 'Target modulation',
+    renderCell: ({ targetModulation }) => {
+      return targetModulation ? targetModulation.replace(/_/g, ' ') : naLabel;
+    },
   },
   {
     label: 'Amino acid variation',
     renderCell: ({ variations }) => {
-      return variations.length > 0 ? (
-        <ul style={{ margin: 0, paddingLeft: '17px' }}>
+      return variations.length > 1 ? (
+        <ul
+          style={{
+            margin: 0,
+            paddingLeft: '17px',
+          }}
+        >
           {variations.map(({ variantAminoacidDescription }) => (
             <li key={variantAminoacidDescription}>
               {variantAminoacidDescription}
             </li>
           ))}
         </ul>
-      ) : null;
+      ) : variations.length === 1 ? (
+        variations[0].variantAminoacidDescription
+      ) : (
+        naLabel
+      );
     },
   },
   {
@@ -125,6 +138,7 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         );
       }}
