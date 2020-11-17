@@ -1,9 +1,0 @@
-fragment evidenceDifferentialExpressionFragment on EvidenceSummaries {
-  differentialExpression {
-    experimentCount
-    sources {
-      name
-      url
-    }
-  }
-}
