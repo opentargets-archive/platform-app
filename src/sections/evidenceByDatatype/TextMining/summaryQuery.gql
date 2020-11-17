@@ -1,5 +1,0 @@
-fragment evidenceTextMiningFragment on EvidenceSummaries {
-  textMining {
-    textMiningCount
-  }
-}

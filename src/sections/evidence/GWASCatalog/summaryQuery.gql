@@ -1,9 +1,0 @@
-fragment evidenceGwasCatalogFragment on EvidenceSummaries {
-  gwasCatalog {
-    variantCount
-    sources {
-      name
-      url
-    }
-  }
-}
