@@ -14,6 +14,7 @@ import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Summary from './Summary';
+import ChipList from '../../../components/ChipList';
 
 const intOgenUrl = (id, approvedSymbol) =>
   `https://www.intogen.org/search?gene=${approvedSymbol}&cohort=${id}`;
@@ -76,22 +77,16 @@ const columns = [
       </>
     ),
     renderCell: ({ significantDriverMethods }) =>
-      significantDriverMethods
-        ? significantDriverMethods.map((am, index) => (
-            <Tooltip
-              key={index}
-              title={(methods[am] || {}).description}
-              placement="top"
-              interactive
-            >
-              <Chip
-                color="primary"
-                label={am}
-                style={{ margin: '3px 5px 3px 0' }}
-              />
-            </Tooltip>
-          ))
-        : naLabel,
+      significantDriverMethods ? (
+        <ChipList
+          items={significantDriverMethods.map((am, index) => ({
+            label: am,
+            tooltip: (methods[am] || {}).description,
+          }))}
+        />
+      ) : (
+        naLabel
+      ),
   },
   {
     id: 'cohortShortName',
