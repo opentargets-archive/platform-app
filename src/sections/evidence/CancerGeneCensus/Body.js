@@ -1,6 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { List, ListItem } from '@material-ui/core';
+import { Box, List, ListItem, makeStyles, Typography } from '@material-ui/core';
 
 import { Link } from 'ot-ui';
 
@@ -13,6 +13,7 @@ import { naLabel } from '../../../constants';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
+import ChipList from '../../../components/ChipList';
 
 const CANCER_GENE_CENSUS_QUERY = gql`
   query CancerGeneCensusQuery(
@@ -33,17 +34,6 @@ const CANCER_GENE_CENSUS_QUERY = gql`
             id
             name
           }
-          target {
-            hallmarks {
-              attributes {
-                reference {
-                  pubmedId
-                  description
-                }
-                name
-              }
-            }
-          }
           variations {
             functionalConsequence {
               id
@@ -54,6 +44,18 @@ const CANCER_GENE_CENSUS_QUERY = gql`
             inheritancePattern
           }
           literature
+        }
+      }
+    }
+    target(ensemblId: $ensemblId) {
+      id
+      hallmarks {
+        attributes {
+          reference {
+            pubmedId
+            description
+          }
+          name
         }
       }
     }
@@ -138,7 +140,17 @@ const columns = [
   },
 ];
 
+const useStyles = makeStyles({
+  roleInCancerBox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '2rem',
+  },
+  roleInCancerTitle: { marginRight: '.5rem' },
+});
+
 function Body({ definition, id, label }) {
+  const classes = useStyles();
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.CancerGeneCensusSummary
@@ -153,8 +165,6 @@ function Body({ definition, id, label }) {
     client: betaClient,
   });
 
-  console.log('request.data', request.data);
-
   return (
     <SectionItem
       definition={definition}
@@ -162,15 +172,36 @@ function Body({ definition, id, label }) {
       renderDescription={() => (
         <Description symbol={label.symbol} diseaseName={label.name} />
       )}
-      renderBody={({ disease }) => {
-        const { rows } = disease.evidences;
+      renderBody={({
+        disease: {
+          evidences: { rows },
+        },
+        target: {
+          hallmarks: { attributes },
+        },
+      }) => {
+        const roleInCancerItems = attributes
+          .filter(attribute => attribute.name === 'role in cancer')
+          .map(attribute => ({
+            label: attribute.reference.description,
+            url: epmcUrl(attribute.reference.pubmedId),
+          }));
+
         return (
-          <DataTable
-            columns={columns}
-            rows={rows}
-            dataDownloader
-            showGlobalFilter
-          />
+          <>
+            <Box className={classes.roleInCancerBox}>
+              <Typography className={classes.roleInCancerTitle}>
+                <b>{label.symbol}</b> role in cancer:
+              </Typography>
+              <ChipList items={roleInCancerItems} />
+            </Box>
+            <DataTable
+              columns={columns}
+              rows={rows}
+              dataDownloader
+              showGlobalFilter
+            />
+          </>
         );
       }}
     />
