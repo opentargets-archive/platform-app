@@ -1,13 +1,11 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-
 import { Link } from 'ot-ui';
-
 import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import Description from './Description';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
-import { naLabel } from '../../../constants';
+import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -134,6 +132,7 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         );
       }}
