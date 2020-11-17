@@ -1,14 +1,18 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from '@material-ui/core';
+import { List, ListItem } from '@material-ui/core';
+
+import { Link } from 'ot-ui';
+
 import { betaClient } from '../../../client';
+import { DataTable, TableDrawer } from '../../../components/Table';
+import Description from './Description';
+import { epmcUrl } from '../../../utils/urls';
+import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
+import { naLabel } from '../../../constants';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
-import { DataTable, TableDrawer } from '../../../components/Table';
-import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
-import Description from './Description';
 
 const CANCER_GENE_CENSUS_QUERY = gql`
   query CancerGeneCensusQuery(
@@ -28,6 +32,17 @@ const CANCER_GENE_CENSUS_QUERY = gql`
           disease {
             id
             name
+          }
+          target {
+            hallmarks {
+              attributes {
+                reference {
+                  pubmedId
+                  description
+                }
+                name
+              }
+            }
           }
           variations {
             functionalConsequence {
@@ -50,53 +65,54 @@ const columns = [
     id: 'disease.name',
     label: 'Disease/phenotype',
     renderCell: ({ disease }) => {
-      return (
-        <Link component={RouterLink} to={`/disease/${disease.id}`}>
-          {disease.name}
-        </Link>
-      );
+      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
     },
   },
   {
-    id: 'variations.functionalConsequence.name',
+    id: 'mutationType',
+    propertyPath: 'variations.functionalConsequence',
     label: 'Mutation type',
-    renderCell: ({ variations }) => {
-      return (
-        <ul style={{ margin: 0, paddingLeft: '17px' }}>
-          {variations.map(({ functionalConsequence }) => (
-            <li key={functionalConsequence.id}>
-              {functionalConsequence.label}
-            </li>
+    renderCell: ({ variations }) =>
+      variations ? (
+        <List style={{ margin: 0, paddingLeft: '17px' }}>
+          {variations.map((variation, index) => (
+            <ListItem key={index}>
+              <Link
+                external
+                to={identifiersOrgLink(
+                  'SO',
+                  variation.functionalConsequence.id.slice(3)
+                )}
+              >
+                {sentenceCase(variation.functionalConsequence.label)}
+              </Link>
+            </ListItem>
           ))}
-        </ul>
-      );
-    },
+        </List>
+      ) : (
+        naLabel
+      ),
+    filterValue: ({ variations }) =>
+      (variations || [])
+        .map(variation => variation.functionalConsequence.name)
+        .join(),
   },
   {
-    label: 'Samples',
+    id: 'mutatedSamples',
+    propertyPath: 'variations.numberSamplesWithMutationType',
+    label: 'Mutated / Total samples',
+    numeric: true,
     renderCell: ({ variations }) => {
       return (
-        <ul style={{ margin: 0, paddingLeft: '17px' }}>
+        <List style={{ margin: 0, paddingLeft: '17px' }}>
           {variations.map(
             ({ numberSamplesWithMutationType, numberSamplesTested }, i) => (
-              <li key={i}>
+              <ListItem key={i} style={{ justifyContent: 'flex-end' }}>
                 {numberSamplesWithMutationType}/{numberSamplesTested}
-              </li>
+              </ListItem>
             )
           )}
-        </ul>
-      );
-    },
-  },
-  {
-    label: 'Cellular mechanism',
-    renderCell: ({ variations }) => {
-      return (
-        <ul style={{ margin: 0, paddingLeft: '17px' }}>
-          {variations.map(({ inheritancePattern }, i) => (
-            <li key={i}>{inheritancePattern}</li>
-          ))}
-        </ul>
+        </List>
       );
     },
   },
@@ -136,6 +152,8 @@ function Body({ definition, id, label }) {
     },
     client: betaClient,
   });
+
+  console.log('request.data', request.data);
 
   return (
     <SectionItem

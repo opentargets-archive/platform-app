@@ -1,7 +1,7 @@
 export const definition = {
   id: 'cancerGeneCensus',
   name: 'Cancer Gene Census',
-  shortName: 'CG',
+  shortName: 'CC',
   hasData: ({ cancerGeneCensusSummary }) => cancerGeneCensusSummary.count > 0,
 };
 
