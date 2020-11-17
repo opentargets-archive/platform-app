@@ -87,11 +87,6 @@ const columns = [
       variantFunctionalConsequence.label,
   },
   {
-    id: 'resourceScore',
-    label: 'P-value',
-    renderCell: ({ resourceScore }) => resourceScore.toFixed(5),
-  },
-  {
     id: 'studyCases',
     label: 'Cases',
   },
@@ -99,6 +94,11 @@ const columns = [
     id: 'oddsRatio',
     label: 'Odds ratio',
     renderCell: ({ oddsRatio }) => oddsRatio.toFixed(5),
+  },
+  {
+    id: 'resourceScore',
+    label: 'P-value',
+    renderCell: ({ resourceScore }) => resourceScore.toFixed(5),
   },
 ];
 
