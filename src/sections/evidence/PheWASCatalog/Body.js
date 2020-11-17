@@ -136,6 +136,8 @@ function Body({ definition, id, label }) {
             dataDownloader
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            sortBy="resourceScore"
+            order="asc"
           />
         );
       }}
