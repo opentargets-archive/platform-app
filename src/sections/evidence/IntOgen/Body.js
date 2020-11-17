@@ -1,20 +1,21 @@
 import React from 'react';
-import { Chip, Tooltip } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
 import { Link } from 'ot-ui';
 
 import { betaClient } from '../../../client';
+import ChipList from '../../../components/ChipList';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
+import { epmcUrl } from '../../../utils/urls';
 import methods from './methods';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Summary from './Summary';
-import ChipList from '../../../components/ChipList';
 
 const intOgenUrl = (id, approvedSymbol) =>
   `https://www.intogen.org/search?gene=${approvedSymbol}&cohort=${id}`;
@@ -30,14 +31,8 @@ const columns = [
     filterValue: ({ disease }) => disease.name,
   },
   {
-    id: 'inheritancePattern',
-    propertyPath: 'variations.inheritancePattern',
-    renderCell: ({ variations: { 0: { inheritancePattern } = {} } }) =>
-      inheritancePattern ? inheritancePattern : naLabel,
-  },
-  {
     id: 'numberMutatedSamples',
-    label: 'Mutated samples / Total samples',
+    label: 'Mutated / Total samples',
     propertyPath: 'variations.numberMutatedSamples',
     numeric: true,
     renderCell: ({
@@ -53,7 +48,20 @@ const columns = [
   },
   {
     id: 'resourceScore',
-    label: 'Study p-value',
+    label: (
+      <>
+        Combined <i>p</i>-value
+      </>
+    ),
+    tooltip: (
+      <>
+        Visit the{' '}
+        <Link external to="https://www.intogen.org/faq">
+          IntOGen FAQ
+        </Link>{' '}
+        for more information.
+      </>
+    ),
     numeric: true,
     sortable: true,
     renderCell: ({ resourceScore }) => (
@@ -62,7 +70,7 @@ const columns = [
   },
   {
     id: 'significantDriverMethods',
-    label: 'Methods',
+    label: 'Cancer driver methods',
     tooltip: (
       <>
         The current version of the intOGen pipeline uses seven methods to
@@ -87,6 +95,8 @@ const columns = [
       ) : (
         naLabel
       ),
+    filterValue: ({ significantDriverMethods }) =>
+      significantDriverMethods.map(am => am).join(),
   },
   {
     id: 'cohortShortName',
@@ -107,10 +117,22 @@ const columns = [
       ) : (
         naLabel
       ),
+    filterValue: ({ cohortShortName, cohortDescription }) =>
+      `${cohortShortName} ${cohortDescription}`,
   },
 ];
 
+const useStyles = makeStyles({
+  roleInCancerBox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '2rem',
+  },
+  roleInCancerTitle: { marginRight: '.5rem' },
+});
+
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
+  const classes = useStyles();
   const {
     data: {
       intOgen: { count: size },
@@ -127,17 +149,43 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
       definition={definition}
       request={request}
       renderDescription={() => <Description symbol={symbol} name={name} />}
-      renderBody={data => (
-        <DataTable
-          columns={columns}
-          dataDownloader
-          dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
-          rows={data.disease.evidences.rows}
-          pageSize={10}
-          rowsPerPageOptions={defaultRowsPerPageOptions}
-          showGlobalFilter
-        />
-      )}
+      renderBody={({
+        disease: {
+          evidences: { rows },
+        },
+        target: {
+          hallmarks: { attributes },
+        },
+      }) => {
+        const roleInCancerItems = attributes
+          .filter(attribute => attribute.name === 'role in cancer')
+          .map(attribute => ({
+            label: attribute.reference.description,
+            url: epmcUrl(attribute.reference.pubmedId),
+          }));
+
+        return (
+          <>
+            <Box className={classes.roleInCancerBox}>
+              <Typography className={classes.roleInCancerTitle}>
+                <b>{symbol}</b> role in cancer:
+              </Typography>
+              <ChipList items={roleInCancerItems} />
+            </Box>
+            <DataTable
+              columns={columns}
+              dataDownloader
+              dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
+              order="desc"
+              rows={rows}
+              sortBy="resourceScore"
+              pageSize={10}
+              rowsPerPageOptions={defaultRowsPerPageOptions}
+              showGlobalFilter
+            />
+          </>
+        );
+      }}
     />
   );
 }
