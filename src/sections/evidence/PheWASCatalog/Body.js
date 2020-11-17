@@ -89,16 +89,19 @@ const columns = [
   {
     id: 'studyCases',
     label: 'Cases',
+    sortable: true,
   },
   {
     id: 'oddsRatio',
     label: 'Odds ratio',
     renderCell: ({ oddsRatio }) => oddsRatio.toFixed(5),
+    sortable: true,
   },
   {
     id: 'resourceScore',
     label: 'P-value',
     renderCell: ({ resourceScore }) => resourceScore.toFixed(5),
+    sortable: true,
   },
 ];
 
