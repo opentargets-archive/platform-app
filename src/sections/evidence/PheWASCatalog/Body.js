@@ -4,7 +4,11 @@ import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import Description from './Description';
-import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
+import {
+  identifiersOrgLink,
+  sentenceCase,
+  formatComma,
+} from '../../../utils/global';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
@@ -89,12 +93,13 @@ const columns = [
   {
     id: 'studyCases',
     label: 'Cases',
+    renderCell: ({ studyCases }) => formatComma(studyCases),
     sortable: true,
   },
   {
     id: 'oddsRatio',
     label: 'Odds ratio',
-    renderCell: ({ oddsRatio }) => oddsRatio.toFixed(5),
+    renderCell: ({ oddsRatio }) => oddsRatio.toFixed(3),
     sortable: true,
   },
   {

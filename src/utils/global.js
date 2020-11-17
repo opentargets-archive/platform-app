@@ -1,3 +1,5 @@
+import * as d3 from 'd3';
+
 export const safeToString = x => {
   switch (typeof x) {
     case 'object':
@@ -30,3 +32,5 @@ export const sentenceCase = str =>
         .replace(/_/g, ' ')
         .toLocaleLowerCase()
     : str;
+
+export const formatComma = d3.format(',');
