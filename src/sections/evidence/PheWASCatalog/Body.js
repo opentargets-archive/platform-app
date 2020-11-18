@@ -3,6 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
+import ScientificNotation from '../../../components/ScientificNotation';
 import Description from './Description';
 import {
   identifiersOrgLink,
@@ -106,7 +107,9 @@ const columns = [
   {
     id: 'resourceScore',
     label: 'P-value',
-    renderCell: ({ resourceScore }) => resourceScore.toFixed(5),
+    renderCell: ({ resourceScore }) => (
+      <ScientificNotation number={resourceScore} />
+    ),
     sortable: true,
   },
 ];
