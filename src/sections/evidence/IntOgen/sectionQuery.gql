@@ -28,4 +28,16 @@ query IntOgenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
       }
     }
   }
+  target(ensemblId: $ensemblId) {
+    id
+    hallmarks {
+      attributes {
+        reference {
+          pubmedId
+          description
+        }
+        name
+      }
+    }
+  }
 }
