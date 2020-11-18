@@ -5,7 +5,6 @@ const styles = theme => ({
   textContainer: {
     display: 'flex',
     flexDirection: 'column',
-    whiteSpace: 'normal',
     overflow: 'hidden',
   },
   showMore: {

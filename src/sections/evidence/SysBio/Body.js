@@ -7,10 +7,12 @@ import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
+import LongText from '../../../components/LongText';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { epmcUrl } from '../../../utils/urls';
+import { makeStyles } from '@material-ui/core';
 
 const INTOGEN_QUERY = gql`
   query IntOgenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
@@ -35,7 +37,7 @@ const INTOGEN_QUERY = gql`
   }
 `;
 
-const columns = [
+const columns = classes => [
   {
     id: 'disease',
     renderCell: ({ disease }) => (
@@ -47,7 +49,12 @@ const columns = [
     id: 'studyOverview',
     propertyPath: 'studyOverview',
     renderCell: ({ studyOverview }) =>
-      studyOverview ? studyOverview : naLabel,
+      studyOverview ? (
+        <LongText lineLimit={1}>{studyOverview}</LongText>
+      ) : (
+        naLabel
+      ),
+    classes,
   },
   {
     id: 'literature',
@@ -62,7 +69,10 @@ const columns = [
   },
 ];
 
+const useStyles = makeStyles({ cell: { whiteSpace: 'normal' } });
+
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
+  const classes = useStyles();
   const {
     data: {
       sysBio: { count: size },
@@ -81,7 +91,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={data => (
         <DataTable
-          columns={columns}
+          columns={columns(classes)}
           dataDownloader
           dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
           rows={data.disease.evidences.rows}
