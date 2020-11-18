@@ -9,7 +9,11 @@ import {
   sentenceCase,
   formatComma,
 } from '../../../utils/global';
-import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
+import {
+  defaultRowsPerPageOptions,
+  naLabel,
+  decimalPlaces,
+} from '../../../constants';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -96,7 +100,7 @@ const columns = [
   {
     id: 'oddsRatio',
     label: 'Odds ratio',
-    renderCell: ({ oddsRatio }) => oddsRatio.toFixed(3),
+    renderCell: ({ oddsRatio }) => oddsRatio.toFixed(decimalPlaces),
     sortable: true,
   },
   {
