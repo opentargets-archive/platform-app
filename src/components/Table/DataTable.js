@@ -44,6 +44,7 @@ function DataTable({
 
   const handleRowsPerPageChange = pageSize => {
     setPageSize(pageSize);
+    setPage(0);
   };
 
   let processedRows = [...rows];
