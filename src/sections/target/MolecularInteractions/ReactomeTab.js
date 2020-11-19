@@ -1,6 +1,5 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
-import { loader } from 'graphql.macro';
 import client from '../../../client';
 
 import DataTable from '../../../components/Table/DataTable';
@@ -13,10 +12,9 @@ import {
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'ot-ui';
 
-const INTERACTIONS_QUERY = loader('./sectionQuery.gql');
-const getData = (ensgId, sourceDatabase, index, size) => {
+const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
-    query: INTERACTIONS_QUERY,
+    query: query,
     variables: {
       ensgId,
       sourceDatabase,
@@ -165,14 +163,14 @@ const id = 'reactome';
 const index = 0;
 const size = 5000;
 
-function ReactomeTab({ ensgId, symbol }) {
+function ReactomeTab({ ensgId, symbol, query }) {
   const [data, setData] = useState([]);
   const [evidence, setEvidence] = useState([]);
 
   // load tab data when new tab selected (also on first load)
   useEffect(
     () => {
-      getData(ensgId, id, index, size).then(res => {
+      getData(query, ensgId, id, index, size).then(res => {
         if (res.data.target.interactions) {
           setData(res.data.target.interactions.rows);
           setEvidence(res.data.target.interactions.rows[0].evidences);

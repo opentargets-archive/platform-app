@@ -10,12 +10,12 @@ import * as KnownDrugs from '../../sections/target/KnownDrugs';
 import * as MousePhenotypes from '../../sections/target/MousePhenotypes';
 import * as Pathways from '../../sections/target/Pathways';
 import * as ProteinInformation from '../../sections/target/ProteinInformation';
-// import * as ProteinInteractions from '../../sections/target/ProteinInteractions';
 import * as RelatedTargets from '../../sections/target/RelatedTargets';
 import * as Safety from '../../sections/target/Safety';
 import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
 import * as Variation from '../../sections/target/Variation';
+import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
 export default [
   KnownDrugs,
@@ -34,4 +34,5 @@ export default [
   Variation,
   ComparativeGenomics,
   Bibliography,
+  MolecularInteractions,
 ];

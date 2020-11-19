@@ -1,6 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import Typography from '@material-ui/core/Typography';
-import { loader } from 'graphql.macro';
+import React, { useState, useEffect } from 'react';
 import client from '../../../client';
 import { withTheme, makeStyles } from '@material-ui/core';
 
@@ -13,10 +11,9 @@ import { Link } from 'ot-ui';
 
 import * as d3 from 'd3';
 
-const INTERACTIONS_QUERY = loader('./sectionStringQuery.gql');
-const getData = (ensgId, sourceDatabase, index, size) => {
+const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
-    query: INTERACTIONS_QUERY,
+    query: query,
     variables: {
       ensgId,
       sourceDatabase,
@@ -290,7 +287,7 @@ const color = d3
   .domain([0, 1])
   .range(colorRange);
 
-function StringTab({ ensgId, symbol }) {
+function StringTab({ ensgId, symbol, query }) {
   const [data, setData] = useState([]);
   const classes = useStyles();
   const columns = getColumns(classes);
@@ -298,7 +295,7 @@ function StringTab({ ensgId, symbol }) {
   // load tab data when new tab selected (also on first load)
   useEffect(
     () => {
-      getData(ensgId, id, index, size).then(res => {
+      getData(query, ensgId, id, index, size).then(res => {
         if (res.data.target.interactions) {
           setData(res.data.target.interactions.rows);
         }
