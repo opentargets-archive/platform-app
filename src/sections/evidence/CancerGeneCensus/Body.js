@@ -1,14 +1,19 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from '@material-ui/core';
+import { Box, List, ListItem, makeStyles, Typography } from '@material-ui/core';
+
+import { Link } from 'ot-ui';
+
 import { betaClient } from '../../../client';
+import { DataTable, TableDrawer } from '../../../components/Table';
+import Description from './Description';
+import { epmcUrl } from '../../../utils/urls';
+import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
+import { naLabel } from '../../../constants';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
-import { DataTable, TableDrawer } from '../../../components/Table';
-import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
-import Description from './Description';
+import ChipList from '../../../components/ChipList';
 
 const CANCER_GENE_CENSUS_QUERY = gql`
   query CancerGeneCensusQuery(
@@ -42,6 +47,18 @@ const CANCER_GENE_CENSUS_QUERY = gql`
         }
       }
     }
+    target(ensemblId: $ensemblId) {
+      id
+      hallmarks {
+        attributes {
+          reference {
+            pubmedId
+            description
+          }
+          name
+        }
+      }
+    }
   }
 `;
 
@@ -50,53 +67,54 @@ const columns = [
     id: 'disease.name',
     label: 'Disease/phenotype',
     renderCell: ({ disease }) => {
-      return (
-        <Link component={RouterLink} to={`/disease/${disease.id}`}>
-          {disease.name}
-        </Link>
-      );
+      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
     },
   },
   {
-    id: 'variations.functionalConsequence.name',
+    id: 'mutationType',
+    propertyPath: 'variations.functionalConsequence',
     label: 'Mutation type',
-    renderCell: ({ variations }) => {
-      return (
-        <ul style={{ margin: 0, paddingLeft: '17px' }}>
-          {variations.map(({ functionalConsequence }) => (
-            <li key={functionalConsequence.id}>
-              {functionalConsequence.label}
-            </li>
+    renderCell: ({ variations }) =>
+      variations ? (
+        <List style={{ margin: 0, paddingLeft: '17px' }}>
+          {variations.map((variation, index) => (
+            <ListItem key={index}>
+              <Link
+                external
+                to={identifiersOrgLink(
+                  'SO',
+                  variation.functionalConsequence.id.slice(3)
+                )}
+              >
+                {sentenceCase(variation.functionalConsequence.label)}
+              </Link>
+            </ListItem>
           ))}
-        </ul>
-      );
-    },
+        </List>
+      ) : (
+        naLabel
+      ),
+    filterValue: ({ variations }) =>
+      (variations || [])
+        .map(variation => variation.functionalConsequence.name)
+        .join(),
   },
   {
-    label: 'Samples',
+    id: 'mutatedSamples',
+    propertyPath: 'variations.numberSamplesWithMutationType',
+    label: 'Mutated / Total samples',
+    numeric: true,
     renderCell: ({ variations }) => {
       return (
-        <ul style={{ margin: 0, paddingLeft: '17px' }}>
+        <List style={{ margin: 0, paddingLeft: '17px' }}>
           {variations.map(
             ({ numberSamplesWithMutationType, numberSamplesTested }, i) => (
-              <li key={i}>
+              <ListItem key={i} style={{ justifyContent: 'flex-end' }}>
                 {numberSamplesWithMutationType}/{numberSamplesTested}
-              </li>
+              </ListItem>
             )
           )}
-        </ul>
-      );
-    },
-  },
-  {
-    label: 'Cellular mechanism',
-    renderCell: ({ variations }) => {
-      return (
-        <ul style={{ margin: 0, paddingLeft: '17px' }}>
-          {variations.map(({ inheritancePattern }, i) => (
-            <li key={i}>{inheritancePattern}</li>
-          ))}
-        </ul>
+        </List>
       );
     },
   },
@@ -122,7 +140,17 @@ const columns = [
   },
 ];
 
+const useStyles = makeStyles({
+  roleInCancerBox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '2rem',
+  },
+  roleInCancerTitle: { marginRight: '.5rem' },
+});
+
 function Body({ definition, id, label }) {
+  const classes = useStyles();
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.CancerGeneCensusSummary
@@ -144,15 +172,36 @@ function Body({ definition, id, label }) {
       renderDescription={() => (
         <Description symbol={label.symbol} diseaseName={label.name} />
       )}
-      renderBody={({ disease }) => {
-        const { rows } = disease.evidences;
+      renderBody={({
+        disease: {
+          evidences: { rows },
+        },
+        target: {
+          hallmarks: { attributes },
+        },
+      }) => {
+        const roleInCancerItems = attributes
+          .filter(attribute => attribute.name === 'role in cancer')
+          .map(attribute => ({
+            label: attribute.reference.description,
+            url: epmcUrl(attribute.reference.pubmedId),
+          }));
+
         return (
-          <DataTable
-            columns={columns}
-            rows={rows}
-            dataDownloader
-            showGlobalFilter
-          />
+          <>
+            <Box className={classes.roleInCancerBox}>
+              <Typography className={classes.roleInCancerTitle}>
+                <b>{label.symbol}</b> role in cancer:
+              </Typography>
+              <ChipList items={roleInCancerItems} />
+            </Box>
+            <DataTable
+              columns={columns}
+              rows={rows}
+              dataDownloader
+              showGlobalFilter
+            />
+          </>
         );
       }}
     />

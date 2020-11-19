@@ -1,13 +1,20 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-
 import { Link } from 'ot-ui';
-
 import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
+import ScientificNotation from '../../../components/ScientificNotation';
 import Description from './Description';
-import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
-import { naLabel } from '../../../constants';
+import {
+  identifiersOrgLink,
+  sentenceCase,
+  formatComma,
+} from '../../../utils/global';
+import {
+  defaultRowsPerPageOptions,
+  naLabel,
+  decimalPlaces,
+} from '../../../constants';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -59,10 +66,7 @@ const columns = [
     label: 'Variant',
     renderCell: ({ variantRsId }) => {
       return (
-        <Link
-          external
-          to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
-        >
+        <Link external to={identifiersOrgLink('DBSNP', variantRsId, 'ncbi')}>
           {variantRsId}
         </Link>
       );
@@ -89,18 +93,24 @@ const columns = [
       variantFunctionalConsequence.label,
   },
   {
-    id: 'resourceScore',
-    label: 'P-value',
-    renderCell: ({ resourceScore }) => resourceScore.toFixed(5),
-  },
-  {
     id: 'studyCases',
     label: 'Cases',
+    renderCell: ({ studyCases }) => formatComma(studyCases),
+    sortable: true,
   },
   {
     id: 'oddsRatio',
     label: 'Odds ratio',
-    renderCell: ({ oddsRatio }) => oddsRatio.toFixed(5),
+    renderCell: ({ oddsRatio }) => oddsRatio.toFixed(decimalPlaces),
+    sortable: true,
+  },
+  {
+    id: 'resourceScore',
+    label: 'P-value',
+    renderCell: ({ resourceScore }) => (
+      <ScientificNotation number={resourceScore} />
+    ),
+    sortable: true,
   },
 ];
 
@@ -134,6 +144,9 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            rowsPerPageOptions={defaultRowsPerPageOptions}
+            sortBy="resourceScore"
+            order="asc"
           />
         );
       }}
