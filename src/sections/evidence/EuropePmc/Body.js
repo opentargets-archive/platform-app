@@ -28,6 +28,7 @@ const columns = [
     id: 'publicationDetails',
     propertyPath: 'title',
     label: 'Publication',
+    width: '80%',
     renderCell: ({
       europePmcId,
       title,
@@ -73,7 +74,7 @@ const mergeData = (rows, literatureData) => {
       row.title = relevantEntry.title;
       row.year = relevantEntry.pubYear;
       row.abstract = relevantEntry.abstractText;
-      row.authors = relevantEntry.authorList.author;
+      row.authors = relevantEntry.authorList?.author || [];
       row.journal = {
         ...relevantEntry.journalInfo,
         page: relevantEntry.pageInfo,
@@ -85,13 +86,13 @@ const mergeData = (rows, literatureData) => {
 };
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
-  const pageSize = 10;
   const pagesToFetch = 10;
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
   const [literatureData, setLiteratureData] = useState([]);
   const [newIds, setNewIds] = useState([]);
   const variables = { ensemblId: ensgId, efoId, size: pageSize * pagesToFetch };
-  const { loading: isLoading, error, data, fetchMore } = useQuery(
+  const { loading: isLoading, error, data, fetchMore, refetch } = useQuery(
     EUROPE_PMC_QUERY,
     {
       variables,
@@ -106,7 +107,10 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
   const [loading, setLoading] = useState(isLoading);
 
   const handlePageChange = page => {
-    if (page * pageSize >= data.disease.evidences.rows.length - pageSize) {
+    if (
+      page * pageSize >= data.disease.evidences.rows.length - pageSize &&
+      (page + 1) * pageSize < data.disease.evidences.count
+    ) {
       setLoading(true); // fetchMore takes too long to set loading to true.
       fetchMore({
         variables: {
@@ -141,6 +145,18 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
     }
 
     setPage(page);
+  };
+
+  const handleRowsPerPageChange = newPageSize => {
+    if (
+      page * newPageSize >=
+      data.disease.evidences.rows.length - newPageSize
+    ) {
+      refetch(variables);
+    }
+
+    setPage(0);
+    setPageSize(newPageSize);
   };
 
   useEffect(
@@ -191,10 +207,12 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
             dataDownloader
             dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
             onPageChange={handlePageChange}
+            onRowsPerPageChange={handleRowsPerPageChange}
             page={page}
             pageSize={pageSize}
             rows={rows}
             rowCount={data.disease.evidences.count}
+            rowsPerPageOptions={[5, 10, 15, 20, 25]}
           />
         );
       }}
