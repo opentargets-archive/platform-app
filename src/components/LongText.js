@@ -3,7 +3,8 @@ import { Typography, withStyles } from '@material-ui/core';
 
 const styles = theme => ({
   textContainer: {
-    display: 'inline-block',
+    display: 'flex',
+    flexDirection: 'column',
     overflow: 'hidden',
   },
   showMore: {
