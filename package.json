@@ -30,7 +30,7 @@
     "cttv.spinner": "0.0.1",
     "cttv.targetGeneTree": "opentargets/targetGeneTree",
     "d3": "^5.9.2",
-    "d3-dag": "^0.2.6",
+    "d3-dag": "^0.5.0",
     "dc": "^3.0.8",
     "expression-atlas-heatmap-highcharts": "^5.3.1",
     "fg-loadcss": "^2.0.1",

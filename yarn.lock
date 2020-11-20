@@ -4710,7 +4710,7 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-d3-array@1, d3-array@^1.1.1, d3-array@^1.2.0, d3-array@^1.2.1:
+d3-array@1, d3-array@^1.1.1, d3-array@^1.2.0:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.2.4.tgz#635ce4d5eea759f6f605863dbcfc30edc737f71f"
   integrity sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw==
@@ -4719,6 +4719,11 @@ d3-array@1, d3-array@^1.1.1, d3-array@^1.2.0, d3-array@^1.2.1:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-2.4.0.tgz#87f8b9ad11088769c82b5ea846bcb1cc9393f242"
   integrity sha512-KQ41bAF2BMakf/HdKT865ALd4cgND6VcIztVQZUTt0+BH3RWy6ZYnHghVXf6NFjt2ritLr8H1T8LreAAlfiNcw==
+
+d3-array@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-2.8.0.tgz#f76e10ad47f1f4f75f33db5fc322eb9ffde5ef23"
+  integrity sha512-6V272gsOeg7+9pTW1jSYOR1QE37g95I3my1hBmY+vOUNHRrk9yt4OTz/gK7PMkVAVDrYYq4mq3grTiZ8iJdNIw==
 
 d3-axis@1:
   version "1.0.12"
@@ -4761,15 +4766,15 @@ d3-contour@1:
   dependencies:
     d3-array "^1.1.1"
 
-d3-dag@^0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/d3-dag/-/d3-dag-0.2.6.tgz#3c465caeca25bd5a6fe7ced5738c13f5ee181240"
-  integrity sha512-5RKK1CAUDDvgZN7XJSl0e77Ilh1XDueLt/KlAynyUJXCzQR6x8E0IzXLfc5jR0KfmNN93S8RdZ3ElMoJezHO6w==
+d3-dag@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/d3-dag/-/d3-dag-0.5.0.tgz#ba7ce2a52fd968bcaa050f62146535612f9f5ea0"
+  integrity sha512-upCsDDbAUVU52mpz4x0hMpsI4SepdtUSu4F6BEcWgeW6FoP4jSWGLUqNkke1h/s0mWNSzkwB8nV3Sj91La/iHw==
   dependencies:
-    d3-array "^1.2.1"
-    fastpriorityqueue "^0.5.0"
-    javascript-lp-solver "^0.4.5"
-    quadprog-js "^0.1.3"
+    d3-array "^2.8.0"
+    fastpriorityqueue "^0.6.3"
+    javascript-lp-solver "0.4.24"
+    quadprog "^1.6.1"
 
 d3-dispatch@1:
   version "1.0.6"
@@ -6437,10 +6442,10 @@ fast-url-parser@1.1.3:
   dependencies:
     punycode "^1.3.2"
 
-fastpriorityqueue@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/fastpriorityqueue/-/fastpriorityqueue-0.5.0.tgz#32d085507784de5ca1afd05d84d0555a5f72cab6"
-  integrity sha512-a+2x8fbu1sfuvqlVYh28RxVTy7HFaMyI/hsZWup0CBnFL3E54h9Dz3vKBHMev1/c5BAQ26z6789ddwmu/GfFCQ==
+fastpriorityqueue@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/fastpriorityqueue/-/fastpriorityqueue-0.6.3.tgz#619ce78f86a839530a69165d5d676fbde920f4e2"
+  integrity sha512-l4Whw9/MDkl/0XuqZEzGE/sw9T7dIxuUnxqq4ZJDLt8AE45j8wkx4/nBRZm50aQ9kN71NB9mwQzglLsvQGROsw==
 
 faye-websocket@^0.10.0:
   version "0.10.0"
@@ -8734,7 +8739,7 @@ jake@^10.6.1:
     filelist "^1.0.1"
     minimatch "^3.0.4"
 
-javascript-lp-solver@^0.4.5:
+javascript-lp-solver@0.4.24:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/javascript-lp-solver/-/javascript-lp-solver-0.4.24.tgz#3bb5f8aa051f0bf04747e39130133a0f738f635c"
   integrity sha512-5edoDKnMrt/u3M6GnZKDDIPxOyFOg+WrwDv8mjNiMC2DePhy2H9/FFQgf4ggywaXT1utvkxusJcjQUER72cZmA==
@@ -12987,10 +12992,10 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-quadprog-js@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/quadprog-js/-/quadprog-js-0.1.3.tgz#1cc42eee6db8dd8884073c91c6bddae2eb86daef"
-  integrity sha512-515n4/g9cCDVHj+11rAhphUTNdgLFAENsU3MrnyoRd0tHSCMi8V4LecwliTu1zl0f81dlIFVgCWNgGUWkfHyxg==
+quadprog@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/quadprog/-/quadprog-1.6.1.tgz#1cd3b13700de9553ef939a6fa73d0d55ddb2f082"
+  integrity sha512-fN5Jkcjlln/b3pJkseDKREf89JkKIyu6cKIVXisgL6ocKPQ0yTp9n6NZUAq3otEPPw78WZMG9K0o9WsfKyMWJw==
 
 query-string@^4.1.0:
   version "4.3.4"
