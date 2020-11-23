@@ -5,8 +5,16 @@ import {
   faArrowsAltH,
   faExpandArrowsAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { Typography, Tooltip, withTheme } from '@material-ui/core';
+import { Typography, Tooltip, withStyles } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
+
+const OtTooltip = withStyles(theme => ({
+  tooltip: {
+    backgroundColor: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.grey[300]}`,
+    color: theme.palette.text.primary,
+  },
+}))(Tooltip);
 
 function MethodIcon(props) {
   const theme = useTheme();
@@ -21,7 +29,7 @@ function MethodIcon(props) {
       ))
     : props.tooltip;
   return (
-    <Tooltip title={<>{title}</>} placement="top">
+    <OtTooltip title={<>{title}</>} placement="top">
       <span
         className="fa-layers fa-fw"
         style={{
@@ -32,7 +40,7 @@ function MethodIcon(props) {
         <FontAwesomeIcon icon={faCircle} size="2x" />
         {props.children}
       </span>
-    </Tooltip>
+    </OtTooltip>
   );
 }
 
