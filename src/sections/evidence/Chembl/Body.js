@@ -123,17 +123,27 @@ const columns = [
   },
   {
     label: 'Mechanism of action',
-    renderCell: ({ drug }) => {
+    renderCell: ({ target, drug }) => {
       const {
         mechanismsOfAction: { rows },
       } = drug;
-      return (
-        <ul style={{ margin: 0, paddingLeft: '17px' }}>
-          {rows.map(({ mechanismOfAction }) => (
-            <li key={mechanismOfAction}>{mechanismOfAction}</li>
-          ))}
-        </ul>
-      );
+
+      let anchorMa = '';
+
+      const mas = rows.reduce((acc, { mechanismOfAction, targets }) => {
+        targets.forEach(({ id }) => {
+          if (id === target.id) {
+            anchorMa = mechanismOfAction;
+          } else {
+            acc.add(mechanismOfAction);
+          }
+        });
+        return acc;
+      }, new Set());
+
+      return `${anchorMa}${
+        mas.size > 0 ? ` and ${mas.size} other mechanisms of action` : ''
+      }`;
     },
   },
   {
