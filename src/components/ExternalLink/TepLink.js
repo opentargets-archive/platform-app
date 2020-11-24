@@ -4,14 +4,16 @@ import HelpIcon from '@material-ui/icons/Help';
 
 import { Link } from 'ot-ui';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   helpIcon: {
     fontSize: '10px',
   },
   tepTooltip: {
-    backgroundColor: 'black',
+    backgroundColor: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.grey[300]}`,
+    color: theme.palette.text.primary,
   },
-});
+}));
 
 // TODO: this should be in the api
 const teps = {

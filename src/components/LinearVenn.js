@@ -131,11 +131,7 @@ function Legend({ theme, a, b, aAndB, tooltip }) {
         <text
           x={LEGEND_SQUARE_SIZE + LEGEND_PADDING}
           y={LEGEND_SQUARE_SIZE / 2}
-          fill={
-            tooltip
-              ? theme.palette.primary.contrastText
-              : theme.palette.text.primary
-          }
+          fill={theme.palette.text.primary}
           dominantBaseline="middle"
           ref={aText}
         >
@@ -154,11 +150,7 @@ function Legend({ theme, a, b, aAndB, tooltip }) {
         <text
           x={LEGEND_SQUARE_SIZE + LEGEND_PADDING}
           y={LEGEND_SQUARE_SIZE / 2}
-          fill={
-            tooltip
-              ? theme.palette.primary.contrastText
-              : theme.palette.text.primary
-          }
+          fill={theme.palette.text.primary}
           dominantBaseline="middle"
           ref={aAndBText}
         >
@@ -180,11 +172,7 @@ function Legend({ theme, a, b, aAndB, tooltip }) {
         <text
           x={LEGEND_SQUARE_SIZE + LEGEND_PADDING}
           y={LEGEND_SQUARE_SIZE / 2}
-          fill={
-            tooltip
-              ? theme.palette.primary.contrastText
-              : theme.palette.text.primary
-          }
+          fill={theme.palette.text.primary}
           dominantBaseline="middle"
           ref={bText}
         >
