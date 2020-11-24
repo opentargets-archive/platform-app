@@ -5,6 +5,7 @@ const releases = [
     date: '2020 September',
     artifacts: [
       {
+        important: true,
         name: 'Associations',
         files: [
           {
@@ -16,6 +17,7 @@ const releases = [
       },
       {
         name: 'Evidences',
+        important: true,
         files: [
           {
             url:

@@ -21,7 +21,6 @@ export const mapFile = url => {
 
 export const mapIcon = name => (
   <FontAwesomeIcon
-    style={{ marginRight: '.5rem' }}
     icon={
       {
         'Target list': faDna,

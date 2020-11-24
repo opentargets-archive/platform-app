@@ -12,13 +12,12 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
 } from '@material-ui/core';
 import { Info } from '@material-ui/icons';
-import { faBox } from '@fortawesome/free-solid-svg-icons';
+import { faBox, faFile } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Link } from 'ot-ui';
@@ -43,13 +42,43 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     margin: 0,
   },
+  importantArtifactContainer: {
+    display: 'flex',
+    margin: 0,
+  },
+  importantArtifactFile: {
+    alignItems: 'center',
+    color: theme.palette.grey[800],
+    display: 'flex',
+    flexDirection: 'column',
+    width: '8rem',
+  },
+  importantArtifactTitle: {
+    color: theme.palette.grey[700],
+    fontWeight: 'bold',
+    fontSize: '1rem',
+  },
+  importantArtifactCardHeader: {
+    padding: '.25rem',
+    backgroundColor: theme.palette.grey[100],
+  },
   fileLink: {
     alignItems: 'center',
     display: 'flex',
     marginRight: '.5rem',
+    [theme.breakpoints.down('xs')]: {
+      alignItems: 'flex-start',
+      flexDirection: 'column',
+      margin: 0,
+    },
   },
   fileList: {
     display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      alignItems: 'flex-start',
+      flexDirection: 'column',
+      margin: 0,
+    },
   },
   fileName: {
     fontSize: '.85rem',
@@ -70,6 +99,14 @@ const useStyles = makeStyles(theme => ({
   noteIcon: {
     fontSize: '3rem',
     marginRight: '1rem',
+  },
+  tableContainer: {
+    marginTop: '.5rem',
+  },
+  tableFilesRow: {
+    [theme.breakpoints.down('xs')]: {
+      width: '50%',
+    },
   },
   tableHeader: {
     backgroundColor: theme.palette.grey[300],
@@ -172,52 +209,105 @@ function DownloadsPage() {
         />
 
         <CardContent className={classes.cardContent}>
-          <TableContainer>
-            <Table size="small">
-              <TableHead>
-                <TableRow className={classes.tableHeader}>
-                  <TableCell>Artifact</TableCell>
-                  <TableCell>Files</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {release.artifacts
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map(artifact => (
-                    <TableRow
-                      key={artifact.name}
-                      classes={{ root: classes.tableRowRoot }}
-                    >
-                      <TableCell>
-                        {mapIcon(artifact.name)}
-                        {artifact.name}
-                      </TableCell>
-                      <TableCell>
-                        <Box className={classes.fileList}>
-                          {artifact.files.map((file, index) => (
-                            <Link
-                              external
-                              className={classes.fileLink}
-                              key={index}
-                              to={file.url}
-                            >
-                              <Typography className={classes.fileName}>
-                                {mapFile(file.url)}
-                              </Typography>
-                              <Typography className={classes.fileSize}>
-                                ({file.size})
-                              </Typography>
-                            </Link>
-                          ))}
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Grid container spacing={2}>
+            <Grid
+              item
+              container
+              xs={12}
+              lg={4}
+              xl={6}
+              className={classes.importantArtifactContainer}
+              spacing={2}
+            >
+              {release.artifacts
+                .filter(artifact => artifact.important)
+                .map(artifact => (
+                  <Grid key={artifact.name} item xs={12} sm={6} lg={12} xl={4}>
+                    <Card variant="outlined">
+                      <CardHeader
+                        className={classes.importantArtifactCardHeader}
+                        avatar={
+                          <Avatar className={classes.avatar}>
+                            {mapIcon(artifact.name)}
+                          </Avatar>
+                        }
+                        title={artifact.name}
+                        titleTypographyProps={{
+                          className: classes.importantArtifactTitle,
+                        }}
+                      />
+                      <CardContent className={classes.cardContent}>
+                        {artifact.files.map((file, index) => (
+                          <Link
+                            external
+                            key={index}
+                            className={classes.importantArtifactFile}
+                            to={file.url}
+                          >
+                            <FontAwesomeIcon icon={faFile} size="4x" />
+                            <Typography className={classes.fileName}>
+                              {mapFile(file.url)}
+                            </Typography>
+                            <Typography variant="subtitle2">
+                              {file.size}
+                            </Typography>
+                          </Link>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+            </Grid>
+
+            <Grid item xs={12} lg={8} xl={6}>
+              <Table size="small" className={classes.tableContainer}>
+                <TableHead>
+                  <TableRow className={classes.tableHeader}>
+                    <TableCell>Artifact</TableCell>
+                    <TableCell className={classes.tableFilesRow}>
+                      Files
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {release.artifacts
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map(artifact => (
+                      <TableRow
+                        key={artifact.name}
+                        classes={{ root: classes.tableRowRoot }}
+                      >
+                        <TableCell>
+                          {mapIcon(artifact.name)} {artifact.name}
+                        </TableCell>
+                        <TableCell>
+                          <Box className={classes.fileList}>
+                            {artifact.files.map((file, index) => (
+                              <Link
+                                external
+                                className={classes.fileLink}
+                                key={index}
+                                to={file.url}
+                              >
+                                <Typography className={classes.fileName}>
+                                  {mapFile(file.url)}
+                                </Typography>
+                                <Typography className={classes.fileSize}>
+                                  ({file.size})
+                                </Typography>
+                              </Link>
+                            ))}
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </Grid>
+          </Grid>
         </CardContent>
       </Card>
+
       <Box className={classes.versionSelect}>
         <Typography className={classes.versionSelectCaption}>
           Select a different release:
