@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
@@ -24,6 +24,9 @@ const CHEMBL_QUERY = gql`
           disease {
             id
             name
+          }
+          target {
+            id
           }
           drug {
             id
@@ -73,29 +76,38 @@ const columns = [
     renderCell: ({ disease }) => {
       return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
     },
+    sticky: true,
   },
   {
     label: 'Target',
-    renderCell: ({ drug }) => {
+    renderCell: ({ target, drug }) => {
       const {
         mechanismsOfAction: { rows },
       } = drug;
 
-      const allTargets = rows.reduce((acc, row) => {
-        const { targets } = row;
+      let symbol = '';
+
+      const allTargets = rows.reduce((acc, { targets }) => {
         targets.forEach(({ id, approvedSymbol }) => {
-          acc[id] = approvedSymbol;
+          if (id !== target.id) {
+            acc.add(id);
+          } else {
+            symbol = approvedSymbol;
+          }
         });
         return acc;
-      }, {});
+      }, new Set());
 
-      return Object.entries(allTargets).map(([id, symbol]) => {
-        return (
-          <Fragment key={id}>
-            <Link to={`/target/${id}`}>{symbol}</Link>{' '}
-          </Fragment>
-        );
-      });
+      return (
+        <>
+          <Link to={`/target/${target.id}`}>{symbol}</Link>
+          {allTargets.size > 0
+            ? ` and ${allTargets.size} other target${
+                allTargets.size > 1 ? 's' : ''
+              }`
+            : null}
+        </>
+      );
     },
   },
   {
@@ -164,7 +176,7 @@ function Body({ definition, id, label }) {
       definition={definition}
       request={request}
       renderDescription={() => (
-        <Description symbol={label.symbol} diseaseName={label.name} />
+        <Description symbol={label.symbol} name={label.name} />
       )}
       renderBody={({ disease }) => {
         const { rows } = disease.evidences;
