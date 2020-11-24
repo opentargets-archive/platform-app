@@ -3,7 +3,8 @@ import { Typography, withStyles } from '@material-ui/core';
 
 const styles = theme => ({
   textContainer: {
-    display: 'inline-block',
+    display: 'flex',
+    flexDirection: 'column',
     overflow: 'hidden',
   },
   showMore: {
@@ -12,7 +13,7 @@ const styles = theme => ({
   },
 });
 
-const LongText = ({ classes, lineLimit, children }) => {
+const LongText = ({ classes, lineLimit, children, variant = 'body2' }) => {
   const containerRef = useRef();
   const textRef = useRef();
   const [showMore, setShowMore] = useState(false);
@@ -40,11 +41,11 @@ const LongText = ({ classes, lineLimit, children }) => {
 
       setNumberOfLines(numberOfLines);
     },
-    [lineLimit, showMore]
+    [lineLimit, showMore, children]
   );
 
   return (
-    <Typography variant="body2">
+    <Typography variant={variant}>
       <span ref={containerRef} className={classes.textContainer}>
         <span ref={textRef}>{children}</span>
       </span>

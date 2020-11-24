@@ -32,7 +32,7 @@ function WithdrawnNotice({ withdrawnNotice }) {
         <Tooltip
           classes={{ tooltip: classes.tooltip, popper: classes.popper }}
           title={
-            <Typography className={classes.text}>
+            <Typography variant="subtitle2" className={classes.text}>
               <strong>Class: </strong>
               {withdrawnNotice.classes
                 ? withdrawnNotice.classes.join(', ')

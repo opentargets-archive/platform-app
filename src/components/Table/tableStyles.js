@@ -67,6 +67,11 @@ export const tableStyles = makeStyles(theme => ({
     fontSize: '1.5rem',
     paddingLeft: `0.6rem`,
   },
+  tooltipCardContent: {
+    '&:last-child': {
+      padding: '.5rem',
+    },
+  },
   progress: {
     position: 'relative',
     top: '6px',

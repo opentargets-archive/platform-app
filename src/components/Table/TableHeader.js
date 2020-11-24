@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import {
   Badge,
+  Card,
+  CardContent,
   makeStyles,
   Hidden,
   TableHead,
@@ -36,7 +38,10 @@ function HeaderCell({
   width,
 }) {
   const headerClasses = tableStyles();
-  const tooltipClasses = makeStyles(tooltipStyle)();
+  const tooltipClasses = makeStyles(
+    _.merge(tooltipStyle, { tooltip: { padding: 0 } })
+  )();
+
   const style = {
     minWidth,
     width,
@@ -52,7 +57,13 @@ function HeaderCell({
               interactive
               placement="top"
               classes={tooltipClasses}
-              title={tooltip}
+              title={
+                <Card elevation={0}>
+                  <CardContent className={headerClasses.tooltipCardContent}>
+                    {tooltip}
+                  </CardContent>
+                </Card>
+              }
             >
               <TooltipIcon className={headerClasses.tooltipIcon} />
             </Tooltip>

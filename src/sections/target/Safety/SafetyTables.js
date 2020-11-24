@@ -1,10 +1,24 @@
 import React from 'react';
 import _ from 'lodash';
-import { Typography, Divider, Box, Tooltip } from '@material-ui/core';
+import {
+  Typography,
+  Divider,
+  Box,
+  Tooltip,
+  makeStyles,
+} from '@material-ui/core';
 
 import { Link } from 'ot-ui';
 
 import DataTable from '../../../components/Table/DataTable';
+
+const useStyles = makeStyles(theme => ({
+  tooltip: {
+    backgroundColor: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.grey[300]}`,
+    color: theme.palette.text.primary,
+  },
+}));
 
 const SafetyTables = ({ symbol, data }) => {
   const { adverseEffects, safetyRiskInfo, tox21, etox } = data;
@@ -236,8 +250,10 @@ const etoxColumns = [
   },
 ];
 
-const ReferencesCell = ({ children }) =>
-  children
+const ReferencesCell = ({ children }) => {
+  const classes = useStyles();
+
+  return children
     .filter(reference => reference.pubmedId || reference.refLink)
     .map(({ pubUrl, refLabel, pubmedId }) => {
       const isHecatos = pubUrl.indexOf('hecatos') !== -1;
@@ -245,9 +261,10 @@ const ReferencesCell = ({ children }) =>
         <React.Fragment key={`${refLabel}:${pubUrl}`}>
           <Link external to={pubUrl}>
             <Tooltip
+              classes={{ tooltip: classes.tooltip }}
               title={
                 isHecatos
-                  ? "HeCaToS Deliverable D01.5 (2015) funded by 'EU 7th Framework Programme (HEALTH-F4-2013-602156).'"
+                  ? "HeCaToS Deliverable D01.5 (2015) funded by 'EU 7th Framework Programme (HEALTH-F4-2013-602156)'."
                   : ''
               }
               placement="top"
@@ -261,5 +278,6 @@ const ReferencesCell = ({ children }) =>
         </React.Fragment>
       );
     });
+};
 
 export default SafetyTables;
