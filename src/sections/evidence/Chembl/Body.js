@@ -87,7 +87,7 @@ const columns = [
 
       let symbol = '';
 
-      const allTargets = rows.reduce((acc, { targets }) => {
+      const otherTargets = rows.reduce((acc, { targets }) => {
         targets.forEach(({ id, approvedSymbol }) => {
           if (id !== target.id) {
             acc.add(id);
@@ -101,9 +101,9 @@ const columns = [
       return (
         <>
           <Link to={`/target/${target.id}`}>{symbol}</Link>
-          {allTargets.size > 0
-            ? ` and ${allTargets.size} other target${
-                allTargets.size > 1 ? 's' : ''
+          {otherTargets.size > 0
+            ? ` and ${otherTargets.size} other target${
+                otherTargets.size > 1 ? 's' : ''
               }`
             : null}
         </>
@@ -141,6 +141,7 @@ const columns = [
     label: 'Phase',
     sortable: true,
     renderCell: ({ clinicalPhase }) => phaseMap[clinicalPhase],
+    filterValue: ({ clinicalPhase }) => phaseMap[clinicalPhase],
   },
   {
     id: 'clinicalStatus',
@@ -157,6 +158,12 @@ const columns = [
         };
       });
       return <TableDrawer entries={urlList} caption="Sources" />;
+    },
+    filterValue: ({ clinicalUrls }) => {
+      const labels = clinicalUrls.map(({ niceName }) => {
+        return sourceMap[niceName] ? sourceMap[niceName] : niceName;
+      });
+      return labels.join();
     },
   },
 ];
