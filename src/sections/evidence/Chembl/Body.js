@@ -59,6 +59,13 @@ const phaseMap = {
   4: 'Phase IV',
 };
 
+const sourceMap = {
+  'FDA Information': 'FDA',
+  'Clinical Trials Information': 'ClinicalTrials.gov',
+  'DailyMed Information': 'DailyMed',
+  'ATC Information': 'ATC',
+};
+
 const columns = [
   {
     id: 'disease.name',
@@ -132,32 +139,13 @@ const columns = [
     renderCell: ({ clinicalUrls }) => {
       const urlList = clinicalUrls.map(({ niceName, url }) => {
         return {
-          name: niceName,
+          name: sourceMap[niceName] ? sourceMap[niceName] : niceName,
           url,
           group: 'sources',
         };
       });
       return <TableDrawer entries={urlList} caption="Sources" />;
     },
-  },
-];
-
-const headerGroups = [
-  {
-    label: 'Disease information',
-    colspan: 1,
-  },
-  {
-    label: 'Drug information',
-    colspan: 3,
-  },
-  {
-    label: 'Target information',
-    colspan: 1,
-  },
-  {
-    label: 'Clinical trials information',
-    colspan: '3',
   },
 ];
 
@@ -182,7 +170,6 @@ function Body({ definition, id, label }) {
         const { rows } = disease.evidences;
         return (
           <DataTable
-            headerGroups={headerGroups}
             columns={columns}
             rows={rows}
             rowsPerPageOptions={defaultRowsPerPageOptions}
