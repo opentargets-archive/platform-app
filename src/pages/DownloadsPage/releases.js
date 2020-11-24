@@ -33,7 +33,6 @@ const releases = [
             size: '910KB',
           },
           {
-            name: 'GZipped JSON',
             url:
               'https://storage.googleapis.com/open-targets-data-releases/20.09/output/20.09_target_list.json.gz',
             size: '1MB',
@@ -49,7 +48,6 @@ const releases = [
             size: '292KB',
           },
           {
-            name: 'GZipped JSON',
             url:
               'https://storage.googleapis.com/open-targets-data-releases/20.09/output/20.09_disease_list.json.gz',
             size: '338KB',
@@ -58,7 +56,6 @@ const releases = [
       },
       {
         name: 'Known target safety',
-        shortName: 'TS',
         files: [
           {
             url:
@@ -69,7 +66,6 @@ const releases = [
       },
       {
         name: 'Non-clinical experimental toxicity',
-        shortName: 'ET',
         files: [
           {
             url:
@@ -80,7 +76,6 @@ const releases = [
       },
       {
         name: 'Target tractability',
-        shortName: 'TT',
         files: [
           {
             url:
@@ -91,7 +86,6 @@ const releases = [
       },
       {
         name: 'Baseline expression',
-        shortName: 'BE',
         files: [
           {
             url:
@@ -162,7 +156,6 @@ const releases = [
       },
       {
         name: 'Known target safety',
-        shortName: 'TS',
         files: [
           {
             url:
@@ -173,7 +166,6 @@ const releases = [
       },
       {
         name: 'Non-clinical experimental toxicity',
-        shortName: 'ET',
         files: [
           {
             url:
@@ -184,7 +176,6 @@ const releases = [
       },
       {
         name: 'Target tractability',
-        shortName: 'TT',
         files: [
           {
             url:
@@ -195,7 +186,6 @@ const releases = [
       },
       {
         name: 'Baseline expression',
-        shortName: 'BE',
         files: [
           {
             url:
@@ -266,7 +256,6 @@ const releases = [
       },
       {
         name: 'Known target safety',
-        shortName: 'TS',
         files: [
           {
             url:
@@ -277,7 +266,6 @@ const releases = [
       },
       {
         name: 'Target tractability',
-        shortName: 'TT',
         files: [
           {
             url:
@@ -288,7 +276,6 @@ const releases = [
       },
       {
         name: 'Baseline expression',
-        shortName: 'BE',
         files: [
           {
             url:
@@ -486,7 +473,7 @@ const releases = [
     date: '2019 June',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -496,7 +483,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -514,7 +501,7 @@ const releases = [
     date: '2019 April',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -524,7 +511,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -542,7 +529,7 @@ const releases = [
     date: '2019 February',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -552,7 +539,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -570,7 +557,7 @@ const releases = [
     date: '2018 December',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -580,7 +567,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -598,7 +585,7 @@ const releases = [
     date: '2018 October',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -608,7 +595,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -626,7 +613,7 @@ const releases = [
     date: '2018 August',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -636,7 +623,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -654,7 +641,7 @@ const releases = [
     date: '2018 June',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -664,7 +651,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -682,7 +669,7 @@ const releases = [
     date: '2018 April',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -692,7 +679,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -710,7 +697,7 @@ const releases = [
     date: '2018 February',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -720,7 +707,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -738,7 +725,7 @@ const releases = [
     date: '2017 December',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -748,7 +735,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -766,7 +753,7 @@ const releases = [
     date: '2017 September',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -776,7 +763,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -794,7 +781,7 @@ const releases = [
     date: '2017 June',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -804,7 +791,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -822,7 +809,7 @@ const releases = [
     date: '2017 April',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -832,7 +819,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -850,7 +837,7 @@ const releases = [
     date: '2017 February',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -860,7 +847,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -878,7 +865,7 @@ const releases = [
     date: '2016 December',
     artifacts: [
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -896,7 +883,7 @@ const releases = [
     date: '2016 September',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -906,7 +893,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -924,7 +911,7 @@ const releases = [
     date: '2016 August',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -934,7 +921,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:
@@ -952,7 +939,7 @@ const releases = [
     date: '2016 April',
     artifacts: [
       {
-        name: 'associations',
+        name: 'Associations',
         files: [
           {
             url:
@@ -962,7 +949,7 @@ const releases = [
         ],
       },
       {
-        name: 'evidence',
+        name: 'Evidence',
         files: [
           {
             url:

@@ -1,8 +1,5 @@
 import React from 'react';
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Avatar,
   Box,
   Card,
@@ -10,43 +7,28 @@ import {
   CardHeader,
   Grid,
   makeStyles,
+  MenuItem,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from '@material-ui/core';
-import { ExpandMore, Info } from '@material-ui/icons';
-import {
-  faBox,
-  faDna,
-  faFile,
-  faStethoscope,
-} from '@fortawesome/free-solid-svg-icons';
+import { Info } from '@material-ui/icons';
+import { faBox } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Link } from 'ot-ui';
 
 import BasePage from '../../components/BasePage';
 import releases from './releases';
+import { useState } from 'react';
+import { mapFile, mapIcon } from './utils';
 
 const useStyles = makeStyles(theme => ({
-  accordionSummary: {
-    alignItems: 'center',
-    margin: 0,
-  },
-  artifact: {
-    border: `1px solid ${theme.palette.grey[300]}`,
-    backgroundColor: theme.palette.grey[100],
-    display: 'inline-flex',
-    listStyle: 'none',
-    margin: '.5rem',
-  },
-  artifactTitle: {
-    color: theme.palette.grey[700],
-    fontWeight: 'bold',
-    fontSize: '1rem',
-  },
-  artifactCardHeader: {
-    padding: '.25rem',
-    backgroundColor: theme.palette.grey[100],
-  },
   avatar: {
     color: 'white',
     backgroundColor: theme.palette.primary.main,
@@ -57,16 +39,26 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-evenly',
   },
-  file: {
+  cardHeader: {
     alignItems: 'center',
-    color: theme.palette.grey[800],
+    margin: 0,
+  },
+  fileLink: {
+    alignItems: 'center',
     display: 'flex',
-    flexDirection: 'column',
-    width: '8rem',
+    marginRight: '.5rem',
+  },
+  fileList: {
+    display: 'flex',
   },
   fileName: {
     fontSize: '.85rem',
-    fontWeight: 'bold',
+    fontWeight: '500',
+    marginRight: '.25rem',
+  },
+  fileSize: {
+    fontSize: '.66rem',
+    fontWeight: '300',
   },
   note: {
     marginBottom: '2rem',
@@ -79,6 +71,17 @@ const useStyles = makeStyles(theme => ({
     fontSize: '3rem',
     marginRight: '1rem',
   },
+  tableHeader: {
+    backgroundColor: theme.palette.grey[300],
+  },
+  tableRowRoot: {
+    '&:nth-of-type(even)': {
+      backgroundColor: theme.palette.grey[100],
+    },
+    '& td': {
+      border: 'none',
+    },
+  },
   title: {
     color: theme.palette.grey[700],
     fontWeight: 'bold',
@@ -87,132 +90,147 @@ const useStyles = makeStyles(theme => ({
   titleIcon: {
     color: 'white',
   },
+  versionSelect: {
+    alignItems: 'baseline',
+    display: 'flex',
+    marginTop: '2rem',
+  },
+  versionSelectCaption: {
+    marginRight: '.5rem',
+  },
 }));
 
-const mapFile = url => {
-  let format = '';
-  const fileNameParts = url.split('.');
-
-  if (fileNameParts[fileNameParts.length - 1].toLowerCase() === 'gz') {
-    fileNameParts.pop();
-    format = 'GZipped';
-  }
-
-  return [format, fileNameParts.pop().toUpperCase()].join(' ');
-};
-
-const mapIcon = artifact =>
-  ({
-    'Target list': <FontAwesomeIcon icon={faDna} />,
-    'Disease list': <FontAwesomeIcon icon={faStethoscope} />,
-  }[artifact.name] ||
-  (artifact.shortName || artifact.name.slice(0, 2).toUpperCase()));
+releases[0].date = `${releases[0].date} (latest)`;
 
 function DownloadsPage() {
   const classes = useStyles();
+  const [shownRelease, setShownRelease] = useState(0);
+  const release = releases[shownRelease];
+
+  const handleShownReleaseChange = e => {
+    setShownRelease(e.target.value);
+  };
 
   return (
     <BasePage>
-      <Grid container>
-        <Grid item>
-          <Typography variant="h5" component="h1" paragraph>
-            Data Download
-          </Typography>
-          <Typography paragraph>
-            All data from targetvalidation.org is available for download as
-            compressed JSON files.
-          </Typography>
-          <Typography paragraph>
-            We provide downloads of all associations between targets and
-            diseases calculated by the platform, as well as all the evidence
-            used in calculating each association. These are the same objects
-            returned by the corresponding <code>/public/associations</code> and{' '}
-            <code>/public/evidence</code> API methods. See the{' '}
-            <Link
-              external
-              to="https://docs.targetvalidation.org/tutorials/rest-api"
-            >
-              API documentation
-            </Link>{' '}
-            for further details.
-          </Typography>
+      <Typography variant="h4" component="h1" paragraph>
+        Data Download
+      </Typography>
+      <Typography paragraph>
+        All data from targetvalidation.org is available for download.
+      </Typography>
+      <Typography paragraph>
+        We provide downloads of all associations between targets and diseases
+        calculated by the platform, as well as all the evidence used in
+        calculating each association. These are the same objects returned by the
+        corresponding <code>/public/associations</code> and{' '}
+        <code>/public/evidence</code> API methods. See the{' '}
+        <Link
+          external
+          to="https://docs.targetvalidation.org/tutorials/rest-api"
+        >
+          API documentation
+        </Link>{' '}
+        for further details.
+      </Typography>
 
-          <Grid item container md={12} lg={8} xl={6} className={classes.note}>
-            <Card variant="outlined">
-              <CardContent>
-                <Box className={classes.noteContainer}>
-                  <Info className={classes.noteIcon} />
-                  <Typography>
-                    The files below are useful only if you want to analyze the
-                    data. They are not a database dump and cannot be easily used
-                    to replicate the platform locally/somewhere else.
-                  </Typography>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
+      <Grid item container md={12} lg={8} xl={6} className={classes.note}>
+        <Card variant="outlined">
+          <CardContent>
+            <Box className={classes.noteContainer}>
+              <Info className={classes.noteIcon} />
+              <Typography>
+                The files below are useful only if you want to analyze the data.
+                They are not a database dump and cannot be easily used to
+                replicate the platform locally/somewhere else.
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
 
-          {releases.map((release, index) => (
-            <Accordion
-              key={release.version}
-              defaultExpanded={index === 0}
-              variant="outlined"
-            >
-              <AccordionSummary
-                classes={{ content: classes.accordionSummary }}
-                expandIcon={<ExpandMore />}
-              >
-                <Avatar className={classes.avatar}>
-                  <FontAwesomeIcon icon={faBox} className={classes.titleIcon} />
-                </Avatar>
-                <Typography className={classes.title}>
-                  {release.date}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails className={classes.cardContent}>
-                <Grid container spacing={2}>
-                  {release.artifacts.map(artifact => (
-                    <Grid key={artifact.name} item xs={12} sm={6} lg={4} xl={2}>
-                      <Card variant="outlined">
-                        <CardHeader
-                          className={classes.artifactCardHeader}
-                          avatar={
-                            <Avatar className={classes.avatar}>
-                              {mapIcon(artifact)}
-                            </Avatar>
-                          }
-                          title={artifact.name}
-                          titleTypographyProps={{
-                            className: classes.artifactTitle,
-                          }}
-                        />
-                        <CardContent className={classes.cardContent}>
+      <Typography variant="h5" component="h1" paragraph>
+        Programmatic access
+      </Typography>
+      <Typography paragraph>todo</Typography>
+
+      <Typography variant="h5" component="h1" paragraph>
+        Direct downloads
+      </Typography>
+
+      <Card elevation={0}>
+        <CardHeader
+          classes={{ content: classes.cardHeader }}
+          avatar={
+            <Avatar className={classes.avatar}>
+              <FontAwesomeIcon icon={faBox} className={classes.titleIcon} />
+            </Avatar>
+          }
+          title={
+            <Typography className={classes.title}>{release.date}</Typography>
+          }
+        />
+
+        <CardContent className={classes.cardContent}>
+          <TableContainer>
+            <Table size="small">
+              <TableHead>
+                <TableRow className={classes.tableHeader}>
+                  <TableCell>Artifact</TableCell>
+                  <TableCell>Files</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {release.artifacts
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map(artifact => (
+                    <TableRow
+                      key={artifact.name}
+                      classes={{ root: classes.tableRowRoot }}
+                    >
+                      <TableCell>
+                        {mapIcon(artifact.name)}
+                        {artifact.name}
+                      </TableCell>
+                      <TableCell>
+                        <Box className={classes.fileList}>
                           {artifact.files.map((file, index) => (
                             <Link
                               external
+                              className={classes.fileLink}
                               key={index}
-                              className={classes.file}
                               to={file.url}
                             >
-                              <FontAwesomeIcon icon={faFile} size="4x" />
                               <Typography className={classes.fileName}>
                                 {mapFile(file.url)}
                               </Typography>
-                              <Typography variant="subtitle2">
-                                {file.size}
+                              <Typography className={classes.fileSize}>
+                                ({file.size})
                               </Typography>
                             </Link>
                           ))}
-                        </CardContent>
-                      </Card>
-                    </Grid>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </CardContent>
+      </Card>
+      <Box className={classes.versionSelect}>
+        <Typography className={classes.versionSelectCaption}>
+          Select a different release:
+        </Typography>
+
+        <Select value={shownRelease} onChange={handleShownReleaseChange}>
+          {releases.map((release, index) => (
+            <MenuItem key={index} value={index}>
+              {release.date}
+            </MenuItem>
           ))}
-        </Grid>
-      </Grid>
+        </Select>
+      </Box>
     </BasePage>
   );
 }
