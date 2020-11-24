@@ -83,7 +83,7 @@ const columns = [
   },
   {
     id: 'drug.drugType',
-    label: 'Drug type',
+    label: 'Modality',
   },
   {
     label: 'Mechanism of action',
