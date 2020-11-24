@@ -5,6 +5,7 @@ import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
+import { defaultRowsPerPageOptions } from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -174,6 +175,7 @@ function Body({ definition, id, label }) {
             headerGroups={headerGroups}
             columns={columns}
             rows={rows}
+            rowsPerPageOptions={defaultRowsPerPageOptions}
             dataDownloader
             showGlobalFilter
           />
