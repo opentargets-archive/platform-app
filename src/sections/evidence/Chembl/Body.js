@@ -112,6 +112,7 @@ const columns = [
   {
     id: 'clinicalPhase',
     label: 'Phase',
+    sortable: true,
   },
   {
     id: 'clinicalStatus',
@@ -176,6 +177,8 @@ function Body({ definition, id, label }) {
             columns={columns}
             rows={rows}
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            sortBy="clinicalPhase"
+            order="desc"
             dataDownloader
             showGlobalFilter
           />
