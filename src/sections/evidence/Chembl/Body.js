@@ -51,6 +51,14 @@ const CHEMBL_QUERY = gql`
   }
 `;
 
+const phaseMap = {
+  0: 'Phase 0',
+  1: 'Phase I',
+  2: 'Phase II',
+  3: 'Phase III',
+  4: 'Phase IV',
+};
+
 const columns = [
   {
     id: 'disease.name',
@@ -113,6 +121,7 @@ const columns = [
     id: 'clinicalPhase',
     label: 'Phase',
     sortable: true,
+    renderCell: ({ clinicalPhase }) => phaseMap[clinicalPhase],
   },
   {
     id: 'clinicalStatus',
