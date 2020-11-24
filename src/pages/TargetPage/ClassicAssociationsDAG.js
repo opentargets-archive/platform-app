@@ -59,6 +59,23 @@ function buildDagData(idToDisease, associations, assocSet) {
   return dag;
 }
 
+const line = d3
+  .line()
+  .curve(d3.curveCatmullRom)
+  .x(d => d.x)
+  .y(d => d.y);
+
+const layering = d3.layeringLongestPath();
+const decross = d3.decrossTwoLayer();
+const coord = d3.coordCenter();
+
+// const layout = d3
+//   .sugiyama()
+//   .layering(layering)
+//   .decross(decross)
+//   .coord(coord);
+// .nodeSize(() => [5, 5]);
+
 function ClassicAssociationsDAG({ ensemblId, symbol, efo, associations }) {
   const idToDisease = efo.reduce((acc, disease) => {
     acc[disease.id] = disease;
@@ -73,19 +90,37 @@ function ClassicAssociationsDAG({ ensemblId, symbol, efo, associations }) {
   const dagData = buildDagData(idToDisease, associations, assocSet);
   const dag = d3.dagStratify()(dagData);
 
-  const layering = d3.layeringLongestPath();
-  const decross = d3.decrossTwoLayer();
-  const coord = d3.coordCenter();
   const layout = d3
     .sugiyama()
     .layering(layering)
     .decross(decross)
     .coord(coord)
-    .nodeSize(() => [5, 5]);
+    .size([400, 400]);
 
   layout(dag);
 
-  return <div>associations dag</div>;
+  return (
+    <svg width="400" height="400">
+      <g>
+        {dag.links().map(({ points, source, target }) => {
+          return (
+            <path
+              key={`${source.id}-${target.id}`}
+              d={line(points)}
+              fill="none"
+              strokeWidth="1"
+              stroke="black"
+            />
+          );
+        })}
+      </g>
+      <g>
+        {dag.descendants().map(node => {
+          return <circle key={node.id} cx={node.x} cy={node.y} r={4} />;
+        })}
+      </g>
+    </svg>
+  );
 }
 
 export default ClassicAssociationsDAG;
