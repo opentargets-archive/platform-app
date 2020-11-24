@@ -75,6 +75,30 @@ const columns = [
     },
   },
   {
+    label: 'Target',
+    renderCell: ({ drug }) => {
+      const {
+        mechanismsOfAction: { rows },
+      } = drug;
+
+      const allTargets = rows.reduce((acc, row) => {
+        const { targets } = row;
+        targets.forEach(({ id, approvedSymbol }) => {
+          acc[id] = approvedSymbol;
+        });
+        return acc;
+      }, {});
+
+      return Object.entries(allTargets).map(([id, symbol]) => {
+        return (
+          <Fragment key={id}>
+            <Link to={`/target/${id}`}>{symbol}</Link>{' '}
+          </Fragment>
+        );
+      });
+    },
+  },
+  {
     id: 'drug.name',
     label: 'Drug',
     renderCell: ({ drug }) => {
@@ -98,30 +122,6 @@ const columns = [
           ))}
         </ul>
       );
-    },
-  },
-  {
-    label: 'Target',
-    renderCell: ({ drug }) => {
-      const {
-        mechanismsOfAction: { rows },
-      } = drug;
-
-      const allTargets = rows.reduce((acc, row) => {
-        const { targets } = row;
-        targets.forEach(({ id, approvedSymbol }) => {
-          acc[id] = approvedSymbol;
-        });
-        return acc;
-      }, {});
-
-      return Object.entries(allTargets).map(([id, symbol]) => {
-        return (
-          <Fragment key={id}>
-            <Link to={`/target/${id}`}>{symbol}</Link>{' '}
-          </Fragment>
-        );
-      });
     },
   },
   {
