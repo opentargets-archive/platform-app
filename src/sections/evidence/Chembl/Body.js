@@ -1,10 +1,15 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
+import {
+  defaultRowsPerPageOptions,
+  phaseMap,
+  sourceMap,
+} from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -23,6 +28,9 @@ const CHEMBL_QUERY = gql`
           disease {
             id
             name
+          }
+          target {
+            id
           }
           drug {
             id
@@ -57,6 +65,39 @@ const columns = [
     renderCell: ({ disease }) => {
       return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
     },
+    sticky: true,
+  },
+  {
+    label: 'Target',
+    renderCell: ({ target, drug }) => {
+      const {
+        mechanismsOfAction: { rows },
+      } = drug;
+
+      let symbol = '';
+
+      const otherTargets = rows.reduce((acc, { targets }) => {
+        targets.forEach(({ id, approvedSymbol }) => {
+          if (id !== target.id) {
+            acc.add(id);
+          } else {
+            symbol = approvedSymbol;
+          }
+        });
+        return acc;
+      }, new Set());
+
+      return (
+        <>
+          <Link to={`/target/${target.id}`}>{symbol}</Link>
+          {otherTargets.size > 0
+            ? ` and ${otherTargets.size} other target${
+                otherTargets.size > 1 ? 's' : ''
+              }`
+            : null}
+        </>
+      );
+    },
   },
   {
     id: 'drug.name',
@@ -67,50 +108,39 @@ const columns = [
   },
   {
     id: 'drug.drugType',
-    label: 'Drug type',
+    label: 'Modality',
   },
   {
     label: 'Mechanism of action',
-    renderCell: ({ drug }) => {
-      const {
-        mechanismsOfAction: { rows },
-      } = drug;
-      return (
-        <ul style={{ margin: 0, paddingLeft: '17px' }}>
-          {rows.map(({ mechanismOfAction }) => (
-            <li key={mechanismOfAction}>{mechanismOfAction}</li>
-          ))}
-        </ul>
-      );
-    },
-  },
-  {
-    label: 'Target',
-    renderCell: ({ drug }) => {
+    renderCell: ({ target, drug }) => {
       const {
         mechanismsOfAction: { rows },
       } = drug;
 
-      const allTargets = rows.reduce((acc, row) => {
-        const { targets } = row;
-        targets.forEach(({ id, approvedSymbol }) => {
-          acc[id] = approvedSymbol;
+      let anchorMa = '';
+
+      const mas = rows.reduce((acc, { mechanismOfAction, targets }) => {
+        targets.forEach(({ id }) => {
+          if (id === target.id) {
+            anchorMa = mechanismOfAction;
+          } else {
+            acc.add(mechanismOfAction);
+          }
         });
         return acc;
-      }, {});
+      }, new Set());
 
-      return Object.entries(allTargets).map(([id, symbol]) => {
-        return (
-          <Fragment key={id}>
-            <Link to={`/target/${id}`}>{symbol}</Link>{' '}
-          </Fragment>
-        );
-      });
+      return `${anchorMa}${
+        mas.size > 0 ? ` and ${mas.size} other mechanisms of action` : ''
+      }`;
     },
   },
   {
     id: 'clinicalPhase',
     label: 'Phase',
+    sortable: true,
+    renderCell: ({ clinicalPhase }) => phaseMap[clinicalPhase],
+    filterValue: ({ clinicalPhase }) => phaseMap[clinicalPhase],
   },
   {
     id: 'clinicalStatus',
@@ -121,32 +151,19 @@ const columns = [
     renderCell: ({ clinicalUrls }) => {
       const urlList = clinicalUrls.map(({ niceName, url }) => {
         return {
-          name: niceName,
+          name: sourceMap[niceName] ? sourceMap[niceName] : niceName,
           url,
           group: 'sources',
         };
       });
       return <TableDrawer entries={urlList} caption="Sources" />;
     },
-  },
-];
-
-const headerGroups = [
-  {
-    label: 'Disease information',
-    colspan: 1,
-  },
-  {
-    label: 'Drug information',
-    colspan: 3,
-  },
-  {
-    label: 'Target information',
-    colspan: 1,
-  },
-  {
-    label: 'Clinical trials information',
-    colspan: '3',
+    filterValue: ({ clinicalUrls }) => {
+      const labels = clinicalUrls.map(({ niceName }) => {
+        return sourceMap[niceName] ? sourceMap[niceName] : niceName;
+      });
+      return labels.join();
+    },
   },
 ];
 
@@ -165,15 +182,17 @@ function Body({ definition, id, label }) {
       definition={definition}
       request={request}
       renderDescription={() => (
-        <Description symbol={label.symbol} diseaseName={label.name} />
+        <Description symbol={label.symbol} name={label.name} />
       )}
       renderBody={({ disease }) => {
         const { rows } = disease.evidences;
         return (
           <DataTable
-            headerGroups={headerGroups}
             columns={columns}
             rows={rows}
+            rowsPerPageOptions={defaultRowsPerPageOptions}
+            sortBy="clinicalPhase"
+            order="desc"
             dataDownloader
             showGlobalFilter
           />
