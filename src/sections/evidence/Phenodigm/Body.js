@@ -5,13 +5,12 @@ import { Link } from 'ot-ui';
 
 import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
-import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
+import { naLabel } from '../../../constants';
 import Description from './Description';
 import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
-import { otgStudyUrl } from '../../../utils/urls';
 import { loader } from 'graphql.macro';
 import { List, ListItem, makeStyles } from '@material-ui/core';
 
@@ -35,11 +34,8 @@ const columns = classes => [
   {
     id: 'diseaseFromSource',
     label: 'Reported disease/phenotype',
-    renderCell: ({ diseaseFromSource, studyId }) => (
-      <Link external to={otgStudyUrl(studyId)}>
-        {diseaseFromSource ? diseaseFromSource : studyId}
-      </Link>
-    ),
+    renderCell: ({ diseaseFromSource, studyId }) =>
+      diseaseFromSource ? diseaseFromSource : studyId,
   },
   {
     id: 'diseaseModelAssociatedHumanPhenotypes',
@@ -57,6 +53,8 @@ const columns = classes => [
         )}
       </List>
     ),
+    filterValue: ({ diseaseModelAssociatedHumanPhenotypes = [] }) =>
+      diseaseModelAssociatedHumanPhenotypes.map(dmahp => dmahp.label).join(),
   },
   {
     id: 'diseaseModelAssociatedModelPhenotypes',
@@ -75,6 +73,8 @@ const columns = classes => [
         )}
       </List>
     ),
+    filterValue: ({ diseaseModelAssociatedModelPhenotypes = [] }) =>
+      diseaseModelAssociatedModelPhenotypes.map(dmamp => dmamp.label).join(),
   },
   {
     id: 'literature',
@@ -119,8 +119,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           dataDownloader
           dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
           rows={data.disease.evidences.rows}
-          pageSize={10}
-          rowsPerPageOptions={defaultRowsPerPageOptions}
+          pageSize={5}
+          rowsPerPageOptions={[5, 10, 15, 20, 25]}
           showGlobalFilter
         />
       )}
