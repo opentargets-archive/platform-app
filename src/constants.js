@@ -283,3 +283,18 @@ export const colorRange = [
 export const defaultRowsPerPageOptions = [10, 25, 100];
 
 export const decimalPlaces = 3;
+
+export const phaseMap = {
+  0: 'Phase 0',
+  1: 'Phase I',
+  2: 'Phase II',
+  3: 'Phase III',
+  4: 'Phase IV',
+};
+
+export const sourceMap = {
+  'FDA Information': 'FDA',
+  'Clinical Trials Information': 'ClinicalTrials.gov',
+  'DailyMed Information': 'DailyMed',
+  'ATC Information': 'ATC',
+};

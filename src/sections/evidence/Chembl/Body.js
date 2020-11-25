@@ -5,7 +5,11 @@ import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
-import { defaultRowsPerPageOptions } from '../../../constants';
+import {
+  defaultRowsPerPageOptions,
+  phaseMap,
+  sourceMap,
+} from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -53,21 +57,6 @@ const CHEMBL_QUERY = gql`
     }
   }
 `;
-
-const phaseMap = {
-  0: 'Phase 0',
-  1: 'Phase I',
-  2: 'Phase II',
-  3: 'Phase III',
-  4: 'Phase IV',
-};
-
-const sourceMap = {
-  'FDA Information': 'FDA',
-  'Clinical Trials Information': 'ClinicalTrials.gov',
-  'DailyMed Information': 'DailyMed',
-  'ATC Information': 'ATC',
-};
 
 const columns = [
   {
