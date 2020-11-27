@@ -44,7 +44,19 @@ const columns = {
       ),
       renderCell: row => (
         <>
-          {row.targetA ? row.targetA.approvedSymbol : row.intA}
+          {row.targetA ? (
+            <Link to={`/target/${row.targetA.id}`} onClick={onLinkClick}>
+              {row.targetA.approvedSymbol}
+            </Link>
+          ) : (
+            <Link
+              to={`http://uniprot.org/uniprot/${row.intA}`}
+              onClick={onLinkClick}
+              external
+            >
+              {row.intA}
+            </Link>
+          )}
           <br />
           <Typography variant="caption">
             Species: {row.speciesA.mnemonic}
@@ -76,7 +88,19 @@ const columns = {
       ),
       renderCell: row => (
         <>
-          {row.targetB ? row.targetB.approvedSymbol : row.intB}
+          {row.targetB ? (
+            <Link to={`/target/${row.targetB.id}`} onClick={onLinkClick}>
+              {row.targetB.approvedSymbol}
+            </Link>
+          ) : (
+            <Link
+              to={`http://uniprot.org/uniprot/${row.intB}`}
+              onClick={onLinkClick}
+              external
+            >
+              {row.intB}
+            </Link>
+          )}
           <br />
           <Typography variant="caption">
             Species: {row.speciesB.mnemonic}

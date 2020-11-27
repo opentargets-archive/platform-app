@@ -112,7 +112,9 @@ function getColumns(classes) {
               {row.targetB.approvedSymbol}
             </Link>
           ) : (
-            row.intB
+            <Link to={`http://uniprot.org/uniprot/${row.intB}`} external>
+              {row.intB}
+            </Link>
           )}
         </span>
       ),

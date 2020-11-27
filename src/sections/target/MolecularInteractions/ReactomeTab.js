@@ -48,7 +48,19 @@ const columns = {
       ),
       renderCell: row => (
         <>
-          {row.targetB ? row.targetB.approvedSymbol : row.intB}
+          {row.targetB ? (
+            <Link to={`/target/${row.targetB.id}`} onClick={onLinkClick}>
+              {row.targetB.approvedSymbol}
+            </Link>
+          ) : (
+            <Link
+              to={`http://uniprot.org/uniprot/${row.intB}`}
+              onClick={onLinkClick}
+              external
+            >
+              {row.intB}
+            </Link>
+          )}
           <br />
           <Typography variant="caption">
             Species: {row.speciesB.mnemonic}

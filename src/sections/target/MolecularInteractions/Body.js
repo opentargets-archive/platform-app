@@ -61,6 +61,7 @@ const INTERACTIONS_TAB_QUERY = gql`
           intA
           intABiologicalRole
           targetA {
+            id
             approvedSymbol
           }
           speciesA {
@@ -69,6 +70,7 @@ const INTERACTIONS_TAB_QUERY = gql`
           intB
           intBBiologicalRole
           targetB {
+            id
             approvedSymbol
           }
           speciesB {
