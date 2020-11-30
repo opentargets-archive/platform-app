@@ -19,6 +19,7 @@ To start developing, follow these steps:
 ## Further documentation
 
 - [Contributing](docs/CONTRIBUTING.md)
+- [Creating a new section](docs/sections.md)
 - [Extending and customising the web app](docs/customisations.md)
 - [Table component API](./src/components/Table/README.md)
 - [Code of conduct](docs/CODE_OF_CONDUCT.md)
