@@ -61,9 +61,9 @@ function buildDagData(idToDisease, associations, assocSet) {
 
 const line = d3
   .line()
-  .curve(d3.curveCatmullRom)
-  .x(d => d.x)
-  .y(d => d.y);
+  .curve(d3.curveMonotoneX)
+  .x(d => d.y)
+  .y(d => d.x);
 
 const layering = d3.layeringLongestPath();
 const decross = d3.decrossTwoLayer();
@@ -116,7 +116,7 @@ function ClassicAssociationsDAG({ ensemblId, symbol, efo, associations }) {
       </g>
       <g>
         {dag.descendants().map(node => {
-          return <circle key={node.id} cx={node.x} cy={node.y} r={4} />;
+          return <circle key={node.id} cx={node.y} cy={node.x} r={4} />;
         })}
       </g>
     </svg>
