@@ -30,6 +30,8 @@ export const definition = {
   // determine if there is data for this section (and therefore whether to
   // display its body or not.
   hasData: data => !!data.tep,
+  // Optional, set to true if the section uses an external API instead.
+  external: false,
 };
 
 export { default as Summary } from './Summary';
