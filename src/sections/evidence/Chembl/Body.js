@@ -65,7 +65,6 @@ const columns = [
     renderCell: ({ disease }) => {
       return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
     },
-    sticky: true,
   },
   {
     label: 'Target',
@@ -111,7 +110,7 @@ const columns = [
     label: 'Modality',
   },
   {
-    label: 'Mechanism of action',
+    label: 'Mechanism of action (MoA)',
     renderCell: ({ target, drug }) => {
       const {
         mechanismsOfAction: { rows },
@@ -130,9 +129,7 @@ const columns = [
         return acc;
       }, new Set());
 
-      return `${anchorMa}${
-        mas.size > 0 ? ` and ${mas.size} other mechanisms of action` : ''
-      }`;
+      return `${anchorMa}${mas.size > 0 ? ` and ${mas.size} other MoA` : ''}`;
     },
   },
   {
