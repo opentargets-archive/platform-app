@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import Select from 'react-select';
-import { Chip, Grid, withStyles } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import { Chip, Grid, TextField, withStyles } from '@material-ui/core';
 import classNames from 'classnames';
 
 import { Typography, Button } from 'ot-ui';
@@ -23,6 +23,9 @@ const aggtype = [
 ];
 
 const styles = theme => ({
+  aggtypeAutocomplete: {
+    maxWidth: '15rem',
+  },
   icon: {
     width: '50px',
     height: '50px',
@@ -30,10 +33,6 @@ const styles = theme => ({
   },
   iconNoData: {
     fill: '#e2dfdf',
-  },
-  dropDown: {
-    maxWidth: '200px',
-    marginBottom: '20px',
   },
   chip: {
     margin: theme.spacing(0.25),
@@ -67,7 +66,7 @@ class Section extends Component {
   }
 
   // Handler for drop down menu
-  aggtypeFilterHandler = selection => {
+  aggtypeFilterHandler = (e, selection) => {
     this.setState({ selectedAggregation: selection });
   };
 
@@ -212,13 +211,22 @@ class Section extends Component {
           >
             <Grid item xs={12}>
               {/* Dropdown menu */}
-              <Select
-                options={aggtype}
-                defaultValue={selectedAggregation}
+              <Autocomplete
+                className={classes.aggtypeAutocomplete}
+                disableClearable
+                getOptionLabel={option => option.label}
+                getOptionSelected={option => option.value}
                 onChange={this.aggtypeFilterHandler}
-                className={classNames(classes.dropDown)}
+                options={aggtype}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    // label=""
+                    margin="normal"
+                  />
+                )}
+                value={selectedAggregation}
               />
-
               {/* Chips */}
               <Fragment>
                 {selected.map((sel, i) => {
