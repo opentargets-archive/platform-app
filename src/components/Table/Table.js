@@ -76,7 +76,7 @@ const Table = ({
     <Grid container direction="column">
       <Grid item container>
         {showGlobalFilter && (
-          <Grid className={defaultClasses.filter} item xs={12} md={5} lg={7}>
+          <Grid className={defaultClasses.filter} item xs={12} md={4} lg={4}>
             <GlobalFilter onGlobalFilterChange={handleGlobalFilterChange} />
           </Grid>
         )}
@@ -85,8 +85,8 @@ const Table = ({
             className={defaultClasses.downloader}
             item
             xs={12}
-            md={7}
-            lg={5}
+            md={8}
+            lg={8}
           >
             <DataDownloader
               columns={columns}
