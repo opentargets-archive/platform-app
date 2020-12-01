@@ -8,6 +8,7 @@ import {
   MethodIconArrow,
   MethodIconExpandArrow,
 } from './custom/MethodIcons';
+import OtTooltip from './custom/OtTooltip';
 
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'ot-ui';
@@ -114,9 +115,11 @@ const columns = {
         <>
           {row.interactionTypeShortName}
           <br />
-          <Typography variant="caption">
-            Organism: {row.hostOrganismScientificName}
-          </Typography>
+          <OtTooltip title={row.hostOrganismScientificName} placement="top">
+            <Typography variant="caption" noWrap display="block">
+              Organism: {row.hostOrganismScientificName}
+            </Typography>
+          </OtTooltip>
         </>
       ),
     },
@@ -193,7 +196,7 @@ function ReactomeTab({ ensgId, symbol, query }) {
   );
   return (
     <Grid container spacing={4}>
-      <Grid item xs={12} md={5}>
+      <Grid item xs={12} md={4}>
         {/* table 1: interactions */}
         <DataTable
           showGlobalFilter
@@ -210,6 +213,10 @@ function ReactomeTab({ ensgId, symbol, query }) {
         />
       </Grid>
 
+      <Grid item xs={12} md={1}>
+        {/* spacer between columns */}
+      </Grid>
+
       {/* table 2: evidence */}
       <Grid item xs={12} md={7}>
         <DataTable
@@ -218,6 +225,7 @@ function ReactomeTab({ ensgId, symbol, query }) {
           rows={evidence}
           dataDownloader
           dataDownloaderFileStem={`${symbol}-molecular-interactions-reactome`}
+          fixed
         />
       </Grid>
     </Grid>

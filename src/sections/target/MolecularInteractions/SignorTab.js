@@ -4,6 +4,7 @@ import client from '../../../client';
 
 import DataTable from '../../../components/Table/DataTable';
 import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
+import OtTooltip from './custom/OtTooltip';
 
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'ot-ui';
@@ -175,9 +176,11 @@ const columns = {
         <>
           {row.interactionTypeShortName}
           <br />
-          <Typography variant="caption">
-            {row.hostOrganismScientificName}
-          </Typography>
+          <OtTooltip title={row.hostOrganismScientificName} placement="top">
+            <Typography variant="caption" noWrap display="block">
+              {row.hostOrganismScientificName}
+            </Typography>
+          </OtTooltip>
         </>
       ),
     },
@@ -268,14 +271,19 @@ function SignorTab({ ensgId, symbol, query }) {
         />
       </Grid>
 
+      <Grid item xs={12} md={1}>
+        {/* spacer between columns */}
+      </Grid>
+
       {/* table 2: evidence */}
-      <Grid item xs={12} md={7}>
+      <Grid item xs={12} md={6}>
         <DataTable
           showGlobalFilter
           columns={columns.evidence}
           rows={evidence}
           dataDownloader
           dataDownloaderFileStem={`${symbol}-molecular-interactions-signor`}
+          fixed
         />
       </Grid>
     </Grid>

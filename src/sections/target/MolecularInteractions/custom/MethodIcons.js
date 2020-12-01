@@ -1,20 +1,13 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCircle,
   faArrowsAltH,
   faExpandArrowsAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { Typography, Tooltip, withStyles } from '@material-ui/core';
+// import { Typography, Tooltip, withStyles } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
-
-const OtTooltip = withStyles(theme => ({
-  tooltip: {
-    backgroundColor: theme.palette.background.paper,
-    border: `1px solid ${theme.palette.grey[300]}`,
-    color: theme.palette.text.primary,
-  },
-}))(Tooltip);
+import OtTooltip from './OtTooltip';
 
 function MethodIcon(props) {
   const theme = useTheme();
