@@ -1,6 +1,7 @@
 import React from 'react';
 import * as d3Base from 'd3';
 import * as d3Dag from 'd3-dag';
+import { withContentRect } from 'react-measure';
 
 const d3 = Object.assign({}, d3Base, d3Dag);
 
@@ -76,7 +77,14 @@ const coord = d3.coordCenter();
 //   .coord(coord);
 // .nodeSize(() => [5, 5]);
 
-function ClassicAssociationsDAG({ ensemblId, symbol, efo, associations }) {
+function ClassicAssociationsDAG({
+  ensemblId,
+  symbol,
+  efo,
+  associations,
+  measureRef,
+  contentRect,
+}) {
   const idToDisease = efo.reduce((acc, disease) => {
     acc[disease.id] = disease;
     return acc;
@@ -87,6 +95,8 @@ function ClassicAssociationsDAG({ ensemblId, symbol, efo, associations }) {
     return acc;
   }, {});
 
+  const { width: size } = contentRect.bounds;
+
   const dagData = buildDagData(idToDisease, associations, assocSet);
   const dag = d3.dagStratify()(dagData);
 
@@ -95,32 +105,36 @@ function ClassicAssociationsDAG({ ensemblId, symbol, efo, associations }) {
     .layering(layering)
     .decross(decross)
     .coord(coord)
-    .size([400, 400]);
+    .size([size, size]);
 
   layout(dag);
 
   return (
-    <svg width="400" height="400">
-      <g>
-        {dag.links().map(({ points, source, target }) => {
-          return (
-            <path
-              key={`${source.id}-${target.id}`}
-              d={line(points)}
-              fill="none"
-              strokeWidth="1"
-              stroke="black"
-            />
-          );
-        })}
-      </g>
-      <g>
-        {dag.descendants().map(node => {
-          return <circle key={node.id} cx={node.y} cy={node.x} r={4} />;
-        })}
-      </g>
-    </svg>
+    <div ref={measureRef}>
+      {size ? (
+        <svg width={size} height={size}>
+          <g>
+            {dag.links().map(({ points, source, target }) => {
+              return (
+                <path
+                  key={`${source.id}-${target.id}`}
+                  d={line(points)}
+                  fill="none"
+                  strokeWidth="1"
+                  stroke="black"
+                />
+              );
+            })}
+          </g>
+          <g>
+            {dag.descendants().map(node => {
+              return <circle key={node.id} cx={node.y} cy={node.x} r={4} />;
+            })}
+          </g>
+        </svg>
+      ) : null}
+    </div>
   );
 }
 
-export default ClassicAssociationsDAG;
+export default withContentRect('bounds')(ClassicAssociationsDAG);
