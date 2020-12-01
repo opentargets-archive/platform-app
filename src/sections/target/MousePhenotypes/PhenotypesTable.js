@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import Select from 'react-select';
+import { Autocomplete } from '@material-ui/lab';
 import crossfilter from 'crossfilter2';
+import { TextField } from '@material-ui/core';
 import _ from 'lodash';
 
 import { DataDownloader, OtTableRF, Link } from 'ot-ui';
@@ -13,8 +14,7 @@ const getColumns = (
   categoryOptions,
   categoryFilterHandler,
   phenotypeOptions,
-  phenotypeFilterHandler,
-  classes
+  phenotypeFilterHandler
 ) => {
   return [
     {
@@ -29,10 +29,14 @@ const getColumns = (
         </Link>
       ),
       renderFilter: () => (
-        <Select
-          isClearable
-          options={mouseGeneOptions}
+        <Autocomplete
+          getOptionLabel={option => option.label}
+          getOptionSelected={option => option.value}
           onChange={mouseGeneFilterHandler}
+          options={mouseGeneOptions}
+          renderInput={params => (
+            <TextField {...params} label="Select..." margin="normal" />
+          )}
         />
       ),
     },
@@ -40,10 +44,14 @@ const getColumns = (
       id: 'categoryLabel',
       label: 'Phenotype category',
       renderFilter: () => (
-        <Select
-          isClearable
+        <Autocomplete
+          getOptionLabel={option => option.label}
+          getOptionSelected={option => option.value}
           options={categoryOptions}
           onChange={categoryFilterHandler}
+          renderInput={params => (
+            <TextField {...params} label="Select..." margin="normal" />
+          )}
         />
       ),
     },
@@ -51,10 +59,14 @@ const getColumns = (
       id: 'phenotypeLabel',
       label: 'Phenotype label',
       renderFilter: () => (
-        <Select
-          isClearable
+        <Autocomplete
+          getOptionLabel={option => option.label}
+          getOptionSelected={option => option.value}
           options={phenotypeOptions}
           onChange={phenotypeFilterHandler}
+          renderInput={params => (
+            <TextField {...params} label="Select..." margin="normal" />
+          )}
         />
       ),
     },
@@ -133,7 +145,7 @@ class PhenotypesTable extends Component {
     filteredRows: this.props.rows,
   };
 
-  mouseGeneFilterHandler = selection => {
+  mouseGeneFilterHandler = (e, selection) => {
     const { phenotypesXf, mouseGeneDim } = this;
 
     if (selection) {
@@ -145,7 +157,7 @@ class PhenotypesTable extends Component {
     this.setState({ filteredRows: phenotypesXf.allFiltered() });
   };
 
-  categoryFilterHandler = selection => {
+  categoryFilterHandler = (e, selection) => {
     const { phenotypesXf, categoryDim } = this;
     if (selection) {
       categoryDim.filter(d => d === selection.value);
@@ -156,7 +168,7 @@ class PhenotypesTable extends Component {
     this.setState({ filteredRows: phenotypesXf.allFiltered() });
   };
 
-  phenotypeFilterHandler = selection => {
+  phenotypeFilterHandler = (e, selection) => {
     const { phenotypesXf, phenotypeDim } = this;
 
     if (selection) {
