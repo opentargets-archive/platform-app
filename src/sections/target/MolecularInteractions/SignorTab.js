@@ -249,7 +249,7 @@ function SignorTab({ ensgId, symbol, query }) {
   );
 
   return (
-    <Grid container spacing={4}>
+    <Grid container spacing={10}>
       <Grid item xs={12} md={5}>
         {/* table 1: interactions */}
         <DataTable
@@ -269,12 +269,8 @@ function SignorTab({ ensgId, symbol, query }) {
         />
       </Grid>
 
-      <Grid item xs={12} md={1}>
-        {/* spacer between columns */}
-      </Grid>
-
       {/* table 2: evidence */}
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={7}>
         <DataTable
           showGlobalFilter
           columns={columns.evidence}
