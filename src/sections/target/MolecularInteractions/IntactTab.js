@@ -72,21 +72,17 @@ const columns = {
           </Typography>
         </>
       ),
+      width: '40%',
     },
     {
       id: 'scoring',
       label: 'Score',
       renderCell: row => row.scoring,
+      width: '14%',
     },
     {
       id: 'biologicalRole',
-      label: (
-        <>
-          Biological
-          <br />
-          role
-        </>
-      ),
+      label: 'Biological role',
       renderCell: row => (
         <>
           <MethodIconText
@@ -103,17 +99,13 @@ const columns = {
           </MethodIconText>
         </>
       ),
+      width: '23%',
     },
     {
       id: 'evidences',
-      label: (
-        <>
-          Interaction
-          <br />
-          evidence
-        </>
-      ),
+      label: 'Interaction evidence',
       renderCell: row => row.count,
+      width: '23%',
       //   exportValue: row => (row.disease ? label(row.disease.name) : naLabel),
     },
   ],
@@ -133,6 +125,7 @@ const columns = {
           {row.interactionIdentifier}
         </Link>
       ),
+      width: '25%',
     },
     {
       id: 'interaction',
@@ -154,6 +147,7 @@ const columns = {
           </OtTooltip>
         </>
       ),
+      width: '30%',
     },
     {
       id: 'methods',
@@ -186,6 +180,7 @@ const columns = {
           </MethodIconText>
         </>
       ),
+      width: '25%',
     },
     {
       id: 'pubmedId',
@@ -198,6 +193,7 @@ const columns = {
         ) : (
           d.pubmedId
         ),
+      width: '20%',
     },
   ],
 };
@@ -239,6 +235,8 @@ function IntactTab({ ensgId, symbol, query }) {
             setEvidence(r.evidences);
           }}
           rowIsSelectable
+          fixed
+          noWrapHeader={false}
         />
       </Grid>
 
@@ -255,6 +253,7 @@ function IntactTab({ ensgId, symbol, query }) {
           dataDownloader
           dataDownloaderFileStem={`${symbol}-molecular-interactions-intact`}
           fixed
+          noWrapHeader={false}
         />
       </Grid>
     </Grid>
