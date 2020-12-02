@@ -2,6 +2,7 @@ import React from 'react';
 import * as d3Base from 'd3';
 import * as d3Dag from 'd3-dag';
 import { withContentRect } from 'react-measure';
+import { colorRange } from '../../constants';
 
 const d3 = Object.assign({}, d3Base, d3Dag);
 
@@ -46,6 +47,7 @@ function buildDagData(idToDisease, associations, assocSet) {
 
     dag.push({
       id: association.disease.id,
+      score: association.score,
       parentIds,
     });
   });
@@ -70,12 +72,10 @@ const layering = d3.layeringLongestPath();
 const decross = d3.decrossTwoLayer();
 const coord = d3.coordCenter();
 
-// const layout = d3
-//   .sugiyama()
-//   .layering(layering)
-//   .decross(decross)
-//   .coord(coord);
-// .nodeSize(() => [5, 5]);
+const color = d3
+  .scaleQuantize()
+  .domain([0, 1])
+  .range(colorRange);
 
 function ClassicAssociationsDAG({
   ensemblId,
@@ -120,15 +120,34 @@ function ClassicAssociationsDAG({
                   key={`${source.id}-${target.id}`}
                   d={line(points)}
                   fill="none"
-                  strokeWidth="1"
-                  stroke="black"
+                  strokeWidth="2"
+                  stroke="#eeeeee"
                 />
               );
             })}
           </g>
           <g>
             {dag.descendants().map(node => {
-              return <circle key={node.id} cx={node.y} cy={node.x} r={4} />;
+              return node.data.parentIds.length === 0 ? (
+                <rect
+                  key={node.id}
+                  x={node.y - 4}
+                  y={node.x - 4}
+                  width="8"
+                  height="8"
+                  fill={node.data.score ? color(node.data.score) : 'white'}
+                  stroke="#e0e0e0"
+                />
+              ) : (
+                <circle
+                  key={node.id}
+                  cx={node.y}
+                  cy={node.x}
+                  r={4}
+                  fill={color(node.data.score)}
+                  stroke="#e0e0e0"
+                />
+              );
             })}
           </g>
         </svg>
