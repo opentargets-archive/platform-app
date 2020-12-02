@@ -244,7 +244,7 @@ function Body({ definition, label: symbol, id }) {
               })}
             </Tabs>
 
-            <div style={{ marginTop: '30px' }}>
+            <div style={{ marginTop: '50px' }}>
               {/* intact stuff */}
               {source === 'intact' && (
                 <IntactTab
