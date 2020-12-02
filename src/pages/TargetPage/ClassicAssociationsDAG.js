@@ -47,6 +47,7 @@ function buildDagData(idToDisease, associations, assocSet) {
 
     dag.push({
       id: association.disease.id,
+      name: association.disease.name,
       score: association.score,
       parentIds,
     });
@@ -55,6 +56,7 @@ function buildDagData(idToDisease, associations, assocSet) {
   tas.forEach(id => {
     dag.push({
       id,
+      name: idToDisease[id].name,
       parentIds: [],
     });
   });
