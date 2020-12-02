@@ -6,7 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loader } from 'graphql.macro';
-import { List, ListItem, Typography } from '@material-ui/core';
+import { List, ListItem } from '@material-ui/core';
 
 import { Link } from 'ot-ui';
 
@@ -73,7 +73,7 @@ const columns = [
       cohortPhenotypes ? (
         <List style={{ padding: 0 }}>
           {cohortPhenotypes.map((entry, index) => (
-            <ListItem key={index} style={{ padding: '0 0 .5rem 0' }}>
+            <ListItem key={index} style={{ padding: '.25rem 0' }}>
               {entry}
             </ListItem>
           ))}

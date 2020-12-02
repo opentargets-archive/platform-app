@@ -1,66 +1,22 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Box, List, ListItem, makeStyles, Typography } from '@material-ui/core';
+import { loader } from 'graphql.macro';
 
 import { Link } from 'ot-ui';
 
 import { betaClient } from '../../../client';
+import ChipList from '../../../components/ChipList';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
 import { naLabel } from '../../../constants';
-import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
-import ChipList from '../../../components/ChipList';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const CANCER_GENE_CENSUS_QUERY = gql`
-  query CancerGeneCensusQuery(
-    $ensemblId: String!
-    $efoId: String!
-    $size: Int!
-  ) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["cancer_gene_census"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          variations {
-            functionalConsequence {
-              id
-              label
-            }
-            numberSamplesWithMutationType
-            numberSamplesTested
-            inheritancePattern
-          }
-          literature
-        }
-      }
-    }
-    target(ensemblId: $ensemblId) {
-      id
-      hallmarks {
-        attributes {
-          reference {
-            pubmedId
-            description
-          }
-          name
-        }
-      }
-    }
-  }
-`;
+const CANCER_GENE_CENSUS_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
@@ -72,21 +28,21 @@ const columns = [
   },
   {
     id: 'mutationType',
-    propertyPath: 'variations.functionalConsequence',
+    propertyPath: 'mutatedSamples.functionalConsequence',
     label: 'Mutation type',
-    renderCell: ({ variations }) =>
-      variations ? (
-        <List style={{ margin: 0, paddingLeft: '17px' }}>
-          {variations.map((variation, index) => (
-            <ListItem key={index}>
+    renderCell: ({ mutatedSamples }) =>
+      mutatedSamples ? (
+        <List style={{ padding: 0 }}>
+          {mutatedSamples.map((mutatedSample, index) => (
+            <ListItem key={index} style={{ padding: '.25rem 0' }}>
               <Link
                 external
                 to={identifiersOrgLink(
                   'SO',
-                  variation.functionalConsequence.id.slice(3)
+                  mutatedSample.functionalConsequence.id.slice(3)
                 )}
               >
-                {sentenceCase(variation.functionalConsequence.label)}
+                {sentenceCase(mutatedSample.functionalConsequence.label)}
               </Link>
             </ListItem>
           ))}
@@ -94,22 +50,25 @@ const columns = [
       ) : (
         naLabel
       ),
-    filterValue: ({ variations }) =>
-      (variations || [])
-        .map(variation => variation.functionalConsequence.name)
+    filterValue: ({ mutatedSamples }) =>
+      (mutatedSamples || [])
+        .map(mutatedSample => mutatedSample.functionalConsequence.name)
         .join(),
   },
   {
     id: 'mutatedSamples',
-    propertyPath: 'variations.numberSamplesWithMutationType',
+    propertyPath: 'mutatedSamples.numberSamplesWithMutationType',
     label: 'Mutated / Total samples',
     numeric: true,
-    renderCell: ({ variations }) => {
+    renderCell: ({ mutatedSamples }) => {
       return (
-        <List style={{ margin: 0, paddingLeft: '17px' }}>
-          {variations.map(
+        <List style={{ padding: 0 }}>
+          {mutatedSamples.map(
             ({ numberSamplesWithMutationType, numberSamplesTested }, i) => (
-              <ListItem key={i} style={{ justifyContent: 'flex-end' }}>
+              <ListItem
+                key={i}
+                style={{ padding: '.25rem 0', justifyContent: 'flex-end' }}
+              >
                 {numberSamplesWithMutationType}/{numberSamplesTested}
               </ListItem>
             )
