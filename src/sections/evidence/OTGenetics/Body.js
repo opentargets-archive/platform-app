@@ -114,10 +114,8 @@ const columns = [
     ),
     numeric: true,
     sortable: true,
-    renderCell: ({ resourceScore }) => (
-      <>
-        <ScientificNotation number={resourceScore} />
-      </>
+    renderCell: ({ pValueMantissa, pValueExponent }) => (
+      <ScientificNotation number={[pValueMantissa, pValueExponent]} />
     ),
   },
   {
@@ -147,7 +145,7 @@ const columns = [
     },
   },
   {
-    id: 'locus2GeneScore',
+    id: 'resourceScore',
     label: 'L2G score',
     tooltip: (
       <>
@@ -163,7 +161,7 @@ const columns = [
     ),
     numeric: true,
     sortable: true,
-    renderCell: ({ locus2GeneScore }) => parseFloat(locus2GeneScore.toFixed(5)),
+    renderCell: ({ resourceScore }) => parseFloat(resourceScore.toFixed(5)),
   },
 ];
 
@@ -194,7 +192,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           pageSize={10}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
-          sortBy="locus2GeneScore"
+          sortBy="resourceScore"
         />
       )}
     />
