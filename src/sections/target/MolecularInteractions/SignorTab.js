@@ -73,6 +73,7 @@ const columns = {
           </Typography>
         </>
       ),
+      width: '27%',
     },
     {
       id: 'targetB',
@@ -117,16 +118,11 @@ const columns = {
           </Typography>
         </>
       ),
+      width: '27%',
     },
     {
       id: 'role',
-      label: (
-        <>
-          Biological
-          <br />
-          role
-        </>
-      ),
+      label: 'Biological role',
       renderCell: row => (
         <>
           <MethodIconText
@@ -143,17 +139,13 @@ const columns = {
           </MethodIconText>
         </>
       ),
+      width: '23%',
     },
     {
       id: 'evidences',
-      label: (
-        <>
-          Interaction
-          <br />
-          evidence
-        </>
-      ),
+      label: 'Interaction evidence',
       renderCell: row => row.count,
+      width: '23%',
     },
   ],
 
@@ -162,6 +154,7 @@ const columns = {
     {
       id: 'interactionIdentifier',
       label: 'Identifier',
+      width: '25%',
     },
     {
       id: 'interaction',
@@ -183,6 +176,7 @@ const columns = {
           </OtTooltip>
         </>
       ),
+      width: '30%',
     },
     {
       id: 'methods',
@@ -215,6 +209,7 @@ const columns = {
           </MethodIconText>
         </>
       ),
+      width: '25%',
     },
     {
       id: 'pubmedId',
@@ -227,6 +222,7 @@ const columns = {
         ) : (
           d.pubmedId
         ),
+      width: '20%',
     },
   ],
 };
@@ -268,6 +264,8 @@ function SignorTab({ ensgId, symbol, query }) {
             setEvidence(r.evidences);
           }}
           rowIsSelectable
+          fixed
+          noWrapHeader={false}
         />
       </Grid>
 
@@ -284,6 +282,7 @@ function SignorTab({ ensgId, symbol, query }) {
           dataDownloader
           dataDownloaderFileStem={`${symbol}-molecular-interactions-signor`}
           fixed
+          noWrapHeader={false}
         />
       </Grid>
     </Grid>
