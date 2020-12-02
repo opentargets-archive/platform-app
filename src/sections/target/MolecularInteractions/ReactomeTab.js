@@ -77,11 +77,13 @@ const columns = {
           </Typography>
         </>
       ),
+      width: '65%',
     },
     {
       id: 'sizeEvidences',
-      label: <>Interaction evidence</>,
+      label: 'Interaction evidence',
       renderCell: row => row.count,
+      width: '35%',
     },
   ],
 
@@ -101,6 +103,7 @@ const columns = {
           {row.interactionIdentifier}
         </Link>
       ),
+      width: '25%',
     },
     {
       id: 'interaction',
@@ -122,6 +125,7 @@ const columns = {
           </OtTooltip>
         </>
       ),
+      width: '30%',
     },
     {
       id: 'methods',
@@ -158,6 +162,7 @@ const columns = {
           />
         </>
       ),
+      width: '25%',
     },
     {
       id: 'pubmedId',
@@ -170,6 +175,7 @@ const columns = {
         ) : (
           d.pubmedId
         ),
+      width: '20%',
     },
   ],
 };
@@ -196,7 +202,7 @@ function ReactomeTab({ ensgId, symbol, query }) {
   );
   return (
     <Grid container spacing={4}>
-      <Grid item xs={12} md={4}>
+      <Grid item xs={12} md={5}>
         {/* table 1: interactions */}
         <DataTable
           showGlobalFilter
@@ -210,6 +216,8 @@ function ReactomeTab({ ensgId, symbol, query }) {
             setEvidence(r.evidences);
           }}
           rowIsSelectable
+          fixed
+          noWrapHeader={false}
         />
       </Grid>
 
@@ -218,7 +226,7 @@ function ReactomeTab({ ensgId, symbol, query }) {
       </Grid>
 
       {/* table 2: evidence */}
-      <Grid item xs={12} md={7}>
+      <Grid item xs={12} md={6}>
         <DataTable
           showGlobalFilter
           columns={columns.evidence}
@@ -226,6 +234,7 @@ function ReactomeTab({ ensgId, symbol, query }) {
           dataDownloader
           dataDownloaderFileStem={`${symbol}-molecular-interactions-reactome`}
           fixed
+          noWrapHeader={false}
         />
       </Grid>
     </Grid>
