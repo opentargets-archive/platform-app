@@ -15,6 +15,10 @@ query GenomicsEnglandQuery($ensemblId: String!, $efoId: String!) {
           approvedSymbol
         }
         diseaseFromSource
+        cohortPhenotypes
+        confidence
+        allelicRequirements
+        studyOverview
         studyId
         confidence
         literature
