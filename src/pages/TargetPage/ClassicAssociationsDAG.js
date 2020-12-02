@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import * as d3Base from 'd3';
 import * as d3Dag from 'd3-dag';
 import { withContentRect } from 'react-measure';
@@ -130,25 +130,30 @@ function ClassicAssociationsDAG({
           </g>
           <g>
             {dag.descendants().map(node => {
-              return node.data.parentIds.length === 0 ? (
-                <rect
-                  key={node.id}
-                  x={node.y - 4}
-                  y={node.x - 4}
-                  width="8"
-                  height="8"
-                  fill={node.data.score ? color(node.data.score) : 'white'}
-                  stroke="#e0e0e0"
-                />
-              ) : (
-                <circle
-                  key={node.id}
-                  cx={node.y}
-                  cy={node.x}
-                  r={4}
-                  fill={color(node.data.score)}
-                  stroke="#e0e0e0"
-                />
+              return (
+                <Fragment key={node.id}>
+                  <text x={node.y} y={node.x}>
+                    {node.data.name}
+                  </text>
+                  {node.data.parentIds.length === 0 ? (
+                    <rect
+                      x={node.y - 4}
+                      y={node.x - 4}
+                      width="8"
+                      height="8"
+                      fill={node.data.score ? color(node.data.score) : 'white'}
+                      stroke="#e0e0e0"
+                    />
+                  ) : (
+                    <circle
+                      cx={node.y}
+                      cy={node.x}
+                      r={4}
+                      fill={color(node.data.score)}
+                      stroke="#e0e0e0"
+                    />
+                  )}
+                </Fragment>
               );
             })}
           </g>
