@@ -1,15 +1,17 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
+import { List, ListItem } from '@material-ui/core';
 import { loader } from 'graphql.macro';
+import { useQuery } from '@apollo/client';
+
 import { Link } from 'ot-ui';
 
 import { betaClient } from '../../../client';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
+import { epmcUrl } from '../../../utils/urls';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
-import { epmcUrl } from '../../../utils/urls';
 
 const g2pUrl = id =>
   `https://www.ebi.ac.uk/gene2phenotype/search?panel=ALL&search_term=${id}`;
@@ -31,7 +33,21 @@ const columns = [
     renderCell: ({ diseaseFromSource }) => sentenceCase(diseaseFromSource),
   },
   {
-    id: 'allelicRequirement',
+    id: 'allelicRequirements',
+    renderCell: ({ allelicRequirements }) =>
+      allelicRequirements ? (
+        allelicRequirements.length > 1 ? (
+          <List>
+            {allelicRequirements.map(item => (
+              <ListItem>{item}</ListItem>
+            ))}
+          </List>
+        ) : (
+          allelicRequirements[0]
+        )
+      ) : (
+        naLabel
+      ),
   },
   {
     id: 'confidence',
