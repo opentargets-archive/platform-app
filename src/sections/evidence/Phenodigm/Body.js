@@ -13,6 +13,7 @@ import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { loader } from 'graphql.macro';
 import { List, ListItem, makeStyles } from '@material-ui/core';
+import { identifiersOrgLink } from '../../../utils/global';
 
 const useStyles = makeStyles({
   li: {
@@ -75,6 +76,18 @@ const columns = classes => [
     ),
     filterValue: ({ diseaseModelAssociatedModelPhenotypes = [] }) =>
       diseaseModelAssociatedModelPhenotypes.map(dmamp => dmamp.label).join(),
+  },
+  {
+    id: 'targetInModel',
+    label: 'Mouse gene',
+    renderCell: ({ targetInModel }) =>
+      targetInModel ? (
+        <Link external to={identifiersOrgLink('ensembl', targetInModel)}>
+          {targetInModel}
+        </Link>
+      ) : (
+        naLabel
+      ),
   },
   {
     id: 'literature',
