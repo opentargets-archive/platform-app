@@ -77,7 +77,8 @@ const columns = [
         <ul
           style={{
             margin: 0,
-            paddingLeft: '17px',
+            padding: 0,
+            listStyle: 'none',
           }}
         >
           {variations.map(({ variantAminoacidDescription }) => (
