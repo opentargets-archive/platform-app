@@ -25,6 +25,7 @@ const REACTOME_QUERY = gql`
             id
             name
           }
+          diseaseFromSource
           pathwayId
           pathwayName
           targetModulation
@@ -43,6 +44,10 @@ const columns = [
     renderCell: ({ disease }) => {
       return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
     },
+  },
+  {
+    id: 'diseaseFromSource',
+    label: 'Reported disease/phenotype',
   },
   {
     id: 'pathwayName',
