@@ -36,6 +36,7 @@ const PHEWAS_CATALOG_QUERY = gql`
           }
           diseaseFromSource
           variantRsId
+          variantId
           variantFunctionalConsequence {
             id
             label
@@ -63,12 +64,26 @@ const columns = [
   },
   {
     id: 'variantRsId',
-    label: 'Variant',
-    renderCell: ({ variantRsId }) => {
+    label: 'Variant RSID (ID)',
+    renderCell: ({ variantRsId, variantId }) => {
       return (
-        <Link external to={identifiersOrgLink('DBSNP', variantRsId, 'ncbi')}>
-          {variantRsId}
-        </Link>
+        <>
+          <Link external to={identifiersOrgLink('DBSNP', variantRsId, 'ncbi')}>
+            {variantRsId}
+          </Link>{' '}
+          {variantId ? (
+            <>
+              (
+              <Link
+                external
+                to={`https://genetics.opentargets.org/variant/${variantId}`}
+              >
+                {variantId}
+              </Link>
+              )
+            </>
+          ) : null}
+        </>
       );
     },
   },
