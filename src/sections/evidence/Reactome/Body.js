@@ -27,6 +27,8 @@ const REACTOME_QUERY = gql`
           }
           diseaseFromSource
           pathwayId
+          reactionId
+          targetFromSourceId
           pathwayName
           targetModulation
           variantAminoacidDescriptions
@@ -62,6 +64,27 @@ const columns = [
     ),
   },
   {
+    id: 'reactionId',
+    label: 'Reaction',
+    renderCell: ({ reactionId }) => (
+      <Link external to={`https://identifiers.org/reactome/${reactionId}`}>
+        {reactionId}
+      </Link>
+    ),
+  },
+  {
+    id: 'targetFromSourceId',
+    label: 'Reported target',
+    renderCell: ({ targetFromSourceId }) => (
+      <Link
+        external
+        to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
+      >
+        {targetFromSourceId}
+      </Link>
+    ),
+  },
+  {
     id: 'targetModulation',
     label: 'Target modulation',
     renderCell: ({ targetModulation }) => {
@@ -69,9 +92,9 @@ const columns = [
     },
   },
   {
-    filterValue: ({ variations }) => {
-      return variations
-        .map(({ variantAminoacidDescription }) => variantAminoacidDescription)
+    filterValue: ({ variantAminoacidDescriptions }) => {
+      return variantAminoacidDescriptions
+        .map(variantAminoacidDescription => variantAminoacidDescription)
         .join();
     },
     label: 'Amino acid variation',
