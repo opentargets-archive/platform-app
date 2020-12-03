@@ -28,9 +28,7 @@ const REACTOME_QUERY = gql`
           pathwayId
           pathwayName
           targetModulation
-          variations {
-            variantAminoacidDescription
-          }
+          variantAminoacidDescriptions
           literature
         }
       }
@@ -72,8 +70,8 @@ const columns = [
         .join();
     },
     label: 'Amino acid variation',
-    renderCell: ({ variations }) => {
-      return variations.length > 1 ? (
+    renderCell: ({ variantAminoacidDescriptions }) => {
+      return variantAminoacidDescriptions.length > 1 ? (
         <ul
           style={{
             margin: 0,
@@ -81,14 +79,14 @@ const columns = [
             listStyle: 'none',
           }}
         >
-          {variations.map(({ variantAminoacidDescription }) => (
+          {variantAminoacidDescriptions.map(variantAminoacidDescription => (
             <li key={variantAminoacidDescription}>
               {variantAminoacidDescription}
             </li>
           ))}
         </ul>
-      ) : variations.length === 1 ? (
-        variations[0].variantAminoacidDescription
+      ) : variantAminoacidDescriptions.length === 1 ? (
+        variantAminoacidDescriptions[0]
       ) : (
         naLabel
       );
