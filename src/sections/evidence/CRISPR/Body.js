@@ -50,7 +50,19 @@ const columns = [
   {
     label: 'Reported disease/phenotype',
     renderCell: ({ diseaseCellLines, diseaseFromSource }) => {
-      return `${diseaseCellLines.length} ${diseaseFromSource} cell lines`;
+      const cellLines = diseaseCellLines.map(line => {
+        return {
+          name: line,
+          group: 'cellLines',
+        };
+      });
+
+      return (
+        <TableDrawer
+          entries={cellLines}
+          message={`${diseaseCellLines.length} ${diseaseFromSource} cell lines`}
+        />
+      );
     },
   },
   {
