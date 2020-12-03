@@ -12,13 +12,17 @@ query IntOgenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
           id
           name
         }
+        diseaseFromSource
         target {
           approvedSymbol
         }
-        variations {
-          inheritancePattern
-          numberMutatedSamples
+        mutatedSamples {
+          functionalConsequence {
+            id
+            label
+          }
           numberSamplesTested
+          numberMutatedSamples
         }
         resourceScore
         significantDriverMethods

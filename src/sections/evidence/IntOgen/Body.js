@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, makeStyles, Typography } from '@material-ui/core';
+import { Box, List, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
@@ -14,8 +14,9 @@ import { epmcUrl } from '../../../utils/urls';
 import methods from './methods';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
-import usePlatformApi from '../../../hooks/usePlatformApi';
+import { sentenceCase } from '../../../utils/global';
 import Summary from './Summary';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const intOgenUrl = (id, approvedSymbol) =>
   `https://www.intogen.org/search?gene=${approvedSymbol}&cohort=${id}`;
@@ -31,20 +32,32 @@ const columns = [
     filterValue: ({ disease }) => disease.name,
   },
   {
-    id: 'numberMutatedSamples',
+    id: 'diseaseFromSource',
+    label: 'Reported Disease/phenotype',
+    renderCell: ({ diseaseFromSource }) =>
+      diseaseFromSource ? sentenceCase(diseaseFromSource) : naLabel,
+  },
+  {
+    id: 'mutatedSamples',
+    propertyPath: 'mutatedSamples.numberMutatedSamples',
     label: 'Mutated / Total samples',
-    propertyPath: 'variations.numberMutatedSamples',
     numeric: true,
-    renderCell: ({
-      variations: { 0: { numberMutatedSamples, numberSamplesTested } = {} },
-    }) =>
-      numberMutatedSamples && numberSamplesTested ? (
-        <>
-          {numberMutatedSamples}/{numberSamplesTested}
-        </>
-      ) : (
-        naLabel
-      ),
+    renderCell: ({ mutatedSamples }) => {
+      return (
+        <List style={{ padding: 0 }}>
+          {mutatedSamples.map(
+            ({ numberMutatedSamples, numberSamplesTested }, i) => (
+              <ListItem
+                key={i}
+                style={{ padding: '.25rem 0', justifyContent: 'flex-end' }}
+              >
+                {numberMutatedSamples}/{numberSamplesTested}
+              </ListItem>
+            )
+          )}
+        </List>
+      );
+    },
   },
   {
     id: 'resourceScore',
