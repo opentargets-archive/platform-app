@@ -6,8 +6,9 @@ import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
-import SectionItem from '../../../components/Section/SectionItem';
 import ScientificNotation from '../../../components/ScientificNotation';
+import SectionItem from '../../../components/Section/SectionItem';
+import { sentenceCase } from '../../../utils/global';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
@@ -28,6 +29,7 @@ const SLAPENRICH_QUERY = gql`
             id
             name
           }
+          diseaseFromSource
           pathwayId
           pathwayName
           resourceScore
@@ -45,6 +47,12 @@ const columns = [
       <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
     ),
     filterValue: ({ disease }) => disease.name,
+  },
+  {
+    id: 'diseaseFromSource',
+    label: 'Reported Disease/phenotype',
+    renderCell: ({ diseaseFromSource }) =>
+      diseaseFromSource ? sentenceCase(diseaseFromSource) : naLabel,
   },
   {
     id: 'pathwayName',
