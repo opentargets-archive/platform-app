@@ -43,7 +43,9 @@ const confidenceCaption = confidence =>
   }[confidence]);
 
 const allelicRequirementsCaption = allelicRequirements => {
-  const caption = allelicRequirements.split(' ', 1)[0].replace(/[;:,]*/g, '');
+  const caption = sentenceCase(
+    allelicRequirements.split(' ', 1)[0].replace(/[;:,]*/g, '')
+  );
   const description =
     allelicRequirements
       .split(' ')
@@ -95,8 +97,9 @@ const columns = [
                 placement="top"
                 interactive
                 title={description}
+                showHelpIcon
               >
-                <span>{caption}</span>
+                {caption}
               </Tooltip>
             );
           })

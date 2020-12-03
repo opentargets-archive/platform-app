@@ -14,12 +14,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Tooltip({ children, title, ...props }) {
+function Tooltip({ children, title, showHelpIcon = false, ...props }) {
   const classes = useStyles();
 
   return (
     <>
-      {children}
+      {showHelpIcon && children}
       <MUITooltip
         placement="top"
         interactive
@@ -27,7 +27,7 @@ function Tooltip({ children, title, ...props }) {
         title={title}
         {...props}
       >
-        <Help className={classes.tooltipIcon} />
+        {showHelpIcon ? <Help className={classes.tooltipIcon} /> : children}
       </MUITooltip>
     </>
   );

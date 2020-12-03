@@ -55,7 +55,9 @@ const columns = [
     renderCell: ({ pathwayName, studyOverview }) =>
       pathwayName ? (
         studyOverview ? (
-          <Tooltip title={studyOverview}>{pathwayName}</Tooltip>
+          <Tooltip title={studyOverview} showHelpIcon>
+            {pathwayName}
+          </Tooltip>
         ) : (
           pathwayName
         )
