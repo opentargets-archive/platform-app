@@ -106,7 +106,7 @@ const columns = [
       }`,
   },
   {
-    id: 'resourceScore',
+    id: 'pValueMantissa',
     label: (
       <>
         Association <i>p</i>-value
@@ -117,6 +117,9 @@ const columns = [
     renderCell: ({ pValueMantissa, pValueExponent }) => (
       <ScientificNotation number={[pValueMantissa, pValueExponent]} />
     ),
+    comparator: (a, b) =>
+      a.pValueMantissa * 10 ** a.pValueExponent -
+      b.pValueMantissa * 10 ** b.pValueExponent,
   },
   {
     id: 'studySampleSize',
