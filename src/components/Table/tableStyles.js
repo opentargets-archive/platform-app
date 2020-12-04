@@ -32,6 +32,9 @@ export const tableStyles = makeStyles(theme => ({
     overflowX: 'auto',
     paddingRight: '.1rem', // fixes horizontal scrollbar
   },
+  headerLabelWithTooltip: {
+    lineHeight: '1.625rem',
+  },
   rowFixed: {
     backgroundColor: theme.palette.grey[300],
   },

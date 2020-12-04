@@ -69,7 +69,7 @@ function HeaderCell({
             </Tooltip>
           }
         >
-          {label}
+          <span className={headerClasses.headerLabelWithTooltip}>{label}</span>
         </Badge>
       ) : (
         label
