@@ -1,15 +1,19 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
+import { makeStyles } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
-import { naLabel } from '../../../constants';
+import { clinvarStarMap, naLabel } from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 import ScientificNotation from '../../../components/ScientificNotation';
+import Tooltip from '../../../components/Tooltip';
 import { epmcUrl } from '../../../utils/urls';
 
 const EVA_QUERY = gql`
@@ -36,6 +40,7 @@ const EVA_QUERY = gql`
           }
           clinicalSignificances
           allelicRequirements
+          confidence
           score
           literature
         }
@@ -43,6 +48,17 @@ const EVA_QUERY = gql`
     }
   }
 `;
+
+const useStyles = makeStyles(theme => ({
+  star: {
+    color: theme.palette.primary.main,
+  },
+}));
+
+function ClinvarStar() {
+  const classes = useStyles();
+  return <FontAwesomeIcon className={classes.star} icon={faStar} size="sm" />;
+}
 
 const columns = [
   {
@@ -77,13 +93,15 @@ const columns = [
     },
   },
   {
-    id: 'recordId',
+    id: 'studyId',
     label: 'ClinVar ID',
-    renderCell: ({ recordId }) => {
-      return (
-        <Link external to={`https://www.ncbi.nlm.nih.gov/clinvar/${recordId}`}>
-          {recordId}
+    renderCell: ({ studyId }) => {
+      return studyId ? (
+        <Link external to={`https://www.ncbi.nlm.nih.gov/clinvar/${studyId}`}>
+          {studyId}
         </Link>
+      ) : (
+        naLabel
       );
     },
   },
@@ -145,6 +163,21 @@ const columns = [
             return <li key={allelicRequirement}>{allelicRequirement}</li>;
           })}
         </ul>
+      );
+    },
+  },
+  {
+    label: 'Confidence',
+    renderCell: ({ confidence }) => {
+      const numStars = clinvarStarMap[confidence];
+      const stars = [];
+      for (let i = 0; i < numStars; i++) {
+        stars.push(<ClinvarStar key={i} />);
+      }
+      return (
+        <Tooltip title={confidence}>
+          <span>{stars}</span>
+        </Tooltip>
       );
     },
   },
