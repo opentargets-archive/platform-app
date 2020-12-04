@@ -6,6 +6,7 @@ import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
+import { naLabel } from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 import ScientificNotation from '../../../components/ScientificNotation';
@@ -28,12 +29,12 @@ const EVA_QUERY = gql`
           }
           diseaseFromSource
           variantRsId
-          recordId
+          studyId
           variantFunctionalConsequence {
             id
             label
           }
-          clinicalSignificance
+          clinicalSignificances
           resourceScore
           literature
         }
@@ -99,8 +100,35 @@ const columns = [
     },
   },
   {
-    id: 'clinicalSignificance',
+    id: 'clinicalSignificances',
     label: 'Clinical significance',
+    renderCell: ({ clinicalSignificances }) => {
+      return !clinicalSignificances ? (
+        naLabel
+      ) : clinicalSignificances.length === 1 ? (
+        clinicalSignificances[0]
+      ) : (
+        <ul
+          style={{
+            margin: 0,
+            padding: 0,
+            listStyle: 'none',
+          }}
+        >
+          {clinicalSignificances.map(clinicalSignificance => {
+            return <li key={clinicalSignificance}>{clinicalSignificance}</li>;
+          })}
+        </ul>
+      );
+
+      return (
+        <ul>
+          {clinicalSignificances.map(clinicalSignificance => {
+            return <li key={clinicalSignificance}>{clinicalSignificance}</li>;
+          })}
+        </ul>
+      );
+    },
   },
   {
     label: 'P-value',
