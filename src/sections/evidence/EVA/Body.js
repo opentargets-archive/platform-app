@@ -35,6 +35,7 @@ const EVA_QUERY = gql`
             label
           }
           clinicalSignificances
+          allelicRequirements
           resourceScore
           literature
         }
@@ -122,11 +123,26 @@ const columns = [
           })}
         </ul>
       );
-
-      return (
-        <ul>
-          {clinicalSignificances.map(clinicalSignificance => {
-            return <li key={clinicalSignificance}>{clinicalSignificance}</li>;
+    },
+  },
+  {
+    id: 'allelicRequirements',
+    label: 'Allelic requirement',
+    renderCell: ({ allelicRequirements }) => {
+      return !allelicRequirements ? (
+        naLabel
+      ) : allelicRequirements.length === 1 ? (
+        allelicRequirements[0]
+      ) : (
+        <ul
+          style={{
+            margin: 0,
+            padding: 0,
+            listStyle: 'none',
+          }}
+        >
+          {allelicRequirements.map(allelicRequirement => {
+            return <li key={allelicRequirement}>{allelicRequirement}</li>;
           })}
         </ul>
       );
