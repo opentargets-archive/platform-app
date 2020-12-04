@@ -62,10 +62,11 @@ const columns = [
   {
     id: 'resourceScore',
     label: (
-      <>
+      <span>
         Combined <i>p</i>-value
-      </>
+      </span>
     ),
+
     tooltip: (
       <>
         Visit the{' '}
