@@ -22,12 +22,11 @@ query OpenTargetsGeneticsQuery(
         studySampleSize
         variantId
         variantRsId
-        resourceScoreExponent
-        resourceScoreMantissa
-        locus2GeneScore
         literature
         publicationYear
         publicationFirstAuthor
+        pValueExponent
+        pValueMantissa
         oddsRatio
         confidenceIntervalLower
         confidenceIntervalUpper

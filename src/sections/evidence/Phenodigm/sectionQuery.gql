@@ -28,8 +28,7 @@ query IntOgenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
           label
         }
         score
-        resourceScore
-        resourceScoreType
+        targetInModel
       }
     }
   }
