@@ -5,6 +5,7 @@ import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
+import Tooltip from '../../../components/Tooltip';
 import ScientificNotation from '../../../components/ScientificNotation';
 import Summary from './Summary';
 import Description from './Description';
@@ -55,7 +56,11 @@ const columns = [
     id: 'contrast',
     label: 'Experiment contrast',
     renderCell: ({ contrast, studyOverview }) => {
-      return <div>{contrast}</div>;
+      return (
+        <Tooltip title={studyOverview}>
+          <span>{contrast}</span>
+        </Tooltip>
+      );
     },
   },
   {
