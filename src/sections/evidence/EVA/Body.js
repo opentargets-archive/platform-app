@@ -63,13 +63,15 @@ const columns = [
     id: 'variantRsId',
     label: 'Variant',
     renderCell: ({ variantRsId }) => {
-      return (
+      return variantRsId ? (
         <Link
           external
           to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
         >
           {variantRsId}
         </Link>
+      ) : (
+        naLabel
       );
     },
   },
