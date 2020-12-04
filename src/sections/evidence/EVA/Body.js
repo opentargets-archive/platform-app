@@ -1,9 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
-import { makeStyles } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -14,6 +11,7 @@ import Summary from './Summary';
 import Description from './Description';
 import ScientificNotation from '../../../components/ScientificNotation';
 import Tooltip from '../../../components/Tooltip';
+import ClinvarStar from '../../../components/ClinvarStar';
 import { epmcUrl } from '../../../utils/urls';
 
 const EVA_QUERY = gql`
@@ -48,17 +46,6 @@ const EVA_QUERY = gql`
     }
   }
 `;
-
-const useStyles = makeStyles(theme => ({
-  star: {
-    color: theme.palette.primary.main,
-  },
-}));
-
-function ClinvarStar() {
-  const classes = useStyles();
-  return <FontAwesomeIcon className={classes.star} icon={faStar} size="sm" />;
-}
 
 const columns = [
   {
