@@ -29,6 +29,7 @@ const EXPRESSION_ATLAS_QUERY = gql`
             name
           }
           contrast
+          studyOverview
           log2FoldChangeValue
           resourceScore
           log2FoldChangePercentileRank
@@ -53,6 +54,9 @@ const columns = [
   {
     id: 'contrast',
     label: 'Experiment contrast',
+    renderCell: ({ contrast, studyOverview }) => {
+      return <div>{contrast}</div>;
+    },
   },
   {
     id: 'log2FoldChangeValue',
