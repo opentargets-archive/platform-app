@@ -35,9 +35,6 @@ const EXPRESSION_ATLAS_QUERY = gql`
           resourceScore
           log2FoldChangePercentileRank
           studyId
-          target {
-            id
-          }
         }
       }
     }
@@ -82,12 +79,7 @@ const columns = [
     label: 'Experiment ID',
     renderCell: ({ studyId, target }) => {
       return (
-        <Link
-          external
-          to={`http://www.ebi.ac.uk/gxa/experiments/${studyId}?geneQuery=${
-            target.id
-          }`}
-        >
+        <Link external to={`http://www.ebi.ac.uk/gxa/experiments/${studyId}`}>
           {studyId}
         </Link>
       );
