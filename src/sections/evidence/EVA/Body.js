@@ -36,7 +36,7 @@ const EVA_QUERY = gql`
           }
           clinicalSignificances
           allelicRequirements
-          resourceScore
+          score
           literature
         }
       }
@@ -149,10 +149,10 @@ const columns = [
     },
   },
   {
-    label: 'P-value',
-    renderCell: ({ resourceScore }) => {
-      return <ScientificNotation number={resourceScore} />;
-    },
+    id: 'score',
+    label: 'Score',
+    renderCell: ({ score }) => <ScientificNotation number={score} />,
+    sortable: true,
   },
   {
     label: 'Literature',
@@ -202,6 +202,8 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            sortBy="score"
+            order="desc"
           />
         );
       }}
