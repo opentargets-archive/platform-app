@@ -69,7 +69,7 @@ const sourceDrawerStyles = makeStyles(theme => ({
   },
 }));
 
-function TableDrawer({ entries, caption = 'Records' }) {
+function TableDrawer({ entries, message, caption = 'Records' }) {
   const [open, setOpen] = useState(false);
   const classes = sourceDrawerStyles();
 
@@ -78,10 +78,12 @@ function TableDrawer({ entries, caption = 'Records' }) {
   }
 
   if (entries.length === 1) {
-    return (
+    return entries[0].url ? (
       <Link external to={entries[0].url}>
         {entries[0].name}
       </Link>
+    ) : (
+      entries[0].name
     );
   }
 
@@ -143,9 +145,13 @@ function TableDrawer({ entries, caption = 'Records' }) {
               <List>
                 {groupedEntries[group].map((entry, entryIndex) => (
                   <ListItem key={entryIndex}>
-                    <Link external to={entry.url}>
-                      {entry.name}
-                    </Link>
+                    {entry.url ? (
+                      <Link external to={entry.url}>
+                        {entry.name}
+                      </Link>
+                    ) : (
+                      entry.name
+                    )}
                   </ListItem>
                 ))}
               </List>
@@ -159,7 +165,7 @@ function TableDrawer({ entries, caption = 'Records' }) {
   return (
     <>
       <MUILink onClick={toggleDrawer} className={classes.drawerLink}>
-        {entries.length} entries
+        {message ? message : `${entries.length} entries`}
       </MUILink>
 
       <Drawer

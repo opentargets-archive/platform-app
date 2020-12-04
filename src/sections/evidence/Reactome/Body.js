@@ -25,12 +25,13 @@ const REACTOME_QUERY = gql`
             id
             name
           }
+          diseaseFromSource
           pathwayId
+          reactionId
+          targetFromSourceId
           pathwayName
           targetModulation
-          variations {
-            variantAminoacidDescription
-          }
+          variantAminoacidDescriptions
           literature
         }
       }
@@ -47,6 +48,10 @@ const columns = [
     },
   },
   {
+    id: 'diseaseFromSource',
+    label: 'Reported disease/phenotype',
+  },
+  {
     id: 'pathwayName',
     label: 'Pathway',
     renderCell: ({ pathwayId, pathwayName }) => (
@@ -59,6 +64,27 @@ const columns = [
     ),
   },
   {
+    id: 'reactionId',
+    label: 'Reaction',
+    renderCell: ({ reactionId }) => (
+      <Link external to={`https://identifiers.org/reactome/${reactionId}`}>
+        {reactionId}
+      </Link>
+    ),
+  },
+  {
+    id: 'targetFromSourceId',
+    label: 'Reported target',
+    renderCell: ({ targetFromSourceId }) => (
+      <Link
+        external
+        to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
+      >
+        {targetFromSourceId}
+      </Link>
+    ),
+  },
+  {
     id: 'targetModulation',
     label: 'Target modulation',
     renderCell: ({ targetModulation }) => {
@@ -66,28 +92,29 @@ const columns = [
     },
   },
   {
-    filterValue: ({ variations }) => {
-      return variations
-        .map(({ variantAminoacidDescription }) => variantAminoacidDescription)
+    filterValue: ({ variantAminoacidDescriptions }) => {
+      return variantAminoacidDescriptions
+        .map(variantAminoacidDescription => variantAminoacidDescription)
         .join();
     },
     label: 'Amino acid variation',
-    renderCell: ({ variations }) => {
-      return variations.length > 1 ? (
+    renderCell: ({ variantAminoacidDescriptions }) => {
+      return variantAminoacidDescriptions.length > 1 ? (
         <ul
           style={{
             margin: 0,
-            paddingLeft: '17px',
+            padding: 0,
+            listStyle: 'none',
           }}
         >
-          {variations.map(({ variantAminoacidDescription }) => (
+          {variantAminoacidDescriptions.map(variantAminoacidDescription => (
             <li key={variantAminoacidDescription}>
               {variantAminoacidDescription}
             </li>
           ))}
         </ul>
-      ) : variations.length === 1 ? (
-        variations[0].variantAminoacidDescription
+      ) : variantAminoacidDescriptions.length === 1 ? (
+        variantAminoacidDescriptions[0]
       ) : (
         naLabel
       );

@@ -30,11 +30,8 @@ const UNIPROT_LITERATURE_QUERY = gql`
             id
             name
           }
-          target {
-            proteinAnnotations {
-              id
-            }
-          }
+          targetFromSourceId
+          studyId
           literature
         }
       }
@@ -57,14 +54,10 @@ const columns = [
   {
     id: 'target.proteinAnnotations.id',
     label: 'Reported protein',
-    renderCell: ({ target }) => {
+    renderCell: ({ targetFromSourceId, studyId }) => {
       return (
-        <Link
-          href={`http://www.uniprot.org/uniprot/${
-            target.proteinAnnotations.id
-          }#pathology_and_biotech`}
-        >
-          {target.proteinAnnotations.id}
+        <Link href={`http://www.uniprot.org/uniprot/${studyId}`}>
+          {targetFromSourceId}
         </Link>
       );
     },

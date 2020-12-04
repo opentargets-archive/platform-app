@@ -6,9 +6,12 @@ import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
+import { clinvarStarMap, naLabel } from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 import ScientificNotation from '../../../components/ScientificNotation';
+import Tooltip from '../../../components/Tooltip';
+import ClinvarStar from '../../../components/ClinvarStar';
 import { epmcUrl } from '../../../utils/urls';
 
 const EVA_QUERY = gql`
@@ -28,13 +31,15 @@ const EVA_QUERY = gql`
           }
           diseaseFromSource
           variantRsId
-          recordId
+          studyId
           variantFunctionalConsequence {
             id
             label
           }
-          clinicalSignificance
-          resourceScore
+          clinicalSignificances
+          allelicRequirements
+          confidence
+          score
           literature
         }
       }
@@ -62,24 +67,28 @@ const columns = [
     id: 'variantRsId',
     label: 'Variant',
     renderCell: ({ variantRsId }) => {
-      return (
+      return variantRsId ? (
         <Link
           external
           to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
         >
           {variantRsId}
         </Link>
+      ) : (
+        naLabel
       );
     },
   },
   {
-    id: 'recordId',
+    id: 'studyId',
     label: 'ClinVar ID',
-    renderCell: ({ recordId }) => {
-      return (
-        <Link external to={`https://www.ncbi.nlm.nih.gov/clinvar/${recordId}`}>
-          {recordId}
+    renderCell: ({ studyId }) => {
+      return studyId ? (
+        <Link external to={`https://www.ncbi.nlm.nih.gov/clinvar/${studyId}`}>
+          {studyId}
         </Link>
+      ) : (
+        naLabel
       );
     },
   },
@@ -99,14 +108,71 @@ const columns = [
     },
   },
   {
-    id: 'clinicalSignificance',
+    id: 'clinicalSignificances',
     label: 'Clinical significance',
+    renderCell: ({ clinicalSignificances }) => {
+      return !clinicalSignificances ? (
+        naLabel
+      ) : clinicalSignificances.length === 1 ? (
+        clinicalSignificances[0]
+      ) : (
+        <ul
+          style={{
+            margin: 0,
+            padding: 0,
+            listStyle: 'none',
+          }}
+        >
+          {clinicalSignificances.map(clinicalSignificance => {
+            return <li key={clinicalSignificance}>{clinicalSignificance}</li>;
+          })}
+        </ul>
+      );
+    },
   },
   {
-    label: 'P-value',
-    renderCell: ({ resourceScore }) => {
-      return <ScientificNotation number={resourceScore} />;
+    id: 'allelicRequirements',
+    label: 'Allelic requirement',
+    renderCell: ({ allelicRequirements }) => {
+      return !allelicRequirements ? (
+        naLabel
+      ) : allelicRequirements.length === 1 ? (
+        allelicRequirements[0]
+      ) : (
+        <ul
+          style={{
+            margin: 0,
+            padding: 0,
+            listStyle: 'none',
+          }}
+        >
+          {allelicRequirements.map(allelicRequirement => {
+            return <li key={allelicRequirement}>{allelicRequirement}</li>;
+          })}
+        </ul>
+      );
     },
+  },
+  {
+    label: 'Confidence',
+    renderCell: ({ confidence }) => {
+      const numStars = clinvarStarMap[confidence];
+      const stars = [];
+      for (let i = 0; i < numStars; i++) {
+        stars.push(<ClinvarStar key={i} />);
+      }
+      return (
+        <Tooltip title={confidence}>
+          <span>{stars}</span>
+        </Tooltip>
+      );
+    },
+  },
+  {
+    id: 'score',
+    label: 'Score',
+    renderCell: ({ score }) => <ScientificNotation number={score} />,
+    sortable: true,
   },
   {
     label: 'Literature',
@@ -156,6 +222,8 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            sortBy="score"
+            order="desc"
           />
         );
       }}

@@ -5,6 +5,7 @@ import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
+import Tooltip from '../../../components/Tooltip';
 import ScientificNotation from '../../../components/ScientificNotation';
 import Summary from './Summary';
 import Description from './Description';
@@ -34,9 +35,6 @@ const EXPRESSION_ATLAS_QUERY = gql`
           resourceScore
           log2FoldChangePercentileRank
           studyId
-          target {
-            id
-          }
         }
       }
     }
@@ -54,10 +52,13 @@ const columns = [
   {
     id: 'contrast',
     label: 'Experiment contrast',
-  },
-  {
-    id: 'studyOverview',
-    label: 'Experiment overview',
+    renderCell: ({ contrast, studyOverview }) => {
+      return (
+        <Tooltip title={studyOverview}>
+          <span>{contrast}</span>
+        </Tooltip>
+      );
+    },
   },
   {
     id: 'log2FoldChangeValue',
@@ -78,12 +79,7 @@ const columns = [
     label: 'Experiment ID',
     renderCell: ({ studyId, target }) => {
       return (
-        <Link
-          external
-          to={`http://www.ebi.ac.uk/gxa/experiments/${studyId}?geneQuery=${
-            target.id
-          }`}
-        >
+        <Link external to={`http://www.ebi.ac.uk/gxa/experiments/${studyId}`}>
           {studyId}
         </Link>
       );

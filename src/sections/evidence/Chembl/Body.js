@@ -32,6 +32,7 @@ const CHEMBL_QUERY = gql`
           target {
             id
           }
+          targetFromSourceId
           drug {
             id
             name
@@ -67,8 +68,8 @@ const columns = [
     },
   },
   {
-    label: 'Target',
-    renderCell: ({ target, drug }) => {
+    label: 'Target (Reported protein)',
+    renderCell: ({ target, targetFromSourceId, drug }) => {
       const {
         mechanismsOfAction: { rows },
       } = drug;
@@ -88,7 +89,14 @@ const columns = [
 
       return (
         <>
-          <Link to={`/target/${target.id}`}>{symbol}</Link>
+          <Link to={`/target/${target.id}`}>{symbol}</Link> (
+          <Link
+            external
+            to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
+          >
+            {targetFromSourceId}
+          </Link>
+          )
           {otherTargets.size > 0
             ? ` and ${otherTargets.size} other target${
                 otherTargets.size > 1 ? 's' : ''

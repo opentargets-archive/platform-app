@@ -25,6 +25,8 @@ const CRISPR_QUERY = gql`
             id
             name
           }
+          diseaseCellLines
+          diseaseFromSource
           resourceScore
           literature
         }
@@ -42,6 +44,24 @@ const columns = [
         <Link component={RouterLink} to={`/disease/${disease.id}`}>
           {disease.name}
         </Link>
+      );
+    },
+  },
+  {
+    label: 'Reported disease/phenotype',
+    renderCell: ({ diseaseCellLines, diseaseFromSource }) => {
+      const cellLines = diseaseCellLines.map(line => {
+        return {
+          name: line,
+          group: 'cellLines',
+        };
+      });
+
+      return (
+        <TableDrawer
+          entries={cellLines}
+          message={`${diseaseCellLines.length} ${diseaseFromSource} cell lines`}
+        />
       );
     },
   },

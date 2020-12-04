@@ -6,7 +6,7 @@ import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
-import { defaultRowsPerPageOptions } from '../../../constants';
+import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -27,8 +27,8 @@ const CLINGEN_QUERY = gql`
             name
           }
           diseaseFromSource
-          allelicRequirement
-          recordId
+          allelicRequirements
+          studyId
           confidence
         }
       }
@@ -53,16 +53,35 @@ const columns = [
     label: 'Reported disease/phenotype',
   },
   {
-    id: 'allelicRequirement',
+    id: 'allelicRequirements',
     label: 'Allelic requirement',
+    renderCell: ({ allelicRequirements }) => {
+      return !allelicRequirements ? (
+        naLabel
+      ) : allelicRequirements.length === 1 ? (
+        allelicRequirements[0]
+      ) : (
+        <ul
+          style={{
+            margin: 0,
+            padding: 0,
+            listStyle: 'none',
+          }}
+        >
+          {allelicRequirements.map(allelicRequirement => {
+            return <li key={allelicRequirement}>{allelicRequirement}</li>;
+          })}
+        </ul>
+      );
+    },
   },
   {
     id: 'confidence',
     label: 'Confidence',
-    renderCell: ({ recordId, confidence }) => {
+    renderCell: ({ studyId, confidence }) => {
       return (
         <Link
-          href={`https://search.clinicalgenome.org/kb/gene-validity/${recordId}`}
+          href={`https://search.clinicalgenome.org/kb/gene-validity/${studyId}`}
         >
           {confidence}
         </Link>
