@@ -42,6 +42,12 @@ const confidenceCaption = confidence =>
     ),
   }[confidence]);
 
+const confidenceMap = confidence =>
+  ({
+    green: 20,
+    amber: 10,
+  }[confidence.toLowerCase()] || 0);
+
 const allelicRequirementsCaption = allelicRequirements => {
   const caption = sentenceCase(
     allelicRequirements.split(' ', 1)[0].replace(/[;:,]*/g, '')
@@ -121,6 +127,8 @@ const columns = [
     id: 'confidence',
     sortable: true,
     renderCell: ({ confidence }) => confidenceCaption(confidence),
+    comparator: (a, b) =>
+      confidenceMap(a.confidence) - confidenceMap(b.confidence),
   },
   {
     id: 'literature',
@@ -166,10 +174,12 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           columns={columns}
           dataDownloader
           dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
+          order="desc"
           rows={data.disease.evidences.rows}
           pageSize={10}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
+          sortBy="confidence"
         />
       )}
     />

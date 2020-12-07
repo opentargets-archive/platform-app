@@ -62,10 +62,11 @@ const columns = [
   {
     id: 'resourceScore',
     label: (
-      <>
+      <span>
         Combined <i>p</i>-value
-      </>
+      </span>
     ),
+
     tooltip: (
       <>
         Visit the{' '}
@@ -189,7 +190,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
               columns={columns}
               dataDownloader
               dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
-              order="desc"
+              order="asc"
               rows={rows}
               sortBy="resourceScore"
               pageSize={10}
