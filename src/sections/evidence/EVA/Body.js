@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
-import { clinvarStarMap, naLabel } from '../../../constants';
+import {
+  clinvarStarMap,
+  naLabel,
+  defaultRowsPerPageOptions,
+} from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import SectionItem from '../../../components/Section/SectionItem';
 import ClinvarStar from '../../../components/ClinvarStar';
 import Tooltip from '../../../components/Tooltip';
+import { Table, DataTable, getPage } from '../../../components/Table';
 import { TableDrawer } from '../../../components/Table';
-import EVAServerTable from './EVAServerTable';
-import EVAClientTable from './EVAClientTable';
+import { betaClient } from '../../../client';
+import Description from './Description';
 
 import Summary from './Summary';
 
@@ -195,23 +201,123 @@ const EVA_QUERY = gql`
 `;
 
 function Body({ definition, id, label }) {
-  const { data } = usePlatformApi(Summary.fragments.evaSummary);
+  const { ensgId: ensemblId, efoId } = id;
+  const { data: summaryData } = usePlatformApi(Summary.fragments.evaSummary);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
 
-  return data.evaSummary.count > 1000 ? (
-    <EVAServerTable
+  const request = useQuery(EVA_QUERY, {
+    variables: {
+      ensemblId,
+      efoId,
+      size:
+        summaryData.evaSummary.count > 1000
+          ? pageSize
+          : summaryData.evaSummary.count,
+    },
+    notifyOnNetworkStatusChange: true,
+    client: betaClient,
+  });
+  const { loading, data, fetchMore } = request;
+
+  function handlePageChange(newPage) {
+    if (newPage * pageSize + pageSize > data.disease.evidences.rows.length) {
+      fetchMore({
+        variables: {
+          ensemblId,
+          efoId,
+          size: pageSize,
+          cursor: data.disease.evidences.cursor,
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          setPage(newPage);
+          return {
+            ...prev,
+            disease: {
+              ...prev.disease,
+              evidences: {
+                ...prev.disease.evidences,
+                cursor: fetchMoreResult.disease.evidences.cursor,
+                rows: [
+                  ...prev.disease.evidences.rows,
+                  ...fetchMoreResult.disease.evidences.rows,
+                ],
+              },
+            },
+          };
+        },
+      });
+    } else {
+      setPage(newPage);
+    }
+  }
+
+  function handleRowsPerPageChange(newPageSize) {
+    if (page * newPageSize + newPageSize > data.disease.evidences.rows.length) {
+      fetchMore({
+        variables: {
+          ensemblId,
+          efoId,
+          size: pageSize,
+          cursor: data.disease.evidences.cursor,
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          setPage(0);
+          setPageSize(newPageSize);
+          return {
+            ...prev,
+            disease: {
+              ...prev.disease,
+              evidences: {
+                ...prev.disease.evidences,
+                cursor: fetchMoreResult.disease.evidences.cursor,
+                rows: [
+                  ...prev.disease.evidences.rows,
+                  ...fetchMoreResult.disease.evidences.rows,
+                ],
+              },
+            },
+          };
+        },
+      });
+    } else {
+      setPage(0);
+      setPageSize(newPageSize);
+    }
+  }
+
+  return (
+    <SectionItem
       definition={definition}
-      id={id}
-      label={label}
-      columns={columns}
-      evaQuery={EVA_QUERY}
-    />
-  ) : (
-    <EVAClientTable
-      definition={definition}
-      id={id}
-      label={label}
-      columns={columns}
-      evaQuery={EVA_QUERY}
+      request={request}
+      renderDescription={() => (
+        <Description symbol={label.symbol} name={label.name} />
+      )}
+      renderBody={({ disease }) => {
+        const { count, rows } = disease.evidences;
+
+        return summaryData.evaSummary.count > 1000 ? (
+          <Table
+            dataDownloader
+            loading={loading}
+            columns={columns}
+            rows={getPage(rows, page, pageSize)}
+            rowCount={count}
+            page={page}
+            pageSize={pageSize}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleRowsPerPageChange}
+            rowsPerPageOptions={defaultRowsPerPageOptions}
+          />
+        ) : (
+          <DataTable
+            columns={columns}
+            rows={rows}
+            dataDownloader
+            showGlobalFilter
+          />
+        );
+      }}
     />
   );
 }
