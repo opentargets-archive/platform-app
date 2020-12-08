@@ -26,6 +26,8 @@ function DataTable({
   const [globalFilterVal, setGlobalFilterVal] = useState('');
   const [sortColumn, setSortColumn] = useState(sortBy);
   const [sortOrder, setSortOrder] = useState(order);
+  const showPagination =
+    rows.length > [...rowsPerPageOptions, initialPageSize].sort()[0];
 
   const handleGlobalFilterChange = globalFilter => {
     setGlobalFilterVal(globalFilter);
@@ -84,6 +86,7 @@ function DataTable({
       onRowsPerPageChange={handleRowsPerPageChange}
       rowsPerPageOptions={rowsPerPageOptions}
       ActionsComponent={PaginationActionsComplete}
+      showPagination={showPagination}
     />
   );
 }
