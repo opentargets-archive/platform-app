@@ -81,6 +81,9 @@ const columns = [
   },
   {
     id: 'clinicalSignificances',
+    filterValue: ({ clinicalSignificances }) => {
+      return clinicalSignificances.join();
+    },
     label: 'Clinical significance',
     renderCell: ({ clinicalSignificances }) => {
       return !clinicalSignificances ? (
