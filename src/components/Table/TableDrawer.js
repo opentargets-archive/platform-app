@@ -69,7 +69,12 @@ const sourceDrawerStyles = makeStyles(theme => ({
   },
 }));
 
-function TableDrawer({ entries, message, caption = 'Records' }) {
+function TableDrawer({
+  entries,
+  message,
+  caption = 'Records',
+  showSingle = true,
+}) {
   const [open, setOpen] = useState(false);
   const classes = sourceDrawerStyles();
 
@@ -77,13 +82,13 @@ function TableDrawer({ entries, message, caption = 'Records' }) {
     return naLabel;
   }
 
-  if (entries.length === 1) {
+  if (entries.length === 1 && showSingle) {
     return entries[0].url ? (
       <Link external to={entries[0].url}>
         {entries[0].name}
       </Link>
     ) : (
-      entries[0].name
+      naLabel
     );
   }
 
