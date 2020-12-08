@@ -9,6 +9,7 @@ import {
   TableCell,
   TablePagination,
   TableRow as MUITableRow,
+  Box,
 } from '@material-ui/core';
 
 import DataDownloader from './DataDownloader';
@@ -135,7 +136,7 @@ const Table = ({
         {loading && (
           <CircularProgress className={defaultClasses.progress} size={22} />
         )}
-        {showPagination && (
+        {showPagination ? (
           <TablePagination
             ActionsComponent={ActionsComponent}
             backIconButtonProps={{ disabled: loading || page === 0 }}
@@ -150,6 +151,8 @@ const Table = ({
             rowsPerPage={pageSize}
             rowsPerPageOptions={rowsPerPageOptions}
           />
+        ) : (
+          <Box className={defaultClasses.paginationPlaceholder} />
         )}
       </Grid>
     </Grid>

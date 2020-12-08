@@ -75,6 +75,9 @@ export const tableStyles = makeStyles(theme => ({
       padding: '.5rem',
     },
   },
+  paginationPlaceholder: {
+    height: '36px',
+  },
   progress: {
     position: 'relative',
     top: '6px',
