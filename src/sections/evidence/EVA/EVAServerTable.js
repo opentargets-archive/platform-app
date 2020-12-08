@@ -207,6 +207,7 @@ function EVAServerTable({ definition, id, label }) {
       efoId,
       size: pageSize,
     },
+    notifyOnNetworkStatusChange: true,
     client: betaClient,
   });
 
