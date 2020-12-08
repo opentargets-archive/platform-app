@@ -1,5 +1,5 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import SectionItem from '../../../components/Section/SectionItem';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -7,43 +7,11 @@ import Summary from './Summary';
 import { DataTable } from '../../../components/Table';
 import Description from './Description';
 
-const EVA_QUERY = gql`
-  query evaQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["eva"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          variantRsId
-          studyId
-          variantFunctionalConsequence {
-            id
-            label
-          }
-          clinicalSignificances
-          allelicRequirements
-          confidence
-          literature
-        }
-      }
-    }
-  }
-`;
-
-function EVAClientTable({ definition, id, label, columns }) {
+function EVAClientTable({ definition, id, label, columns, evaQuery }) {
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(Summary.fragments.evaSummary);
 
-  const request = useQuery(EVA_QUERY, {
+  const request = useQuery(evaQuery, {
     variables: {
       ensemblId,
       efoId,

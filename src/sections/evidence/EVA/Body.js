@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { gql } from '@apollo/client';
 import { Link } from 'ot-ui';
 import { clinvarStarMap, naLabel } from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';
@@ -153,6 +154,46 @@ const columns = [
   },
 ];
 
+const EVA_QUERY = gql`
+  query evaQuery(
+    $ensemblId: String!
+    $efoId: String!
+    $size: Int!
+    $cursor: [String!]
+  ) {
+    disease(efoId: $efoId) {
+      id
+      evidences(
+        ensemblIds: [$ensemblId]
+        enableIndirect: true
+        datasourceIds: ["eva"]
+        size: $size
+        cursor: $cursor
+      ) {
+        count
+        cursor
+        rows {
+          disease {
+            id
+            name
+          }
+          diseaseFromSource
+          variantRsId
+          studyId
+          variantFunctionalConsequence {
+            id
+            label
+          }
+          clinicalSignificances
+          allelicRequirements
+          confidence
+          literature
+        }
+      }
+    }
+  }
+`;
+
 function Body({ definition, id, label }) {
   const { data } = usePlatformApi(Summary.fragments.evaSummary);
 
@@ -162,6 +203,7 @@ function Body({ definition, id, label }) {
       id={id}
       label={label}
       columns={columns}
+      evaQuery={EVA_QUERY}
     />
   ) : (
     <EVAClientTable
@@ -169,6 +211,7 @@ function Body({ definition, id, label }) {
       id={id}
       label={label}
       columns={columns}
+      evaQuery={EVA_QUERY}
     />
   );
 }

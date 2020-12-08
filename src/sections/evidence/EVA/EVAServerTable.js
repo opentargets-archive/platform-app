@@ -1,57 +1,17 @@
 import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import SectionItem from '../../../components/Section/SectionItem';
 import { betaClient } from '../../../client';
 import { Table, getPage } from '../../../components/Table';
 import Description from './Description';
 
-const EVA_QUERY = gql`
-  query evaQuery(
-    $ensemblId: String!
-    $efoId: String!
-    $size: Int!
-    $cursor: [String!]
-  ) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["eva"]
-        size: $size
-        cursor: $cursor
-      ) {
-        count
-        cursor
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          variantRsId
-          studyId
-          variantFunctionalConsequence {
-            id
-            label
-          }
-          clinicalSignificances
-          allelicRequirements
-          confidence
-          literature
-        }
-      }
-    }
-  }
-`;
-
-function EVAServerTable({ definition, id, label, columns }) {
+function EVAServerTable({ definition, id, label, columns, evaQuery }) {
   const { ensgId: ensemblId, efoId } = id;
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
 
-  const request = useQuery(EVA_QUERY, {
+  const request = useQuery(evaQuery, {
     variables: {
       ensemblId,
       efoId,
