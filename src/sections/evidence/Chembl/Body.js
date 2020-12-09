@@ -124,19 +124,23 @@ const columns = [
         mechanismsOfAction: { rows },
       } = drug;
 
-      let anchorMa = '';
+      let anchorMa = null;
 
       const mas = rows.reduce((acc, { mechanismOfAction, targets }) => {
-        let isAssociated = false;
-        for (let i = 0; i < targets.length; i++) {
-          if (targets[i].id === target.id) {
-            anchorMa = mechanismOfAction;
-            isAssociated = true;
-            break;
+        if (anchorMa === null) {
+          let isAssociated = false;
+          for (let i = 0; i < targets.length; i++) {
+            if (targets[i].id === target.id) {
+              anchorMa = mechanismOfAction;
+              isAssociated = true;
+              break;
+            }
           }
-        }
 
-        if (!isAssociated) {
+          if (!isAssociated) {
+            acc.add(mechanismOfAction);
+          }
+        } else {
           acc.add(mechanismOfAction);
         }
 
