@@ -126,20 +126,27 @@ const columns = [
     label: 'Cases',
     renderCell: ({ studyCases }) => formatComma(studyCases),
     sortable: true,
+    numeric: true,
   },
   {
     id: 'oddsRatio',
     label: 'Odds ratio',
     renderCell: ({ oddsRatio }) => oddsRatio.toFixed(decimalPlaces),
     sortable: true,
+    numeric: true,
   },
   {
     id: 'resourceScore',
-    label: 'P-value',
+    label: (
+      <>
+        <i>p</i>-value
+      </>
+    ),
     renderCell: ({ resourceScore }) => (
       <ScientificNotation number={resourceScore} />
     ),
     sortable: true,
+    numeric: true,
   },
 ];
 
