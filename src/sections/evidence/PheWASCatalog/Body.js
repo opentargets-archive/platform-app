@@ -86,7 +86,7 @@ const columns = [
             {variantRsId}
           </Link>{' '}
           {variantId ? (
-            <>
+            <Typography variant="caption">
               (
               <Link
                 external
@@ -95,7 +95,7 @@ const columns = [
                 {variantId}
               </Link>
               )
-            </>
+            </Typography>
           ) : null}
         </>
       );
