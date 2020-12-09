@@ -1,10 +1,11 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link as RouterLink } from 'react-router-dom';
-import { Link } from '@material-ui/core';
+import { Link, Typography } from '@material-ui/core';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
+import Tooltip from '../../../components/Tooltip';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Summary from './Summary';
@@ -40,17 +41,26 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
+    renderCell: ({ disease, diseaseFromSource }) => {
       return (
-        <Link component={RouterLink} to={`/disease/${disease.id}`}>
-          {disease.name}
-        </Link>
+        <Tooltip
+          title={
+            <>
+              <Typography variant="caption" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+        >
+          <Link component={RouterLink} to={`/disease/${disease.id}`}>
+            {disease.name}
+          </Link>
+        </Tooltip>
       );
     },
-  },
-  {
-    id: 'diseaseFromSource',
-    label: 'Reported disease/phenotype',
   },
   {
     id: 'allelicRequirements',
