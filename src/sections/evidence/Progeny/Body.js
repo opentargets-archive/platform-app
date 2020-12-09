@@ -1,5 +1,7 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
+import { Typography } from '@material-ui/core';
+
 import { Link } from 'ot-ui';
 
 import { betaClient } from '../../../client';
@@ -9,6 +11,7 @@ import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
 import ScientificNotation from '../../../components/ScientificNotation';
 import Summary from './Summary';
+import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const reactomeUrl = id => `http://www.reactome.org/PathwayBrowser/#${id}`;
@@ -28,6 +31,7 @@ const PROGENY_QUERY = gql`
             id
             name
           }
+          diseaseFromSource
           pathwayId
           pathwayName
           resourceScore
@@ -41,10 +45,23 @@ const columns = [
   {
     id: 'disease',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => (
-      <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+    renderCell: ({ disease, diseaseFromSource }) => (
+      <Tooltip
+        showHelpIcon
+        title={
+          <>
+            <Typography variant="subtitle2">
+              Reported Disease/phenotype:
+            </Typography>
+            <Typography variant="caption">{diseaseFromSource}</Typography>
+          </>
+        }
+      >
+        <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+      </Tooltip>
     ),
-    filterValue: ({ disease }) => disease.name,
+    filterValue: ({ disease, diseaseFromSource }) =>
+      [disease.name, diseaseFromSource].join(),
   },
   {
     id: 'pathwayName',
