@@ -8,14 +8,18 @@ import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import ChipList from '../../../components/ChipList';
 import { DataTable } from '../../../components/Table';
-import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
+import {
+  decimalPlaces,
+  defaultRowsPerPageOptions,
+  naLabel,
+} from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
 import methods from './methods';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
-import { sentenceCase } from '../../../utils/global';
 import Summary from './Summary';
+import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const intOgenUrl = (id, approvedSymbol) =>
@@ -23,38 +27,48 @@ const intOgenUrl = (id, approvedSymbol) =>
 
 const INTOGEN_QUERY = loader('./sectionQuery.gql');
 
+const samplePercent = item =>
+  (item.numberMutatedSamples / item.numberSamplesTested) * 100;
+
 const columns = [
   {
     id: 'disease',
-    renderCell: ({ disease }) => (
-      <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+    label: 'Disease/phenotype',
+    renderCell: ({ disease, diseaseFromSource }) => (
+      <Tooltip
+        showHelpIcon
+        title={
+          <>
+            <Typography variant="subtitle2">
+              Reported Disease/phenotype:
+            </Typography>
+            <Typography variant="caption">{diseaseFromSource}</Typography>
+          </>
+        }
+      >
+        <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+      </Tooltip>
     ),
-    filterValue: ({ disease }) => disease.name,
-  },
-  {
-    id: 'diseaseFromSource',
-    label: 'Reported Disease/phenotype',
-    renderCell: ({ diseaseFromSource }) =>
-      diseaseFromSource ? sentenceCase(diseaseFromSource) : naLabel,
+    filterValue: ({ disease, diseaseFromSource }) =>
+      [disease.name, diseaseFromSource].join(),
   },
   {
     id: 'mutatedSamples',
     propertyPath: 'mutatedSamples.numberMutatedSamples',
     label: 'Mutated / Total samples',
-    numeric: true,
     renderCell: ({ mutatedSamples }) => {
       return (
         <List style={{ padding: 0 }}>
-          {mutatedSamples.map(
-            ({ numberMutatedSamples, numberSamplesTested }, i) => (
-              <ListItem
-                key={i}
-                style={{ padding: '.25rem 0', justifyContent: 'flex-end' }}
-              >
-                {numberMutatedSamples}/{numberSamplesTested}
+          {mutatedSamples
+            .sort((a, b) => samplePercent(b) - samplePercent(a))
+            .map((item, i) => (
+              <ListItem key={i} style={{ padding: '.25rem 0' }}>
+                {samplePercent(item).toFixed(decimalPlaces)}%
+                <Typography variant="caption" style={{ marginLeft: '.33rem' }}>
+                  ({item.numberMutatedSamples}/{item.numberSamplesTested})
+                </Typography>
               </ListItem>
-            )
-          )}
+            ))}
         </List>
       );
     },
@@ -184,7 +198,13 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
               <Typography className={classes.roleInCancerTitle}>
                 <b>{symbol}</b> role in cancer:
               </Typography>
-              <ChipList items={roleInCancerItems} />
+              <ChipList
+                items={
+                  roleInCancerItems.length > 0
+                    ? roleInCancerItems
+                    : [{ label: 'Unknown' }]
+                }
+              />
             </Box>
             <DataTable
               columns={columns}
