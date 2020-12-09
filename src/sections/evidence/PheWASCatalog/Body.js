@@ -1,9 +1,11 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
+import { Typography } from '@material-ui/core';
 import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import ScientificNotation from '../../../components/ScientificNotation';
+import Tooltip from '../../../components/Tooltip';
 import Description from './Description';
 import {
   identifiersOrgLink,
@@ -54,13 +56,25 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
-      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
+    renderCell: ({ disease, diseaseFromSource }) => {
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
+      );
     },
-  },
-  {
-    id: 'diseaseFromSource',
-    label: 'Reported disease/phenotype [Phecode]',
   },
   {
     id: 'variantRsId',

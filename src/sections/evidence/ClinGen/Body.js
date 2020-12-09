@@ -1,6 +1,5 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Link as RouterLink } from 'react-router-dom';
 import { Link, Typography } from '@material-ui/core';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -46,7 +45,7 @@ const columns = [
         <Tooltip
           title={
             <>
-              <Typography variant="caption" display="block" align="center">
+              <Typography variant="subtitle2" display="block" align="center">
                 Reported disease or phenotype:
               </Typography>
               <Typography variant="caption" display="block" align="center">
@@ -54,10 +53,9 @@ const columns = [
               </Typography>
             </>
           }
+          showHelpIcon
         >
-          <Link component={RouterLink} to={`/disease/${disease.id}`}>
-            {disease.name}
-          </Link>
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
         </Tooltip>
       );
     },
