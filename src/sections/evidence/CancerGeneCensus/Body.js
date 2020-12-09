@@ -10,7 +10,7 @@ import { DataTable, TableDrawer } from '../../../components/Table';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
-import { naLabel } from '../../../constants';
+import { decimalPlaces, naLabel } from '../../../constants';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -68,7 +68,6 @@ const columns = [
     id: 'mutatedSamples',
     propertyPath: 'mutatedSamples.numberSamplesWithMutationType',
     label: 'Mutated / Total samples',
-    // sortable: true,
     renderCell: ({ mutatedSamples }) => {
       return (
         <List style={{ padding: 0 }}>
