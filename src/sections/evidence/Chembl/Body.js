@@ -127,13 +127,19 @@ const columns = [
       let anchorMa = '';
 
       const mas = rows.reduce((acc, { mechanismOfAction, targets }) => {
-        targets.forEach(({ id }) => {
-          if (id === target.id) {
+        let isAssociated = false;
+        for (let i = 0; i < targets.length; i++) {
+          if (targets[i].id === target.id) {
             anchorMa = mechanismOfAction;
-          } else {
-            acc.add(mechanismOfAction);
+            isAssociated = true;
+            break;
           }
-        });
+        }
+
+        if (!isAssociated) {
+          acc.add(mechanismOfAction);
+        }
+
         return acc;
       }, new Set());
 
