@@ -66,10 +66,6 @@ export const tableStyles = makeStyles(theme => ({
   tabularNums: {
     fontVariant: 'tabular-nums',
   },
-  tooltipIcon: {
-    fontSize: '1.5rem',
-    paddingLeft: `0.6rem`,
-  },
   tooltipCardContent: {
     '&:last-child': {
       padding: '.5rem',

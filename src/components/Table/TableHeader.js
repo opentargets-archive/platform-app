@@ -2,22 +2,17 @@ import React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import {
-  Badge,
-  Card,
-  CardContent,
-  makeStyles,
   Hidden,
   TableHead,
   TableRow,
   TableCell,
   TableSortLabel,
-  Tooltip,
   withWidth,
 } from '@material-ui/core';
-import HelpIcon from '@material-ui/icons/Help';
 
-import { tableStyles } from './tableStyles';
 import { getHiddenBreakpoints } from './utils';
+import { tableStyles } from './tableStyles';
+import Tooltip from '../Tooltip';
 import useDynamicColspan from '../../hooks/useDynamicColspans';
 
 function HeaderCell({
@@ -34,13 +29,9 @@ function HeaderCell({
   sticky = false,
   tooltip,
   tooltipStyle = {},
-  TooltipIcon = HelpIcon,
   width,
 }) {
   const headerClasses = tableStyles();
-  const tooltipClasses = makeStyles(
-    _.merge(tooltipStyle, { tooltip: { padding: 0 } })
-  )();
 
   const style = {
     minWidth,
@@ -49,28 +40,11 @@ function HeaderCell({
   };
 
   const labelInnerComponent = (
-    <span className={classes.innerLabel}>
+    <span className={classNames(classes.innerLabel, headerClasses.headerSpan)}>
       {tooltip ? (
-        <Badge
-          badgeContent={
-            <Tooltip
-              interactive
-              placement="top"
-              classes={tooltipClasses}
-              title={
-                <Card elevation={0}>
-                  <CardContent className={headerClasses.tooltipCardContent}>
-                    {tooltip}
-                  </CardContent>
-                </Card>
-              }
-            >
-              <TooltipIcon className={headerClasses.tooltipIcon} />
-            </Tooltip>
-          }
-        >
+        <Tooltip style={tooltipStyle} showHelpIcon title={tooltip}>
           <span className={headerClasses.headerLabelWithTooltip}>{label}</span>
-        </Badge>
+        </Tooltip>
       ) : (
         label
       )}

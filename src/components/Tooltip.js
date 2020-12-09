@@ -1,21 +1,25 @@
 import React from 'react';
-import { Help } from '@material-ui/icons';
 import { makeStyles, Tooltip as MUITooltip } from '@material-ui/core';
+import _ from 'lodash';
 
-const useStyles = makeStyles(theme => ({
-  tooltip: {
-    backgroundColor: theme.palette.background.paper,
-    border: `1px solid ${theme.palette.grey[300]}`,
-    color: theme.palette.text.primary,
-  },
-  tooltipIcon: {
-    fontSize: '.75rem',
-    marginBottom: '.2rem',
-  },
-}));
-
-function Tooltip({ children, title, showHelpIcon = false, ...props }) {
-  const classes = useStyles();
+function Tooltip({ style, children, title, showHelpIcon = false, ...props }) {
+  const classes = makeStyles(theme =>
+    _.merge(style, {
+      tooltip: {
+        backgroundColor: theme.palette.background.paper,
+        border: `1px solid ${theme.palette.grey[300]}`,
+        color: theme.palette.text.primary,
+      },
+      tooltipBadge: {
+        paddingLeft: '1rem',
+        top: '.4rem',
+      },
+      tooltipIcon: {
+        fontWeight: '500',
+        cursor: 'default',
+      },
+    })
+  )();
 
   return (
     <>
@@ -27,7 +31,7 @@ function Tooltip({ children, title, showHelpIcon = false, ...props }) {
         title={title}
         {...props}
       >
-        {showHelpIcon ? <Help className={classes.tooltipIcon} /> : children}
+        {showHelpIcon ? <sup className={classes.tooltipIcon}>?</sup> : children}
       </MUITooltip>
     </>
   );
