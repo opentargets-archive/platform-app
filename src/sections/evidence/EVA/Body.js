@@ -256,7 +256,7 @@ function Body({ definition, id, label }) {
   }
 
   function handleRowsPerPageChange(newPageSize) {
-    if (page * newPageSize + newPageSize > data.disease.evidences.rows.length) {
+    if (newPageSize > data.disease.evidences.rows.length) {
       fetchMore({
         variables: {
           ensemblId,
