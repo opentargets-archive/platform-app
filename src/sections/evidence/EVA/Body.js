@@ -98,7 +98,7 @@ const columns = [
       return !clinicalSignificances ? (
         naLabel
       ) : clinicalSignificances.length === 1 ? (
-        clinicalSignificances[0]
+        sentenceCase(clinicalSignificances[0])
       ) : (
         <ul
           style={{
@@ -108,7 +108,11 @@ const columns = [
           }}
         >
           {clinicalSignificances.map(clinicalSignificance => {
-            return <li key={clinicalSignificance}>{clinicalSignificance}</li>;
+            return (
+              <li key={clinicalSignificance}>
+                {sentenceCase(clinicalSignificance)}
+              </li>
+            );
           })}
         </ul>
       );
