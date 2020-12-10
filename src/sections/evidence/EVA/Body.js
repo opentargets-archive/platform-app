@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Typography } from '@material-ui/core';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
 import {
@@ -23,17 +23,25 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
+    renderCell: ({ disease, diseaseFromSource }) => {
       return (
-        <Link component={RouterLink} to={`/disease/${disease.id}`}>
-          {disease.name}
-        </Link>
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
       );
     },
-  },
-  {
-    id: 'diseaseFromSource',
-    label: 'Reported disease/phenotype',
   },
   {
     id: 'variantRsId',
@@ -318,6 +326,7 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         );
       }}
