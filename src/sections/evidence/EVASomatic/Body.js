@@ -1,11 +1,12 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Typography } from '@material-ui/core';
+import { Box, Typography, makeStyles } from '@material-ui/core';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
+import ChipList from '../../../components/ChipList';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { epmcUrl } from '../../../utils/urls';
 import {
@@ -42,6 +43,18 @@ const EVA_SOMATIC_QUERY = gql`
           confidence
           score
           literature
+        }
+      }
+    }
+    target(ensemblId: $ensemblId) {
+      id
+      hallmarks {
+        attributes {
+          reference {
+            pubmedId
+            description
+          }
+          name
         }
       }
     }
@@ -187,7 +200,17 @@ const columns = [
   },
 ];
 
+const useStyles = makeStyles({
+  roleInCancerBox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '2rem',
+  },
+  roleInCancerTitle: { marginRight: '.5rem' },
+});
+
 function Body({ definition, id, label }) {
+  const classes = useStyles();
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.evaSomaticSummary
@@ -209,18 +232,44 @@ function Body({ definition, id, label }) {
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
       )}
-      renderBody={({ disease }) => {
+      renderBody={({
+        disease,
+        target: {
+          hallmarks: { attributes },
+        },
+      }) => {
         const { rows } = disease.evidences;
+
+        const roleInCancerItems = attributes
+          .filter(attribute => attribute.name === 'role in cancer')
+          .map(attribute => ({
+            label: attribute.reference.description,
+            url: epmcUrl(attribute.reference.pubmedId),
+          }));
         return (
-          <DataTable
-            columns={columns}
-            rows={rows}
-            dataDownloader
-            showGlobalFilter
-            sortBy="score"
-            order="desc"
-            rowsPerPageOptions={defaultRowsPerPageOptions}
-          />
+          <>
+            <Box className={classes.roleInCancerBox}>
+              <Typography className={classes.roleInCancerTitle}>
+                <b>{label.symbol}</b> role in cancer:
+              </Typography>
+              <ChipList
+                items={
+                  roleInCancerItems.length > 0
+                    ? roleInCancerItems
+                    : [{ label: 'Unknown' }]
+                }
+              />
+            </Box>
+            <DataTable
+              columns={columns}
+              rows={rows}
+              dataDownloader
+              showGlobalFilter
+              sortBy="score"
+              order="desc"
+              rowsPerPageOptions={defaultRowsPerPageOptions}
+            />
+          </>
         );
       }}
     />
