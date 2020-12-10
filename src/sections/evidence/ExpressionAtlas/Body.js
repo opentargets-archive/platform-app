@@ -70,7 +70,7 @@ const columns = [
   {
     id: 'studyId',
     label: 'Experiment ID',
-    renderCell: ({ studyId, target }) => {
+    renderCell: ({ studyId }) => {
       return (
         <Link external to={`http://www.ebi.ac.uk/gxa/experiments/${studyId}`}>
           {studyId}
@@ -83,7 +83,7 @@ const columns = [
     label: 'Experiment details',
     renderCell: ({ contrast, studyOverview }) => {
       return (
-        <Tooltip title={studyOverview}>
+        <Tooltip title={studyOverview} showHelpIcon>
           <span>{contrast}</span>
         </Tooltip>
       );
@@ -104,6 +104,7 @@ const columns = [
     numeric: true,
   },
   {
+    id: 'resourceScore',
     label: (
       <>
         <i>p</i>-value
@@ -146,6 +147,8 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            sortBy="resourceScore"
+            order="desc"
           />
         );
       }}
