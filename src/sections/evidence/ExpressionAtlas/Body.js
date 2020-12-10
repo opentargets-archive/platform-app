@@ -29,6 +29,7 @@ const EXPRESSION_ATLAS_QUERY = gql`
             id
             name
           }
+          diseaseFromSource
           contrast
           studyOverview
           log2FoldChangeValue
@@ -45,8 +46,24 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
-      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
+    renderCell: ({ disease, diseaseFromSource }) => {
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
+      );
     },
   },
   {
