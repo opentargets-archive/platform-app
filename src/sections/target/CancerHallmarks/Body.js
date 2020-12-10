@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 
 import { Link } from 'ot-ui';
 
@@ -8,6 +8,7 @@ import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Description from './Description';
+import ChipList from '../../../components/ChipList';
 
 const columns = [
   {
@@ -44,7 +45,17 @@ const columns = [
   },
 ];
 
+const useStyles = makeStyles({
+  roleInCancerBox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '2rem',
+  },
+  roleInCancerTitle: { marginRight: '.5rem' },
+});
+
 function Section({ definition, id: ensgId, label: symbol }) {
+  const classes = useStyles();
   const request = usePlatformApi(
     Summary.fragments.CancerHallmarksSummaryFragment
   );
@@ -55,9 +66,14 @@ function Section({ definition, id: ensgId, label: symbol }) {
       request={request}
       renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => {
-        const roleInCancer = data.hallmarks.attributes.filter(
-          a => a.name === 'role in cancer'
-        );
+        const roleInCancer = data.hallmarks.attributes
+          .filter(a => a.name === 'role in cancer')
+          .map(r => ({
+            label: r.reference.description,
+            url: `http://europepmc.org/search?query=EXT_ID:${
+              r.reference.pubmedId
+            }`,
+          }));
         const rows = data.hallmarks.rows.map(r => ({
           label: r.label,
           activity: r.promote ? 'promotes' : r.suppress ? 'suppresses' : '',
@@ -67,22 +83,18 @@ function Section({ definition, id: ensgId, label: symbol }) {
 
         return (
           <>
-            <Typography variant="body2">
-              Role in cancer:{' '}
-              {roleInCancer.map((r, i) => (
-                <React.Fragment key={i}>
-                  {i > 0 ? ' | ' : null}
-                  <Link
-                    external
-                    to={`http://europepmc.org/search?query=EXT_ID:${
-                      r.reference.pubmedId
-                    }`}
-                  >
-                    {r.reference.description}
-                  </Link>
-                </React.Fragment>
-              )) || 'No data'}
-            </Typography>
+            <Box className={classes.roleInCancerBox}>
+              <Typography className={classes.roleInCancerTitle}>
+                Role in cancer:
+              </Typography>
+              <ChipList
+                items={
+                  roleInCancer.length > 0
+                    ? roleInCancer
+                    : [{ label: 'Unknown' }]
+                }
+              />
+            </Box>
             <DataTable
               columns={columns}
               dataDownloader

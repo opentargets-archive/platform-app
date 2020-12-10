@@ -44,6 +44,7 @@ const INTOGEN_QUERY = gql`
 const columns = [
   {
     id: 'disease',
+    label: 'Disease/phenotype',
     renderCell: ({ disease }) => (
       <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
     ),

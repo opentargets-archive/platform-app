@@ -6,7 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loader } from 'graphql.macro';
-import { List, ListItem } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 import { Link } from 'ot-ui';
 
@@ -18,8 +18,8 @@ import { epmcUrl } from '../../../utils/urls';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
-import usePlatformApi from '../../../hooks/usePlatformApi';
 import Tooltip from '../../../components/Tooltip';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const geUrl = (id, approvedSymbol) =>
   `https://panelapp.genomicsengland.co.uk/panels/${id}/gene/${approvedSymbol}`;
@@ -65,33 +65,46 @@ const columns = [
   {
     id: 'disease',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => (
-      <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+    renderCell: ({ disease, diseaseFromSource }) => (
+      <Tooltip
+        showHelpIcon
+        title={
+          <>
+            <Typography variant="subtitle2">
+              Reported Disease/phenotype:
+            </Typography>
+            <Typography variant="caption">{diseaseFromSource}</Typography>
+          </>
+        }
+      >
+        <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+      </Tooltip>
     ),
-    filterValue: ({ disease }) => disease.name,
-  },
-  {
-    id: 'diseaseFromSource',
-    label: 'Reported Disease/phenotype',
-    renderCell: ({ diseaseFromSource }) => sentenceCase(diseaseFromSource),
+    filterValue: ({ disease, diseaseFromSource }) =>
+      [disease.name, diseaseFromSource].join(),
   },
   {
     id: 'cohortPhenotypes',
+    label: 'All phenotypes',
     renderCell: ({ cohortPhenotypes }) =>
       cohortPhenotypes ? (
-        <List style={{ padding: 0 }}>
-          {cohortPhenotypes.map((entry, index) => (
-            <ListItem key={index} style={{ padding: '.25rem 0' }}>
-              {entry}
-            </ListItem>
-          ))}
-        </List>
+        <TableDrawer
+          entries={cohortPhenotypes.map(item => ({
+            name: item,
+            group: 'Reported phenotypes',
+          }))}
+          showSingle={false}
+          message={`${cohortPhenotypes.length} phenotype${
+            cohortPhenotypes.length !== 1 ? 's' : ''
+          }`}
+        />
       ) : (
         naLabel
       ),
   },
   {
     id: 'allelicRequirements',
+    label: 'Allelic Requirement',
     renderCell: ({ allelicRequirements }) =>
       allelicRequirements
         ? allelicRequirements.map((item, index) => {
