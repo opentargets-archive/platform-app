@@ -97,11 +97,13 @@ const columns = [
       </>
     ),
     numeric: true,
+    sortable: true,
   },
   {
     id: 'log2FoldChangePercentileRank',
     label: 'Percentile',
     numeric: true,
+    sortable: true,
   },
   {
     id: 'resourceScore',
@@ -114,6 +116,7 @@ const columns = [
       return <ScientificNotation number={resourceScore} />;
     },
     numeric: true,
+    sortable: true,
   },
 ];
 
@@ -148,7 +151,7 @@ function Body({ definition, id, label }) {
             dataDownloader
             showGlobalFilter
             sortBy="resourceScore"
-            order="desc"
+            order="asc"
           />
         );
       }}
