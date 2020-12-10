@@ -9,7 +9,7 @@ import { epmcUrl } from '../../../utils/urls';
 import { clinvarStarMap, naLabel } from '../../../constants';
 import ScientificNotation from '../../../components/ScientificNotation';
 import Tooltip from '../../../components/Tooltip';
-import ClinvarStar from '../../../components/ClinvarStar';
+import ClinvarStars from '../../../components/ClinvarStars';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -130,14 +130,11 @@ const columns = [
   {
     label: 'Confidence',
     renderCell: ({ confidence }) => {
-      const numStars = clinvarStarMap[confidence];
-      const stars = [];
-      for (let i = 0; i < numStars; i++) {
-        stars.push(<ClinvarStar key={i} />);
-      }
       return (
         <Tooltip title={confidence}>
-          <span>{stars}</span>
+          <span>
+            <ClinvarStars num={clinvarStarMap[confidence]} />
+          </span>
         </Tooltip>
       );
     },

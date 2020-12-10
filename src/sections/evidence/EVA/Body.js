@@ -11,7 +11,7 @@ import { sentenceCase } from '../../../utils/global';
 import { epmcUrl } from '../../../utils/urls';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
-import ClinvarStar from '../../../components/ClinvarStar';
+import ClinvarStars from '../../../components/ClinvarStars';
 import Tooltip from '../../../components/Tooltip';
 import { Table, DataTable, getPage } from '../../../components/Table';
 import { TableDrawer } from '../../../components/Table';
@@ -144,14 +144,11 @@ const columns = [
   {
     label: 'Confidence',
     renderCell: ({ confidence }) => {
-      const numStars = clinvarStarMap[confidence];
-      const stars = [];
-      for (let i = 0; i < numStars; i++) {
-        stars.push(<ClinvarStar key={i} />);
-      }
       return (
         <Tooltip title={confidence}>
-          <span>{stars}</span>
+          <span>
+            <ClinvarStars num={clinvarStarMap[confidence]} />
+          </span>
         </Tooltip>
       );
     },
