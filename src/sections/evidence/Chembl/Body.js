@@ -4,6 +4,7 @@ import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
+import Tooltip from '../../../components/Tooltip';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import {
   defaultRowsPerPageOptions,
@@ -68,8 +69,8 @@ const columns = [
     },
   },
   {
-    label: 'Target (Reported protein)',
-    renderCell: ({ target, targetFromSourceId, drug }) => {
+    label: 'Targets',
+    renderCell: ({ target, drug, targetFromSourceId }) => {
       const {
         mechanismsOfAction: { rows },
       } = drug;
@@ -88,21 +89,27 @@ const columns = [
       }, new Set());
 
       return (
-        <>
-          <Link to={`/target/${target.id}`}>{symbol}</Link> (
-          <Link
-            external
-            to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
-          >
-            {targetFromSourceId}
-          </Link>
-          )
+        <Tooltip
+          title={
+            <>
+              Reported target:{' '}
+              <Link
+                external
+                to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
+              >
+                {targetFromSourceId}
+              </Link>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/target/${target.id}`}>{symbol}</Link>
           {otherTargets.size > 0
             ? ` and ${otherTargets.size} other target${
                 otherTargets.size > 1 ? 's' : ''
               }`
             : null}
-        </>
+        </Tooltip>
       );
     },
   },
