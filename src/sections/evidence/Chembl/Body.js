@@ -89,27 +89,29 @@ const columns = [
       }, new Set());
 
       return (
-        <Tooltip
-          title={
-            <>
-              Reported target:{' '}
-              <Link
-                external
-                to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
-              >
-                {targetFromSourceId}
-              </Link>
-            </>
-          }
-          showHelpIcon
-        >
-          <Link to={`/target/${target.id}`}>{symbol}</Link>
+        <>
+          <Tooltip
+            title={
+              <>
+                Reported target:{' '}
+                <Link
+                  external
+                  to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
+                >
+                  {targetFromSourceId}
+                </Link>
+              </>
+            }
+            showHelpIcon
+          >
+            <Link to={`/target/${target.id}`}>{symbol}</Link>
+          </Tooltip>
           {otherTargets.size > 0
             ? ` and ${otherTargets.size} other target${
                 otherTargets.size > 1 ? 's' : ''
               }`
             : null}
-        </Tooltip>
+        </>
       );
     },
   },
