@@ -96,10 +96,12 @@ const columns = [
         Log<sub>2</sub> fold change
       </>
     ),
+    numeric: true,
   },
   {
     id: 'log2FoldChangePercentileRank',
     label: 'Percentile',
+    numeric: true,
   },
   {
     label: (
@@ -110,6 +112,7 @@ const columns = [
     renderCell: ({ resourceScore }) => {
       return <ScientificNotation number={resourceScore} />;
     },
+    numeric: true,
   },
 ];
 
