@@ -20,7 +20,6 @@ function ClinvarStars({ num }) {
         key={i}
         className={num > 0 ? classes.star : ''}
         icon={num > 0 ? faStarSolid : faStar}
-        size="sm"
       />
     );
     num--;
