@@ -7,6 +7,7 @@ import {
   naLabel,
   defaultRowsPerPageOptions,
 } from '../../../constants';
+import { sentenceCase } from '../../../utils/global';
 import { epmcUrl } from '../../../utils/urls';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -82,7 +83,7 @@ const columns = [
             variantFunctionalConsequence.id
           }`}
         >
-          {variantFunctionalConsequence.label}
+          {sentenceCase(variantFunctionalConsequence.label)}
         </Link>
       );
     },
