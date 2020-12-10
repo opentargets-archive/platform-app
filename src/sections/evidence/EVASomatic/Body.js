@@ -1,12 +1,18 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
+import { Typography } from '@material-ui/core';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { epmcUrl } from '../../../utils/urls';
-import { clinvarStarMap, naLabel } from '../../../constants';
+import {
+  clinvarStarMap,
+  naLabel,
+  defaultRowsPerPageOptions,
+} from '../../../constants';
 import ScientificNotation from '../../../components/ScientificNotation';
 import Tooltip from '../../../components/Tooltip';
 import ClinvarStars from '../../../components/ClinvarStars';
@@ -46,13 +52,25 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
-      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
+    renderCell: ({ disease, diseaseFromSource }) => {
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
+      );
     },
-  },
-  {
-    id: 'diseaseFromSource',
-    label: 'Reported disease/phenotype',
   },
   {
     id: 'variantRsId',
@@ -88,7 +106,7 @@ const columns = [
       return !clinicalSignificances ? (
         naLabel
       ) : clinicalSignificances.length === 1 ? (
-        clinicalSignificances[0]
+        sentenceCase(clinicalSignificances[0])
       ) : (
         <ul
           style={{
@@ -98,7 +116,11 @@ const columns = [
           }}
         >
           {clinicalSignificances.map(clinicalSignificance => {
-            return <li key={clinicalSignificance}>{clinicalSignificance}</li>;
+            return (
+              <li key={clinicalSignificance}>
+                {sentenceCase(clinicalSignificance)}
+              </li>
+            );
           })}
         </ul>
       );
@@ -197,6 +219,7 @@ function Body({ definition, id, label }) {
             showGlobalFilter
             sortBy="score"
             order="desc"
+            rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         );
       }}
