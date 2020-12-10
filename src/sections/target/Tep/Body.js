@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'ot-ui';
 
 import Description from './Description';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';

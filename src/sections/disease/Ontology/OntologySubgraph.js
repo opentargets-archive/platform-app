@@ -4,7 +4,7 @@ import * as d3DagBase from 'd3-dag';
 import { withContentRect } from 'react-measure';
 import { withTheme } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
+import Link from '../../../components/Link';
 
 const d3 = Object.assign({}, d3Base, d3DagBase);
 

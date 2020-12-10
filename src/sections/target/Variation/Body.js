@@ -5,9 +5,9 @@ import * as d3 from 'd3';
 
 import board from 'tnt.genome';
 import cttvApi from 'cttv.api';
-import { Link } from 'ot-ui';
 
 import Description from './Description';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import targetGenomeBrowser from 'cttv.genome';
 

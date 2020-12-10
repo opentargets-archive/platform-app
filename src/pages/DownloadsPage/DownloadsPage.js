@@ -1,9 +1,8 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
 import BasePage from '../../components/BasePage';
+import Link from '../../components/Link';
 
 const releases = [
   {

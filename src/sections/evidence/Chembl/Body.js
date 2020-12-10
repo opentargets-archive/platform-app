@@ -1,17 +1,17 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from 'ot-ui';
-import usePlatformApi from '../../../hooks/usePlatformApi';
-import SectionItem from '../../../components/Section/SectionItem';
-import Tooltip from '../../../components/Tooltip';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import {
   defaultRowsPerPageOptions,
   phaseMap,
   sourceMap,
 } from '../../../constants';
-import Summary from './Summary';
 import Description from './Description';
+import Link from '../../../components/Link';
+import SectionItem from '../../../components/Section/SectionItem';
+import Summary from './Summary';
+import Tooltip from '../../../components/Tooltip';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const CHEMBL_QUERY = gql`
   query ChemblQuery($ensemblId: String!, $efoId: String!, $size: Int!) {

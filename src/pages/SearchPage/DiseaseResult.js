@@ -4,9 +4,8 @@ import Clampy from '@clampy-js/react-clampy';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
-import { Link } from 'ot-ui';
-
 import Highlights from '../../components/Highlights';
+import Link from '../../components/Link';
 
 const styles = theme => ({
   container: {

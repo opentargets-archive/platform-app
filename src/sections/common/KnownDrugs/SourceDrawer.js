@@ -11,12 +11,13 @@ import {
   Paper,
   IconButton,
   Link as MUILink,
+  Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon from '@material-ui/icons/Close';
 import _ from 'lodash';
 
-import { Link, Typography } from 'ot-ui';
+import Link from '../../../components/Link';
 
 const sourceDrawerStyles = makeStyles(theme => ({
   drawerLink: {

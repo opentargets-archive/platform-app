@@ -3,8 +3,6 @@ import { Grid, Typography, withStyles } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDna, faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
-import { commaSeparate } from 'ot-ui';
-
 const styles = theme => {
   return {
     container: {
@@ -64,26 +62,26 @@ const Stats = ({ classes }) => {
             <Grid item container md={3} direction="column" alignItems="center">
               <FontAwesomeIcon icon={faDna} className={classes.icon} />
               <Typography variant="h6">
-                {commaSeparate(stats.numTargets)}
+                {stats.numTargets.toLocaleString()}
               </Typography>
               <Typography> targets</Typography>
             </Grid>
             <Grid item container md={3} direction="column" alignItems="center">
               <FontAwesomeIcon icon={faStethoscope} className={classes.icon} />
               <Typography variant="h6">
-                {commaSeparate(stats.numDiseases)}
+                {stats.numDiseases.toLocaleString()}
               </Typography>
               <Typography>diseases</Typography>
             </Grid>
             <Grid item container md={3} direction="column" alignItems="center">
               <Typography variant="h6">
-                {commaSeparate(stats.numAssociations)}
+                {stats.numAssociations.toLocaleString()}
               </Typography>
               <Typography>associations</Typography>
             </Grid>
             <Grid item container md={3} direction="column" alignItems="center">
               <Typography variant="h6">
-                {commaSeparate(stats.numDataSources)}
+                {stats.numDataSources.toLocaleString()}
               </Typography>
               <Typography>data sources</Typography>
             </Grid>

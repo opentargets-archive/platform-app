@@ -3,11 +3,11 @@ import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 import { useTheme } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
-import { DownloadSVGPlot } from 'ot-ui';
 import Slider from './ClassicAssociationsSlider';
 import AssociationTooltip from './AssociationTooltip';
 import Legend from '../../components/Legend';
 import { colorRange } from '../../constants';
+import DownloadSVGPlot from '../../components/DownloadSVGPlot';
 
 function findTas(id, idToDisease) {
   const tas = new Set();

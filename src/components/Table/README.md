@@ -15,14 +15,6 @@ available.
 
 - Advanced: column groups: [Disease Profile Page Known Drugs section](https://github.com/opentargets/platform-app/blob/alpha/src/public/disease/sections/KnownDrugs/Section.js).
 
-## Import
-
-(This will be effective when the component moves to `ot-ui`)
-
-```js
-import { Table, DataTable } from 'ot-ui';
-```
-
 ## Table Props
 
 | Name                     | Type                | Default               | Description                                                                                                                                                                                                                                   |

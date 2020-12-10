@@ -2,13 +2,14 @@ import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 
-import { Link, NavBar, Footer } from 'ot-ui';
-
+import { appTitle, externalLinks, mainMenuItems } from '../../constants';
+import Footer from '../../components/Footer';
 import HomeBox from './HomeBox';
+import Link from '../../components/Link';
+import NavBar from '../../components/NavBar';
 import Search from '../../components/Search';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
-import { appTitle, externalLinks, mainMenuItems } from '../../constants';
 
 const useStyles = makeStyles({
   links: {

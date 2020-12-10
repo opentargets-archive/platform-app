@@ -1,8 +1,7 @@
 import React from 'react';
 import { Icon, Grid, Typography, withStyles } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
+import Link from '../../components/Link';
 import Search from '../../components/Search';
 
 const styles = theme => ({

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles, Tooltip } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
+import { makeStyles, Tooltip } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
+import Link from '../Link';
 
 const useStyles = makeStyles(theme => ({
   helpIcon: {

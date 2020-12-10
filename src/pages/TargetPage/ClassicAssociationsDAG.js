@@ -4,7 +4,7 @@ import * as d3Base from 'd3';
 import * as d3DagBase from 'd3-dag';
 import withTheme from '@material-ui/core/styles/withTheme';
 
-import { DownloadSVGPlot } from 'ot-ui';
+import DownloadSVGPlot from '../../components/DownloadSVGPlot';
 
 import withTooltip from '../../components/withTooltip';
 import Legend from '../../components/Legend';

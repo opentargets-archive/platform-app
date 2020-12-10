@@ -1,11 +1,11 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from 'ot-ui';
 import { Typography } from '@material-ui/core';
 import { DataTable } from '../../../components/Table';
 import ScientificNotation from '../../../components/ScientificNotation';
 import Tooltip from '../../../components/Tooltip';
 import Description from './Description';
+import Link from '../../../components/Link';
 import {
   identifiersOrgLink,
   sentenceCase,

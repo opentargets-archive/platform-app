@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 
-import { Link, significantFigures } from 'ot-ui';
-
+import { decimalPlaces } from '../../../constants';
 import Description from './Description';
+import Link from '../../../components/Link';
 import LinearVenn, { LinearVennLegend } from '../../../components/LinearVenn';
 import { Table, PaginationActionsComplete } from '../../../components/Table';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
@@ -50,8 +50,8 @@ const columns = (name, maxCountAOrB) => [
     label: 'Similarity score',
     exportLabel: 'similarityScore',
     numeric: true,
-    exportValue: d => significantFigures(d.score),
-    renderCell: d => significantFigures(d.score),
+    exportValue: d => d.score.toFixed(decimalPlaces),
+    renderCell: d => d.score.toFixed(decimalPlaces),
   },
   {
     id: 'countANotB',

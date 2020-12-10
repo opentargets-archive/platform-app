@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import * as d3 from 'd3';
 
-import { DownloadSVGPlot } from 'ot-ui';
-
+import DownloadSVGPlot from '../../../components/DownloadSVGPlot';
 import GtexVariability from './GtexVariability';
 
 export async function getData(symbol) {

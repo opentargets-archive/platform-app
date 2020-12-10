@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-import { Tabs, Tab } from 'ot-ui';
+import { Tabs, Tab } from '@material-ui/core';
 
 import OverviewTab from './OverviewTab';
 import BrowserTab from './BrowserTab';
