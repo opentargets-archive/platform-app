@@ -68,6 +68,17 @@ const columns = [
     },
   },
   {
+    id: 'studyId',
+    label: 'Experiment ID',
+    renderCell: ({ studyId, target }) => {
+      return (
+        <Link external to={`http://www.ebi.ac.uk/gxa/experiments/${studyId}`}>
+          {studyId}
+        </Link>
+      );
+    },
+  },
+  {
     id: 'contrast',
     label: 'Experiment details',
     renderCell: ({ contrast, studyOverview }) => {
@@ -87,6 +98,10 @@ const columns = [
     ),
   },
   {
+    id: 'log2FoldChangePercentileRank',
+    label: 'Percentile',
+  },
+  {
     label: (
       <>
         <i>p</i>-value
@@ -94,21 +109,6 @@ const columns = [
     ),
     renderCell: ({ resourceScore }) => {
       return <ScientificNotation number={resourceScore} />;
-    },
-  },
-  {
-    id: 'log2FoldChangePercentileRank',
-    label: 'Percentile',
-  },
-  {
-    id: 'studyId',
-    label: 'Experiment ID',
-    renderCell: ({ studyId, target }) => {
-      return (
-        <Link external to={`http://www.ebi.ac.uk/gxa/experiments/${studyId}`}>
-          {studyId}
-        </Link>
-      );
     },
   },
 ];
