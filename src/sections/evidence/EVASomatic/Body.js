@@ -14,7 +14,6 @@ import {
   naLabel,
   defaultRowsPerPageOptions,
 } from '../../../constants';
-import ScientificNotation from '../../../components/ScientificNotation';
 import Tooltip from '../../../components/Tooltip';
 import ClinvarStars from '../../../components/ClinvarStars';
 import Summary from './Summary';
@@ -41,7 +40,6 @@ const EVA_SOMATIC_QUERY = gql`
           clinicalSignificances
           allelicRequirements
           confidence
-          score
           literature
         }
       }
@@ -173,12 +171,6 @@ const columns = [
         </Tooltip>
       );
     },
-  },
-  {
-    id: 'score',
-    label: 'Score',
-    renderCell: ({ score }) => <ScientificNotation number={score} />,
-    sortable: true,
   },
   {
     label: 'Literature',
