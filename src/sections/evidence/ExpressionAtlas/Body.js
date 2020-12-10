@@ -1,5 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
+import { Typography } from '@material-ui/core';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -68,7 +69,7 @@ const columns = [
   },
   {
     id: 'contrast',
-    label: 'Experiment contrast',
+    label: 'Experiment details',
     renderCell: ({ contrast, studyOverview }) => {
       return (
         <Tooltip title={studyOverview}>
@@ -79,17 +80,25 @@ const columns = [
   },
   {
     id: 'log2FoldChangeValue',
-    label: 'Log2 fold change',
+    label: (
+      <>
+        Log<sub>2</sub> fold change
+      </>
+    ),
   },
   {
-    label: 'P-value',
+    label: (
+      <>
+        <i>p</i>-value
+      </>
+    ),
     renderCell: ({ resourceScore }) => {
       return <ScientificNotation number={resourceScore} />;
     },
   },
   {
     id: 'log2FoldChangePercentileRank',
-    label: 'Percentile rank',
+    label: 'Percentile',
   },
   {
     id: 'studyId',
