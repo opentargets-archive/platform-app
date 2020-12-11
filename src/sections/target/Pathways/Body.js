@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Tabs, Tab } from '@material-ui/core';
 
-import OverviewTab from './OverviewTab';
 import BrowserTab from './BrowserTab';
-import usePlatformApi from '../../../hooks/usePlatformApi';
-import Summary from './Summary';
-import SectionItem from '../../../components/Section/SectionItem';
 import Description from './Description';
+import { Helmet } from 'react-helmet';
+import OverviewTab from './OverviewTab';
+import SectionItem from '../../../components/Section/SectionItem';
+import Summary from './Summary';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 function Body({ definition, label: symbol }) {
   const defaultTab = 'overview';
@@ -47,6 +48,14 @@ function Body({ definition, label: symbol }) {
 
         return (
           <>
+            <Helmet
+              script={[
+                {
+                  src:
+                    'https://www.reactome.org/DiagramJs/diagram/diagram.nocache.js',
+                },
+              ]}
+            />
             <Tabs
               value={tab}
               onChange={handleChangeTab}
