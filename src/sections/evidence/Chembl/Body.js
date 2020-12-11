@@ -4,6 +4,7 @@ import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
+import Tooltip from '../../../components/Tooltip';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import {
   defaultRowsPerPageOptions,
@@ -68,8 +69,8 @@ const columns = [
     },
   },
   {
-    label: 'Target (Reported protein)',
-    renderCell: ({ target, targetFromSourceId, drug }) => {
+    label: 'Targets',
+    renderCell: ({ target, drug, targetFromSourceId }) => {
       const {
         mechanismsOfAction: { rows },
       } = drug;
@@ -89,14 +90,22 @@ const columns = [
 
       return (
         <>
-          <Link to={`/target/${target.id}`}>{symbol}</Link> (
-          <Link
-            external
-            to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
+          <Tooltip
+            title={
+              <>
+                Reported target:{' '}
+                <Link
+                  external
+                  to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
+                >
+                  {targetFromSourceId}
+                </Link>
+              </>
+            }
+            showHelpIcon
           >
-            {targetFromSourceId}
-          </Link>
-          )
+            <Link to={`/target/${target.id}`}>{symbol}</Link>
+          </Tooltip>
           {otherTargets.size > 0
             ? ` and ${otherTargets.size} other target${
                 otherTargets.size > 1 ? 's' : ''
@@ -124,16 +133,26 @@ const columns = [
         mechanismsOfAction: { rows },
       } = drug;
 
-      let anchorMa = '';
+      let anchorMa = null;
 
       const mas = rows.reduce((acc, { mechanismOfAction, targets }) => {
-        targets.forEach(({ id }) => {
-          if (id === target.id) {
-            anchorMa = mechanismOfAction;
-          } else {
+        if (anchorMa === null) {
+          let isAssociated = false;
+          for (let i = 0; i < targets.length; i++) {
+            if (targets[i].id === target.id) {
+              anchorMa = mechanismOfAction;
+              isAssociated = true;
+              break;
+            }
+          }
+
+          if (!isAssociated) {
             acc.add(mechanismOfAction);
           }
-        });
+        } else {
+          acc.add(mechanismOfAction);
+        }
+
         return acc;
       }, new Set());
 

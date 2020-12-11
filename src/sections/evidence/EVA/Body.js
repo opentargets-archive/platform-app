@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Typography } from '@material-ui/core';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
 import {
@@ -7,10 +7,11 @@ import {
   naLabel,
   defaultRowsPerPageOptions,
 } from '../../../constants';
+import { sentenceCase } from '../../../utils/global';
 import { epmcUrl } from '../../../utils/urls';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
-import ClinvarStar from '../../../components/ClinvarStar';
+import ClinvarStars from '../../../components/ClinvarStars';
 import Tooltip from '../../../components/Tooltip';
 import { Table, DataTable, getPage } from '../../../components/Table';
 import { TableDrawer } from '../../../components/Table';
@@ -23,17 +24,25 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
+    renderCell: ({ disease, diseaseFromSource }) => {
       return (
-        <Link component={RouterLink} to={`/disease/${disease.id}`}>
-          {disease.name}
-        </Link>
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
       );
     },
-  },
-  {
-    id: 'diseaseFromSource',
-    label: 'Reported disease/phenotype',
   },
   {
     id: 'variantRsId',
@@ -74,7 +83,7 @@ const columns = [
             variantFunctionalConsequence.id
           }`}
         >
-          {variantFunctionalConsequence.label}
+          {sentenceCase(variantFunctionalConsequence.label)}
         </Link>
       );
     },
@@ -89,7 +98,7 @@ const columns = [
       return !clinicalSignificances ? (
         naLabel
       ) : clinicalSignificances.length === 1 ? (
-        clinicalSignificances[0]
+        sentenceCase(clinicalSignificances[0])
       ) : (
         <ul
           style={{
@@ -99,7 +108,11 @@ const columns = [
           }}
         >
           {clinicalSignificances.map(clinicalSignificance => {
-            return <li key={clinicalSignificance}>{clinicalSignificance}</li>;
+            return (
+              <li key={clinicalSignificance}>
+                {sentenceCase(clinicalSignificance)}
+              </li>
+            );
           })}
         </ul>
       );
@@ -131,14 +144,11 @@ const columns = [
   {
     label: 'Confidence',
     renderCell: ({ confidence }) => {
-      const numStars = clinvarStarMap[confidence];
-      const stars = [];
-      for (let i = 0; i < numStars; i++) {
-        stars.push(<ClinvarStar key={i} />);
-      }
       return (
         <Tooltip title={confidence}>
-          <span>{stars}</span>
+          <span>
+            <ClinvarStars num={clinvarStarMap[confidence]} />
+          </span>
         </Tooltip>
       );
     },
@@ -318,6 +328,7 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         );
       }}

@@ -1,15 +1,21 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
+import { Box, Typography, makeStyles } from '@material-ui/core';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
+import ChipList from '../../../components/ChipList';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { epmcUrl } from '../../../utils/urls';
-import { clinvarStarMap, naLabel } from '../../../constants';
-import ScientificNotation from '../../../components/ScientificNotation';
+import {
+  clinvarStarMap,
+  naLabel,
+  defaultRowsPerPageOptions,
+} from '../../../constants';
 import Tooltip from '../../../components/Tooltip';
-import ClinvarStar from '../../../components/ClinvarStar';
+import ClinvarStars from '../../../components/ClinvarStars';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -34,8 +40,19 @@ const EVA_SOMATIC_QUERY = gql`
           clinicalSignificances
           allelicRequirements
           confidence
-          score
           literature
+        }
+      }
+    }
+    target(ensemblId: $ensemblId) {
+      id
+      hallmarks {
+        attributes {
+          reference {
+            pubmedId
+            description
+          }
+          name
         }
       }
     }
@@ -46,13 +63,25 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
-      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
+    renderCell: ({ disease, diseaseFromSource }) => {
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
+      );
     },
-  },
-  {
-    id: 'diseaseFromSource',
-    label: 'Reported disease/phenotype',
   },
   {
     id: 'variantRsId',
@@ -88,7 +117,7 @@ const columns = [
       return !clinicalSignificances ? (
         naLabel
       ) : clinicalSignificances.length === 1 ? (
-        clinicalSignificances[0]
+        sentenceCase(clinicalSignificances[0])
       ) : (
         <ul
           style={{
@@ -98,7 +127,11 @@ const columns = [
           }}
         >
           {clinicalSignificances.map(clinicalSignificance => {
-            return <li key={clinicalSignificance}>{clinicalSignificance}</li>;
+            return (
+              <li key={clinicalSignificance}>
+                {sentenceCase(clinicalSignificance)}
+              </li>
+            );
           })}
         </ul>
       );
@@ -130,23 +163,14 @@ const columns = [
   {
     label: 'Confidence',
     renderCell: ({ confidence }) => {
-      const numStars = clinvarStarMap[confidence];
-      const stars = [];
-      for (let i = 0; i < numStars; i++) {
-        stars.push(<ClinvarStar key={i} />);
-      }
       return (
         <Tooltip title={confidence}>
-          <span>{stars}</span>
+          <span>
+            <ClinvarStars num={clinvarStarMap[confidence]} />
+          </span>
         </Tooltip>
       );
     },
-  },
-  {
-    id: 'score',
-    label: 'Score',
-    renderCell: ({ score }) => <ScientificNotation number={score} />,
-    sortable: true,
   },
   {
     label: 'Literature',
@@ -168,7 +192,17 @@ const columns = [
   },
 ];
 
+const useStyles = makeStyles({
+  roleInCancerBox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '2rem',
+  },
+  roleInCancerTitle: { marginRight: '.5rem' },
+});
+
 function Body({ definition, id, label }) {
+  const classes = useStyles();
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.evaSomaticSummary
@@ -190,17 +224,44 @@ function Body({ definition, id, label }) {
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
       )}
-      renderBody={({ disease }) => {
+      renderBody={({
+        disease,
+        target: {
+          hallmarks: { attributes },
+        },
+      }) => {
         const { rows } = disease.evidences;
+
+        const roleInCancerItems = attributes
+          .filter(attribute => attribute.name === 'role in cancer')
+          .map(attribute => ({
+            label: attribute.reference.description,
+            url: epmcUrl(attribute.reference.pubmedId),
+          }));
         return (
-          <DataTable
-            columns={columns}
-            rows={rows}
-            dataDownloader
-            showGlobalFilter
-            sortBy="score"
-            order="desc"
-          />
+          <>
+            <Box className={classes.roleInCancerBox}>
+              <Typography className={classes.roleInCancerTitle}>
+                <b>{label.symbol}</b> role in cancer:
+              </Typography>
+              <ChipList
+                items={
+                  roleInCancerItems.length > 0
+                    ? roleInCancerItems
+                    : [{ label: 'Unknown' }]
+                }
+              />
+            </Box>
+            <DataTable
+              columns={columns}
+              rows={rows}
+              dataDownloader
+              showGlobalFilter
+              sortBy="score"
+              order="desc"
+              rowsPerPageOptions={defaultRowsPerPageOptions}
+            />
+          </>
         );
       }}
     />

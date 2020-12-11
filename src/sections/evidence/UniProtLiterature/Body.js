@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from '@material-ui/core';
+import { Link, Typography } from '@material-ui/core';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import Tooltip from '../../../components/Tooltip';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
@@ -30,6 +30,7 @@ const UNIPROT_LITERATURE_QUERY = gql`
             id
             name
           }
+          diseaseFromSource
           targetFromSourceId
           studyId
           literature
@@ -43,11 +44,23 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
+    renderCell: ({ disease, diseaseFromSource }) => {
       return (
-        <Link component={RouterLink} to={`/disease/${disease.id}`}>
-          {disease.name}
-        </Link>
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
       );
     },
   },

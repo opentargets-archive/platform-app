@@ -53,7 +53,7 @@ const columns = [
       const cellLines = diseaseCellLines.map(line => {
         return {
           name: line,
-          group: 'cellLines',
+          group: 'Cancer Cell Lines',
         };
       });
 
