@@ -2,8 +2,12 @@ import React from 'react';
 
 const Description = ({ symbol, name }) => (
   <>
-    Expression of <strong>{symbol}</strong> associated with{' '}
-    <strong>{name}</strong>.
+    Transcriptomic analysis reporting a significant differential expression of{' '}
+    <strong>{symbol}</strong> when comparing control samples with{' '}
+    <strong>{name}</strong> samples. Source:{' '}
+    <Link to="https://www.ebi.ac.uk/gxa/home" external>
+      Expression Atlas
+    </Link>
   </>
 );
 
