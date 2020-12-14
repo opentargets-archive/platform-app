@@ -215,7 +215,7 @@ function Body({
   return (
     <SectionItem
       definition={definition}
-      request={{ loading, error: false, data: count > 0 }}
+      request={{ loading, error: false, data: rows }}
       renderDescription={Description}
       renderBody={() => (
         <Table
