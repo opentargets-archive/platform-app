@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Autocomplete } from '@material-ui/lab';
-import { Chip, Grid, TextField, withStyles } from '@material-ui/core';
-import classNames from 'classnames';
+import { Box, Chip, Grid, TextField, withStyles } from '@material-ui/core';
 
 import { Typography, Button } from 'ot-ui';
 
@@ -24,7 +23,8 @@ const aggtype = [
 
 const styles = theme => ({
   aggtypeAutocomplete: {
-    maxWidth: '15rem',
+    width: '15rem',
+    '& .MuiFormControl-root': { marginTop: 0 },
   },
   icon: {
     width: '50px',
@@ -37,14 +37,17 @@ const styles = theme => ({
   chip: {
     margin: theme.spacing(0.25),
   },
-  linkChip: {
-    backgroundColor: theme.palette.primary.main,
-    '&:hover, &:focus': {
-      backgroundColor: theme.palette.primary.main,
+  filterCategoryContainer: {
+    display: 'flex',
+    '& p': {
+      margin: '.2rem 1rem 0 0',
     },
-    '&:active': {
-      backgroundColor: theme.palette.primary.main,
-    },
+  },
+  noTagsSelected: {
+    margin: '.375rem 0',
+  },
+  resultCount: {
+    marginBottom: '2rem',
   },
 });
 
@@ -210,55 +213,66 @@ class Section extends Component {
             spacing={2}
           >
             <Grid item xs={12}>
-              {/* Dropdown menu */}
-              <Autocomplete
-                className={classes.aggtypeAutocomplete}
-                disableClearable
-                getOptionLabel={option => option.label}
-                getOptionSelected={option => option.value}
-                onChange={this.aggtypeFilterHandler}
-                options={aggtype}
-                renderInput={params => (
-                  <TextField
-                    {...params}
-                    // label=""
-                    margin="normal"
-                  />
-                )}
-                value={selectedAggregation}
-              />
-              {/* Chips */}
-              <Fragment>
-                {selected.map((sel, i) => {
-                  return i > 0 ? (
-                    <Chip
-                      key={i}
-                      variant="outlined"
-                      label={sel.label || sel.key}
-                      onDelete={() => this.deselectChip(i)}
-                      className={classes.chip}
+              <Box className={classes.filterCategoryContainer}>
+                <Typography>Tag category:</Typography>
+                {/* Dropdown menu */}
+                <Autocomplete
+                  classes={{ root: classes.aggtypeAutocomplete }}
+                  disableClearable
+                  getOptionLabel={option => option.label}
+                  getOptionSelected={option => option.value}
+                  onChange={this.aggtypeFilterHandler}
+                  options={aggtype}
+                  renderInput={params => (
+                    <TextField
+                      {...params}
+                      // label=""
+                      margin="normal"
                     />
-                  ) : null;
-                })}
+                  )}
+                  value={selectedAggregation}
+                />
+              </Box>
+              {/* Chips */}
+              <Box>
+                {selected.length > 1 ? (
+                  selected.map((sel, i) => {
+                    return i > 0 ? (
+                      <Chip
+                        key={i}
+                        color="primary"
+                        label={sel.label || sel.key}
+                        onDelete={() => this.deselectChip(i)}
+                        className={classes.chip}
+                      />
+                    ) : null;
+                  })
+                ) : (
+                  <Typography className={classes.noTagsSelected}>
+                    No tags selected, please select from below
+                  </Typography>
+                )}
+              </Box>
+              <Box>
                 {aggregations[selectedAggregation.value]
                   ? aggregations[selectedAggregation.value].buckets.map(
                       (agg, i) => (
                         <Chip
-                          color="primary"
                           key={i}
+                          variant="outlined"
                           label={agg.label || agg.key}
                           onClick={() => this.selectChip(agg)}
-                          className={classNames(classes.chip, classes.linkChip)}
+                          className={classes.chip}
                         />
                       )
                     )
                   : null}
-              </Fragment>
+              </Box>
             </Grid>
 
             <Grid item xs={12}>
               {/* Total result */}
-              <Typography variant="body2">
+              <Typography variant="body2" className={classes.resultCount}>
                 Showing {Math.min(hits.length, bibliographyCount)} of{' '}
                 {bibliographyCount} results
               </Typography>
@@ -306,7 +320,6 @@ class Section extends Component {
                   onClick={() => {
                     this.getPublications(true);
                   }}
-                  className={classes.linkChip}
                 >
                   Load more papers
                 </Button>
