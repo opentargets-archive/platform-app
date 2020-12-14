@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'ot-ui';
 
-function Description({ target, disease }) {
+function Description({ symbol, name }) {
   return (
     <>
       Text-mining method evaluating the strength of the association between{' '}
-      <strong>{target}</strong> and <strong>{disease}</strong> when they
-      co-occur in the literature. Source:{' '}
+      <strong>{symbol}</strong> and <strong>{name}</strong> when they co-occur
+      in the literature. Source:{' '}
       <Link to="http://europepmc.org" external>
         Europe PMC
       </Link>
