@@ -11,6 +11,7 @@ import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
 import SectionItem from '../../../components/Section/SectionItem';
+import { sentenceCase } from '../../../utils/global';
 import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -23,15 +24,17 @@ const columns = [
     label: 'Disease/phenotype',
     renderCell: ({ disease, diseaseFromSource }) => (
       <Tooltip
-        showHelpIcon
         title={
           <>
-            <Typography variant="subtitle2">
-              Reported Disease/phenotype:
+            <Typography variant="subtitle2" display="block" align="center">
+              Reported disease or phenotype:
             </Typography>
-            <Typography variant="caption">{diseaseFromSource}</Typography>
+            <Typography variant="caption" display="block" align="center">
+              {sentenceCase(diseaseFromSource)}
+            </Typography>
           </>
         }
+        showHelpIcon
       >
         <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
       </Tooltip>

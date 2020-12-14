@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListItem } from '@material-ui/core';
+import { List, ListItem, Typography } from '@material-ui/core';
 import { loader } from 'graphql.macro';
 import { useQuery } from '@apollo/client';
 
@@ -10,8 +10,9 @@ import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
-import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
+import { sentenceCase } from '../../../utils/global';
+import Tooltip from '../../../components/Tooltip';
 
 const g2pUrl = id =>
   `https://www.ebi.ac.uk/gene2phenotype/search?panel=ALL&search_term=${id}`;
@@ -20,17 +21,27 @@ const OPEN_TARGETS_GENETICS_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
-    id: 'disease',
+    id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => (
-      <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
-    ),
-    filterValue: ({ disease }) => disease.name,
-  },
-  {
-    id: 'diseaseFromSource',
-    label: 'Reported Disease/phenotype',
-    renderCell: ({ diseaseFromSource }) => sentenceCase(diseaseFromSource),
+    renderCell: ({ disease, diseaseFromSource }) => {
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {sentenceCase(diseaseFromSource)}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
+      );
+    },
   },
   {
     id: 'allelicRequirements',
