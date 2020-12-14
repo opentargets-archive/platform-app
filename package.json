@@ -74,19 +74,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prestart:customise": "cpx 'src/**/*' tmp",
-    "start:customise": "cpx \"$CUSTOMISATIONS_DIR/**/*\" src/public --watch & yarn start",
     "build": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git rev-parse --short HEAD)}\" react-scripts build",
-    "prebuild:customise": "cpx 'src/**/*' tmp && cpx \"$CUSTOMISATIONS_DIR/**/*\" src/public/",
-    "build:customise": "yarn build",
-    "postbuild:customise": "yarn reset",
-    "reset": "rimraf src && cpx 'tmp/**/*' src && rimraf tmp",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write",
     "prettier:all": "prettier --write 'src/**/*.js'",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "test:nightwatch": "node end-to-end-test-runner.js -c nightwatch.conf.js -e chrome,firefox,safari,ie",
+    "test:nightwatch": "node ./test/end-to-end-test-runner.js -c nightwatch.conf.js -e chrome,firefox,safari,ie",
     "serve": "serve -s build -l 8000 &"
   },
   "eslintConfig": {
@@ -100,13 +94,11 @@
   ],
   "devDependencies": {
     "browserstack-local": "^1.4.5",
-    "cpx": "^1.5.0",
     "husky": ">=4",
     "lint-staged": ">=10",
     "nanoid-cli": "^1.1.0",
     "nightwatch": "^1.1.13",
     "prettier": "1.15.1",
-    "rimraf": "^3.0.2",
     "serve": "^11.1.0"
   },
   "husky": {
