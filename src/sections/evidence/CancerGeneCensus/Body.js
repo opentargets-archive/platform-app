@@ -11,7 +11,7 @@ import { DataTable, TableDrawer } from '../../../components/Table';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
-import { decimalPlaces, naLabel } from '../../../constants';
+import { naLabel } from '../../../constants';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -19,7 +19,15 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 const CANCER_GENE_CENSUS_QUERY = loader('./sectionQuery.gql');
 
 const samplePercent = item =>
-  (item.numberSamplesWithMutationType / item.numberSamplesTested) * 100;
+  parseFloat(
+    (
+      (item.numberSamplesWithMutationType / item.numberSamplesTested) *
+      100
+    ).toFixed(2)
+  ).toString();
+
+const getMaxPercent = row =>
+  Math.max(...row.mutatedSamples.map(item => samplePercent(item)));
 
 const columns = [
   {
@@ -64,23 +72,32 @@ const columns = [
     id: 'mutatedSamples',
     propertyPath: 'mutatedSamples.numberSamplesWithMutationType',
     label: 'Mutated / Total samples',
+    // sortable: true,
     renderCell: ({ mutatedSamples }) => {
       return (
         <List style={{ padding: 0 }}>
           {mutatedSamples
             .sort((a, b) => samplePercent(b) - samplePercent(a))
-            .map((item, i) => (
-              <ListItem key={i} style={{ padding: '.25rem 0' }}>
-                {samplePercent(item).toFixed(decimalPlaces)}%
-                <Typography variant="caption" style={{ marginLeft: '.33rem' }}>
-                  ({item.numberSamplesWithMutationType}/
-                  {item.numberSamplesTested})
-                </Typography>
-              </ListItem>
-            ))}
+            .map((item, i) => {
+              const percent = samplePercent(item);
+
+              return (
+                <ListItem key={i} style={{ padding: '.25rem 0' }}>
+                  {percent < 5 ? percent : Math.round(percent)}%
+                  <Typography
+                    variant="caption"
+                    style={{ marginLeft: '.33rem' }}
+                  >
+                    ({item.numberSamplesWithMutationType}/
+                    {item.numberSamplesTested})
+                  </Typography>
+                </ListItem>
+              );
+            })}
         </List>
       );
     },
+    comparator: (a, b) => getMaxPercent(a) - getMaxPercent(b),
   },
   {
     label: 'Literature',
@@ -167,9 +184,11 @@ function Body({ definition, id, label }) {
             </Box>
             <DataTable
               columns={columns}
-              rows={rows}
               dataDownloader
+              order="desc"
+              rows={rows}
               showGlobalFilter
+              sortBy="mutatedSamples"
             />
           </>
         );
