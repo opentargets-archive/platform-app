@@ -1,13 +1,17 @@
 import React from 'react';
-import { Link } from '@material-ui/core';
+import { Link } from 'ot-ui';
 
 function Description({ symbol, diseaseName }) {
   return (
     <>
-      Manual gene-validity curations for <strong>{symbol}</strong> and{' '}
-      <strong>{diseaseName}</strong>. Source:{' '}
-      <Link href="https://search.clinicalgenome.org/kb/gene-validity">
-        Clingen
+      Gene-Disease Validity curation assesing the strength of the evidence
+      supporting or refuting a claim that variation in <strong>{symbol}</strong>{' '}
+      causes <strong>{diseaseName}</strong>. Source:{' '}
+      <Link
+        to="https://clinicalgenome.org/curation-activities/gene-disease-validity/"
+        external
+      >
+        Gene-Disease Validity curation
       </Link>
     </>
   );

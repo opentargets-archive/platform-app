@@ -1,6 +1,6 @@
 export const definition = {
   id: 'genomicsEngland',
-  name: 'Genomics England',
+  name: 'GEL PanelApp',
   shortName: 'GE',
   hasData: data => data.genomicsEngland.count > 0,
 };

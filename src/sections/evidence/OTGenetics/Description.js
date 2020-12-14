@@ -1,10 +1,14 @@
 import React from 'react';
+import { Link } from 'ot-ui';
 
 function Description({ symbol, name }) {
   return (
     <>
-      Genetic associations between <strong>{symbol}</strong> and{' '}
-      <strong>{name}</strong>.
+      Genome-wide associated loci prioritisating <strong>{symbol}</strong> as
+      likely causal gene for <strong>{name}</strong>. Source:{' '}
+      <Link to="https://genetics.opentargets.org" external>
+        Open Targets Genetics Portal
+      </Link>
     </>
   );
 }

@@ -1,7 +1,7 @@
 export const definition = {
   id: 'sysBio',
-  name: 'Systems Biology',
-  shortName: 'SB',
+  name: 'Gene signatures',
+  shortName: 'GS',
   hasData: data => data.sysBio.count > 0,
 };
 

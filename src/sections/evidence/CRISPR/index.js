@@ -1,7 +1,7 @@
 export const definition = {
   id: 'crispr',
-  name: 'CRISPR',
-  shortName: 'CR',
+  name: 'Project Score',
+  shortName: 'PS',
   hasData: ({ crisprSummary }) => crisprSummary.count > 0,
 };
 

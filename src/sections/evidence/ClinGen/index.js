@@ -1,6 +1,6 @@
 export const definition = {
   id: 'clinGen',
-  name: 'ClinGen',
+  name: 'Clingen',
   shortName: 'CG',
   hasData: data => data.clingenSummary.count > 0,
 };

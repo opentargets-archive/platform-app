@@ -1,6 +1,6 @@
 export const definition = {
   id: 'phenodigm',
-  name: 'Phenodigm',
+  name: 'PhenoDigm',
   shortName: 'PH',
   hasData: data => data.phenodigm.count > 0,
 };
