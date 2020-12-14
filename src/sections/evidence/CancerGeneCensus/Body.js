@@ -19,12 +19,7 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 const CANCER_GENE_CENSUS_QUERY = loader('./sectionQuery.gql');
 
 const samplePercent = item =>
-  parseFloat(
-    (
-      (item.numberSamplesWithMutationType / item.numberSamplesTested) *
-      100
-    ).toFixed(2)
-  ).toString();
+  (item.numberSamplesWithMutationType / item.numberSamplesTested) * 100;
 
 const getMaxPercent = row =>
   Math.max(...row.mutatedSamples.map(item => samplePercent(item)));
@@ -83,7 +78,10 @@ const columns = [
 
               return (
                 <ListItem key={i} style={{ padding: '.25rem 0' }}>
-                  {percent < 5 ? percent : Math.round(percent)}%
+                  {percent < 5
+                    ? parseFloat(percent.toFixed(2)).toString()
+                    : Math.round(percent)}
+                  %
                   <Typography
                     variant="caption"
                     style={{ marginLeft: '.33rem' }}

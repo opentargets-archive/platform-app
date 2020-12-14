@@ -45,6 +45,7 @@ const columns = [
   },
   {
     id: 'allelicRequirements',
+    label: 'Allelic requirement',
     renderCell: ({ allelicRequirements }) =>
       allelicRequirements ? (
         allelicRequirements.length > 1 ? (
@@ -54,18 +55,19 @@ const columns = [
             ))}
           </List>
         ) : (
-          allelicRequirements[0]
+          sentenceCase(allelicRequirements[0])
         )
       ) : (
         naLabel
       ),
+    filterValue: ({ allelicRequirements }) => allelicRequirements.join(),
   },
   {
     id: 'confidence',
     renderCell: ({ confidence, target: { approvedSymbol } }) =>
       confidence && approvedSymbol ? (
         <Link external to={g2pUrl(approvedSymbol)}>
-          {confidence}
+          {sentenceCase(confidence)}
         </Link>
       ) : (
         naLabel
