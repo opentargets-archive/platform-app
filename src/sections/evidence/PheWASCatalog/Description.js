@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'ot-ui';
 
 const Description = ({ symbol, diseaseName }) => (
   <>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '@material-ui/core';
+import { Link } from 'ot-ui';
 
 function Description({ symbol, diseaseName }) {
   return (
