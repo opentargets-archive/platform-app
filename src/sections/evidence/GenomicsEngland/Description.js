@@ -3,8 +3,12 @@ import React from 'react';
 function Description({ symbol, name }) {
   return (
     <>
-      Genetic associations between <strong>{symbol}</strong> and{' '}
-      <strong>{name}</strong>.
+      Crowdsourced expert knowledge establishing consensus causation evidence
+      associating <strong>{symbol}</strong> with <strong>{name}</strong>.
+      Source:{' '}
+      <Link to="https://panelapp.genomicsengland.co.uk" external>
+        Genomics England PanelApp
+      </Link>
     </>
   );
 }
