@@ -19,7 +19,6 @@ const client = new ApolloClient({
 
 const betaClient = new ApolloClient({
   link: new HttpLink({
-    // uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
     uri:
       'https://api-beta-dot-open-targets-eu-dev.ew.r.appspot.com/api/v4/graphql',
   }),
