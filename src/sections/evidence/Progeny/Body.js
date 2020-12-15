@@ -115,6 +115,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           columns={columns}
           dataDownloader
           dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
+          order="asc"
           rows={data.disease.evidences.rows}
           pageSize={10}
           rowsPerPageOptions={defaultRowsPerPageOptions}
