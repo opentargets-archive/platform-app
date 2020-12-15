@@ -2,7 +2,6 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Box, Typography, makeStyles } from '@material-ui/core';
 import { Link } from 'ot-ui';
-import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -214,7 +213,6 @@ function Body({ definition, id, label }) {
       efoId,
       size: summaryData.evaSomaticSummary.count,
     },
-    client: betaClient,
   });
 
   return (

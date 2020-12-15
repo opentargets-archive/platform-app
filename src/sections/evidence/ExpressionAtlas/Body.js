@@ -2,7 +2,6 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
 import { Link } from 'ot-ui';
-import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
@@ -132,7 +131,6 @@ function Body({ definition, id, label }) {
       efoId,
       size: summaryData.expressionAtlasSummary.count,
     },
-    client: betaClient,
   });
 
   return (

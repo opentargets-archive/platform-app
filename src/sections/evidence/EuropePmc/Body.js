@@ -4,7 +4,6 @@ import { useQuery } from '@apollo/client';
 
 import { Link } from 'ot-ui';
 
-import { betaClient } from '../../../client';
 import { getPage, Table } from '../../../components/Table';
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -96,7 +95,6 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
     EUROPE_PMC_QUERY,
     {
       variables,
-      client: betaClient,
       onCompleted: data => {
         setNewIds(
           data.disease.evidences.rows.map(entry => entry.literature[0])

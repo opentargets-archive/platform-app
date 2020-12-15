@@ -5,7 +5,6 @@ import { loader } from 'graphql.macro';
 
 import { Link } from 'ot-ui';
 
-import { betaClient } from '../../../client';
 import ChipList from '../../../components/ChipList';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
@@ -178,7 +177,6 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
 
   const request = useQuery(INTOGEN_QUERY, {
     variables: { ensemblId: ensgId, efoId, size },
-    client: betaClient,
   });
 
   return (

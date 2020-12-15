@@ -15,7 +15,6 @@ import ClinvarStars from '../../../components/ClinvarStars';
 import Tooltip from '../../../components/Tooltip';
 import { Table, DataTable, getPage } from '../../../components/Table';
 import { TableDrawer } from '../../../components/Table';
-import { betaClient } from '../../../client';
 import Description from './Description';
 
 import Summary from './Summary';
@@ -229,7 +228,6 @@ function Body({ definition, id, label }) {
           : summaryData.evaSummary.count,
     },
     notifyOnNetworkStatusChange: true,
-    client: betaClient,
   });
   const { loading, data, fetchMore } = request;
 

@@ -5,7 +5,6 @@ import { loader } from 'graphql.macro';
 
 import { Link } from 'ot-ui';
 
-import { betaClient } from '../../../client';
 import ChipList from '../../../components/ChipList';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import Description from './Description';
@@ -143,7 +142,6 @@ function Body({ definition, id, label }) {
       efoId,
       size: summaryData.cancerGeneCensusSummary.count,
     },
-    client: betaClient,
   });
 
   return (

@@ -2,7 +2,6 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
 import { Typography } from '@material-ui/core';
-import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import ScientificNotation from '../../../components/ScientificNotation';
 import Tooltip from '../../../components/Tooltip';
@@ -162,7 +161,6 @@ function Body({ definition, id, label }) {
       efoId,
       size: summaryData.phewasCatalogSummary.count,
     },
-    client: betaClient,
   });
 
   return (

@@ -1,7 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
-import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
@@ -198,7 +197,6 @@ function Body({ definition, id, label }) {
   );
   const request = useQuery(CHEMBL_QUERY, {
     variables: { ensemblId, efoId, size: summaryData.chemblSummary.count },
-    client: betaClient,
   });
 
   return (

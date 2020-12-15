@@ -5,7 +5,6 @@ import { useQuery } from '@apollo/client';
 
 import { Link } from 'ot-ui';
 
-import { betaClient } from '../../../client';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
@@ -110,7 +109,6 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
 
   const request = useQuery(INTOGEN_QUERY, {
     variables: { ensemblId: ensgId, efoId, size },
-    client: betaClient,
   });
 
   return (
