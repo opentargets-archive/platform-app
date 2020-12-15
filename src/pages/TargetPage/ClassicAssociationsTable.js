@@ -58,7 +58,7 @@ const color = d3
   .domain([0, 1])
   .range(colorRange);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     overflow: 'visible',
     padding: '2rem 3rem 0 0',
@@ -128,8 +128,12 @@ const useStyles = makeStyles({
     textAlign: 'end',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+    color: theme.palette.text.primary,
+    '&:hover': {
+      color: theme.palette.text.primary,
+    },
   },
-});
+}));
 
 function getColumns(ensemblId, classes) {
   return [
