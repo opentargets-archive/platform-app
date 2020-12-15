@@ -1,7 +1,8 @@
 import React from 'react';
-import { OtTableRF } from 'ot-ui';
-import Select from 'react-select';
+import { Autocomplete } from '@material-ui/lab';
 import crossfilter from 'crossfilter2';
+import { OtTableRF } from 'ot-ui';
+import { TextField, Typography } from '@material-ui/core';
 import _ from 'lodash';
 
 const FilteringOtTableRF = props => {
@@ -55,16 +56,16 @@ const filterDropdown = (
   dimensions[columnId] = dimensions[columnId] || xf.dimension(valueAccessor);
   const dim = dimensions[columnId];
   return () => {
-    const handler = selection => {
+    const handler = (e, selection) => {
       if (selection) {
         dim.filter(cellValue => {
           if (_.isArray(cellValue)) {
             return _.some(
               cellValue,
-              arrayElement => arrayElement === selection.value
+              arrayElement => arrayElement === selection
             );
           } else {
-            return cellValue === selection.value;
+            return cellValue === selection;
           }
         });
       } else {
@@ -81,11 +82,19 @@ const filterDropdown = (
         return [cellValue];
       }
     });
-    const options = _.sortedUniq(cellValues.sort()).map(value => ({
-      label: value,
-      value: value,
-    }));
-    return <Select isClearable options={options} onChange={handler} />;
+    const options = _.sortedUniq(cellValues.sort());
+    return (
+      <Autocomplete
+        options={options}
+        onChange={handler}
+        renderInput={params => (
+          <TextField {...params} label="Select..." margin="normal" />
+        )}
+        renderOption={option => (
+          <Typography style={{ fontSize: '.85rem' }}>{option}</Typography>
+        )}
+      />
+    );
   };
 };
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Link as RouterLink } from 'react-router-dom';
-import { Link } from '@material-ui/core';
+import { Link, Typography } from '@material-ui/core';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
+import Tooltip from '../../../components/Tooltip';
 import { DataTable } from '../../../components/Table';
-import { defaultRowsPerPageOptions } from '../../../constants';
+import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -27,8 +27,8 @@ const CLINGEN_QUERY = gql`
             name
           }
           diseaseFromSource
-          allelicRequirement
-          recordId
+          allelicRequirements
+          studyId
           confidence
         }
       }
@@ -40,29 +40,56 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
+    renderCell: ({ disease, diseaseFromSource }) => {
       return (
-        <Link component={RouterLink} to={`/disease/${disease.id}`}>
-          {disease.name}
-        </Link>
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
       );
     },
   },
   {
-    id: 'diseaseFromSource',
-    label: 'Reported disease/phenotype',
-  },
-  {
-    id: 'allelicRequirement',
+    id: 'allelicRequirements',
     label: 'Allelic requirement',
+    renderCell: ({ allelicRequirements }) => {
+      return !allelicRequirements ? (
+        naLabel
+      ) : allelicRequirements.length === 1 ? (
+        allelicRequirements[0]
+      ) : (
+        <ul
+          style={{
+            margin: 0,
+            padding: 0,
+            listStyle: 'none',
+          }}
+        >
+          {allelicRequirements.map(allelicRequirement => {
+            return <li key={allelicRequirement}>{allelicRequirement}</li>;
+          })}
+        </ul>
+      );
+    },
   },
   {
     id: 'confidence',
     label: 'Confidence',
-    renderCell: ({ recordId, confidence }) => {
+    renderCell: ({ studyId, confidence }) => {
       return (
         <Link
-          href={`https://search.clinicalgenome.org/kb/gene-validity/${recordId}`}
+          href={`https://search.clinicalgenome.org/kb/gene-validity/${studyId}`}
         >
           {confidence}
         </Link>

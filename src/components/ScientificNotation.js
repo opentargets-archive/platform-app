@@ -5,10 +5,16 @@ import { decimalPlaces } from '../constants';
 function ScientificNotation({ number }) {
   if (!number) return null;
 
-  let [mantissa, exponent] = number.toExponential().split('e');
+  let mantissa, exponent;
+
+  if (Array.isArray(number)) {
+    [mantissa, exponent] = number;
+  } else {
+    [mantissa, exponent] = number.toExponential().split('e');
+    exponent = exponent.charAt(0) === '+' ? exponent.slice(1) : exponent;
+  }
 
   mantissa = parseFloat(parseFloat(mantissa).toFixed(decimalPlaces));
-  exponent = exponent.charAt(0) === '+' ? exponent.slice(1) : exponent;
 
   return (
     <>

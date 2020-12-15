@@ -32,6 +32,9 @@ export const tableStyles = makeStyles(theme => ({
     overflowX: 'auto',
     paddingRight: '.1rem', // fixes horizontal scrollbar
   },
+  headerLabelWithTooltip: {
+    lineHeight: '1.625rem',
+  },
   rowFixed: {
     backgroundColor: theme.palette.grey[300],
   },
@@ -63,14 +66,13 @@ export const tableStyles = makeStyles(theme => ({
   tabularNums: {
     fontVariant: 'tabular-nums',
   },
-  tooltipIcon: {
-    fontSize: '1.5rem',
-    paddingLeft: `0.6rem`,
-  },
   tooltipCardContent: {
     '&:last-child': {
       padding: '.5rem',
     },
+  },
+  paginationPlaceholder: {
+    height: '36px',
   },
   progress: {
     position: 'relative',

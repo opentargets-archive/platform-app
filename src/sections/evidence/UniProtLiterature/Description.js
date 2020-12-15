@@ -1,9 +1,14 @@
 import React from 'react';
+import { Link } from 'ot-ui';
 
 const Description = ({ symbol, diseaseName }) => (
   <>
-    Genetic associations between <strong>{symbol}</strong> and{' '}
-    <strong>{diseaseName}</strong>.
+    Literature-based curation associating genetic variations affecting{' '}
+    <strong>{symbol}</strong> protein products with{' '}
+    <strong>{diseaseName}</strong>. Source:{' '}
+    <Link to="https://www.uniprot.org" external>
+      UniProt
+    </Link>
   </>
 );
 

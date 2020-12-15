@@ -101,12 +101,12 @@ const columns = [
         naLabel
       ),
     filterValue: ({ variantFunctionalConsequence }) =>
-      `${variantFunctionalConsequence.label} ${
+      `${sentenceCase(variantFunctionalConsequence.label)} ${
         variantFunctionalConsequence.id
       }`,
   },
   {
-    id: 'resourceScore',
+    id: 'pValueMantissa',
     label: (
       <>
         Association <i>p</i>-value
@@ -114,11 +114,12 @@ const columns = [
     ),
     numeric: true,
     sortable: true,
-    renderCell: ({ resourceScore }) => (
-      <>
-        <ScientificNotation number={resourceScore} />
-      </>
+    renderCell: ({ pValueMantissa, pValueExponent }) => (
+      <ScientificNotation number={[pValueMantissa, pValueExponent]} />
     ),
+    comparator: (a, b) =>
+      a.pValueMantissa * 10 ** a.pValueExponent -
+      b.pValueMantissa * 10 ** b.pValueExponent,
   },
   {
     id: 'studySampleSize',
@@ -147,7 +148,7 @@ const columns = [
     },
   },
   {
-    id: 'locus2GeneScore',
+    id: 'resourceScore',
     label: 'L2G score',
     tooltip: (
       <>
@@ -163,7 +164,7 @@ const columns = [
     ),
     numeric: true,
     sortable: true,
-    renderCell: ({ locus2GeneScore }) => parseFloat(locus2GeneScore.toFixed(5)),
+    renderCell: ({ resourceScore }) => parseFloat(resourceScore.toFixed(5)),
   },
 ];
 
@@ -194,7 +195,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           pageSize={10}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
-          sortBy="locus2GeneScore"
+          sortBy="resourceScore"
         />
       )}
     />

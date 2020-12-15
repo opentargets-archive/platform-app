@@ -1,6 +1,6 @@
 export const definition = {
   id: 'otGenetics',
-  name: 'Open Targets Genetics',
+  name: 'OT Genetics Portal',
   shortName: 'OG',
   hasData: data => data.openTargetsGenetics.count > 0,
 };

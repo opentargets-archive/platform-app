@@ -1,10 +1,14 @@
 import React from 'react';
+import { Link } from 'ot-ui';
 
 function Description({ symbol, name }) {
   return (
     <>
-      Genetic associations between <strong>{symbol}</strong> and{' '}
-      <strong>{name}</strong>.
+      Mapping of phenotypes in <strong>{symbol}</strong> animal model mutants
+      similar to <strong>{name}</strong>. Source:{' '}
+      <Link to="https://www.sanger.ac.uk/tool/phenodigm/" external>
+        Phenodigm
+      </Link>
     </>
   );
 }

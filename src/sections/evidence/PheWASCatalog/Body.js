@@ -1,9 +1,11 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'ot-ui';
+import { Typography } from '@material-ui/core';
 import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import ScientificNotation from '../../../components/ScientificNotation';
+import Tooltip from '../../../components/Tooltip';
 import Description from './Description';
 import {
   identifiersOrgLink,
@@ -36,6 +38,7 @@ const PHEWAS_CATALOG_QUERY = gql`
           }
           diseaseFromSource
           variantRsId
+          variantId
           variantFunctionalConsequence {
             id
             label
@@ -53,22 +56,48 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
-      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
+    renderCell: ({ disease, diseaseFromSource }) => {
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
+      );
     },
   },
   {
-    id: 'diseaseFromSource',
-    label: 'Reported disease/phenotype [Phecode]',
-  },
-  {
     id: 'variantRsId',
-    label: 'Variant',
-    renderCell: ({ variantRsId }) => {
+    label: 'Variant RSID (ID)',
+    renderCell: ({ variantRsId, variantId }) => {
       return (
-        <Link external to={identifiersOrgLink('DBSNP', variantRsId, 'ncbi')}>
-          {variantRsId}
-        </Link>
+        <>
+          <Link external to={identifiersOrgLink('DBSNP', variantRsId, 'ncbi')}>
+            {variantRsId}
+          </Link>{' '}
+          {variantId ? (
+            <Typography variant="caption">
+              (
+              <Link
+                external
+                to={`https://genetics.opentargets.org/variant/${variantId}`}
+              >
+                {variantId}
+              </Link>
+              )
+            </Typography>
+          ) : null}
+        </>
       );
     },
   },
@@ -97,20 +126,27 @@ const columns = [
     label: 'Cases',
     renderCell: ({ studyCases }) => formatComma(studyCases),
     sortable: true,
+    numeric: true,
   },
   {
     id: 'oddsRatio',
     label: 'Odds ratio',
     renderCell: ({ oddsRatio }) => oddsRatio.toFixed(decimalPlaces),
     sortable: true,
+    numeric: true,
   },
   {
     id: 'resourceScore',
-    label: 'P-value',
+    label: (
+      <>
+        <i>p</i>-value
+      </>
+    ),
     renderCell: ({ resourceScore }) => (
       <ScientificNotation number={resourceScore} />
     ),
     sortable: true,
+    numeric: true,
   },
 ];
 

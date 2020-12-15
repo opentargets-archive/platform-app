@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import {
+  CircularProgress,
   Grid,
   TableContainer,
   Table as MuiTable,
@@ -8,7 +9,7 @@ import {
   TableCell,
   TablePagination,
   TableRow as MUITableRow,
-  CircularProgress,
+  Box,
 } from '@material-ui/core';
 
 import DataDownloader from './DataDownloader';
@@ -40,6 +41,7 @@ const Table = ({
   noWrap = true,
   noWrapHeader = true,
   showGlobalFilter,
+  showPagination = true,
   globalFilter,
   rowsPerPageOptions = [],
   ActionsComponent,
@@ -144,20 +146,24 @@ const Table = ({
         {loading && (
           <CircularProgress className={defaultClasses.progress} size={22} />
         )}
-        <TablePagination
-          ActionsComponent={ActionsComponent}
-          backIconButtonProps={{ disabled: loading || page === 0 }}
-          nextIconButtonProps={{
-            disabled: loading || page >= rowCount / pageSize - 1,
-          }}
-          component="div"
-          count={rowCount}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-          page={page}
-          rowsPerPage={pageSize}
-          rowsPerPageOptions={rowsPerPageOptions}
-        />
+        {showPagination ? (
+          <TablePagination
+            ActionsComponent={ActionsComponent}
+            backIconButtonProps={{ disabled: loading || page === 0 }}
+            nextIconButtonProps={{
+              disabled: loading || page >= rowCount / pageSize - 1,
+            }}
+            component="div"
+            count={rowCount}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+            page={page}
+            rowsPerPage={pageSize}
+            rowsPerPageOptions={rowsPerPageOptions}
+          />
+        ) : (
+          <Box className={defaultClasses.paginationPlaceholder} />
+        )}
       </Grid>
     </Grid>
   );

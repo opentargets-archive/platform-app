@@ -1,10 +1,12 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
+import { Typography } from '@material-ui/core';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
+import Tooltip from '../../../components/Tooltip';
 import ScientificNotation from '../../../components/ScientificNotation';
 import Summary from './Summary';
 import Description from './Description';
@@ -28,15 +30,13 @@ const EXPRESSION_ATLAS_QUERY = gql`
             id
             name
           }
+          diseaseFromSource
           contrast
           studyOverview
           log2FoldChangeValue
           resourceScore
           log2FoldChangePercentileRank
           studyId
-          target {
-            id
-          }
         }
       }
     }
@@ -47,47 +47,76 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
-      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
+    renderCell: ({ disease, diseaseFromSource }) => {
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
+      );
     },
-  },
-  {
-    id: 'contrast',
-    label: 'Experiment contrast',
-  },
-  {
-    id: 'studyOverview',
-    label: 'Experiment overview',
-  },
-  {
-    id: 'log2FoldChangeValue',
-    label: 'Log2 fold change',
-  },
-  {
-    label: 'P-value',
-    renderCell: ({ resourceScore }) => {
-      return <ScientificNotation number={resourceScore} />;
-    },
-  },
-  {
-    id: 'log2FoldChangePercentileRank',
-    label: 'Percentile rank',
   },
   {
     id: 'studyId',
     label: 'Experiment ID',
-    renderCell: ({ studyId, target }) => {
+    renderCell: ({ studyId }) => {
       return (
-        <Link
-          external
-          to={`http://www.ebi.ac.uk/gxa/experiments/${studyId}?geneQuery=${
-            target.id
-          }`}
-        >
+        <Link external to={`http://www.ebi.ac.uk/gxa/experiments/${studyId}`}>
           {studyId}
         </Link>
       );
     },
+  },
+  {
+    id: 'contrast',
+    label: 'Experiment details',
+    renderCell: ({ contrast, studyOverview }) => {
+      return (
+        <Tooltip title={studyOverview} showHelpIcon>
+          <span>{contrast}</span>
+        </Tooltip>
+      );
+    },
+  },
+  {
+    id: 'log2FoldChangeValue',
+    label: (
+      <>
+        Log<sub>2</sub> fold change
+      </>
+    ),
+    numeric: true,
+    sortable: true,
+  },
+  {
+    id: 'log2FoldChangePercentileRank',
+    label: 'Percentile',
+    numeric: true,
+    sortable: true,
+  },
+  {
+    id: 'resourceScore',
+    label: (
+      <>
+        <i>p</i>-value
+      </>
+    ),
+    renderCell: ({ resourceScore }) => {
+      return <ScientificNotation number={resourceScore} />;
+    },
+    numeric: true,
+    sortable: true,
   },
 ];
 
@@ -121,6 +150,8 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            sortBy="resourceScore"
+            order="asc"
           />
         );
       }}

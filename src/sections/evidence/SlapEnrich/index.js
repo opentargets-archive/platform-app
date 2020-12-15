@@ -1,6 +1,6 @@
 export const definition = {
   id: 'slapEnrich',
-  name: 'SlapEnrich',
+  name: 'SLAPenrich',
   shortName: 'SE',
   hasData: data => data.slapEnrich.count > 0,
 };

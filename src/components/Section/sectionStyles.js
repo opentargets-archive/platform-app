@@ -34,7 +34,7 @@ const sectionStyles = makeStyles(theme => ({
     color: theme.palette.grey[700],
   },
   loadingPlaceholder: {
-    paddingTop: '.1rem',
+    paddingTop: '.0625rem',
   },
   title: {
     color: theme.palette.grey[400],

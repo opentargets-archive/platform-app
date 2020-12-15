@@ -1,12 +1,21 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
+import { Box, Typography, makeStyles } from '@material-ui/core';
 import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
+import ChipList from '../../../components/ChipList';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { epmcUrl } from '../../../utils/urls';
-import { sentenceCase } from '../../../utils/global';
+import {
+  clinvarStarMap,
+  naLabel,
+  defaultRowsPerPageOptions,
+} from '../../../constants';
+import Tooltip from '../../../components/Tooltip';
+import ClinvarStars from '../../../components/ClinvarStars';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -26,15 +35,24 @@ const EVA_SOMATIC_QUERY = gql`
             name
           }
           diseaseFromSource
-          recordId
-          variations {
-            functionalConsequence {
-              id
-              label
-            }
-          }
-          clinicalSignificance
+          variantRsId
+          studyId
+          clinicalSignificances
+          allelicRequirements
+          confidence
           literature
+        }
+      }
+    }
+    target(ensemblId: $ensemblId) {
+      id
+      hallmarks {
+        attributes {
+          reference {
+            pubmedId
+            description
+          }
+          name
         }
       }
     }
@@ -45,42 +63,73 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => {
-      return <Link to={`/disease/${disease.id}`}>{disease.name}</Link>;
+    renderCell: ({ disease, diseaseFromSource }) => {
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Reported disease or phenotype:
+              </Typography>
+              <Typography variant="caption" display="block" align="center">
+                {diseaseFromSource}
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+        </Tooltip>
+      );
     },
   },
   {
-    id: 'diseaseFromSource',
-    label: 'Reported disease/phenotype',
+    id: 'variantRsId',
+    label: 'Variant',
+    renderCell: ({ variantRsId }) => {
+      return variantRsId ? (
+        <Link
+          external
+          to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
+        >
+          {variantRsId}
+        </Link>
+      ) : (
+        naLabel
+      );
+    },
   },
   {
     id: 'recordId',
     label: 'ClinVar ID',
-    renderCell: ({ recordId }) => {
+    renderCell: ({ studyId }) => {
       return (
-        <Link
-          external
-          to={`https://identifiers.org/clinvar.record/${recordId}`}
-        >
-          {recordId}
+        <Link external to={`https://identifiers.org/clinvar.record/${studyId}`}>
+          {studyId}
         </Link>
       );
     },
   },
   {
-    label: 'Functional consequence',
-    renderCell: ({ variations }) => {
-      return (
-        <ul style={{ margin: 0, paddingLeft: '17px' }}>
-          {variations.map(({ functionalConsequence }) => {
+    id: 'clinicalSignificances',
+    label: 'Clinical significance',
+    renderCell: ({ clinicalSignificances }) => {
+      return !clinicalSignificances ? (
+        naLabel
+      ) : clinicalSignificances.length === 1 ? (
+        sentenceCase(clinicalSignificances[0])
+      ) : (
+        <ul
+          style={{
+            margin: 0,
+            padding: 0,
+            listStyle: 'none',
+          }}
+        >
+          {clinicalSignificances.map(clinicalSignificance => {
             return (
-              <li key={functionalConsequence.id}>
-                <Link
-                  external
-                  to={`https://identifiers.org/so/${functionalConsequence.id}`}
-                >
-                  {sentenceCase(functionalConsequence.label)}
-                </Link>
+              <li key={clinicalSignificance}>
+                {sentenceCase(clinicalSignificance)}
               </li>
             );
           })}
@@ -89,8 +138,39 @@ const columns = [
     },
   },
   {
-    id: 'clinicalSignificance',
-    label: 'Clinical significance',
+    id: 'allelicRequirements',
+    label: 'Allelic requirement',
+    renderCell: ({ allelicRequirements }) => {
+      return !allelicRequirements ? (
+        naLabel
+      ) : allelicRequirements.length === 1 ? (
+        allelicRequirements[0]
+      ) : (
+        <ul
+          style={{
+            margin: 0,
+            padding: 0,
+            listStyle: 'none',
+          }}
+        >
+          {allelicRequirements.map(allelicRequirement => {
+            return <li key={allelicRequirement}>{allelicRequirement}</li>;
+          })}
+        </ul>
+      );
+    },
+  },
+  {
+    label: 'Confidence',
+    renderCell: ({ confidence }) => {
+      return (
+        <Tooltip title={confidence}>
+          <span>
+            <ClinvarStars num={clinvarStarMap[confidence]} />
+          </span>
+        </Tooltip>
+      );
+    },
   },
   {
     label: 'Literature',
@@ -112,7 +192,17 @@ const columns = [
   },
 ];
 
+const useStyles = makeStyles({
+  roleInCancerBox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '2rem',
+  },
+  roleInCancerTitle: { marginRight: '.5rem' },
+});
+
 function Body({ definition, id, label }) {
+  const classes = useStyles();
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.evaSomaticSummary
@@ -134,15 +224,44 @@ function Body({ definition, id, label }) {
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
       )}
-      renderBody={({ disease }) => {
+      renderBody={({
+        disease,
+        target: {
+          hallmarks: { attributes },
+        },
+      }) => {
         const { rows } = disease.evidences;
+
+        const roleInCancerItems = attributes
+          .filter(attribute => attribute.name === 'role in cancer')
+          .map(attribute => ({
+            label: attribute.reference.description,
+            url: epmcUrl(attribute.reference.pubmedId),
+          }));
         return (
-          <DataTable
-            columns={columns}
-            rows={rows}
-            dataDownloader
-            showGlobalFilter
-          />
+          <>
+            <Box className={classes.roleInCancerBox}>
+              <Typography className={classes.roleInCancerTitle}>
+                <b>{label.symbol}</b> role in cancer:
+              </Typography>
+              <ChipList
+                items={
+                  roleInCancerItems.length > 0
+                    ? roleInCancerItems
+                    : [{ label: 'Unknown' }]
+                }
+              />
+            </Box>
+            <DataTable
+              columns={columns}
+              rows={rows}
+              dataDownloader
+              showGlobalFilter
+              sortBy="score"
+              order="desc"
+              rowsPerPageOptions={defaultRowsPerPageOptions}
+            />
+          </>
         );
       }}
     />

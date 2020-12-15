@@ -1,7 +1,7 @@
 export const definition = {
   id: 'evaSomatic',
-  name: 'EVA Somatic',
-  shortName: 'ES',
+  name: 'ClinVar (somatic)',
+  shortName: 'CS',
   hasData: ({ evaSomaticSummary }) => evaSomaticSummary.count > 0,
 };
 

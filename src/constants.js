@@ -283,3 +283,29 @@ export const colorRange = [
 export const defaultRowsPerPageOptions = [10, 25, 100];
 
 export const decimalPlaces = 3;
+
+export const phaseMap = {
+  0: 'Phase 0',
+  1: 'Phase I',
+  2: 'Phase II',
+  3: 'Phase III',
+  4: 'Phase IV',
+};
+
+export const sourceMap = {
+  'FDA Information': 'FDA',
+  'Clinical Trials Information': 'ClinicalTrials.gov',
+  'DailyMed Information': 'DailyMed',
+  'ATC Information': 'ATC',
+};
+
+export const clinvarStarMap = {
+  'practice guideline': 4,
+  'reviewed by expert panel': 3,
+  'criteria provided, multiple submitters, no conflicts': 2,
+  'criteria provided, conflicting interpretations': 1,
+  'criteria provided, single submitter': 1,
+  'no assertion for the individual variant': 0,
+  'no assertion criteria provided': 0,
+  'no assertion provided': 0,
+};

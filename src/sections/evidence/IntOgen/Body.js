@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, makeStyles, Typography } from '@material-ui/core';
+import { Box, List, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
@@ -14,45 +14,82 @@ import { epmcUrl } from '../../../utils/urls';
 import methods from './methods';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
-import usePlatformApi from '../../../hooks/usePlatformApi';
+import { sentenceCase } from '../../../utils/global';
 import Summary from './Summary';
+import Tooltip from '../../../components/Tooltip';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const intOgenUrl = (id, approvedSymbol) =>
   `https://www.intogen.org/search?gene=${approvedSymbol}&cohort=${id}`;
 
 const INTOGEN_QUERY = loader('./sectionQuery.gql');
 
+const samplePercent = item =>
+  (item.numberMutatedSamples / item.numberSamplesTested) * 100;
+
 const columns = [
   {
     id: 'disease',
-    renderCell: ({ disease }) => (
-      <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+    label: 'Disease/phenotype',
+    renderCell: ({ disease, diseaseFromSource }) => (
+      <Tooltip
+        title={
+          <>
+            <Typography variant="subtitle2" display="block" align="center">
+              Reported disease or phenotype:
+            </Typography>
+            <Typography variant="caption" display="block" align="center">
+              {sentenceCase(diseaseFromSource)}
+            </Typography>
+          </>
+        }
+        showHelpIcon
+      >
+        <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+      </Tooltip>
     ),
-    filterValue: ({ disease }) => disease.name,
+    filterValue: ({ disease, diseaseFromSource }) =>
+      [disease.name, diseaseFromSource].join(),
   },
   {
-    id: 'numberMutatedSamples',
+    id: 'mutatedSamples',
+    propertyPath: 'mutatedSamples.numberMutatedSamples',
     label: 'Mutated / Total samples',
-    propertyPath: 'variations.numberMutatedSamples',
-    numeric: true,
-    renderCell: ({
-      variations: { 0: { numberMutatedSamples, numberSamplesTested } = {} },
-    }) =>
-      numberMutatedSamples && numberSamplesTested ? (
-        <>
-          {numberMutatedSamples}/{numberSamplesTested}
-        </>
-      ) : (
-        naLabel
-      ),
+    renderCell: ({ mutatedSamples }) => {
+      return (
+        <List style={{ padding: 0 }}>
+          {mutatedSamples
+            .sort((a, b) => samplePercent(b) - samplePercent(a))
+            .map((item, i) => {
+              const percent = samplePercent(item);
+
+              return (
+                <ListItem key={i} style={{ padding: '.25rem 0' }}>
+                  {percent < 5
+                    ? parseFloat(percent.toFixed(2)).toString()
+                    : Math.round(percent)}
+                  %
+                  <Typography
+                    variant="caption"
+                    style={{ marginLeft: '.33rem' }}
+                  >
+                    ({item.numberMutatedSamples}/{item.numberSamplesTested})
+                  </Typography>
+                </ListItem>
+              );
+            })}
+        </List>
+      );
+    },
   },
   {
     id: 'resourceScore',
     label: (
-      <>
+      <span>
         Combined <i>p</i>-value
-      </>
+      </span>
     ),
+
     tooltip: (
       <>
         Visit the{' '}
@@ -170,13 +207,19 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
               <Typography className={classes.roleInCancerTitle}>
                 <b>{symbol}</b> role in cancer:
               </Typography>
-              <ChipList items={roleInCancerItems} />
+              <ChipList
+                items={
+                  roleInCancerItems.length > 0
+                    ? roleInCancerItems
+                    : [{ label: 'Unknown' }]
+                }
+              />
             </Box>
             <DataTable
               columns={columns}
               dataDownloader
               dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
-              order="desc"
+              order="asc"
               rows={rows}
               sortBy="resourceScore"
               pageSize={10}

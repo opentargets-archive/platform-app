@@ -1,80 +1,87 @@
 import React from 'react';
+import { loader } from 'graphql.macro';
+import { Typography } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 
 import { Link } from 'ot-ui';
 
 import { betaClient } from '../../../client';
-import { DataTable } from '../../../components/Table';
+import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
 import SectionItem from '../../../components/Section/SectionItem';
+import { sentenceCase } from '../../../utils/global';
 import Summary from './Summary';
+import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
-import { otgStudyUrl } from '../../../utils/urls';
-import { loader } from 'graphql.macro';
-import { List, ListItem, makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles({
-  li: {
-    padding: 0,
-  },
-});
 
 const INTOGEN_QUERY = loader('./sectionQuery.gql');
 
-const columns = classes => [
+const columns = [
   {
     id: 'disease',
     label: 'Disease/phenotype',
-    renderCell: ({ disease }) => (
-      <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+    renderCell: ({ disease, diseaseFromSource }) => (
+      <Tooltip
+        title={
+          <>
+            <Typography variant="subtitle2" display="block" align="center">
+              Reported disease or phenotype:
+            </Typography>
+            <Typography variant="caption" display="block" align="center">
+              {sentenceCase(diseaseFromSource)}
+            </Typography>
+          </>
+        }
+        showHelpIcon
+      >
+        <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+      </Tooltip>
     ),
-    filterValue: ({ disease }) => disease.name,
-  },
-  {
-    id: 'diseaseFromSource',
-    label: 'Reported disease/phenotype',
-    renderCell: ({ diseaseFromSource, studyId }) => (
-      <Link external to={otgStudyUrl(studyId)}>
-        {diseaseFromSource ? diseaseFromSource : studyId}
-      </Link>
-    ),
+    filterValue: ({ disease, diseaseFromSource }) =>
+      [disease.name, diseaseFromSource].join(),
   },
   {
     id: 'diseaseModelAssociatedHumanPhenotypes',
     label: 'Human phenotypes',
-    renderCell: ({ diseaseModelAssociatedHumanPhenotypes }) => (
-      <List>
-        {diseaseModelAssociatedHumanPhenotypes ? (
-          diseaseModelAssociatedHumanPhenotypes.map((entry, index) => (
-            <ListItem key={index} className={classes.li}>
-              {entry.label}
-            </ListItem>
-          ))
-        ) : (
-          <ListItem>naLabel</ListItem>
-        )}
-      </List>
+    renderCell: ({
+      diseaseModelAssociatedHumanPhenotypes: humanPhenotypes,
+    }) => (
+      <TableDrawer
+        entries={humanPhenotypes.map(entry => ({
+          name: entry.label,
+          group: 'Human phenotypes',
+        }))}
+        showSingle={false}
+        message={`${humanPhenotypes.length} phenotype${
+          humanPhenotypes.length !== 1 ? 's' : ''
+        }`}
+      />
     ),
+    filterValue: ({ diseaseModelAssociatedHumanPhenotypes = [] }) =>
+      diseaseModelAssociatedHumanPhenotypes.map(dmahp => dmahp.label).join(),
   },
   {
     id: 'diseaseModelAssociatedModelPhenotypes',
     label: 'Mouse phenotypes',
 
-    renderCell: ({ diseaseModelAssociatedModelPhenotypes }) => (
-      <List>
-        {diseaseModelAssociatedModelPhenotypes ? (
-          diseaseModelAssociatedModelPhenotypes.map((entry, index) => (
-            <ListItem key={index} className={classes.li}>
-              {entry.label}
-            </ListItem>
-          ))
-        ) : (
-          <ListItem>naLabel</ListItem>
-        )}
-      </List>
+    renderCell: ({
+      diseaseModelAssociatedModelPhenotypes: mousePhenotypes,
+    }) => (
+      <TableDrawer
+        entries={mousePhenotypes.map(entry => ({
+          name: entry.label,
+          group: 'Mouse phenotypes',
+        }))}
+        showSingle={false}
+        message={`${mousePhenotypes.length} phenotype${
+          mousePhenotypes.length !== 1 ? 's' : ''
+        }`}
+      />
     ),
+    filterValue: ({ diseaseModelAssociatedModelPhenotypes = [] }) =>
+      diseaseModelAssociatedModelPhenotypes.map(dmamp => dmamp.label).join(),
   },
   {
     id: 'literature',
@@ -95,8 +102,6 @@ const columns = classes => [
 ];
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
-  const classes = useStyles();
-
   const {
     data: {
       phenodigm: { count: size },
@@ -115,11 +120,11 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={data => (
         <DataTable
-          columns={columns(classes)}
+          columns={columns}
           dataDownloader
           dataDownloaderFileStem={`otgenetics-${ensgId}-${efoId}`}
           rows={data.disease.evidences.rows}
-          pageSize={10}
+          pageSize={5}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
         />

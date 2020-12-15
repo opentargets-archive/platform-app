@@ -1,9 +1,13 @@
 import React from 'react';
+import { Link } from 'ot-ui';
 
 const Description = ({ symbol, diseaseName }) => (
   <>
-    Somatic mutations between <strong>{symbol}</strong> and{' '}
-    <strong>{diseaseName}</strong>.
+    Catalogue of somatic mutations that causally implicate{' '}
+    <strong>{symbol}</strong> in <strong>{diseaseName}</strong>. Source:{' '}
+    <Link to="https://cancer.sanger.ac.uk/census" external>
+      COSMIC
+    </Link>
   </>
 );
 

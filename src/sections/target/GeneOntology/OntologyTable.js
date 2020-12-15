@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import Select from 'react-select';
+import { Autocomplete } from '@material-ui/lab';
 import crossfilter from 'crossfilter2';
+import { TextField } from '@material-ui/core';
 import _ from 'lodash';
 
 import { OtTableRF, DataDownloader, Link } from 'ot-ui';
@@ -22,10 +23,14 @@ const getColumns = (
       label: 'Category',
       renderCell: row => capitalizeSnakeCase(row.category),
       renderFilter: () => (
-        <Select
-          isClearable
+        <Autocomplete
           options={categoryOptions}
+          getOptionLabel={option => option.label}
+          getOptionSelected={option => option.value}
           onChange={categoryFilterHandler}
+          renderInput={params => (
+            <TextField {...params} label="Select..." margin="normal" />
+          )}
         />
       ),
     },
@@ -43,10 +48,14 @@ const getColumns = (
         );
       },
       renderFilter: () => (
-        <Select
-          isClearable
+        <Autocomplete
           options={termOptions}
+          getOptionLabel={option => option.label}
+          getOptionSelected={option => option.value}
           onChange={termFilterHandler}
+          renderInput={params => (
+            <TextField {...params} label="Select..." margin="normal" />
+          )}
         />
       ),
     },
@@ -94,7 +103,7 @@ class OntologyTable extends Component {
     filteredRows: this.props.rows,
   };
 
-  categoryFilterHandler = selection => {
+  categoryFilterHandler = (e, selection) => {
     const { ontologyXf, categoryDim } = this;
 
     if (selection) {
@@ -106,7 +115,7 @@ class OntologyTable extends Component {
     this.setState({ filteredRows: ontologyXf.allFiltered() });
   };
 
-  termFilterHandler = selection => {
+  termFilterHandler = (e, selection) => {
     const { ontologyXf, termDim } = this;
 
     if (selection) {
