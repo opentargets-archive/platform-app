@@ -59,7 +59,7 @@ const color = d3
   .domain([0, 1])
   .range(colorRange);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     overflow: 'visible',
     padding: '2rem 2rem 0 0',
@@ -138,13 +138,21 @@ const useStyles = makeStyles({
     textAlign: 'end',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+    color: theme.palette.text.primary,
+    '&:hover': {
+      color: theme.palette.text.primary,
+    },
   },
   nameContainer: {
     display: 'block',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+    color: theme.palette.text.primary,
+    '&:hover': {
+      color: theme.palette.text.primary,
+    },
   },
-});
+}));
 
 function getColumns(efoId, classes) {
   return [
@@ -161,7 +169,6 @@ function getColumns(efoId, classes) {
           <Link
             to={`/evidence/${row.ensemblId}/${efoId}`}
             className={classes.symbolContainer}
-            title={row.symbol}
           >
             {row.symbol}
           </Link>
