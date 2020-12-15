@@ -103,6 +103,7 @@ const columns = [
       ) : (
         naLabel
       ),
+    filterValue: ({ cohortPhenotypes }) => cohortPhenotypes.join(),
   },
   {
     id: 'allelicRequirements',

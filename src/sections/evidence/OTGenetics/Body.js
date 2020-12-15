@@ -101,7 +101,7 @@ const columns = [
         naLabel
       ),
     filterValue: ({ variantFunctionalConsequence }) =>
-      `${variantFunctionalConsequence.label} ${
+      `${sentenceCase(variantFunctionalConsequence.label)} ${
         variantFunctionalConsequence.id
       }`,
   },

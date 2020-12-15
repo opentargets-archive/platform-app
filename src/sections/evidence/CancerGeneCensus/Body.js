@@ -60,7 +60,9 @@ const columns = [
       ),
     filterValue: ({ mutatedSamples }) =>
       (mutatedSamples || [])
-        .map(mutatedSample => mutatedSample.functionalConsequence.name)
+        .map(mutatedSample =>
+          sentenceCase(mutatedSample.functionalConsequence.label)
+        )
         .join(),
   },
   {
