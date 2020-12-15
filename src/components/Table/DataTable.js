@@ -16,7 +16,7 @@ function DataTable({
   headerGroups,
   columns,
   sortBy = null,
-  order,
+  order = 'asc',
   pageSize: initialPageSize = 10,
   rows,
   rowsPerPageOptions = [],

@@ -8,16 +8,13 @@ import { Link } from 'ot-ui';
 import { betaClient } from '../../../client';
 import ChipList from '../../../components/ChipList';
 import { DataTable } from '../../../components/Table';
-import {
-  decimalPlaces,
-  defaultRowsPerPageOptions,
-  naLabel,
-} from '../../../constants';
+import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
 import methods from './methods';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
+import { sentenceCase } from '../../../utils/global';
 import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -36,15 +33,17 @@ const columns = [
     label: 'Disease/phenotype',
     renderCell: ({ disease, diseaseFromSource }) => (
       <Tooltip
-        showHelpIcon
         title={
           <>
-            <Typography variant="subtitle2">
-              Reported Disease/phenotype:
+            <Typography variant="subtitle2" display="block" align="center">
+              Reported disease or phenotype:
             </Typography>
-            <Typography variant="caption">{diseaseFromSource}</Typography>
+            <Typography variant="caption" display="block" align="center">
+              {sentenceCase(diseaseFromSource)}
+            </Typography>
           </>
         }
+        showHelpIcon
       >
         <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
       </Tooltip>
@@ -61,14 +60,24 @@ const columns = [
         <List style={{ padding: 0 }}>
           {mutatedSamples
             .sort((a, b) => samplePercent(b) - samplePercent(a))
-            .map((item, i) => (
-              <ListItem key={i} style={{ padding: '.25rem 0' }}>
-                {samplePercent(item).toFixed(decimalPlaces)}%
-                <Typography variant="caption" style={{ marginLeft: '.33rem' }}>
-                  ({item.numberMutatedSamples}/{item.numberSamplesTested})
-                </Typography>
-              </ListItem>
-            ))}
+            .map((item, i) => {
+              const percent = samplePercent(item);
+
+              return (
+                <ListItem key={i} style={{ padding: '.25rem 0' }}>
+                  {percent < 5
+                    ? parseFloat(percent.toFixed(2)).toString()
+                    : Math.round(percent)}
+                  %
+                  <Typography
+                    variant="caption"
+                    style={{ marginLeft: '.33rem' }}
+                  >
+                    ({item.numberMutatedSamples}/{item.numberSamplesTested})
+                  </Typography>
+                </ListItem>
+              );
+            })}
         </List>
       );
     },
