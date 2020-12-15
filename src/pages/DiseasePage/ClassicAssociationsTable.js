@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import * as d3 from 'd3';
 import { useQuery } from '@apollo/client';
-import { makeStyles, Link } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import { Link } from 'ot-ui';
 import { Table } from '../../components/Table';
 import Legend from '../../components/Legend';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
@@ -158,13 +159,9 @@ function getColumns(efoId, classes) {
       renderCell: row => {
         return (
           <Link
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}`}
+            to={`/evidence/${row.ensemblId}/${efoId}`}
             className={classes.symbolContainer}
-            underline="none"
             title={row.symbol}
-            color="textPrimary"
           >
             {row.symbol}
           </Link>
@@ -183,11 +180,13 @@ function getColumns(efoId, classes) {
       sortable: true,
       renderCell: row => {
         return (
-          <span
-            className={classes.colorSpan}
-            title={`Score: ${row.score.toFixed(2)}`}
-            style={{ backgroundColor: color(row.score) }}
-          />
+          <Link to={`/evidence/${row.ensemblId}/${efoId}`}>
+            <span
+              className={classes.colorSpan}
+              title={`Score: ${row.score.toFixed(2)}`}
+              style={{ backgroundColor: color(row.score) }}
+            />
+          </Link>
         );
       },
     },
@@ -209,11 +208,7 @@ function getColumns(efoId, classes) {
       },
       renderCell: row => {
         return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:genetic_association`}
-          >
+          <Link to={`/evidence/${row.ensemblId}/${efoId}`}>
             <span
               className={classes.colorSpan}
               title={
@@ -223,7 +218,7 @@ function getColumns(efoId, classes) {
               }
               style={{ backgroundColor: color(row.genetic_association) }}
             />
-          </a>
+          </Link>
         );
       },
     },
@@ -245,11 +240,7 @@ function getColumns(efoId, classes) {
       },
       renderCell: row => {
         return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:somatic_mutation`}
-          >
+          <Link to={`/evidence/${row.ensemblId}/${efoId}`}>
             <span
               className={classes.colorSpan}
               title={
@@ -259,7 +250,7 @@ function getColumns(efoId, classes) {
               }
               style={{ backgroundColor: color(row.somatic_mutation) }}
             />
-          </a>
+          </Link>
         );
       },
     },
@@ -281,11 +272,7 @@ function getColumns(efoId, classes) {
       },
       renderCell: row => {
         return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:known_drug`}
-          >
+          <Link to={`/evidence/${row.ensemblId}/${efoId}`}>
             <span
               className={classes.colorSpan}
               title={
@@ -295,7 +282,7 @@ function getColumns(efoId, classes) {
               }
               style={{ backgroundColor: color(row.known_drug) }}
             />
-          </a>
+          </Link>
         );
       },
     },
@@ -317,11 +304,7 @@ function getColumns(efoId, classes) {
       },
       renderCell: row => {
         return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:affected_pathway`}
-          >
+          <Link href={`/evidence/${row.ensemblId}/${efoId}`}>
             <span
               className={classes.colorSpan}
               title={
@@ -331,7 +314,7 @@ function getColumns(efoId, classes) {
               }
               style={{ backgroundColor: color(row.affected_pathway) }}
             />
-          </a>
+          </Link>
         );
       },
     },
@@ -353,11 +336,7 @@ function getColumns(efoId, classes) {
       },
       renderCell: row => {
         return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:rna_expression`}
-          >
+          <Link href={`/evidence/${row.ensemblId}/${efoId}`}>
             <span
               className={classes.colorSpan}
               title={
@@ -367,7 +346,7 @@ function getColumns(efoId, classes) {
               }
               style={{ backgroundColor: color(row.rna_expression) }}
             />
-          </a>
+          </Link>
         );
       },
     },
@@ -389,11 +368,7 @@ function getColumns(efoId, classes) {
       },
       renderCell: row => {
         return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:literature`}
-          >
+          <Link href={`/evidence/${row.ensemblId}/${efoId}`}>
             <span
               className={classes.colorSpan}
               title={
@@ -403,7 +378,7 @@ function getColumns(efoId, classes) {
               }
               style={{ backgroundColor: color(row.literature) }}
             />
-          </a>
+          </Link>
         );
       },
     },
@@ -425,11 +400,7 @@ function getColumns(efoId, classes) {
       },
       renderCell: row => {
         return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:animal_model`}
-          >
+          <Link href={`/evidence/${row.ensemblId}/${efoId}`}>
             <span
               className={classes.colorSpan}
               title={
@@ -439,7 +410,7 @@ function getColumns(efoId, classes) {
               }
               style={{ backgroundColor: color(row.animal_model) }}
             />
-          </a>
+          </Link>
         );
       },
     },
@@ -455,14 +426,10 @@ function getColumns(efoId, classes) {
       renderCell: row => {
         return (
           <Link
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}`}
+            to={`/evidence/${row.ensemblId}/${efoId}`}
             className={classes.nameContainer}
-            underline="none"
-            color="textPrimary"
           >
-            {row.name}
+            <span title={row.name}>{row.name}</span>
           </Link>
         );
       },

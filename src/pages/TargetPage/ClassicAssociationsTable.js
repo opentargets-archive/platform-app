@@ -150,9 +150,8 @@ function getColumns(ensemblId, classes) {
           <Link
             to={`/evidence/${ensemblId}/${row.efoId}`}
             className={classes.nameContainer}
-            title={row.name}
           >
-            {row.name}
+            <span title={row.name}>{row.name}</span>
           </Link>
         );
       },
