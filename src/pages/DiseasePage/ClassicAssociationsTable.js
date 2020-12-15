@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import * as d3 from 'd3';
 import { useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core';
 import { Link } from 'ot-ui';
 import { Table } from '../../components/Table';
+import ScoreCell from '../../components/ScoreCell';
 import Legend from '../../components/Legend';
+
 import useBatchDownloader from '../../hooks/useBatchDownloader';
-import { colorRange } from '../../constants';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
   query DiseaseAssociationsQuery(
@@ -53,11 +53,6 @@ const dataTypes = [
   { id: 'literature', label: 'Text mining' },
   { id: 'animal_model', label: 'Animal models' },
 ];
-
-const color = d3
-  .scaleQuantize()
-  .domain([0, 1])
-  .range(colorRange);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -117,11 +112,6 @@ const useStyles = makeStyles(theme => ({
     '&:last-child': {
       paddingRight: 0,
     },
-  },
-  colorSpan: {
-    display: 'block',
-    height: '20px',
-    border: '1px solid #eeefef',
   },
   symbolCell: {
     border: 0,
@@ -185,17 +175,9 @@ function getColumns(efoId, classes) {
         innerLabel: classes.innerLabel,
       },
       sortable: true,
-      renderCell: row => {
-        return (
-          <Link to={`/evidence/${row.ensemblId}/${efoId}`}>
-            <span
-              className={classes.colorSpan}
-              title={`Score: ${row.score.toFixed(2)}`}
-              style={{ backgroundColor: color(row.score) }}
-            />
-          </Link>
-        );
-      },
+      renderCell: ({ score, ensemblId }) => (
+        <ScoreCell score={score} ensemblId={ensemblId} efoId={efoId} />
+      ),
     },
     {
       id: 'genetic_association',
@@ -213,21 +195,13 @@ function getColumns(efoId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
-      renderCell: row => {
-        return (
-          <Link to={`/evidence/${row.ensemblId}/${efoId}`}>
-            <span
-              className={classes.colorSpan}
-              title={
-                row.genetic_association
-                  ? `Score: ${row.genetic_association.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.genetic_association) }}
-            />
-          </Link>
-        );
-      },
+      renderCell: ({ genetic_association, ensemblId }) => (
+        <ScoreCell
+          score={genetic_association}
+          ensemblId={ensemblId}
+          efoId={efoId}
+        />
+      ),
     },
     {
       id: 'somatic_mutation',
@@ -245,21 +219,13 @@ function getColumns(efoId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
-      renderCell: row => {
-        return (
-          <Link to={`/evidence/${row.ensemblId}/${efoId}`}>
-            <span
-              className={classes.colorSpan}
-              title={
-                row.somatic_mutation
-                  ? `Score: ${row.somatic_mutation.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.somatic_mutation) }}
-            />
-          </Link>
-        );
-      },
+      renderCell: ({ somatic_mutation, ensemblId }) => (
+        <ScoreCell
+          score={somatic_mutation}
+          ensemblId={ensemblId}
+          efoId={efoId}
+        />
+      ),
     },
     {
       id: 'known_drug',
@@ -277,21 +243,9 @@ function getColumns(efoId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
-      renderCell: row => {
-        return (
-          <Link to={`/evidence/${row.ensemblId}/${efoId}`}>
-            <span
-              className={classes.colorSpan}
-              title={
-                row.known_drug
-                  ? `Score: ${row.known_drug.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.known_drug) }}
-            />
-          </Link>
-        );
-      },
+      renderCell: ({ known_drug, ensemblId }) => (
+        <ScoreCell score={known_drug} ensemblId={ensemblId} efoId={efoId} />
+      ),
     },
     {
       id: 'affected_pathway',
@@ -309,21 +263,13 @@ function getColumns(efoId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
-      renderCell: row => {
-        return (
-          <Link href={`/evidence/${row.ensemblId}/${efoId}`}>
-            <span
-              className={classes.colorSpan}
-              title={
-                row.affected_pathway
-                  ? `Score: ${row.affected_pathway.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.affected_pathway) }}
-            />
-          </Link>
-        );
-      },
+      renderCell: ({ affected_pathway, ensemblId }) => (
+        <ScoreCell
+          score={affected_pathway}
+          ensemblId={ensemblId}
+          efoId={efoId}
+        />
+      ),
     },
     {
       id: 'rna_expression',
@@ -341,21 +287,9 @@ function getColumns(efoId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
-      renderCell: row => {
-        return (
-          <Link href={`/evidence/${row.ensemblId}/${efoId}`}>
-            <span
-              className={classes.colorSpan}
-              title={
-                row.rna_expression
-                  ? `Score: ${row.rna_expression.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.rna_expression) }}
-            />
-          </Link>
-        );
-      },
+      renderCell: ({ rna_expression, ensemblId }) => (
+        <ScoreCell score={rna_expression} ensemblId={ensemblId} efoId={efoId} />
+      ),
     },
     {
       id: 'literature',
@@ -373,21 +307,9 @@ function getColumns(efoId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
-      renderCell: row => {
-        return (
-          <Link href={`/evidence/${row.ensemblId}/${efoId}`}>
-            <span
-              className={classes.colorSpan}
-              title={
-                row.literature
-                  ? `Score: ${row.literature.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.literature) }}
-            />
-          </Link>
-        );
-      },
+      renderCell: ({ literature, ensemblId }) => (
+        <ScoreCell score={literature} ensemblId={ensemblId} efoId={efoId} />
+      ),
     },
     {
       id: 'animal_model',
@@ -405,21 +327,9 @@ function getColumns(efoId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
-      renderCell: row => {
-        return (
-          <Link href={`/evidence/${row.ensemblId}/${efoId}`}>
-            <span
-              className={classes.colorSpan}
-              title={
-                row.animal_model
-                  ? `Score: ${row.animal_model.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.animal_model) }}
-            />
-          </Link>
-        );
-      },
+      renderCell: ({ animal_model, ensemblId }) => (
+        <ScoreCell score={animal_model} ensemblId={ensemblId} efoId={efoId} />
+      ),
     },
     {
       id: 'name',
