@@ -6,7 +6,7 @@ import client from '../../../client';
 import DataTable from '../../../components/Table/DataTable';
 import Table from '../../../components/Table/Table';
 import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
-import OtTooltip from './custom/OtTooltip';
+import Tooltip from '../../../components/Tooltip';
 
 import Grid from '@material-ui/core/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -68,7 +68,7 @@ function IntactTab({ ensgId, symbol, query }) {
             )}
             <br />
             <Typography variant="caption">
-              Species: {row.speciesB.mnemonic}
+              Species: {row.speciesB?.mnemonic}
               <br />
               Alt ID:{' '}
               <Link
@@ -116,7 +116,7 @@ function IntactTab({ ensgId, symbol, query }) {
         renderCell: row => (
           <>
             {row.count}
-            <span class={'selected-evidence'}>
+            <span className={'selected-evidence'}>
               <FontAwesomeIcon icon={faPlay} />
             </span>
           </>
@@ -156,11 +156,11 @@ function IntactTab({ ensgId, symbol, query }) {
           <>
             {row.interactionTypeShortName}
             <br />
-            <OtTooltip title={row.hostOrganismScientificName} placement="top">
+            <Tooltip title={row.hostOrganismScientificName}>
               <Typography variant="caption" noWrap display="block">
                 {row.hostOrganismScientificName}
               </Typography>
-            </OtTooltip>
+            </Tooltip>
           </>
         ),
         width: '30%',

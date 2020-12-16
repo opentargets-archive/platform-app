@@ -8,7 +8,7 @@ import {
   MethodIconArrow,
   MethodIconExpandArrow,
 } from './custom/MethodIcons';
-import OtTooltip from './custom/OtTooltip';
+import Tooltip from '../../../components/Tooltip';
 
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'ot-ui';
@@ -64,7 +64,7 @@ const columns = {
           )}
           <br />
           <Typography variant="caption">
-            Species: {row.speciesB.mnemonic}
+            Species: {row.speciesB?.mnemonic}
             <br />
             Alt ID:{' '}
             <Link
@@ -118,11 +118,11 @@ const columns = {
         <>
           {row.interactionTypeShortName}
           <br />
-          <OtTooltip title={row.hostOrganismScientificName} placement="top">
+          <Tooltip title={row.hostOrganismScientificName}>
             <Typography variant="caption" noWrap display="block">
               Organism: {row.hostOrganismScientificName}
             </Typography>
-          </OtTooltip>
+          </Tooltip>
         </>
       ),
       width: '30%',
