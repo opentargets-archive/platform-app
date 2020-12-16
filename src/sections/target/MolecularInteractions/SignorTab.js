@@ -38,7 +38,7 @@ const columns = {
         <>
           Interactor A
           <br />
-          <Typography variant="caption">Ald ID</Typography>
+          <Typography variant="caption">Alt ID</Typography>
         </>
       ),
       renderCell: row => (

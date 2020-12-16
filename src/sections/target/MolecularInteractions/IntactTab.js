@@ -44,7 +44,7 @@ function IntactTab({ ensgId, symbol, query }) {
           <>
             Interactor B
             <br />
-            <Typography variant="caption">Ald ID</Typography>
+            <Typography variant="caption">Alt ID</Typography>
           </>
         ),
         renderCell: row => (
