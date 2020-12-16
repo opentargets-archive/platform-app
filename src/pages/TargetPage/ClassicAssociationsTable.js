@@ -471,7 +471,7 @@ function ClassicAssociationsTable({ ensgId, aggregationFilters }) {
 
   const getAllAssociations = useBatchDownloader(
     TARGET_ASSOCIATIONS_QUERY,
-    { ensemblId: ensgId, filter, sortBy },
+    { ensemblId: ensgId, filter: filter === '' ? null : filter, sortBy },
     'data.target.associatedDiseases'
   );
 
