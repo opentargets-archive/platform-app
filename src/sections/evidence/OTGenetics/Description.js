@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'ot-ui';
+import Link from '../../../components/Link';
 
 function Description({ symbol, name }) {
   return (
