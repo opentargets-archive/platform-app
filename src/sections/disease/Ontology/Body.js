@@ -83,7 +83,7 @@ function Body({ definition, id: efoId, label: name }) {
     let isCurrent = true;
 
     fetch(
-      'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/therapeutic_area.txt'
+      'https://storage.googleapis.com/open-targets-data-releases/beta-rewrite/static/ontology/therapeutic_area.txt'
     )
       .then(
         res => res.text(),
@@ -106,7 +106,7 @@ function Body({ definition, id: efoId, label: name }) {
   useEffect(() => {
     let isCurrent = true;
     fetch(
-      'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl'
+      'https://storage.googleapis.com/open-targets-data-releases/beta-rewrite/static/ontology/diseases_efo.jsonl'
     )
       .then(
         res => res.text(),

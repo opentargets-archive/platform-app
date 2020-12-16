@@ -3,9 +3,9 @@ import gql from 'graphql-tag';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 const therapeuticAreasURL =
-  'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/therapeutic_area.txt';
+  'https://storage.googleapis.com/open-targets-data-releases/beta-rewrite/static/ontology/therapeutic_area.txt';
 const efoURL =
-  'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl';
+  'https://storage.googleapis.com/open-targets-data-releases/beta-rewrite/static/ontology/diseases_efo.jsonl';
 
 const ASSOCIATIONS_QUERY = gql`
   query AssociationsQuery(
