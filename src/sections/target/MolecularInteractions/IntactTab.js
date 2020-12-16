@@ -79,6 +79,7 @@ function IntactTab({ ensgId, symbol, query }) {
             </Typography>
           </>
         ),
+        exportValue: row => row.targetB?.approvedSymbol || row.intB,
         width: '40%',
       },
       {
@@ -106,6 +107,8 @@ function IntactTab({ ensgId, symbol, query }) {
             </MethodIconText>
           </>
         ),
+        exportValue: row =>
+          `A: ${row.intABiologicalRole}, B: ${row.intBBiologicalRole}`,
         width: '23%',
       },
       {
@@ -119,8 +122,8 @@ function IntactTab({ ensgId, symbol, query }) {
             </span>
           </>
         ),
+        exportValue: row => row.count,
         width: '23%',
-        //   exportValue: row => (row.disease ? label(row.disease.name) : naLabel),
       },
     ],
 
