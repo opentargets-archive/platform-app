@@ -148,6 +148,10 @@ function DownloadsPage() {
     setShownRelease(e.target.value);
   };
 
+  const moreDownloads = release.artifacts.filter(
+    artifact => !artifact.important
+  );
+
   return (
     <BasePage>
       <Typography variant="h4" component="h1" paragraph>
@@ -262,53 +266,56 @@ function DownloadsPage() {
                 ))}
             </Grid>
 
-            <Grid item xs={12} lg={8} xl={6}>
-              <Typography variant="h6">More resources for download</Typography>
-              <Table size="small" className={classes.tableContainer}>
-                <TableHead>
-                  <TableRow className={classes.tableHeader}>
-                    <TableCell>Artifact</TableCell>
-                    <TableCell className={classes.tableFilesRow}>
-                      Files
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {release.artifacts
-                    .filter(artifact => !artifact.important)
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map(artifact => (
-                      <TableRow
-                        key={artifact.name}
-                        classes={{ root: classes.tableRowRoot }}
-                      >
-                        <TableCell>
-                          {mapIcon(artifact.name)} {artifact.name}
-                        </TableCell>
-                        <TableCell>
-                          <Box className={classes.fileList}>
-                            {artifact.files.map((file, index) => (
-                              <Link
-                                external
-                                className={classes.fileLink}
-                                key={index}
-                                to={file.url}
-                              >
-                                <Typography className={classes.fileName}>
-                                  {mapFile(file.url)}
-                                </Typography>
-                                <Typography className={classes.fileSize}>
-                                  ({file.size})
-                                </Typography>
-                              </Link>
-                            ))}
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </Grid>
+            {moreDownloads.length > 0 && (
+              <Grid item xs={12} lg={8} xl={6}>
+                <Typography variant="h6">
+                  More resources for download
+                </Typography>
+                <Table size="small" className={classes.tableContainer}>
+                  <TableHead>
+                    <TableRow className={classes.tableHeader}>
+                      <TableCell>Artifact</TableCell>
+                      <TableCell className={classes.tableFilesRow}>
+                        Files
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {moreDownloads
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map(artifact => (
+                        <TableRow
+                          key={artifact.name}
+                          classes={{ root: classes.tableRowRoot }}
+                        >
+                          <TableCell>
+                            {mapIcon(artifact.name)} {artifact.name}
+                          </TableCell>
+                          <TableCell>
+                            <Box className={classes.fileList}>
+                              {artifact.files.map((file, index) => (
+                                <Link
+                                  external
+                                  className={classes.fileLink}
+                                  key={index}
+                                  to={file.url}
+                                >
+                                  <Typography className={classes.fileName}>
+                                    {mapFile(file.url)}
+                                  </Typography>
+                                  <Typography className={classes.fileSize}>
+                                    ({file.size})
+                                  </Typography>
+                                </Link>
+                              ))}
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </Grid>
+            )}
           </Grid>
         </CardContent>
       </Card>

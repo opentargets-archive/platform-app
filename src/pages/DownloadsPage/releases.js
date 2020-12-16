@@ -5,8 +5,8 @@ const releases = [
     date: '2020 September',
     artifacts: [
       {
-        important: true,
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -106,6 +106,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -116,6 +117,7 @@ const releases = [
       },
       {
         name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -206,6 +208,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -216,6 +219,7 @@ const releases = [
       },
       {
         name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -296,6 +300,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -306,6 +311,7 @@ const releases = [
       },
       {
         name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -356,6 +362,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -366,6 +373,7 @@ const releases = [
       },
       {
         name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -416,6 +424,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -426,6 +435,7 @@ const releases = [
       },
       {
         name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -476,6 +486,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -485,7 +496,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -504,6 +516,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -513,7 +526,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -532,6 +546,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -541,7 +556,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -560,6 +576,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -569,7 +586,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -588,6 +606,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -597,7 +616,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -616,6 +636,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -625,7 +646,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -644,6 +666,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -653,7 +676,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -672,6 +696,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -681,7 +706,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -700,6 +726,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -709,7 +736,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -728,6 +756,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -737,7 +766,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -756,6 +786,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -765,7 +796,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -784,6 +816,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -793,7 +826,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -812,6 +846,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -821,7 +856,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -840,6 +876,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -849,7 +886,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -867,7 +905,8 @@ const releases = [
     date: '2016 December',
     artifacts: [
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -886,6 +925,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -895,7 +935,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -914,6 +955,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -923,7 +965,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
@@ -942,6 +985,7 @@ const releases = [
     artifacts: [
       {
         name: 'Associations',
+        important: true,
         files: [
           {
             url:
@@ -951,7 +995,8 @@ const releases = [
         ],
       },
       {
-        name: 'Evidence',
+        name: 'Evidences',
+        important: true,
         files: [
           {
             url:
