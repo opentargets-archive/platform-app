@@ -36,11 +36,7 @@ const columns = {
         <>
           Interactor A
           <br />
-          <Typography variant="caption">
-            Species
-            <br />
-            Ald ID
-          </Typography>
+          <Typography variant="caption">Ald ID</Typography>
         </>
       ),
       renderCell: row => (
@@ -58,10 +54,11 @@ const columns = {
               {row.intA}
             </Link>
           )}
+          {row.speciesA && row.speciesA?.mnemonic.toLowerCase() !== 'human' ? (
+            <Tooltip title={row.speciesA?.mnemonic} showHelpIcon />
+          ) : null}
           <br />
           <Typography variant="caption">
-            Species: {row.speciesA?.mnemonic}
-            <br />
             Alt ID:{' '}
             <Link
               to={`http://uniprot.org/uniprot/${row.intA}`}
@@ -81,11 +78,7 @@ const columns = {
         <>
           Interactor B
           <br />
-          <Typography variant="caption">
-            Species
-            <br />
-            Ald ID
-          </Typography>
+          <Typography variant="caption">Ald ID</Typography>
         </>
       ),
       renderCell: row => (
@@ -103,10 +96,11 @@ const columns = {
               {row.intB}
             </Link>
           )}
+          {row.speciesB && row.speciesB?.mnemonic.toLowerCase() !== 'human' ? (
+            <Tooltip title={row.speciesB?.mnemonic} showHelpIcon />
+          ) : null}
           <br />
           <Typography variant="caption">
-            Species: {row.speciesB?.mnemonic}
-            <br />
             Alt ID:{' '}
             <Link
               to={`http://uniprot.org/uniprot/${row.intB}`}
