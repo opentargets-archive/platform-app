@@ -13,19 +13,6 @@ const DRUG_PAGE_QUERY = gql`
     drug(chemblId: $chemblId) {
       id
       name
-      description
-      drugType
-      synonyms
-      tradeNames
-      yearOfFirstApproval
-      maximumClinicalTrialPhase
-      hasBeenWithdrawn
-      withdrawnNotice {
-        classes
-        countries
-        reasons
-        year
-      }
     }
   }
 `;
