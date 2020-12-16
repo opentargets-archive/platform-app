@@ -503,7 +503,7 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
       efoId,
       index: page,
       size: pageSize,
-      filter,
+      filter: filter === '' ? null : filter,
       sortBy,
       aggregationFilters,
     },
@@ -511,7 +511,7 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
 
   const getAllAssociations = useBatchDownloader(
     DISEASE_ASSOCIATIONS_QUERY,
-    { efoId, filter, sortBy },
+    { efoId, filter: filter === '' ? null : filter, sortBy },
     'data.disease.associatedTargets'
   );
 
