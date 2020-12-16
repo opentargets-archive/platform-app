@@ -11,6 +11,8 @@ import {
 import Tooltip from '../../../components/Tooltip';
 
 import Grid from '@material-ui/core/Grid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'ot-ui';
 
 const getData = (query, ensgId, sourceDatabase, index, size) => {
@@ -79,7 +81,14 @@ const columns = {
     {
       id: 'sizeEvidences',
       label: 'Interaction evidence',
-      renderCell: row => row.count,
+      renderCell: row => (
+        <>
+          {row.count}
+          <span className={'selected-evidence'}>
+            <FontAwesomeIcon icon={faPlay} />
+          </span>
+        </>
+      ),
       width: '35%',
     },
   ],
