@@ -189,7 +189,10 @@ function DownloadsPage() {
       <Typography variant="h5" component="h1" paragraph>
         Programmatic access
       </Typography>
-      <Typography paragraph>todo</Typography>
+      <Typography paragraph>
+        Information about programmatic access to the data will be available
+        soon.
+      </Typography>
 
       <Typography variant="h5" component="h1" paragraph>
         Direct downloads
@@ -260,6 +263,7 @@ function DownloadsPage() {
             </Grid>
 
             <Grid item xs={12} lg={8} xl={6}>
+              <Typography variant="h6">More resources for download</Typography>
               <Table size="small" className={classes.tableContainer}>
                 <TableHead>
                   <TableRow className={classes.tableHeader}>
@@ -271,6 +275,7 @@ function DownloadsPage() {
                 </TableHead>
                 <TableBody>
                   {release.artifacts
+                    .filter(artifact => !artifact.important)
                     .sort((a, b) => a.name.localeCompare(b.name))
                     .map(artifact => (
                       <TableRow
