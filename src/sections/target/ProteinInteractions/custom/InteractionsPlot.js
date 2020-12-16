@@ -3,20 +3,8 @@ import { findDOMNode } from 'react-dom';
 import { Button, Typography } from '@material-ui/core';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
-import FileSaver from 'file-saver';
 
-const downloadSVG = ({ svgNode, filenameStem }) => {
-  if (!svgNode) {
-    console.info('Nothing to download.');
-    return;
-  }
-
-  const contentString = svgNode.outerHTML;
-  const blob = new Blob([contentString], {
-    type: 'application/svg+xml',
-  });
-  FileSaver.saveAs(blob, `${filenameStem}.svg`);
-};
+import { downloadSvg } from '../../../../components/DownloadSvgPlot';
 
 class InteractionsPlot extends React.Component {
   state = {};
@@ -27,7 +15,7 @@ class InteractionsPlot extends React.Component {
   }
   handleSVGDownload = (svgContainer, filenameStem) => {
     const svgNode = findDOMNode(svgContainer.current).querySelector('svg');
-    downloadSVG({ svgNode, filenameStem });
+    downloadSvg({ svgNode, filenameStem });
   };
   render() {
     const {

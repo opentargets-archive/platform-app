@@ -1,31 +1,18 @@
 import React from 'react';
+import { Button } from '@material-ui/core';
 import { findDOMNode } from 'react-dom';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import PlotContainer from './PlotContainer';
 
-import FileSaver from 'file-saver';
+import downloadSvg from './DownloadSvg';
+import PlotContainer from '../PlotContainer';
 
-const downloadSVG = ({ svgNode, filenameStem }) => {
-  if (!svgNode) {
-    console.info('Nothing to download.');
-    return;
-  }
-
-  const contentString = svgNode.outerHTML;
-  const blob = new Blob([contentString], {
-    type: 'application/svg+xml',
-  });
-  FileSaver.saveAs(blob, `${filenameStem}.svg`);
-};
-
-const handleSVGDownload = (svgContainer, filenameStem) => {
+const handleSvgDownload = (svgContainer, filenameStem) => {
   const node = findDOMNode(svgContainer.current);
   const svgNode = node.nodeName === 'svg' ? node : node.querySelector('svg');
-  downloadSVG({ svgNode, filenameStem });
+  downloadSvg({ svgNode, filenameStem });
 };
 
-const DownloadSVGPlot = ({
+const DownloadSvgPlot = ({
   loading,
   error,
   left,
@@ -49,7 +36,7 @@ const DownloadSVGPlot = ({
               if (reportDownloadEvent) {
                 reportDownloadEvent();
               }
-              handleSVGDownload(svgContainer, filenameStem);
+              handleSvgDownload(svgContainer, filenameStem);
             }}
           >
             SVG
@@ -62,4 +49,4 @@ const DownloadSVGPlot = ({
   </PlotContainer>
 );
 
-export default DownloadSVGPlot;
+export default DownloadSvgPlot;
