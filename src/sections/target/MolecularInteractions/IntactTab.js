@@ -245,6 +245,9 @@ function IntactTab({ ensgId, symbol, query }) {
     <Grid container spacing={10}>
       <Grid item xs={12} md={5}>
         {/* table 1: interactions */}
+        <Typography variant="h6" gutterBottom>
+          Interactions
+        </Typography>
         <DataTable
           showGlobalFilter
           columns={columns.interactions}
@@ -265,6 +268,9 @@ function IntactTab({ ensgId, symbol, query }) {
 
       {/* table 2: evidence */}
       <Grid item xs={12} md={7}>
+        <Typography variant="h6" gutterBottom>
+          Evidence
+        </Typography>
         <DataTable
           showGlobalFilter
           columns={columns.evidence}
