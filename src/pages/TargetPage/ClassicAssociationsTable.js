@@ -47,8 +47,8 @@ const dataTypes = [
   { id: 'somatic_mutation', label: 'Somatic mutations' },
   { id: 'known_drug', label: 'Drugs' },
   { id: 'affected_pathway', label: 'Pathways & systems biology' },
-  { id: 'rna_expression', label: 'RNA expression' },
   { id: 'literature', label: 'Text mining' },
+  { id: 'rna_expression', label: 'RNA expression' },
   { id: 'animal_model', label: 'Animal models' },
 ];
 
@@ -321,42 +321,6 @@ function getColumns(ensemblId, classes) {
       },
     },
     {
-      id: 'rna_expression',
-      label: 'RNA expression',
-      classes: {
-        headerCell: classes.headerCell,
-        cell: classes.cell,
-        sortLabel: classes.sortLabel,
-        innerLabel: classes.innerLabel,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'rna_expression'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
-              row.efoId
-            }?view=sec:rna_expression`}
-          >
-            <span
-              className={classes.colorSpan}
-              title={
-                row.rna_expression
-                  ? `Score: ${row.rna_expression.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.rna_expression) }}
-            />
-          </a>
-        );
-      },
-    },
-    {
       id: 'literature',
       label: 'Text mining',
       classes: {
@@ -387,6 +351,42 @@ function getColumns(ensemblId, classes) {
                   : 'No data'
               }
               style={{ backgroundColor: color(row.literature) }}
+            />
+          </a>
+        );
+      },
+    },
+    {
+      id: 'rna_expression',
+      label: 'RNA expression',
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.cell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
+      sortable: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'rna_expression'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
+      renderCell: row => {
+        return (
+          <a
+            href={`https://www.targetvalidation.org/evidence/${ensemblId}/${
+              row.efoId
+            }?view=sec:rna_expression`}
+          >
+            <span
+              className={classes.colorSpan}
+              title={
+                row.rna_expression
+                  ? `Score: ${row.rna_expression.toFixed(2)}`
+                  : 'No data'
+              }
+              style={{ backgroundColor: color(row.rna_expression) }}
             />
           </a>
         );
