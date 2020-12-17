@@ -56,9 +56,25 @@ const columnPool = {
         id: 'mechanismOfAction',
       },
       {
-        id: 'activity',
-        hidden: ['lgDown'],
-        renderCell: d => (d.activity ? d.activity : naLabel),
+        id: 'Action types',
+        renderCell: ({ drug: { mechanismsOfAction } }) => {
+          const uniqueActionTypes = mechanismsOfAction.uniqueActionTypes || [];
+          return uniqueActionTypes.length > 0 ? (
+            <ul
+              style={{
+                margin: 0,
+                padding: 0,
+                listStyle: 'none',
+              }}
+            >
+              {uniqueActionTypes.map(actionType => (
+                <li key={actionType}>{actionType}</li>
+              ))}
+            </ul>
+          ) : (
+            naLabel
+          );
+        },
       },
     ],
   },
