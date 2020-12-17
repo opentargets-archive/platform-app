@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core';
-import { Link } from 'ot-ui';
+import Link from '../../components/Link';
 import { Table } from '../../components/Table';
 import ScoreCell from '../../components/ScoreCell';
 import useBatchDownloader from '../../hooks/useBatchDownloader';

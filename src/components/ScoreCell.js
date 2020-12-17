@@ -1,7 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import { makeStyles } from '@material-ui/core';
-import { Link } from 'ot-ui';
+import Link from './Link';
 import { colorRange } from '../constants';
 
 const color = d3
