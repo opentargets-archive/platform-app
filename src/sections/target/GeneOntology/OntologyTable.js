@@ -4,6 +4,7 @@ import crossfilter from 'crossfilter2';
 import { TextField } from '@material-ui/core';
 import _ from 'lodash';
 
+// TODO: use new table component
 import { OtTableRF, DataDownloader, Link } from 'ot-ui';
 
 const capitalizeSnakeCase = term => {
