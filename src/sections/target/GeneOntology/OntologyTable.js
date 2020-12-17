@@ -5,7 +5,6 @@ import { TextField } from '@material-ui/core';
 import _ from 'lodash';
 
 // TODO: use new table component
-console.log('just to trigger netlify');
 import { OtTableRF, DataDownloader, Link } from 'ot-ui';
 
 const capitalizeSnakeCase = term => {
