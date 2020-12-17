@@ -3,8 +3,7 @@ import { gql } from '@apollo/client';
 import { Grid } from '@material-ui/core';
 import client from '../../../client';
 
-import { DataDownloader } from 'ot-ui';
-
+import DataDownloader from '../../../components/DataDownloader';
 import SummaryTable from './SummaryTable';
 
 const EXPRESSION_QUERY = gql`

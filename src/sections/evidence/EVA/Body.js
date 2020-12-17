@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import { Typography } from '@material-ui/core';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from 'ot-ui';
+
+import ClinvarStars from '../../../components/ClinvarStars';
 import {
   clinvarStarMap,
   naLabel,
   defaultRowsPerPageOptions,
 } from '../../../constants';
-import { sentenceCase } from '../../../utils/global';
-import { epmcUrl } from '../../../utils/urls';
-import usePlatformApi from '../../../hooks/usePlatformApi';
-import SectionItem from '../../../components/Section/SectionItem';
-import ClinvarStars from '../../../components/ClinvarStars';
-import Tooltip from '../../../components/Tooltip';
-import { Table, DataTable, getPage } from '../../../components/Table';
-import { TableDrawer } from '../../../components/Table';
+import {
+  DataTable,
+  getPage,
+  Table,
+  TableDrawer,
+} from '../../../components/Table';
 import Description from './Description';
+import Link from '../../../components/Link';
+import { epmcUrl } from '../../../utils/urls';
+import { sentenceCase } from '../../../utils/global';
+import SectionItem from '../../../components/Section/SectionItem';
+import Tooltip from '../../../components/Tooltip';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 import Summary from './Summary';
 

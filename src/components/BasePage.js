@@ -2,7 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import Search from './Search';
-import { Page, NavBar, Footer } from 'ot-ui';
+import Page from './Page';
+import NavBar from './NavBar';
+import Footer from './Footer';
 import { appTitle, externalLinks, mainMenuItems } from '../constants';
 
 const BasePage = ({ title, children }) => {

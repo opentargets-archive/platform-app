@@ -3,9 +3,8 @@ import { CardContent, makeStyles, Typography } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 
-import { Link } from 'ot-ui';
-
 import Chip from '../../components/Chip';
+import Link from '../../components/Link';
 import LongList from '../../components/LongList';
 import LongText from '../../components/LongText';
 import WithdrawnNotice from '../../components/WithdrawnNotice';

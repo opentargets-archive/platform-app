@@ -20,7 +20,7 @@ import { Info } from '@material-ui/icons';
 import { faBox, faFile } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { Link } from 'ot-ui';
+import Link from '../../components/Link';
 
 import BasePage from '../../components/BasePage';
 import releases from './releases';

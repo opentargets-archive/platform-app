@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@material-ui/core';
 
-import { Link, significantFigures } from 'ot-ui';
+import { decimalPlaces } from '../../constants';
+import Link from '../../components/Link';
 
 const TooltipContent = ({ data }) => (
   <Card>
@@ -9,7 +10,7 @@ const TooltipContent = ({ data }) => (
       <Typography align="center">
         <strong>{data.name}</strong>
         <br />
-        association score: {significantFigures(data.score)}
+        association score: {data.score.toFixed(decimalPlaces)}
         <br />
         <Link to={`/disease/${data.id}`}>Disease profile</Link>
         <br />

@@ -3,12 +3,11 @@ import { List, ListItem, Typography } from '@material-ui/core';
 import { loader } from 'graphql.macro';
 import { useQuery } from '@apollo/client';
 
-import { Link } from 'ot-ui';
-
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import { sentenceCase } from '../../../utils/global';
 import Tooltip from '../../../components/Tooltip';

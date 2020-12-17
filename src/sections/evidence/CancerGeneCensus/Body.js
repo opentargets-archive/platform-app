@@ -3,14 +3,13 @@ import { useQuery } from '@apollo/client';
 import { Box, List, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { loader } from 'graphql.macro';
 
-import { Link } from 'ot-ui';
-
 import ChipList from '../../../components/ChipList';
 import { DataTable, TableDrawer } from '../../../components/Table';
+import { naLabel } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
-import { naLabel } from '../../../constants';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -68,7 +67,6 @@ const columns = [
     id: 'mutatedSamples',
     propertyPath: 'mutatedSamples.numberSamplesWithMutationType',
     label: 'Mutated / Total samples',
-    // sortable: true,
     renderCell: ({ mutatedSamples }) => {
       return (
         <List style={{ padding: 0 }}>

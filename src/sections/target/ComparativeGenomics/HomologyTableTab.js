@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { DataDownloader, OtTableRF, Link, significantFigures } from 'ot-ui';
+import { decimalPlaces } from '../../../constants';
+import Link from '../../../components/Link';
+import OtTableRF from '../../../components/OtTableRF';
+import DataDownloader from '../../../components/DataDownloader';
 
 const scientificName2CommonName = {
   homo_sapiens: 'Human',
@@ -94,14 +97,14 @@ const columns = [
   {
     id: 'dNdS',
     label: `dN/dS`,
-    renderCell: d => (d.dNdS ? significantFigures(d.dNdS) : 'N/A'),
+    renderCell: d => (d.dNdS ? d.dNdS.toFixed(decimalPlaces) : 'N/A'),
   },
   {
     id: 'queryPercentageIdentity',
     label: `Query %id`,
     renderCell: d =>
       d.queryPercentageIdentity
-        ? significantFigures(d.queryPercentageIdentity)
+        ? d.queryPercentageIdentity.toFixed(decimalPlaces)
         : 'N/A',
   },
   {
@@ -109,7 +112,7 @@ const columns = [
     label: `Target %id`,
     renderCell: d =>
       d.targetPercentageIdentity
-        ? significantFigures(d.targetPercentageIdentity)
+        ? d.targetPercentageIdentity.toFixed(decimalPlaces)
         : 'N/A',
   },
 ];

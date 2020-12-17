@@ -1,7 +1,9 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 
-import { Link, OtTableRF, DataDownloader } from 'ot-ui';
+import Link from '../../../components/Link';
+import OtTableRF from '../../../components/OtTableRF';
+import DataDownloader from '../../../components/DataDownloader';
 import SectionItem from '../../../components/Section/SectionItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Description from './Description';

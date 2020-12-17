@@ -2,10 +2,9 @@ import React from 'react';
 import { gql } from '@apollo/client';
 import _ from 'lodash';
 
-import { Link } from 'ot-ui';
-
 import { DataTable } from '../../../components/Table';
 import Description from './Description';
+import Link from '../../../components/Link';
 import { naLabel } from '../../../constants';
 import SectionItem from '../../../components/Section/SectionItem';
 import useBatchQuery from '../../../hooks/useBatchQuery';

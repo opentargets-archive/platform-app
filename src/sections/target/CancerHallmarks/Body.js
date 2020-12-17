@@ -1,14 +1,13 @@
 import React from 'react';
 import { Box, makeStyles, Typography } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
+import ChipList from '../../../components/ChipList';
+import Description from './Description';
 import DataTable from '../../../components/Table/DataTable';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
-import Description from './Description';
-import ChipList from '../../../components/ChipList';
 
 const columns = [
   {

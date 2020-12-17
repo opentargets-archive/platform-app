@@ -8,8 +8,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
+import Link from '../../../components/Link';
 import DataTable from '../../../components/Table/DataTable';
 
 const useStyles = makeStyles(theme => ({

@@ -1,13 +1,12 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
-import { Link } from 'ot-ui';
-
 import {
   DataTable,
   PaginationActionsComplete,
 } from '../../../components/Table';
 import Description from './Description';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import TherapeuticAreasDrawer from './TherapeuticAreasDrawer';
 

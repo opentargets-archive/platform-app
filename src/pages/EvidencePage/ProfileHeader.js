@@ -10,15 +10,14 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
 import {
   Description,
   ProfileHeader as BaseProfileHeader,
   ChipList,
 } from '../../components/ProfileHeader';
-import usePlatformApi from '../../hooks/usePlatformApi';
+import Link from '../../components/Link';
 import { Skeleton } from '@material-ui/lab';
+import usePlatformApi from '../../hooks/usePlatformApi';
 
 const EVIDENCE_PROFILE_TARGET_HEADER_FRAGMENT = gql`
   fragment EvidenceProfileTargetHeaderFragment on Target {

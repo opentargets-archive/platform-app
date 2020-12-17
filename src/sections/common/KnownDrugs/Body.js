@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'ot-ui';
 
 import client from '../../../client';
+import Link from '../../../components/Link';
 import { naLabel } from '../../../constants';
+import SectionItem from '../../../components/Section/SectionItem';
 import SourceDrawer from './SourceDrawer';
 import { Table, getPage } from '../../../components/Table';
 import useCursorBatchDownloader from '../../../hooks/useCursorBatchDownloader';
-import SectionItem from '../../../components/Section/SectionItem';
 
 const columnPool = {
   clinicalTrials: {
