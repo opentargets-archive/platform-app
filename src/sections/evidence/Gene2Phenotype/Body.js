@@ -13,8 +13,8 @@ import SectionItem from '../../../components/Section/SectionItem';
 import { sentenceCase } from '../../../utils/global';
 import Tooltip from '../../../components/Tooltip';
 
-const g2pUrl = id =>
-  `https://www.ebi.ac.uk/gene2phenotype/search?panel=ALL&search_term=${id}`;
+const g2pUrl = (studyId, symbol) =>
+  `https://www.ebi.ac.uk/gene2phenotype/search?panel=${studyId}&search_term=${symbol}`;
 
 const OPEN_TARGETS_GENETICS_QUERY = loader('./sectionQuery.gql');
 
@@ -63,14 +63,7 @@ const columns = [
   },
   {
     id: 'confidence',
-    renderCell: ({ confidence, target: { approvedSymbol } }) =>
-      confidence && approvedSymbol ? (
-        <Link external to={g2pUrl(approvedSymbol)}>
-          {sentenceCase(confidence)}
-        </Link>
-      ) : (
-        naLabel
-      ),
+    renderCell: ({ confidence }) => sentenceCase(confidence) || naLabel,
   },
   {
     id: 'literature',
@@ -91,6 +84,15 @@ const columns = [
 
       return <TableDrawer entries={literatureList} />;
     },
+  },
+  {
+    id: 'studyId',
+    label: 'Panel',
+    renderCell: ({ studyId, target: { approvedSymbol } }) => (
+      <Link external to={g2pUrl(studyId, approvedSymbol)}>
+        {studyId}
+      </Link>
+    ),
   },
 ];
 

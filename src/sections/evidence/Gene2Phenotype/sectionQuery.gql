@@ -15,6 +15,7 @@ query OpenTargetsGeneticsQuery($ensemblId: String!, $efoId: String!) {
         diseaseFromSource
         allelicRequirements
         confidence
+        studyId
         target {
           approvedSymbol
         }
