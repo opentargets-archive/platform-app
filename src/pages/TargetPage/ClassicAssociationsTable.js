@@ -47,8 +47,8 @@ const dataTypes = [
   { id: 'somatic_mutation', label: 'Somatic mutations' },
   { id: 'known_drug', label: 'Drugs' },
   { id: 'affected_pathway', label: 'Pathways & systems biology' },
-  { id: 'rna_expression', label: 'RNA expression' },
   { id: 'literature', label: 'Text mining' },
+  { id: 'rna_expression', label: 'RNA expression' },
   { id: 'animal_model', label: 'Animal models' },
 ];
 
@@ -257,26 +257,6 @@ function getColumns(ensemblId, classes) {
       ),
     },
     {
-      id: 'rna_expression',
-      label: 'RNA expression',
-      classes: {
-        headerCell: classes.headerCell,
-        cell: classes.cell,
-        sortLabel: classes.sortLabel,
-        innerLabel: classes.innerLabel,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'rna_expression'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: ({ rna_expression, efoId }) => (
-        <ScoreCell score={rna_expression} ensemblId={ensemblId} efoId={efoId} />
-      ),
-    },
-    {
       id: 'literature',
       label: 'Text mining',
       classes: {
@@ -289,6 +269,26 @@ function getColumns(ensemblId, classes) {
       exportValue: data => {
         const datatypeScore = data.datatypeScores.find(
           datatypeScore => datatypeScore.componentId === 'literature'
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
+      renderCell: ({ rna_expression, efoId }) => (
+        <ScoreCell score={rna_expression} ensemblId={ensemblId} efoId={efoId} />
+      ),
+    },
+    {
+      id: 'rna_expression',
+      label: 'RNA expression',
+      classes: {
+        headerCell: classes.headerCell,
+        cell: classes.cell,
+        sortLabel: classes.sortLabel,
+        innerLabel: classes.innerLabel,
+      },
+      sortable: true,
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === 'rna_expression'
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
