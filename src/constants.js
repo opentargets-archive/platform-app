@@ -128,8 +128,8 @@ export const mainMenuItems = [
   // Downloads
   {
     name: 'Downloads',
-    url: 'https://www.targetvalidation.org/downloads/data',
-    external: true,
+    url: '/downloads',
+    external: false,
   },
   // Blog
   {

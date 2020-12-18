@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'ot-ui';
 
 import client from '../../../client';
+import Link from '../../../components/Link';
 import { naLabel } from '../../../constants';
+import SectionItem from '../../../components/Section/SectionItem';
 import SourceDrawer from './SourceDrawer';
 import { Table, getPage } from '../../../components/Table';
 import useCursorBatchDownloader from '../../../hooks/useCursorBatchDownloader';
-import SectionItem from '../../../components/Section/SectionItem';
 
 const columnPool = {
   clinicalTrials: {
@@ -56,9 +56,25 @@ const columnPool = {
         id: 'mechanismOfAction',
       },
       {
-        id: 'activity',
-        hidden: ['lgDown'],
-        renderCell: d => (d.activity ? d.activity : naLabel),
+        id: 'Action types',
+        renderCell: ({ drug: { mechanismsOfAction } }) => {
+          const uniqueActionTypes = mechanismsOfAction.uniqueActionTypes || [];
+          return uniqueActionTypes.length > 0 ? (
+            <ul
+              style={{
+                margin: 0,
+                padding: 0,
+                listStyle: 'none',
+              }}
+            >
+              {uniqueActionTypes.map(actionType => (
+                <li key={actionType}>{actionType}</li>
+              ))}
+            </ul>
+          ) : (
+            naLabel
+          );
+        },
       },
     ],
   },

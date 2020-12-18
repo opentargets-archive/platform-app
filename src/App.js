@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
-import { OtUiThemeProvider } from 'ot-ui';
 
+import OtUiThemeProvider from './components/OtUiThemeProvider';
 import client from './client';
 import initLocalStorage from './utils/initLocalStorage';
 import GoogleAnalyticsWrapper from './components/GoogleAnalyticsWrapper';
@@ -15,6 +15,8 @@ import DrugPage from './pages/DrugPage';
 import TargetPage from './pages/TargetPage';
 import EvidencePage from './pages/EvidencePage';
 import NotFoundPage from './pages/NotFoundPage';
+
+import 'typeface-inter';
 
 class App extends Component {
   componentDidMount() {

@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Grid, Typography } from '@material-ui/core';
-
-import { Button } from 'ot-ui';
+import { Button, Grid, Typography } from '@material-ui/core';
 
 import Abstract from './Abstract';
 import BibliographyDetailPanel from './BibliographyDetailPanel';
@@ -144,6 +142,7 @@ class Publication extends Component {
                 <Button
                   variant="outlined"
                   size="small"
+                  color="primary"
                   onClick={() => {
                     this.setState({ showAbstract: !showAbstract });
                   }}
@@ -153,13 +152,19 @@ class Publication extends Component {
               </>
             ) : (
               <>
-                <Button variant="outlined" size="small" disabled>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  disabled
+                >
                   No abstract available
                 </Button>{' '}
               </>
             )}
             <Button
               variant="outlined"
+              color="primary"
               size="small"
               onClick={() => {
                 this.setState({ showSimilar: !showSimilar });

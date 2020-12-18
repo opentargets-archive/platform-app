@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import * as d3 from 'd3';
 
-import { DownloadSVGPlot } from 'ot-ui';
-
+import { DownloadSvgPlot } from '../../../components/DownloadSvgPlot';
 import GtexVariability from './GtexVariability';
 
 export async function getData(symbol) {
@@ -58,12 +57,12 @@ function GtexTab({ symbol, data }) {
   const gtexVariability = useRef();
 
   return (
-    <DownloadSVGPlot
+    <DownloadSvgPlot
       svgContainer={gtexVariability}
       filenameStem={`${symbol}-gtex`}
     >
       <GtexVariability data={data} ref={gtexVariability} />
-    </DownloadSVGPlot>
+    </DownloadSvgPlot>
   );
 }
 

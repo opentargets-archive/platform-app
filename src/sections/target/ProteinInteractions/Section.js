@@ -1,19 +1,19 @@
 import React from 'react';
 import _ from 'lodash';
 import {
-  withStyles,
-  Typography,
-  FormControl,
-  FormGroup,
-  FormControlLabel,
-  Grid,
+  Button,
   Chip,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  Typography,
+  withStyles,
 } from '@material-ui/core';
-
-import { Button, ListTooltip } from 'ot-ui';
 
 import InteractionsPlot from './custom/InteractionsPlot';
 import InteractionsTable from './custom/InteractionsTable';
+import ListTooltip from '../../../components/ListTooltip';
 import SourceChip from './custom/SourceChip';
 import SourceCheckbox from './custom/SourceCheckbox';
 
@@ -296,7 +296,12 @@ class Section extends React.Component {
                 />
               ))}
               {selectedUniprotIds.length > 1 ? (
-                <Button color="primary" size="small" disableRipple>
+                <Button
+                  color="primary"
+                  size="small"
+                  variant="contained"
+                  disableRipple
+                >
                   Analyse with batch search
                 </Button>
               ) : null}

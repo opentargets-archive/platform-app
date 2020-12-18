@@ -1,7 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
-import { Link } from 'ot-ui';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
@@ -9,6 +8,7 @@ import Tooltip from '../../../components/Tooltip';
 import ScientificNotation from '../../../components/ScientificNotation';
 import Summary from './Summary';
 import Description from './Description';
+import Link from '../../../components/Link';
 
 const EXPRESSION_ATLAS_QUERY = gql`
   query expressionAtlasQuery(

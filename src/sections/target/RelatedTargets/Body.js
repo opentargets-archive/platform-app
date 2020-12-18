@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
-import { Link, significantFigures } from 'ot-ui';
-
+import { decimalPlaces } from '../../../constants';
 import Description from './Description';
 import LinearVenn, { LinearVennLegend } from '../../../components/LinearVenn';
+import Link from '../../../components/Link';
 import { Table, PaginationActionsComplete } from '../../../components/Table';
 import SectionItem from '../../../components/Section/SectionItem';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
@@ -49,7 +49,7 @@ const columns = (symbol, maxCountAOrB) => [
     id: 'score',
     label: 'Similarity score',
     numeric: true,
-    renderCell: ({ score }) => significantFigures(score),
+    renderCell: ({ score }) => score.toFixed(decimalPlaces),
   },
   {
     id: 'countANotB',

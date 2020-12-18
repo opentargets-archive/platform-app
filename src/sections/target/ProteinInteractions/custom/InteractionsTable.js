@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Link, OtTableRF } from 'ot-ui';
-
-import SourceChip from './SourceChip';
 import { generateComparatorFromAccessor } from '../../../../utils/comparators';
+import Link from '../../../../components/Link';
+import OtTableRF from '../../../../components/OtTableRF';
+import SourceChip from './SourceChip';
 
 const columns = interactionTypes => [
   {

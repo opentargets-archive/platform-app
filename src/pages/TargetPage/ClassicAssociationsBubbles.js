@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
+import { Grid, Typography, useTheme } from '@material-ui/core';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
-import { useTheme } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
-import { DownloadSVGPlot } from 'ot-ui';
-import Slider from './ClassicAssociationsSlider';
+
 import AssociationTooltip from './AssociationTooltip';
-import Legend from '../../components/Legend';
 import { colorRange } from '../../constants';
+import { DownloadSvgPlot } from '../../components/DownloadSvgPlot';
+import Legend from '../../components/Legend';
+import Slider from './ClassicAssociationsSlider';
 
 function findTas(id, idToDisease) {
   const tas = new Set();
@@ -105,7 +105,7 @@ function ClassicAssociationsBubbles({
 
   return (
     <>
-      <DownloadSVGPlot
+      <DownloadSvgPlot
         svgContainer={svgRef}
         filenameStem={`${symbol}-associated-diseases-bubbles`}
       >
@@ -205,7 +205,7 @@ function ClassicAssociationsBubbles({
             )
           ) : null}
         </Grid>
-      </DownloadSVGPlot>
+      </DownloadSvgPlot>
       <Legend />
     </>
   );

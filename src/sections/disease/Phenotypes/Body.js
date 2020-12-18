@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { Link } from 'ot-ui';
-
 import Description from './Description';
 import { DataTable } from '../../../components/Table';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
-import usePlatformApi from '../../../hooks/usePlatformApi';
 import Summary from './Summary';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const columns = [
   {

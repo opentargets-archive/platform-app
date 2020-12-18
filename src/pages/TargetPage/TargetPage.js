@@ -1,8 +1,7 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Switch, Route, Link } from 'react-router-dom';
-
-import { Tab, Tabs } from 'ot-ui';
+import { Tab, Tabs } from '@material-ui/core';
 
 import BasePage from '../../components/BasePage';
 import Header from './Header';

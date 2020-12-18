@@ -3,13 +3,12 @@ import { Box, List, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
-import { Link } from 'ot-ui';
-
 import ChipList from '../../../components/ChipList';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
+import Link from '../../../components/Link';
 import methods from './methods';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';

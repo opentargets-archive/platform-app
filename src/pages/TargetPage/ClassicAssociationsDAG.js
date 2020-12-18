@@ -4,7 +4,7 @@ import * as d3Base from 'd3';
 import * as d3DagBase from 'd3-dag';
 import withTheme from '@material-ui/core/styles/withTheme';
 
-import { DownloadSVGPlot } from 'ot-ui';
+import { DownloadSvgPlot } from '../../components/DownloadSvgPlot';
 
 import withTooltip from '../../components/withTooltip';
 import Legend from '../../components/Legend';
@@ -250,7 +250,7 @@ class ClassicAssociationsDAG extends React.Component {
 
     return (
       <div ref={measureRef}>
-        <DownloadSVGPlot
+        <DownloadSvgPlot
           svgContainer={this.svgContainer}
           filenameStem={`${symbol}-associated-diseases--dag`}
         >
@@ -407,7 +407,7 @@ class ClassicAssociationsDAG extends React.Component {
               </g>
             </svg>
           </div>
-        </DownloadSVGPlot>
+        </DownloadSvgPlot>
         <Legend />
       </div>
     );
