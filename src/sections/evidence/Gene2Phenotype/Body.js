@@ -61,6 +61,15 @@ const columns = [
     filterValue: ({ allelicRequirements }) => allelicRequirements.join(),
   },
   {
+    id: 'studyId',
+    label: 'Panel',
+    renderCell: ({ studyId, target: { approvedSymbol } }) => (
+      <Link external to={g2pUrl(studyId, approvedSymbol)}>
+        {studyId}
+      </Link>
+    ),
+  },
+  {
     id: 'confidence',
     renderCell: ({ confidence }) => sentenceCase(confidence) || naLabel,
   },
@@ -83,15 +92,6 @@ const columns = [
 
       return <TableDrawer entries={literatureList} />;
     },
-  },
-  {
-    id: 'studyId',
-    label: 'Panel',
-    renderCell: ({ studyId, target: { approvedSymbol } }) => (
-      <Link external to={g2pUrl(studyId, approvedSymbol)}>
-        {studyId}
-      </Link>
-    ),
   },
 ];
 

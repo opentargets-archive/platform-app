@@ -54,7 +54,7 @@ const HomeBox = ({ children }) => {
           <strong> **Important Note** </strong>
         </Grid>
         <Grid item>
-          This is the <strong>Alpha</strong> version of the redesigned{' '}
+          This is the <strong>Beta</strong> version of the redesigned{' '}
           <Link to="https://www.targetvalidation.org" external>
             Open Targets Platform
           </Link>
