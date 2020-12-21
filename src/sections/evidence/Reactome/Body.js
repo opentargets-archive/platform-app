@@ -7,6 +7,7 @@ import Tooltip from '../../../components/Tooltip';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
+import { sentenceCase } from '../../../utils/global';
 import { epmcUrl } from '../../../utils/urls';
 import Link from '../../../components/Link';
 import Summary from './Summary';
@@ -101,8 +102,9 @@ const columns = [
     id: 'targetModulation',
     label: 'Target modulation',
     renderCell: ({ targetModulation }) => {
-      return targetModulation ? targetModulation.replace(/_/g, ' ') : naLabel;
+      return targetModulation ? sentenceCase(targetModulation) : naLabel;
     },
+    filterValue: ({ targetModulation }) => sentenceCase(targetModulation),
   },
   {
     filterValue: ({ variantAminoacidDescriptions }) => {
