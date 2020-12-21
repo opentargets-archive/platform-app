@@ -99,7 +99,7 @@ const columns = [
     },
   },
   {
-    id: 'recordId',
+    id: 'studyId',
     label: 'ClinVar ID',
     renderCell: ({ studyId }) => {
       return (
@@ -135,6 +135,7 @@ const columns = [
         </ul>
       );
     },
+    filterValue: ({ clinicalSignificances }) => clinicalSignificances.join(),
   },
   {
     id: 'allelicRequirements',
@@ -158,6 +159,7 @@ const columns = [
         </ul>
       );
     },
+    filterValue: ({ allelicRequirements }) => allelicRequirements.join(),
   },
   {
     label: 'Confidence',
