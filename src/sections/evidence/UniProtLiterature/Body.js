@@ -64,7 +64,7 @@ const columns = [
     },
   },
   {
-    id: 'target.proteinAnnotations.id',
+    id: 'targetFromSourceId',
     label: 'Reported protein',
     renderCell: ({ targetFromSourceId, studyId }) => {
       return (
