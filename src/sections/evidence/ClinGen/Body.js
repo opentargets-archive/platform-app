@@ -81,6 +81,8 @@ const columns = [
         </ul>
       );
     },
+    filterValue: ({ allelicRequirements }) =>
+      allelicRequirements ? allelicRequirements.join() : '',
   },
   {
     id: 'confidence',

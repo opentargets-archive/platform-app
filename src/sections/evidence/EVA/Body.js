@@ -91,6 +91,8 @@ const columns = [
         </Link>
       );
     },
+    filterValue: ({ variantFunctionalConsequence }) =>
+      sentenceCase(variantFunctionalConsequence.label),
   },
   {
     id: 'clinicalSignificances',
@@ -144,6 +146,8 @@ const columns = [
         </ul>
       );
     },
+    filterValue: ({ allelicRequirements }) =>
+      allelicRequirements ? allelicRequirements.join() : '',
   },
   {
     label: 'Confidence',

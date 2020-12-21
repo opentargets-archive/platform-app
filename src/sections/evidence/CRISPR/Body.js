@@ -63,6 +63,7 @@ const columns = [
         />
       );
     },
+    filterValue: ({ diseaseFromSource }) => diseaseFromSource,
   },
   {
     id: 'resourceScore',

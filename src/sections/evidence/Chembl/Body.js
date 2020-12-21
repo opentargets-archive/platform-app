@@ -5,6 +5,7 @@ import {
   defaultRowsPerPageOptions,
   phaseMap,
   sourceMap,
+  naLabel,
 } from '../../../constants';
 import Description from './Description';
 import Link from '../../../components/Link';
@@ -70,9 +71,8 @@ const columns = [
   {
     label: 'Targets',
     renderCell: ({ target, drug, targetFromSourceId }) => {
-      const {
-        mechanismsOfAction: { rows },
-      } = drug;
+      const mechanismsOfAction = drug.mechanismsOfAction || {};
+      const { rows = [] } = mechanismsOfAction;
 
       let symbol = '';
 
@@ -128,9 +128,8 @@ const columns = [
   {
     label: 'Mechanism of action (MoA)',
     renderCell: ({ target, drug }) => {
-      const {
-        mechanismsOfAction: { rows },
-      } = drug;
+      const mechanismsOfAction = drug.mechanismsOfAction || {};
+      const { rows = [] } = mechanismsOfAction;
 
       let anchorMa = null;
 
@@ -155,7 +154,9 @@ const columns = [
         return acc;
       }, new Set());
 
-      return `${anchorMa}${mas.size > 0 ? ` and ${mas.size} other MoA` : ''}`;
+      return `${anchorMa ? anchorMa : naLabel}${
+        mas.size > 0 ? ` and ${mas.size} other MoA` : ''
+      }`;
     },
   },
   {
