@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core';
 import Link from '../../components/Link';
 import { Table } from '../../components/Table';
-import ScoreCell from '../../components/ScoreCell';
+import AssocCell from '../../components/AssocCell';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 import Legend from '../../components/Legend';
 
@@ -161,7 +161,7 @@ function getColumns(ensemblId, classes) {
       },
       sortable: true,
       renderCell: ({ score, efoId }) => (
-        <ScoreCell score={score} ensemblId={ensemblId} efoId={efoId} />
+        <AssocCell score={score} ensemblId={ensemblId} efoId={efoId} />
       ),
     },
     {
@@ -181,7 +181,7 @@ function getColumns(ensemblId, classes) {
         return datatypeScore ? datatypeScore.score : 'No data';
       },
       renderCell: ({ genetic_association, efoId }) => (
-        <ScoreCell
+        <AssocCell
           score={genetic_association}
           ensemblId={ensemblId}
           efoId={efoId}
@@ -205,7 +205,7 @@ function getColumns(ensemblId, classes) {
         return datatypeScore ? datatypeScore.score : 'No data';
       },
       renderCell: ({ somatic_mutation, efoId }) => (
-        <ScoreCell
+        <AssocCell
           score={somatic_mutation}
           ensemblId={ensemblId}
           efoId={efoId}
@@ -229,7 +229,7 @@ function getColumns(ensemblId, classes) {
         return datatypeScore ? datatypeScore.score : 'No data';
       },
       renderCell: ({ known_drug, efoId }) => (
-        <ScoreCell score={known_drug} ensemblId={ensemblId} efoId={efoId} />
+        <AssocCell score={known_drug} ensemblId={ensemblId} efoId={efoId} />
       ),
     },
     {
@@ -249,7 +249,7 @@ function getColumns(ensemblId, classes) {
         return datatypeScore ? datatypeScore.score : 'No data';
       },
       renderCell: ({ affected_pathway, efoId }) => (
-        <ScoreCell
+        <AssocCell
           score={affected_pathway}
           ensemblId={ensemblId}
           efoId={efoId}
@@ -273,7 +273,7 @@ function getColumns(ensemblId, classes) {
         return datatypeScore ? datatypeScore.score : 'No data';
       },
       renderCell: ({ rna_expression, efoId }) => (
-        <ScoreCell score={rna_expression} ensemblId={ensemblId} efoId={efoId} />
+        <AssocCell score={rna_expression} ensemblId={ensemblId} efoId={efoId} />
       ),
     },
     {
@@ -293,7 +293,7 @@ function getColumns(ensemblId, classes) {
         return datatypeScore ? datatypeScore.score : 'No data';
       },
       renderCell: ({ literature, efoId }) => (
-        <ScoreCell score={literature} ensemblId={ensemblId} efoId={efoId} />
+        <AssocCell score={literature} ensemblId={ensemblId} efoId={efoId} />
       ),
     },
     {
@@ -313,7 +313,7 @@ function getColumns(ensemblId, classes) {
         return datatypeScore ? datatypeScore.score : 'No data';
       },
       renderCell: ({ animal_model, efoId }) => (
-        <ScoreCell score={animal_model} ensemblId={ensemblId} efoId={efoId} />
+        <AssocCell score={animal_model} ensemblId={ensemblId} efoId={efoId} />
       ),
     },
   ];
