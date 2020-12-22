@@ -79,7 +79,7 @@ function SectionItem({
               <Box className={classes.loadingPlaceholder} />
             )}
             {error && <SectionError error={error} />}
-            {data && (
+            {!loading && data && (
               <CardContent className={classes.cardContent}>
                 {renderBody(data)}
               </CardContent>
