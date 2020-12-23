@@ -132,7 +132,13 @@ function ClassicAssociationsDAG({
             {dag.descendants().map(node => {
               return (
                 <Fragment key={node.id}>
-                  <text x={node.y} y={node.x}>
+                  <text
+                    x={node.y}
+                    y={node.x}
+                    dx="6"
+                    fontSize="12"
+                    dominantBaseline="middle"
+                  >
                     {node.data.name}
                   </text>
                   {node.data.parentIds.length === 0 ? (
