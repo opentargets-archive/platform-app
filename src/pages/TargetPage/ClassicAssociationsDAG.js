@@ -79,14 +79,14 @@ const color = d3
   .domain([0, 1])
   .range(colorRange);
 
-function getMaxLayerCount(dag) {
-  const layout = d3
-    .sugiyama()
-    .layering(layering)
-    .decross(decross)
-    .coord(coord);
+const helperLayout = d3
+  .sugiyama()
+  .layering(layering)
+  .decross(decross)
+  .coord(coord);
 
-  layout(dag);
+function getMaxLayerCount(dag) {
+  helperLayout(dag);
 
   const counts = {};
   let maxCount = Number.NEGATIVE_INFINITY;
