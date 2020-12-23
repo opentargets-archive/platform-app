@@ -79,6 +79,35 @@ const color = d3
   .domain([0, 1])
   .range(colorRange);
 
+function getMaxLayerCount(dag) {
+  const layout = d3
+    .sugiyama()
+    .layering(layering)
+    .decross(decross)
+    .coord(coord);
+
+  layout(dag);
+
+  const counts = {};
+  let maxCount = Number.NEGATIVE_INFINITY;
+
+  dag.descendants().forEach(node => {
+    const { layer } = node;
+
+    if (counts[layer]) {
+      counts[layer]++;
+    } else {
+      counts[layer] = 1;
+    }
+
+    if (counts[layer] > maxCount) {
+      maxCount = counts[layer];
+    }
+  });
+
+  return maxCount;
+}
+
 function ClassicAssociationsDAG({
   ensemblId,
   symbol,
@@ -97,24 +126,27 @@ function ClassicAssociationsDAG({
     return acc;
   }, {});
 
-  const { width: size } = contentRect.bounds;
+  const { width } = contentRect.bounds;
 
   const dagData = buildDagData(idToDisease, associations, assocSet);
   const dag = d3.dagStratify()(dagData);
+
+  const maxLayerCount = getMaxLayerCount(dag);
+  const height = maxLayerCount * 10;
 
   const layout = d3
     .sugiyama()
     .layering(layering)
     .decross(decross)
     .coord(coord)
-    .size([size, size]);
+    .size([height, width]);
 
   layout(dag);
 
   return (
     <div ref={measureRef}>
-      {size ? (
-        <svg width={size} height={size}>
+      {width ? (
+        <svg width={width} height={height}>
           <g>
             {dag.links().map(({ points, source, target }) => {
               return (
