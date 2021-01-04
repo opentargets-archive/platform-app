@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import * as d3Base from 'd3';
 import * as d3Dag from 'd3-dag';
 import { withContentRect } from 'react-measure';
+import { Typography } from '@material-ui/core';
 import { colorRange } from '../../constants';
 import Slider from './ClassicAssociationsSlider';
 
@@ -133,9 +134,8 @@ function ClassicAssociationsDAG({
   const { width } = contentRect.bounds;
 
   const dagData = buildDagData(idToDisease, assocs, assocSet);
-  const dag = d3.dagStratify()(dagData);
-
-  const maxLayerCount = getMaxLayerCount(dag);
+  const dag = dagData.length > 0 ? d3.dagStratify()(dagData) : null;
+  const maxLayerCount = dagData.length > 0 ? getMaxLayerCount(dag) : 0;
   const height = maxLayerCount * 10;
 
   const layout = d3
@@ -145,65 +145,71 @@ function ClassicAssociationsDAG({
     .coord(coord)
     .size([height, width]);
 
-  layout(dag);
+  if (dagData.length > 0) layout(dag);
 
   return (
     <>
       <Slider value={minScore} onChange={(_, val) => setMinScore(val)} />
       <div ref={measureRef}>
         {width ? (
-          <svg width={width} height={height}>
-            <g>
-              {dag.links().map(({ points, source, target }) => {
-                return (
-                  <path
-                    key={`${source.id}-${target.id}`}
-                    d={line(points)}
-                    fill="none"
-                    strokeWidth="2"
-                    stroke="#eeeeee"
-                  />
-                );
-              })}
-            </g>
-            <g>
-              {dag.descendants().map(node => {
-                return (
-                  <Fragment key={node.id}>
-                    <text
-                      x={node.y}
-                      y={node.x}
-                      dx="6"
-                      fontSize="12"
-                      dominantBaseline="middle"
-                    >
-                      {node.data.name}
-                    </text>
-                    {node.data.parentIds.length === 0 ? (
-                      <rect
-                        x={node.y - 4}
-                        y={node.x - 4}
-                        width="8"
-                        height="8"
-                        fill={
-                          node.data.score ? color(node.data.score) : 'white'
-                        }
-                        stroke="#e0e0e0"
-                      />
-                    ) : (
-                      <circle
-                        cx={node.y}
-                        cy={node.x}
-                        r={4}
-                        fill={color(node.data.score)}
-                        stroke="#e0e0e0"
-                      />
-                    )}
-                  </Fragment>
-                );
-              })}
-            </g>
-          </svg>
+          assocs.length > 0 ? (
+            <svg width={width} height={height}>
+              <g>
+                {dag.links().map(({ points, source, target }) => {
+                  return (
+                    <path
+                      key={`${source.id}-${target.id}`}
+                      d={line(points)}
+                      fill="none"
+                      strokeWidth="2"
+                      stroke="#eeeeee"
+                    />
+                  );
+                })}
+              </g>
+              <g>
+                {dag.descendants().map(node => {
+                  return (
+                    <Fragment key={node.id}>
+                      <text
+                        x={node.y}
+                        y={node.x}
+                        dx="6"
+                        fontSize="12"
+                        dominantBaseline="middle"
+                      >
+                        {node.data.name}
+                      </text>
+                      {node.data.parentIds.length === 0 ? (
+                        <rect
+                          x={node.y - 4}
+                          y={node.x - 4}
+                          width="8"
+                          height="8"
+                          fill={
+                            node.data.score ? color(node.data.score) : 'white'
+                          }
+                          stroke="#e0e0e0"
+                        />
+                      ) : (
+                        <circle
+                          cx={node.y}
+                          cy={node.x}
+                          r={4}
+                          fill={color(node.data.score)}
+                          stroke="#e0e0e0"
+                        />
+                      )}
+                    </Fragment>
+                  );
+                })}
+              </g>
+            </svg>
+          ) : (
+            <Typography align="center">
+              No associations with score greater than or equal to {minScore}
+            </Typography>
+          )
         ) : null}
       </div>
     </>
