@@ -79,7 +79,7 @@ const color = d3
 function ClassicAssociationsBubbles({
   ensemblId,
   symbol,
-  efo,
+  idToDisease,
   associations,
   measureRef,
   contentRect,
@@ -89,10 +89,6 @@ function ClassicAssociationsBubbles({
   const theme = useTheme();
   const assocs = associations.filter(assoc => assoc.score >= minScore);
   const { width: size } = contentRect.bounds;
-  const idToDisease = efo.reduce((acc, disease) => {
-    acc[disease.id] = disease;
-    return acc;
-  }, {});
 
   const hierarchicalData = buildHierarchicalData(assocs, idToDisease);
   const root = d3.hierarchy(hierarchicalData);

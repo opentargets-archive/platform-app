@@ -66,12 +66,6 @@ function buildDagData(idToDisease, associations, assocSet) {
   return dag;
 }
 
-const line = d3
-  .line()
-  .curve(d3.curveMonotoneX)
-  .x(d => d.y)
-  .y(d => d.x);
-
 const layering = d3.layeringLongestPath();
 const decross = d3.decrossTwoLayer();
 const coord = d3.coordCenter();
@@ -113,16 +107,12 @@ function getMaxLayerCount(dag) {
 function ClassicAssociationsDAG({
   ensemblId,
   symbol,
-  efo,
+  idToDisease,
   associations,
   measureRef,
   contentRect,
 }) {
   const [minScore, setMinScore] = useState(0.1);
-  const idToDisease = efo.reduce((acc, disease) => {
-    acc[disease.id] = disease;
-    return acc;
-  }, {});
 
   const assocs = associations.filter(assoc => assoc.score >= minScore);
 
@@ -134,18 +124,42 @@ function ClassicAssociationsDAG({
   const { width } = contentRect.bounds;
 
   const dagData = buildDagData(idToDisease, assocs, assocSet);
-  const dag = dagData.length > 0 ? d3.dagStratify()(dagData) : null;
-  const maxLayerCount = dagData.length > 0 ? getMaxLayerCount(dag) : 0;
-  const height = maxLayerCount * 10;
+  let dag;
+  let maxLayerCount;
+  let height;
+  let layout;
+  let nodes;
+  let xOffset;
+  let line;
 
-  const layout = d3
-    .sugiyama()
-    .layering(layering)
-    .decross(decross)
-    .coord(coord)
-    .size([height, width]);
+  if (dagData.length > 0) {
+    dag = d3.dagStratify()(dagData);
+    maxLayerCount = getMaxLayerCount(dag);
+    height = maxLayerCount * 10;
+    layout = d3
+      .sugiyama()
+      .layering(layering)
+      .decross(decross)
+      .coord(coord)
+      .size([height, width]);
 
-  if (dagData.length > 0) layout(dag);
+    layout(dag);
+
+    nodes = dag.descendants();
+
+    for (let i = 0; i < nodes.length; i++) {
+      if (nodes[i].data.parentIds.length === 0) {
+        xOffset = nodes[i].y - 4;
+        break;
+      }
+    }
+
+    line = d3
+      .line()
+      .curve(d3.curveMonotoneX)
+      .x(d => d.y - xOffset)
+      .y(d => d.x);
+  }
 
   return (
     <>
@@ -168,11 +182,11 @@ function ClassicAssociationsDAG({
                 })}
               </g>
               <g>
-                {dag.descendants().map(node => {
+                {nodes.map(node => {
                   return (
                     <Fragment key={node.id}>
                       <text
-                        x={node.y}
+                        x={node.y - xOffset}
                         y={node.x}
                         dx="6"
                         fontSize="12"
@@ -182,7 +196,7 @@ function ClassicAssociationsDAG({
                       </text>
                       {node.data.parentIds.length === 0 ? (
                         <rect
-                          x={node.y - 4}
+                          x={node.y - 4 - xOffset}
                           y={node.x - 4}
                           width="8"
                           height="8"
@@ -193,7 +207,7 @@ function ClassicAssociationsDAG({
                         />
                       ) : (
                         <circle
-                          cx={node.y}
+                          cx={node.y - xOffset}
                           cy={node.x}
                           r={4}
                           fill={color(node.data.score)}
