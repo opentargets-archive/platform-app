@@ -53,7 +53,7 @@ const getColumns = (critVal, maxLlr, classes) => {
   return [
     {
       id: 'name',
-      label: 'Adverse event',
+      label: 'Adverse event (MedDRA)',
       renderCell: d => (
         <Link to={`https://identifiers.org/meddra:${d.meddraCode}`} external>
           <Typography
@@ -100,21 +100,35 @@ const getColumns = (critVal, maxLlr, classes) => {
 function Body({ definition, id: chemblId, label: name }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const { loading, error, data, fetchMore } = useQuery(ADVERSE_EVENTS_QUERY, {
     variables: { chemblId },
   });
 
-  const handlePageChange = newPage => {
-    setPage(newPage);
+  // TODO: fetchMore doesn't seem to use gql/apollo caching
+  // but a new query causes flickering when rendering the table
+  function getData(page, size) {
     fetchMore({
       variables: {
-        index: newPage,
+        index: page,
+        size: size,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         return fetchMoreResult;
       },
     });
+  }
+
+  const handlePageChange = newPage => {
+    setPage(newPage);
+    getData(newPage, pageSize);
   };
+
+  function handleRowsPerPageChange(newSize) {
+    setPageSize(newSize);
+    setPage(0);
+    getData(0, newSize);
+  }
 
   const getAllAdverseEvents = useBatchDownloader(
     ADVERSE_EVENTS_QUERY,
@@ -147,6 +161,9 @@ function Body({ definition, id: chemblId, label: name }) {
             onPageChange={handlePageChange}
             ActionsComponent={PaginationActionsComplete}
             fixed
+            pageSize={pageSize}
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            onRowsPerPageChange={handleRowsPerPageChange}
           />
         );
       }}
