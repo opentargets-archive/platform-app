@@ -55,7 +55,7 @@ const getColumns = (critVal, maxLlr, classes) => {
       id: 'name',
       label: 'Adverse event',
       renderCell: d => (
-        <Link to={`https://identifiers.org/meddra:${d.meddraCode}`}>
+        <Link to={`https://identifiers.org/meddra:${d.meddraCode}`} external>
           <Typography
             variant="caption"
             noWrap
