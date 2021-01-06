@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 import _ from 'lodash';
 
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
 import { Table, PaginationActionsComplete } from '../../../components/Table';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
+import Link from '../../../components/Link';
 
 const ADVERSE_EVENTS_QUERY = gql`
   query AdverseEventsQuery(
@@ -28,6 +29,7 @@ const ADVERSE_EVENTS_QUERY = gql`
           name
           count
           logLR
+          meddraCode
         }
       }
     }
@@ -52,12 +54,25 @@ const getColumns = (critVal, maxLlr, classes) => {
     {
       id: 'name',
       label: 'Adverse event',
-      renderCell: d => _.upperFirst(d.name),
+      renderCell: d => (
+        <Link to={`https://identifiers.org/meddra:${d.meddraCode}`}>
+          <Typography
+            variant="caption"
+            noWrap
+            display="block"
+            title={_.upperFirst(d.name)}
+          >
+            {_.upperFirst(d.name)}
+          </Typography>
+        </Link>
+      ),
+      width: '30%',
     },
     {
       id: 'count',
       label: 'Number of reported events',
       numeric: true,
+      width: '25%',
     },
     {
       id: 'llr',
@@ -76,6 +91,8 @@ const getColumns = (critVal, maxLlr, classes) => {
           </div>
         );
       },
+      exportValue: d => d.logLR.toFixed(2),
+      width: '45%',
     },
   ];
 };
@@ -129,6 +146,7 @@ function Body({ definition, id: chemblId, label: name }) {
             page={page}
             onPageChange={handlePageChange}
             ActionsComponent={PaginationActionsComplete}
+            fixed
           />
         );
       }}
