@@ -54,18 +54,21 @@ const getColumns = (critVal, maxLlr, classes) => {
     {
       id: 'name',
       label: 'Adverse event (MedDRA)',
-      renderCell: d => (
-        <Link to={`https://identifiers.org/meddra:${d.meddraCode}`} external>
-          <Typography
-            variant="caption"
-            noWrap
-            display="block"
-            title={_.upperFirst(d.name)}
-          >
-            {_.upperFirst(d.name)}
-          </Typography>
-        </Link>
-      ),
+      renderCell: d =>
+        d.meddraCode ? (
+          <Link to={`https://identifiers.org/meddra:${d.meddraCode}`} external>
+            <Typography
+              variant="caption"
+              noWrap
+              display="block"
+              title={_.upperFirst(d.name)}
+            >
+              {_.upperFirst(d.name)}
+            </Typography>
+          </Link>
+        ) : (
+          _.upperFirst(d.name)
+        ),
       width: '30%',
     },
     {
