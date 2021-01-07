@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 import _ from 'lodash';
 
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
 import { Table, PaginationActionsComplete } from '../../../components/Table';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
+import Link from '../../../components/Link';
 
 const ADVERSE_EVENTS_QUERY = gql`
   query AdverseEventsQuery(
@@ -28,6 +29,7 @@ const ADVERSE_EVENTS_QUERY = gql`
           name
           count
           logLR
+          meddraCode
         }
       }
     }
@@ -51,13 +53,29 @@ const getColumns = (critVal, maxLlr, classes) => {
   return [
     {
       id: 'name',
-      label: 'Adverse event',
-      renderCell: d => _.upperFirst(d.name),
+      label: 'Adverse event (MedDRA)',
+      renderCell: d =>
+        d.meddraCode ? (
+          <Link to={`https://identifiers.org/meddra:${d.meddraCode}`} external>
+            <Typography
+              variant="caption"
+              noWrap
+              display="block"
+              title={_.upperFirst(d.name)}
+            >
+              {_.upperFirst(d.name)}
+            </Typography>
+          </Link>
+        ) : (
+          _.upperFirst(d.name)
+        ),
+      width: '30%',
     },
     {
       id: 'count',
       label: 'Number of reported events',
       numeric: true,
+      width: '25%',
     },
     {
       id: 'llr',
@@ -76,6 +94,8 @@ const getColumns = (critVal, maxLlr, classes) => {
           </div>
         );
       },
+      exportValue: d => d.logLR.toFixed(2),
+      width: '45%',
     },
   ];
 };
@@ -83,21 +103,35 @@ const getColumns = (critVal, maxLlr, classes) => {
 function Body({ definition, id: chemblId, label: name }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const { loading, error, data, fetchMore } = useQuery(ADVERSE_EVENTS_QUERY, {
     variables: { chemblId },
   });
 
-  const handlePageChange = newPage => {
-    setPage(newPage);
+  // TODO: fetchMore doesn't seem to use gql/apollo caching
+  // but a new query causes flickering when rendering the table
+  function getData(page, size) {
     fetchMore({
       variables: {
-        index: newPage,
+        index: page,
+        size: size,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         return fetchMoreResult;
       },
     });
+  }
+
+  const handlePageChange = newPage => {
+    setPage(newPage);
+    getData(newPage, pageSize);
   };
+
+  function handleRowsPerPageChange(newSize) {
+    setPageSize(newSize);
+    setPage(0);
+    getData(0, newSize);
+  }
 
   const getAllAdverseEvents = useBatchDownloader(
     ADVERSE_EVENTS_QUERY,
@@ -129,6 +163,10 @@ function Body({ definition, id: chemblId, label: name }) {
             page={page}
             onPageChange={handlePageChange}
             ActionsComponent={PaginationActionsComplete}
+            fixed
+            pageSize={pageSize}
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            onRowsPerPageChange={handleRowsPerPageChange}
           />
         );
       }}
