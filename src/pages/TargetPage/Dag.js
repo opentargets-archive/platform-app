@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import * as d3 from 'd3';
-
 import { colorRange } from '../../constants';
 
 const color = d3

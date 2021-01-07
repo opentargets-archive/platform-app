@@ -109,42 +109,20 @@ function ClassicAssociationsDAG({
 }) {
   const [minScore, setMinScore] = useState(0.1);
   const [minCommittedScore, setMinCommittedScore] = useState(0.1);
+  const { width } = contentRect.bounds;
 
-  const assocs = useMemo(
+  const { assocs, height, nodes, xOffset, links } = useMemo(
     () => {
-      return associations.filter(assoc => assoc.score >= minCommittedScore);
-    },
-    [associations, minCommittedScore]
-  );
-
-  const assocSet = useMemo(
-    () => {
-      return assocs.reduce((acc, assoc) => {
+      const assocs = associations.filter(
+        assoc => assoc.score >= minCommittedScore
+      );
+      const assocSet = assocs.reduce((acc, assoc) => {
         acc[assoc.disease.id] = assoc;
         return acc;
       }, {});
-    },
-    [assocs]
-  );
 
-  const { width } = contentRect.bounds;
-
-  const dagData = useMemo(
-    () => {
-      return buildDagData(idToDisease, assocs, assocSet);
-    },
-    [idToDisease, assocs, assocSet]
-  );
-
-  const { height, nodes, xOffset, links } = useMemo(
-    () => {
-      let dag;
-      let maxLayerCount;
-      let height;
-      let layout;
-      let nodes;
-      let links;
-      let xOffset;
+      const dagData = buildDagData(idToDisease, assocs, assocSet);
+      let dag, maxLayerCount, height, layout, nodes, links, xOffset;
 
       if (dagData.length > 0) {
         dag = d3.dagStratify()(dagData);
@@ -171,6 +149,7 @@ function ClassicAssociationsDAG({
       }
 
       return {
+        assocs,
         dag,
         height,
         nodes,
@@ -178,7 +157,7 @@ function ClassicAssociationsDAG({
         links,
       };
     },
-    [dagData, width]
+    [associations, idToDisease, minCommittedScore, width]
   );
 
   return (
@@ -200,7 +179,8 @@ function ClassicAssociationsDAG({
             />
           ) : (
             <Typography align="center">
-              No associations with score greater than or equal to {minScore}
+              No associations with score greater than or equal to{' '}
+              {minCommittedScore}
             </Typography>
           )
         ) : null}
