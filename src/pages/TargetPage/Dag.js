@@ -12,7 +12,11 @@ const line = d3.line().curve(d3.curveMonotoneX);
 const diameter = 8;
 const radius = diameter / 2;
 
-function Dag({ width, height, links, nodes, xOffset }) {
+function textWithEllipsis(text, threshold) {
+  return text.length <= threshold ? text : text.slice(0, threshold) + '...';
+}
+
+function Dag({ width, height, links, nodes, xOffset, textLimit }) {
   line.x(d => d.y - xOffset).y(d => d.x);
 
   return (
@@ -41,7 +45,7 @@ function Dag({ width, height, links, nodes, xOffset }) {
                 fontSize="12"
                 dominantBaseline="middle"
               >
-                {node.data.name}
+                {textWithEllipsis(node.data.name, textLimit)}
               </text>
               {node.data.parentIds.length === 0 ? (
                 <rect

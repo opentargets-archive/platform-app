@@ -114,7 +114,7 @@ function ClassicAssociationsDAG({
   const [minCommittedScore, setMinCommittedScore] = useState(0.1);
   const { width } = contentRect.bounds;
 
-  const { assocs, height, nodes, xOffset, links } = useMemo(
+  const { assocs, height, nodes, xOffset, links, textLimit } = useMemo(
     () => {
       const assocs = associations.filter(
         assoc => assoc.score >= minCommittedScore
@@ -125,14 +125,7 @@ function ClassicAssociationsDAG({
       }, {});
 
       const dagData = buildDagData(idToDisease, assocs, assocSet);
-      let dag,
-        maxLayerCount,
-        height,
-        layout,
-        nodes,
-        links,
-        xOffset,
-        textThreshold;
+      let dag, maxLayerCount, height, layout, nodes, links, xOffset, textLimit;
 
       if (dagData.length > 0) {
         dag = d3.dagStratify()(dagData);
@@ -152,6 +145,7 @@ function ClassicAssociationsDAG({
 
         const separation = width / (d3.max(nodes, d => d.layer) + 1);
         xOffset = separation / 2 - radius;
+        textLimit = separation / 8;
       }
 
       return {
@@ -161,6 +155,7 @@ function ClassicAssociationsDAG({
         nodes,
         xOffset,
         links,
+        textLimit,
       };
     },
     [associations, idToDisease, minCommittedScore, width]
@@ -182,6 +177,7 @@ function ClassicAssociationsDAG({
               links={links}
               nodes={nodes}
               xOffset={xOffset}
+              textLimit={textLimit}
             />
           ) : (
             <Typography align="center">
