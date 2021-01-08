@@ -7,15 +7,13 @@ const color = d3
   .domain([0, 1])
   .range(colorRange);
 
+const line = d3.line().curve(d3.curveMonotoneX);
+
 const diameter = 8;
 const radius = diameter / 2;
 
 function Dag({ width, height, links, nodes, xOffset }) {
-  const line = d3
-    .line()
-    .curve(d3.curveMonotoneX)
-    .x(d => d.y - xOffset)
-    .y(d => d.x);
+  line.x(d => d.y - xOffset).y(d => d.x);
 
   return (
     <svg width={width} height={height}>
