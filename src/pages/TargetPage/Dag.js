@@ -45,6 +45,7 @@ function Dag({ width, height, links, nodes, xOffset, textLimit }) {
                 fontSize="12"
                 dominantBaseline="middle"
               >
+                <title>{node.data.name}</title>
                 {textWithEllipsis(node.data.name, textLimit)}
               </text>
               {node.data.parentIds.length === 0 ? (
