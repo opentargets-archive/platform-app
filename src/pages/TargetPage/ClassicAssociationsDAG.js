@@ -99,6 +99,9 @@ function getMaxLayerCount(dag) {
   return maxCount;
 }
 
+const diameter = 8;
+const radius = diameter / 2;
+
 function ClassicAssociationsDAG({
   ensemblId,
   symbol,
@@ -122,7 +125,14 @@ function ClassicAssociationsDAG({
       }, {});
 
       const dagData = buildDagData(idToDisease, assocs, assocSet);
-      let dag, maxLayerCount, height, layout, nodes, links, xOffset;
+      let dag,
+        maxLayerCount,
+        height,
+        layout,
+        nodes,
+        links,
+        xOffset,
+        textThreshold;
 
       if (dagData.length > 0) {
         dag = d3.dagStratify()(dagData);
@@ -140,12 +150,8 @@ function ClassicAssociationsDAG({
         nodes = dag.descendants();
         links = dag.links();
 
-        for (let i = 0; i < nodes.length; i++) {
-          if (nodes[i].data.parentIds.length === 0) {
-            xOffset = nodes[i].y - 4;
-            break;
-          }
-        }
+        const separation = width / (d3.max(nodes, d => d.layer) + 1);
+        xOffset = separation / 2 - radius;
       }
 
       return {

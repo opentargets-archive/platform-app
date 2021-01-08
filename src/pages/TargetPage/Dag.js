@@ -7,6 +7,9 @@ const color = d3
   .domain([0, 1])
   .range(colorRange);
 
+const diameter = 8;
+const radius = diameter / 2;
+
 function Dag({ width, height, links, nodes, xOffset }) {
   const line = d3
     .line()
@@ -44,10 +47,10 @@ function Dag({ width, height, links, nodes, xOffset }) {
               </text>
               {node.data.parentIds.length === 0 ? (
                 <rect
-                  x={node.y - 4 - xOffset}
-                  y={node.x - 4}
-                  width="8"
-                  height="8"
+                  x={node.y - radius - xOffset}
+                  y={node.x - radius}
+                  width={diameter}
+                  height={diameter}
                   fill={node.data.score ? color(node.data.score) : 'white'}
                   stroke="#e0e0e0"
                 />
@@ -55,7 +58,7 @@ function Dag({ width, height, links, nodes, xOffset }) {
                 <circle
                   cx={node.y - xOffset}
                   cy={node.x}
-                  r={4}
+                  r={radius}
                   fill={color(node.data.score)}
                   stroke="#e0e0e0"
                 />
