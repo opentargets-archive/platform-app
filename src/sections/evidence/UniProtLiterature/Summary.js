@@ -24,7 +24,7 @@ function Summary({ definition }) {
       request={request}
       renderSummary={({ uniprotLiteratureSummary }) => {
         const { count } = uniprotLiteratureSummary;
-        return count > 0 ? 'known variants' : null;
+        return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
     />
   );

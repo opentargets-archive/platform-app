@@ -24,7 +24,7 @@ function Summary({ definition }) {
       request={request}
       renderSummary={({ reactomeSummary }) => {
         const { count } = reactomeSummary;
-        return `${count} pathway${count > 1 ? 's' : ''}`;
+        return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
     />
   );

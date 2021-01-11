@@ -9,7 +9,6 @@ function EvidenceHeader({ loading, symbol, name }) {
       loading={loading}
       title={`Evidence for ${symbol} in ${name}`}
       Icon={faProjectDiagram}
-      externalLinks="There should be some links here!"
     />
   );
 }
