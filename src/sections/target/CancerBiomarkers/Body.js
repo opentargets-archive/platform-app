@@ -19,14 +19,13 @@ const BIOMARKERS_QUERY = gql`
   ) {
     target(ensemblId: $ensgId) {
       id
-
       cancerBiomarkers(page: { index: $index, size: $size }) {
         uniqueDrugs
         uniqueDiseases
         uniqueBiomarkers
         count
         rows {
-          id
+          biomarker: id
           associationType
           drugName
           evidenceLevel
@@ -50,7 +49,7 @@ const BIOMARKERS_QUERY = gql`
 
 const columns = [
   {
-    id: 'id',
+    id: 'biomarker',
     label: 'Biomarker',
   },
   {
