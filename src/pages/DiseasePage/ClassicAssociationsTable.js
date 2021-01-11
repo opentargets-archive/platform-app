@@ -6,7 +6,6 @@ import Link from '../../components/Link';
 import { Table } from '../../components/Table';
 import AssocCell from '../../components/AssocCell';
 import Legend from '../../components/Legend';
-
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
@@ -287,8 +286,8 @@ function getColumns(efoId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
-      renderCell: ({ rna_expression, ensemblId }) => (
-        <AssocCell score={rna_expression} ensemblId={ensemblId} efoId={efoId} />
+      renderCell: ({ literature, ensemblId }) => (
+        <AssocCell score={literature} ensemblId={ensemblId} efoId={efoId} />
       ),
     },
     {
@@ -307,8 +306,8 @@ function getColumns(efoId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
-      renderCell: ({ literature, ensemblId }) => (
-        <AssocCell score={literature} ensemblId={ensemblId} efoId={efoId} />
+      renderCell: ({ rna_expression, ensemblId }) => (
+        <AssocCell score={rna_expression} ensemblId={ensemblId} efoId={efoId} />
       ),
     },
     {
