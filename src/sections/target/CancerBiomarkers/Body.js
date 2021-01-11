@@ -100,7 +100,12 @@ const columns = [
         });
       });
 
-      return <TableDrawer entries={entries} />;
+      return (
+        <TableDrawer
+          entries={entries}
+          message={`${entries.length} references`}
+        />
+      );
     },
     exportValue: row => row.sources.map(source => source.name).join(),
   },
