@@ -7,7 +7,9 @@ import Description from './Description';
 import Link from '../../../components/Link';
 import { naLabel } from '../../../constants';
 import SectionItem from '../../../components/Section/SectionItem';
+import { TableDrawer } from '../../../components/Table';
 import useBatchQuery from '../../../hooks/useBatchQuery';
+import { epmcUrl } from '../../../utils/urls';
 
 const BIOMARKERS_QUERY = gql`
   query CancerBiomarkersQuery(
@@ -79,16 +81,26 @@ const columns = [
   {
     id: 'sources',
     label: 'Sources',
-    renderCell: row => {
-      return (
-        <>
-          {row.sources.map((source, i) => (
-            <Link key={i} external to={source.link}>
-              {source.name}
-            </Link>
-          ))}
-        </>
-      );
+    renderCell: ({ sources, pubmedIds }) => {
+      const entries = [];
+
+      sources.forEach(source => {
+        entries.push({
+          name: source.name,
+          url: source.link,
+          group: 'Sources',
+        });
+      });
+
+      pubmedIds.forEach(pubmedId => {
+        entries.push({
+          name: pubmedId,
+          url: epmcUrl(pubmedId),
+          group: 'Europe PMC',
+        });
+      });
+
+      return <TableDrawer entries={entries} />;
     },
     exportValue: row => row.sources.map(source => source.name).join(),
   },
