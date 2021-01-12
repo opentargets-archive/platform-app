@@ -1,4 +1,7 @@
-import facetData from './data';
+import dataTypes from '../../dataTypes';
+import dataSources from '../../dataSources';
+
+const facetData = [...dataTypes, ...dataSources];
 
 export const fixLabel = id => {
   const label = facetData.find(item => item.id === id)?.label;
