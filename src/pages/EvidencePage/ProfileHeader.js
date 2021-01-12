@@ -28,6 +28,7 @@ const EVIDENCE_PROFILE_TARGET_HEADER_FRAGMENT = gql`
       functions
     }
     symbolSynonyms
+    nameSynonyms
   }
 `;
 const EVIDENCE_PROFILE_DISEASE_HEADER_FRAGMENT = gql`
@@ -60,8 +61,11 @@ function ProfileHeader() {
     synonyms: diseaseSynonyms,
   } = data?.disease || {};
   const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
-  const { id: ensgId, approvedSymbol, symbolSynonyms: targetSynonyms } =
-    data?.target || {};
+
+  const { id: ensgId, approvedSymbol } = data?.target || {};
+  const targetSynonyms = data?.target.symbolSynonyms.concat(
+    data?.target.nameSynonyms
+  );
 
   return (
     <BaseProfileHeader>
