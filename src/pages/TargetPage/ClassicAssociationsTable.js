@@ -7,6 +7,7 @@ import { Table } from '../../components/Table';
 import AssocCell from '../../components/AssocCell';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 import Legend from '../../components/Legend';
+import dataTypes from '../../dataTypes';
 
 const TARGET_ASSOCIATIONS_QUERY = gql`
   query TargetAssociationsQuery(
@@ -41,16 +42,6 @@ const TARGET_ASSOCIATIONS_QUERY = gql`
     }
   }
 `;
-
-const dataTypes = [
-  { id: 'genetic_association', label: 'Genetic associations' },
-  { id: 'somatic_mutation', label: 'Somatic mutations' },
-  { id: 'known_drug', label: 'Drugs' },
-  { id: 'affected_pathway', label: 'Pathways & systems biology' },
-  { id: 'literature', label: 'Text mining' },
-  { id: 'rna_expression', label: 'RNA expression' },
-  { id: 'animal_model', label: 'Animal models' },
-];
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -130,7 +121,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getColumns(ensemblId, classes) {
-  return [
+  const columns = [
     {
       id: 'name',
       label: 'Name',
@@ -164,159 +155,31 @@ function getColumns(ensemblId, classes) {
         <AssocCell score={score} ensemblId={ensemblId} efoId={efoId} />
       ),
     },
-    {
-      id: 'genetic_association',
-      label: 'Genetic associations',
-      classes: {
-        headerCell: classes.headerCell,
-        cell: classes.cell,
-        sortLabel: classes.sortLabel,
-        innerLabel: classes.innerLabel,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'genetic_association'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: ({ genetic_association, efoId }) => (
-        <AssocCell
-          score={genetic_association}
-          ensemblId={ensemblId}
-          efoId={efoId}
-        />
-      ),
-    },
-    {
-      id: 'somatic_mutation',
-      label: 'Somatic mutations',
-      classes: {
-        headerCell: classes.headerCell,
-        cell: classes.cell,
-        sortLabel: classes.sortLabel,
-        innerLabel: classes.innerLabel,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'somatic_mutation'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: ({ somatic_mutation, efoId }) => (
-        <AssocCell
-          score={somatic_mutation}
-          ensemblId={ensemblId}
-          efoId={efoId}
-        />
-      ),
-    },
-    {
-      id: 'known_drug',
-      label: 'Drugs',
-      classes: {
-        headerCell: classes.headerCell,
-        cell: classes.cell,
-        sortLabel: classes.sortLabel,
-        innerLabel: classes.innerLabel,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'known_drug'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: ({ known_drug, efoId }) => (
-        <AssocCell score={known_drug} ensemblId={ensemblId} efoId={efoId} />
-      ),
-    },
-    {
-      id: 'affected_pathway',
-      label: 'Pathways & systems biology',
-      classes: {
-        headerCell: classes.headerCell,
-        cell: classes.cell,
-        sortLabel: classes.sortLabel,
-        innerLabel: classes.innerLabel,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'affected_pathway'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: ({ affected_pathway, efoId }) => (
-        <AssocCell
-          score={affected_pathway}
-          ensemblId={ensemblId}
-          efoId={efoId}
-        />
-      ),
-    },
-    {
-      id: 'literature',
-      label: 'Text mining',
-      classes: {
-        headerCell: classes.headerCell,
-        cell: classes.cell,
-        sortLabel: classes.sortLabel,
-        innerLabel: classes.innerLabel,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'literature'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: ({ rna_expression, efoId }) => (
-        <AssocCell score={rna_expression} ensemblId={ensemblId} efoId={efoId} />
-      ),
-    },
-    {
-      id: 'rna_expression',
-      label: 'RNA expression',
-      classes: {
-        headerCell: classes.headerCell,
-        cell: classes.cell,
-        sortLabel: classes.sortLabel,
-        innerLabel: classes.innerLabel,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'rna_expression'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: ({ literature, efoId }) => (
-        <AssocCell score={literature} ensemblId={ensemblId} efoId={efoId} />
-      ),
-    },
-    {
-      id: 'animal_model',
-      label: 'Animal models',
-      classes: {
-        headerCell: classes.headerCell,
-        cell: classes.cell,
-        sortLabel: classes.sortLabel,
-        innerLabel: classes.innerLabel,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'animal_model'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: ({ animal_model, efoId }) => (
-        <AssocCell score={animal_model} ensemblId={ensemblId} efoId={efoId} />
-      ),
-    },
   ];
+
+  dataTypes.forEach(dt => {
+    columns.push({
+      id: dt.id,
+      label: dt.label,
+      classes: {
+        headerCell: classes.headerCell,
+        innerLabel: classes.innerLabel,
+        sortLabel: classes.sortLabel,
+        cell: classes.cell,
+      },
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === dt.id
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
+      renderCell: row => (
+        <AssocCell score={row[dt.id]} ensemblId={ensemblId} efoId={row.efoId} />
+      ),
+    });
+  });
+
+  return columns;
 }
 
 function getRows(data) {
