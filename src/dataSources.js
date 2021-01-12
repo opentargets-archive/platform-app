@@ -1,15 +1,4 @@
-const facetData = [
-  // Data types
-  { id: 'genetic_association', label: 'Genetic associations (variants)' },
-  { id: 'genetic_literature', label: 'Genetic associations (genes)' },
-  { id: 'somatic_mutation', label: 'Somatic mutations' },
-  { id: 'known_drug', label: 'Drugs' },
-  { id: 'affected_pathway', label: 'Pathways & systems biology' },
-  { id: 'literature', label: 'Text mining' },
-  { id: 'rna_expression', label: 'RNA expression' },
-  { id: 'animal_model', label: 'Animal models' },
-
-  // Data sources
+const dataSources = [
   { id: 'ot_genetics_portal', label: 'OT Genetics Portal' },
   { id: 'phewas_catalog', label: 'PheWAS Catalog' },
   { id: 'eva', label: 'ClinVar' },
@@ -33,4 +22,4 @@ const facetData = [
   { id: 'phenodigm', label: 'PhenoDigm' },
 ];
 
-export default facetData;
+export default dataSources;
