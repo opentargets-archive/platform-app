@@ -30,10 +30,12 @@ const KNOWN_DRUGS_BODY_QUERY = gql`
           drug {
             id
             name
+            mechanismsOfAction {
+              uniqueActionTypes
+            }
           }
           drugType
           mechanismOfAction
-          activity
           target {
             id
             approvedName

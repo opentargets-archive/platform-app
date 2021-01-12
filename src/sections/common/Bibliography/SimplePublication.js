@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Box, Typography } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
+import Link from '../../../components/Link';
 import LongText from '../../../components/LongText';
 
 const pmUrl = 'https://europepmc.org/';

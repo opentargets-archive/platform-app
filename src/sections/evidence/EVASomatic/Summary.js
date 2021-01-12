@@ -24,7 +24,7 @@ function Summary({ definition }) {
       request={request}
       renderSummary={({ evaSomaticSummary }) => {
         const { count } = evaSomaticSummary;
-        return `${count} variant${count > 1 ? 's' : ''}`;
+        return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
     />
   );

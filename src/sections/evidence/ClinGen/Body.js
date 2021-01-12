@@ -1,7 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link, Typography } from '@material-ui/core';
-import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
@@ -82,6 +81,8 @@ const columns = [
         </ul>
       );
     },
+    filterValue: ({ allelicRequirements }) =>
+      allelicRequirements ? allelicRequirements.join() : '',
   },
   {
     id: 'confidence',
@@ -106,7 +107,6 @@ function Body(props) {
   );
   const request = useQuery(CLINGEN_QUERY, {
     variables: { ensemblId, efoId, size: summaryData.clingenSummary.count },
-    client: betaClient,
   });
 
   return (

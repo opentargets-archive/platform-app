@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
-import { Link } from 'ot-ui';
-
 import DataTable from '../../../components/Table/DataTable';
-import SectionItem from '../../../components/Section/SectionItem';
 import Description from './Description';
+import Link from '../../../components/Link';
+import SectionItem from '../../../components/Section/SectionItem';
 
 const MECHANISMS_OF_ACTION_QUERY = gql`
   query MechanismsOfActionSectionQuery($chemblId: String!) {

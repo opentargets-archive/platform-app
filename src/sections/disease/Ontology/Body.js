@@ -76,22 +76,14 @@ const getSubgraph = ({
 function Body({ definition, id: efoId, label: name }) {
   const [therapeuticAreas, setTherapeuticAreas] = useState(null);
   const [efoNodes, setEfoNodes] = useState(null);
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isCurrent = true;
 
     fetch(
-      'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/therapeutic_area.txt'
+      'https://storage.googleapis.com/open-targets-data-releases/beta-rewrite/static/ontology/therapeutic_area.txt'
     )
-      .then(
-        res => res.text(),
-        err => {
-          setLoading(false);
-          setError(err);
-        }
-      )
+      .then(res => res.text())
       .then(text => {
         if (isCurrent) {
           setTherapeuticAreas(text.trim().split('\n'));
@@ -106,15 +98,9 @@ function Body({ definition, id: efoId, label: name }) {
   useEffect(() => {
     let isCurrent = true;
     fetch(
-      'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl'
+      'https://storage.googleapis.com/open-targets-data-releases/beta-rewrite/static/ontology/diseases_efo.jsonl'
     )
-      .then(
-        res => res.text(),
-        err => {
-          setLoading(false);
-          setError(err);
-        }
-      )
+      .then(res => res.text())
       .then(lines => {
         if (isCurrent) {
           const nodes = lines
@@ -125,9 +111,7 @@ function Body({ definition, id: efoId, label: name }) {
           // The efo nodes coming from server don't include the EFO_ROOT node
           // that is necessary to work with d3-dag. So adding it here.
           nodes.push({ id: 'EFO_ROOT', name: 'root', parentIds: [] });
-
           setEfoNodes(nodes);
-          setLoading(false);
         }
       });
 
@@ -136,45 +120,49 @@ function Body({ definition, id: efoId, label: name }) {
     };
   }, []);
 
-  // make sure that every therapeutic area has as parent the root node
-  const nodes = efoNodes?.map(node => {
-    const newNode = {
-      ...node,
-    };
-
-    if (therapeuticAreas.includes(node.id)) {
-      newNode.parentIds = ['EFO_ROOT'];
-    }
-
-    return newNode;
-  });
-
-  const nodesById = nodes?.reduce((acc, d) => {
-    acc[d.id] = d;
-    return acc;
-  }, {});
-  const upMethod = 'root';
-  const downMethod = 1;
-  const subgraph =
-    therapeuticAreas &&
-    efoNodes &&
-    getSubgraph({
-      efoId,
-      nodes,
-      therapeuticAreas,
-      nodesById,
-      upMethod,
-      downMethod,
-    });
-
   return (
     <SectionItem
       definition={definition}
-      request={{ loading, error, data: subgraph }}
+      request={{
+        loading: !(therapeuticAreas && efoNodes),
+        data: { therapeuticAreas, efoNodes },
+      }}
       renderDescription={() => <Description name={name} />}
-      renderBody={data => (
-        <OntologySubgraph efoId={efoId} name={name} subgraph={data} />
-      )}
+      renderBody={({ therapeuticAreas, efoNodes }) => {
+        // make sure that every therapeutic area has as parent the root node
+        const nodes = efoNodes?.map(node => {
+          const newNode = {
+            ...node,
+          };
+
+          if (therapeuticAreas.includes(node.id)) {
+            newNode.parentIds = ['EFO_ROOT'];
+          }
+
+          return newNode;
+        });
+
+        const nodesById = nodes?.reduce((acc, d) => {
+          acc[d.id] = d;
+          return acc;
+        }, {});
+        const upMethod = 'root';
+        const downMethod = 1;
+        const subgraph =
+          therapeuticAreas &&
+          efoNodes &&
+          getSubgraph({
+            efoId,
+            nodes,
+            therapeuticAreas,
+            nodesById,
+            upMethod,
+            downMethod,
+          });
+        return (
+          <OntologySubgraph efoId={efoId} name={name} subgraph={subgraph} />
+        );
+      }}
     />
   );
 }

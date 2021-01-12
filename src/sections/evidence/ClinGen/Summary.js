@@ -25,7 +25,7 @@ function Summary({ definition }) {
       request={request}
       renderSummary={({ clingenSummary }) => {
         const { count } = clingenSummary;
-        return `${count} record${count > 1 ? 's' : ''}`;
+        return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
     />
   );

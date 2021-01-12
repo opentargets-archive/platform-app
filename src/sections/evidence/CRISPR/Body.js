@@ -2,7 +2,6 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from '@material-ui/core';
-import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
@@ -64,6 +63,7 @@ const columns = [
         />
       );
     },
+    filterValue: ({ diseaseFromSource }) => diseaseFromSource,
   },
   {
     id: 'resourceScore',
@@ -99,7 +99,6 @@ function Body({ definition, id, label }) {
       efoId,
       size: summaryData.crisprSummary.count,
     },
-    client: betaClient,
   });
 
   return (

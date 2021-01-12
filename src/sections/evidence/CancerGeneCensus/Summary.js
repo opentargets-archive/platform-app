@@ -24,7 +24,7 @@ function Summary({ definition }) {
       request={request}
       renderSummary={({ cancerGeneCensusSummary }) => {
         const { count } = cancerGeneCensusSummary;
-        return count > 0 ? 'known mutations' : null;
+        return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
     />
   );

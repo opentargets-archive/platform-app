@@ -1,7 +1,6 @@
 import React from 'react';
 import { gql } from '@apollo/client';
 
-import { betaClient } from '../../client';
 import { createSummaryFragment } from '../../components/Summary/utils';
 import PlatformApiProvider from '../../contexts/PlatformApiProvider';
 import ProfileHeader from './ProfileHeader';
@@ -38,7 +37,6 @@ function Profile({ ensgId, efoId, symbol, name }) {
     <PlatformApiProvider
       entity="disease"
       query={EVIDENCE_PROFILE_QUERY}
-      client={betaClient}
       variables={{ ensgId, efoId }}
     >
       <SectionOrderProvider sections={sections}>

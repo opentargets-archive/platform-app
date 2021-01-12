@@ -1,6 +1,5 @@
 import React from 'react';
 import { gql } from '@apollo/client';
-import LockIcon from '@material-ui/icons/Lock';
 
 import {
   ChipList,
@@ -18,7 +17,6 @@ const DRUG_PROFILE_HEADER_FRAGMENT = gql`
     drugType
     synonyms
     hasBeenWithdrawn
-    internalCompound
     maximumClinicalTrialPhase
     tradeNames
     withdrawnNotice {
@@ -45,7 +43,6 @@ function ProfileHeader({ chemblId }) {
     drugType,
     yearOfFirstApproval,
     maximumClinicalTrialPhase,
-    internalCompound,
   } = data?.drug || {};
 
   return (
@@ -63,13 +60,6 @@ function ProfileHeader({ chemblId }) {
         <Field loading={loading} title="Max phase">
           {maximumClinicalTrialPhase}
         </Field>
-        {internalCompound && (
-          <Field loading={loading} title="Visibility">
-            <LockIcon fontSize="small" style={{ verticalAlign: 'text-top' }} />{' '}
-            Internal compound
-          </Field>
-        )}
-
         <ChipList title="Synonyms" inline loading={loading}>
           {synonyms}
         </ChipList>

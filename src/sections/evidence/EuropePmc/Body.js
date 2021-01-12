@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { loader } from 'graphql.macro';
 import { useQuery } from '@apollo/client';
 
-import { Link } from 'ot-ui';
-
-import { betaClient } from '../../../client';
-import { getPage, Table } from '../../../components/Table';
 import Description from './Description';
-import SectionItem from '../../../components/Section/SectionItem';
-import { useEffect } from 'react';
 import { europePmcLiteratureQuery } from '../../../utils/urls';
+import { getPage, Table } from '../../../components/Table';
+import Link from '../../../components/Link';
 import { naLabel } from '../../../constants';
 import Publication from './Publication';
+import SectionItem from '../../../components/Section/SectionItem';
+import { useEffect } from 'react';
 
 const EUROPE_PMC_QUERY = loader('./sectionQuery.gql');
 
@@ -96,7 +94,6 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
     EUROPE_PMC_QUERY,
     {
       variables,
-      client: betaClient,
       onCompleted: data => {
         setNewIds(
           data.disease.evidences.rows.map(entry => entry.literature[0])

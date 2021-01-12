@@ -2,13 +2,14 @@ import React from 'react';
 import { gql } from '@apollo/client';
 import _ from 'lodash';
 
-import { Link } from 'ot-ui';
-
 import { DataTable } from '../../../components/Table';
 import Description from './Description';
+import Link from '../../../components/Link';
 import { naLabel } from '../../../constants';
 import SectionItem from '../../../components/Section/SectionItem';
+import { TableDrawer } from '../../../components/Table';
 import useBatchQuery from '../../../hooks/useBatchQuery';
+import { epmcUrl } from '../../../utils/urls';
 
 const BIOMARKERS_QUERY = gql`
   query CancerBiomarkersQuery(
@@ -18,14 +19,13 @@ const BIOMARKERS_QUERY = gql`
   ) {
     target(ensemblId: $ensgId) {
       id
-
       cancerBiomarkers(page: { index: $index, size: $size }) {
         uniqueDrugs
         uniqueDiseases
         uniqueBiomarkers
         count
         rows {
-          id
+          biomarker: id
           associationType
           drugName
           evidenceLevel
@@ -49,7 +49,7 @@ const BIOMARKERS_QUERY = gql`
 
 const columns = [
   {
-    id: 'id',
+    id: 'biomarker',
     label: 'Biomarker',
   },
   {
@@ -80,15 +80,30 @@ const columns = [
   {
     id: 'sources',
     label: 'Sources',
-    renderCell: row => {
+    renderCell: ({ sources, pubmedIds }) => {
+      const entries = [];
+
+      sources.forEach(source => {
+        entries.push({
+          name: source.name,
+          url: source.link,
+          group: 'Sources',
+        });
+      });
+
+      pubmedIds.forEach(pubmedId => {
+        entries.push({
+          name: pubmedId,
+          url: epmcUrl(pubmedId),
+          group: 'Europe PMC',
+        });
+      });
+
       return (
-        <>
-          {row.sources.map((source, i) => (
-            <Link key={i} external to={source.link}>
-              {source.name}
-            </Link>
-          ))}
-        </>
+        <TableDrawer
+          entries={entries}
+          message={`${entries.length} references`}
+        />
       );
     },
     exportValue: row => row.sources.map(source => source.name).join(),

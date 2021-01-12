@@ -24,7 +24,7 @@ function Summary({ definition }) {
       request={request}
       renderSummary={({ expressionAtlasSummary }) => {
         const { count } = expressionAtlasSummary;
-        return `${count} record${count > 1 ? 's' : ''}`;
+        return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
     />
   );

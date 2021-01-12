@@ -15,6 +15,7 @@ const TARGET_PROFILE_HEADER_FRAGMENT = gql`
       functions
     }
     symbolSynonyms
+    nameSynonyms
   }
 `;
 
@@ -25,7 +26,9 @@ function ProfileHeader() {
   if (error) return null;
 
   const description = data?.target.proteinAnnotations?.functions?.[0];
-  const synonyms = data?.target.symbolSynonyms;
+  const synonyms = data?.target.symbolSynonyms.concat(
+    data?.target.nameSynonyms
+  );
 
   return (
     <BaseProfileHeader>

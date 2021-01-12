@@ -1,13 +1,11 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
-import { Link } from 'ot-ui';
-
-import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import Description from './Description';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
@@ -88,7 +86,6 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
 
   const request = useQuery(INTOGEN_QUERY, {
     variables: { ensemblId: ensgId, efoId, size },
-    client: betaClient,
   });
 
   return (

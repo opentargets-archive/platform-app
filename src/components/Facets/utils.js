@@ -1,9 +1,24 @@
-export const fixLabel = label => {
-  const spacedLabel = label
+import facetData from './data';
+
+export const fixLabel = id => {
+  const label = facetData.find(item => item.id === id)?.label;
+
+  if (label) return label;
+
+  const spacedLabel = id
     .replace(/_/g, ' ')
     .replace(/([a-z])([A-Z]+[a-z])/g, '$1 $2');
 
   return `${spacedLabel.charAt(0).toUpperCase()}${spacedLabel.slice(1)}`;
+};
+
+const sortLevel = (a, b) => {
+  const aIndex = facetData.findIndex(item => item.id === a.nodeId);
+  const bIndex = facetData.findIndex(item => item.id === b.nodeId);
+
+  return aIndex !== -1 && bIndex !== -1
+    ? aIndex - bIndex
+    : a.nodeId.localeCompare(b.nodeId);
 };
 
 const extractLevel = level =>
@@ -16,7 +31,7 @@ const extractLevel = level =>
       aggs: extractLevel(agg.aggs || agg.rows),
       root: !!agg.name,
     }))
-    .sort((a, b) => a.nodeId.localeCompare(b.nodeId));
+    .sort(sortLevel);
 
 export const prepareFacetData = data => extractLevel(data) || [];
 

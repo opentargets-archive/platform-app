@@ -10,15 +10,14 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
 import {
   Description,
   ProfileHeader as BaseProfileHeader,
   ChipList,
 } from '../../components/ProfileHeader';
-import usePlatformApi from '../../hooks/usePlatformApi';
+import Link from '../../components/Link';
 import { Skeleton } from '@material-ui/lab';
+import usePlatformApi from '../../hooks/usePlatformApi';
 
 const EVIDENCE_PROFILE_TARGET_HEADER_FRAGMENT = gql`
   fragment EvidenceProfileTargetHeaderFragment on Target {
@@ -29,6 +28,7 @@ const EVIDENCE_PROFILE_TARGET_HEADER_FRAGMENT = gql`
       functions
     }
     symbolSynonyms
+    nameSynonyms
   }
 `;
 const EVIDENCE_PROFILE_DISEASE_HEADER_FRAGMENT = gql`
@@ -61,8 +61,11 @@ function ProfileHeader() {
     synonyms: diseaseSynonyms,
   } = data?.disease || {};
   const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
-  const { id: ensgId, approvedSymbol, symbolSynonyms: targetSynonyms } =
-    data?.target || {};
+
+  const { id: ensgId, approvedSymbol } = data?.target || {};
+  const targetSynonyms = data?.target.symbolSynonyms.concat(
+    data?.target.nameSynonyms
+  );
 
   return (
     <BaseProfileHeader>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Tabs, Tab } from 'ot-ui';
+import { Tab, Tabs } from '@material-ui/core';
 
 import GeneTreeTab from './GeneTreeTab';
 import HomologyTableTab, { getData as getTableData } from './HomologyTableTab';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Autocomplete } from '@material-ui/lab';
 import crossfilter from 'crossfilter2';
-import { OtTableRF } from 'ot-ui';
+import OtTableRF from './OtTableRF';
 import { TextField, Typography } from '@material-ui/core';
 import _ from 'lodash';
 

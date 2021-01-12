@@ -3,12 +3,10 @@ import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 
-import { Link } from 'ot-ui';
-
-import { betaClient } from '../../../client';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
+import Link from '../../../components/Link';
 import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
 import SectionItem from '../../../components/Section/SectionItem';
 import { sentenceCase } from '../../../utils/global';
@@ -110,7 +108,6 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
 
   const request = useQuery(INTOGEN_QUERY, {
     variables: { ensemblId: ensgId, efoId, size },
-    client: betaClient,
   });
 
   return (

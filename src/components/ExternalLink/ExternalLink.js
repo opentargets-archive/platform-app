@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'ot-ui';
+import Link from '../Link';
 
 function ExternalLink({ title, id, url }) {
   if (!id) return null;
