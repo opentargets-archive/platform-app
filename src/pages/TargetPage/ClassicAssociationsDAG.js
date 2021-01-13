@@ -179,6 +179,7 @@ function ClassicAssociationsDAG({
           {width ? (
             assocs.length > 0 ? (
               <Dag
+                ensemblId={ensemblId}
                 width={width}
                 height={height}
                 links={links}

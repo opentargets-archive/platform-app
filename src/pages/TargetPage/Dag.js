@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import * as d3 from 'd3';
 import { colorRange } from '../../constants';
+import AssociationTooltip from './AssociationTooltip';
 
 const color = d3
   .scaleQuantize()
@@ -17,7 +18,16 @@ function textWithEllipsis(text, threshold) {
   return text.length <= threshold ? text : text.slice(0, threshold) + '...';
 }
 
-function Dag({ width, height, links, nodes, xOffset, textLimit, svgRef }) {
+function Dag({
+  ensemblId,
+  width,
+  height,
+  links,
+  nodes,
+  xOffset,
+  textLimit,
+  svgRef,
+}) {
   line.x(d => d.y - xOffset).y(d => d.x);
 
   return (
@@ -130,24 +140,31 @@ function Dag({ width, height, links, nodes, xOffset, textLimit, svgRef }) {
                 <title>{node.data.name}</title>
                 {textWithEllipsis(node.data.name, textLimit)}
               </text>
-              {node.data.parentIds.length === 0 ? (
-                <rect
-                  x={node.y - radius - xOffset}
-                  y={node.x - radius}
-                  width={diameter}
-                  height={diameter}
-                  fill={node.data.score ? color(node.data.score) : 'white'}
-                  stroke="#e0e0e0"
-                />
-              ) : (
-                <circle
-                  cx={node.y - xOffset}
-                  cy={node.x}
-                  r={radius}
-                  fill={color(node.data.score)}
-                  stroke="#e0e0e0"
-                />
-              )}
+              <AssociationTooltip
+                ensemblId={ensemblId}
+                efoId={node.data.id}
+                name={node.data.name}
+                score={node.data.score}
+              >
+                {node.data.parentIds.length === 0 ? (
+                  <rect
+                    x={node.y - radius - xOffset}
+                    y={node.x - radius}
+                    width={diameter}
+                    height={diameter}
+                    fill={node.data.score ? color(node.data.score) : 'white'}
+                    stroke="#e0e0e0"
+                  />
+                ) : (
+                  <circle
+                    cx={node.y - xOffset}
+                    cy={node.x}
+                    r={radius}
+                    fill={color(node.data.score)}
+                    stroke="#e0e0e0"
+                  />
+                )}
+              </AssociationTooltip>
             </Fragment>
           );
         })}
