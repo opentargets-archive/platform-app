@@ -14,6 +14,7 @@ import DownloadsPage from './pages/DownloadsPage';
 import DrugPage from './pages/DrugPage';
 import TargetPage from './pages/TargetPage';
 import EvidencePage from './pages/EvidencePage';
+import VariantsPage from './pages/VariantsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 import 'typeface-inter';
@@ -40,6 +41,7 @@ class App extends Component {
                   path="/evidence/:ensgId/:efoId"
                   component={EvidencePage}
                 />
+                <Route path="/variants" component={VariantsPage} />
                 <Route component={NotFoundPage} />
               </Switch>
             </GoogleAnalyticsWrapper>
