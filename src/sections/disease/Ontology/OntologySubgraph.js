@@ -5,17 +5,17 @@ import React from 'react';
 // const d3 = Object.assign({}, d3Base, d3Dag);
 
 function getAncestors(efoId, idToDisease) {
-  const ancestors = [efoId];
+  const ancestors = [idToDisease[efoId]];
   const queue = [efoId];
   const visited = new Set([efoId]);
 
   while (queue.length > 0) {
-    const ancestorId = queue.shift();
-    const ancestorNode = idToDisease[ancestorId];
+    const id = queue.shift();
+    const node = idToDisease[id];
 
-    ancestorNode.parentIds.forEach(parentId => {
+    node.parentIds.forEach(parentId => {
       if (!visited.has(parentId)) {
-        ancestors.push(ancestorId);
+        ancestors.push(idToDisease[parentId]);
         queue.push(parentId);
         visited.add(parentId);
       }
