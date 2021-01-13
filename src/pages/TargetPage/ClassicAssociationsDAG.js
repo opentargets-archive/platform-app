@@ -1,8 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import * as d3Base from 'd3';
 import * as d3Dag from 'd3-dag';
 import { withContentRect } from 'react-measure';
 import { Typography } from '@material-ui/core';
+import { DownloadSvgPlot } from '../../components/DownloadSvgPlot';
+import Legend from '../../components/Legend';
 import Slider from './ClassicAssociationsSlider';
 import Dag from './Dag';
 
@@ -110,6 +112,7 @@ function ClassicAssociationsDAG({
   measureRef,
   contentRect,
 }) {
+  const svgRef = useRef(null);
   const [minScore, setMinScore] = useState(0.1);
   const [minCommittedScore, setMinCommittedScore] = useState(0.1);
   const { width } = contentRect.bounds;
@@ -163,30 +166,37 @@ function ClassicAssociationsDAG({
 
   return (
     <>
-      <Slider
-        value={minScore}
-        onChange={(_, val) => setMinScore(val)}
-        onChangeCommitted={(_, val) => setMinCommittedScore(val)}
-      />
-      <div ref={measureRef}>
-        {width ? (
-          assocs.length > 0 ? (
-            <Dag
-              width={width}
-              height={height}
-              links={links}
-              nodes={nodes}
-              xOffset={xOffset}
-              textLimit={textLimit}
-            />
-          ) : (
-            <Typography align="center">
-              No associations with score greater than or equal to{' '}
-              {minCommittedScore}
-            </Typography>
-          )
-        ) : null}
-      </div>
+      <DownloadSvgPlot
+        svgContainer={svgRef}
+        filenameStem={`${symbol}-associated-diseases-dag`}
+      >
+        <Slider
+          value={minScore}
+          onChange={(_, val) => setMinScore(val)}
+          onChangeCommitted={(_, val) => setMinCommittedScore(val)}
+        />
+        <div ref={measureRef}>
+          {width ? (
+            assocs.length > 0 ? (
+              <Dag
+                width={width}
+                height={height}
+                links={links}
+                nodes={nodes}
+                xOffset={xOffset}
+                textLimit={textLimit}
+                svgRef={svgRef}
+              />
+            ) : (
+              <Typography align="center">
+                No associations with score greater than or equal to{' '}
+                {minCommittedScore}
+              </Typography>
+            )
+          ) : null}
+        </div>
+      </DownloadSvgPlot>
+      <Legend />
     </>
   );
 }
