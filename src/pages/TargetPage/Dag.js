@@ -11,6 +11,7 @@ const line = d3.line().curve(d3.curveMonotoneX);
 
 const diameter = 8;
 const radius = diameter / 2;
+const yOffset = 100;
 
 function textWithEllipsis(text, threshold) {
   return text.length <= threshold ? text : text.slice(0, threshold) + '...';
@@ -25,9 +26,84 @@ function Dag({ width, height, links, nodes, xOffset, textLimit, svgRef }) {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       ref={svgRef}
       width={width}
-      height={height}
+      height={height + yOffset}
     >
-      <g>
+      <defs>
+        <marker
+          id="arrowhead"
+          orient="auto"
+          markerWidth="2"
+          markerHeight="4"
+          refX="0.1"
+          refY="2"
+        >
+          <path d="M0,0 V4 L2,2 Z" fill="#5a5f5f" />
+        </marker>
+      </defs>
+      <g transform={`translate(0, 10)`}>
+        <rect
+          x="2"
+          width={diameter}
+          height={diameter}
+          fill="none"
+          stroke="#e0e0e0"
+          strokeWidth="2"
+        />
+        <text
+          x="16"
+          y="4"
+          fill="#5a5f5f"
+          dominantBaseline="middle"
+          fontSize="12"
+        >
+          therapeutic area
+        </text>
+        <circle
+          cx="6"
+          cy="20"
+          r={radius}
+          fill="none"
+          stroke="#e0e0e0"
+          strokeWidth="2"
+        />
+        <text
+          fill="#5a5f5f"
+          x="16"
+          y="20"
+          dominantBaseline="middle"
+          fontSize="12"
+        >
+          disease
+        </text>
+      </g>
+      <g transform={`translate(${width / 2}, 70)`}>
+        <text
+          x="-160"
+          fontWeight="bold"
+          fontSize="14"
+          fill="#5a5f5f"
+          dominantBaseline="middle"
+        >
+          GENERAL
+        </text>
+        <text
+          x="100"
+          fontWeight="bold"
+          fontSize="14"
+          fill="#5a5f5f"
+          dominantBaseline="middle"
+        >
+          SPECIFIC
+        </text>
+        <path
+          markerEnd="url(#arrowhead)"
+          strokeWidth="2"
+          fill="none"
+          stroke="#5a5f5f"
+          d="M-80,0 L80,0"
+        />
+      </g>
+      <g transform={`translate(0, ${yOffset})`}>
         {links.map(({ points, source, target }) => {
           return (
             <path
@@ -40,7 +116,7 @@ function Dag({ width, height, links, nodes, xOffset, textLimit, svgRef }) {
           );
         })}
       </g>
-      <g>
+      <g transform={`translate(0, ${yOffset})`}>
         {nodes.map(node => {
           return (
             <Fragment key={node.id}>
