@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3Base from 'd3';
 import * as d3Dag from 'd3-dag';
+import Link from '../../../components/Link';
 
 const d3 = Object.assign({}, d3Base, d3Dag);
 
@@ -109,7 +110,7 @@ function OntologySubgraph({
   const dagData = buildDagData(efoId, efo, idToDisease);
   const dag = d3.dagStratify()(dagData);
   const maxLayerCount = getMaxLayerCount(dag);
-  const height = maxLayerCount * 20;
+  const height = maxLayerCount * 17;
   const layout = d3
     .sugiyama()
     .layering(layering)
@@ -153,31 +154,34 @@ function OntologySubgraph({
                   <text
                     x={node.y - xOffset}
                     y={node.x}
-                    dx="6"
+                    dx="9"
                     fontSize="12"
                     dominantBaseline="middle"
+                    fill="#5a5f5f"
                   >
                     <title>{node.data.name}</title>
                     {textWithEllipsis(node.data.name, textLimit)}
                   </text>
-                  {node.data.parentIds.length === 0 ? (
-                    <rect
-                      x={node.y - radius - xOffset}
-                      y={node.x - radius}
-                      width={diameter}
-                      height={diameter}
-                      fill={colorMap.ancestor}
-                      stroke="#e0e0e0"
-                    />
-                  ) : (
-                    <circle
-                      cx={node.y - xOffset}
-                      cy={node.x}
-                      r={radius}
-                      fill={colorMap[node.data.nodeType]}
-                      stroke="#e0e0e0"
-                    />
-                  )}
+                  <Link to={`/disease/${node.data.id}`}>
+                    {node.data.parentIds.length === 0 ? (
+                      <rect
+                        x={node.y - radius - xOffset}
+                        y={node.x - radius}
+                        width={diameter}
+                        height={diameter}
+                        fill={colorMap[node.data.nodeType]}
+                        stroke="#e0e0e0"
+                      />
+                    ) : (
+                      <circle
+                        cx={node.y - xOffset}
+                        cy={node.x}
+                        r={radius}
+                        fill={colorMap[node.data.nodeType]}
+                        stroke="#e0e0e0"
+                      />
+                    )}
+                  </Link>
                 </Fragment>
               );
             })}
