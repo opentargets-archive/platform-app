@@ -6,7 +6,7 @@ import * as d3Dag from 'd3-dag';
 const d3 = Object.assign({}, d3Base, d3Dag);
 
 function getAncestors(efoId, idToDisease) {
-  const ancestors = [idToDisease[efoId]];
+  const ancestors = [{ ...idToDisease[efoId], nodeType: 'anchor' }];
   const queue = [efoId];
   const visited = new Set([efoId]);
 
@@ -16,7 +16,7 @@ function getAncestors(efoId, idToDisease) {
 
     node.parentIds.forEach(parentId => {
       if (!visited.has(parentId)) {
-        ancestors.push(idToDisease[parentId]);
+        ancestors.push({ ...idToDisease[parentId], nodeType: 'ancestor' });
         queue.push(parentId);
         visited.add(parentId);
       }
@@ -36,12 +36,12 @@ function buildDagData(efoId, efo, idToDisease) {
         id: disease.id,
         name: disease.name,
         parentIds: [efoId],
+        nodeType: 'child',
       });
     }
   });
 
-  // find ancestors
-  const ancestors = getAncestors(efoId, idToDisease);
+  const ancestors = getAncestors(efoId, idToDisease); // find ancestors
 
   ancestors.forEach(ancestor => {
     dag.push(ancestor);
@@ -87,6 +87,11 @@ function getMaxLayerCount(dag) {
   return maxCount;
 }
 
+const colorMap = {
+  anchor: '#ff6350',
+  ancestor: '#3489ca',
+  child: '#85b8df',
+};
 const diameter = 12;
 const radius = diameter / 2;
 const yOffset = 100;
@@ -161,7 +166,7 @@ function OntologySubgraph({
                       y={node.x - radius}
                       width={diameter}
                       height={diameter}
-                      fill="black"
+                      fill={colorMap.ancestor}
                       stroke="#e0e0e0"
                     />
                   ) : (
@@ -169,7 +174,7 @@ function OntologySubgraph({
                       cx={node.y - xOffset}
                       cy={node.x}
                       r={radius}
-                      fill="black"
+                      fill={colorMap[node.data.nodeType]}
                       stroke="#e0e0e0"
                     />
                   )}
