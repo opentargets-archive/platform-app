@@ -85,6 +85,16 @@ function getMaxLayerCount(dag) {
     }
   });
 
+  dag.links().forEach(link => {
+    link.points.forEach((_, i) => {
+      const index = link.source.layer + i;
+      counts[index]++;
+      if (counts[index] > maxCount) {
+        maxCount = counts[index];
+      }
+    });
+  });
+
   return maxCount;
 }
 
@@ -110,12 +120,16 @@ function OntologySubgraph({
   const dagData = buildDagData(efoId, efo, idToDisease);
   const dag = d3.dagStratify()(dagData);
   const maxLayerCount = getMaxLayerCount(dag);
-  const height = maxLayerCount * 17;
+  const height = maxLayerCount * 6;
   const layout = d3
     .sugiyama()
     .layering(layering)
     .decross(decross)
     .coord(coord)
+    .nodeSize(() => {
+      const base = diameter + 3;
+      return [base, base];
+    })
     .size([height, width]);
 
   layout(dag);
