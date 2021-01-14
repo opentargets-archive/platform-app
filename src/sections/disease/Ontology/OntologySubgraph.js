@@ -174,7 +174,7 @@ function OntologySubgraph({
                     fill="#5a5f5f"
                   >
                     <title>{node.data.name}</title>
-                    {textWithEllipsis(node.data.name, textLimit)}
+                    {textWithEllipsis(node.data.name || 'No name', textLimit)}
                   </text>
                   <Link to={`/disease/${node.data.id}`}>
                     {node.data.parentIds.length === 0 ? (
