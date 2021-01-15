@@ -10,26 +10,31 @@ import Dag from './Dag';
 
 const d3 = Object.assign({}, d3Base, d3Dag);
 
+// find closest ancestors that are also associations
 function getParentIds(diseaseId, idToDisease, assocSet) {
-  const disease = idToDisease[diseaseId];
-  const parentIds = new Set();
-  const queue = [...disease.parentIds];
+  const parentIds = [];
+  const queue = [diseaseId];
+  const visited = new Set();
 
   while (queue.length > 0) {
-    const parentId = queue.shift();
-    const parentNode = idToDisease[parentId];
-    if (assocSet[parentId] || parentNode.parentIds.length === 0) {
-      parentIds.add(parentId);
-    } else {
-      for (let i = 0; i < parentNode.parentIds.length; i++) {
-        if (!queue.includes(parentNode.parentIds[i])) {
-          queue.push(parentNode.parentIds[i]);
+    const id = queue.shift();
+    const node = idToDisease[id];
+
+    for (let i = 0; i < node.parentIds.length; i++) {
+      const parentId = node.parentIds[i];
+      if (!visited.has(parentId)) {
+        visited.add(parentId);
+        const parentNode = idToDisease[parentId];
+        if (assocSet[parentId] || parentNode.parentIds.length === 0) {
+          parentIds.push(parentId);
+        } else {
+          queue.push(parentId);
         }
       }
     }
   }
 
-  return Array.from(parentIds);
+  return parentIds;
 }
 
 function buildDagData(idToDisease, associations, assocSet) {
