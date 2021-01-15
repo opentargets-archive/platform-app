@@ -46,6 +46,7 @@ function Body({ definition, id: efoId, label: name }) {
           <OntologySubgraph
             efoId={efoId}
             efo={efoNodes}
+            name={name}
             idToDisease={idToDisease}
           />
         );

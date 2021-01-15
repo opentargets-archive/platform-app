@@ -111,6 +111,7 @@ const line = d3.line().curve(d3.curveMonotoneX);
 function OntologySubgraph({
   efoId,
   efo,
+  name,
   idToDisease,
   measureRef,
   contentRect,
@@ -148,6 +149,130 @@ function OntologySubgraph({
           width={width}
           height={height + yOffset}
         >
+          <defs>
+            <marker
+              id="arrowhead"
+              orient="auto"
+              markerWidth="2"
+              markerHeight="4"
+              refX="0.1"
+              refY="2"
+            >
+              <path d="M0,0 V4 L2,2 Z" fill="#5a5f5f" />
+            </marker>
+          </defs>
+          <g transform={`translate(0, 10)`}>
+            <rect
+              x="4"
+              y="11"
+              width={diameter}
+              height={diameter}
+              fill="none"
+              stroke="#e0e0e0"
+              strokeWidth="2"
+            />
+            <text
+              x="20"
+              y="17"
+              fill="#5a5f5f"
+              dominantBaseline="middle"
+              fontSize="12"
+            >
+              therapeutic area
+            </text>
+            <circle
+              cx="10"
+              cy="34"
+              r={radius}
+              fill="none"
+              stroke="#e0e0e0"
+              strokeWidth="2"
+            />
+            <text
+              fill="#5a5f5f"
+              x="20"
+              y="34"
+              dominantBaseline="middle"
+              fontSize="12"
+            >
+              disease
+            </text>
+            <circle
+              cx="150"
+              cy="0"
+              r={radius}
+              fill={colorMap.child}
+              stroke="#e0e0e0"
+            />
+            <text
+              fill="#5a5f5f"
+              x="160"
+              y="0"
+              dominantBaseline="middle"
+              fontSize="12"
+            >
+              descendants
+            </text>
+            <circle
+              cx="150"
+              cy="17"
+              r={radius}
+              fill={colorMap.ancestor}
+              stroke="#e0e0e0"
+            />
+            <text
+              fill="#5a5f5f"
+              x="160"
+              y="17"
+              dominantBaseline="middle"
+              fontSize="12"
+            >
+              ancestors
+            </text>
+            <circle
+              cx="150"
+              cy="34"
+              r={radius}
+              fill={colorMap.anchor}
+              stroke="#e0e0e0"
+            />
+            <text
+              fill="#5a5f5f"
+              x="160"
+              y="34"
+              dominantBaseline="middle"
+              fontSize="12"
+            >
+              {name}
+            </text>
+          </g>
+          <g transform={`translate(${width / 2}, 70)`}>
+            <text
+              x="-160"
+              fontWeight="bold"
+              fontSize="14"
+              fill="#5a5f5f"
+              dominantBaseline="middle"
+            >
+              GENERAL
+            </text>
+            <text
+              x="100"
+              fontWeight="bold"
+              fontSize="14"
+              fill="#5a5f5f"
+              dominantBaseline="middle"
+            >
+              SPECIFIC
+            </text>
+            <path
+              markerEnd="url(#arrowhead)"
+              strokeWidth="2"
+              fill="none"
+              stroke="#5a5f5f"
+              d="M-80,0 L80,0"
+            />
+          </g>
           <g transform={`translate(0, ${yOffset})`}>
             {links.map(({ points, source, target }) => {
               return (
