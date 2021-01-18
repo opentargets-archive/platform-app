@@ -22,7 +22,6 @@ import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { Facets } from '../../components/Facets';
 import Wrapper from './Wrapper';
-import DAGWrapper from './DAGWrapper';
 
 const TARGET_ASSOCIATIONS_QUERY = gql`
   query TargetAssociationsQuery(
@@ -132,7 +131,7 @@ function ClassicAssociations({ ensgId, symbol }) {
                   />
                 </Route>
                 <Route path={`${match.path}/graph`}>
-                  <DAGWrapper
+                  <Wrapper
                     ensemblId={ensgId}
                     symbol={symbol}
                     Component={ClassicAssociationsDAG}

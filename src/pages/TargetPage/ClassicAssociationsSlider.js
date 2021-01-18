@@ -12,7 +12,12 @@ const styles = () => ({
   },
 });
 
-const ClassicAssociationsSlider = ({ classes, value, onChange }) => (
+const ClassicAssociationsSlider = ({
+  classes,
+  value,
+  onChange,
+  onChangeCommitted,
+}) => (
   <div className={classes.root}>
     <Typography id="label">
       Minimum Score: {value.toFixed(decimalPlaces)}
@@ -27,6 +32,7 @@ const ClassicAssociationsSlider = ({ classes, value, onChange }) => (
       min={0}
       max={1}
       onChange={onChange}
+      onChangeCommitted={onChangeCommitted}
     />
   </div>
 );

@@ -68,11 +68,16 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
     return null;
   }
 
+  const idToDisease = nodes.reduce((acc, disease) => {
+    acc[disease.id] = disease;
+    return acc;
+  }, {});
+
   return (
     <Component
       ensemblId={ensemblId}
       symbol={symbol}
-      efo={nodes}
+      idToDisease={idToDisease}
       associations={associations}
     />
   );
