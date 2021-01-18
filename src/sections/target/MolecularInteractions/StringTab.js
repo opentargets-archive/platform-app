@@ -283,7 +283,7 @@ const getHeatmapCell = (score, classes) => {
 
 const id = 'string';
 const index = 0;
-const size = 5000;
+const size = 15000;
 const color = d3
   .scaleQuantize()
   .domain([0, 1])
