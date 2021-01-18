@@ -156,7 +156,7 @@ function getColumns(classes) {
       },
       renderCell: row =>
         getHeatmapCell(
-          getScoreForColumn(row.evidences, 'gene neighbourhood'),
+          getScoreForColumn(row.evidences, 'neighbourhood'),
           classes
         ),
     },
@@ -170,10 +170,7 @@ function getColumns(classes) {
         innerLabel: classes.innerLabel,
       },
       renderCell: row =>
-        getHeatmapCell(
-          getScoreForColumn(row.evidences, 'domain fusion'),
-          classes
-        ),
+        getHeatmapCell(getScoreForColumn(row.evidences, 'fusion'), classes),
     },
     {
       id: 'occurance',
@@ -242,10 +239,7 @@ function getColumns(classes) {
         innerLabel: classes.innerLabel,
       },
       renderCell: row =>
-        getHeatmapCell(
-          getScoreForColumn(row.evidences, 'text mining'),
-          classes
-        ),
+        getHeatmapCell(getScoreForColumn(row.evidences, 'textmining'), classes),
     },
     {
       id: 'homology',
