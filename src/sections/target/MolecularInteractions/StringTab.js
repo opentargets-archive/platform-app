@@ -312,6 +312,7 @@ function StringTab({ ensgId, symbol, query }) {
           dataDownloaderFileStem={`${symbol}-molecular-interactions-string`}
           fixed
           classes={{ root: classes.root, table: classes.table }}
+          rowsPerPageOptions={[10, 25, 50, 100]}
         />
         <Legend />
       </Grid>
