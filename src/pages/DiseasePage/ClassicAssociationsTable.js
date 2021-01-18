@@ -289,6 +289,7 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
   return (
     <>
       <Table
+        hover
         showGlobalFilter
         loading={loading}
         dataDownloader
