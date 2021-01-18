@@ -19,7 +19,10 @@ const columns = [
     renderCell: rowData =>
       rowData.sourcelinks.map((d, i, a) => (
         <React.Fragment key={i}>
-          <Link external to={d.link}>
+          <Link
+            external
+            to={`${!d.link.startsWith('http') ? 'http://' : ''}${d.link}`}
+          >
             {d.source}
           </Link>
           {i < a.length - 1 ? ' / ' : ''}
