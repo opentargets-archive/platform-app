@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
 import { makeStyles } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import Link from '../../components/Link';
 import { Table } from '../../components/Table';
 import AssocCell from '../../components/AssocCell';
@@ -239,22 +240,15 @@ function getRows(data) {
 }
 
 function ClassicAssociationsTable({ efoId, aggregationFilters }) {
-  const count = 100;
+  console.log('Table render');
   const classes = useStyles();
   const [rows, setRows] = useState([]);
+  const [count, setCount] = useState();
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState();
   const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(50);
-
-  useEffect(() => {
-    console.log('TABLE mount');
-
-    return () => {
-      console.log('TABLE dismount');
-    };
-  }, []);
 
   useEffect(
     () => {
@@ -264,23 +258,22 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
           query: DISEASE_ASSOCIATIONS_QUERY,
           variables: {
             efoId,
-            index: page,
-            size: pageSize,
-            filter: filter === '' ? null : filter,
-            sortBy,
+            index: 0,
+            size: 50,
+            sortBy: 'score',
             aggregationFilters,
           },
         })
-        .then(res => {
-          // console.log('res', res);
+        .then(({ data }) => {
           if (isCurrent) {
-            setRows(res.data.disease.associatedTargets.rows);
+            setRows(data.disease.associatedTargets.rows);
+            setCount(data.disease.associatedTargets.count);
             setLoading(false);
           }
         });
       return () => (isCurrent = false);
     },
-    [efoId, page, pageSize, filter, sortBy, aggregationFilters]
+    [efoId, aggregationFilters]
   );
 
   const getAllAssociations = useBatchDownloader(
@@ -309,6 +302,8 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
 
   const columns = getColumns(efoId, classes);
   const processedRows = getRows(rows);
+
+  if (loading) return <Skeleton variant="rect" height="40vh" />;
 
   return (
     <>
