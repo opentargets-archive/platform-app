@@ -77,14 +77,10 @@ function ClassicAssociations({ efoId, name }) {
       <Grid item xs={12} lg={9}>
         <Card elevation={0} style={{ overflow: 'visible' }}>
           <CardContent>
-            {loading && !data ? (
-              <Skeleton variant="rect" height="40vh" />
-            ) : (
-              <ClassicAssociationsTable
-                efoId={efoId}
-                aggregationFilters={aggregationFilters}
-              />
-            )}
+            <ClassicAssociationsTable
+              efoId={efoId}
+              aggregationFilters={aggregationFilters}
+            />
           </CardContent>
         </Card>
       </Grid>
