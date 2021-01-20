@@ -8,7 +8,7 @@ import * as Phenotypes from '../../sections/disease/Phenotypes';
 export default [
   Ontology,
   KnownDrugs,
-  Phenotypes,
+  // Phenotypes,
   // RelatedDiseases,
   Bibliography,
 ];
