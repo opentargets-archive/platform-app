@@ -9,7 +9,10 @@ function Field({ title, loading, children }) {
         <Skeleton />
       ) : (
         <>
-          {title}: <Typography display="inline">{children}</Typography>
+          {title}:{' '}
+          <Typography display="inline" variant="body2">
+            {children}
+          </Typography>
         </>
       )}
     </Typography>
