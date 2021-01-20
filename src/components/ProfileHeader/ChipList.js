@@ -8,16 +8,7 @@ import LongList from '../LongList';
 function ChipList({ children, title, loading = false, inline }) {
   if (inline && loading) return <Skeleton count={1} />;
 
-  const content = children ? (
-    <LongList
-      terms={children}
-      maxTerms={10}
-      render={item => <Chip key={item} label={item} title={item} />}
-      size="small"
-    />
-  ) : (
-    `No ${title.toLowerCase()}.`
-  );
+  if (!children || children.length === 0) return null;
 
   return (
     <Box>
@@ -25,7 +16,16 @@ function ChipList({ children, title, loading = false, inline }) {
         {title}
         {inline ? ': ' : ''}
       </Typography>
-      {loading ? <Skeleton count={1} /> : content}
+      {loading ? (
+        <Skeleton count={1} />
+      ) : (
+        <LongList
+          terms={children}
+          maxTerms={10}
+          render={item => <Chip key={item} label={item} title={item} />}
+          size="small"
+        />
+      )}
     </Box>
   );
 }
