@@ -7,6 +7,7 @@ import {
   Field,
   ProfileHeader as BaseProfileHeader,
 } from '../../components/ProfileHeader';
+import Link from '../../components/Link';
 import Smiles from './Smiles';
 import usePlatformApi from '../../hooks/usePlatformApi';
 import WithdrawnNotice from '../../components/WithdrawnNotice';
@@ -16,6 +17,14 @@ const DRUG_PROFILE_HEADER_FRAGMENT = gql`
     description
     drugType
     synonyms
+    parentMolecule {
+      id
+      name
+    }
+    childMolecules {
+      id
+      name
+    }
     hasBeenWithdrawn
     maximumClinicalTrialPhase
     tradeNames
@@ -37,6 +46,8 @@ function ProfileHeader({ chemblId }) {
 
   const {
     description,
+    parentMolecule,
+    childMolecules = [],
     synonyms,
     tradeNames,
     withdrawnNotice,
@@ -59,6 +70,18 @@ function ProfileHeader({ chemblId }) {
         </Field>
         <Field loading={loading} title="Max phase">
           {maximumClinicalTrialPhase}
+        </Field>
+        <Field loading={loading} title="Parent molecule">
+          {parentMolecule ? (
+            <Link to={`/drug/${parentMolecule.id}`}>{parentMolecule.name}</Link>
+          ) : null}
+        </Field>
+        <Field loading={loading} title="Child molecules">
+          {childMolecules.map(({ id, name }) => (
+            <Link key={id} to={`/drug/${id}`}>
+              {name}
+            </Link>
+          ))}
         </Field>
         <ChipList title="Synonyms" inline loading={loading}>
           {synonyms}
