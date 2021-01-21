@@ -10,6 +10,14 @@ const MECHANISM_OF_ACTION_SUMMARY_FRAGMENT = gql`
       uniqueActionTypes
       uniqueTargetTypes
     }
+    parentMolecule {
+      id
+      name
+    }
+    childMolecules {
+      id
+      name
+    }
   }
 `;
 

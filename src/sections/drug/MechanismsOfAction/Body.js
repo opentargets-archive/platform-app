@@ -1,10 +1,12 @@
 import React, { Fragment } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
-import DataTable from '../../../components/Table/DataTable';
-import Description from './Description';
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
+import usePlatformApi from '../../../hooks/usePlatformApi';
+import DataTable from '../../../components/Table/DataTable';
+import Summary from './Summary';
+import Description from './Description';
 
 const MECHANISMS_OF_ACTION_QUERY = gql`
   query MechanismsOfActionSectionQuery($chemblId: String!) {
@@ -84,12 +86,21 @@ function Body({ definition, id: chemblId, label: name }) {
   const request = useQuery(MECHANISMS_OF_ACTION_QUERY, {
     variables: { chemblId },
   });
+  const { data: summaryData } = usePlatformApi(
+    Summary.fragments.MechanismsOfActionSummaryFragment
+  );
 
   return (
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description name={name} />}
+      renderDescription={() => (
+        <Description
+          name={name}
+          parentMolecule={summaryData.parentMolecule}
+          childMolecules={summaryData.childMolecules}
+        />
+      )}
       renderBody={data => {
         const rows = data.drug.mechanismsOfAction.rows;
 
