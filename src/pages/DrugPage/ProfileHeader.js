@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { gql } from '@apollo/client';
 
 import {
@@ -77,10 +77,11 @@ function ProfileHeader({ chemblId }) {
           ) : null}
         </Field>
         <Field loading={loading} title="Child molecules">
-          {childMolecules.map(({ id, name }) => (
-            <Link key={id} to={`/drug/${id}`}>
-              {name}
-            </Link>
+          {childMolecules.map(({ id, name }, i) => (
+            <Fragment key={id}>
+              <Link to={`/drug/${id}`}>{name}</Link>
+              {i < childMolecules.length - 1 ? ', ' : null}
+            </Fragment>
           ))}
         </Field>
         <ChipList title="Synonyms" inline loading={loading}>
