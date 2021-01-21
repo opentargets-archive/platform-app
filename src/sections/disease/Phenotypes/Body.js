@@ -25,24 +25,25 @@ const columns = [
 ];
 
 function Body({ definition, label: name }) {
-  const request = usePlatformApi(Summary.fragments.PhenotypesSummaryFragment);
+  // const request = usePlatformApi(Summary.fragments.PhenotypesSummaryFragment);
 
-  return (
-    <SectionItem
-      definition={definition}
-      request={request}
-      renderDescription={() => <Description name={name} />}
-      renderBody={data => (
-        <DataTable
-          columns={columns}
-          dataDownloader
-          dataDownloaderFileStem="phenotypes"
-          rows={data.phenotypes}
-          showGlobalFilter
-        />
-      )}
-    />
-  );
+  // return (
+  //   <SectionItem
+  //     definition={definition}
+  //     request={request}
+  //     renderDescription={() => <Description name={name} />}
+  //     renderBody={data => (
+  //       <DataTable
+  //         columns={columns}
+  //         dataDownloader
+  //         dataDownloaderFileStem="phenotypes"
+  //         rows={data.phenotypes}
+  //         showGlobalFilter
+  //       />
+  //     )}
+  //   />
+  // );
+  return <>Phenotypes</>;
 }
 
 export default Body;
