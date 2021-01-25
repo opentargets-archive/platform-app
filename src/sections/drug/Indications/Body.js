@@ -1,9 +1,11 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
+import { sourceMap } from '../../../constants';
 import {
   DataTable,
   PaginationActionsComplete,
+  TableDrawer,
 } from '../../../components/Table';
 import Description from './Description';
 import Link from '../../../components/Link';
@@ -24,6 +26,11 @@ const INDICATIONS_QUERY = gql`
               id
               name
             }
+          }
+          references {
+            ids
+            source
+            urls
           }
         }
       }
@@ -57,6 +64,30 @@ const columns = [
     numeric: true,
     sortable: true,
     width: '10%',
+  },
+  {
+    id: 'references',
+    label: 'Source',
+    renderCell: ({ references }) => {
+      const referenceList = [];
+
+      if (references) {
+        references.forEach(reference => {
+          reference.ids.forEach((id, i) => {
+            referenceList.push({
+              name: id,
+              url:
+                reference.source === 'ClinicalTrials'
+                  ? `https://clinicaltrials.gov/ct2/show/${id}`
+                  : reference.urls[i],
+              group: sourceMap[reference.source],
+            });
+          });
+        });
+      }
+
+      return <TableDrawer entries={referenceList} />;
+    },
   },
 ];
 
