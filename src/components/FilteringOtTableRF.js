@@ -5,6 +5,9 @@ import OtTableRF from './OtTableRF';
 import { TextField, Typography } from '@material-ui/core';
 import _ from 'lodash';
 
+/**
+ * @deprecated in favour of ColumnFilteringDataTable, based on the new Table.
+ */
 const FilteringOtTableRF = props => {
   const [filteredRows, setFilteredRows] = React.useState(props.data);
   const xf = React.useRef(crossfilter()).current;
