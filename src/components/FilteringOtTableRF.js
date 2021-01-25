@@ -25,77 +25,71 @@ const FilteringOtTableRF = props => {
     <OtTableRF
       {...props}
       filters
-      columns={props.columns.map(column =>
-        column.filterable
-          ? {
-              ...column,
-              filterable: undefined,
-              renderFilter: filterDropdown(
-                xf,
-                dimensions,
-                column.id,
-                column.dropdownFilterValue,
-                setFilteredRows
-              ),
-            }
-          : column
+      columns={props.columns.map(
+        ({ filterable, dropdownFilterValue, id, ...otherFields }) => {
+          if (!filterable) {
+            return { id, ...otherFields };
+          }
+          const valueAccessor = dropdownFilterValue || (row => row[id]);
+          dimensions[id] = dimensions[id] || xf.dimension(valueAccessor);
+          return {
+            id,
+            ...otherFields,
+            renderFilter: () => {
+              return (
+                <FilterDropdown
+                  xf={xf}
+                  dim={dimensions[id]}
+                  valueAccessor={valueAccessor}
+                  setFilteredRows={setFilteredRows}
+                />
+              );
+            },
+          };
+        }
       )}
       data={filteredRows}
     />
   );
 };
 
-const filterDropdown = (
-  xf,
-  dimensions,
-  columnId,
-  dropdownFilterValue,
-  setFilteredRows
-) => {
-  let valueAccessor = dropdownFilterValue || (row => row[columnId]);
-  dimensions[columnId] = dimensions[columnId] || xf.dimension(valueAccessor);
-  const dim = dimensions[columnId];
-  return () => {
-    const handler = (e, selection) => {
-      if (selection) {
-        dim.filter(cellValue => {
-          if (_.isArray(cellValue)) {
-            return _.some(
-              cellValue,
-              arrayElement => arrayElement === selection
-            );
-          } else {
-            return cellValue === selection;
-          }
-        });
-      } else {
-        dim.filterAll();
-      }
+const FilterDropdown = ({ xf, dim, valueAccessor, setFilteredRows }) => {
+  const handler = (_event, selection) => {
+    if (selection) {
+      dim.filter(cellValue => {
+        if (_.isArray(cellValue)) {
+          return _.some(cellValue, arrayElement => arrayElement === selection);
+        } else {
+          return cellValue === selection;
+        }
+      });
+    } else {
+      dim.filterAll();
+    }
 
-      setFilteredRows(xf.allFiltered());
-    };
-    const cellValues = xf.allFiltered().flatMap(row => {
-      const cellValue = valueAccessor(row);
-      if (_.isArray(cellValue)) {
-        return cellValue;
-      } else {
-        return [cellValue];
-      }
-    });
-    const options = _.sortedUniq(cellValues.sort());
-    return (
-      <Autocomplete
-        options={options}
-        onChange={handler}
-        renderInput={params => (
-          <TextField {...params} label="Select..." margin="normal" />
-        )}
-        renderOption={option => (
-          <Typography style={{ fontSize: '.85rem' }}>{option}</Typography>
-        )}
-      />
-    );
+    setFilteredRows(xf.allFiltered());
   };
+  const cellValues = xf.allFiltered().flatMap(row => {
+    const cellValue = valueAccessor(row);
+    if (_.isArray(cellValue)) {
+      return cellValue;
+    } else {
+      return [cellValue];
+    }
+  });
+  const options = _.sortedUniq(cellValues.sort());
+  return (
+    <Autocomplete
+      options={options}
+      onChange={handler}
+      renderInput={params => (
+        <TextField {...params} label="Select..." margin="normal" />
+      )}
+      renderOption={option => (
+        <Typography style={{ fontSize: '.85rem' }}>{option}</Typography>
+      )}
+    />
+  );
 };
 
 export default FilteringOtTableRF;
