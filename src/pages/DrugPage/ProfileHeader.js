@@ -62,8 +62,6 @@ function ProfileHeader({ chemblId }) {
     <BaseProfileHeader>
       <>
         <Description loading={loading}>{description}</Description>
-        <WithdrawnNotice withdrawnNotice={withdrawnNotice} />
-
         <Field loading={loading} title="Molecule type">
           {drugType}
         </Field>
@@ -76,6 +74,7 @@ function ProfileHeader({ chemblId }) {
         <Field loading={loading} title="Status">
           {isApproved ? 'Approved' : null}
         </Field>
+        <WithdrawnNotice withdrawnNotice={withdrawnNotice} />
         <Field loading={loading} title="Parent molecule">
           {parentMolecule ? (
             <Link to={`/drug/${parentMolecule.id}`}>{parentMolecule.name}</Link>
