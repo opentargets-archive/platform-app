@@ -35,6 +35,7 @@ const DRUG_PROFILE_HEADER_FRAGMENT = gql`
       year
     }
     yearOfFirstApproval
+    isApproved
   }
 `;
 
@@ -54,6 +55,7 @@ function ProfileHeader({ chemblId }) {
     drugType,
     yearOfFirstApproval,
     maximumClinicalTrialPhase,
+    isApproved,
   } = data?.drug || {};
 
   return (
@@ -70,6 +72,9 @@ function ProfileHeader({ chemblId }) {
         </Field>
         <Field loading={loading} title="Max phase">
           {maximumClinicalTrialPhase}
+        </Field>
+        <Field loading={loading} title="Status">
+          {isApproved ? 'Approved' : null}
         </Field>
         <Field loading={loading} title="Parent molecule">
           {parentMolecule ? (
