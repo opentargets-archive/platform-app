@@ -188,6 +188,7 @@ function getColumns(efoId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
+      sortable: true,
       renderCell: row => (
         <AssocCell score={row[dt.id]} ensemblId={row.ensemblId} efoId={efoId} />
       ),
@@ -240,11 +241,11 @@ function getRows(data) {
 }
 
 function ClassicAssociationsTable({ efoId, aggregationFilters }) {
-  console.log('Table render');
   const classes = useStyles();
   const [rows, setRows] = useState([]);
   const [count, setCount] = useState();
-  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState();
   const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
@@ -268,7 +269,7 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
           if (isCurrent) {
             setRows(data.disease.associatedTargets.rows);
             setCount(data.disease.associatedTargets.count);
-            setLoading(false);
+            setInitialLoading(false);
           }
         });
       return () => (isCurrent = false);
@@ -283,27 +284,97 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
   );
 
   function handlePageChange(page) {
-    setPage(page);
+    setLoading(true);
+    client
+      .query({
+        query: DISEASE_ASSOCIATIONS_QUERY,
+        variables: {
+          efoId,
+          index: page,
+          size: pageSize,
+          sortBy,
+          filter,
+          aggregationFilters,
+        },
+      })
+      .then(({ data }) => {
+        setRows(data.disease.associatedTargets.rows);
+        setPage(page);
+        setLoading(false);
+      });
   }
 
   function handleRowsPerPageChange(pageSize) {
-    setPageSize(pageSize);
-    setPage(0);
+    setLoading(true);
+    client
+      .query({
+        query: DISEASE_ASSOCIATIONS_QUERY,
+        variables: {
+          efoId,
+          index: page,
+          size: pageSize,
+          sortBy,
+          filter,
+          aggregationFilters,
+        },
+      })
+      .then(({ data }) => {
+        setRows(data.disease.associatedTargets.rows);
+        setPageSize(pageSize);
+        setPage(0);
+        setLoading(false);
+      });
   }
 
   function handleSort(sortBy) {
-    setSortBy(sortBy);
+    setLoading(true);
+    client
+      .query({
+        query: DISEASE_ASSOCIATIONS_QUERY,
+        variables: {
+          efoId,
+          index: 0,
+          size: pageSize,
+          sortBy,
+          filter,
+          aggregationFilters,
+        },
+      })
+      .then(({ data }) => {
+        setRows(data.disease.associatedTargets.rows);
+        setPage(0);
+        setSortBy(sortBy);
+        setLoading(false);
+      });
   }
 
   function handleGlobalFilterChange(filter) {
-    setFilter(filter);
-    setPage(0);
+    setLoading(true);
+    client
+      .query({
+        query: DISEASE_ASSOCIATIONS_QUERY,
+        variables: {
+          efoId,
+          index: 0,
+          size: pageSize,
+          sortBy,
+          filter,
+          aggregationFilters,
+        },
+      })
+      .then(({ data }) => {
+        setRows(data.disease.associatedTargets.rows);
+        setCount(data.disease.associatedTargets.count);
+        setPage(0);
+        setFilter(filter);
+        setLoading(false);
+      });
   }
 
   const columns = getColumns(efoId, classes);
   const processedRows = getRows(rows);
 
-  if (loading) return <Skeleton variant="rect" height="40vh" />;
+  if (initialLoading) return <Skeleton variant="rect" height="40vh" />;
 
   return (
     <>
