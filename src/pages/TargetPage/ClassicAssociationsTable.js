@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import Link from '../../components/Link';
 import { Table } from '../../components/Table';
 import AssocCell from '../../components/AssocCell';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 import Legend from '../../components/Legend';
 import dataTypes from '../../dataTypes';
+import client from '../../client';
 
 const TARGET_ASSOCIATIONS_QUERY = gql`
   query TargetAssociationsQuery(
@@ -173,6 +174,7 @@ function getColumns(ensemblId, classes) {
         );
         return datatypeScore ? datatypeScore.score : 'No data';
       },
+      sortable: true,
       renderCell: row => (
         <AssocCell score={row[dt.id]} ensemblId={ensemblId} efoId={row.efoId} />
       ),
@@ -204,21 +206,40 @@ function getRows(data) {
 
 function ClassicAssociationsTable({ ensgId, aggregationFilters }) {
   const classes = useStyles();
+  const [rows, setRows] = useState([]);
+  const [count, setCount] = useState();
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState(null);
   const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(50);
 
-  const { loading, error, data } = useQuery(TARGET_ASSOCIATIONS_QUERY, {
-    variables: {
-      ensemblId: ensgId,
-      index: page,
-      size: pageSize,
-      filter: filter === '' ? null : filter,
-      sortBy,
-      aggregationFilters,
+  useEffect(
+    () => {
+      let isCurrent = true;
+      client
+        .query({
+          query: TARGET_ASSOCIATIONS_QUERY,
+          variables: {
+            ensemblId: ensgId,
+            index: 0,
+            size: 50,
+            sortBy: 'score',
+            aggregationFilters,
+          },
+        })
+        .then(({ data }) => {
+          if (isCurrent) {
+            setRows(data.target.associatedDiseases.rows);
+            setCount(data.target.associatedDiseases.count);
+            setInitialLoading(false);
+          }
+        });
+      return () => (isCurrent = false);
     },
-  });
+    [ensgId, aggregationFilters]
+  );
 
   const getAllAssociations = useBatchDownloader(
     TARGET_ASSOCIATIONS_QUERY,
@@ -227,28 +248,99 @@ function ClassicAssociationsTable({ ensgId, aggregationFilters }) {
   );
 
   function handlePageChange(page) {
-    setPage(page);
+    setLoading(true);
+    client
+      .query({
+        query: TARGET_ASSOCIATIONS_QUERY,
+        variables: {
+          ensemblId: ensgId,
+          index: page,
+          size: pageSize,
+          sortBy,
+          filter,
+          aggregationFilters,
+        },
+      })
+      .then(({ data }) => {
+        setRows(data.target.associatedDiseases.rows);
+        setPage(page);
+        setLoading(false);
+      });
   }
 
   function handleRowsPerPageChange(pageSize) {
-    setPageSize(pageSize);
-    setPage(0);
+    setLoading(true);
+    client
+      .query({
+        query: TARGET_ASSOCIATIONS_QUERY,
+        variables: {
+          ensemblId: ensgId,
+          index: page,
+          size: pageSize,
+          sortBy,
+          filter,
+          aggregationFilters,
+        },
+      })
+      .then(({ data }) => {
+        setRows(data.target.associatedDiseases.rows);
+        setPageSize(pageSize);
+        setPage(0);
+        setLoading(false);
+      });
   }
 
   function handleSort(sortBy) {
-    setSortBy(sortBy);
+    setLoading(true);
+    client
+      .query({
+        query: TARGET_ASSOCIATIONS_QUERY,
+        variables: {
+          ensemblId: ensgId,
+          index: 0,
+          size: pageSize,
+          sortBy,
+          filter,
+          aggregationFilters,
+        },
+      })
+      .then(({ data }) => {
+        setRows(data.target.associatedDiseases.rows);
+        setPage(0);
+        setSortBy(sortBy);
+        setLoading(false);
+      });
   }
 
   function handleGlobalFilterChange(filter) {
-    setFilter(filter);
-    setPage(0);
+    setLoading(true);
+    client
+      .query({
+        query: TARGET_ASSOCIATIONS_QUERY,
+        variables: {
+          ensemblId: ensgId,
+          index: 0,
+          size: pageSize,
+          sortBy,
+          filter,
+          aggregationFilters,
+        },
+      })
+      .then(({ data }) => {
+        setRows(data.target.associatedDiseases.rows);
+        setCount(data.target.associatedDiseases.count);
+        setPage(0);
+        setFilter(filter);
+        setLoading(false);
+      });
   }
 
-  if (error) return null;
+  if (initialLoading) return <Skeleton variant="rect" height="40vh" />;
 
-  const { count, rows = [] } = data?.target.associatedDiseases ?? {};
   const columns = getColumns(ensgId, classes);
   const processedRows = getRows(rows);
+
+  if (initialLoading) return <Skeleton variant="rect" height="40vh" />;
 
   return (
     <>

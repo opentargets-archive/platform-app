@@ -15,7 +15,6 @@ import {
   Tab,
 } from '@material-ui/core';
 import { gql, useQuery } from '@apollo/client';
-import { Skeleton } from '@material-ui/lab';
 
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
@@ -118,34 +117,30 @@ function ClassicAssociations({ ensgId, symbol }) {
         </Tabs>
         <Card elevation={0} style={{ overflow: 'visible' }}>
           <CardContent>
-            {loading && !data ? (
-              <Skeleton variant="rect" height="40vh" />
-            ) : (
-              <Switch>
-                <Route path={`${match.path}/bubbles`}>
-                  <Wrapper
-                    ensemblId={ensgId}
-                    symbol={symbol}
-                    Component={ClassicAssociationsBubbles}
-                    aggregationFilters={aggregationFilters}
-                  />
-                </Route>
-                <Route path={`${match.path}/graph`}>
-                  <Wrapper
-                    ensemblId={ensgId}
-                    symbol={symbol}
-                    Component={ClassicAssociationsDAG}
-                    aggregationFilters={aggregationFilters}
-                  />
-                </Route>
-                <Route path={match.path}>
-                  <ClassicAssociationsTable
-                    ensgId={ensgId}
-                    aggregationFilters={aggregationFilters}
-                  />
-                </Route>
-              </Switch>
-            )}
+            <Switch>
+              <Route path={`${match.path}/bubbles`}>
+                <Wrapper
+                  ensemblId={ensgId}
+                  symbol={symbol}
+                  Component={ClassicAssociationsBubbles}
+                  aggregationFilters={aggregationFilters}
+                />
+              </Route>
+              <Route path={`${match.path}/graph`}>
+                <Wrapper
+                  ensemblId={ensgId}
+                  symbol={symbol}
+                  Component={ClassicAssociationsDAG}
+                  aggregationFilters={aggregationFilters}
+                />
+              </Route>
+              <Route path={match.path}>
+                <ClassicAssociationsTable
+                  ensgId={ensgId}
+                  aggregationFilters={aggregationFilters}
+                />
+              </Route>
+            </Switch>
           </CardContent>
         </Card>
       </Grid>
