@@ -40,7 +40,6 @@ export default {
     { label: 'Noonan Syndrome', id: 'Orphanet_648' },
     { label: 'Melanoma', id: 'EFO_0000756' },
     { label: 'Leukemia', id: 'EFO_0000565' },
-    { label: 'Liver Disease', id: 'EFO_0001421' },
     { label: 'Cowden Syndrome', id: 'Orphanet_201' },
   ],
   drugs: [
