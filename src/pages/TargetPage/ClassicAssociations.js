@@ -22,8 +22,8 @@ import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { Facets } from '../../components/Facets';
 import Wrapper from './Wrapper';
 
-const TARGET_ASSOCIATIONS_QUERY = gql`
-  query TargetAssociationsQuery(
+const TARGET_FACETS_QUERY = gql`
+  query TargetFacetsQuery(
     $ensemblId: String!
     $aggregationFilters: [AggregationFilter!]
   ) {
@@ -56,13 +56,12 @@ function ClassicAssociations({ ensgId, symbol }) {
   const match = useRouteMatch();
   const location = useLocation();
   const [aggregationFilters, setAggregationFilters] = useState([]);
-  const { loading, data, refetch } = useQuery(TARGET_ASSOCIATIONS_QUERY, {
+  const { loading, data } = useQuery(TARGET_FACETS_QUERY, {
     variables: { ensemblId: ensgId, aggregationFilters },
   });
 
   const handleChangeFilters = newFilters => {
     setAggregationFilters(newFilters);
-    refetch();
   };
 
   const facetData = data?.target?.associatedDiseases.aggregations.aggs;
