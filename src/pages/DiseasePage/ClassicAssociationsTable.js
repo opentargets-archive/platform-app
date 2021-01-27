@@ -246,7 +246,7 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
   const [count, setCount] = useState();
   const [initialLoading, setInitialLoading] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(50);
@@ -348,27 +348,29 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
       });
   }
 
-  function handleGlobalFilterChange(filter) {
-    setLoading(true);
-    client
-      .query({
-        query: DISEASE_ASSOCIATIONS_QUERY,
-        variables: {
-          efoId,
-          index: 0,
-          size: pageSize,
-          sortBy,
-          filter,
-          aggregationFilters,
-        },
-      })
-      .then(({ data }) => {
-        setRows(data.disease.associatedTargets.rows);
-        setCount(data.disease.associatedTargets.count);
-        setPage(0);
-        setFilter(filter);
-        setLoading(false);
-      });
+  function handleGlobalFilterChange(newFilter) {
+    if (newFilter !== filter) {
+      setLoading(true);
+      client
+        .query({
+          query: DISEASE_ASSOCIATIONS_QUERY,
+          variables: {
+            efoId,
+            index: 0,
+            size: pageSize,
+            sortBy,
+            filter: newFilter,
+            aggregationFilters,
+          },
+        })
+        .then(({ data }) => {
+          setRows(data.disease.associatedTargets.rows);
+          setCount(data.disease.associatedTargets.count);
+          setPage(0);
+          setFilter(newFilter);
+          setLoading(false);
+        });
+    }
   }
 
   const columns = getColumns(efoId, classes);
