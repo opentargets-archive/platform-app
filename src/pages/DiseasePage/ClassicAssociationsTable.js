@@ -311,7 +311,7 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
         query: DISEASE_ASSOCIATIONS_QUERY,
         variables: {
           efoId,
-          index: page,
+          index: 0,
           size: pageSize,
           sortBy,
           filter,

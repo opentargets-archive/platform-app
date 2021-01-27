@@ -275,7 +275,7 @@ function ClassicAssociationsTable({ ensgId, aggregationFilters }) {
         query: TARGET_ASSOCIATIONS_QUERY,
         variables: {
           ensemblId: ensgId,
-          index: page,
+          index: 0,
           size: pageSize,
           sortBy,
           filter,
