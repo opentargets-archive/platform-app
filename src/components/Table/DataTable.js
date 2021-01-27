@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Table from './Table';
 import { getPage } from './utils';
@@ -26,8 +26,14 @@ function DataTable({
   const [globalFilterVal, setGlobalFilterVal] = useState('');
   const [sortColumn, setSortColumn] = useState(sortBy);
   const [sortOrder, setSortOrder] = useState(order);
+  useEffect(
+    () => {
+      setPage(0);
+    },
+    [rows]
+  );
   const showPagination =
-    rows.length > [...rowsPerPageOptions, initialPageSize].sort()[0];
+    rows.length > Math.min(...rowsPerPageOptions, initialPageSize);
 
   const handleGlobalFilterChange = globalFilter => {
     setGlobalFilterVal(globalFilter);
