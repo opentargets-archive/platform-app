@@ -13,6 +13,10 @@ const DRUG_PAGE_QUERY = gql`
     drug(chemblId: $chemblId) {
       id
       name
+      crossReferences {
+        source
+        reference
+      }
     }
   }
 `;
@@ -27,11 +31,16 @@ function DrugPage({ match }) {
     return <NotFoundPage />;
   }
 
-  const { name } = data?.drug || {};
+  const { name, crossReferences } = data?.drug || {};
 
   return (
     <BasePage title={name || chemblId}>
-      <Header loading={loading} chemblId={chemblId} name={name} />
+      <Header
+        loading={loading}
+        chemblId={chemblId}
+        name={name}
+        crossReferences={crossReferences}
+      />
 
       <RoutingTabs>
         <RoutingTab
