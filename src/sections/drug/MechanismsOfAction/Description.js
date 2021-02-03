@@ -8,11 +8,11 @@ function Description({ name, parentMolecule, childMolecules }) {
   if (parentMolecule) molecules.push(parentMolecule);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <strong>{name}</strong>
       {molecules.length > 0 ? (
         <>
-          and related molecules
+          , and related molecules{' '}
           {molecules.map(molecule => {
             return (
               <Fragment key={molecule.id}>
@@ -29,7 +29,7 @@ function Description({ name, parentMolecule, childMolecules }) {
       <Link to="https://www.ebi.ac.uk/chembl/" external>
         ChEMBL
       </Link>
-    </React.Fragment>
+    </Fragment>
   );
 }
 
