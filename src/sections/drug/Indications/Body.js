@@ -2,6 +2,7 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import { sourceMap } from '../../../constants';
+import { referenceUrls } from '../../../utils/urls';
 import {
   DataTable,
   PaginationActionsComplete,
@@ -30,7 +31,6 @@ const INDICATIONS_QUERY = gql`
           references {
             ids
             source
-            urls
           }
         }
       }
@@ -69,21 +69,26 @@ const columns = [
     id: 'references',
     label: 'Source',
     renderCell: ({ references }) => {
+      if (!references) return 'N/A';
+
       const referenceList = [];
 
-      if (references) {
-        references.forEach(reference => {
-          reference.ids.forEach((id, i) => {
-            referenceList.push({
-              name: id,
-              url:
-                reference.source === 'ClinicalTrials'
-                  ? `https://clinicaltrials.gov/ct2/show/${id}`
-                  : reference.urls[i],
-              group: sourceMap[reference.source],
-            });
+      references.forEach(reference => {
+        reference.ids.forEach((id, i) => {
+          referenceList.push({
+            name: id,
+            url: referenceUrls[reference.source](id),
+            group: sourceMap[reference.source],
           });
         });
+      });
+
+      if (referenceList.length === 1) {
+        return (
+          <Link external to={referenceList[0].url}>
+            {referenceList[0].group}
+          </Link>
+        );
       }
 
       return <TableDrawer entries={referenceList} />;
