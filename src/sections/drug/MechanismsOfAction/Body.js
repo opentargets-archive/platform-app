@@ -4,7 +4,7 @@ import { gql, useQuery } from '@apollo/client';
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
-import DataTable from '../../../components/Table/DataTable';
+import { DataTable, TableDrawer } from '../../../components/Table';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -45,15 +45,19 @@ const columns = [
     filterValue: row =>
       row.targets.map(target => target.approvedSymbol).join(' '),
     exportValue: row => row.targets.map(target => target.approvedSymbol).join(),
-    renderCell: row =>
-      !row.targets || row.targets.length === 0
-        ? 'non-human'
-        : row.targets.map((target, i) => (
-            <Fragment key={i}>
-              {i > 0 ? ' ' : null}
-              <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>
-            </Fragment>
-          )),
+    renderCell: ({ targets }) => {
+      if (!targets) return 'non-human';
+
+      const targetList = targets.map(target => {
+        return {
+          name: target.approvedSymbol,
+          url: `/target/${target.id}`,
+          group: 'Human targets',
+        };
+      });
+
+      return <TableDrawer entries={targetList} />;
+    },
   },
   {
     id: 'references',
