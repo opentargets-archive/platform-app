@@ -52,7 +52,7 @@ function DrugHeader({ loading, chemblId, name, crossReferences }) {
             {dailyMed && (
               <ExternalLink
                 title="DailyMed"
-                id={dailyMed.reference[0]}
+                id={decodeURI(dailyMed.reference[0])}
                 url={`https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=${
                   dailyMed.reference[0]
                 }`}
