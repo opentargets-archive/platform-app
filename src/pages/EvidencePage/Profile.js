@@ -15,20 +15,29 @@ const EVIDENCE_PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(
   'Disease',
   'EvidenceProfileSummaryFragment'
 );
+
 const EVIDENCE_PROFILE_QUERY = gql`
   query EvidenceProfileQuery($ensgId: String!, $efoId: String!) {
     target(ensemblId: $ensgId) {
       id
-      ...EvidenceProfileTargetHeaderFragment
+      approvedSymbol
+      proteinAnnotations {
+        id
+        functions
+      }
+      symbolSynonyms
+      nameSynonyms
     }
     disease(efoId: $efoId) {
       id
-      ...EvidenceProfileDiseaseHeaderFragment
+      name
+      description
+      synonyms {
+        terms
+      }
       ...EvidenceProfileSummaryFragment
     }
   }
-  ${ProfileHeader.fragments.profileHeaderTarget}
-  ${ProfileHeader.fragments.profileHeaderDisease}
   ${EVIDENCE_PROFILE_SUMMARY_FRAGMENT}
 `;
 

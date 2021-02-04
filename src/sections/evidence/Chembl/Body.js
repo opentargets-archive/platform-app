@@ -50,7 +50,7 @@ const CHEMBL_QUERY = gql`
           }
           clinicalPhase
           clinicalStatus
-          clinicalUrls {
+          urls {
             niceName
             url
           }
@@ -172,8 +172,8 @@ const columns = [
   },
   {
     label: 'Source',
-    renderCell: ({ clinicalUrls }) => {
-      const urlList = clinicalUrls.map(({ niceName, url }) => {
+    renderCell: ({ urls }) => {
+      const urlList = urls.map(({ niceName, url }) => {
         return {
           name: sourceMap[niceName] ? sourceMap[niceName] : niceName,
           url,
