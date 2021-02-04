@@ -1,7 +1,6 @@
 import React from 'react';
 import { faDna, faStethoscope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { gql } from '@apollo/client';
 import {
   Card,
   CardContent,
@@ -19,27 +18,6 @@ import Link from '../../components/Link';
 import { Skeleton } from '@material-ui/lab';
 import usePlatformApi from '../../hooks/usePlatformApi';
 
-const EVIDENCE_PROFILE_TARGET_HEADER_FRAGMENT = gql`
-  fragment EvidenceProfileTargetHeaderFragment on Target {
-    id
-    approvedSymbol
-    proteinAnnotations {
-      id
-      functions
-    }
-    symbolSynonyms
-    nameSynonyms
-  }
-`;
-const EVIDENCE_PROFILE_DISEASE_HEADER_FRAGMENT = gql`
-  fragment EvidenceProfileDiseaseHeaderFragment on Disease {
-    id
-    name
-    description
-    synonyms
-  }
-`;
-
 const useStyles = makeStyles(theme => ({
   card: { height: '100%' },
   cardContent: {
@@ -54,13 +32,19 @@ function ProfileHeader() {
   //TODO: Errors!
   if (error) return null;
 
-  const {
-    id: efoId,
-    name,
-    description: diseaseDescription,
-    synonyms: diseaseSynonyms,
-  } = data?.disease || {};
+  const { id: efoId, name, description: diseaseDescription, synonyms } =
+    data?.disease || {};
   const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
+
+  const diseaseSynonyms = [];
+
+  if (synonyms) {
+    synonyms.forEach(({ terms }) => {
+      terms.forEach(term => {
+        diseaseSynonyms.push(term);
+      });
+    });
+  }
 
   const { id: ensgId, approvedSymbol } = data?.target || {};
   const targetSynonyms = data?.target.symbolSynonyms.concat(
@@ -103,17 +87,14 @@ function ProfileHeader() {
           />
           <CardContent className={classes.cardContent}>
             <Description>{diseaseDescription}</Description>
-            <ChipList title="Synonyms">{diseaseSynonyms}</ChipList>
+            {diseaseSynonyms.length > 0 ? (
+              <ChipList title="Synonyms">{diseaseSynonyms}</ChipList>
+            ) : null}
           </CardContent>
         </Card>
       )}
     </BaseProfileHeader>
   );
 }
-
-ProfileHeader.fragments = {
-  profileHeaderTarget: EVIDENCE_PROFILE_TARGET_HEADER_FRAGMENT,
-  profileHeaderDisease: EVIDENCE_PROFILE_DISEASE_HEADER_FRAGMENT,
-};
 
 export default ProfileHeader;
