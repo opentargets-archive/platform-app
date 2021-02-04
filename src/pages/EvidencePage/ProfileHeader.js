@@ -38,7 +38,7 @@ function ProfileHeader() {
 
   const diseaseSynonyms = [];
 
-  if (data) {
+  if (synonyms) {
     synonyms.forEach(({ terms }) => {
       terms.forEach(term => {
         diseaseSynonyms.push(term);
@@ -87,7 +87,9 @@ function ProfileHeader() {
           />
           <CardContent className={classes.cardContent}>
             <Description>{diseaseDescription}</Description>
-            <ChipList title="Synonyms">{diseaseSynonyms}</ChipList>
+            {diseaseSynonyms.length > 0 ? (
+              <ChipList title="Synonyms">{diseaseSynonyms}</ChipList>
+            ) : null}
           </CardContent>
         </Card>
       )}
