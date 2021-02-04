@@ -50,7 +50,7 @@ const CHEMBL_QUERY = gql`
           }
           clinicalPhase
           clinicalStatus
-          clinicalUrls {
+          urls {
             niceName
             url
           }

@@ -36,7 +36,9 @@ const EVIDENCE_PROFILE_DISEASE_HEADER_FRAGMENT = gql`
     id
     name
     description
-    synonyms
+    synonyms {
+      terms
+    }
   }
 `;
 
