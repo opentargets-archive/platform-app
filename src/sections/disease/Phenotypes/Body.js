@@ -1,18 +1,13 @@
 import React from 'react';
+import { gql, useQuery } from '@apollo/client';
+import _ from 'lodash';
 
 import Description from './Description';
 import { DataTable } from '../../../components/Table';
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
-import Summary from './Summary';
-import usePlatformApi from '../../../hooks/usePlatformApi';
-
 import Tooltip from '../../../components/Tooltip';
-import { Typography } from '@material-ui/core';
-
-import { gql, useQuery } from '@apollo/client';
-
-import _ from 'lodash';
+import { naLabel } from '../../../constants';
 
 const PHENOTYPES_BODY_QUERY = gql`
   query PhenotypesQuery($efoId: String!, $index: Int! = 0, $size: Int! = 10) {
@@ -84,6 +79,7 @@ const columns = [
     exportLabel: 'qualifierNot',
     renderCell: ({ evidence }) => (evidence.qualifierNot ? 'NOT' : ''),
     // exportValue: d => d.url,
+    // width: '7%',
   },
   {
     id: 'phenotypeHPO',
@@ -97,6 +93,7 @@ const columns = [
         )}
       </Tooltip>
     ),
+    // width: '9%',
   },
   {
     id: 'phenotypeHDOid',
@@ -109,6 +106,7 @@ const columns = [
         </Link>
       );
     },
+    // width: '9%',
   },
   {
     id: 'aspect',
@@ -123,6 +121,7 @@ const columns = [
         {evidence.aspect}
       </Tooltip>
     ),
+    // width: '7%',
   },
   {
     id: 'frequency',
@@ -143,8 +142,9 @@ const columns = [
           evidence.frequencyHPO.name
         )
       ) : (
-        'N/A'
+        naLabel
       ),
+    // width: '9%',
   },
   {
     id: 'onset',
@@ -162,7 +162,8 @@ const columns = [
               <br />
             </span>
           ))
-        : 'N/A',
+        : naLabel,
+    // width: '9%',
   },
   {
     id: 'modifier',
@@ -180,12 +181,14 @@ const columns = [
               <br />
             </span>
           ))
-        : 'N/A',
+        : naLabel,
+    // width: '9%',
   },
   {
     id: 'sex',
     label: 'Sex',
-    renderCell: ({ evidence }) => _.capitalize(evidence.sex) || 'N/A',
+    renderCell: ({ evidence }) => _.capitalize(evidence.sex) || naLabel,
+    // width: '9%',
   },
   {
     id: 'evidenceType',
@@ -199,13 +202,15 @@ const columns = [
           {evidence.evidenceType}
         </Tooltip>
       ) : (
-        'N/A'
+        naLabel
       ),
+    // width: '7%',
   },
   {
     id: 'source',
     label: 'Source',
-    renderCell: ({ evidence }) => evidence.resource || 'N/A',
+    renderCell: ({ evidence }) => evidence.resource || naLabel,
+    // width: '9%',
   },
   {
     id: 'references',
@@ -227,7 +232,8 @@ const columns = [
               </span>
             );
           })
-        : 'N/A',
+        : naLabel,
+    // width: '9%',
   },
 ];
 
@@ -280,6 +286,8 @@ function Body({ definition, label: name, id: efoId }) {
             rows={rows}
             dataDownloader
             dataDownloaderFileStem="phenotypes"
+            showGlobalFilter
+            rowsPerPageOptions={[10, 25, 50, 100]}
           />
         );
       }}
