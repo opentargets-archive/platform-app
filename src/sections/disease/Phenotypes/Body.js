@@ -40,6 +40,7 @@ const PHENOTYPES_BODY_QUERY = gql`
             frequency
             frequencyHPO {
               name
+              id
             }
             qualifierNot
             onset {
@@ -67,6 +68,13 @@ const evidenceTypeDescription = {
     'Published Clinical Study (PCS) are annotations extracted from articles in the medical literature with the PubMed ID of the published study (if available)',
   TAS:
     'Traceable Author Statement (TAS) is used for information gleaned from knowledge bases such as OMIM or Orphanet that have derived the information from a published source',
+};
+
+const aspectDescription = {
+  P: 'Phenotypic abnormality',
+  I: 'Inheritance',
+  C: 'Onset and clinical course',
+  M: 'Clinical modifier',
 };
 
 const columns = [
@@ -107,7 +115,9 @@ const columns = [
     label: 'Aspect',
     renderCell: ({ evidence }) => (
       <Tooltip
-        title="Sub-ontology: P (Phenotypic abnormality), I (inheritance), C (onset and clinical course), M (clinical modifier)"
+        title={`Sub-ontology: ${evidence.aspect} (${
+          aspectDescription[evidence.aspect]
+        })`}
         showHelpIcon
       >
         {evidence.aspect}
@@ -202,19 +212,19 @@ const columns = [
     label: 'References',
     renderCell: ({ evidence }) =>
       evidence.references?.length > 0
-        ? evidence.references.map(r => {
+        ? evidence.references.map((r, i) => {
             const url = r.toUpperCase().startsWith('PMID:')
               ? `https://europepmc.org/search?query=EXT_ID:${r
                   .split(':')
                   .pop()}`
               : `https://hpo.jax.org/app/browse/disease/${r}`;
             return (
-              <>
+              <span key={i}>
                 <Link external to={url}>
                   {r}
                 </Link>
                 <br />
-              </>
+              </span>
             );
           })
         : 'N/A',
