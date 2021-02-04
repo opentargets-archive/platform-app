@@ -11,9 +11,8 @@ import usePlatformApi from '../../hooks/usePlatformApi';
 const DISEASE_PROFILE_HEADER_FRAGMENT = gql`
   fragment DiseaseProfileHeaderFragment on Disease {
     description
-    # synonyms
     synonyms {
-      relation
+      # relation
       terms
     }
   }
