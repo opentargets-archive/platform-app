@@ -56,13 +56,19 @@ function ProfileHeader() {
   //TODO: Errors!
   if (error) return null;
 
-  const {
-    id: efoId,
-    name,
-    description: diseaseDescription,
-    synonyms: diseaseSynonyms,
-  } = data?.disease || {};
+  const { id: efoId, name, description: diseaseDescription, synonyms } =
+    data?.disease || {};
   const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
+
+  const diseaseSynonyms = [];
+
+  if (data) {
+    synonyms.forEach(({ terms }) => {
+      terms.forEach(term => {
+        diseaseSynonyms.push(term);
+      });
+    });
+  }
 
   const { id: ensgId, approvedSymbol } = data?.target || {};
   const targetSynonyms = data?.target.symbolSynonyms.concat(
