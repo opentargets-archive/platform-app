@@ -1,10 +1,12 @@
 import React, { Fragment } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
-import DataTable from '../../../components/Table/DataTable';
-import Description from './Description';
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
+import usePlatformApi from '../../../hooks/usePlatformApi';
+import { DataTable, TableDrawer } from '../../../components/Table';
+import Summary from './Summary';
+import Description from './Description';
 
 const MECHANISMS_OF_ACTION_QUERY = gql`
   query MechanismsOfActionSectionQuery($chemblId: String!) {
@@ -43,15 +45,19 @@ const columns = [
     filterValue: row =>
       row.targets.map(target => target.approvedSymbol).join(' '),
     exportValue: row => row.targets.map(target => target.approvedSymbol).join(),
-    renderCell: row =>
-      !row.targets || row.targets.length === 0
-        ? 'non-human'
-        : row.targets.map((target, i) => (
-            <Fragment key={i}>
-              {i > 0 ? ' ' : null}
-              <Link to={`/target/${target.id}`}>{target.approvedSymbol}</Link>
-            </Fragment>
-          )),
+    renderCell: ({ targets }) => {
+      if (!targets) return 'non-human';
+
+      const targetList = targets.map(target => {
+        return {
+          name: target.approvedSymbol,
+          url: `/target/${target.id}`,
+          group: 'Human targets',
+        };
+      });
+
+      return <TableDrawer entries={targetList} />;
+    },
   },
   {
     id: 'references',
@@ -84,12 +90,21 @@ function Body({ definition, id: chemblId, label: name }) {
   const request = useQuery(MECHANISMS_OF_ACTION_QUERY, {
     variables: { chemblId },
   });
+  const { data: summaryData } = usePlatformApi(
+    Summary.fragments.MechanismsOfActionSummaryFragment
+  );
 
   return (
     <SectionItem
       definition={definition}
       request={request}
-      renderDescription={() => <Description name={name} />}
+      renderDescription={() => (
+        <Description
+          name={name}
+          parentMolecule={summaryData.parentMolecule}
+          childMolecules={summaryData.childMolecules}
+        />
+      )}
       renderBody={data => {
         const rows = data.drug.mechanismsOfAction.rows;
 

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { gql, useQuery } from '@apollo/client';
-import { Skeleton } from '@material-ui/lab';
 
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { Facets } from '../../components/Facets';
 
-const DISEASE_ASSOCIATIONS_QUERY = gql`
-  query DiseaseAssociationsQuery(
+const DISEASE_FACETS_QUERY = gql`
+  query DiseaseFacetsQuery(
     $efoId: String!
     $aggregationFilters: [AggregationFilter!]
   ) {
@@ -38,13 +37,12 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
 
 function ClassicAssociations({ efoId, name }) {
   const [aggregationFilters, setAggregationFilters] = useState([]);
-  const { loading, data, refetch } = useQuery(DISEASE_ASSOCIATIONS_QUERY, {
+  const { loading, data } = useQuery(DISEASE_FACETS_QUERY, {
     variables: { efoId, aggregationFilters },
   });
 
   const handleChangeFilters = newFilters => {
     setAggregationFilters(newFilters);
-    refetch();
   };
 
   const facetData = data?.disease?.associatedTargets.aggregations.aggs;
@@ -77,14 +75,10 @@ function ClassicAssociations({ efoId, name }) {
       <Grid item xs={12} lg={9}>
         <Card elevation={0} style={{ overflow: 'visible' }}>
           <CardContent>
-            {loading && !data ? (
-              <Skeleton variant="rect" height="40vh" />
-            ) : (
-              <ClassicAssociationsTable
-                efoId={efoId}
-                aggregationFilters={aggregationFilters}
-              />
-            )}
+            <ClassicAssociationsTable
+              efoId={efoId}
+              aggregationFilters={aggregationFilters}
+            />
           </CardContent>
         </Card>
       </Grid>
