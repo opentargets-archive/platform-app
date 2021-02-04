@@ -1,7 +1,6 @@
 import React from 'react';
 import { faDna, faStethoscope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { gql } from '@apollo/client';
 import {
   Card,
   CardContent,
@@ -18,29 +17,6 @@ import {
 import Link from '../../components/Link';
 import { Skeleton } from '@material-ui/lab';
 import usePlatformApi from '../../hooks/usePlatformApi';
-
-const EVIDENCE_PROFILE_TARGET_HEADER_FRAGMENT = gql`
-  fragment EvidenceProfileTargetHeaderFragment on Target {
-    id
-    approvedSymbol
-    proteinAnnotations {
-      id
-      functions
-    }
-    symbolSynonyms
-    nameSynonyms
-  }
-`;
-const EVIDENCE_PROFILE_DISEASE_HEADER_FRAGMENT = gql`
-  fragment EvidenceProfileDiseaseHeaderFragment on Disease {
-    id
-    name
-    description
-    synonyms {
-      terms
-    }
-  }
-`;
 
 const useStyles = makeStyles(theme => ({
   card: { height: '100%' },
@@ -118,10 +94,5 @@ function ProfileHeader() {
     </BaseProfileHeader>
   );
 }
-
-ProfileHeader.fragments = {
-  profileHeaderTarget: EVIDENCE_PROFILE_TARGET_HEADER_FRAGMENT,
-  profileHeaderDisease: EVIDENCE_PROFILE_DISEASE_HEADER_FRAGMENT,
-};
 
 export default ProfileHeader;
