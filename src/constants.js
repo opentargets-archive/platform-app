@@ -294,9 +294,13 @@ export const phaseMap = {
 
 export const sourceMap = {
   'FDA Information': 'FDA',
+  FDA: 'FDA',
   'Clinical Trials Information': 'ClinicalTrials.gov',
+  ClinicalTrials: 'ClinicalTrials.gov',
   'DailyMed Information': 'DailyMed',
+  DailyMed: 'DailyMed',
   'ATC Information': 'ATC',
+  ATC: 'ATC',
 };
 
 export const clinvarStarMap = {

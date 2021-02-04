@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { gql } from '@apollo/client';
 
 import {
@@ -7,6 +7,7 @@ import {
   Field,
   ProfileHeader as BaseProfileHeader,
 } from '../../components/ProfileHeader';
+import Link from '../../components/Link';
 import Smiles from './Smiles';
 import usePlatformApi from '../../hooks/usePlatformApi';
 import WithdrawnNotice from '../../components/WithdrawnNotice';
@@ -16,6 +17,14 @@ const DRUG_PROFILE_HEADER_FRAGMENT = gql`
     description
     drugType
     synonyms
+    parentMolecule {
+      id
+      name
+    }
+    childMolecules {
+      id
+      name
+    }
     hasBeenWithdrawn
     maximumClinicalTrialPhase
     tradeNames
@@ -26,6 +35,7 @@ const DRUG_PROFILE_HEADER_FRAGMENT = gql`
       year
     }
     yearOfFirstApproval
+    isApproved
   }
 `;
 
@@ -37,20 +47,21 @@ function ProfileHeader({ chemblId }) {
 
   const {
     description,
+    parentMolecule,
+    childMolecules = [],
     synonyms,
     tradeNames,
     withdrawnNotice,
     drugType,
     yearOfFirstApproval,
     maximumClinicalTrialPhase,
+    isApproved,
   } = data?.drug || {};
 
   return (
     <BaseProfileHeader>
       <>
         <Description loading={loading}>{description}</Description>
-        <WithdrawnNotice withdrawnNotice={withdrawnNotice} />
-
         <Field loading={loading} title="Molecule type">
           {drugType}
         </Field>
@@ -59,6 +70,23 @@ function ProfileHeader({ chemblId }) {
         </Field>
         <Field loading={loading} title="Max phase">
           {maximumClinicalTrialPhase}
+        </Field>
+        <Field loading={loading} title="Status">
+          {isApproved ? 'Approved' : null}
+        </Field>
+        <WithdrawnNotice withdrawnNotice={withdrawnNotice} />
+        <Field loading={loading} title="Parent molecule">
+          {parentMolecule ? (
+            <Link to={`/drug/${parentMolecule.id}`}>{parentMolecule.name}</Link>
+          ) : null}
+        </Field>
+        <Field loading={loading} title="Child molecules">
+          {childMolecules.map(({ id, name }, i) => (
+            <Fragment key={id}>
+              <Link to={`/drug/${id}`}>{name}</Link>
+              {i < childMolecules.length - 1 ? ', ' : null}
+            </Fragment>
+          ))}
         </Field>
         <ChipList title="Synonyms" inline loading={loading}>
           {synonyms}
