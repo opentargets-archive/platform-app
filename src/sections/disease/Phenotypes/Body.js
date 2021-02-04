@@ -80,6 +80,7 @@ const columns = [
     renderCell: ({ evidence }) => (evidence.qualifierNot ? 'NOT' : ''),
     // exportValue: d => d.url,
     // width: '7%',
+    // filterValue: ({ evidence }) => (evidence.qualifierNot ? 'NOT' : ''),
   },
   {
     id: 'phenotypeHPO',
@@ -94,6 +95,7 @@ const columns = [
       </Tooltip>
     ),
     // width: '9%',
+    // filterValue: row => row.phenotypeHPO.name,
   },
   {
     id: 'phenotypeHDOid',
@@ -107,6 +109,7 @@ const columns = [
       );
     },
     // width: '9%',
+    // filterValue: row => row.phenotypeHPO.id,
   },
   {
     id: 'aspect',
