@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DataDownloader from '../../../components/DataDownloader';
-import FilteringOtTableRF from '../../../components/FilteringOtTableRF';
+import ColumnFilteringDataTable from '../../../components/ColumnFilteringDataTable';
 import Link from '../../../components/Link';
 
 const OverviewTab = ({ symbol, lowLevelPathways }) => (
@@ -11,12 +11,7 @@ const OverviewTab = ({ symbol, lowLevelPathways }) => (
       rows={lowLevelPathways}
       fileStem={`${symbol}-pathways`}
     />
-    <FilteringOtTableRF
-      loading={false}
-      error={null}
-      columns={columns}
-      data={lowLevelPathways}
-    />
+    <ColumnFilteringDataTable columns={columns} rows={lowLevelPathways} />
   </>
 );
 
@@ -25,6 +20,7 @@ const columns = [
     id: 'name',
     label: 'Pathway',
     filterable: true,
+    sortable: true,
   },
   {
     id: 'id',
@@ -35,6 +31,7 @@ const columns = [
       </Link>
     ),
     filterable: true,
+    sortable: true,
   },
   {
     id: 'parentNames',
