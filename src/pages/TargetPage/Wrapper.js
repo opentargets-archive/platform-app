@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
+import { Skeleton } from '@material-ui/lab';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 const efoURL =
@@ -47,25 +48,30 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
 
   useEffect(
     () => {
+      let isCurrent = true;
       const promises = [
         fetch(efoURL).then(res => res.text()),
         getAllAssociations(),
       ];
       Promise.all(promises).then(data => {
-        const nodes = data[0]
-          .trim()
-          .split('\n')
-          .map(JSON.parse);
-        setNodes(nodes);
-        setAssociations(data[1]);
+        if (isCurrent) {
+          const nodes = data[0]
+            .trim()
+            .split('\n')
+            .map(JSON.parse);
+          setNodes(nodes);
+          setAssociations(data[1]);
+        }
       });
+
+      return () => (isCurrent = false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [ensemblId, aggregationFilters]
   );
 
   if (!nodes || !associations) {
-    return null;
+    return <Skeleton variant="rect" height="40vh" />;
   }
 
   const idToDisease = nodes.reduce((acc, disease) => {

@@ -291,8 +291,6 @@ function ClassicAssociationsTable({ ensgId, aggregationFilters }) {
   const columns = getColumns(ensgId, classes);
   const processedRows = getRows(rows);
 
-  if (initialLoading) return <Skeleton variant="rect" height="40vh" />;
-
   return (
     <>
       <Table
