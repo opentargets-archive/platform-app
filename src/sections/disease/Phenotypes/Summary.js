@@ -21,7 +21,7 @@ function Summary({ definition }) {
       request={request}
       renderSummary={data => {
         console.log('phenotypes: ', data);
-        return <>{data.phenotypes.count} phenotypes</>;
+        return <>{data.phenotypes?.count || 0} phenotypes</>;
       }}
     />
   );
