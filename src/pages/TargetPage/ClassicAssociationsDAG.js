@@ -2,7 +2,7 @@ import React, { useState, useMemo, useRef } from 'react';
 import * as d3Base from 'd3';
 import * as d3Dag from 'd3-dag';
 import { withContentRect } from 'react-measure';
-import { Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { DownloadSvgPlot } from '../../components/DownloadSvgPlot';
 import Legend from '../../components/Legend';
 import Slider from './ClassicAssociationsSlider';
@@ -180,7 +180,14 @@ function ClassicAssociationsDAG({
           onChange={(_, val) => setMinScore(val)}
           onChangeCommitted={(_, val) => setMinCommittedScore(val)}
         />
-        <div ref={measureRef}>
+        <Grid
+          ref={measureRef}
+          item
+          container
+          justify="center"
+          alignItems="center"
+          style={{ margin: '0 auto', minHeight: '340px' }}
+        >
           {width ? (
             assocs.length > 0 ? (
               <Dag
@@ -200,7 +207,7 @@ function ClassicAssociationsDAG({
               </Typography>
             )
           ) : null}
-        </div>
+        </Grid>
       </DownloadSvgPlot>
       <Legend />
     </>
