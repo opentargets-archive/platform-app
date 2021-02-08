@@ -88,7 +88,7 @@ const columns = [
     renderCell: ({ phenotypeEFO, phenotypeHPO }) => (
       <Tooltip title={`Description: ${phenotypeHPO.description}`} showHelpIcon>
         {phenotypeEFO?.id ? (
-          <Link to={`disease/${phenotypeEFO.id}`}>{phenotypeHPO.name}</Link>
+          <Link to={`/disease/${phenotypeEFO.id}`}>{phenotypeHPO.name}</Link>
         ) : (
           phenotypeHPO.name
         )}
