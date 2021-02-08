@@ -6,8 +6,8 @@ import useBatchDownloader from '../../hooks/useBatchDownloader';
 const efoURL =
   'https://storage.googleapis.com/open-targets-data-releases/beta-rewrite/static/ontology/diseases_efo.jsonl';
 
-const ASSOCIATIONS_QUERY = gql`
-  query AssociationsQuery(
+const ASSOCIATIONS_VIZ_QUERY = gql`
+  query AssociationsVizQuery(
     $ensemblId: String!
     $index: Int!
     $size: Int!
@@ -41,7 +41,7 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
   const [associations, setAssociations] = useState();
 
   const getAllAssociations = useBatchDownloader(
-    ASSOCIATIONS_QUERY,
+    ASSOCIATIONS_VIZ_QUERY,
     { ensemblId, aggregationFilters },
     'data.target.associatedDiseases'
   );
