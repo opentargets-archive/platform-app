@@ -78,9 +78,9 @@ const columns = [
     label: 'Qualifier',
     exportLabel: 'qualifierNot',
     renderCell: ({ evidence }) => (evidence.qualifierNot ? 'NOT' : ''),
+    filterValue: ({ evidence }) => (evidence.qualifierNot ? 'NOT' : ''),
     // exportValue: d => d.url,
     // width: '7%',
-    // filterValue: ({ evidence }) => (evidence.qualifierNot ? 'NOT' : ''),
   },
   {
     id: 'phenotypeHPO',
@@ -94,8 +94,8 @@ const columns = [
         )}
       </Tooltip>
     ),
+    filterValue: row => row.phenotypeHPO.name,
     // width: '9%',
-    // filterValue: row => row.phenotypeHPO.name,
   },
   {
     id: 'phenotypeHDOid',
@@ -108,8 +108,8 @@ const columns = [
         </Link>
       );
     },
+    filterValue: row => row.phenotypeHPO.id,
     // width: '9%',
-    // filterValue: row => row.phenotypeHPO.id,
   },
   {
     id: 'aspect',
@@ -124,6 +124,7 @@ const columns = [
         {evidence.aspect}
       </Tooltip>
     ),
+    filterValue: row => row.evidence.aspect,
     // width: '7%',
   },
   {
@@ -147,6 +148,7 @@ const columns = [
       ) : (
         naLabel
       ),
+    filterValue: row => row.evidence.frequencyHPO?.name || naLabel,
     // width: '9%',
   },
   {
@@ -166,6 +168,7 @@ const columns = [
             </span>
           ))
         : naLabel,
+    filterValue: row => row.evidence.onset?.map(o => o.name).join() || naLabel,
     // width: '9%',
   },
   {
@@ -185,12 +188,15 @@ const columns = [
             </span>
           ))
         : naLabel,
+    filterValue: row =>
+      row.evidence.modifiers?.map(m => m.name).join() || naLabel,
     // width: '9%',
   },
   {
     id: 'sex',
     label: 'Sex',
     renderCell: ({ evidence }) => _.capitalize(evidence.sex) || naLabel,
+    filterValue: row => row.evidence.sex || naLabel,
     // width: '9%',
   },
   {
@@ -207,12 +213,14 @@ const columns = [
       ) : (
         naLabel
       ),
+    filterValue: row => row.evidence.evidenceType || naLabel,
     // width: '7%',
   },
   {
     id: 'source',
     label: 'Source',
     renderCell: ({ evidence }) => evidence.resource || naLabel,
+    filterValue: row => row.evidence.resource || naLabel,
     // width: '9%',
   },
   {
@@ -236,6 +244,7 @@ const columns = [
             );
           })
         : naLabel,
+    filterValue: row => row.evidence.references?.map(r => r).join() || naLabel,
     // width: '9%',
   },
 ];
