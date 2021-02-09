@@ -79,7 +79,7 @@ const columns = [
     exportLabel: 'qualifierNot',
     renderCell: ({ evidence }) => (evidence.qualifierNot ? 'NOT' : ''),
     filterValue: ({ evidence }) => (evidence.qualifierNot ? 'NOT' : ''),
-    // exportValue: d => d.url,
+    exportValue: ({ evidence }) => (evidence.qualifierNot ? 'NOT' : ''),
     // width: '7%',
   },
   {
@@ -95,6 +95,7 @@ const columns = [
       </Tooltip>
     ),
     filterValue: row => row.phenotypeHPO.name,
+    exportValue: row => row.phenotypeHPO.name,
     // width: '9%',
   },
   {
@@ -108,7 +109,8 @@ const columns = [
         </Link>
       );
     },
-    filterValue: row => row.phenotypeHPO.id,
+    filterValue: row => row.phenotypeHPO.id.replace('_', ':'),
+    exportValue: row => row.phenotypeHPO.id.replace('_', ':'),
     // width: '9%',
   },
   {
@@ -125,6 +127,7 @@ const columns = [
       </Tooltip>
     ),
     filterValue: row => row.evidence.aspect,
+    exportValue: row => row.evidence.aspect,
     // width: '7%',
   },
   {
@@ -149,6 +152,7 @@ const columns = [
         naLabel
       ),
     filterValue: row => row.evidence.frequencyHPO?.name || naLabel,
+    exportValue: row => row.evidence.frequencyHPO?.name || naLabel,
     // width: '9%',
   },
   {
@@ -169,6 +173,7 @@ const columns = [
           ))
         : naLabel,
     filterValue: row => row.evidence.onset?.map(o => o.name).join() || naLabel,
+    exportValue: row => row.evidence.onset?.map(o => o.name).join() || naLabel,
     // width: '9%',
   },
   {
@@ -189,6 +194,8 @@ const columns = [
           ))
         : naLabel,
     filterValue: row =>
+      row.evidence.modifiers?.map(m => m.name).join() || naLabel,
+    exportValue: row =>
       row.evidence.modifiers?.map(m => m.name).join() || naLabel,
     // width: '9%',
   },
@@ -214,6 +221,7 @@ const columns = [
         naLabel
       ),
     filterValue: row => row.evidence.evidenceType || naLabel,
+    exportValue: row => row.evidence.evidenceType || naLabel,
     // width: '7%',
   },
   {
@@ -221,6 +229,7 @@ const columns = [
     label: 'Source',
     renderCell: ({ evidence }) => evidence.resource || naLabel,
     filterValue: row => row.evidence.resource || naLabel,
+    exportValue: row => row.evidence.resource || naLabel,
     // width: '9%',
   },
   {
@@ -245,6 +254,7 @@ const columns = [
           })
         : naLabel,
     filterValue: row => row.evidence.references?.map(r => r).join() || naLabel,
+    exportValue: row => row.evidence.references?.map(r => r).join() || naLabel,
     // width: '9%',
   },
 ];
@@ -258,30 +268,12 @@ function Body({ definition, label: name, id: efoId }) {
     },
   });
 
-  // return (
-  //   <SectionItem
-  //     definition={definition}
-  //     request={request}
-  //     renderDescription={() => <Description name={name} />}
-  //     renderBody={data => (
-  //       <DataTable
-  //         columns={columns}
-  //         dataDownloader
-  //         dataDownloaderFileStem="phenotypes"
-  //         rows={data.phenotypes}
-  //         showGlobalFilter
-  //       />
-  //     )}
-  //   />
-  // );
-  // return <>Phenotypes</>;
   return (
     <SectionItem
       definition={definition}
       request={request}
       renderDescription={() => <Description name={name} />}
       renderBody={data => {
-        console.log('table data:', data);
         // process the data
         const rows = [];
         data.disease.phenotypes.rows.forEach(p =>
@@ -291,13 +283,13 @@ function Body({ definition, label: name, id: efoId }) {
             rows.push(p1);
           })
         );
-        console.log('rows: ', rows);
+
         return (
           <DataTable
             columns={columns}
             rows={rows}
             dataDownloader
-            dataDownloaderFileStem="phenotypes"
+            dataDownloaderFileStem={`${efoId}-phenotypes`}
             showGlobalFilter
             rowsPerPageOptions={[10, 25, 50, 100]}
           />
