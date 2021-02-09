@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
+import { Skeleton } from '@material-ui/lab';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 const efoURL =
   'https://storage.googleapis.com/open-targets-data-releases/beta-rewrite/static/ontology/diseases_efo.jsonl';
 
-const ASSOCIATIONS_QUERY = gql`
-  query AssociationsQuery(
+const ASSOCIATIONS_VIZ_QUERY = gql`
+  query AssociationsVizQuery(
     $ensemblId: String!
     $index: Int!
     $size: Int!
@@ -40,32 +41,37 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
   const [associations, setAssociations] = useState();
 
   const getAllAssociations = useBatchDownloader(
-    ASSOCIATIONS_QUERY,
+    ASSOCIATIONS_VIZ_QUERY,
     { ensemblId, aggregationFilters },
     'data.target.associatedDiseases'
   );
 
   useEffect(
     () => {
+      let isCurrent = true;
       const promises = [
         fetch(efoURL).then(res => res.text()),
         getAllAssociations(),
       ];
       Promise.all(promises).then(data => {
-        const nodes = data[0]
-          .trim()
-          .split('\n')
-          .map(JSON.parse);
-        setNodes(nodes);
-        setAssociations(data[1]);
+        if (isCurrent) {
+          const nodes = data[0]
+            .trim()
+            .split('\n')
+            .map(JSON.parse);
+          setNodes(nodes);
+          setAssociations(data[1]);
+        }
       });
+
+      return () => (isCurrent = false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [ensemblId, aggregationFilters]
   );
 
   if (!nodes || !associations) {
-    return null;
+    return <Skeleton variant="rect" height="40vh" />;
   }
 
   const idToDisease = nodes.reduce((acc, disease) => {

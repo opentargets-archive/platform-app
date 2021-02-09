@@ -106,7 +106,15 @@ function ClassicAssociationsBubbles({
         filenameStem={`${symbol}-associated-diseases-bubbles`}
       >
         <Slider value={minScore} onChange={(_, val) => setMinScore(val)} />
-        <Grid item ref={measureRef} md={10} style={{ margin: '0 auto' }}>
+        <Grid
+          item
+          container
+          ref={measureRef}
+          md={10}
+          justify="center"
+          alignItems="center"
+          style={{ margin: '0 auto', minHeight: '340px' }}
+        >
           {size ? (
             assocs.length > 0 ? (
               <svg
@@ -195,7 +203,7 @@ function ClassicAssociationsBubbles({
                 })}
               </svg>
             ) : (
-              <Typography align="center">
+              <Typography>
                 No associations with score greater than or equal to {minScore}
               </Typography>
             )
