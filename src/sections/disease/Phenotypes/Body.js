@@ -85,15 +85,23 @@ const columns = [
   {
     id: 'phenotypeHPO',
     label: 'Phenotype',
-    renderCell: ({ phenotypeEFO, phenotypeHPO }) => (
-      <Tooltip title={`Description: ${phenotypeHPO.description}`} showHelpIcon>
-        {phenotypeEFO?.id ? (
-          <Link to={`/disease/${phenotypeEFO.id}`}>{phenotypeHPO.name}</Link>
-        ) : (
-          phenotypeHPO.name
-        )}
-      </Tooltip>
-    ),
+    renderCell: ({ phenotypeEFO, phenotypeHPO }) => {
+      const content = phenotypeEFO?.id ? (
+        <Link to={`/disease/${phenotypeEFO.id}`}>{phenotypeHPO.name}</Link>
+      ) : (
+        <>{phenotypeHPO.name || naLabel}</>
+      );
+      return phenotypeHPO.description ? (
+        <Tooltip
+          title={`Description: ${phenotypeHPO.description}`}
+          showHelpIcon
+        >
+          {content}
+        </Tooltip>
+      ) : (
+        <>{content}</>
+      );
+    },
     filterValue: row => row.phenotypeHPO.name,
     exportValue: row => row.phenotypeHPO.name,
     // width: '9%',
