@@ -116,16 +116,19 @@ const columns = [
   {
     id: 'aspect',
     label: 'Aspect',
-    renderCell: ({ evidence }) => (
-      <Tooltip
-        title={`Sub-ontology: ${evidence.aspect} (${
-          aspectDescription[evidence.aspect]
-        })`}
-        showHelpIcon
-      >
-        {evidence.aspect}
-      </Tooltip>
-    ),
+    renderCell: ({ evidence }) =>
+      evidence.aspect ? (
+        <Tooltip
+          title={`Sub-ontology: ${evidence.aspect} (${
+            aspectDescription[evidence.aspect]
+          })`}
+          showHelpIcon
+        >
+          {evidence.aspect}
+        </Tooltip>
+      ) : (
+        naLabel
+      ),
     filterValue: row => row.evidence.aspect,
     exportValue: row => row.evidence.aspect,
     // width: '7%',
