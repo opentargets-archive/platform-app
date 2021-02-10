@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import _ from 'lodash';
 
 import Description from './Description';
-import { DataTable } from '../../../components/Table';
+import { DataTable, TableDrawer } from '../../../components/Table';
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
@@ -235,24 +235,21 @@ const columns = [
   {
     id: 'references',
     label: 'References',
-    renderCell: ({ evidence }) =>
-      evidence.references?.length > 0
-        ? evidence.references.map((r, i) => {
-            const url = r.toUpperCase().startsWith('PMID:')
-              ? `https://europepmc.org/search?query=EXT_ID:${r
-                  .split(':')
-                  .pop()}`
-              : `https://hpo.jax.org/app/browse/disease/${r}`;
-            return (
-              <span key={i}>
-                <Link external to={url}>
-                  {r}
-                </Link>
-                <br />
-              </span>
-            );
-          })
-        : naLabel,
+    renderCell: ({ evidence }) => {
+      // no references
+      if (!evidence.references || evidence.references.length === 0) {
+        return naLabel;
+      }
+      // parse references
+      const refs = evidence.references.map(r => ({
+        url: r.toUpperCase().startsWith('PMID:')
+          ? `https://europepmc.org/search?query=EXT_ID:${r.split(':').pop()}`
+          : `https://hpo.jax.org/app/browse/disease/${r}`,
+        name: r,
+        group: 'References',
+      }));
+      return <TableDrawer entries={refs} />;
+    },
     filterValue: row => row.evidence.references?.map(r => r).join() || naLabel,
     exportValue: row => row.evidence.references?.map(r => r).join() || naLabel,
     // width: '9%',
