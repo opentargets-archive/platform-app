@@ -16,7 +16,7 @@ function Description({ name, parentMolecule, childMolecules }) {
           {molecules.map(molecule => {
             return (
               <Fragment key={molecule.id}>
-                <Link to={`/disease/${molecule.id}`}>{molecule.name}</Link>
+                <Link to={`/drug/${molecule.id}`}>{molecule.name}</Link>
                 {', '}
               </Fragment>
             );

@@ -45,7 +45,7 @@ const columns = [
     renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
-    width: '45%',
+    width: '38%',
   },
   {
     id: 'therapeuticAreas',
@@ -56,12 +56,11 @@ const columns = [
     },
     exportValue: d =>
       d.disease.therapeuticAreas.map(therapeuticArea => therapeuticArea.id),
-    width: '45%',
+    width: '38%',
   },
   {
     id: 'maxPhaseForIndication',
     label: 'Max Phase',
-    numeric: true,
     sortable: true,
     width: '10%',
   },

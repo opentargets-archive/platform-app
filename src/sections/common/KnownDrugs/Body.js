@@ -3,102 +3,119 @@ import React, { useState, useEffect } from 'react';
 import client from '../../../client';
 import Link from '../../../components/Link';
 import { naLabel } from '../../../constants';
+import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
 import SourceDrawer from './SourceDrawer';
 import { Table, getPage } from '../../../components/Table';
 import useCursorBatchDownloader from '../../../hooks/useCursorBatchDownloader';
 
-const columnPool = {
-  clinicalTrials: {
-    label: 'Clinical trials information',
-    columns: [
-      {
-        id: 'phase',
-      },
-      {
-        id: 'status',
-        renderCell: d => (d.status ? d.status : naLabel),
-      },
-      {
-        id: 'sources',
-        label: 'Source',
-        exportValue: d => d.urls.map(reference => reference.url),
-        renderCell: d => <SourceDrawer references={d.urls} />,
-      },
-    ],
-  },
-  disease: {
-    label: 'Disease information',
-    columns: [
-      {
-        id: 'disease',
-        propertyPath: 'disease.id',
-        renderCell: d => (
-          <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
-        ),
-      },
-    ],
-  },
-  drug: {
-    label: 'Drug information',
-    columns: [
-      {
-        id: 'drug',
-        propertyPath: 'drug.id',
-        renderCell: d => <Link to={`/drug/${d.drug.id}`}>{d.drug.name}</Link>,
-      },
-      {
-        id: 'type',
-        propertyPath: 'drugType',
-        renderCell: d => d.drugType,
-      },
-      {
-        id: 'mechanismOfAction',
-      },
-      {
-        id: 'Action types',
-        renderCell: ({ drug: { mechanismsOfAction } }) => {
-          const uniqueActionTypes = mechanismsOfAction.uniqueActionTypes || [];
-          return uniqueActionTypes.length > 0 ? (
-            <ul
-              style={{
-                margin: 0,
-                padding: 0,
-                listStyle: 'none',
-              }}
-            >
-              {uniqueActionTypes.map(actionType => (
-                <li key={actionType}>{actionType}</li>
-              ))}
-            </ul>
-          ) : (
-            naLabel
-          );
+function getColumnPool(id, entity) {
+  return {
+    clinicalTrials: {
+      label: 'Clinical trials information',
+      columns: [
+        {
+          id: 'phase',
         },
-      },
-    ],
-  },
-  target: {
-    label: 'Target information',
-    columns: [
-      {
-        id: 'targetSymbol',
-        label: 'Symbol',
-        propertyPath: 'target.approvedSymbol',
-        renderCell: d => (
-          <Link to={`/target/${d.target.id}`}>{d.target.approvedSymbol}</Link>
-        ),
-      },
-      {
-        id: 'targetName',
-        label: 'Name',
-        propertyPath: 'target.approvedName',
-        hidden: ['lgDown'],
-        renderCell: d => d.target.approvedName,
-      },
-    ],
-  },
-};
+        {
+          id: 'status',
+          renderCell: d => (d.status ? d.status : naLabel),
+        },
+        {
+          id: 'sources',
+          label: 'Source',
+          exportValue: d => d.urls.map(reference => reference.url),
+          renderCell: d => <SourceDrawer references={d.urls} />,
+        },
+      ],
+    },
+    disease: {
+      label: 'Disease information',
+      columns: [
+        {
+          id: 'disease',
+          propertyPath: 'disease.id',
+          renderCell: d => (
+            <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
+          ),
+        },
+      ],
+    },
+    drug: {
+      label: 'Drug information',
+      columns: [
+        {
+          id: 'drug',
+          propertyPath: 'drug.id',
+          renderCell: d => <Link to={`/drug/${d.drug.id}`}>{d.drug.name}</Link>,
+        },
+        {
+          id: 'type',
+          propertyPath: 'drugType',
+          renderCell: d => d.drugType,
+        },
+        {
+          id: 'mechanismOfAction',
+        },
+        {
+          id: 'Action type',
+          renderCell: ({ drug: { mechanismsOfAction }, target }) => {
+            if (!mechanismsOfAction) return naLabel;
+            const at = new Set();
+
+            const targetId = entity === 'target' ? id : target.id;
+
+            mechanismsOfAction.rows.forEach(row => {
+              row.targets.forEach(t => {
+                if (t.id === targetId) {
+                  at.add(row.actionType);
+                }
+              });
+            });
+
+            const actionTypes = Array.from(at);
+
+            return actionTypes.length > 0 ? (
+              <ul
+                style={{
+                  margin: 0,
+                  padding: 0,
+                  listStyle: 'none',
+                }}
+              >
+                {actionTypes.map(actionType => (
+                  <li key={actionType}>{sentenceCase(actionType)}</li>
+                ))}
+              </ul>
+            ) : (
+              naLabel
+            );
+          },
+        },
+      ],
+    },
+    target: {
+      label: 'Target information',
+      columns: [
+        {
+          id: 'targetSymbol',
+          label: 'Symbol',
+          propertyPath: 'target.approvedSymbol',
+          renderCell: d => (
+            <Link to={`/target/${d.target.id}`}>{d.target.approvedSymbol}</Link>
+          ),
+        },
+        {
+          id: 'targetName',
+          label: 'Name',
+          propertyPath: 'target.approvedName',
+          hidden: ['lgDown'],
+          renderCell: d => d.target.approvedName,
+        },
+      ],
+    },
+  };
+}
 
 const INIT_PAGE_SIZE = 10;
 
@@ -119,6 +136,8 @@ function Body({
   const [pageSize, setPageSize] = useState(INIT_PAGE_SIZE);
   const [globalFilter, setGlobalFilter] = useState('');
 
+  const id = variables[Object.keys(variables)[0]];
+  const columnPool = getColumnPool(id, entity);
   const columns = [];
 
   columnsToShow.forEach(columnGroupName => {
@@ -226,7 +245,7 @@ function Body({
     });
   };
 
-  const id = variables[Object.keys(variables)[0]];
+  // const id = variables[Object.keys(variables)[0]];
 
   return (
     <SectionItem
