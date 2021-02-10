@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import client from '../../../client';
 import Link from '../../../components/Link';
 import { naLabel } from '../../../constants';
+import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
 import SourceDrawer from './SourceDrawer';
 import { Table, getPage } from '../../../components/Table';
@@ -83,7 +84,7 @@ function getColumnPool(id, entity) {
                 }}
               >
                 {actionTypes.map(actionType => (
-                  <li key={actionType}>{actionType}</li>
+                  <li key={actionType}>{sentenceCase(actionType)}</li>
                 ))}
               </ul>
             ) : (
