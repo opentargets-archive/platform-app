@@ -57,7 +57,7 @@ function getColumnPool(id, entity) {
           id: 'mechanismOfAction',
         },
         {
-          id: 'Action types',
+          id: 'Action type',
           renderCell: ({ drug: { mechanismsOfAction }, target }) => {
             if (!mechanismsOfAction) return naLabel;
             const at = new Set();
