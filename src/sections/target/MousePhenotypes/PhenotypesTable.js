@@ -1,122 +1,62 @@
-import React, { Component, Fragment } from 'react';
-import { Autocomplete } from '@material-ui/lab';
-import crossfilter from 'crossfilter2';
-import { TextField } from '@material-ui/core';
-import _ from 'lodash';
+import React from 'react';
 
 import DataDownloader from '../../../components/DataDownloader';
 import Link from '../../../components/Link';
-import OtTableRF from '../../../components/OtTableRF';
+import ColumnFilteringDataTable from '../../../components/ColumnFilteringDataTable';
 
 import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
 
-const getColumns = (
-  mouseGeneOptions,
-  mouseGeneFilterHandler,
-  categoryOptions,
-  categoryFilterHandler,
-  phenotypeOptions,
-  phenotypeFilterHandler
-) => {
-  return [
-    {
-      id: 'mouseGeneSymbol',
-      label: 'Mouse gene',
-      renderCell: row => (
-        <Link
-          external
-          to={`http://www.informatics.jax.org/marker/${row.mouseGeneId}`}
-        >
-          {row.mouseGeneSymbol}
+const columns = [
+  {
+    id: 'mouseGeneSymbol',
+    label: 'Mouse gene',
+    renderCell: row => (
+      <Link
+        external
+        to={`http://www.informatics.jax.org/marker/${row.mouseGeneId}`}
+      >
+        {row.mouseGeneSymbol}
+      </Link>
+    ),
+    filterable: true,
+    sortable: true,
+  },
+  {
+    id: 'categoryLabel',
+    label: 'Phenotype category',
+    filterable: true,
+    sortable: true,
+  },
+  {
+    id: 'phenotypeLabel',
+    label: 'Phenotype label',
+    filterable: true,
+    sortable: true,
+  },
+  {
+    id: 'subjectAllelicComposition',
+    label: 'Allelic composition',
+    renderCell: row => (
+      <MouseModelAllelicComposition
+        allelicComposition={row.subjectAllelicComposition}
+        geneticBackground={row.subjectBackground}
+      />
+    ),
+    sortable: true,
+  },
+  {
+    id: 'pmIds',
+    label: 'Sources',
+    renderCell: row => {
+      const query = row.pmIds.map(pmId => `EXT_ID:${pmId}`).join(' OR ');
+      return (
+        <Link external to={`https://europepmc.org/search?query=${query}`}>
+          {row.pmIds.length} publications
         </Link>
-      ),
-      renderFilter: () => (
-        <Autocomplete
-          getOptionLabel={option => option.label}
-          getOptionSelected={option => option.value}
-          onChange={mouseGeneFilterHandler}
-          options={mouseGeneOptions}
-          renderInput={params => (
-            <TextField {...params} label="Select..." margin="normal" />
-          )}
-        />
-      ),
+      );
     },
-    {
-      id: 'categoryLabel',
-      label: 'Phenotype category',
-      renderFilter: () => (
-        <Autocomplete
-          getOptionLabel={option => option.label}
-          getOptionSelected={option => option.value}
-          options={categoryOptions}
-          onChange={categoryFilterHandler}
-          renderInput={params => (
-            <TextField {...params} label="Select..." margin="normal" />
-          )}
-        />
-      ),
-    },
-    {
-      id: 'phenotypeLabel',
-      label: 'Phenotype label',
-      renderFilter: () => (
-        <Autocomplete
-          getOptionLabel={option => option.label}
-          getOptionSelected={option => option.value}
-          options={phenotypeOptions}
-          onChange={phenotypeFilterHandler}
-          renderInput={params => (
-            <TextField {...params} label="Select..." margin="normal" />
-          )}
-        />
-      ),
-    },
-    {
-      id: 'subjectAllelicComposition',
-      label: 'Allelic composition',
-      renderCell: row => (
-        <MouseModelAllelicComposition
-          allelicComposition={row.subjectAllelicComposition}
-          geneticBackground={row.subjectBackground}
-        />
-      ),
-    },
-    {
-      id: 'pmIds',
-      label: 'Sources',
-      renderCell: row => {
-        const query = row.pmIds.map(pmId => `EXT_ID:${pmId}`).join(' OR ');
-        return (
-          <Link external to={`https://europepmc.org/search?query=${query}`}>
-            {row.pmIds.length} publications
-          </Link>
-        );
-      },
-    },
-  ];
-};
-
-const getMouseGeneOptions = rows => {
-  return _.uniqBy(rows, 'mouseGeneId').map(row => ({
-    label: row.mouseGeneSymbol,
-    value: row.mouseGeneId,
-  }));
-};
-
-const getCategoryOptions = rows => {
-  return _.uniqBy(rows, 'categoryLabel').map(row => ({
-    label: row.categoryLabel,
-    value: row.categoryLabel,
-  }));
-};
-
-const getPhenotypeOptions = rows => {
-  return _.uniqBy(rows, 'phenotypeLabel').map(row => ({
-    label: row.phenotypeLabel,
-    value: row.phenotypeLabel,
-  }));
-};
+  },
+];
 
 const downloadColumns = [
   { id: 'mouseGeneSymbol', label: 'Mouse gene' },
@@ -142,96 +82,20 @@ const getDownloadRows = rows => {
   });
 };
 
-class PhenotypesTable extends Component {
-  state = {
-    filteredRows: this.props.rows,
-  };
+const PhenotypesTable = ({ symbol, rows }) => (
+  <>
+    <DataDownloader
+      tableHeaders={downloadColumns}
+      rows={getDownloadRows(rows)}
+      fileStem={`${symbol}-mouse-phenotypes`}
+    />
+    <ColumnFilteringDataTable columns={columns} rows={rows} />
+  </>
+);
 
-  mouseGeneFilterHandler = (e, selection) => {
-    const { phenotypesXf, mouseGeneDim } = this;
-
-    if (selection) {
-      mouseGeneDim.filter(d => d === selection.value);
-    } else {
-      mouseGeneDim.filterAll();
-    }
-
-    this.setState({ filteredRows: phenotypesXf.allFiltered() });
-  };
-
-  categoryFilterHandler = (e, selection) => {
-    const { phenotypesXf, categoryDim } = this;
-    if (selection) {
-      categoryDim.filter(d => d === selection.value);
-    } else {
-      categoryDim.filterAll();
-    }
-
-    this.setState({ filteredRows: phenotypesXf.allFiltered() });
-  };
-
-  phenotypeFilterHandler = (e, selection) => {
-    const { phenotypesXf, phenotypeDim } = this;
-
-    if (selection) {
-      phenotypeDim.filter(d => d === selection.value);
-    } else {
-      phenotypeDim.filterAll();
-    }
-    this.setState({ filteredRows: phenotypesXf.allFiltered() });
-  };
-
-  componentDidMount() {
-    this.phenotypesXf = crossfilter(this.props.rows);
-    this.mouseGeneDim = this.phenotypesXf.dimension(row => row.mouseGeneId);
-    this.categoryDim = this.phenotypesXf.dimension(row => row.categoryLabel);
-    this.phenotypeDim = this.phenotypesXf.dimension(row => row.phenotypeLabel);
-  }
-
-  render() {
-    const { symbol, rows, classes } = this.props;
-    const { filteredRows } = this.state;
-    const mouseGeneOptions = getMouseGeneOptions(rows);
-    const categoryOptions = getCategoryOptions(rows);
-    const phenotypeOptions = getPhenotypeOptions(rows);
-
-    const downloadRows = getDownloadRows(rows);
-
-    const columns = getColumns(
-      mouseGeneOptions,
-      this.mouseGeneFilterHandler,
-      categoryOptions,
-      this.categoryFilterHandler,
-      phenotypeOptions,
-      this.phenotypeFilterHandler,
-      classes
-    );
-
-    return (
-      <Fragment>
-        <DataDownloader
-          tableHeaders={downloadColumns}
-          rows={downloadRows}
-          fileStem={`${symbol}-mouse-phenotypes`}
-        />
-        <OtTableRF filters columns={columns} data={filteredRows} />
-      </Fragment>
-    );
-  }
-}
-
-class PhenotypesTableAdapter extends Component {
-  render() {
-    const { symbol, data, classes } = this.props;
-    return (
-      <PhenotypesTable
-        rows={transformToRows(data)}
-        symbol={symbol}
-        classes={classes}
-      />
-    );
-  }
-}
+const PhenotypesTableAdapter = ({ symbol, data }) => (
+  <PhenotypesTable rows={transformToRows(data)} symbol={symbol} />
+);
 
 const transformToRows = mousePhenotypes => {
   const rows = [];
