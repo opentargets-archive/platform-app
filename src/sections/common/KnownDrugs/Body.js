@@ -47,7 +47,13 @@ function getColumnPool(id, entity) {
         {
           id: 'drug',
           propertyPath: 'drug.id',
-          renderCell: d => <Link to={`/drug/${d.drug.id}`}>{d.drug.name}</Link>,
+          renderCell: d => {
+            return d.drug ? (
+              <Link to={`/drug/${d.drug.id}`}>{d.drug.name}</Link>
+            ) : (
+              naLabel
+            );
+          },
         },
         {
           id: 'type',
