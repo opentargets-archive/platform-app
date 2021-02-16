@@ -219,7 +219,7 @@ function Body({
   };
 
   const handleRowsPerPageChange = newPageSize => {
-    if (newPageSize > rows.length) {
+    if (newPageSize > rows.length && cursor !== null) {
       setLoading(true);
       fetchDrugs(variables, cursor, newPageSize, globalFilter).then(res => {
         const { cursor, rows: newRows } = res.data[entity].knownDrugs;
