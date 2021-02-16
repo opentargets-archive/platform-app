@@ -34,7 +34,6 @@ function ChipList({ children, title, loading = false, inline }) {
           maxTerms={10}
           render={item => {
             if (_.isString(item)) {
-              console.log('no string');
               return <Chip key={item} label={item} title={item} />;
             } else {
               return (
