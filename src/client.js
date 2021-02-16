@@ -12,14 +12,14 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'http://platform-api-beta.opentargets.io/api/v4/graphql',
+    uri: 'https://platform-api-beta.opentargets.io/api/v4/graphql',
   }),
   cache: new InMemoryCache({ fragmentMatcher }),
 });
 
 const betaClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'http://platform-api-beta.opentargets.io/api/v4/graphql',
+    uri: 'https://platform-api-beta.opentargets.io/api/v4/graphql',
   }),
   cache: new InMemoryCache({ fragmentMatcher }),
 });
