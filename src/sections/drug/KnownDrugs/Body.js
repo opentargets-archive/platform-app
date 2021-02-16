@@ -7,7 +7,7 @@ import Description from './Description';
 const KNOWN_DRUGS_BODY_QUERY = gql`
   query KnownDrugsQuery(
     $chemblId: String!
-    $cursor: [String!]
+    $cursor: String
     $freeTextQuery: String
     $size: Int = 10
   ) {
