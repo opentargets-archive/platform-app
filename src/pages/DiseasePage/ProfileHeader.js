@@ -19,7 +19,7 @@ const DISEASE_PROFILE_HEADER_FRAGMENT = gql`
 `;
 
 /**
- * Synonyms are organized by "relation", each with a list of "terms".
+ * Disease synonyms are organized by "relation", each with a list of "terms".
  * The same term can appear under different relations.
  */
 const parseSynonyms = diseaseSynonyms => {
@@ -31,8 +31,8 @@ const parseSynonyms = diseaseSynonyms => {
         // if the synonyms is not already in the list, we add it
         t.push({ label: syn, tooltip: [s.relation] });
       } else {
-        // if it already exist, just add the relation
-        // to the array to be displayed in the tooltip
+        // if it already exist, just add the relation to it
+        // (i.e. it will have multiple relations)
         thisSyn.tooltip.push(s.relation);
       }
     });
@@ -44,6 +44,7 @@ const parseSynonyms = diseaseSynonyms => {
 
 function ProfileHeader() {
   const { loading, error, data } = usePlatformApi();
+  const diseaseSynonyms = parseSynonyms(data?.disease.synonyms || []);
 
   //TODO: Errors!
   if (error) return null;
@@ -51,9 +52,11 @@ function ProfileHeader() {
   return (
     <BaseProfileHeader>
       <Description loading={loading}>{data?.disease.description}</Description>
-      <ChipList title="Synonyms" loading={loading}>
-        {parseSynonyms(data?.disease.synonyms || [])}
-      </ChipList>
+      {diseaseSynonyms.length > 0 ? (
+        <ChipList title="Synonyms" loading={loading}>
+          {diseaseSynonyms}
+        </ChipList>
+      ) : null}
     </BaseProfileHeader>
   );
 }

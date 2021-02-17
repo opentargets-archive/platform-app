@@ -34,6 +34,7 @@ const EVIDENCE_PROFILE_QUERY = gql`
       description
       synonyms {
         terms
+        relation
       }
       ...EvidenceProfileSummaryFragment
     }
