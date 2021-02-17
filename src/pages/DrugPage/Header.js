@@ -30,52 +30,56 @@ function DrugHeader({ loading, chemblId, name, crossReferences }) {
       subtitle={null}
       Icon={faPrescriptionBottleAlt}
       externalLinks={
-        crossReferences ? (
-          <>
-            <ExternalLink title="ChEMBL" id={chemblId} url={chemblUrl} />
-            {drugBank && (
-              <ExternalLink
-                title="DrugBank"
-                id={drugBank.reference[0]}
-                url={`https://identifiers.org/drugbank:${
-                  drugBank.reference[0]
-                }`}
-              />
-            )}
-            {chEBI && (
-              <ExternalLink
-                title="ChEBI"
-                id={chEBI.reference[0]}
-                url={`https://identifiers.org/CHEBI:${chEBI.reference[0]}`}
-              />
-            )}
-            {dailyMed && (
-              <ExternalLink
-                title="DailyMed"
-                id={decodeURI(dailyMed.reference[0])}
-                url={`https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=${
-                  dailyMed.reference[0]
-                }`}
-              />
-            )}
-            {drugCentral && (
-              <ExternalLink
-                title="DrugCentral"
-                id={drugCentral.reference[0]}
-                url={`https://drugcentral.org/drugcard/${
-                  drugCentral.reference[0]
-                }`}
-              />
-            )}
-            {wikipedia && (
-              <ExternalLink
-                title="Wikipedia"
-                id={wikipedia.reference[0]}
-                url={`https://en.wikipedia.org/wiki/${wikipedia.reference[0]}`}
-              />
-            )}
-          </>
-        ) : null
+        <>
+          <ExternalLink title="ChEMBL" id={chemblId} url={chemblUrl} />
+          {crossReferences ? (
+            <>
+              {drugBank && (
+                <ExternalLink
+                  title="DrugBank"
+                  id={drugBank.reference[0]}
+                  url={`https://identifiers.org/drugbank:${
+                    drugBank.reference[0]
+                  }`}
+                />
+              )}
+              {chEBI && (
+                <ExternalLink
+                  title="ChEBI"
+                  id={chEBI.reference[0]}
+                  url={`https://identifiers.org/CHEBI:${chEBI.reference[0]}`}
+                />
+              )}
+              {dailyMed && (
+                <ExternalLink
+                  title="DailyMed"
+                  id={decodeURI(dailyMed.reference[0])}
+                  url={`https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=${
+                    dailyMed.reference[0]
+                  }`}
+                />
+              )}
+              {drugCentral && (
+                <ExternalLink
+                  title="DrugCentral"
+                  id={drugCentral.reference[0]}
+                  url={`https://drugcentral.org/drugcard/${
+                    drugCentral.reference[0]
+                  }`}
+                />
+              )}
+              {wikipedia && (
+                <ExternalLink
+                  title="Wikipedia"
+                  id={wikipedia.reference[0]}
+                  url={`https://en.wikipedia.org/wiki/${
+                    wikipedia.reference[0]
+                  }`}
+                />
+              )}
+            </>
+          ) : null}
+        </>
       }
     />
   );

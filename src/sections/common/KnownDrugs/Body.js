@@ -47,7 +47,13 @@ function getColumnPool(id, entity) {
         {
           id: 'drug',
           propertyPath: 'drug.id',
-          renderCell: d => <Link to={`/drug/${d.drug.id}`}>{d.drug.name}</Link>,
+          renderCell: d => {
+            return d.drug ? (
+              <Link to={`/drug/${d.drug.id}`}>{d.drug.name}</Link>
+            ) : (
+              naLabel
+            );
+          },
         },
         {
           id: 'type',
@@ -128,9 +134,10 @@ function Body({
   columnsToShow,
   stickyColumn,
 }) {
-  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
-  const [cursor, setCursor] = useState(null);
+  const [cursor, setCursor] = useState('');
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(INIT_PAGE_SIZE);
@@ -175,7 +182,7 @@ function Body({
         const { cursor, count, rows } = res.data[entity].knownDrugs;
 
         if (isCurrent) {
-          setLoading(false);
+          setInitialLoading(false);
           setCursor(cursor);
           setCount(count);
           setRows(rows);
@@ -197,10 +204,7 @@ function Body({
   );
 
   const handlePageChange = newPage => {
-    if (
-      pageSize * newPage + pageSize > rows.length &&
-      (cursor === null || cursor.length !== 0)
-    ) {
+    if (pageSize * newPage + pageSize > rows.length && cursor !== null) {
       setLoading(true);
       fetchDrugs(variables, cursor, pageSize, globalFilter).then(res => {
         const { cursor, rows: newRows } = res.data[entity].knownDrugs;
@@ -215,7 +219,7 @@ function Body({
   };
 
   const handleRowsPerPageChange = newPageSize => {
-    if (newPageSize > rows.length) {
+    if (newPageSize > rows.length && cursor !== null) {
       setLoading(true);
       fetchDrugs(variables, cursor, newPageSize, globalFilter).then(res => {
         const { cursor, rows: newRows } = res.data[entity].knownDrugs;
@@ -250,7 +254,7 @@ function Body({
   return (
     <SectionItem
       definition={definition}
-      request={{ loading, error: false, data: rows }}
+      request={{ loading: initialLoading, error: false, data: rows }}
       renderDescription={Description}
       renderBody={() => (
         <Table

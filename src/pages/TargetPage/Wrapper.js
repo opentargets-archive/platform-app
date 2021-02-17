@@ -4,7 +4,7 @@ import { Skeleton } from '@material-ui/lab';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 
 const efoURL =
-  'https://storage.googleapis.com/open-targets-data-releases/beta-rewrite/static/ontology/diseases_efo.jsonl';
+  'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl';
 
 const ASSOCIATIONS_VIZ_QUERY = gql`
   query AssociationsVizQuery(
