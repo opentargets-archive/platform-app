@@ -5,7 +5,7 @@ import OntologySubgraph from './OntologySubgraph';
 import SectionItem from '../../../components/Section/SectionItem';
 
 const efoURL =
-  'https://storage.googleapis.com/open-targets-data-releases/beta-rewrite/static/ontology/diseases_efo.jsonl';
+  'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl';
 
 function Body({ definition, id: efoId, label: name }) {
   const [efoNodes, setEfoNodes] = useState(null);

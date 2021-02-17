@@ -137,7 +137,7 @@ function Body({
   const [initialLoading, setInitialLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
-  const [cursor, setCursor] = useState(null);
+  const [cursor, setCursor] = useState('');
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(INIT_PAGE_SIZE);
@@ -204,10 +204,7 @@ function Body({
   );
 
   const handlePageChange = newPage => {
-    if (
-      pageSize * newPage + pageSize > rows.length &&
-      (cursor === null || cursor.length !== 0)
-    ) {
+    if (pageSize * newPage + pageSize > rows.length && cursor !== null) {
       setLoading(true);
       fetchDrugs(variables, cursor, pageSize, globalFilter).then(res => {
         const { cursor, rows: newRows } = res.data[entity].knownDrugs;
@@ -222,7 +219,7 @@ function Body({
   };
 
   const handleRowsPerPageChange = newPageSize => {
-    if (newPageSize > rows.length) {
+    if (newPageSize > rows.length && cursor !== null) {
       setLoading(true);
       fetchDrugs(variables, cursor, newPageSize, globalFilter).then(res => {
         const { cursor, rows: newRows } = res.data[entity].knownDrugs;
