@@ -56,7 +56,7 @@ function ProfileHeader() {
   //TODO: Errors!
   if (error) return null;
 
-  const { id: efoId, name, description: diseaseDescription, synonyms } =
+  const { id: efoId, name, description: diseaseDescription } =
     data?.disease || {};
   const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
 
