@@ -25,6 +25,30 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+/**
+ * Disease synonyms are organized by "relation", each with a list of "terms".
+ * The same term can appear under different relations.
+ */
+const parseSynonyms = diseaseSynonyms => {
+  const t = [];
+  diseaseSynonyms.forEach(s => {
+    s.terms.forEach(syn => {
+      const thisSyn = t.find(t => t.label === syn);
+      if (!thisSyn) {
+        // if the synonyms is not already in the list, we add it
+        t.push({ label: syn, tooltip: [s.relation] });
+      } else {
+        // if it already exist, just add the relation to it
+        // (i.e. it will have multiple relations)
+        thisSyn.tooltip.push(s.relation);
+      }
+    });
+  });
+  // convert the tooltip array to a string for display in the Tooltip component
+  t.forEach(syn => (syn.tooltip = syn.tooltip.join(', ')));
+  return t;
+};
+
 function ProfileHeader() {
   const classes = useStyles();
   const { loading, error, data } = usePlatformApi();
@@ -36,15 +60,7 @@ function ProfileHeader() {
     data?.disease || {};
   const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
 
-  const diseaseSynonyms = [];
-
-  if (synonyms) {
-    synonyms.forEach(({ terms }) => {
-      terms.forEach(term => {
-        diseaseSynonyms.push(term);
-      });
-    });
-  }
+  const diseaseSynonyms = parseSynonyms(data?.disease.synonyms || []);
 
   const { id: ensgId, approvedSymbol } = data?.target || {};
   const targetSynonyms = data?.target.symbolSynonyms.concat(
