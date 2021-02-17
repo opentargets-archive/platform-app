@@ -74,7 +74,7 @@ const HomePage = () => {
           >
             <div>Looking to access our data?</div>
             <Link
-              to=" http://platform-api-beta.opentargets.io/api/v4/graphql/browser"
+              to="http://platform-api-beta.opentargets.io/api/v4/graphql/browser"
               external
             >
               Browse our GraphQL API
