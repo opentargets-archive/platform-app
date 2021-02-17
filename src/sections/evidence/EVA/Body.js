@@ -186,7 +186,7 @@ const EVA_QUERY = gql`
     $ensemblId: String!
     $efoId: String!
     $size: Int!
-    $cursor: [String!]
+    $cursor: String
   ) {
     disease(efoId: $efoId) {
       id
