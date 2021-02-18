@@ -182,8 +182,8 @@ const columns = [
       });
       return <TableDrawer entries={urlList} caption="Sources" />;
     },
-    filterValue: ({ clinicalUrls }) => {
-      const labels = clinicalUrls.map(({ niceName }) => {
+    filterValue: ({ urls }) => {
+      const labels = urls.map(({ niceName }) => {
         return sourceMap[niceName] ? sourceMap[niceName] : niceName;
       });
       return labels.join();
