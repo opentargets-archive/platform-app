@@ -100,28 +100,31 @@ function Body({ definition, label: name, id: efoId }) {
               />
             ))}
 
-            {/* API response chips */}
-            {similarW2VEntities.map((e, i) => (
-              <Chip
-                label={e.object.name || e.object.approvedSymbol}
-                key={e.object.id}
-                clickable
-                onClick={() => {
-                  selectedChips.push({
-                    score: e.score,
-                    object: {
-                      name: e.object.name || e.object.approvedSymbol,
-                      id: e.object.id,
-                    },
-                  });
-                  setSelectedChips(selectedChips.map(sc => sc));
-                  console.log(selectedChips);
-                }}
-                title={`Score: ${e.score} ID: ${e.object.id}`}
-                color="primary"
-                variant="outlined"
-              />
-            ))}
+            {/* API response chips: remove those already selected and the page entity */}
+            {similarW2VEntities.map((e, i) => {
+              return efoId === e.object.id ||
+                selectedChips.find(s => s.object.id === e.object.id) ? null : (
+                <Chip
+                  label={e.object.name || e.object.approvedSymbol}
+                  key={e.object.id}
+                  clickable
+                  onClick={() => {
+                    selectedChips.push({
+                      score: e.score,
+                      object: {
+                        name: e.object.name || e.object.approvedSymbol,
+                        id: e.object.id,
+                      },
+                    });
+                    setSelectedChips(selectedChips.map(sc => sc));
+                    console.log(selectedChips);
+                  }}
+                  title={`Score: ${e.score} ID: ${e.object.id}`}
+                  color="primary"
+                  variant="outlined"
+                />
+              );
+            })}
           </div>
         );
       }}
