@@ -78,6 +78,10 @@ function Body({ definition, label: name, id: efoId }) {
 
         return (
           <div className={classes.root}>
+            {/* Non-deselectable page entity (i.e. the target or disease) */}
+            <Chip label={name} title={`ID: ${efoId}`} color="primary" />
+
+            {/* selected chips */}
             {selectedChips.map((e, i) => (
               <Chip
                 label={e.object.name}
@@ -96,6 +100,7 @@ function Body({ definition, label: name, id: efoId }) {
               />
             ))}
 
+            {/* API response chips */}
             {similarW2VEntities.map((e, i) => (
               <Chip
                 label={e.object.name || e.object.approvedSymbol}
@@ -122,8 +127,6 @@ function Body({ definition, label: name, id: efoId }) {
       }}
     />
   );
-
-  //  return (<>Hello world</>);
 }
 
 export default Body;
