@@ -16,21 +16,24 @@ import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
 import * as Variation from '../../sections/target/Variation';
 
+import * as SimilarEntities from '../../sections/target/SimilarEntities';
+
 export default [
-  KnownDrugs,
-  Tractability,
-  Safety,
-  Tep,
-  ChemicalProbes,
-  BaselineExpression,
-  GeneOntology,
-  ProteinInformation,
-  Pathways,
-  // RelatedTargets,
-  CancerBiomarkers,
-  CancerHallmarks,
-  MousePhenotypes,
-  Variation,
-  ComparativeGenomics,
-  Bibliography,
+  // KnownDrugs,
+  // Tractability,
+  // Safety,
+  // Tep,
+  // ChemicalProbes,
+  // BaselineExpression,
+  // GeneOntology,
+  // ProteinInformation,
+  // Pathways,
+  // // RelatedTargets,
+  // CancerBiomarkers,
+  // CancerHallmarks,
+  // MousePhenotypes,
+  // Variation,
+  // ComparativeGenomics,
+  // Bibliography,
+  SimilarEntities,
 ];
