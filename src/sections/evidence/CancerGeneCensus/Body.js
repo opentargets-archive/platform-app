@@ -5,7 +5,7 @@ import { loader } from 'graphql.macro';
 
 import ChipList from '../../../components/ChipList';
 import { DataTable, TableDrawer } from '../../../components/Table';
-import { naLabel } from '../../../constants';
+import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
@@ -183,6 +183,7 @@ function Body({ definition, id, label }) {
               dataDownloader
               order="desc"
               rows={rows}
+              rowsPerPageOptions={defaultRowsPerPageOptions}
               showGlobalFilter
               sortBy="mutatedSamples"
             />
