@@ -5,4 +5,4 @@
   status = 200
 
 [context.production.environemt]
-  REACT_APP_ADD_GTM = "true"
+  REACT_APP_GTMID=GTM-WPXWRDV
