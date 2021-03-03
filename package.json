@@ -52,7 +52,6 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.8.6",
     "react-ga": "^3.0.0",
-    "react-gtm-module": "^2.0.11",
     "react-helmet": "^6.0.0",
     "react-measure": "^2.1.2",
     "react-router-dom": "5.1.2",
