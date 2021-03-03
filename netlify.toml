@@ -3,3 +3,6 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[context.production.environemt]
+  REACT_APP_ADD_GTM = "true"
