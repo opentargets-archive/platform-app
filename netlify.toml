@@ -4,5 +4,5 @@
   to = "/index.html"
   status = 200
 
-[context.production.environemt]
+[context.production.environment]
   REACT_APP_GTMID=GTM-WPXWRDV
