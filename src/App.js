@@ -5,7 +5,6 @@ import { ApolloProvider } from '@apollo/client';
 import OtUiThemeProvider from './components/OtUiThemeProvider';
 import client from './client';
 import initLocalStorage from './utils/initLocalStorage';
-import GoogleAnalyticsWrapper from './components/GoogleAnalyticsWrapper';
 import theme from './theme';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
@@ -29,22 +28,17 @@ class App extends Component {
       <ApolloProvider client={client}>
         <OtUiThemeProvider theme={theme}>
           <Router>
-            <GoogleAnalyticsWrapper>
-              <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/search" component={SearchPage} />
-                <Route path="/downloads" component={DownloadsPage} />
-                <Route path="/disease/:efoId" component={DiseasePage} />
-                <Route path="/target/:ensgId" component={TargetPage} />
-                <Route path="/drug/:chemblId" component={DrugPage} />
-                <Route
-                  path="/evidence/:ensgId/:efoId"
-                  component={EvidencePage}
-                />
-                <Route path="/variants" component={VariantsPage} />
-                <Route component={NotFoundPage} />
-              </Switch>
-            </GoogleAnalyticsWrapper>
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route path="/search" component={SearchPage} />
+              <Route path="/downloads" component={DownloadsPage} />
+              <Route path="/disease/:efoId" component={DiseasePage} />
+              <Route path="/target/:ensgId" component={TargetPage} />
+              <Route path="/drug/:chemblId" component={DrugPage} />
+              <Route path="/evidence/:ensgId/:efoId" component={EvidencePage} />
+              <Route path="/variants" component={VariantsPage} />
+              <Route component={NotFoundPage} />
+            </Switch>
           </Router>
         </OtUiThemeProvider>
       </ApolloProvider>
