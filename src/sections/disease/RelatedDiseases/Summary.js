@@ -1,16 +1,12 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const RELATED_DISEASES_SUMMARY_FRAGMENT = gql`
-  fragment RelatedDiseasesSummaryFragment on Disease {
-    relatedDiseases {
-      count
-    }
-  }
-`;
+const RELATED_DISEASES_SUMMARY_FRAGMENT = loader(
+  './RelatedDiseasesSummaryFragment.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(RELATED_DISEASES_SUMMARY_FRAGMENT);

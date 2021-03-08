@@ -1,0 +1,5 @@
+fragment RelatedDiseasesSummaryFragment on Disease {
+  relatedDiseases {
+    count
+  }
+}
