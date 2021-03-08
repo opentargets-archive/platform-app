@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import { decimalPlaces } from '../../../constants';
 import Description from './Description';
@@ -9,33 +10,7 @@ import { Table, PaginationActionsComplete } from '../../../components/Table';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
 import SectionItem from '../../../components/Section/SectionItem';
 
-const RELATED_DISEASES_QUERY = gql`
-  query RelatedDiseasesQuery(
-    $efoId: String!
-    $index: Int! = 0
-    $size: Int! = 10
-  ) {
-    disease(efoId: $efoId) {
-      id
-      relatedDiseases(page: { index: $index, size: $size }) {
-        count
-        maxCountAOrB
-        rows {
-          id
-          countA
-          countB
-          countAOrB
-          countAAndB
-          score
-          B {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-`;
+const RELATED_DISEASES_QUERY = loader('./RelatedDiseasesQuery.gql');
 
 const columns = (name, maxCountAOrB) => [
   {
