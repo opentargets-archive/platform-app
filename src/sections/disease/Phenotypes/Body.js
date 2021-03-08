@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import _ from 'lodash';
 
 import Description from './Description';
@@ -9,52 +10,7 @@ import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
 import { naLabel } from '../../../constants';
 
-const PHENOTYPES_BODY_QUERY = gql`
-  query PhenotypesQuery($efoId: String!, $index: Int! = 0, $size: Int! = 10) {
-    disease(efoId: $efoId) {
-      id
-      phenotypes(page: { index: $index, size: $size }) {
-        count
-        rows {
-          phenotypeHPO {
-            id
-            name
-            description
-            namespace
-          }
-          phenotypeEFO {
-            id
-            name
-          }
-          evidence {
-            aspect
-            bioCuration
-            diseaseFromSourceId
-            diseaseFromSource
-            evidenceType
-            frequency
-            frequencyHPO {
-              name
-              id
-            }
-            qualifierNot
-            onset {
-              name
-              id
-            }
-            modifiers {
-              name
-              id
-            }
-            references
-            sex
-            resource
-          }
-        }
-      }
-    }
-  }
-`;
+const PHENOTYPES_BODY_QUERY = loader('./PhenotypesQuery.gql');
 
 const evidenceTypeDescription = {
   IEA:
