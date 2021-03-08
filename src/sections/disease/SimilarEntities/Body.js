@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import _ from 'lodash';
 import {
-  Box,
   Chip,
   makeStyles,
-  Slider,
   TextField,
   Button,
-  ButtonGroup,
+  Select,
+  InputLabel,
+  MenuItem,
+  FormControl,
 } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 
@@ -35,6 +36,7 @@ const SIMILARENTITIES_BODY_QUERY = gql`
     $ids: [String!] = []
     $threshold: Float = 0.5
     $size: Int! = 15
+    $entityNames: [String!] = []
   ) {
     disease(efoId: $efoId) {
       id
@@ -44,6 +46,7 @@ const SIMILARENTITIES_BODY_QUERY = gql`
         additionalIds: $ids
         threshold: $threshold
         size: $size
+        entityNames: $entityNames
       ) {
         score
         object {
@@ -68,6 +71,8 @@ const SIMILARENTITIES_BODY_QUERY = gql`
 function Body({ definition, label: name, id: efoId }) {
   const classes = useStyles();
   const [selectedChips, setSelectedChips] = useState([]);
+  const categories = ['all', 'target', 'disease', 'drug'];
+  const [category, setCategory] = useState(categories[0]);
 
   // TODO: these are for development testing only and won't be needed in final version
   const [threshold, setThreshold] = useState(0.5);
@@ -81,6 +86,7 @@ function Body({ definition, label: name, id: efoId }) {
       ids: selectedChips.map(c => c.object.id),
       threshold,
       size,
+      entityNames: category === categories[0] ? null : [category],
     },
   });
 
@@ -90,6 +96,14 @@ function Body({ definition, label: name, id: efoId }) {
 
   const handleSetSize = () => {
     setSize(parseInt(sz));
+  };
+
+  const handleSetCategory = e => {
+    setCategory(e.target.value);
+  };
+
+  const handleRemoveChip = e => {
+    // todo
   };
 
   return (
@@ -105,47 +119,63 @@ function Body({ definition, label: name, id: efoId }) {
           <>
             {/* For internal development only: set threshold and size */}
             <div className={classes.root}>
-              <form noValidate autoComplete="off">
-                <TextField
-                  id="threshold-field"
-                  label="Threshold"
-                  variant="outlined"
-                  size="small"
-                  defaultValue={threshold}
-                  onChange={event => {
-                    th = event.target.value;
-                  }}
-                  style={{ width: '120px' }}
-                />{' '}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSetThreshold}
-                  size="large"
+              <TextField
+                id="threshold-field"
+                label="Threshold"
+                variant="outlined"
+                size="small"
+                defaultValue={threshold}
+                onChange={event => {
+                  th = event.target.value;
+                }}
+                style={{ width: '120px' }}
+              />{' '}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSetThreshold}
+                size="large"
+              >
+                Set
+              </Button>
+              {'  '}
+              <TextField
+                id="size-field"
+                label="Size"
+                variant="outlined"
+                size="small"
+                defaultValue={size}
+                onChange={event => {
+                  sz = event.target.value;
+                }}
+                style={{ width: '120px' }}
+              />{' '}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSetSize}
+                size="large"
+              >
+                Set
+              </Button>
+              {'  '}
+              <FormControl>
+                <InputLabel id="category-select-label" shrink>
+                  Category
+                </InputLabel>
+                <Select
+                  labelId="category-select-label"
+                  id="category-select"
+                  value={category}
+                  onChange={handleSetCategory}
                 >
-                  Set
-                </Button>
-                {'  '}
-                <TextField
-                  id="size-field"
-                  label="Size"
-                  variant="outlined"
-                  size="small"
-                  defaultValue={size}
-                  onChange={event => {
-                    sz = event.target.value;
-                  }}
-                  style={{ width: '120px' }}
-                />{' '}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSetSize}
-                  size="large"
-                >
-                  Set
-                </Button>
-              </form>
+                  {categories.map(c => (
+                    <MenuItem value={c} key={c}>
+                      {c}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </div>
             <hr />
 
@@ -162,12 +192,12 @@ function Body({ definition, label: name, id: efoId }) {
                   onClick={() => {
                     selectedChips.splice(i, 1);
                     setSelectedChips(selectedChips.map(sc => sc));
-                    console.log(selectedChips);
                   }}
                   title={`Score: ${e.score} ID: ${e.object.id}`}
                   color="primary"
                   onDelete={() => {
-                    /* just to force the delete icon */
+                    selectedChips.splice(i, 1);
+                    setSelectedChips(selectedChips.map(sc => sc));
                   }}
                 />
               ))}
