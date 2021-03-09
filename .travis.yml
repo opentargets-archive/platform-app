@@ -17,5 +17,4 @@ deploy:
   file: "bundle.tgz"
   skip_cleanup: true
   on:
-    tags: true
-    branch: jsonconfig
+    tags: true    
