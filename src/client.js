@@ -1,4 +1,5 @@
-import { config } from './config/Config';
+//import { config } from './config/Config';
+import config from "./config.json";
 import { ApolloClient } from 'apollo-client';
 import {
   InMemoryCache,
