@@ -2,19 +2,17 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
-import { Link } from 'ot-ui';
-
-import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
+import { epmcUrl, otgStudyUrl } from '../../../utils/urls';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
+import Link from '../../../components/Link';
 import ScientificNotation from '../../../components/ScientificNotation';
 import SectionItem from '../../../components/Section/SectionItem';
+import Summary from './Summary';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
-import { epmcUrl, otgStudyUrl } from '../../../utils/urls';
-import Summary from './Summary';
 
 const otgVariantUrl = id => `https://genetics.opentargets.org/variant/${id}`;
 
@@ -177,7 +175,6 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
 
   const request = useQuery(OPEN_TARGETS_GENETICS_QUERY, {
     variables: { ensemblId: ensgId, efoId, size },
-    client: betaClient,
   });
 
   return (

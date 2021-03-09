@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
+import { Grid, Typography, useTheme } from '@material-ui/core';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
-import { useTheme } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
-import { DownloadSVGPlot } from 'ot-ui';
-import Slider from './ClassicAssociationsSlider';
+
 import AssociationTooltip from './AssociationTooltip';
-import Legend from '../../components/Legend';
 import { colorRange } from '../../constants';
+import { DownloadSvgPlot } from '../../components/DownloadSvgPlot';
+import Legend from '../../components/Legend';
+import Slider from './ClassicAssociationsSlider';
 
 function findTas(id, idToDisease) {
   const tas = new Set();
@@ -79,7 +79,7 @@ const color = d3
 function ClassicAssociationsBubbles({
   ensemblId,
   symbol,
-  efo,
+  idToDisease,
   associations,
   measureRef,
   contentRect,
@@ -89,10 +89,6 @@ function ClassicAssociationsBubbles({
   const theme = useTheme();
   const assocs = associations.filter(assoc => assoc.score >= minScore);
   const { width: size } = contentRect.bounds;
-  const idToDisease = efo.reduce((acc, disease) => {
-    acc[disease.id] = disease;
-    return acc;
-  }, {});
 
   const hierarchicalData = buildHierarchicalData(assocs, idToDisease);
   const root = d3.hierarchy(hierarchicalData);
@@ -105,12 +101,20 @@ function ClassicAssociationsBubbles({
 
   return (
     <>
-      <DownloadSVGPlot
+      <DownloadSvgPlot
         svgContainer={svgRef}
         filenameStem={`${symbol}-associated-diseases-bubbles`}
       >
         <Slider value={minScore} onChange={(_, val) => setMinScore(val)} />
-        <Grid item ref={measureRef} md={10} style={{ margin: '0 auto' }}>
+        <Grid
+          item
+          container
+          ref={measureRef}
+          md={10}
+          justify="center"
+          alignItems="center"
+          style={{ margin: '0 auto', minHeight: '340px' }}
+        >
           {size ? (
             assocs.length > 0 ? (
               <svg
@@ -199,13 +203,13 @@ function ClassicAssociationsBubbles({
                 })}
               </svg>
             ) : (
-              <Typography align="center">
+              <Typography>
                 No associations with score greater than or equal to {minScore}
               </Typography>
             )
           ) : null}
         </Grid>
-      </DownloadSVGPlot>
+      </DownloadSvgPlot>
       <Legend />
     </>
   );

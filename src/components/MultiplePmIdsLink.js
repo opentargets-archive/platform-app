@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'ot-ui';
+import Link from './Link';
 
 const MultiplePmIdsLink = ({ pmIds }) =>
   pmIds.length > 0 ? (

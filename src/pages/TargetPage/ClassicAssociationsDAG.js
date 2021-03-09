@@ -1,424 +1,217 @@
-import React from 'react';
-import { withContentRect } from 'react-measure';
+import React, { useState, useMemo, useRef } from 'react';
 import * as d3Base from 'd3';
-import * as d3DagBase from 'd3-dag';
-import withTheme from '@material-ui/core/styles/withTheme';
-
-import { DownloadSVGPlot } from 'ot-ui';
-
-import withTooltip from '../../components/withTooltip';
+import * as d3Dag from 'd3-dag';
+import { withContentRect } from 'react-measure';
+import { Grid, Typography } from '@material-ui/core';
+import { DownloadSvgPlot } from '../../components/DownloadSvgPlot';
 import Legend from '../../components/Legend';
-import TooltipContent from './ClassicAssociationsTooltip';
 import Slider from './ClassicAssociationsSlider';
-import { colorRange } from '../../constants';
+import Dag from './Dag';
 
-const d3 = Object.assign({}, d3Base, d3DagBase);
+const d3 = Object.assign({}, d3Base, d3Dag);
 
-const getInducedDAG = ({
-  ensgId,
-  symbol,
-  data,
-  efo,
-  selectedTherapeuticAreas,
-}) => {
-  const efoById = new Map(efo.nodes.map(d => [d.id, d]));
-  // note: requested that we only show therapeutic area circles selected
-  //       when faceted by therapeutic area, even if a disease has other
-  //       therapeutic area ancestors; potentially confusing, but this is
-  //       how webapp works
-  const relevantTherapeuticAreas =
-    selectedTherapeuticAreas.length > 0
-      ? selectedTherapeuticAreas
-      : efo.therapeuticAreas;
+// find closest ancestors that are also associations
+function getParentIds(diseaseId, idToDisease, assocSet) {
+  const parentIds = [];
+  const queue = [diseaseId];
+  const visited = new Set();
 
-  // get just what is needed from associations
-  const dataAsNodes = data.map(d => ({
-    id: d.disease.id,
-    name: d.disease.name,
-    score: d.score,
-    isTherapeuticArea: relevantTherapeuticAreas.indexOf(d.disease.id) >= 0,
-    target: { ensgId, symbol },
-  }));
-  const therapeuticAreasAll = relevantTherapeuticAreas.map(taId => {
-    const ta = efoById.get(taId);
-    return {
-      id: ta.id,
-      name: ta.name,
-      score: null,
-      isTherapeuticArea: true,
-      target: { ensgId, symbol },
-    };
-  });
+  while (queue.length > 0) {
+    const id = queue.shift();
+    const node = idToDisease[id];
 
-  // note: therapeutic areas with scores in dataAsNodes will overwrite therapeuticAreasAll,
-  //       but need all to prevent spurious links to EFO_ROOT
-  const nodesById = new Map([
-    ['EFO_ROOT', { id: 'EFO_ROOT', score: null, target: { ensgId, symbol } }],
-    ...therapeuticAreasAll.map(d => [d.id, d]),
-    ...dataAsNodes.map(d => [d.id, d]),
-  ]);
-  const nodeIds = new Set(nodesById.keys());
-
-  // helper to induce parents which are in the associations list
-  const getInducedParentIds = (inducedParentIds, directParentIds) => {
-    if (directParentIds.size > 0) {
-      // partition
-      const allowedParentIds = [...directParentIds].filter(d => nodeIds.has(d));
-      const disallowedParentIds = [...directParentIds].filter(
-        d => !nodeIds.has(d)
-      );
-
-      // add the allowed ones
-      for (let allowedParentId of allowedParentIds) {
-        inducedParentIds.add(allowedParentId);
-      }
-
-      // add the disallowed ones
-      const allNextDirectParentIds = new Set();
-      for (let disallowedParentId of disallowedParentIds) {
-        const { parentIds: nextDirectParentIds } = efoById.get(
-          disallowedParentId
-        );
-        for (let nextDirectParentId of nextDirectParentIds) {
-          allNextDirectParentIds.add(nextDirectParentId);
+    for (let i = 0; i < node.parentIds.length; i++) {
+      const parentId = node.parentIds[i];
+      if (!visited.has(parentId)) {
+        visited.add(parentId);
+        const parentNode = idToDisease[parentId];
+        if (assocSet[parentId] || parentNode.parentIds.length === 0) {
+          parentIds.push(parentId);
+        } else {
+          queue.push(parentId);
         }
       }
-
-      // deal with the disallowed ones
-      return getInducedParentIds(inducedParentIds, allNextDirectParentIds);
-    } else {
-      return inducedParentIds;
-    }
-  };
-
-  // induce the subgraph of diseases within the associations data
-  const getInducedSubGraph = nodeIds =>
-    new Map(
-      [...nodeIds].map(d => {
-        const { parentIds: directParentIds, ...rest } = efoById.get(d);
-        const { score, isTherapeuticArea, target } = nodesById.get(d);
-        return [
-          d,
-          {
-            id: d,
-            score,
-            isTherapeuticArea,
-            target,
-            ...rest,
-            parentIds: [
-              ...getInducedParentIds(new Set(), new Set(directParentIds)),
-            ],
-          },
-        ];
-      })
-    );
-
-  const subGraph = getInducedSubGraph(nodeIds);
-  const subGraphData = [...subGraph.values()];
-  return d3.dagStratify()(subGraphData);
-};
-
-const separatorIgnoreEdges = (a, b) =>
-  (a.data !== undefined) + (b.data !== undefined);
-
-const getLayoutGenerator = (innerWidth, innerHeight) =>
-  d3
-    .sugiyama()
-    .size([innerHeight, innerWidth])
-    .layering(d3.layeringLongestPath().topDown(false))
-    .decross(d3.decrossTwoLayer())
-    .coord(d3.coordCenter())
-    .separation(separatorIgnoreEdges);
-
-const getMaxLayerCount = (dag, edgeSeparation = true) => {
-  // use layout (but only to get layer counts, coords don't matter here)
-  const layout = getLayoutGenerator(100, 100);
-  layout(dag);
-
-  // init
-  const layerCount = dag.reduce((c, n) => Math.max(c, n.layer), 0) + 1;
-  const layerNodeCounts = Array(layerCount + 1).fill(0);
-  const layerDummyNodeCounts = Array(layerCount + 1).fill(0);
-
-  // nodes and dummy nodes (for edges) per layer
-  dag.each(n => {
-    layerNodeCounts[n.layer] += 1;
-  });
-  dag.links().forEach(l =>
-    l.data.points.forEach((_, i) => {
-      layerDummyNodeCounts[l.source.layer + i + 1] += 1;
-    })
-  );
-
-  // overall per layer
-  const layerCounts = Array(layerCount).fill(0);
-  for (let i = 0; i < layerCount; i++) {
-    if (!edgeSeparation && i === layerCount - 1) {
-      layerCounts[i] = layerNodeCounts[i];
-    } else {
-      layerCounts[i] = layerNodeCounts[i] + layerDummyNodeCounts[i];
     }
   }
 
-  return edgeSeparation
-    ? Math.max(...layerCounts)
-    : Math.max(...layerNodeCounts);
-};
-
-const textWithEllipsis = (text, threshold) =>
-  text.length <= threshold ? text : text.slice(0, threshold) + '...';
-
-class ClassicAssociationsDAG extends React.Component {
-  state = {
-    minimumScore: 0.1,
-  };
-  svgContainer = React.createRef();
-  static getDerivedStateFromProps(props) {
-    const { width = 600 } = props.contentRect.bounds;
-    return { width };
-  }
-  onMinimumScoreChange = (_, value) => {
-    this.setState({ minimumScore: value });
-  };
-  render() {
-    const {
-      measureRef,
-      theme,
-      ensgId,
-      symbol,
-      data,
-      efo,
-      selectedTherapeuticAreas,
-      handleMouseover,
-    } = this.props;
-    const { width, minimumScore } = this.state;
-    const margin = { top: 100, right: 10, bottom: 10, left: 10 };
-    const innerWidth = width - margin.left - margin.right;
-
-    const filteredData = data.filter(d => d.score > minimumScore);
-
-    // create dag
-    let dag = getInducedDAG({
-      ensgId,
-      symbol,
-      data: filteredData,
-      efo,
-      selectedTherapeuticAreas,
-    });
-
-    // compute height (based on dag nodes per layer)
-    const height =
-      margin.top + margin.bottom + getMaxLayerCount(dag, false) * 10;
-    const innerHeight = height - margin.top - margin.bottom;
-
-    // create layout generator
-    const layout = getLayoutGenerator(innerWidth, innerHeight);
-
-    // compute layout
-    layout(dag);
-
-    const color = d3
-      .scaleQuantize()
-      .domain([0, 1])
-      .range(colorRange);
-
-    // constants
-    const nodeRadius = 4;
-    const nodeStrokeColor = theme.palette.grey[300];
-    const edgeStrokeColor = theme.palette.grey[200];
-
-    // legend
-    const yLegend = -15;
-
-    // exclude EFO_ROOT
-    const nodesExcludingRoot = dag
-      .descendants()
-      .filter(d => d.id !== 'EFO_ROOT');
-    const linksExcludingRoot = dag
-      .links()
-      .filter(d => d.source.id !== 'EFO_ROOT');
-    const maxDepth = d3.max(nodesExcludingRoot, d => d.layer);
-    const xOffsetDueToExcludingRoot = innerWidth / maxDepth;
-    const textThreshold = xOffsetDueToExcludingRoot / 8;
-
-    // edge generator
-    const line = d3
-      .line()
-      .curve(d3.curveMonotoneX)
-      .x(d => d.y - xOffsetDueToExcludingRoot)
-      .y(d => d.x);
-
-    return (
-      <div ref={measureRef}>
-        <DownloadSVGPlot
-          svgContainer={this.svgContainer}
-          filenameStem={`${symbol}-associated-diseases--dag`}
-        >
-          <Slider value={minimumScore} onChange={this.onMinimumScoreChange} />
-          <div ref={this.svgContainer}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width={width}
-              height={height}
-              viewBox={`0 0 ${width} ${height}`}
-            >
-              <defs>
-                <marker
-                  id="ontology-arrowhead"
-                  orient="auto"
-                  markerWidth="2"
-                  markerHeight="4"
-                  refX="0.1"
-                  refY="2"
-                >
-                  <path d="M0,0 V4 L2,2 Z" fill={theme.palette.text.primary} />
-                </marker>
-              </defs>
-              <g
-                transform={`translate(${margin.left},${margin.top +
-                  yLegend * 3})`}
-              >
-                <g>
-                  <circle
-                    cx={0}
-                    cy={yLegend}
-                    r={nodeRadius}
-                    fill="none"
-                    stroke={nodeStrokeColor}
-                    strokeWidth="2"
-                  />
-                  <text
-                    x={nodeRadius * 2}
-                    y={yLegend}
-                    dominantBaseline="middle"
-                    fill={theme.palette.text.primary}
-                    fontSize={12}
-                  >
-                    disease
-                  </text>
-                  <rect
-                    x={-nodeRadius}
-                    y={yLegend * 2 - nodeRadius}
-                    width={nodeRadius * 2}
-                    height={nodeRadius * 2}
-                    fill="none"
-                    stroke={nodeStrokeColor}
-                    strokeWidth="2"
-                  />
-                  <text
-                    x={nodeRadius * 2}
-                    y={yLegend * 2}
-                    dominantBaseline="middle"
-                    fill={theme.palette.text.primary}
-                    fontSize={12}
-                  >
-                    therapeutic area
-                  </text>
-                </g>
-              </g>
-              <g
-                transform={`translate(${margin.left +
-                  innerWidth / 2},${margin.top + yLegend * 2})`}
-              >
-                <text
-                  x={-100}
-                  y={0}
-                  dominantBaseline="middle"
-                  textAnchor="end"
-                  fill={theme.palette.text.primary}
-                  fontWeight="bold"
-                  fontSize={14}
-                >
-                  GENERAL
-                </text>
-                <text
-                  x={100}
-                  y={0}
-                  dominantBaseline="middle"
-                  textAnchor="start"
-                  fill={theme.palette.text.primary}
-                  fontWeight="bold"
-                  fontSize={14}
-                >
-                  SPECIFIC
-                </text>
-                <path
-                  markerEnd="url(#ontology-arrowhead)"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke={theme.palette.text.primary}
-                  d={`M-80,0 L80,0`}
-                />
-              </g>
-              <g transform={`translate(${margin.left},${margin.top})`}>
-                {linksExcludingRoot.map(d => (
-                  <path
-                    key={`${d.source.id}-${d.target.id}`}
-                    fill="none"
-                    stroke={edgeStrokeColor}
-                    strokeWidth="2"
-                    d={line(d.data.points)}
-                  />
-                ))}
-              </g>
-              <g transform={`translate(${margin.left},${margin.top})`}>
-                {nodesExcludingRoot.map(d => (
-                  <React.Fragment key={d.id}>
-                    {d.data.isTherapeuticArea ? (
-                      <rect
-                        id={`dag-node-${d.id}`}
-                        fill={color(d.data.score)}
-                        stroke={nodeStrokeColor}
-                        x={d.y - nodeRadius - xOffsetDueToExcludingRoot}
-                        y={d.x - nodeRadius}
-                        width={nodeRadius * 2}
-                        height={nodeRadius * 2}
-                        onMouseOver={() => handleMouseover(d.data)}
-                      />
-                    ) : (
-                      <circle
-                        id={`dag-node-${d.id}`}
-                        fill={color(d.data.score)}
-                        stroke={nodeStrokeColor}
-                        cx={d.y - xOffsetDueToExcludingRoot}
-                        cy={d.x}
-                        r={nodeRadius}
-                        onMouseOver={() => handleMouseover(d.data)}
-                      />
-                    )}
-                  </React.Fragment>
-                ))}
-              </g>
-              <g transform={`translate(${margin.left},${margin.top})`}>
-                {nodesExcludingRoot.map(d => (
-                  <text
-                    key={d.id}
-                    x={d.y - xOffsetDueToExcludingRoot}
-                    y={d.x}
-                    dx={nodeRadius * 2}
-                    dominantBaseline="middle"
-                    fill={theme.palette.text.primary}
-                    fontSize={12}
-                  >
-                    <title>{d.data.name}</title>
-                    {textWithEllipsis(d.data.name, textThreshold)}
-                  </text>
-                ))}
-              </g>
-            </svg>
-          </div>
-        </DownloadSVGPlot>
-        <Legend />
-      </div>
-    );
-  }
+  return parentIds;
 }
 
-const tooltipElementFinder = ({ id }) =>
-  document.querySelector(`#dag-node-${id}`);
+function buildDagData(idToDisease, associations, assocSet) {
+  const dag = [];
+  const tas = new Set();
+  associations.forEach(association => {
+    const parentIds = getParentIds(
+      association.disease.id,
+      idToDisease,
+      assocSet
+    );
 
-export default withTooltip(
-  withTheme(withContentRect('bounds')(ClassicAssociationsDAG)),
-  TooltipContent,
-  tooltipElementFinder
-);
+    parentIds.forEach(parentId => {
+      const node = idToDisease[parentId];
+      if (node.parentIds.length === 0 && !assocSet[parentId]) {
+        tas.add(parentId);
+      }
+    });
+
+    dag.push({
+      id: association.disease.id,
+      name: association.disease.name,
+      score: association.score,
+      parentIds,
+    });
+  });
+
+  tas.forEach(id => {
+    dag.push({
+      id,
+      name: idToDisease[id].name,
+      parentIds: [],
+    });
+  });
+
+  return dag;
+}
+
+const layering = d3.layeringLongestPath();
+const decross = d3.decrossTwoLayer();
+const coord = d3.coordCenter();
+
+const helperLayout = d3
+  .sugiyama()
+  .layering(layering)
+  .decross(decross)
+  .coord(coord);
+
+function getMaxLayerCount(dag) {
+  helperLayout(dag);
+
+  const counts = {};
+  let maxCount = Number.NEGATIVE_INFINITY;
+
+  dag.descendants().forEach(node => {
+    const { layer } = node;
+
+    if (counts[layer]) {
+      counts[layer]++;
+    } else {
+      counts[layer] = 1;
+    }
+
+    if (counts[layer] > maxCount) {
+      maxCount = counts[layer];
+    }
+  });
+
+  return maxCount;
+}
+
+const diameter = 8;
+const radius = diameter / 2;
+
+function ClassicAssociationsDAG({
+  ensemblId,
+  symbol,
+  idToDisease,
+  associations,
+  measureRef,
+  contentRect,
+}) {
+  const svgRef = useRef(null);
+  const [minScore, setMinScore] = useState(0.1);
+  const [minCommittedScore, setMinCommittedScore] = useState(0.1);
+  const { width } = contentRect.bounds;
+
+  const { assocs, height, nodes, xOffset, links, textLimit } = useMemo(
+    () => {
+      const assocs = associations.filter(
+        assoc => assoc.score >= minCommittedScore
+      );
+      const assocSet = assocs.reduce((acc, assoc) => {
+        acc[assoc.disease.id] = assoc;
+        return acc;
+      }, {});
+
+      const dagData = buildDagData(idToDisease, assocs, assocSet);
+      let dag, maxLayerCount, height, layout, nodes, links, xOffset, textLimit;
+
+      if (dagData.length > 0) {
+        dag = d3.dagStratify()(dagData);
+        maxLayerCount = getMaxLayerCount(dag);
+        height = maxLayerCount * 10;
+        layout = d3
+          .sugiyama()
+          .layering(layering)
+          .decross(decross)
+          .coord(coord)
+          .size([height, width]);
+
+        layout(dag);
+
+        nodes = dag.descendants();
+        links = dag.links();
+
+        const separation = width / (d3.max(nodes, d => d.layer) + 1);
+        xOffset = separation / 2 - radius;
+        textLimit = separation / 8;
+      }
+
+      return {
+        assocs,
+        dag,
+        height,
+        nodes,
+        xOffset,
+        links,
+        textLimit,
+      };
+    },
+    [associations, idToDisease, minCommittedScore, width]
+  );
+
+  return (
+    <>
+      <DownloadSvgPlot
+        svgContainer={svgRef}
+        filenameStem={`${symbol}-associated-diseases-dag`}
+      >
+        <Slider
+          value={minScore}
+          onChange={(_, val) => setMinScore(val)}
+          onChangeCommitted={(_, val) => setMinCommittedScore(val)}
+        />
+        <Grid
+          ref={measureRef}
+          item
+          container
+          justify="center"
+          alignItems="center"
+          style={{ margin: '0 auto', minHeight: '340px' }}
+        >
+          {width ? (
+            assocs.length > 0 ? (
+              <Dag
+                ensemblId={ensemblId}
+                width={width}
+                height={height}
+                links={links}
+                nodes={nodes}
+                xOffset={xOffset}
+                textLimit={textLimit}
+                svgRef={svgRef}
+              />
+            ) : (
+              <Typography align="center">
+                No associations with score greater than or equal to{' '}
+                {minCommittedScore}
+              </Typography>
+            )
+          ) : null}
+        </Grid>
+      </DownloadSvgPlot>
+      <Legend />
+    </>
+  );
+}
+
+export default withContentRect('bounds')(ClassicAssociationsDAG);

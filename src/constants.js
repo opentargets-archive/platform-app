@@ -128,8 +128,8 @@ export const mainMenuItems = [
   // Downloads
   {
     name: 'Downloads',
-    url: 'https://www.targetvalidation.org/downloads/data',
-    external: true,
+    url: '/downloads',
+    external: false,
   },
   // Blog
   {
@@ -260,9 +260,6 @@ export const downloaderChunkSize = 2500;
 // NA label.
 export const naLabel = 'N/A';
 
-// Google analytics ID.
-export const googleAnalyticsID = 'UA-101860681-10';
-
 // Old platform-app url.
 export const oldPlatformUrl = 'https://www.targetvalidation.org';
 
@@ -294,9 +291,13 @@ export const phaseMap = {
 
 export const sourceMap = {
   'FDA Information': 'FDA',
+  FDA: 'FDA',
   'Clinical Trials Information': 'ClinicalTrials.gov',
+  ClinicalTrials: 'ClinicalTrials.gov',
   'DailyMed Information': 'DailyMed',
+  DailyMed: 'DailyMed',
   'ATC Information': 'ATC',
+  ATC: 'ATC',
 };
 
 export const clinvarStarMap = {

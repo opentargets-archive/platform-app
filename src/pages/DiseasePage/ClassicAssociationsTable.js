@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
-import * as d3 from 'd3';
-import { useQuery } from '@apollo/client';
-import { makeStyles, Link } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
+import Link from '../../components/Link';
 import { Table } from '../../components/Table';
+import AssocCell from '../../components/AssocCell';
 import Legend from '../../components/Legend';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
-import { colorRange } from '../../constants';
+import dataTypes from '../../dataTypes';
+import client from '../../client';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
   query DiseaseAssociationsQuery(
@@ -43,22 +45,7 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
   }
 `;
 
-const dataTypes = [
-  { id: 'genetic_association', label: 'Genetic associations' },
-  { id: 'somatic_mutation', label: 'Somatic mutations' },
-  { id: 'known_drug', label: 'Drugs' },
-  { id: 'affected_pathway', label: 'Pathways & systems biology' },
-  { id: 'rna_expression', label: 'RNA expression' },
-  { id: 'literature', label: 'Text mining' },
-  { id: 'animal_model', label: 'Animal models' },
-];
-
-const color = d3
-  .scaleQuantize()
-  .domain([0, 1])
-  .range(colorRange);
-
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     overflow: 'visible',
     padding: '2rem 2rem 0 0',
@@ -117,11 +104,6 @@ const useStyles = makeStyles({
       paddingRight: 0,
     },
   },
-  colorSpan: {
-    display: 'block',
-    height: '20px',
-    border: '1px solid #eeefef',
-  },
   symbolCell: {
     border: 0,
     width: '20%',
@@ -137,16 +119,24 @@ const useStyles = makeStyles({
     textAlign: 'end',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+    color: theme.palette.text.primary,
+    '&:hover': {
+      color: theme.palette.text.primary,
+    },
   },
   nameContainer: {
     display: 'block',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+    color: theme.palette.text.primary,
+    '&:hover': {
+      color: theme.palette.text.primary,
+    },
   },
-});
+}));
 
 function getColumns(efoId, classes) {
-  return [
+  const columns = [
     {
       id: 'symbol',
       label: 'Symbol',
@@ -158,13 +148,8 @@ function getColumns(efoId, classes) {
       renderCell: row => {
         return (
           <Link
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}`}
+            to={`/evidence/${row.ensemblId}/${efoId}`}
             className={classes.symbolContainer}
-            underline="none"
-            title={row.symbol}
-            color="textPrimary"
           >
             {row.symbol}
           </Link>
@@ -181,293 +166,57 @@ function getColumns(efoId, classes) {
         innerLabel: classes.innerLabel,
       },
       sortable: true,
-      renderCell: row => {
-        return (
-          <span
-            className={classes.colorSpan}
-            title={`Score: ${row.score.toFixed(2)}`}
-            style={{ backgroundColor: color(row.score) }}
-          />
-        );
-      },
-    },
-    {
-      id: 'genetic_association',
-      label: 'Genetic associations',
-      classes: {
-        headerCell: classes.headerCell,
-        cell: classes.cell,
-        sortLabel: classes.sortLabel,
-        innerLabel: classes.innerLabel,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'genetic_association'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:genetic_association`}
-          >
-            <span
-              className={classes.colorSpan}
-              title={
-                row.genetic_association
-                  ? `Score: ${row.genetic_association.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.genetic_association) }}
-            />
-          </a>
-        );
-      },
-    },
-    {
-      id: 'somatic_mutation',
-      label: 'Somatic mutations',
-      classes: {
-        headerCell: classes.headerCell,
-        innerLabel: classes.innerLabel,
-        sortLabel: classes.sortLabel,
-        cell: classes.cell,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'somatic_mutation'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:somatic_mutation`}
-          >
-            <span
-              className={classes.colorSpan}
-              title={
-                row.somatic_mutation
-                  ? `Score: ${row.somatic_mutation.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.somatic_mutation) }}
-            />
-          </a>
-        );
-      },
-    },
-    {
-      id: 'known_drug',
-      label: 'Drugs',
-      classes: {
-        headerCell: classes.headerCell,
-        innerLabel: classes.innerLabel,
-        sortLabel: classes.sortLabel,
-        cell: classes.cell,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'known_drug'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:known_drug`}
-          >
-            <span
-              className={classes.colorSpan}
-              title={
-                row.known_drug
-                  ? `Score: ${row.known_drug.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.known_drug) }}
-            />
-          </a>
-        );
-      },
-    },
-    {
-      id: 'affected_pathway',
-      label: 'Pathways & systems biology',
-      sortable: true,
-      classes: {
-        headerCell: classes.headerCell,
-        innerLabel: classes.innerLabel,
-        sortLabel: classes.sortLabel,
-        cell: classes.cell,
-      },
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'affected_pathway'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:affected_pathway`}
-          >
-            <span
-              className={classes.colorSpan}
-              title={
-                row.affected_pathway
-                  ? `Score: ${row.affected_pathway.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.affected_pathway) }}
-            />
-          </a>
-        );
-      },
-    },
-    {
-      id: 'rna_expression',
-      label: 'RNA expression',
-      classes: {
-        headerCell: classes.headerCell,
-        innerLabel: classes.innerLabel,
-        sortLabel: classes.sortLabel,
-        cell: classes.cell,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'rna_expression'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:rna_expression`}
-          >
-            <span
-              className={classes.colorSpan}
-              title={
-                row.rna_expression
-                  ? `Score: ${row.rna_expression.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.rna_expression) }}
-            />
-          </a>
-        );
-      },
-    },
-    {
-      id: 'literature',
-      label: 'Text mining',
-      classes: {
-        headerCell: classes.headerCell,
-        innerLabel: classes.innerLabel,
-        sortLabel: classes.sortLabel,
-        cell: classes.cell,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'literature'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:literature`}
-          >
-            <span
-              className={classes.colorSpan}
-              title={
-                row.literature
-                  ? `Score: ${row.literature.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.literature) }}
-            />
-          </a>
-        );
-      },
-    },
-    {
-      id: 'animal_model',
-      label: 'Animal models',
-      classes: {
-        headerCell: classes.headerCell,
-        innerLabel: classes.innerLabel,
-        sortLabel: classes.sortLabel,
-        cell: classes.cell,
-      },
-      sortable: true,
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === 'animal_model'
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      renderCell: row => {
-        return (
-          <a
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}?view=sec:animal_model`}
-          >
-            <span
-              className={classes.colorSpan}
-              title={
-                row.animal_model
-                  ? `Score: ${row.animal_model.toFixed(2)}`
-                  : 'No data'
-              }
-              style={{ backgroundColor: color(row.animal_model) }}
-            />
-          </a>
-        );
-      },
-    },
-    {
-      id: 'name',
-      label: 'Target name',
-      classes: {
-        headerCell: classes.nameHeaderCell,
-        cell: classes.nameCell,
-      },
-      exportValue: data => data.target.approvedName,
-      hidden: ['smDown', 'lgOnly'],
-      renderCell: row => {
-        return (
-          <Link
-            href={`https://www.targetvalidation.org/evidence/${
-              row.ensemblId
-            }/${efoId}`}
-            className={classes.nameContainer}
-            underline="none"
-            color="textPrimary"
-          >
-            {row.name}
-          </Link>
-        );
-      },
+      renderCell: ({ score, ensemblId }) => (
+        <AssocCell score={score} ensemblId={ensemblId} efoId={efoId} />
+      ),
     },
   ];
+
+  dataTypes.forEach(dt => {
+    columns.push({
+      id: dt.id,
+      label: dt.label,
+      classes: {
+        headerCell: classes.headerCell,
+        innerLabel: classes.innerLabel,
+        sortLabel: classes.sortLabel,
+        cell: classes.cell,
+      },
+      exportValue: data => {
+        const datatypeScore = data.datatypeScores.find(
+          datatypeScore => datatypeScore.componentId === dt.id
+        );
+        return datatypeScore ? datatypeScore.score : 'No data';
+      },
+      sortable: true,
+      renderCell: row => (
+        <AssocCell score={row[dt.id]} ensemblId={row.ensemblId} efoId={efoId} />
+      ),
+    });
+  });
+
+  columns.push({
+    id: 'name',
+    label: 'Target name',
+    classes: {
+      headerCell: classes.nameHeaderCell,
+      cell: classes.nameCell,
+    },
+    exportValue: data => data.target.approvedName,
+    hidden: ['smDown', 'lgOnly'],
+    renderCell: row => {
+      return (
+        <Link
+          to={`/evidence/${row.ensemblId}/${efoId}`}
+          className={classes.nameContainer}
+        >
+          <span title={row.name}>{row.name}</span>
+        </Link>
+      );
+    },
+  });
+
+  return columns;
 }
 
 function getRows(data) {
@@ -493,55 +242,95 @@ function getRows(data) {
 
 function ClassicAssociationsTable({ efoId, aggregationFilters }) {
   const classes = useStyles();
-  const [filter, setFilter] = useState();
+  const [rows, setRows] = useState([]);
+  const [count, setCount] = useState();
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('score');
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(50);
 
-  const { loading, error, data } = useQuery(DISEASE_ASSOCIATIONS_QUERY, {
-    variables: {
-      efoId,
-      index: page,
-      size: pageSize,
-      filter,
-      sortBy,
-      aggregationFilters,
+  useEffect(
+    () => {
+      let isCurrent = true;
+      setLoading(true);
+      client
+        .query({
+          query: DISEASE_ASSOCIATIONS_QUERY,
+          variables: {
+            efoId,
+            index: 0,
+            size: pageSize,
+            sortBy,
+            filter,
+            aggregationFilters,
+          },
+        })
+        .then(({ data }) => {
+          if (isCurrent) {
+            setRows(data.disease.associatedTargets.rows);
+            setCount(data.disease.associatedTargets.count);
+            setPage(0);
+            setInitialLoading(false);
+            setLoading(false);
+          }
+        });
+      return () => (isCurrent = false);
     },
-  });
+    [efoId, pageSize, sortBy, filter, aggregationFilters]
+  );
 
   const getAllAssociations = useBatchDownloader(
     DISEASE_ASSOCIATIONS_QUERY,
-    { efoId, filter, sortBy },
+    { efoId, filter: filter === '' ? null : filter, sortBy },
     'data.disease.associatedTargets'
   );
 
   function handlePageChange(page) {
-    setPage(page);
+    setLoading(true);
+    client
+      .query({
+        query: DISEASE_ASSOCIATIONS_QUERY,
+        variables: {
+          efoId,
+          index: page,
+          size: pageSize,
+          sortBy,
+          filter,
+          aggregationFilters,
+        },
+      })
+      .then(({ data }) => {
+        setRows(data.disease.associatedTargets.rows);
+        setPage(page);
+        setLoading(false);
+      });
   }
 
   function handleRowsPerPageChange(pageSize) {
     setPageSize(pageSize);
-    setPage(0);
   }
 
   function handleSort(sortBy) {
     setSortBy(sortBy);
   }
 
-  function handleGlobalFilterChange(filter) {
-    setFilter(filter);
-    setPage(0);
+  function handleGlobalFilterChange(newFilter) {
+    if (newFilter !== filter) {
+      setFilter(newFilter);
+    }
   }
 
-  if (error) return null;
-
-  const { count, rows = [] } = data?.disease.associatedTargets ?? {};
   const columns = getColumns(efoId, classes);
   const processedRows = getRows(rows);
+
+  if (initialLoading) return <Skeleton variant="rect" height="40vh" />;
 
   return (
     <>
       <Table
+        hover
         showGlobalFilter
         loading={loading}
         dataDownloader

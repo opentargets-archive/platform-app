@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { Link } from 'ot-ui';
+import Link from '../../../components/Link';
 
 const therapeuticAreasDrawerStyles = makeStyles(theme => ({
   drawerBody: {

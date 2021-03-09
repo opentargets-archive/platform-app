@@ -6,10 +6,8 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const PHENOTYPES_SUMMARY_FRAGMENT = gql`
   fragment PhenotypesSummaryFragment on Disease {
-    phenotypes {
-      disease
-      name
-      url
+    phenotypes(page: { index: 0, size: 0 }) {
+      count
     }
   }
 `;
@@ -21,7 +19,7 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={data => <>{data.phenotypes.length} phenotypes</>}
+      renderSummary={data => <>{data.phenotypes?.count || 0} phenotypes</>}
     />
   );
 }

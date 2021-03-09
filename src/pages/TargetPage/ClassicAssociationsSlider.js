@@ -1,7 +1,7 @@
 import React from 'react';
 import { Slider, Typography, withStyles } from '@material-ui/core';
 
-import { significantFigures } from 'ot-ui';
+import { decimalPlaces } from '../../constants';
 
 const styles = () => ({
   root: {
@@ -12,10 +12,15 @@ const styles = () => ({
   },
 });
 
-const ClassicAssociationsSlider = ({ classes, value, onChange }) => (
+const ClassicAssociationsSlider = ({
+  classes,
+  value,
+  onChange,
+  onChangeCommitted,
+}) => (
   <div className={classes.root}>
     <Typography id="label">
-      Minimum Score: {significantFigures(value)}
+      Minimum Score: {value.toFixed(decimalPlaces)}
     </Typography>
     <Slider
       classes={{
@@ -27,6 +32,7 @@ const ClassicAssociationsSlider = ({ classes, value, onChange }) => (
       min={0}
       max={1}
       onChange={onChange}
+      onChangeCommitted={onChangeCommitted}
     />
   </div>
 );

@@ -1,7 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link, Typography } from '@material-ui/core';
-import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Tooltip from '../../../components/Tooltip';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -65,7 +64,7 @@ const columns = [
     },
   },
   {
-    id: 'target.proteinAnnotations.id',
+    id: 'targetFromSourceId',
     label: 'Reported protein',
     renderCell: ({ targetFromSourceId, studyId }) => {
       return (
@@ -107,7 +106,6 @@ function Body({ definition, id, label }) {
       efoId,
       size: summaryData.uniprotLiteratureSummary.count,
     },
-    client: betaClient,
   });
   return (
     <SectionItem

@@ -1,7 +1,6 @@
 import React from 'react';
 import { gql } from '@apollo/client';
 
-import { betaClient } from '../../client';
 import { createSummaryFragment } from '../../components/Summary/utils';
 import PlatformApiProvider from '../../contexts/PlatformApiProvider';
 import ProfileHeader from './ProfileHeader';
@@ -16,20 +15,30 @@ const EVIDENCE_PROFILE_SUMMARY_FRAGMENT = createSummaryFragment(
   'Disease',
   'EvidenceProfileSummaryFragment'
 );
+
 const EVIDENCE_PROFILE_QUERY = gql`
   query EvidenceProfileQuery($ensgId: String!, $efoId: String!) {
     target(ensemblId: $ensgId) {
       id
-      ...EvidenceProfileTargetHeaderFragment
+      approvedSymbol
+      proteinAnnotations {
+        id
+        functions
+      }
+      symbolSynonyms
+      nameSynonyms
     }
     disease(efoId: $efoId) {
       id
-      ...EvidenceProfileDiseaseHeaderFragment
+      name
+      description
+      synonyms {
+        terms
+        relation
+      }
       ...EvidenceProfileSummaryFragment
     }
   }
-  ${ProfileHeader.fragments.profileHeaderTarget}
-  ${ProfileHeader.fragments.profileHeaderDisease}
   ${EVIDENCE_PROFILE_SUMMARY_FRAGMENT}
 `;
 
@@ -38,7 +47,6 @@ function Profile({ ensgId, efoId, symbol, name }) {
     <PlatformApiProvider
       entity="disease"
       query={EVIDENCE_PROFILE_QUERY}
-      client={betaClient}
       variables={{ ensgId, efoId }}
     >
       <SectionOrderProvider sections={sections}>

@@ -1,0 +1,25 @@
+const dataSources = [
+  { id: 'ot_genetics_portal', label: 'OT Genetics Portal' },
+  { id: 'phewas_catalog', label: 'PheWAS Catalog' },
+  { id: 'eva', label: 'ClinVar' },
+  { id: 'uniprot', label: 'UniProt curated variants' },
+  { id: 'genomics_england', label: 'GEL PanelApp' },
+  { id: 'gene2phenotype', label: 'Gene2phenotype' },
+  { id: 'uniprot_literature', label: 'UniProt literature' },
+  { id: 'clingen', label: 'Clingen' },
+  { id: 'cancer_gene_census', label: 'Cancer Gene Census' },
+  { id: 'intogen', label: 'IntOGen' },
+  { id: 'eva_somatic', label: 'ClinVar (somatic)' },
+  { id: 'uniprot_somatic', label: 'UniProt (somatic)' },
+  { id: 'chembl', label: 'ChEMBL' },
+  { id: 'crispr', label: 'Project Score' },
+  { id: 'slapenrich', label: 'SLAPenrich' },
+  { id: 'progeny', label: 'PROGENy' },
+  { id: 'reactome', label: 'Reactome' },
+  { id: 'sysbio', label: 'Gene signatures' },
+  { id: 'europepmc', label: 'Europe PMC' },
+  { id: 'expression_atlas', label: 'Expression Atlas' },
+  { id: 'phenodigm', label: 'PhenoDigm' },
+];
+
+export default dataSources;

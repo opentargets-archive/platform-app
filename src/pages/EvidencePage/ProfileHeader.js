@@ -1,7 +1,6 @@
 import React from 'react';
 import { faDna, faStethoscope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { gql } from '@apollo/client';
 import {
   Card,
   CardContent,
@@ -10,35 +9,14 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
 import {
   Description,
   ProfileHeader as BaseProfileHeader,
   ChipList,
 } from '../../components/ProfileHeader';
-import usePlatformApi from '../../hooks/usePlatformApi';
+import Link from '../../components/Link';
 import { Skeleton } from '@material-ui/lab';
-
-const EVIDENCE_PROFILE_TARGET_HEADER_FRAGMENT = gql`
-  fragment EvidenceProfileTargetHeaderFragment on Target {
-    id
-    approvedSymbol
-    proteinAnnotations {
-      id
-      functions
-    }
-    symbolSynonyms
-  }
-`;
-const EVIDENCE_PROFILE_DISEASE_HEADER_FRAGMENT = gql`
-  fragment EvidenceProfileDiseaseHeaderFragment on Disease {
-    id
-    name
-    description
-    synonyms
-  }
-`;
+import usePlatformApi from '../../hooks/usePlatformApi';
 
 const useStyles = makeStyles(theme => ({
   card: { height: '100%' },
@@ -47,6 +25,30 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+/**
+ * Disease synonyms are organized by "relation", each with a list of "terms".
+ * The same term can appear under different relations.
+ */
+const parseSynonyms = diseaseSynonyms => {
+  const t = [];
+  diseaseSynonyms.forEach(s => {
+    s.terms.forEach(syn => {
+      const thisSyn = t.find(t => t.label === syn);
+      if (!thisSyn) {
+        // if the synonyms is not already in the list, we add it
+        t.push({ label: syn, tooltip: [s.relation] });
+      } else {
+        // if it already exist, just add the relation to it
+        // (i.e. it will have multiple relations)
+        thisSyn.tooltip.push(s.relation);
+      }
+    });
+  });
+  // convert the tooltip array to a string for display in the Tooltip component
+  t.forEach(syn => (syn.tooltip = syn.tooltip.join(', ')));
+  return t;
+};
+
 function ProfileHeader() {
   const classes = useStyles();
   const { loading, error, data } = usePlatformApi();
@@ -54,15 +56,16 @@ function ProfileHeader() {
   //TODO: Errors!
   if (error) return null;
 
-  const {
-    id: efoId,
-    name,
-    description: diseaseDescription,
-    synonyms: diseaseSynonyms,
-  } = data?.disease || {};
+  const { id: efoId, name, description: diseaseDescription } =
+    data?.disease || {};
   const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
-  const { id: ensgId, approvedSymbol, symbolSynonyms: targetSynonyms } =
-    data?.target || {};
+
+  const diseaseSynonyms = parseSynonyms(data?.disease.synonyms || []);
+
+  const { id: ensgId, approvedSymbol } = data?.target || {};
+  const targetSynonyms = data?.target.symbolSynonyms.concat(
+    data?.target.nameSynonyms
+  );
 
   return (
     <BaseProfileHeader>
@@ -100,17 +103,14 @@ function ProfileHeader() {
           />
           <CardContent className={classes.cardContent}>
             <Description>{diseaseDescription}</Description>
-            <ChipList title="Synonyms">{diseaseSynonyms}</ChipList>
+            {diseaseSynonyms.length > 0 ? (
+              <ChipList title="Synonyms">{diseaseSynonyms}</ChipList>
+            ) : null}
           </CardContent>
         </Card>
       )}
     </BaseProfileHeader>
   );
 }
-
-ProfileHeader.fragments = {
-  profileHeaderTarget: EVIDENCE_PROFILE_TARGET_HEADER_FRAGMENT,
-  profileHeaderDisease: EVIDENCE_PROFILE_DISEASE_HEADER_FRAGMENT,
-};
 
 export default ProfileHeader;

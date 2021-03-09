@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { Autocomplete } from '@material-ui/lab';
-import { Box, Chip, Grid, TextField, withStyles } from '@material-ui/core';
-
-import { Typography, Button } from 'ot-ui';
+import {
+  Box,
+  Button,
+  Chip,
+  Grid,
+  TextField,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
 
 import Publication from './Publication';
 import { getAggregationsData, getPublicationsData } from './Api';
@@ -317,6 +323,7 @@ class Section extends Component {
                   variant="contained"
                   size="medium"
                   color="primary"
+                  disableElevation
                   onClick={() => {
                     this.getPublications(true);
                   }}

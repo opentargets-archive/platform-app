@@ -1,16 +1,16 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
-import { Link } from 'ot-ui';
-import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
-import { epmcUrl } from '../../../utils/urls';
-import Summary from './Summary';
 import Description from './Description';
+import { sentenceCase } from '../../../utils/global';
+import { epmcUrl } from '../../../utils/urls';
+import Link from '../../../components/Link';
+import Summary from './Summary';
 
 const REACTOME_QUERY = gql`
   query reactomeQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
@@ -102,8 +102,9 @@ const columns = [
     id: 'targetModulation',
     label: 'Target modulation',
     renderCell: ({ targetModulation }) => {
-      return targetModulation ? targetModulation.replace(/_/g, ' ') : naLabel;
+      return targetModulation ? sentenceCase(targetModulation) : naLabel;
     },
+    filterValue: ({ targetModulation }) => sentenceCase(targetModulation),
   },
   {
     filterValue: ({ variantAminoacidDescriptions }) => {
@@ -166,7 +167,6 @@ function Body({ definition, id, label }) {
       efoId,
       size: summaryData.reactomeSummary.count,
     },
-    client: betaClient,
   });
 
   return (

@@ -1,13 +1,15 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
-import { Link } from 'ot-ui';
-
+import { sourceMap } from '../../../constants';
+import { referenceUrls } from '../../../utils/urls';
 import {
   DataTable,
   PaginationActionsComplete,
+  TableDrawer,
 } from '../../../components/Table';
 import Description from './Description';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import TherapeuticAreasDrawer from './TherapeuticAreasDrawer';
 
@@ -26,6 +28,10 @@ const INDICATIONS_QUERY = gql`
               name
             }
           }
+          references {
+            ids
+            source
+          }
         }
       }
     }
@@ -39,7 +45,7 @@ const columns = [
     renderCell: d => (
       <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
     ),
-    width: '45%',
+    width: '38%',
   },
   {
     id: 'therapeuticAreas',
@@ -50,14 +56,42 @@ const columns = [
     },
     exportValue: d =>
       d.disease.therapeuticAreas.map(therapeuticArea => therapeuticArea.id),
-    width: '45%',
+    width: '38%',
   },
   {
     id: 'maxPhaseForIndication',
     label: 'Max Phase',
-    numeric: true,
     sortable: true,
     width: '10%',
+  },
+  {
+    id: 'references',
+    label: 'Source',
+    renderCell: ({ references }) => {
+      if (!references) return 'N/A';
+
+      const referenceList = [];
+
+      references.forEach(reference => {
+        reference.ids.forEach((id, i) => {
+          referenceList.push({
+            name: id,
+            url: referenceUrls[reference.source](id),
+            group: sourceMap[reference.source],
+          });
+        });
+      });
+
+      if (referenceList.length === 1) {
+        return (
+          <Link external to={referenceList[0].url}>
+            {referenceList[0].group}
+          </Link>
+        );
+      }
+
+      return <TableDrawer entries={referenceList} />;
+    },
   },
 ];
 

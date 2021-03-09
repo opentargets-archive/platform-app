@@ -22,7 +22,10 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={() => 'CRISPR screen prioritised'}
+      renderSummary={({ crisprSummary }) => {
+        const { count } = crisprSummary;
+        return `${count} ${count === 1 ? 'entry' : 'entries'}`;
+      }}
     />
   );
 }

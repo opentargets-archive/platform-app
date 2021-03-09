@@ -7,7 +7,7 @@ import Description from './Description';
 const KNOWN_DRUGS_BODY_QUERY = gql`
   query KnownDrugsQuery(
     $efoId: String!
-    $cursor: [String!]
+    $cursor: String
     $freeTextQuery: String
     $size: Int = 10
   ) {
@@ -30,10 +30,17 @@ const KNOWN_DRUGS_BODY_QUERY = gql`
           drug {
             id
             name
+            mechanismsOfAction {
+              rows {
+                actionType
+                targets {
+                  id
+                }
+              }
+            }
           }
           drugType
           mechanismOfAction
-          activity
           target {
             id
             approvedName

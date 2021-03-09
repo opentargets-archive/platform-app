@@ -2,7 +2,8 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Tooltip, Typography, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { significantFigures } from 'ot-ui';
+
+import { decimalPlaces } from '../../constants';
 
 const useStyles = makeStyles(theme => ({
   tooltip: {
@@ -23,7 +24,7 @@ function AssociationTooltip({ ensemblId, efoId, name, score, children }) {
           </Typography>
           {score ? (
             <Typography variant="body2" align="center" color="textPrimary">
-              association score: {significantFigures(score)}
+              association score: {score.toFixed(decimalPlaces)}
             </Typography>
           ) : null}
           <Link

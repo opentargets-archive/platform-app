@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Link, DataDownloader } from 'ot-ui';
-
+import DataDownloader from '../../../components/DataDownloader';
 import FilteringOtTableRF from '../../../components/FilteringOtTableRF';
+import Link from '../../../components/Link';
 
 const OverviewTab = ({ symbol, lowLevelPathways }) => (
   <>

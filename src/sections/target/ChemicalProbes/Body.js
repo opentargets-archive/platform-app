@@ -1,7 +1,9 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 
-import { Link, OtTableRF, DataDownloader } from 'ot-ui';
+import Link from '../../../components/Link';
+import OtTableRF from '../../../components/OtTableRF';
+import DataDownloader from '../../../components/DataDownloader';
 import SectionItem from '../../../components/Section/SectionItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Description from './Description';
@@ -17,7 +19,10 @@ const columns = [
     renderCell: rowData =>
       rowData.sourcelinks.map((d, i, a) => (
         <React.Fragment key={i}>
-          <Link external to={d.link}>
+          <Link
+            external
+            to={`${!d.link.startsWith('http') ? 'http://' : ''}${d.link}`}
+          >
             {d.source}
           </Link>
           {i < a.length - 1 ? ' / ' : ''}

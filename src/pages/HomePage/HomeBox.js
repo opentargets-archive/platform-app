@@ -1,9 +1,7 @@
-// TODO: move this component to ot-ui package
 import React from 'react';
 import { Grid, Paper, makeStyles } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
+import Link from '../../components/Link';
 import OTLogo from '../../assets/OTLogo';
 
 const useStyles = makeStyles(theme => ({
@@ -56,7 +54,7 @@ const HomeBox = ({ children }) => {
           <strong> **Important Note** </strong>
         </Grid>
         <Grid item>
-          This is the <strong>Alpha</strong> version of the redesigned{' '}
+          This is the <strong>Beta</strong> version of the redesigned{' '}
           <Link to="https://www.targetvalidation.org" external>
             Open Targets Platform
           </Link>

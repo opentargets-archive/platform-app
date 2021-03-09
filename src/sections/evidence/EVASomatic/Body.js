@@ -1,8 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Box, Typography, makeStyles } from '@material-ui/core';
-import { Link } from 'ot-ui';
-import { betaClient } from '../../../client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -18,6 +16,7 @@ import Tooltip from '../../../components/Tooltip';
 import ClinvarStars from '../../../components/ClinvarStars';
 import Summary from './Summary';
 import Description from './Description';
+import Link from '../../../components/Link';
 
 const EVA_SOMATIC_QUERY = gql`
   query evaSomaticQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
@@ -100,7 +99,7 @@ const columns = [
     },
   },
   {
-    id: 'recordId',
+    id: 'studyId',
     label: 'ClinVar ID',
     renderCell: ({ studyId }) => {
       return (
@@ -136,6 +135,7 @@ const columns = [
         </ul>
       );
     },
+    filterValue: ({ clinicalSignificances }) => clinicalSignificances.join(),
   },
   {
     id: 'allelicRequirements',
@@ -159,6 +159,7 @@ const columns = [
         </ul>
       );
     },
+    filterValue: ({ allelicRequirements }) => allelicRequirements.join(),
   },
   {
     label: 'Confidence',
@@ -214,7 +215,6 @@ function Body({ definition, id, label }) {
       efoId,
       size: summaryData.evaSomaticSummary.count,
     },
-    client: betaClient,
   });
 
   return (

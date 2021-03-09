@@ -4,7 +4,9 @@ import crossfilter from 'crossfilter2';
 import { TextField } from '@material-ui/core';
 import _ from 'lodash';
 
-import { DataDownloader, OtTableRF, Link } from 'ot-ui';
+import DataDownloader from '../../../components/DataDownloader';
+import Link from '../../../components/Link';
+import OtTableRF from '../../../components/OtTableRF';
 
 import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
 

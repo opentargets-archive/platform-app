@@ -13,20 +13,10 @@ const DRUG_PAGE_QUERY = gql`
     drug(chemblId: $chemblId) {
       id
       name
-      description
-      drugType
-      synonyms
-      tradeNames
-      yearOfFirstApproval
-      maximumClinicalTrialPhase
-      hasBeenWithdrawn
-      withdrawnNotice {
-        classes
-        countries
-        reasons
-        year
+      crossReferences {
+        source
+        reference
       }
-      internalCompound
     }
   }
 `;
@@ -41,11 +31,16 @@ function DrugPage({ match }) {
     return <NotFoundPage />;
   }
 
-  const { name } = data?.drug || {};
+  const { name, crossReferences } = data?.drug || {};
 
   return (
     <BasePage title={name || chemblId}>
-      <Header loading={loading} chemblId={chemblId} name={name} />
+      <Header
+        loading={loading}
+        chemblId={chemblId}
+        name={name}
+        crossReferences={crossReferences}
+      />
 
       <RoutingTabs>
         <RoutingTab

@@ -1,10 +1,10 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { withContentRect } from 'react-measure';
 import * as d3 from 'd3';
 
-import { Button, downloadSVG } from 'ot-ui';
+import { downloadSvg } from '../../../../components/DownloadSvgPlot';
 
 class InteractionsPlot extends React.Component {
   state = {};
@@ -15,7 +15,7 @@ class InteractionsPlot extends React.Component {
   }
   handleSVGDownload = (svgContainer, filenameStem) => {
     const svgNode = findDOMNode(svgContainer.current).querySelector('svg');
-    downloadSVG({ svgNode, filenameStem });
+    downloadSvg({ svgNode, filenameStem });
   };
   render() {
     const {

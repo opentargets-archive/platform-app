@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import { scroller, Element } from 'react-scroll';
-
-import { Button } from 'ot-ui';
 
 import ReactomeRenderer from './ReactomeRenderer';
 
@@ -53,8 +51,10 @@ function BrowserTab({ symbol, lowLevelPathways }) {
             <Button
               className={classes.pathwaysButton}
               onClick={() => handlePathwayClick(d.id)}
+              color="primary"
               size="small"
-              disableRipple
+              disableElevation
+              variant="contained"
             >
               View in browser below
             </Button>

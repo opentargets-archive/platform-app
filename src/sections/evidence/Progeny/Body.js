@@ -2,12 +2,10 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
-import { betaClient } from '../../../client';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import ScientificNotation from '../../../components/ScientificNotation';
 import { sentenceCase } from '../../../utils/global';
@@ -102,7 +100,6 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
 
   const request = useQuery(PROGENY_QUERY, {
     variables: { ensemblId: ensgId, efoId, size },
-    client: betaClient,
   });
 
   return (

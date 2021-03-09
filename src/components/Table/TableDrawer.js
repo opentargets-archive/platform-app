@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import {
-  makeStyles,
-  List,
-  ListItem,
-  Drawer,
   AccordionSummary,
   AccordionDetails,
   Accordion,
   Box,
-  Paper,
   IconButton,
+  List,
+  ListItem,
+  Drawer,
   Link as MUILink,
+  makeStyles,
+  Typography,
+  Paper,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { naLabel } from '../../constants';
 import _ from 'lodash';
 
-import { Link, Typography } from 'ot-ui';
+import Link from '../Link';
 
 const sourceDrawerStyles = makeStyles(theme => ({
   drawerLink: {

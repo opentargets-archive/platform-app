@@ -1,88 +1,127 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'ot-ui';
 
 import client from '../../../client';
+import Link from '../../../components/Link';
 import { naLabel } from '../../../constants';
+import { sentenceCase } from '../../../utils/global';
+import SectionItem from '../../../components/Section/SectionItem';
 import SourceDrawer from './SourceDrawer';
 import { Table, getPage } from '../../../components/Table';
 import useCursorBatchDownloader from '../../../hooks/useCursorBatchDownloader';
-import SectionItem from '../../../components/Section/SectionItem';
 
-const columnPool = {
-  clinicalTrials: {
-    label: 'Clinical trials information',
-    columns: [
-      {
-        id: 'phase',
-      },
-      {
-        id: 'status',
-        renderCell: d => (d.status ? d.status : naLabel),
-      },
-      {
-        id: 'sources',
-        label: 'Source',
-        exportValue: d => d.urls.map(reference => reference.url),
-        renderCell: d => <SourceDrawer references={d.urls} />,
-      },
-    ],
-  },
-  disease: {
-    label: 'Disease information',
-    columns: [
-      {
-        id: 'disease',
-        propertyPath: 'disease.id',
-        renderCell: d => (
-          <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
-        ),
-      },
-    ],
-  },
-  drug: {
-    label: 'Drug information',
-    columns: [
-      {
-        id: 'drug',
-        propertyPath: 'drug.id',
-        renderCell: d => <Link to={`/drug/${d.drug.id}`}>{d.drug.name}</Link>,
-      },
-      {
-        id: 'type',
-        propertyPath: 'drugType',
-        renderCell: d => d.drugType,
-      },
-      {
-        id: 'mechanismOfAction',
-      },
-      {
-        id: 'activity',
-        hidden: ['lgDown'],
-        renderCell: d => (d.activity ? d.activity : naLabel),
-      },
-    ],
-  },
-  target: {
-    label: 'Target information',
-    columns: [
-      {
-        id: 'targetSymbol',
-        label: 'Symbol',
-        propertyPath: 'target.approvedSymbol',
-        renderCell: d => (
-          <Link to={`/target/${d.target.id}`}>{d.target.approvedSymbol}</Link>
-        ),
-      },
-      {
-        id: 'targetName',
-        label: 'Name',
-        propertyPath: 'target.approvedName',
-        hidden: ['lgDown'],
-        renderCell: d => d.target.approvedName,
-      },
-    ],
-  },
-};
+function getColumnPool(id, entity) {
+  return {
+    clinicalTrials: {
+      label: 'Clinical trials information',
+      columns: [
+        {
+          id: 'phase',
+        },
+        {
+          id: 'status',
+          renderCell: d => (d.status ? d.status : naLabel),
+        },
+        {
+          id: 'sources',
+          label: 'Source',
+          exportValue: d => d.urls.map(reference => reference.url),
+          renderCell: d => <SourceDrawer references={d.urls} />,
+        },
+      ],
+    },
+    disease: {
+      label: 'Disease information',
+      columns: [
+        {
+          id: 'disease',
+          propertyPath: 'disease.id',
+          renderCell: d => (
+            <Link to={`/disease/${d.disease.id}`}>{d.disease.name}</Link>
+          ),
+        },
+      ],
+    },
+    drug: {
+      label: 'Drug information',
+      columns: [
+        {
+          id: 'drug',
+          propertyPath: 'drug.id',
+          renderCell: d => {
+            return d.drug ? (
+              <Link to={`/drug/${d.drug.id}`}>{d.drug.name}</Link>
+            ) : (
+              naLabel
+            );
+          },
+        },
+        {
+          id: 'type',
+          propertyPath: 'drugType',
+          renderCell: d => d.drugType,
+        },
+        {
+          id: 'mechanismOfAction',
+        },
+        {
+          id: 'Action type',
+          renderCell: ({ drug: { mechanismsOfAction }, target }) => {
+            if (!mechanismsOfAction) return naLabel;
+            const at = new Set();
+
+            const targetId = entity === 'target' ? id : target.id;
+
+            mechanismsOfAction.rows.forEach(row => {
+              row.targets.forEach(t => {
+                if (t.id === targetId) {
+                  at.add(row.actionType);
+                }
+              });
+            });
+
+            const actionTypes = Array.from(at);
+
+            return actionTypes.length > 0 ? (
+              <ul
+                style={{
+                  margin: 0,
+                  padding: 0,
+                  listStyle: 'none',
+                }}
+              >
+                {actionTypes.map(actionType => (
+                  <li key={actionType}>{sentenceCase(actionType)}</li>
+                ))}
+              </ul>
+            ) : (
+              naLabel
+            );
+          },
+        },
+      ],
+    },
+    target: {
+      label: 'Target information',
+      columns: [
+        {
+          id: 'targetSymbol',
+          label: 'Symbol',
+          propertyPath: 'target.approvedSymbol',
+          renderCell: d => (
+            <Link to={`/target/${d.target.id}`}>{d.target.approvedSymbol}</Link>
+          ),
+        },
+        {
+          id: 'targetName',
+          label: 'Name',
+          propertyPath: 'target.approvedName',
+          hidden: ['lgDown'],
+          renderCell: d => d.target.approvedName,
+        },
+      ],
+    },
+  };
+}
 
 const INIT_PAGE_SIZE = 10;
 
@@ -95,14 +134,17 @@ function Body({
   columnsToShow,
   stickyColumn,
 }) {
-  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
-  const [cursor, setCursor] = useState(null);
+  const [cursor, setCursor] = useState('');
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(INIT_PAGE_SIZE);
   const [globalFilter, setGlobalFilter] = useState('');
 
+  const id = variables[Object.keys(variables)[0]];
+  const columnPool = getColumnPool(id, entity);
   const columns = [];
 
   columnsToShow.forEach(columnGroupName => {
@@ -140,7 +182,7 @@ function Body({
         const { cursor, count, rows } = res.data[entity].knownDrugs;
 
         if (isCurrent) {
-          setLoading(false);
+          setInitialLoading(false);
           setCursor(cursor);
           setCount(count);
           setRows(rows);
@@ -162,10 +204,7 @@ function Body({
   );
 
   const handlePageChange = newPage => {
-    if (
-      pageSize * newPage + pageSize > rows.length &&
-      (cursor === null || cursor.length !== 0)
-    ) {
+    if (pageSize * newPage + pageSize > rows.length && cursor !== null) {
       setLoading(true);
       fetchDrugs(variables, cursor, pageSize, globalFilter).then(res => {
         const { cursor, rows: newRows } = res.data[entity].knownDrugs;
@@ -180,7 +219,7 @@ function Body({
   };
 
   const handleRowsPerPageChange = newPageSize => {
-    if (newPageSize > rows.length) {
+    if (newPageSize > rows.length && cursor !== null) {
       setLoading(true);
       fetchDrugs(variables, cursor, newPageSize, globalFilter).then(res => {
         const { cursor, rows: newRows } = res.data[entity].knownDrugs;
@@ -210,12 +249,12 @@ function Body({
     });
   };
 
-  const id = variables[Object.keys(variables)[0]];
+  // const id = variables[Object.keys(variables)[0]];
 
   return (
     <SectionItem
       definition={definition}
-      request={{ loading, error: false, data: rows }}
+      request={{ loading: initialLoading, error: false, data: rows }}
       renderDescription={Description}
       renderBody={() => (
         <Table

@@ -32,6 +32,12 @@ function ChipContainer({ item, children }) {
   );
 }
 
+/**
+ * Display a (horizontal) list of "chips".
+ * Each chip can show an optional tooltip.
+ * @param items Array of Strings.
+ * Each item in the items array can also be an object, with format {label, tooltip}
+ */
 function ChipList({ items }) {
   const classes = useChipStyles();
 

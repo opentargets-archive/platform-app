@@ -8,14 +8,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 
-import { Link } from 'ot-ui';
-
-import { betaClient } from '../../../client';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
 import { sentenceCase } from '../../../utils/global';
+import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
@@ -177,7 +175,6 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
 
   const request = useQuery(GENOMICS_ENGLAND_QUERY, {
     variables: { ensemblId: ensgId, efoId, size },
-    client: betaClient,
   });
 
   return (

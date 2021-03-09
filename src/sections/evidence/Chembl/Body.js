@@ -1,18 +1,18 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Link } from 'ot-ui';
-import { betaClient } from '../../../client';
-import usePlatformApi from '../../../hooks/usePlatformApi';
-import SectionItem from '../../../components/Section/SectionItem';
-import Tooltip from '../../../components/Tooltip';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import {
   defaultRowsPerPageOptions,
   phaseMap,
   sourceMap,
+  naLabel,
 } from '../../../constants';
-import Summary from './Summary';
 import Description from './Description';
+import Link from '../../../components/Link';
+import SectionItem from '../../../components/Section/SectionItem';
+import Summary from './Summary';
+import Tooltip from '../../../components/Tooltip';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const CHEMBL_QUERY = gql`
   query ChemblQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
@@ -50,7 +50,7 @@ const CHEMBL_QUERY = gql`
           }
           clinicalPhase
           clinicalStatus
-          clinicalUrls {
+          urls {
             niceName
             url
           }
@@ -71,9 +71,8 @@ const columns = [
   {
     label: 'Targets',
     renderCell: ({ target, drug, targetFromSourceId }) => {
-      const {
-        mechanismsOfAction: { rows },
-      } = drug;
+      const mechanismsOfAction = drug.mechanismsOfAction || {};
+      const { rows = [] } = mechanismsOfAction;
 
       let symbol = '';
 
@@ -129,9 +128,8 @@ const columns = [
   {
     label: 'Mechanism of action (MoA)',
     renderCell: ({ target, drug }) => {
-      const {
-        mechanismsOfAction: { rows },
-      } = drug;
+      const mechanismsOfAction = drug.mechanismsOfAction || {};
+      const { rows = [] } = mechanismsOfAction;
 
       let anchorMa = null;
 
@@ -156,7 +154,9 @@ const columns = [
         return acc;
       }, new Set());
 
-      return `${anchorMa}${mas.size > 0 ? ` and ${mas.size} other MoA` : ''}`;
+      return `${anchorMa ? anchorMa : naLabel}${
+        mas.size > 0 ? ` and ${mas.size} other MoA` : ''
+      }`;
     },
   },
   {
@@ -172,8 +172,8 @@ const columns = [
   },
   {
     label: 'Source',
-    renderCell: ({ clinicalUrls }) => {
-      const urlList = clinicalUrls.map(({ niceName, url }) => {
+    renderCell: ({ urls }) => {
+      const urlList = urls.map(({ niceName, url }) => {
         return {
           name: sourceMap[niceName] ? sourceMap[niceName] : niceName,
           url,
@@ -182,8 +182,8 @@ const columns = [
       });
       return <TableDrawer entries={urlList} caption="Sources" />;
     },
-    filterValue: ({ clinicalUrls }) => {
-      const labels = clinicalUrls.map(({ niceName }) => {
+    filterValue: ({ urls }) => {
+      const labels = urls.map(({ niceName }) => {
         return sourceMap[niceName] ? sourceMap[niceName] : niceName;
       });
       return labels.join();
@@ -198,7 +198,6 @@ function Body({ definition, id, label }) {
   );
   const request = useQuery(CHEMBL_QUERY, {
     variables: { ensemblId, efoId, size: summaryData.chemblSummary.count },
-    client: betaClient,
   });
 
   return (

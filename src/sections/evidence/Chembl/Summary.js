@@ -25,7 +25,7 @@ function Summary({ definition }) {
       request={request}
       renderSummary={({ chemblSummary }) => {
         const { count } = chemblSummary;
-        return `${count} record${count > 1 ? 's' : ''}`;
+        return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
     />
   );

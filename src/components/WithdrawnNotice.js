@@ -47,7 +47,7 @@ function WithdrawnNotice({ withdrawnNotice }) {
               {withdrawnNotice.year}
               <br />
               <strong>Withdrawn in: </strong>
-              {withdrawnNotice.countries.length > 0
+              {withdrawnNotice.countries && withdrawnNotice.countries.length > 0
                 ? withdrawnNotice.countries.join(', ')
                 : null}
               <br />
