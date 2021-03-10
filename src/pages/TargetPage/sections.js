@@ -26,6 +26,7 @@ export default [
   BaselineExpression,
   GeneOntology,
   ProteinInformation,
+  MolecularInteractions,
   Pathways,
   // RelatedTargets,
   CancerBiomarkers,
@@ -34,5 +35,4 @@ export default [
   Variation,
   ComparativeGenomics,
   Bibliography,
-  MolecularInteractions,
 ];
