@@ -12,6 +12,7 @@ after_success:
   - cd ..
 deploy:
   provider: releases
+  api_key: $GITHUB_TOKEN
   file: "bundle.tgz"
   skip_cleanup: true
   github-token: $GITHUB_TOKEN
