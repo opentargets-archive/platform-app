@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 
+import client from '../../../client';
 import ClinvarStars from '../../../components/ClinvarStars';
 import {
   clinvarStarMap,
@@ -181,8 +182,8 @@ const columns = [
   },
 ];
 
-const EVA_QUERY = gql`
-  query evaQuery(
+const CLINVAR_QUERY = gql`
+  query clinvarQuery(
     $ensemblId: String!
     $efoId: String!
     $size: Int!
@@ -221,51 +222,62 @@ const EVA_QUERY = gql`
   }
 `;
 
-function Body({ definition, id, label }) {
-  const { ensgId: ensemblId, efoId } = id;
-  const { data: summaryData } = usePlatformApi(Summary.fragments.evaSummary);
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-
-  const request = useQuery(EVA_QUERY, {
+function fetchClinvar(ensemblId, efoId, cursor, size) {
+  return client.query({
+    query: CLINVAR_QUERY,
     variables: {
       ensemblId,
       efoId,
-      size:
-        summaryData.evaSummary.count > 1000
-          ? pageSize
-          : summaryData.evaSummary.count,
+      cursor,
+      size,
     },
-    notifyOnNetworkStatusChange: true,
   });
-  const { loading, data, fetchMore } = request;
+}
+
+function Body({ definition, id, label }) {
+  const { ensgId: ensemblId, efoId } = id;
+  const { data: summaryData } = usePlatformApi(Summary.fragments.evaSummary);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [cursor, setCursor] = useState('');
+  const [count, setCount] = useState(0);
+  const [rows, setRows] = useState([]);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  useEffect(() => {
+    let isCurrent = true;
+    fetchClinvar(
+      ensemblId,
+      efoId,
+      cursor,
+      summaryData.evaSummary.count > 1000 ? 100 : summaryData.evaSummary.count
+    ).then(res => {
+      console.log('res.data.disease.evidences', res.data.disease.evidences);
+      const { count, cursor, rows } = res.data.disease.evidences;
+
+      if (isCurrent) {
+        setInitialLoading(false);
+        setCursor(cursor);
+        setCount(count);
+        setRows(rows);
+      }
+    });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, []);
 
   function handlePageChange(newPage) {
-    if (newPage * pageSize + pageSize > data.disease.evidences.rows.length) {
-      fetchMore({
-        variables: {
-          ensemblId,
-          efoId,
-          size: pageSize,
-          cursor: data.disease.evidences.cursor,
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          setPage(newPage);
-          return {
-            ...prev,
-            disease: {
-              ...prev.disease,
-              evidences: {
-                ...prev.disease.evidences,
-                cursor: fetchMoreResult.disease.evidences.cursor,
-                rows: [
-                  ...prev.disease.evidences.rows,
-                  ...fetchMoreResult.disease.evidences.rows,
-                ],
-              },
-            },
-          };
-        },
+    if (pageSize * newPage + pageSize > rows.length && cursor !== null) {
+      setLoading(true);
+      fetchClinvar(ensemblId, efoId, cursor, 100).then(res => {
+        const { cursor, rows: newRows } = res.data.disease.evidences;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(newPage);
+        setRows([...rows, ...newRows]);
       });
     } else {
       setPage(newPage);
@@ -273,32 +285,15 @@ function Body({ definition, id, label }) {
   }
 
   function handleRowsPerPageChange(newPageSize) {
-    if (newPageSize > data.disease.evidences.rows.length) {
-      fetchMore({
-        variables: {
-          ensemblId,
-          efoId,
-          size: pageSize,
-          cursor: data.disease.evidences.cursor,
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          setPage(0);
-          setPageSize(newPageSize);
-          return {
-            ...prev,
-            disease: {
-              ...prev.disease,
-              evidences: {
-                ...prev.disease.evidences,
-                cursor: fetchMoreResult.disease.evidences.cursor,
-                rows: [
-                  ...prev.disease.evidences.rows,
-                  ...fetchMoreResult.disease.evidences.rows,
-                ],
-              },
-            },
-          };
-        },
+    if (newPageSize > rows.length && cursor !== null) {
+      setLoading(true);
+      fetchClinvar(ensemblId, efoId, cursor, 100).then(res => {
+        const { cursor, rows: newRows } = res.data.disease.evidences;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(0);
+        setPageSize(newPageSize);
+        setRows([...rows, ...newRows]);
       });
     } else {
       setPage(0);
@@ -309,34 +304,24 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
-      request={request}
+      request={{ loading: initialLoading, data: rows }}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
       )}
-      renderBody={({ disease }) => {
-        const { count, rows } = disease.evidences;
-
+      renderBody={() => {
         return summaryData.evaSummary.count > 1000 ? (
           <Table
-            dataDownloader
             loading={loading}
             columns={columns}
             rows={getPage(rows, page, pageSize)}
             rowCount={count}
             page={page}
-            pageSize={pageSize}
+            rowsPerPageOptions={defaultRowsPerPageOptions}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleRowsPerPageChange}
-            rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         ) : (
-          <DataTable
-            columns={columns}
-            rows={rows}
-            dataDownloader
-            showGlobalFilter
-            rowsPerPageOptions={defaultRowsPerPageOptions}
-          />
+          <div>client side server</div>
         );
       }}
     />
