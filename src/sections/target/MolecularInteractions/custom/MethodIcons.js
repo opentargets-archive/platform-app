@@ -20,19 +20,24 @@ function MethodIcon(props) {
         </span>
       ))
     : props.tooltip;
-  return (
-    <Tooltip title={<>{title}</>}>
-      <span
-        className="fa-layers fa-fw"
-        style={{
-          marginRight: '20px',
-          color: props.enabled ? undefined : theme.palette.text.disabled,
-        }}
-      >
-        <FontAwesomeIcon icon={faCircle} size="2x" />
-        {props.children}
-      </span>
-    </Tooltip>
+  const icon = (
+    <span
+      className="fa-layers fa-fw"
+      style={{
+        marginRight: '20px',
+        color: props.enabled ? undefined : ' #e0e0e0', // theme.palette.text.disabled,
+        cursor: props.tooltip ? 'help' : 'default',
+      }}
+    >
+      <FontAwesomeIcon icon={faCircle} size="2x" />
+      {props.children}
+    </span>
+  );
+
+  return props.notooltip ? (
+    <>{icon}</>
+  ) : (
+    <Tooltip title={<>{title}</>}>{icon}</Tooltip>
   );
 }
 
