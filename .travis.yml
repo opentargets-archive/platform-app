@@ -1,8 +1,4 @@
 language: node_js
-branches:
-  only:
-  - jsonconfig
-  - /\d+\.\d+\.\d+/
 node_js:
   - 12
 cache: yarn
@@ -21,4 +17,5 @@ deploy:
   file: "bundle.tgz"
   skip_cleanup: true
   on:
-    tags: true    
+    tags: true
+    all_branches: true
