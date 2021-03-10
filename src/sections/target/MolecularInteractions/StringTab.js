@@ -7,7 +7,7 @@ import Legend from '../../../components/Legend';
 import { colorRange } from '../../../constants';
 
 import Grid from '@material-ui/core/Grid';
-import { Link } from 'ot-ui';
+import Link from '../../../components/Link';
 
 import * as d3 from 'd3';
 

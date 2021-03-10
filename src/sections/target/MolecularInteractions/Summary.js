@@ -18,7 +18,9 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={data => `${data.interactions.count} interactors`}
+      renderSummary={data =>
+        `${data.interactions.count} physical or functional interactors`
+      }
     />
   );
 }

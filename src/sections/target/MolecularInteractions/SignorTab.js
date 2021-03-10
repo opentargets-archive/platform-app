@@ -9,7 +9,7 @@ import Tooltip from '../../../components/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'ot-ui';
+import Link from '../../../components/Link';
 
 const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
@@ -139,7 +139,7 @@ const columns = {
     },
     {
       id: 'evidences',
-      label: 'Interaction evidence',
+      label: 'Interaction evidence entries',
       renderCell: row => (
         <>
           {row.count}
@@ -255,6 +255,13 @@ function SignorTab({ ensgId, symbol, query }) {
     <Grid container spacing={10}>
       <Grid item xs={12} md={5}>
         {/* table 1: interactions */}
+        <Typography variant="h6" gutterBottom>
+          {symbol}{' '}
+          <MethodIconText notooltip enabled>
+            A
+          </MethodIconText>{' '}
+          interactors
+        </Typography>
         <DataTable
           showGlobalFilter
           columns={columns.interactions}
@@ -274,6 +281,9 @@ function SignorTab({ ensgId, symbol, query }) {
 
       {/* table 2: evidence */}
       <Grid item xs={12} md={7}>
+        <Typography variant="h6" gutterBottom>
+          Interaction evidence
+        </Typography>
         <DataTable
           showGlobalFilter
           columns={columns.evidence}
