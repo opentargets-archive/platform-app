@@ -22,6 +22,7 @@ function DataTable({
   rowsPerPageOptions = [],
   onRowClick,
   rowIsSelectable,
+  onPagination = () => {},
 }) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(initialPageSize);
@@ -44,6 +45,7 @@ function DataTable({
 
   const handlePageChange = page => {
     setPage(page);
+    onPagination(page, pageSize);
   };
 
   const handleRowsPerPageChange = pageSize => {

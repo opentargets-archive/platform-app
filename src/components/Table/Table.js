@@ -67,6 +67,9 @@ const Table = ({
     onRowsPerPageChange(event.target.value);
   };
   const handleChangePage = (_, page) => {
+    // reset the selected;
+    // TODO: maybe should be handled in individual implementation
+    setSelectedRow(0);
     onPageChange(page);
   };
   const handleClick = (event, row, i) => {
