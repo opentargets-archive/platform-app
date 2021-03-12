@@ -151,6 +151,7 @@ const columns = [
       allelicRequirements ? allelicRequirements.join() : '',
   },
   {
+    id: 'confidence',
     label: 'Confidence',
     renderCell: ({ confidence }) => {
       return (
@@ -198,7 +199,6 @@ const CLINVAR_QUERY = gql`
         size: $size
         cursor: $cursor
       ) {
-        count
         cursor
         rows {
           disease {
@@ -237,37 +237,40 @@ function fetchClinvar(ensemblId, efoId, cursor, size) {
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(Summary.fragments.evaSummary);
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const count = summaryData.evaSummary.count; // reuse the count that was fetched in the summary query
+  const [initialLoading, setInitialLoading] = useState(true); // state variable to keep track of initial loading of rows
+  const [loading, setLoading] = useState(false); // state variable to keep track of loading state on page chage
   const [cursor, setCursor] = useState('');
-  const [count, setCount] = useState(0);
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
 
-  useEffect(() => {
-    let isCurrent = true;
-    fetchClinvar(
-      ensemblId,
-      efoId,
-      cursor,
-      summaryData.evaSummary.count > 1000 ? 100 : summaryData.evaSummary.count
-    ).then(res => {
-      console.log('res.data.disease.evidences', res.data.disease.evidences);
-      const { count, cursor, rows } = res.data.disease.evidences;
+  useEffect(
+    () => {
+      let isCurrent = true;
+      // Depending on count, make a decision for how many rows to fetch.
+      // For more than 1000 rows, we want to use server side paging
+      // so just fetch 100 rows for the initial page. If there's less
+      // than 1000 rows, just fetch all rows at once and do client side
+      // paging
+      fetchClinvar(ensemblId, efoId, '', count > 1000 ? 100 : count).then(
+        res => {
+          const { cursor, rows } = res.data.disease.evidences;
 
-      if (isCurrent) {
-        setInitialLoading(false);
-        setCursor(cursor);
-        setCount(count);
-        setRows(rows);
-      }
-    });
+          if (isCurrent) {
+            setInitialLoading(false);
+            setCursor(cursor);
+            setRows(rows);
+          }
+        }
+      );
 
-    return () => {
-      isCurrent = false;
-    };
-  }, []);
+      return () => {
+        isCurrent = false;
+      };
+    },
+    [ensemblId, efoId, count]
+  );
 
   function handlePageChange(newPage) {
     if (pageSize * newPage + pageSize > rows.length && cursor !== null) {
@@ -309,7 +312,9 @@ function Body({ definition, id, label }) {
         <Description symbol={label.symbol} name={label.name} />
       )}
       renderBody={() => {
-        return summaryData.evaSummary.count > 1000 ? (
+        // depending on count, decide whether to use the server side paging
+        // Table component or the client side paging DataTable component
+        return count > 1000 ? (
           <Table
             loading={loading}
             columns={columns}
@@ -321,7 +326,13 @@ function Body({ definition, id, label }) {
             onRowsPerPageChange={handleRowsPerPageChange}
           />
         ) : (
-          <div>client side server</div>
+          <DataTable
+            showGlobalFilter
+            columns={columns}
+            rows={rows}
+            dataDownloader
+            rowsPerPageOptions={defaultRowsPerPageOptions}
+          />
         );
       }}
     />
