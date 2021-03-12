@@ -85,7 +85,7 @@ function IntactTab({ ensgId, symbol, query }) {
       {
         id: 'scoring',
         label: 'Score',
-        renderCell: row => row.scoring,
+        renderCell: row => row.scoring.toFixed(2),
         width: '14%',
       },
       {
