@@ -237,6 +237,7 @@ const size = 5000;
 function SignorTab({ ensgId, symbol, query }) {
   const [data, setData] = useState([]);
   const [evidence, setEvidence] = useState([]);
+  const [selectedInteraction, setSelectedInteraction] = useState([]);
 
   // load tab data when new tab selected (also on first load)
   useEffect(
@@ -272,10 +273,15 @@ function SignorTab({ ensgId, symbol, query }) {
           selected
           onRowClick={(r, i) => {
             setEvidence(r.evidences);
+            setSelectedInteraction(i);
           }}
           rowIsSelectable
           fixed
           noWrapHeader={false}
+          onPagination={(page, pageSize) => {
+            setEvidence(data[page * pageSize].evidences);
+            setSelectedInteraction(0);
+          }}
         />
       </Grid>
 

@@ -156,12 +156,16 @@ function IntactTab({ ensgId, symbol, query }) {
         renderCell: row => (
           <>
             {row.interactionTypeShortName}
-            <br />
-            <Tooltip title={row.hostOrganismScientificName}>
-              <Typography variant="caption" noWrap display="block">
-                {row.hostOrganismScientificName}
-              </Typography>
-            </Tooltip>
+            {row.hostOrganismScientificName ? (
+              <>
+                <br />
+                <Tooltip title={row.hostOrganismScientificName}>
+                  <Typography variant="caption" noWrap display="block">
+                    {row.hostOrganismScientificName}
+                  </Typography>
+                </Tooltip>
+              </>
+            ) : null}
           </>
         ),
         width: '30%',
@@ -267,6 +271,10 @@ function IntactTab({ ensgId, symbol, query }) {
           rowIsSelectable
           fixed
           noWrapHeader={false}
+          onPagination={(page, pageSize) => {
+            setEvidence(data[page * pageSize].evidences);
+            setSelectedInteraction(0);
+          }}
         />
       </Grid>
 
