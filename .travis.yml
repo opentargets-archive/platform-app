@@ -15,7 +15,6 @@ deploy:
   api_key: $GITHUB_TOKEN
   file: "bundle.tgz"
   skip_cleanup: true
-  github-token: $GITHUB_TOKEN
   on:
     tags: true
     all_branches: true
