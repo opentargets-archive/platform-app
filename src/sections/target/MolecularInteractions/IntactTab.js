@@ -12,6 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import Link from '../../../components/Link';
+import EllsWrapper from '../../../components/EllsWrapper';
+import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
 
 const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
@@ -31,6 +33,8 @@ const onLinkClick = function(e) {
   e.stopPropagation();
 };
 
+const UNSPECIFIED_ROLE = 'unspecified role';
+
 function IntactTab({ ensgId, symbol, query }) {
   const [data, setData] = useState([]);
   const [evidence, setEvidence] = useState([]);
@@ -49,34 +53,40 @@ function IntactTab({ ensgId, symbol, query }) {
         ),
         renderCell: row => (
           <>
-            {row.targetB ? (
-              <Link to={`/target/${row.targetB.id}`} onClick={onLinkClick}>
-                {row.targetB.approvedSymbol}
-              </Link>
-            ) : (
-              <Link
-                to={`http://uniprot.org/uniprot/${row.intB}`}
-                onClick={onLinkClick}
-                external
-              >
-                {row.intB}
-              </Link>
-            )}
+            <EllsWrapper
+              title={row.targetB ? row.targetB.approvedSymbol : row.intB}
+            >
+              {row.targetB ? (
+                <Link to={`/target/${row.targetB.id}`} onClick={onLinkClick}>
+                  {row.targetB.approvedSymbol}
+                </Link>
+              ) : (
+                <Link
+                  to={`http://uniprot.org/uniprot/${row.intB}`}
+                  onClick={onLinkClick}
+                  external
+                >
+                  {row.intB}
+                </Link>
+              )}
+            </EllsWrapper>
             {row.speciesB &&
             row.speciesB?.mnemonic.toLowerCase() !== 'human' ? (
               <Tooltip title={row.speciesB?.mnemonic} showHelpIcon />
             ) : null}
             <br />
-            <Typography variant="caption">
-              Alt ID:{' '}
-              <Link
-                to={`http://uniprot.org/uniprot/${row.intB}`}
-                onClick={onLinkClick}
-                external
-              >
-                {row.intB}
-              </Link>
-            </Typography>
+            <EllsWrapper title={row.intB}>
+              <Typography variant="caption">
+                Alt ID:{' '}
+                <Link
+                  to={`http://uniprot.org/uniprot/${row.intB}`}
+                  onClick={onLinkClick}
+                  external
+                >
+                  {row.intB}
+                </Link>
+              </Typography>
+            </EllsWrapper>
           </>
         ),
         exportValue: row => row.targetB?.approvedSymbol || row.intB,
@@ -95,13 +105,19 @@ function IntactTab({ ensgId, symbol, query }) {
           <>
             <MethodIconText
               tooltip={row.intABiologicalRole}
-              enabled={row.intABiologicalRole}
+              enabled={
+                row.intABiologicalRole &&
+                row.intABiologicalRole !== UNSPECIFIED_ROLE
+              }
             >
               A
             </MethodIconText>
             <MethodIconText
               tooltip={row.intBBiologicalRole}
-              enabled={row.intBBiologicalRole}
+              enabled={
+                row.intBBiologicalRole &&
+                row.intABiologicalRole !== UNSPECIFIED_ROLE
+              }
             >
               B
             </MethodIconText>
@@ -155,15 +171,11 @@ function IntactTab({ ensgId, symbol, query }) {
         ),
         renderCell: row => (
           <>
-            {row.interactionTypeShortName}
+            <EllsWrapper>{row.interactionTypeShortName}</EllsWrapper>
             {row.hostOrganismScientificName ? (
               <>
                 <br />
-                <Tooltip title={row.hostOrganismScientificName}>
-                  <Typography variant="caption" noWrap display="block">
-                    {row.hostOrganismScientificName}
-                  </Typography>
-                </Tooltip>
+                <EllsWrapper>{row.hostOrganismScientificName}</EllsWrapper>
               </>
             ) : null}
           </>
@@ -180,21 +192,28 @@ function IntactTab({ ensgId, symbol, query }) {
               enabled={
                 row.participantDetectionMethodA &&
                 row.participantDetectionMethodA.length > 0 &&
-                row.participantDetectionMethodA[0].shortName
+                row.participantDetectionMethodA[0].shortName &&
+                row.participantDetectionMethodA[0].shortName !==
+                  UNSPECIFIED_ROLE
               }
             >
               A
             </MethodIconText>
             <MethodIconArrow
               tooltip={row.interactionDetectionMethodShortName}
-              enabled={row.interactionDetectionMethodShortName}
+              enabled={
+                row.interactionDetectionMethodShortName &&
+                row.interactionDetectionMethodShortName !== UNSPECIFIED_ROLE
+              }
             />
             <MethodIconText
               tooltip={row.participantDetectionMethodB[0].shortName}
               enabled={
                 row.participantDetectionMethodB &&
                 row.participantDetectionMethodB.length > 0 &&
-                row.participantDetectionMethodB[0].shortName
+                row.participantDetectionMethodB[0].shortName &&
+                row.participantDetectionMethodA[0].shortName !==
+                  UNSPECIFIED_ROLE
               }
             >
               B
@@ -206,17 +225,20 @@ function IntactTab({ ensgId, symbol, query }) {
       {
         id: 'pubmedId',
         label: 'Publication',
-        renderCell: d =>
-          d.pubmedId && d.pubmedId.indexOf('unassigned') === -1 ? (
-            <Link
-              external
-              to={`http://europepmc.org/abstract/MED/${d.pubmedId}`}
-            >
-              {d.pubmedId}
-            </Link>
-          ) : (
-            d.pubmedId
-          ),
+        renderCell: d => (
+          <EllsWrapper title={d.pubmedId}>
+            {d.pubmedId && d.pubmedId.indexOf('unassigned') === -1 ? (
+              <Link
+                external
+                to={`http://europepmc.org/abstract/MED/${d.pubmedId}`}
+              >
+                {d.pubmedId}
+              </Link>
+            ) : (
+              d.pubmedId
+            )}
+          </EllsWrapper>
+        ),
         width: '20%',
       },
     ],
@@ -275,6 +297,7 @@ function IntactTab({ ensgId, symbol, query }) {
             setEvidence(data[page * pageSize].evidences);
             setSelectedInteraction(0);
           }}
+          rowsPerPageOptions={defaultRowsPerPageOptions}
         />
       </Grid>
 
@@ -291,6 +314,7 @@ function IntactTab({ ensgId, symbol, query }) {
           dataDownloaderFileStem={`${symbol}-molecular-interactions-intact`}
           fixed
           noWrapHeader={false}
+          rowsPerPageOptions={defaultRowsPerPageOptions}
         />
       </Grid>
     </Grid>
