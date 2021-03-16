@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import Link from '../../../components/Link';
+import EllsWrapper from '../../../components/EllsWrapper';
 
 const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
@@ -32,48 +33,48 @@ const onLinkClick = function(e) {
 const columns = {
   // interactions table columns
   interactions: [
-    {
-      id: 'targetA',
-      label: (
-        <>
-          Interactor A
-          <br />
-          <Typography variant="caption">Alt ID</Typography>
-        </>
-      ),
-      renderCell: row => (
-        <>
-          {row.targetA ? (
-            <Link to={`/target/${row.targetA.id}`} onClick={onLinkClick}>
-              {row.targetA.approvedSymbol}
-            </Link>
-          ) : (
-            <Link
-              to={`http://uniprot.org/uniprot/${row.intA}`}
-              onClick={onLinkClick}
-              external
-            >
-              {row.intA}
-            </Link>
-          )}
-          {row.speciesA && row.speciesA?.mnemonic.toLowerCase() !== 'human' ? (
-            <Tooltip title={row.speciesA?.mnemonic} showHelpIcon />
-          ) : null}
-          <br />
-          <Typography variant="caption">
-            Alt ID:{' '}
-            <Link
-              to={`http://uniprot.org/uniprot/${row.intA}`}
-              onClick={onLinkClick}
-              external
-            >
-              {row.intA}
-            </Link>
-          </Typography>
-        </>
-      ),
-      width: '27%',
-    },
+    // {
+    //   id: 'targetA',
+    //   label: (
+    //     <>
+    //       Interactor A
+    //       <br />
+    //       <Typography variant="caption">Alt ID</Typography>
+    //     </>
+    //   ),
+    //   renderCell: row => (
+    //     <>
+    //       {row.targetA ? (
+    //         <Link to={`/target/${row.targetA.id}`} onClick={onLinkClick}>
+    //           {row.targetA.approvedSymbol}
+    //         </Link>
+    //       ) : (
+    //         <Link
+    //           to={`http://uniprot.org/uniprot/${row.intA}`}
+    //           onClick={onLinkClick}
+    //           external
+    //         >
+    //           {row.intA}
+    //         </Link>
+    //       )}
+    //       {row.speciesA && row.speciesA?.mnemonic.toLowerCase() !== 'human' ? (
+    //         <Tooltip title={row.speciesA?.mnemonic} showHelpIcon />
+    //       ) : null}
+    //       <br />
+    //       <Typography variant="caption">
+    //         Alt ID:{' '}
+    //         <Link
+    //           to={`http://uniprot.org/uniprot/${row.intA}`}
+    //           onClick={onLinkClick}
+    //           external
+    //         >
+    //           {row.intA}
+    //         </Link>
+    //       </Typography>
+    //     </>
+    //   ),
+    //   width: '27%',
+    // },
     {
       id: 'targetB',
       label: (
@@ -85,36 +86,42 @@ const columns = {
       ),
       renderCell: row => (
         <>
-          {row.targetB ? (
-            <Link to={`/target/${row.targetB.id}`} onClick={onLinkClick}>
-              {row.targetB.approvedSymbol}
-            </Link>
-          ) : (
-            <Link
-              to={`http://uniprot.org/uniprot/${row.intB}`}
-              onClick={onLinkClick}
-              external
-            >
-              {row.intB}
-            </Link>
-          )}
+          <EllsWrapper
+            title={row.targetB ? row.targetB.approvedSymbol : row.intB}
+          >
+            {row.targetB ? (
+              <Link to={`/target/${row.targetB.id}`} onClick={onLinkClick}>
+                {row.targetB.approvedSymbol}
+              </Link>
+            ) : (
+              <Link
+                to={`http://uniprot.org/uniprot/${row.intB}`}
+                onClick={onLinkClick}
+                external
+              >
+                {row.intB}
+              </Link>
+            )}
+          </EllsWrapper>
           {row.speciesB && row.speciesB?.mnemonic.toLowerCase() !== 'human' ? (
             <Tooltip title={row.speciesB?.mnemonic} showHelpIcon />
           ) : null}
           <br />
-          <Typography variant="caption">
-            Alt ID:{' '}
-            <Link
-              to={`http://uniprot.org/uniprot/${row.intB}`}
-              onClick={onLinkClick}
-              external
-            >
-              {row.intB}
-            </Link>
-          </Typography>
+          <EllsWrapper title={row.intB}>
+            <Typography variant="caption">
+              Alt ID:{' '}
+              <Link
+                to={`http://uniprot.org/uniprot/${row.intB}`}
+                onClick={onLinkClick}
+                external
+              >
+                {row.intB}
+              </Link>
+            </Typography>
+          </EllsWrapper>
         </>
       ),
-      width: '27%',
+      width: '44%',
     },
     {
       id: 'role',
@@ -135,7 +142,7 @@ const columns = {
           </MethodIconText>
         </>
       ),
-      width: '23%',
+      width: '28%',
     },
     {
       id: 'evidences',
@@ -148,7 +155,7 @@ const columns = {
           </span>
         </>
       ),
-      width: '23%',
+      width: '28%',
     },
   ],
 
@@ -170,13 +177,9 @@ const columns = {
       ),
       renderCell: row => (
         <>
-          {row.interactionTypeShortName}
+          <EllsWrapper>{row.interactionTypeShortName}</EllsWrapper>
           <br />
-          <Tooltip title={row.hostOrganismScientificName}>
-            <Typography variant="caption" noWrap display="block">
-              {row.hostOrganismScientificName}
-            </Typography>
-          </Tooltip>
+          <EllsWrapper>{row.hostOrganismScientificName}</EllsWrapper>
         </>
       ),
       width: '30%',
