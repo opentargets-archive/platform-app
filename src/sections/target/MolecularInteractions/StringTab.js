@@ -134,16 +134,7 @@ function getColumns(classes) {
         sortLabel: classes.sortLabel,
         innerLabel: classes.innerLabel,
       },
-      renderCell: row => (
-        <Link
-          external
-          to={`https://string-db.org/api/json/network?identifiers=${
-            row.intA
-          }%0d${row.intB}`}
-        >
-          {row.scoring.toFixed(3)}
-        </Link>
-      ),
+      renderCell: row => row.scoring.toFixed(3),
     },
     {
       id: 'neighbourhood',
@@ -156,7 +147,7 @@ function getColumns(classes) {
       },
       renderCell: row =>
         getHeatmapCell(
-          getScoreForColumn(row.evidences, 'neighbourhood'),
+          getScoreForColumn(row.evidences, 'neighborhood'),
           classes
         ),
     },
