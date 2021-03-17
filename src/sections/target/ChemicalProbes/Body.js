@@ -63,7 +63,7 @@ function Body({ definition, label: symbol }) {
               <>
                 <Typography variant="body2">
                   Potential chemical probes can be explored with{' '}
-                  <Link external to={data.probeminer}>
+                  <Link external to={probeminer}>
                     ProbeMiner
                   </Link>
                   .
