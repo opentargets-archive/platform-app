@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import Link from '../../../components/Link';
 import EllsWrapper from '../../../components/EllsWrapper';
-import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
+import { defaultRowsPerPageOptions } from '../../../constants';
 
 const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
@@ -175,7 +175,11 @@ function IntactTab({ ensgId, symbol, query }) {
             {row.hostOrganismScientificName ? (
               <>
                 <br />
-                <EllsWrapper>{row.hostOrganismScientificName}</EllsWrapper>
+                <EllsWrapper title={row.hostOrganismScientificName}>
+                  <Typography variant="caption">
+                    {row.hostOrganismScientificName}
+                  </Typography>
+                </EllsWrapper>
               </>
             ) : null}
           </>

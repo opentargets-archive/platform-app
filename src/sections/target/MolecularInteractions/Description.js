@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from '../../../components/Link';
 
-const Description = ({ name }) => (
+const Description = ({ symbol }) => (
   <React.Fragment>
-    Physical and functional molecular interactions with <strong>{name}</strong>.
-    Source:{' '}
+    Physical and functional molecular interactions with{' '}
+    <strong>{symbol}</strong>. Source:{' '}
     <Link to="https://docs.targetvalidation.org/data-sources/" external>
       Open Targets
     </Link>

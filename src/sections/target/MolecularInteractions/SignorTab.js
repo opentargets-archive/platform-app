@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import Link from '../../../components/Link';
 import EllsWrapper from '../../../components/EllsWrapper';
+import { defaultRowsPerPageOptions } from '../../../constants';
 
 const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
@@ -179,7 +180,11 @@ const columns = {
         <>
           <EllsWrapper>{row.interactionTypeShortName}</EllsWrapper>
           <br />
-          <EllsWrapper>{row.hostOrganismScientificName}</EllsWrapper>
+          <EllsWrapper title={row.hostOrganismScientificName}>
+            <Typography variant="caption">
+              {row.hostOrganismScientificName}
+            </Typography>
+          </EllsWrapper>
         </>
       ),
       width: '30%',
@@ -285,6 +290,7 @@ function SignorTab({ ensgId, symbol, query }) {
             setEvidence(data[page * pageSize].evidences);
             setSelectedInteraction(0);
           }}
+          rowsPerPageOptions={defaultRowsPerPageOptions}
         />
       </Grid>
 
@@ -301,6 +307,7 @@ function SignorTab({ ensgId, symbol, query }) {
           dataDownloaderFileStem={`${symbol}-molecular-interactions-signor`}
           fixed
           noWrapHeader={false}
+          rowsPerPageOptions={defaultRowsPerPageOptions}
         />
       </Grid>
     </Grid>

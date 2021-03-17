@@ -14,6 +14,8 @@ import Grid from '@material-ui/core/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import Link from '../../../components/Link';
+import EllsWrapper from '../../../components/EllsWrapper';
+import { defaultRowsPerPageOptions } from '../../../constants';
 
 const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
@@ -47,33 +49,39 @@ const columns = {
       ),
       renderCell: row => (
         <>
-          {row.targetB ? (
-            <Link to={`/target/${row.targetB.id}`} onClick={onLinkClick}>
-              {row.targetB.approvedSymbol}
-            </Link>
-          ) : (
-            <Link
-              to={`http://uniprot.org/uniprot/${row.intB}`}
-              onClick={onLinkClick}
-              external
-            >
-              {row.intB}
-            </Link>
-          )}
+          <EllsWrapper
+            title={row.targetB ? row.targetB.approvedSymbol : row.intB}
+          >
+            {row.targetB ? (
+              <Link to={`/target/${row.targetB.id}`} onClick={onLinkClick}>
+                {row.targetB.approvedSymbol}
+              </Link>
+            ) : (
+              <Link
+                to={`http://uniprot.org/uniprot/${row.intB}`}
+                onClick={onLinkClick}
+                external
+              >
+                {row.intB}
+              </Link>
+            )}
+          </EllsWrapper>
           {row.speciesB && row.speciesB?.mnemonic.toLowerCase() !== 'human' ? (
             <Tooltip title={row.speciesB?.mnemonic} showHelpIcon />
           ) : null}
           <br />
-          <Typography variant="caption">
-            Alt ID:{' '}
-            <Link
-              to={`http://uniprot.org/uniprot/${row.intB}`}
-              onClick={onLinkClick}
-              external
-            >
-              {row.intB}
-            </Link>
-          </Typography>
+          <EllsWrapper title={row.intB}>
+            <Typography variant="caption">
+              Alt ID:{' '}
+              <Link
+                to={`http://uniprot.org/uniprot/${row.intB}`}
+                onClick={onLinkClick}
+                external
+              >
+                {row.intB}
+              </Link>
+            </Typography>
+          </EllsWrapper>
         </>
       ),
       width: '65%',
@@ -122,13 +130,13 @@ const columns = {
       ),
       renderCell: row => (
         <>
-          {row.interactionTypeShortName}
+          <EllsWrapper>{row.interactionTypeShortName}</EllsWrapper>
           <br />
-          <Tooltip title={row.hostOrganismScientificName}>
-            <Typography variant="caption" noWrap display="block">
+          <EllsWrapper title={row.hostOrganismScientificName}>
+            <Typography variant="caption">
               Organism: {row.hostOrganismScientificName}
             </Typography>
-          </Tooltip>
+          </EllsWrapper>
         </>
       ),
       width: '30%',
@@ -237,6 +245,7 @@ function ReactomeTab({ ensgId, symbol, query }) {
             setEvidence(data[page * pageSize].evidences);
             setSelectedInteraction(0);
           }}
+          rowsPerPageOptions={defaultRowsPerPageOptions}
         />
       </Grid>
 
@@ -253,6 +262,7 @@ function ReactomeTab({ ensgId, symbol, query }) {
           dataDownloaderFileStem={`${symbol}-molecular-interactions-reactome`}
           fixed
           noWrapHeader={false}
+          rowsPerPageOptions={defaultRowsPerPageOptions}
         />
       </Grid>
     </Grid>
