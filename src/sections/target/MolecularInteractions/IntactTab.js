@@ -51,6 +51,7 @@ function IntactTab({ ensgId, symbol, query }) {
             <Typography variant="caption">Alt ID</Typography>
           </>
         ),
+        exportLabel: 'interactorB-AltId',
         renderCell: row => (
           <>
             <EllsWrapper
@@ -96,6 +97,7 @@ function IntactTab({ ensgId, symbol, query }) {
         id: 'scoring',
         label: 'Score',
         renderCell: row => row.scoring.toFixed(2),
+        exportValue: row => row.scoring.toFixed(2),
         width: '14%',
       },
       {
@@ -248,6 +250,36 @@ function IntactTab({ ensgId, symbol, query }) {
     ],
   };
 
+  const evidenceColsExport = [
+    {
+      label: 'Identifier',
+      exportValue: row => row.interactionIdentifier,
+    },
+    {
+      label: 'interaction',
+      exportValue: row => row.interactionTypeShortName,
+    },
+    {
+      label: 'interaction host organism',
+      exportValue: row => row.hostOrganismScientificName,
+    },
+    {
+      label: 'detection method A',
+      exportValue: row => row.participantDetectionMethodA.map(m => m.shortName),
+    },
+    {
+      label: 'detection method short name',
+      exportValue: row => row.interactionDetectionMethodShortName,
+    },
+    {
+      label: 'detection method B',
+      exportValue: row => row.participantDetectionMethodB[0].shortName,
+    },
+    {
+      label: 'publication id',
+      exportValue: row => row.pubmedId,
+    },
+  ];
   const id = 'intact';
   const index = 0;
   const size = 5000;
@@ -287,7 +319,7 @@ function IntactTab({ ensgId, symbol, query }) {
           columns={columns.interactions}
           rows={data}
           dataDownloader
-          dataDownloaderFileStem={`${symbol}-molecular-interactions-intact`}
+          dataDownloaderFileStem={`${symbol}-molecular-interactions-interactors`}
           hover
           selected
           onRowClick={(r, i) => {
@@ -315,7 +347,8 @@ function IntactTab({ ensgId, symbol, query }) {
           columns={columns.evidence}
           rows={evidence}
           dataDownloader
-          dataDownloaderFileStem={`${symbol}-molecular-interactions-intact`}
+          dataDownloaderFileStem={`${symbol}-molecular-interactions-evidence`}
+          dataDownloaderColumns={evidenceColsExport}
           fixed
           noWrapHeader={false}
           rowsPerPageOptions={defaultRowsPerPageOptions}
