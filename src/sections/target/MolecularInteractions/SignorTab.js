@@ -122,6 +122,7 @@ const columns = {
           </EllsWrapper>
         </>
       ),
+      exportValue: row => row.targetB?.approvedSymbol || row.intB,
       width: '44%',
     },
     {
@@ -143,6 +144,8 @@ const columns = {
           </MethodIconText>
         </>
       ),
+      exportValue: row =>
+        `A: ${row.intABiologicalRole}, B: ${row.intBBiologicalRole}`,
       width: '28%',
     },
     {
@@ -156,6 +159,7 @@ const columns = {
           </span>
         </>
       ),
+      exportValue: row => row.count,
       width: '28%',
     },
   ],
@@ -238,6 +242,25 @@ const columns = {
   ],
 };
 
+const evidenceColsExport = [
+  {
+    label: 'Interaction host organism',
+    exportValue: row => row.hostOrganismScientificName,
+  },
+  {
+    label: 'detection method A',
+    exportValue: row => row.participantDetectionMethodA.map(m => m.shortName),
+  },
+  {
+    label: 'detection method short name',
+    exportValue: row => row.interactionDetectionMethodShortName,
+  },
+  {
+    label: 'detection method B',
+    exportValue: row => row.participantDetectionMethodB[0].shortName,
+  },
+];
+
 const id = 'signor';
 const index = 0;
 const size = 5000;
@@ -305,6 +328,7 @@ function SignorTab({ ensgId, symbol, query }) {
           rows={evidence}
           dataDownloader
           dataDownloaderFileStem={`${symbol}-molecular-interactions-signor`}
+          dataDownloaderColumns={evidenceColsExport}
           fixed
           noWrapHeader={false}
           rowsPerPageOptions={defaultRowsPerPageOptions}
