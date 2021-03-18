@@ -37,6 +37,7 @@ const Table = ({
   dataDownloader = false,
   dataDownloaderFileStem = 'data',
   dataDownloaderRows,
+  dataDownloaderColumns,
   hover = false,
   noWrap = true,
   noWrapHeader = true,
@@ -94,7 +95,7 @@ const Table = ({
             lg={8}
           >
             <DataDownloader
-              columns={columns}
+              columns={dataDownloaderColumns || columns}
               rows={dataDownloaderRows}
               fileStem={dataDownloaderFileStem}
             />

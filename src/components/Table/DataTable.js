@@ -23,6 +23,7 @@ function DataTable({
   onRowClick,
   rowIsSelectable,
   onPagination = () => {},
+  dataDownloaderColumns,
 }) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(initialPageSize);
@@ -75,6 +76,7 @@ function DataTable({
       globalFilter={globalFilterVal}
       dataDownloader={dataDownloader}
       dataDownloaderFileStem={dataDownloaderFileStem}
+      dataDownloaderColumns={dataDownloaderColumns}
       headerGroups={headerGroups}
       sortBy={sortColumn}
       order={sortOrder}
