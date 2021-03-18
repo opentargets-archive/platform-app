@@ -86,6 +86,9 @@ const getColumns = (
       id: 'pmIds',
       label: 'Sources',
       renderCell: row => {
+        if (row.pmIds.length === 0) {
+          return 'N/A';
+        }
         const query = row.pmIds.map(pmId => `EXT_ID:${pmId}`).join(' OR ');
         return (
           <Link external to={`https://europepmc.org/search?query=${query}`}>
@@ -257,7 +260,10 @@ const transformToRows = mousePhenotypes => {
           ),
           subjectBackground: phenotypeGenotype.subjectBackground,
           //FIXME splitting has to be removed after updating the graphql backend
-          pmIds: phenotypeGenotype.pubmedId.split(','),
+          pmIds:
+            phenotypeGenotype.pubmedId.length === 0
+              ? []
+              : phenotypeGenotype.pubmedId.split('|'),
         });
       }
     }
