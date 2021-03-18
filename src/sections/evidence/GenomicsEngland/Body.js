@@ -139,6 +139,7 @@ const columns = [
   },
   {
     id: 'confidence',
+    label: 'Gene rating',
     sortable: true,
     renderCell: ({ confidence }) => confidenceCaption(confidence),
     comparator: (a, b) =>
