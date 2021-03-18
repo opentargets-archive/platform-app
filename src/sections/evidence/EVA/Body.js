@@ -152,7 +152,7 @@ const columns = [
   },
   {
     id: 'confidence',
-    label: 'Confidence',
+    label: 'Review status',
     renderCell: ({ confidence }) => {
       return (
         <Tooltip title={confidence}>
