@@ -6,13 +6,24 @@ import _ from 'lodash';
 import { getHiddenBreakpoints } from './utils';
 import { tableStyles } from './tableStyles';
 
-function TableRow({ columns, hover, isFixedRow, noWrap, row, style }) {
+function TableRow({
+  columns,
+  hover,
+  isFixedRow,
+  noWrap,
+  row,
+  style,
+  onClick,
+  selected,
+}) {
   const classes = tableStyles();
 
   return (
     <MUITableRow
       classes={{ root: isFixedRow ? classes.rowFixed : '' }}
       hover={hover}
+      onClick={onClick}
+      selected={selected}
     >
       {columns.map((column, index) => (
         <Hidden {...getHiddenBreakpoints(column)} key={index}>
