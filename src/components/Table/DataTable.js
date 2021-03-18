@@ -35,6 +35,7 @@ function DataTable({
 
   const handleGlobalFilterChange = globalFilter => {
     setGlobalFilterVal(globalFilter);
+    setPage(0);
   };
 
   const handleSortBy = sortBy => {
