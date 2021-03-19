@@ -85,6 +85,7 @@ const columns = {
           <Typography variant="caption">Ald ID</Typography>
         </>
       ),
+      exportLabel: 'interactorB-AltId',
       renderCell: row => (
         <>
           <EllsWrapper
@@ -299,7 +300,7 @@ function SignorTab({ ensgId, symbol, query }) {
           columns={columns.interactions}
           rows={data}
           dataDownloader
-          dataDownloaderFileStem={`${symbol}-molecular-interactions-signor`}
+          dataDownloaderFileStem={`${symbol}-molecular-interactions-interactors`}
           hover
           selected
           onRowClick={(r, i) => {
@@ -327,7 +328,7 @@ function SignorTab({ ensgId, symbol, query }) {
           columns={columns.evidence}
           rows={evidence}
           dataDownloader
-          dataDownloaderFileStem={`${symbol}-molecular-interactions-signor`}
+          dataDownloaderFileStem={`${symbol}-molecular-interactions-evidence`}
           dataDownloaderColumns={evidenceColsExport}
           fixed
           noWrapHeader={false}
