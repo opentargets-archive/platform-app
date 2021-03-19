@@ -47,6 +47,7 @@ const columns = {
           <Typography variant="caption">Alt ID</Typography>
         </>
       ),
+      exportLabel: 'interactorB-AltId',
       renderCell: row => (
         <>
           <EllsWrapper
@@ -84,6 +85,7 @@ const columns = {
           </EllsWrapper>
         </>
       ),
+      exportValue: row => row.targetB?.approvedSymbol || row.intB,
       width: '65%',
     },
     {
@@ -97,6 +99,7 @@ const columns = {
           </span>
         </>
       ),
+      exportValue: row => row.count,
       width: '35%',
     },
   ],
@@ -194,6 +197,29 @@ const columns = {
   ],
 };
 
+const evidenceColsExport = [
+  {
+    label: 'Interaction host organism',
+    exportValue: row => row.hostOrganismScientificName,
+  },
+  {
+    label: 'detection method A',
+    exportValue: row => row.participantDetectionMethodA.map(m => m.shortName),
+  },
+  {
+    label: 'detection method short name',
+    exportValue: row => row.interactionDetectionMethodShortName,
+  },
+  {
+    label: 'detection method B',
+    exportValue: row => row.participantDetectionMethodB[0].shortName,
+  },
+  {
+    label: 'expansion method short name',
+    exportValue: row => row.expansionMethodShortName,
+  },
+];
+
 const id = 'reactome';
 const index = 0;
 const size = 5000;
@@ -231,7 +257,7 @@ function ReactomeTab({ ensgId, symbol, query }) {
           columns={columns.interactions}
           rows={data}
           dataDownloader
-          dataDownloaderFileStem={`${symbol}-molecular-interactions-reactome`}
+          dataDownloaderFileStem={`${symbol}-molecular-interactions-interactors`}
           hover
           selected
           onRowClick={(r, i) => {
@@ -259,7 +285,8 @@ function ReactomeTab({ ensgId, symbol, query }) {
           columns={columns.evidence}
           rows={evidence}
           dataDownloader
-          dataDownloaderFileStem={`${symbol}-molecular-interactions-reactome`}
+          dataDownloaderFileStem={`${symbol}-molecular-interactions-evidence`}
+          dataDownloaderColumns={evidenceColsExport}
           fixed
           noWrapHeader={false}
           rowsPerPageOptions={defaultRowsPerPageOptions}
