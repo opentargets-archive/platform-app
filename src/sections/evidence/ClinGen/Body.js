@@ -1,6 +1,7 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Link, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import Link from '../../../components/Link';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
@@ -86,11 +87,12 @@ const columns = [
   },
   {
     id: 'confidence',
-    label: 'Confidence',
+    label: 'Classification',
     renderCell: ({ studyId, confidence }) => {
       return (
         <Link
-          href={`https://search.clinicalgenome.org/kb/gene-validity/${studyId}`}
+          external
+          to={`https://search.clinicalgenome.org/kb/gene-validity/${studyId}`}
         >
           {confidence}
         </Link>
