@@ -5,7 +5,8 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
 import ChipList from '../../../components/ChipList';
-import { DataTable, TableDrawer } from '../../../components/Table';
+import { DataTable } from '../../../components/Table';
+import PublicationsDrawer from '../../../components/PublicationsDrawer';
 import { epmcUrl } from '../../../utils/urls';
 import {
   clinvarStarMap,
@@ -174,7 +175,7 @@ const columns = [
     },
   },
   {
-    label: 'Literature',
+    label: 'Literatures',
     renderCell: ({ literature }) => {
       const literatureList =
         literature?.reduce((acc, id) => {
@@ -188,7 +189,7 @@ const columns = [
           return acc;
         }, []) || [];
 
-      return <TableDrawer entries={literatureList} />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];
