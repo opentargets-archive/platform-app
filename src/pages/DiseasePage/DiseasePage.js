@@ -5,7 +5,6 @@ import BasePage from '../../components/BasePage';
 import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import { oldPlatformUrl } from '../../constants';
 import Profile from './Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
@@ -44,10 +43,6 @@ function DiseasePage({ match }) {
           label="Profile"
           path="/disease/:efoId"
           component={() => <Profile efoId={efoId} name={name} />}
-        />
-        <RoutingTab
-          label="Classic view"
-          url={`${oldPlatformUrl}/disease/${efoId}/associations`}
         />
       </RoutingTabs>
     </BasePage>
