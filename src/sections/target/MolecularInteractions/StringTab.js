@@ -118,6 +118,7 @@ function getColumns(classes) {
           )}
         </span>
       ),
+      exportValue: row => row.targetB?.approvedSymbol || row.intB,
     },
     {
       id: 'overallScore',
@@ -135,6 +136,7 @@ function getColumns(classes) {
         innerLabel: classes.innerLabel,
       },
       renderCell: row => row.scoring.toFixed(3),
+      exportValue: row => row.scoring.toFixed(3),
     },
     {
       id: 'neighbourhood',
@@ -150,6 +152,8 @@ function getColumns(classes) {
           getScoreForColumn(row.evidences, 'neighborhood'),
           classes
         ),
+      exportValue: row =>
+        getScoreForColumn(row.evidences, 'neighborhood')?.toFixed(3),
     },
     {
       id: 'geneFusion',
@@ -162,6 +166,8 @@ function getColumns(classes) {
       },
       renderCell: row =>
         getHeatmapCell(getScoreForColumn(row.evidences, 'fusion'), classes),
+      exportValue: row =>
+        getScoreForColumn(row.evidences, 'fusion')?.toFixed(3),
     },
     {
       id: 'occurance',
@@ -177,6 +183,8 @@ function getColumns(classes) {
           getScoreForColumn(row.evidences, 'cooccurence'),
           classes
         ),
+      exportValue: row =>
+        getScoreForColumn(row.evidences, 'cooccurence')?.toFixed(3),
     },
     {
       id: 'expression',
@@ -192,6 +200,8 @@ function getColumns(classes) {
           getScoreForColumn(row.evidences, 'coexpression'),
           classes
         ),
+      exportValue: row =>
+        getScoreForColumn(row.evidences, 'coexpression')?.toFixed(3),
     },
     {
       id: 'experiments',
@@ -207,6 +217,8 @@ function getColumns(classes) {
           getScoreForColumn(row.evidences, 'experimental'),
           classes
         ),
+      exportValue: row =>
+        getScoreForColumn(row.evidences, 'experimental')?.toFixed(3),
     },
     {
       id: 'databases',
@@ -219,6 +231,8 @@ function getColumns(classes) {
       },
       renderCell: row =>
         getHeatmapCell(getScoreForColumn(row.evidences, 'database'), classes),
+      exportValue: row =>
+        getScoreForColumn(row.evidences, 'database')?.toFixed(3),
     },
     {
       id: 'textMining',
@@ -231,6 +245,8 @@ function getColumns(classes) {
       },
       renderCell: row =>
         getHeatmapCell(getScoreForColumn(row.evidences, 'textmining'), classes),
+      exportValue: row =>
+        getScoreForColumn(row.evidences, 'textmining')?.toFixed(3),
     },
     {
       id: 'homology',
@@ -246,6 +262,8 @@ function getColumns(classes) {
           getScoreForColumn(row.evidences, 'by homology'),
           classes
         ),
+      exportValue: row =>
+        getScoreForColumn(row.evidences, 'by homology')?.toFixed(3),
     },
   ];
 }
