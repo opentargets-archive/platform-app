@@ -34,7 +34,11 @@ let FooterLink = ({ label, url, classes, icon }) => (
       ) : (
         <Link external footer to={url}>
           {icon && (
-            <FontAwesomeIcon className={classes.iconClass} icon={icon} />
+            <FontAwesomeIcon
+              className={classes.iconClass}
+              icon={icon}
+              size="lg"
+            />
           )}
           {label}
         </Link>
