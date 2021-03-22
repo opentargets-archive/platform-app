@@ -6481,11 +6481,6 @@ fbjs@^0.8.1:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
 
-fg-loadcss@^2.0.1:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/fg-loadcss/-/fg-loadcss-2.1.0.tgz#b3cbdf2ab5ee82a13ddb26340f10e3ac43fe2233"
-  integrity sha512-HpvR2uRoKvrYAEwimw+k4Fr2NVHYPfld5Lc/f9uy3mKeUTXhS5urL24XA2rqyq5b2i410EXCLir4Uhsb8J1QaQ==
-
 figgy-pudding@^3.5.1:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.5.2.tgz#b4eee8148abb01dcf1d1ac34367d59e12fa61d6e"

@@ -1,13 +1,14 @@
 import pkg from '../package.json';
+import {
+  faQuestionCircle,
+  faEnvelope,
+  faFacebook,
+} from '@fortawesome/free-solid-svg-icons';
 
 export const externalLinks = {
   about: [
     {
-      label: `Version ${pkg.version} (${
-        process.env.REACT_APP_REVISION
-          ? process.env.REACT_APP_REVISION
-          : '2222ccc'
-      })`,
+      label: `Platform version ${pkg.version}`,
       url: `https://github.com/opentargets/platform-app/commit/${
         process.env.REACT_APP_REVISION
           ? process.env.REACT_APP_REVISION
@@ -15,8 +16,12 @@ export const externalLinks = {
       }`,
     },
     {
-      label: 'Github codebase',
+      label: 'Data release 21.04',
       url: 'https://github.com/opentargets/platform-app',
+    },
+    {
+      label: 'Community forum',
+      url: 'https://community.opentargets.org',
     },
 
     {
@@ -50,13 +55,13 @@ export const externalLinks = {
   help: [
     {
       label: 'Documentation',
-      iconClasses: 'fa fa-question-circle',
+      icon: faQuestionCircle,
       url: 'https://docs.targetvalidation.org',
     },
     {
-      label: 'support@targetvalidation.org',
-      iconClasses: 'fa fa-envelope',
-      url: 'mailto:support@targetvalidation.org',
+      label: 'helpdesk@opentargets.org',
+      icon: faEnvelope,
+      url: 'mailto:helpdesk@opentargets.org',
     },
   ],
   social: [
