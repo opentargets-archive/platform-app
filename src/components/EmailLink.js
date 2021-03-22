@@ -1,16 +1,17 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   emailLink: {
+    display: 'block',
     textDecoration: 'none',
     outline: 'none',
     color: 'inherit',
     '&:hover': {
       color: theme.palette.primary.light,
     },
-    width: '236px',
+    maxWidth: '100%',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -18,9 +19,10 @@ const styles = theme => ({
   icon: {
     marginRight: '10px',
   },
-});
+}));
 
-const EmailLink = ({ classes, href, label, icon }) => {
+const EmailLink = ({ href, label, icon }) => {
+  const classes = useStyles();
   return (
     <a className={classes.emailLink} href={href}>
       {icon && (
@@ -31,4 +33,4 @@ const EmailLink = ({ classes, href, label, icon }) => {
   );
 };
 
-export default withStyles(styles)(EmailLink);
+export default EmailLink;
