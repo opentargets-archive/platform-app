@@ -3,7 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withStyles } from '@material-ui/core/styles';
-import { faStar } from '@fortawesome/free-regular-svg-icons';
 
 import Link from './Link';
 import EmailLink from './EmailLink';
@@ -68,13 +67,10 @@ let FooterSocial = ({ social, classes }) => (
   <Fragment>
     <FooterSectionHeading>Follow us</FooterSectionHeading>
     <Grid className={classes.iconsContainer} container justify="space-between">
-      {social.map(({ iconClasses, url }, i) => (
+      {social.map(({ icon, url }, i) => (
         <Grid item key={i}>
           <Link external footer to={url}>
-            <FontAwesomeIcon
-              className={iconClasses + ' ' + classes.socialIcon}
-              icon={faStar}
-            />
+            <FontAwesomeIcon className={classes.socialIcon} icon={icon} />
           </Link>
         </Grid>
       ))}
