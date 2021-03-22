@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Icon from '@material-ui/core/Icon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withStyles } from '@material-ui/core/styles';
+import { faStar } from '@fortawesome/free-regular-svg-icons';
 
 import Link from './Link';
 import EmailLink from './EmailLink';
@@ -26,15 +27,15 @@ const linkStyles = () => ({
   },
 });
 
-let FooterLink = ({ label, url, classes, iconClasses }) => (
+let FooterLink = ({ label, url, classes, icon }) => (
   <Grid item xs={12} className={classes.linkContainer}>
     <Typography color="inherit">
       {url.startsWith('mailto') ? (
-        <EmailLink href={url} label={label} iconClasses={iconClasses} />
+        <EmailLink href={url} label={label} icon={icon} />
       ) : (
         <Link external footer to={url}>
-          {iconClasses && (
-            <Icon className={iconClasses + ' ' + classes.iconClass} />
+          {icon && (
+            <FontAwesomeIcon className={classes.iconClass} icon={icon} />
           )}
           {label}
         </Link>
@@ -70,7 +71,10 @@ let FooterSocial = ({ social, classes }) => (
       {social.map(({ iconClasses, url }, i) => (
         <Grid item key={i}>
           <Link external footer to={url}>
-            <Icon className={iconClasses + ' ' + classes.socialIcon} />
+            <FontAwesomeIcon
+              className={iconClasses + ' ' + classes.socialIcon}
+              icon={faStar}
+            />
           </Link>
         </Grid>
       ))}
@@ -97,7 +101,7 @@ const FooterSection = ({ heading, links, social }) => (
           key={i}
           label={link.label}
           url={link.url}
-          iconClasses={link.iconClasses}
+          icon={link.icon}
         />
       ))}
     </Grid>
