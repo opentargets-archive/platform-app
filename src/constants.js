@@ -41,12 +41,9 @@ export const externalLinks = {
     },
   ],
   network: [
-    {
-      label: 'Overview',
-      url: 'https://www.opentargets.org',
-    },
     { label: 'Science', url: 'https://www.opentargets.org/science' },
-    { label: 'Resources', url: 'https://www.opentargets.org/resources' },
+    { label: 'Publications', url: 'https://www.opentargets.org/publications' },
+    { label: 'Genetics Portal', url: 'https://genetics.opentargets.org' },
     { label: 'Jobs', url: 'https://www.opentargets.org/jobs' },
     { label: 'Blog', url: 'https://blog.opentargets.org' },
   ],
@@ -55,7 +52,6 @@ export const externalLinks = {
     { label: 'EMBL-EBI', url: 'https://www.ebi.ac.uk' },
     { label: 'GSK', url: 'https://www.gsk.com' },
     { label: 'Sanofi', url: 'https://www.sanofi.com' },
-    { label: 'Takeda', url: 'https://www.takeda.com' },
     { label: 'Wellcome Sanger Institute', url: 'https://www.sanger.ac.uk' },
   ],
   help: [
