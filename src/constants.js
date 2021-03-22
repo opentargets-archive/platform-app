@@ -2,8 +2,14 @@ import pkg from '../package.json';
 import {
   faQuestionCircle,
   faEnvelope,
-  faFacebook,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  faDiscourse,
+  faTwitterSquare,
+  faLinkedin,
+  faGithubSquare,
+  faYoutubeSquare,
+} from '@fortawesome/free-brands-svg-icons';
 
 export const externalLinks = {
   about: [
@@ -65,27 +71,11 @@ export const externalLinks = {
     },
   ],
   social: [
-    {
-      iconClasses: 'fab fa-facebook',
-      url: 'https://www.facebook.com/OpenTargets',
-    },
-    {
-      iconClasses: 'fab fa-twitter-square',
-      url: 'http://twitter.com/targetvalidate',
-    },
-    {
-      iconClasses: 'fab fa-linkedin',
-      url: 'https://www.linkedin.com/company/open-targets',
-    },
-    {
-      iconClasses: 'fab fa-youtube-square',
-      url: 'https://www.youtube.com/channel/UCLMrondxbT0DIGx5nGOSYOQ',
-    },
-    { iconClasses: 'fab fa-medium', url: 'https://medium.com/opentargets' },
-    {
-      iconClasses: 'fab fa-github-square',
-      url: 'https://github.com/opentargets',
-    },
+    { icon: faDiscourse, url: 'https://community.opentargets.org' },
+    { icon: faTwitterSquare, url: 'https://twitter.com/opentargets' },
+    { icon: faLinkedin, url: 'https://www.linkedin.com/company/open-targets' },
+    { icon: faYoutubeSquare, url: 'https://www.youtube.com/opentargets' },
+    { icon: faGithubSquare, url: 'https://github.com/opentargets' },
   ],
 };
 
