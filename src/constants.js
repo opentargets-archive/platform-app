@@ -1,4 +1,3 @@
-import pkg from '../package.json';
 import {
   faQuestionCircle,
   faEnvelope,
@@ -14,7 +13,7 @@ import {
 export const externalLinks = {
   about: [
     {
-      label: `Platform version ${pkg.version}`,
+      label: `Platform version ${process.env.REACT_APP_REVISION ?? 'dev'}`,
       url: `https://github.com/opentargets/platform-app/commit/${
         process.env.REACT_APP_REVISION
           ? process.env.REACT_APP_REVISION
