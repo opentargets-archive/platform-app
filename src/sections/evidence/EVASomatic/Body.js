@@ -162,7 +162,7 @@ const columns = [
     filterValue: ({ allelicRequirements }) => allelicRequirements.join(),
   },
   {
-    label: 'Confidence',
+    label: 'Review status',
     renderCell: ({ confidence }) => {
       return (
         <Tooltip title={confidence}>
