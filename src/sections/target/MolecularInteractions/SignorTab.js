@@ -80,7 +80,7 @@ const columns = {
       id: 'targetB',
       label: (
         <>
-          Interactor <MethodIconText enabled={true}>B</MethodIconText>
+          Interactor <MethodIconText enabled>B</MethodIconText>
           <br />
           <Typography variant="caption">Alt ID</Typography>
         </>
@@ -131,16 +131,10 @@ const columns = {
       label: 'Biological role',
       renderCell: row => (
         <>
-          <MethodIconText
-            tooltip={row.intABiologicalRole}
-            enabled={row.intABiologicalRole}
-          >
+          <MethodIconText tooltip={row.intABiologicalRole} enabled>
             A
           </MethodIconText>
-          <MethodIconText
-            tooltip={row.intBBiologicalRole}
-            enabled={row.intBBiologicalRole}
-          >
+          <MethodIconText tooltip={row.intBBiologicalRole} enabled>
             B
           </MethodIconText>
         </>
@@ -201,25 +195,17 @@ const columns = {
         <>
           <MethodIconText
             tooltip={row.participantDetectionMethodA.map(m => m.shortName)}
-            enabled={
-              row.participantDetectionMethodA &&
-              row.participantDetectionMethodA.length > 0 &&
-              row.participantDetectionMethodA[0].shortName
-            }
+            enabled
           >
             A
           </MethodIconText>
           <MethodIconArrow
             tooltip={row.interactionDetectionMethodShortName}
-            enabled={row.interactionDetectionMethodShortName}
+            enabled
           />
           <MethodIconText
             tooltip={row.participantDetectionMethodB[0].shortName}
-            enabled={
-              row.participantDetectionMethodB &&
-              row.participantDetectionMethodB.length > 0 &&
-              row.participantDetectionMethodB[0].shortName
-            }
+            enabled
           >
             B
           </MethodIconText>
