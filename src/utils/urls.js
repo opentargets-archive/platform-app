@@ -32,7 +32,7 @@ export function europePmcSearchPOSTQuery(ids) {
     resultType: 'core',
     format: 'json',
     pageSize: '1000',
-    query,
+    query: `SRC:MED AND (ext_id:${query})`,
     sort: 'P_PDATE_D desc',
   };
   const formBody = encodeParams(bodyOptions);

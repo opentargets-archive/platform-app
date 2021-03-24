@@ -84,19 +84,22 @@ function PublicationWrapper({
         </LongText>
       </Box>
 
-      <Typography variant={variant === 'small' ? 'caption' : 'body2'}>
-        {/* journal, year, reference */}
-        {journal.title}{' '}
-        <span>
-          <b>
-            {journal.dateOfPublication &&
-              (journal.dateOfPublication.substring(0, 4) || '')}
-          </b>
-        </span>{' '}
-        <span>{journal.volume || ''}</span>
-        <span>({journal.issue || ''})</span>
-        <span>:{journal.page || ''}</span>
-      </Typography>
+      <Box style={{ whiteSpace: 'normal' }}>
+        <Typography variant={variant === 'small' ? 'caption' : 'body2'}>
+          {/* journal, year, reference */}
+          {journal.journal?.title || ''}{' '}
+          <span>
+            <b>
+              {journal.dateOfPublication &&
+                (journal.dateOfPublication.substring(0, 4) || '')}
+            </b>
+          </span>{' '}
+          <span>{journal.volume || ''}</span>
+          <span>({journal.issue || ''})</span>
+          <span>:{journal.page || ''}</span>
+        </Typography>
+      </Box>
+
       <Button
         className={classes.detailsButton}
         variant="outlined"

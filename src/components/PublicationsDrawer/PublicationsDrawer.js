@@ -145,6 +145,9 @@ const ListComponet = ({ entriesIds }) => {
       renderCell: publication => {
         return <PublicationWrapper {...publication} />;
       },
+      filterValue: row =>
+        `${row.journal.journal.title} ${row.title} ${row.year}
+        ${row.authors.map(author => author.fullName).join(' ')}`,
     },
   ];
 
@@ -161,7 +164,7 @@ const ListComponet = ({ entriesIds }) => {
   );
 };
 
-function PublicationsDrawer({ entries, message, caption = 'Records' }) {
+function PublicationsDrawer({ entries, message, caption = 'Publications' }) {
   const [open, setOpen] = useState(false);
   const classes = sourceDrawerStyles();
 
