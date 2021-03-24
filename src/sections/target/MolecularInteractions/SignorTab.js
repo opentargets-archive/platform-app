@@ -269,7 +269,10 @@ const size = 5000;
 function SignorTab({ ensgId, symbol, query }) {
   const [data, setData] = useState([]);
   const [evidence, setEvidence] = useState([]);
-  const [selectedInteraction, setSelectedInteraction] = useState([]);
+  {
+    /* const [selectedInteraction, setSelectedInteraction] = useState([]); */
+  }
+  const [selectedIntB, setSelectedIntB] = useState('');
 
   // load tab data when new tab selected (also on first load)
   useEffect(
@@ -278,6 +281,7 @@ function SignorTab({ ensgId, symbol, query }) {
         if (res.data.target.interactions) {
           setData(res.data.target.interactions.rows);
           setEvidence(res.data.target.interactions.rows[0].evidences);
+          setSelectedIntB(res.data.target.interactions.rows[0].intB);
         }
       });
     },
@@ -293,6 +297,7 @@ function SignorTab({ ensgId, symbol, query }) {
           <MethodIconText notooltip enabled>
             A
           </MethodIconText>{' '}
+          <br />
           interactors
         </Typography>
         <DataTable
@@ -305,14 +310,20 @@ function SignorTab({ ensgId, symbol, query }) {
           selected
           onRowClick={(r, i) => {
             setEvidence(r.evidences);
-            setSelectedInteraction(i);
+            setSelectedIntB(r.intB);
+            {
+              /* setSelectedInteraction(i); */
+            }
           }}
           rowIsSelectable
           fixed
           noWrapHeader={false}
           onPagination={(page, pageSize) => {
             setEvidence(data[page * pageSize].evidences);
-            setSelectedInteraction(0);
+            setSelectedIntB(data[page * pageSize].intB);
+            {
+              /* setSelectedInteraction(0); */
+            }
           }}
           rowsPerPageOptions={defaultRowsPerPageOptions}
         />
@@ -321,6 +332,15 @@ function SignorTab({ ensgId, symbol, query }) {
       {/* table 2: evidence */}
       <Grid item xs={12} md={7}>
         <Typography variant="h6" gutterBottom>
+          {symbol}{' '}
+          <MethodIconText notooltip enabled>
+            A
+          </MethodIconText>
+          {` + ${selectedIntB} `}
+          <MethodIconText notooltip enabled>
+            B
+          </MethodIconText>
+          <br />
           Interaction evidence
         </Typography>
         <DataTable
