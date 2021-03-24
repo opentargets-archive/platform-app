@@ -13,6 +13,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { naLabel } from '../../constants';
 import { europePmcSearchPOSTQuery } from '../../utils/urls';
 import PublicationWrapper from './PublicationWrapper';
+import { DataTable } from '../Table';
 
 const sourceDrawerStyles = makeStyles(theme => ({
   drawerLink: {
@@ -137,11 +138,25 @@ const ListComponet = ({ entriesIds }) => {
     return row;
   });
 
+  const columns = [
+    {
+      id: 'publications',
+      label: null,
+      renderCell: publication => {
+        return <PublicationWrapper {...publication} />;
+      },
+    },
+  ];
+
   return (
-    <Box my={3} mx={3} p={3} bgcolor="white">
-      {parsedPublications.map(publication => (
-        <PublicationWrapper key={publication.europePmcId} {...publication} />
-      ))}
+    <Box my={3} mx={3} p={3} pb={6} bgcolor="white">
+      <DataTable
+        columns={columns}
+        rows={parsedPublications}
+        showGlobalFilter
+        rowsPerPageOptions={[5, 10, 25, 100]}
+        pageSize={5}
+      />
     </Box>
   );
 };
@@ -201,7 +216,7 @@ function PublicationsDrawer({ entries, message, caption = 'Records' }) {
           </Box>
         </Paper>
 
-        <Box width={500} className={classes.drawerBody}>
+        <Box width={600} className={classes.drawerBody}>
           {open && <ListComponet entriesIds={entriesIds} />}
         </Box>
       </Drawer>

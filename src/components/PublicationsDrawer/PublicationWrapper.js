@@ -52,18 +52,20 @@ function PublicationWrapper({
   return (
     <Box mb={4}>
       {/* paper title */}
-      <Typography variant={variant === 'small' ? 'subtitle2' : 'subtitle1'}>
-        <Link external to={pmUrl + pmTitleUrl + pmId}>
-          {titleHtml ? (
-            <span
-              dangerouslySetInnerHTML={{ __html: titleHtml }}
-              style={{ whiteSpace: 'normal' }}
-            />
-          ) : (
-            title
-          )}
-        </Link>
-      </Typography>
+      <Box style={{ whiteSpace: 'normal' }}>
+        <Typography variant={variant === 'small' ? 'subtitle2' : 'subtitle1'}>
+          <Link external to={pmUrl + pmTitleUrl + pmId}>
+            {titleHtml ? (
+              <span
+                dangerouslySetInnerHTML={{ __html: titleHtml }}
+                style={{ whiteSpace: 'normal' }}
+              />
+            ) : (
+              title
+            )}
+          </Link>
+        </Typography>
+      </Box>
 
       {/* paper data */}
       {/* authors */}
