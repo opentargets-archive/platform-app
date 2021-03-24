@@ -42,7 +42,7 @@ const columns = {
       id: 'targetB',
       label: (
         <>
-          Interactor B
+          Interactor <MethodIconText enabled={true}>B</MethodIconText>
           <br />
           <Typography variant="caption">Alt ID</Typography>
         </>
@@ -227,7 +227,7 @@ const size = 5000;
 function ReactomeTab({ ensgId, symbol, query }) {
   const [data, setData] = useState([]);
   const [evidence, setEvidence] = useState([]);
-  const [selectedInteraction, setSelectedInteraction] = useState([]);
+  const [selectedIntB, setSelectedIntB] = useState('');
 
   // load tab data when new tab selected (also on first load)
   useEffect(
@@ -236,6 +236,7 @@ function ReactomeTab({ ensgId, symbol, query }) {
         if (res.data.target.interactions) {
           setData(res.data.target.interactions.rows);
           setEvidence(res.data.target.interactions.rows[0].evidences);
+          setSelectedIntB(res.data.target.interactions.rows[0].intB);
         }
       });
     },
@@ -250,6 +251,7 @@ function ReactomeTab({ ensgId, symbol, query }) {
           <MethodIconText notooltip enabled>
             A
           </MethodIconText>{' '}
+          <br />
           interactors
         </Typography>
         <DataTable
@@ -262,14 +264,14 @@ function ReactomeTab({ ensgId, symbol, query }) {
           selected
           onRowClick={(r, i) => {
             setEvidence(r.evidences);
-            setSelectedInteraction(i);
+            setSelectedIntB(r.intB);
           }}
           rowIsSelectable
           fixed
           noWrapHeader={false}
           onPagination={(page, pageSize) => {
             setEvidence(data[page * pageSize].evidences);
-            setSelectedInteraction(0);
+            setSelectedIntB(data[page * pageSize].intB);
           }}
           rowsPerPageOptions={defaultRowsPerPageOptions}
         />
@@ -278,6 +280,15 @@ function ReactomeTab({ ensgId, symbol, query }) {
       {/* table 2: evidence */}
       <Grid item xs={12} md={7}>
         <Typography variant="h6" gutterBottom>
+          {symbol}{' '}
+          <MethodIconText notooltip enabled>
+            A
+          </MethodIconText>
+          {` + ${selectedIntB} `}
+          <MethodIconText notooltip enabled>
+            B
+          </MethodIconText>
+          <br />
           Interaction evidence
         </Typography>
         <DataTable
