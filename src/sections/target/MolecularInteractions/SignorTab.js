@@ -269,9 +269,6 @@ const size = 5000;
 function SignorTab({ ensgId, symbol, query }) {
   const [data, setData] = useState([]);
   const [evidence, setEvidence] = useState([]);
-  {
-    /* const [selectedInteraction, setSelectedInteraction] = useState([]); */
-  }
   const [selectedIntB, setSelectedIntB] = useState('');
 
   // load tab data when new tab selected (also on first load)
@@ -311,9 +308,6 @@ function SignorTab({ ensgId, symbol, query }) {
           onRowClick={(r, i) => {
             setEvidence(r.evidences);
             setSelectedIntB(r.intB);
-            {
-              /* setSelectedInteraction(i); */
-            }
           }}
           rowIsSelectable
           fixed
@@ -321,9 +315,6 @@ function SignorTab({ ensgId, symbol, query }) {
           onPagination={(page, pageSize) => {
             setEvidence(data[page * pageSize].evidences);
             setSelectedIntB(data[page * pageSize].intB);
-            {
-              /* setSelectedInteraction(0); */
-            }
           }}
           rowsPerPageOptions={defaultRowsPerPageOptions}
         />
