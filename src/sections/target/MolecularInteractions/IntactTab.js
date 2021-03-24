@@ -35,259 +35,251 @@ const onLinkClick = function(e) {
 
 const UNSPECIFIED_ROLE = 'unspecified role';
 
+const columns = {
+  interactions: [
+    {
+      id: 'targetB',
+      label: (
+        <>
+          Interactor B
+          <br />
+          <Typography variant="caption">Alt ID</Typography>
+        </>
+      ),
+      exportLabel: 'interactorB-AltId',
+      renderCell: row => (
+        <>
+          <EllsWrapper
+            title={row.targetB ? row.targetB.approvedSymbol : row.intB}
+          >
+            {row.targetB ? (
+              <Link to={`/target/${row.targetB.id}`} onClick={onLinkClick}>
+                {row.targetB.approvedSymbol}
+              </Link>
+            ) : (
+              <Link
+                to={`http://uniprot.org/uniprot/${row.intB}`}
+                onClick={onLinkClick}
+                external
+              >
+                {row.intB}
+              </Link>
+            )}
+          </EllsWrapper>
+          {row.speciesB && row.speciesB?.mnemonic.toLowerCase() !== 'human' ? (
+            <Tooltip title={row.speciesB?.mnemonic} showHelpIcon />
+          ) : null}
+          <br />
+          <EllsWrapper title={row.intB}>
+            <Typography variant="caption">
+              Alt ID:{' '}
+              <Link
+                to={`http://uniprot.org/uniprot/${row.intB}`}
+                onClick={onLinkClick}
+                external
+              >
+                {row.intB}
+              </Link>
+            </Typography>
+          </EllsWrapper>
+        </>
+      ),
+      exportValue: row => row.targetB?.approvedSymbol || row.intB,
+      width: '40%',
+    },
+    {
+      id: 'scoring',
+      label: 'Score',
+      renderCell: row => row.scoring.toFixed(2),
+      exportValue: row => row.scoring.toFixed(2),
+      width: '14%',
+    },
+    {
+      id: 'biologicalRole',
+      label: 'Biological role',
+      renderCell: row => (
+        <>
+          <MethodIconText
+            tooltip={row.intABiologicalRole}
+            enabled={
+              row.intABiologicalRole &&
+              row.intABiologicalRole !== UNSPECIFIED_ROLE
+            }
+          >
+            A
+          </MethodIconText>
+          <MethodIconText
+            tooltip={row.intBBiologicalRole}
+            enabled={
+              row.intBBiologicalRole &&
+              row.intABiologicalRole !== UNSPECIFIED_ROLE
+            }
+          >
+            B
+          </MethodIconText>
+        </>
+      ),
+      exportValue: row =>
+        `A: ${row.intABiologicalRole}, B: ${row.intBBiologicalRole}`,
+      width: '23%',
+    },
+    {
+      id: 'evidences',
+      label: 'Interaction evidence entries',
+      renderCell: row => (
+        <>
+          {row.count}
+          <span className={'selected-evidence'}>
+            <FontAwesomeIcon icon={faPlay} />
+          </span>
+        </>
+      ),
+      exportValue: row => row.count,
+      width: '23%',
+    },
+  ],
+
+  evidence: [
+    {
+      id: 'interactionIdentifier',
+      label: 'Identifier',
+      renderCell: row => (
+        <Link
+          to={`http://www.ebi.ac.uk/intact/interaction/${
+            row.interactionIdentifier
+          }`}
+          onClick={onLinkClick}
+          external
+        >
+          {row.interactionIdentifier}
+        </Link>
+      ),
+      width: '25%',
+    },
+    {
+      id: 'interaction',
+      label: (
+        <>
+          Interaction
+          <br />
+          <Typography variant="caption">Host organism</Typography>
+        </>
+      ),
+      renderCell: row => (
+        <>
+          <EllsWrapper>{row.interactionTypeShortName}</EllsWrapper>
+          {row.hostOrganismScientificName ? (
+            <>
+              <br />
+              <EllsWrapper title={row.hostOrganismScientificName}>
+                <Typography variant="caption">
+                  {row.hostOrganismScientificName}
+                </Typography>
+              </EllsWrapper>
+            </>
+          ) : null}
+        </>
+      ),
+      width: '30%',
+    },
+    {
+      id: 'methods',
+      label: 'Detection methods',
+      renderCell: row => (
+        <>
+          <MethodIconText
+            tooltip={row.participantDetectionMethodA.map(m => m.shortName)}
+            enabled={
+              row.participantDetectionMethodA &&
+              row.participantDetectionMethodA.length > 0 &&
+              row.participantDetectionMethodA[0].shortName &&
+              row.participantDetectionMethodA[0].shortName !== UNSPECIFIED_ROLE
+            }
+          >
+            A
+          </MethodIconText>
+          <MethodIconArrow
+            tooltip={row.interactionDetectionMethodShortName}
+            enabled={
+              row.interactionDetectionMethodShortName &&
+              row.interactionDetectionMethodShortName !== UNSPECIFIED_ROLE
+            }
+          />
+          <MethodIconText
+            tooltip={row.participantDetectionMethodB[0].shortName}
+            enabled={
+              row.participantDetectionMethodB &&
+              row.participantDetectionMethodB.length > 0 &&
+              row.participantDetectionMethodB[0].shortName &&
+              row.participantDetectionMethodA[0].shortName !== UNSPECIFIED_ROLE
+            }
+          >
+            B
+          </MethodIconText>
+        </>
+      ),
+      width: '25%',
+    },
+    {
+      id: 'pubmedId',
+      label: 'Publication',
+      renderCell: d => (
+        <EllsWrapper title={d.pubmedId}>
+          {d.pubmedId && d.pubmedId.indexOf('unassigned') === -1 ? (
+            <Link
+              external
+              to={`http://europepmc.org/abstract/MED/${d.pubmedId}`}
+            >
+              {d.pubmedId}
+            </Link>
+          ) : (
+            d.pubmedId
+          )}
+        </EllsWrapper>
+      ),
+      width: '20%',
+    },
+  ],
+};
+
+const evidenceColsExport = [
+  {
+    label: 'Identifier',
+    exportValue: row => row.interactionIdentifier,
+  },
+  {
+    label: 'interaction',
+    exportValue: row => row.interactionTypeShortName,
+  },
+  {
+    label: 'interaction host organism',
+    exportValue: row => row.hostOrganismScientificName,
+  },
+  {
+    label: 'detection method A',
+    exportValue: row => row.participantDetectionMethodA.map(m => m.shortName),
+  },
+  {
+    label: 'detection method short name',
+    exportValue: row => row.interactionDetectionMethodShortName,
+  },
+  {
+    label: 'detection method B',
+    exportValue: row => row.participantDetectionMethodB[0].shortName,
+  },
+  {
+    label: 'publication id',
+    exportValue: row => row.pubmedId,
+  },
+];
+const id = 'intact';
+const index = 0;
+const size = 5000;
+
 function IntactTab({ ensgId, symbol, query }) {
   const [data, setData] = useState([]);
   const [evidence, setEvidence] = useState([]);
-  const [selectedInteraction, setSelectedInteraction] = useState([]);
-
-  const columns = {
-    interactions: [
-      {
-        id: 'targetB',
-        label: (
-          <>
-            Interactor B
-            <br />
-            <Typography variant="caption">Alt ID</Typography>
-          </>
-        ),
-        exportLabel: 'interactorB-AltId',
-        renderCell: row => (
-          <>
-            <EllsWrapper
-              title={row.targetB ? row.targetB.approvedSymbol : row.intB}
-            >
-              {row.targetB ? (
-                <Link to={`/target/${row.targetB.id}`} onClick={onLinkClick}>
-                  {row.targetB.approvedSymbol}
-                </Link>
-              ) : (
-                <Link
-                  to={`http://uniprot.org/uniprot/${row.intB}`}
-                  onClick={onLinkClick}
-                  external
-                >
-                  {row.intB}
-                </Link>
-              )}
-            </EllsWrapper>
-            {row.speciesB &&
-            row.speciesB?.mnemonic.toLowerCase() !== 'human' ? (
-              <Tooltip title={row.speciesB?.mnemonic} showHelpIcon />
-            ) : null}
-            <br />
-            <EllsWrapper title={row.intB}>
-              <Typography variant="caption">
-                Alt ID:{' '}
-                <Link
-                  to={`http://uniprot.org/uniprot/${row.intB}`}
-                  onClick={onLinkClick}
-                  external
-                >
-                  {row.intB}
-                </Link>
-              </Typography>
-            </EllsWrapper>
-          </>
-        ),
-        exportValue: row => row.targetB?.approvedSymbol || row.intB,
-        width: '40%',
-      },
-      {
-        id: 'scoring',
-        label: 'Score',
-        renderCell: row => row.scoring.toFixed(2),
-        exportValue: row => row.scoring.toFixed(2),
-        width: '14%',
-      },
-      {
-        id: 'biologicalRole',
-        label: 'Biological role',
-        renderCell: row => (
-          <>
-            <MethodIconText
-              tooltip={row.intABiologicalRole}
-              enabled={
-                row.intABiologicalRole &&
-                row.intABiologicalRole !== UNSPECIFIED_ROLE
-              }
-            >
-              A
-            </MethodIconText>
-            <MethodIconText
-              tooltip={row.intBBiologicalRole}
-              enabled={
-                row.intBBiologicalRole &&
-                row.intABiologicalRole !== UNSPECIFIED_ROLE
-              }
-            >
-              B
-            </MethodIconText>
-          </>
-        ),
-        exportValue: row =>
-          `A: ${row.intABiologicalRole}, B: ${row.intBBiologicalRole}`,
-        width: '23%',
-      },
-      {
-        id: 'evidences',
-        label: 'Interaction evidence entries',
-        renderCell: row => (
-          <>
-            {row.count}
-            <span className={'selected-evidence'}>
-              <FontAwesomeIcon icon={faPlay} />
-            </span>
-          </>
-        ),
-        exportValue: row => row.count,
-        width: '23%',
-      },
-    ],
-
-    evidence: [
-      {
-        id: 'interactionIdentifier',
-        label: 'Identifier',
-        renderCell: row => (
-          <Link
-            to={`http://www.ebi.ac.uk/intact/interaction/${
-              row.interactionIdentifier
-            }`}
-            onClick={onLinkClick}
-            external
-          >
-            {row.interactionIdentifier}
-          </Link>
-        ),
-        width: '25%',
-      },
-      {
-        id: 'interaction',
-        label: (
-          <>
-            Interaction
-            <br />
-            <Typography variant="caption">Host organism</Typography>
-          </>
-        ),
-        renderCell: row => (
-          <>
-            <EllsWrapper>{row.interactionTypeShortName}</EllsWrapper>
-            {row.hostOrganismScientificName ? (
-              <>
-                <br />
-                <EllsWrapper title={row.hostOrganismScientificName}>
-                  <Typography variant="caption">
-                    {row.hostOrganismScientificName}
-                  </Typography>
-                </EllsWrapper>
-              </>
-            ) : null}
-          </>
-        ),
-        width: '30%',
-      },
-      {
-        id: 'methods',
-        label: 'Detection methods',
-        renderCell: row => (
-          <>
-            <MethodIconText
-              tooltip={row.participantDetectionMethodA.map(m => m.shortName)}
-              enabled={
-                row.participantDetectionMethodA &&
-                row.participantDetectionMethodA.length > 0 &&
-                row.participantDetectionMethodA[0].shortName &&
-                row.participantDetectionMethodA[0].shortName !==
-                  UNSPECIFIED_ROLE
-              }
-            >
-              A
-            </MethodIconText>
-            <MethodIconArrow
-              tooltip={row.interactionDetectionMethodShortName}
-              enabled={
-                row.interactionDetectionMethodShortName &&
-                row.interactionDetectionMethodShortName !== UNSPECIFIED_ROLE
-              }
-            />
-            <MethodIconText
-              tooltip={row.participantDetectionMethodB[0].shortName}
-              enabled={
-                row.participantDetectionMethodB &&
-                row.participantDetectionMethodB.length > 0 &&
-                row.participantDetectionMethodB[0].shortName &&
-                row.participantDetectionMethodA[0].shortName !==
-                  UNSPECIFIED_ROLE
-              }
-            >
-              B
-            </MethodIconText>
-          </>
-        ),
-        width: '25%',
-      },
-      {
-        id: 'pubmedId',
-        label: 'Publication',
-        renderCell: d => (
-          <EllsWrapper title={d.pubmedId}>
-            {d.pubmedId && d.pubmedId.indexOf('unassigned') === -1 ? (
-              <Link
-                external
-                to={`http://europepmc.org/abstract/MED/${d.pubmedId}`}
-              >
-                {d.pubmedId}
-              </Link>
-            ) : (
-              d.pubmedId
-            )}
-          </EllsWrapper>
-        ),
-        width: '20%',
-      },
-    ],
-  };
-
-  const evidenceColsExport = [
-    {
-      label: 'Identifier',
-      exportValue: row => row.interactionIdentifier,
-    },
-    {
-      label: 'interaction',
-      exportValue: row => row.interactionTypeShortName,
-    },
-    {
-      label: 'interaction host organism',
-      exportValue: row => row.hostOrganismScientificName,
-    },
-    {
-      label: 'detection method A',
-      exportValue: row => row.participantDetectionMethodA.map(m => m.shortName),
-    },
-    {
-      label: 'detection method short name',
-      exportValue: row => row.interactionDetectionMethodShortName,
-    },
-    {
-      label: 'detection method B',
-      exportValue: row => row.participantDetectionMethodB[0].shortName,
-    },
-    {
-      label: 'publication id',
-      exportValue: row => row.pubmedId,
-    },
-  ];
-  const id = 'intact';
-  const index = 0;
-  const size = 5000;
-
-  // function IntactTab({ ensgId, symbol, query }) {
-  //   const [data, setData] = useState([]);
-  //   const [evidence, setEvidence] = useState([]);
-  //   const [selectedInteraction, setSelectedInteraction] = useState([]);
+  const [selectedIntB, setSelectedIntB] = useState('');
 
   // load tab data when new tab selected (also on first load)
   useEffect(
@@ -295,8 +287,8 @@ function IntactTab({ ensgId, symbol, query }) {
       getData(query, ensgId, id, index, size).then(res => {
         if (res.data.target.interactions) {
           setData(res.data.target.interactions.rows);
-          setSelectedInteraction(0);
           setEvidence(res.data.target.interactions.rows[0].evidences);
+          setSelectedIntB(res.data.target.interactions.rows[0].intB);
         }
       });
     },
@@ -311,7 +303,8 @@ function IntactTab({ ensgId, symbol, query }) {
           {symbol}{' '}
           <MethodIconText notooltip enabled>
             A
-          </MethodIconText>{' '}
+          </MethodIconText>
+          <br />
           interactors
         </Typography>
         <DataTable
@@ -324,14 +317,14 @@ function IntactTab({ ensgId, symbol, query }) {
           selected
           onRowClick={(r, i) => {
             setEvidence(r.evidences);
-            setSelectedInteraction(i);
+            setSelectedIntB(r.intB);
           }}
           rowIsSelectable
           fixed
           noWrapHeader={false}
           onPagination={(page, pageSize) => {
             setEvidence(data[page * pageSize].evidences);
-            setSelectedInteraction(0);
+            setSelectedIntB(data[page * pageSize].intB);
           }}
           rowsPerPageOptions={defaultRowsPerPageOptions}
         />
@@ -340,6 +333,15 @@ function IntactTab({ ensgId, symbol, query }) {
       {/* table 2: evidence */}
       <Grid item xs={12} md={7}>
         <Typography variant="h6" gutterBottom>
+          {symbol}{' '}
+          <MethodIconText notooltip enabled>
+            A
+          </MethodIconText>
+          {` + ${selectedIntB} `}
+          <MethodIconText notooltip enabled>
+            B
+          </MethodIconText>
+          <br />
           Interaction evidence
         </Typography>
         <DataTable
