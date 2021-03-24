@@ -41,7 +41,7 @@ const columns = {
       id: 'targetB',
       label: (
         <>
-          Interactor <MethodIconText enabled={true}>B</MethodIconText>
+          Interactor <MethodIconText enabled>B</MethodIconText>
           <br />
           <Typography variant="caption">Alt ID</Typography>
         </>
@@ -99,10 +99,10 @@ const columns = {
       label: 'Biological role',
       renderCell: row => (
         <>
-          <MethodIconText tooltip={row.intABiologicalRole} enabled={true}>
+          <MethodIconText tooltip={row.intABiologicalRole} enabled>
             A
           </MethodIconText>
-          <MethodIconText tooltip={row.intBBiologicalRole} enabled={true}>
+          <MethodIconText tooltip={row.intBBiologicalRole} enabled>
             B
           </MethodIconText>
         </>
@@ -177,21 +177,13 @@ const columns = {
         <>
           <MethodIconText
             tooltip={row.participantDetectionMethodA.map(m => m.shortName)}
-            enabled={
-              row.participantDetectionMethodA &&
-              row.participantDetectionMethodA.length > 0 &&
-              row.participantDetectionMethodA[0].shortName &&
-              row.participantDetectionMethodA[0].shortName !== UNSPECIFIED_ROLE
-            }
+            enabled
           >
             A
           </MethodIconText>
           <MethodIconArrow
             tooltip={row.interactionDetectionMethodShortName}
-            enabled={
-              row.interactionDetectionMethodShortName &&
-              row.interactionDetectionMethodShortName !== UNSPECIFIED_ROLE
-            }
+            enabled
           />
           <MethodIconText
             tooltip={
@@ -199,12 +191,7 @@ const columns = {
                 ? row.participantDetectionMethodB[0].shortName
                 : null
             }
-            enabled={
-              row.participantDetectionMethodB &&
-              row.participantDetectionMethodB.length > 0 &&
-              row.participantDetectionMethodB[0].shortName &&
-              row.participantDetectionMethodA[0].shortName !== UNSPECIFIED_ROLE
-            }
+            enabled
           >
             B
           </MethodIconText>
