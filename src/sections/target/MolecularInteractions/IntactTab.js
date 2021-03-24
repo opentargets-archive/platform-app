@@ -99,22 +99,10 @@ const columns = {
       label: 'Biological role',
       renderCell: row => (
         <>
-          <MethodIconText
-            tooltip={row.intABiologicalRole}
-            enabled={
-              row.intABiologicalRole &&
-              row.intABiologicalRole !== UNSPECIFIED_ROLE
-            }
-          >
+          <MethodIconText tooltip={row.intABiologicalRole} enabled={true}>
             A
           </MethodIconText>
-          <MethodIconText
-            tooltip={row.intBBiologicalRole}
-            enabled={
-              row.intBBiologicalRole &&
-              row.intABiologicalRole !== UNSPECIFIED_ROLE
-            }
-          >
+          <MethodIconText tooltip={row.intBBiologicalRole} enabled={true}>
             B
           </MethodIconText>
         </>
