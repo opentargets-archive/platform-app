@@ -194,7 +194,11 @@ const columns = {
             }
           />
           <MethodIconText
-            tooltip={row.participantDetectionMethodB[0].shortName}
+            tooltip={
+              row.participantDetectionMethodB
+                ? row.participantDetectionMethodB[0].shortName
+                : null
+            }
             enabled={
               row.participantDetectionMethodB &&
               row.participantDetectionMethodB.length > 0 &&
