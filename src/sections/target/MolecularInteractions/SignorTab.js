@@ -80,9 +80,9 @@ const columns = {
       id: 'targetB',
       label: (
         <>
-          Interactor B
+          Interactor <MethodIconText enabled={true}>B</MethodIconText>
           <br />
-          <Typography variant="caption">Ald ID</Typography>
+          <Typography variant="caption">Alt ID</Typography>
         </>
       ),
       exportLabel: 'interactorB-AltId',
