@@ -119,6 +119,7 @@ function getColumns(classes) {
         </span>
       ),
       exportValue: row => row.targetB?.approvedSymbol || row.intB,
+      filterValue: row => row.targetB?.approvedSymbol + ' ' + row.intB,
     },
     {
       id: 'overallScore',
@@ -137,6 +138,7 @@ function getColumns(classes) {
       },
       renderCell: row => row.scoring.toFixed(3),
       exportValue: row => row.scoring.toFixed(3),
+      filterValue: row => row.scoring.toFixed(3),
     },
     {
       id: 'neighbourhood',
@@ -154,6 +156,8 @@ function getColumns(classes) {
         ),
       exportValue: row =>
         getScoreForColumn(row.evidences, 'neighborhood')?.toFixed(3),
+      filterValue: row =>
+        getScoreForColumn(row.evidences, 'neighborhood')?.toFixed(3),
     },
     {
       id: 'geneFusion',
@@ -167,6 +171,8 @@ function getColumns(classes) {
       renderCell: row =>
         getHeatmapCell(getScoreForColumn(row.evidences, 'fusion'), classes),
       exportValue: row =>
+        getScoreForColumn(row.evidences, 'fusion')?.toFixed(3),
+      filterValue: row =>
         getScoreForColumn(row.evidences, 'fusion')?.toFixed(3),
     },
     {
@@ -185,6 +191,8 @@ function getColumns(classes) {
         ),
       exportValue: row =>
         getScoreForColumn(row.evidences, 'cooccurence')?.toFixed(3),
+      filterValue: row =>
+        getScoreForColumn(row.evidences, 'cooccurence')?.toFixed(3),
     },
     {
       id: 'expression',
@@ -201,6 +209,8 @@ function getColumns(classes) {
           classes
         ),
       exportValue: row =>
+        getScoreForColumn(row.evidences, 'coexpression')?.toFixed(3),
+      filterValue: row =>
         getScoreForColumn(row.evidences, 'coexpression')?.toFixed(3),
     },
     {
@@ -219,6 +229,8 @@ function getColumns(classes) {
         ),
       exportValue: row =>
         getScoreForColumn(row.evidences, 'experimental')?.toFixed(3),
+      filterValue: row =>
+        getScoreForColumn(row.evidences, 'experimental')?.toFixed(3),
     },
     {
       id: 'databases',
@@ -233,6 +245,8 @@ function getColumns(classes) {
         getHeatmapCell(getScoreForColumn(row.evidences, 'database'), classes),
       exportValue: row =>
         getScoreForColumn(row.evidences, 'database')?.toFixed(3),
+      filterValue: row =>
+        getScoreForColumn(row.evidences, 'database')?.toFixed(3),
     },
     {
       id: 'textMining',
@@ -246,6 +260,8 @@ function getColumns(classes) {
       renderCell: row =>
         getHeatmapCell(getScoreForColumn(row.evidences, 'textmining'), classes),
       exportValue: row =>
+        getScoreForColumn(row.evidences, 'textmining')?.toFixed(3),
+      filterValue: row =>
         getScoreForColumn(row.evidences, 'textmining')?.toFixed(3),
     },
     {
@@ -263,6 +279,8 @@ function getColumns(classes) {
           classes
         ),
       exportValue: row =>
+        getScoreForColumn(row.evidences, 'by homology')?.toFixed(3),
+      filterValue: row =>
         getScoreForColumn(row.evidences, 'by homology')?.toFixed(3),
     },
   ];
