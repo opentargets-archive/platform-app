@@ -85,6 +85,7 @@ const columns = {
         </>
       ),
       exportValue: row => row.targetB?.approvedSymbol || row.intB,
+      filterValue: row => `${row.targetB?.approvedSymbol} ${row.intB}`,
       width: '40%',
     },
     {
@@ -109,6 +110,7 @@ const columns = {
       ),
       exportValue: row =>
         `A: ${row.intABiologicalRole}, B: ${row.intBBiologicalRole}`,
+      filterValue: row => `${row.intABiologicalRole} ${row.intBBiologicalRole}`,
       width: '23%',
     },
     {
@@ -168,6 +170,8 @@ const columns = {
           ) : null}
         </>
       ),
+      filterValue: row =>
+        `${row.interactionTypeShortName} ${row.hostOrganismScientificName}`,
       width: '30%',
     },
     {
@@ -197,6 +201,14 @@ const columns = {
           </MethodIconText>
         </>
       ),
+      filterValue: row =>
+        `${row.participantDetectionMethodA.map(m => m.shortName).join(' ')} ${
+          row.interactionDetectionMethodShortName
+        } ${
+          row.participantDetectionMethodB
+            ? row.participantDetectionMethodB[0].shortName
+            : ''
+        }`,
       width: '25%',
     },
     {
@@ -216,6 +228,7 @@ const columns = {
           )}
         </EllsWrapper>
       ),
+      filterValue: row => row.pubmedId,
       width: '20%',
     },
   ],
