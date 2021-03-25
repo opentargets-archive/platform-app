@@ -243,9 +243,6 @@ export const downloaderChunkSize = 2500;
 // NA label.
 export const naLabel = 'N/A';
 
-// Old platform-app url.
-export const oldPlatformUrl = 'https://www.targetvalidation.org';
-
 export const colorRange = [
   // '#ffffff',
   '#e5edf4',

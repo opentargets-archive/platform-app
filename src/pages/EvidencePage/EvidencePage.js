@@ -41,21 +41,6 @@ function EvidencePage({ match }) {
         symbol={symbol}
         name={name}
       />
-
-      {/* <RoutingTabs>
-        <RoutingTab
-          label="Profile"
-          path="/evidence/:ensgId/:efoId"
-          component={() => (
-            <Profile
-              ensgId={ensgId}
-              efoId={efoId}
-              symbol={symbol}
-              name={name}
-            />
-          )}
-        />
-      </RoutingTabs> */}
       <Profile ensgId={ensgId} efoId={efoId} symbol={symbol} name={name} />
     </BasePage>
   );
