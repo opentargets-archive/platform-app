@@ -10,7 +10,6 @@ import {
 import Link from '../../components/Link';
 import Smiles from './Smiles';
 import usePlatformApi from '../../hooks/usePlatformApi';
-import WithdrawnNotice from '../../components/WithdrawnNotice';
 
 const DRUG_PROFILE_HEADER_FRAGMENT = gql`
   fragment DrugProfileHeaderFragment on Drug {
@@ -28,12 +27,6 @@ const DRUG_PROFILE_HEADER_FRAGMENT = gql`
     hasBeenWithdrawn
     maximumClinicalTrialPhase
     tradeNames
-    withdrawnNotice {
-      classes
-      countries
-      reasons
-      year
-    }
     yearOfFirstApproval
     isApproved
   }
@@ -51,7 +44,6 @@ function ProfileHeader({ chemblId }) {
     childMolecules = [],
     synonyms,
     tradeNames,
-    withdrawnNotice,
     drugType,
     yearOfFirstApproval,
     maximumClinicalTrialPhase,
@@ -74,7 +66,6 @@ function ProfileHeader({ chemblId }) {
         <Field loading={loading} title="Status">
           {isApproved ? 'Approved' : null}
         </Field>
-        <WithdrawnNotice withdrawnNotice={withdrawnNotice} />
         <Field loading={loading} title="Parent molecule">
           {parentMolecule ? (
             <Link to={`/drug/${parentMolecule.id}`}>{parentMolecule.name}</Link>

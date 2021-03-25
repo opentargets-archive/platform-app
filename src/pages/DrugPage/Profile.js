@@ -31,9 +31,8 @@ function Profile({ chemblId, name }) {
       query={DRUG_PROFILE_QUERY}
       variables={{ chemblId }}
     >
+      <ProfileHeader chemblId={chemblId} />
       <SectionOrderProvider sections={sections}>
-        <ProfileHeader chemblId={chemblId} />
-
         <SummaryContainer>
           {sections.map(({ Summary, definition }) => (
             <Summary
