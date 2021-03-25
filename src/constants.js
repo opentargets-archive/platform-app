@@ -14,11 +14,8 @@ export const externalLinks = {
   about: [
     {
       label: `Platform version ${process.env.REACT_APP_REVISION ?? 'dev'}`,
-      url: `https://github.com/opentargets/platform-app/commit/${
-        process.env.REACT_APP_REVISION
-          ? process.env.REACT_APP_REVISION
-          : '2222ccc'
-      }`,
+      url: `https://github.com/opentargets/platform-app/releases/tag/${process
+        .env.REACT_APP_REVISION ?? 'v0.1.1'}`,
     },
     {
       label: 'Community forum',

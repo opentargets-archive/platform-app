@@ -69,8 +69,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git rev-parse --short HEAD)}\" react-scripts build",
-    "build:sourcemap": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=true REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git rev-parse --short HEAD)}\" react-scripts build",
+    "build": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git describe --abbrev=0)}\" react-scripts build",
+    "build:sourcemap": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=true REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git describe --abbrev=0)}\" react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write",
