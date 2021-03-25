@@ -21,10 +21,6 @@ export const externalLinks = {
       }`,
     },
     {
-      label: 'Data release 21.04',
-      url: 'https://github.com/opentargets/platform-app',
-    },
-    {
       label: 'Community forum',
       url: 'https://community.opentargets.org',
     },
