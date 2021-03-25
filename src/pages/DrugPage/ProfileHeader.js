@@ -1,5 +1,12 @@
 import React, { Fragment } from 'react';
 import { gql } from '@apollo/client';
+import { Box } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCheckCircle,
+  faExclamationCircle,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
 import {
   ChipList,
@@ -24,11 +31,12 @@ const DRUG_PROFILE_HEADER_FRAGMENT = gql`
       id
       name
     }
+    isApproved
     hasBeenWithdrawn
+    blackBoxWarning
     maximumClinicalTrialPhase
     tradeNames
     yearOfFirstApproval
-    isApproved
   }
 `;
 
@@ -48,6 +56,8 @@ function ProfileHeader({ chemblId }) {
     yearOfFirstApproval,
     maximumClinicalTrialPhase,
     isApproved,
+    hasBeenWithdrawn,
+    blackBoxWarning,
   } = data?.drug || {};
 
   return (
@@ -64,7 +74,21 @@ function ProfileHeader({ chemblId }) {
           {maximumClinicalTrialPhase}
         </Field>
         <Field loading={loading} title="Status">
-          {isApproved ? 'Approved' : null}
+          {isApproved ? (
+            <Box component="span" mr={2}>
+              <FontAwesomeIcon icon={faCheckCircle} /> Approved
+            </Box>
+          ) : null}
+          {hasBeenWithdrawn ? (
+            <Box component="span" mr={2}>
+              <FontAwesomeIcon icon={faTimesCircle} /> Withdrawn
+            </Box>
+          ) : null}
+          {blackBoxWarning ? (
+            <Box component="span" mr={2}>
+              <FontAwesomeIcon icon={faExclamationCircle} /> Black box warning
+            </Box>
+          ) : null}
         </Field>
         <Field loading={loading} title="Parent molecule">
           {parentMolecule ? (
