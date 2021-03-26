@@ -5,36 +5,34 @@ import {
   faArrowsAltH,
   faExpandArrowsAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { useTheme } from '@material-ui/core/styles';
 import Tooltip from '../../../../components/Tooltip';
 
-function MethodIcon(props) {
-  const theme = useTheme();
-  const title = !props.enabled
+function MethodIcon({ tooltip, enabled = true, children, notooltip }) {
+  const title = !enabled
     ? 'no data'
-    : Array.isArray(props.tooltip)
-    ? props.tooltip.map((m, i) => (
+    : Array.isArray(tooltip)
+    ? tooltip.map((m, i) => (
         <span key={i}>
           {m}
           <br />
         </span>
       ))
-    : props.tooltip;
+    : tooltip || 'no data';
   const icon = (
     <span
       className="fa-layers fa-fw"
       style={{
         marginRight: '20px',
-        color: props.enabled ? undefined : ' #e0e0e0', // theme.palette.text.disabled,
-        cursor: props.tooltip ? 'help' : 'default',
+        color: enabled ? undefined : ' #e0e0e0', // theme.palette.text.disabled,
+        cursor: tooltip ? 'help' : 'default',
       }}
     >
       <FontAwesomeIcon icon={faCircle} size="2x" />
-      {props.children}
+      {children}
     </span>
   );
 
-  return props.notooltip ? (
+  return notooltip ? (
     <>{icon}</>
   ) : (
     <Tooltip title={<>{title}</>}>{icon}</Tooltip>
