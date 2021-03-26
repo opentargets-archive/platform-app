@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import Link from '../../../components/Link';
@@ -66,7 +66,6 @@ const columns = [
     id: 'references',
     label: 'References',
     renderCell: ({ references }) => {
-      console.log('references', references);
       const sources = new Set(); // used to collect unique sources
       const refs = [];
 
