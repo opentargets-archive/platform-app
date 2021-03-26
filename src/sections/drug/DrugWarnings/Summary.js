@@ -6,9 +6,8 @@ import SummaryItem from '../../../components/Summary/SummaryItem';
 
 const DRUG_WARNINGS_SUMMARY_FRAGMENT = gql`
   fragment DrugWarningsSummaryFragment on Drug {
-    drugWarnings {
-      warningType
-    }
+    hasBeenWithdrawn
+    blackBoxWarning
   }
 `;
 
@@ -19,21 +18,14 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={({ drugWarnings }) => {
-        const withdrawn = drugWarnings.some(
-          ({ warningType }) => warningType === 'Withdrawn'
-        );
-        const blackBox = drugWarnings.some(
-          ({ warningType }) => warningType === 'Black Box Warning'
-        );
-
-        if (withdrawn && blackBox) {
+      renderSummary={({ hasBeenWithdrawn, blackBoxWarning }) => {
+        if (hasBeenWithdrawn && blackBoxWarning) {
           return 'Withdrawn • Black Box';
         }
 
-        if (withdrawn) return 'Withdrawn';
+        if (hasBeenWithdrawn) return 'Withdrawn';
 
-        if (blackBox) return 'Black Box';
+        if (blackBoxWarning) return 'Black Box';
       }}
     />
   );

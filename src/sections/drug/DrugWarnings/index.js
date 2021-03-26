@@ -2,7 +2,8 @@ export const definition = {
   id: 'drugWarnings',
   name: 'Drug Warnings',
   shortName: 'DW',
-  hasData: ({ drugWarnings }) => drugWarnings.length > 0,
+  hasData: ({ hasBeenWithdrawn, blackBoxWarning }) =>
+    hasBeenWithdrawn || blackBoxWarning,
 };
 
 export { default as Summary } from './Summary';
