@@ -42,7 +42,10 @@ const columns = {
       id: 'targetB',
       label: (
         <>
-          Interactor <MethodIconText enabled>B</MethodIconText>
+          Interactor{' '}
+          <MethodIconText notooltip enabled>
+            B
+          </MethodIconText>
           <br />
           <Typography variant="caption">Alt ID</Typography>
         </>
@@ -153,7 +156,9 @@ const columns = {
       renderCell: row => (
         <>
           <MethodIconText
-            tooltip={row.participantDetectionMethodA.map(m => m.shortName)}
+            tooltip={row.participantDetectionMethodA
+              .map(m => m.shortName)
+              .join()}
             enabled
           >
             A
