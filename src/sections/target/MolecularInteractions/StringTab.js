@@ -312,14 +312,17 @@ const color = d3
 
 function StringTab({ ensgId, symbol, query }) {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
   const columns = getColumns(classes);
 
   // load tab data when new tab selected (also on first load)
   useEffect(
     () => {
+      setLoading(true);
       getData(query, ensgId, id, index, size).then(res => {
         if (res.data.target.interactions) {
+          setLoading(false);
           setData(res.data.target.interactions.rows);
         }
       });
@@ -340,6 +343,7 @@ function StringTab({ ensgId, symbol, query }) {
           fixed
           classes={{ root: classes.root, table: classes.table }}
           rowsPerPageOptions={[10, 25, 50, 100]}
+          loading={loading}
         />
         <Legend />
       </Grid>

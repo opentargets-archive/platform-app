@@ -272,12 +272,15 @@ function IntactTab({ ensgId, symbol, query }) {
   const [data, setData] = useState([]);
   const [evidence, setEvidence] = useState([]);
   const [selectedIntB, setSelectedIntB] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // load tab data when new tab selected (also on first load)
   useEffect(
     () => {
+      setLoading(true);
       getData(query, ensgId, id, index, size).then(res => {
         if (res.data.target.interactions) {
+          setLoading(false);
           setData(res.data.target.interactions.rows);
           setEvidence(res.data.target.interactions.rows[0].evidences);
           setSelectedIntB(res.data.target.interactions.rows[0].intB);
@@ -319,6 +322,7 @@ function IntactTab({ ensgId, symbol, query }) {
             setSelectedIntB(data[page * pageSize].intB);
           }}
           rowsPerPageOptions={defaultRowsPerPageOptions}
+          loading={loading}
         />
       </Grid>
 
@@ -346,6 +350,7 @@ function IntactTab({ ensgId, symbol, query }) {
           fixed
           noWrapHeader={false}
           rowsPerPageOptions={defaultRowsPerPageOptions}
+          loading={loading}
         />
       </Grid>
     </Grid>
