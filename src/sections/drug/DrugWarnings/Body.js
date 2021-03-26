@@ -67,7 +67,24 @@ const columns = [
     label: 'References',
     renderCell: ({ references }) => {
       console.log('references', references);
-      return 'references';
+      const sources = new Set(); // used to collect unique sources
+      const refs = [];
+
+      references.forEach(ref => {
+        sources.add(ref.source); // add source to set
+        refs.push({
+          // create new entry object
+          name: ref.id,
+          url: ref.url,
+          group: ref.source,
+        });
+      });
+
+      const message = Array.from(sources).join(', ');
+
+      return (
+        <TableDrawer entries={refs} showSingle={false} message={message} />
+      );
     },
   },
 ];
