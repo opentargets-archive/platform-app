@@ -248,7 +248,10 @@ function ReactomeTab({ ensgId, symbol, query }) {
           setLoading(false);
           setData(res.data.target.interactions.rows);
           setEvidence(res.data.target.interactions.rows[0].evidences);
-          setSelectedIntB(res.data.target.interactions.rows[0].intB);
+          setSelectedIntB(
+            res.data.target.interactions.rows[0].targetB?.approvedSymbol ||
+              res.data.target.interactions.rows[0].intB
+          );
         }
       });
     },
@@ -259,12 +262,12 @@ function ReactomeTab({ ensgId, symbol, query }) {
       <Grid item xs={12} md={5}>
         {/* table 1: interactions */}
         <Typography variant="h6" gutterBottom>
+          Interactors of
+          <br />
           {symbol}{' '}
           <MethodIconText notooltip enabled>
             A
           </MethodIconText>{' '}
-          <br />
-          interactors
         </Typography>
         <DataTable
           showGlobalFilter
@@ -276,14 +279,17 @@ function ReactomeTab({ ensgId, symbol, query }) {
           selected
           onRowClick={(r, i) => {
             setEvidence(r.evidences);
-            setSelectedIntB(r.intB);
+            setSelectedIntB(r.targetB?.approvedSymbol || r.intB);
           }}
           rowIsSelectable
           fixed
           noWrapHeader={false}
           onPagination={(page, pageSize) => {
             setEvidence(data[page * pageSize].evidences);
-            setSelectedIntB(data[page * pageSize].intB);
+            setSelectedIntB(
+              data[page * pageSize].targetB?.approvedSymbol ||
+                data[page * pageSize].intB
+            );
           }}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           loading={loading}
@@ -293,6 +299,8 @@ function ReactomeTab({ ensgId, symbol, query }) {
       {/* table 2: evidence */}
       <Grid item xs={12} md={7}>
         <Typography variant="h6" gutterBottom>
+          Interaction evidence of
+          <br />
           {symbol}{' '}
           <MethodIconText notooltip enabled>
             A
@@ -301,8 +309,6 @@ function ReactomeTab({ ensgId, symbol, query }) {
           <MethodIconText notooltip enabled>
             B
           </MethodIconText>
-          <br />
-          Interaction evidence
         </Typography>
         <DataTable
           showGlobalFilter
