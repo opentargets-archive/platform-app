@@ -169,7 +169,7 @@ const sources = [
 
 function Body({ definition, label: symbol, id }) {
   const request = usePlatformApi();
-  const [source, setSource] = useState(sources[0].id);
+  const [source, setSource] = useState(sources[0].id); //must initialize to valid value for tabs to work
   const [counts, setCounts] = useState({});
   const [versions, setVersions] = useState({});
 
@@ -197,6 +197,13 @@ function Body({ definition, label: symbol, id }) {
             return a;
           }, {})
         );
+        // find first source (tab) with data and set that as the initially selected tab
+        const initialTab = sources.find(
+          s => res.data.target[s.id] && res.data.target[s.id].count > 0
+        );
+        if (initialTab) {
+          setSource(initialTab.id);
+        }
       });
     },
     [id]
@@ -246,7 +253,7 @@ function Body({ definition, label: symbol, id }) {
 
             <div style={{ marginTop: '50px' }}>
               {/* intact stuff */}
-              {source === 'intact' && (
+              {source === 'intact' && counts[source] > 0 && (
                 <IntactTab
                   ensgId={id}
                   symbol={symbol}
@@ -255,7 +262,7 @@ function Body({ definition, label: symbol, id }) {
               )}
 
               {/* signor stuff */}
-              {source === 'signor' && (
+              {source === 'signor' && counts[source] > 0 && (
                 <SignorTab
                   ensgId={id}
                   symbol={symbol}
@@ -264,7 +271,7 @@ function Body({ definition, label: symbol, id }) {
               )}
 
               {/* reactome stuff */}
-              {source === 'reactome' && (
+              {source === 'reactome' && counts[source] > 0 && (
                 <ReactomeTab
                   ensgId={id}
                   symbol={symbol}
@@ -273,7 +280,7 @@ function Body({ definition, label: symbol, id }) {
               )}
 
               {/* string stuff */}
-              {source === 'string' && (
+              {source === 'string' && counts[source] > 0 && (
                 <StringTab
                   ensgId={id}
                   symbol={symbol}
