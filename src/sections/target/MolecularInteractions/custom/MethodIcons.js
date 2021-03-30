@@ -31,7 +31,8 @@ function MethodIcon({
         marginRight: '20px',
         color: enabled ? undefined : ' #e0e0e0', // theme.palette.text.disabled,
         cursor: tooltip ? 'help' : 'default',
-        fontSize: small ? '0.75em' : '',
+        fontSize: small ? '0.7em' : '',
+        marginBottom: small ? '0.1em' : '',
       }}
     >
       <FontAwesomeIcon icon={faCircle} size="2x" />
