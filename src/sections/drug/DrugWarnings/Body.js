@@ -6,7 +6,7 @@ import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { identifiersOrgLink } from '../../../utils/global';
 import Description from './Description';
-import { naLabel } from '../../../constants';
+import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
 
 const DRUG_WARNINGS_QUERY = gql`
   query DrugWarningsQuery($chemblId: String!) {
@@ -61,7 +61,7 @@ const columns = [
     label: 'Country / region',
     renderCell: ({ country }) => country ?? naLabel,
   },
-  { id: 'year', label: 'Year' },
+  { id: 'year', label: 'Year', renderCell: ({ year }) => year ?? naLabel },
   {
     id: 'references',
     label: 'References',
@@ -105,6 +105,7 @@ function Body({ definition, id: chemblId, label: name }) {
             dataDownloader
             columns={columns}
             rows={drug.drugWarnings}
+            rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         );
       }}
