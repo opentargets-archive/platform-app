@@ -303,7 +303,7 @@ function SignorTab({ ensgId, symbol, query }) {
           Interactors of
           <br />
           {symbol}{' '}
-          <MethodIconText notooltip enabled>
+          <MethodIconText notooltip enabled small>
             A
           </MethodIconText>{' '}
         </Typography>
@@ -340,11 +340,11 @@ function SignorTab({ ensgId, symbol, query }) {
           Interaction evidence of
           <br />
           {symbol}{' '}
-          <MethodIconText notooltip enabled>
+          <MethodIconText notooltip enabled small>
             A
           </MethodIconText>
           {` + ${selectedIntB} `}
-          <MethodIconText notooltip enabled>
+          <MethodIconText notooltip enabled small>
             B
           </MethodIconText>
         </Typography>

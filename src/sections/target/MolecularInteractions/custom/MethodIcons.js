@@ -7,7 +7,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../../../../components/Tooltip';
 
-function MethodIcon({ tooltip, enabled = true, children, notooltip }) {
+function MethodIcon({
+  tooltip,
+  enabled = true,
+  children,
+  notooltip,
+  small = false,
+}) {
   const title = !enabled
     ? 'no data'
     : Array.isArray(tooltip)
@@ -25,6 +31,7 @@ function MethodIcon({ tooltip, enabled = true, children, notooltip }) {
         marginRight: '20px',
         color: enabled ? undefined : ' #e0e0e0', // theme.palette.text.disabled,
         cursor: tooltip ? 'help' : 'default',
+        fontSize: small ? '0.75em' : '',
       }}
     >
       <FontAwesomeIcon icon={faCircle} size="2x" />
