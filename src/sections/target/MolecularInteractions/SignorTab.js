@@ -34,48 +34,6 @@ const onLinkClick = function(e) {
 const columns = {
   // interactions table columns
   interactions: [
-    // {
-    //   id: 'targetA',
-    //   label: (
-    //     <>
-    //       Interactor A
-    //       <br />
-    //       <Typography variant="caption">Alt ID</Typography>
-    //     </>
-    //   ),
-    //   renderCell: row => (
-    //     <>
-    //       {row.targetA ? (
-    //         <Link to={`/target/${row.targetA.id}`} onClick={onLinkClick}>
-    //           {row.targetA.approvedSymbol}
-    //         </Link>
-    //       ) : (
-    //         <Link
-    //           to={`http://uniprot.org/uniprot/${row.intA}`}
-    //           onClick={onLinkClick}
-    //           external
-    //         >
-    //           {row.intA}
-    //         </Link>
-    //       )}
-    //       {row.speciesA && row.speciesA?.mnemonic.toLowerCase() !== 'human' ? (
-    //         <Tooltip title={row.speciesA?.mnemonic} showHelpIcon />
-    //       ) : null}
-    //       <br />
-    //       <Typography variant="caption">
-    //         Alt ID:{' '}
-    //         <Link
-    //           to={`http://uniprot.org/uniprot/${row.intA}`}
-    //           onClick={onLinkClick}
-    //           external
-    //         >
-    //           {row.intA}
-    //         </Link>
-    //       </Typography>
-    //     </>
-    //   ),
-    //   width: '27%',
-    // },
     {
       id: 'targetB',
       label: (
