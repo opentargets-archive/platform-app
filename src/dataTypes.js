@@ -1,6 +1,5 @@
 const dataTypes = [
-  { id: 'genetic_association', label: 'Genetic associations (variants)' },
-  { id: 'genetic_literature', label: 'Genetic associations (genes)' },
+  { id: 'genetic_association', label: 'Genetic associations' },
   { id: 'somatic_mutation', label: 'Somatic mutations' },
   { id: 'known_drug', label: 'Drugs' },
   { id: 'affected_pathway', label: 'Pathways & systems biology' },
