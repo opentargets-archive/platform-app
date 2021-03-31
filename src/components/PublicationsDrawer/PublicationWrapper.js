@@ -139,7 +139,10 @@ function PublicationWrapper({
       {showAbstract && (
         <Box className={classes.detailPanel}>
           <Typography variant="subtitle2">Abstract</Typography>
-          <span className={classes.abstractSpan}>{abstract}</span>
+          <span
+            className={classes.abstractSpan}
+            dangerouslySetInnerHTML={{ __html: abstract }}
+          />
         </Box>
       )}
     </Box>
