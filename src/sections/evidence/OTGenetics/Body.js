@@ -41,6 +41,7 @@ const columns = [
     id: 'literature',
     label: 'Publication',
     renderCell: ({ literature, publicationYear, publicationFirstAuthor }) => {
+      if (!literature) return naLabel;
       return (
         <PublicationsDrawer
           entries={[{ name: literature[0] }]}
