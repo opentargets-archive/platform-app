@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {
-  AddCircleOutlineRounded,
-  RemoveCircleOutlineRounded,
-  LockOpen,
-  LockRounded,
-} from '@material-ui/icons';
+  faPlusCircle,
+  faMinusCircle,
+  faFileAlt,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 
 import Link from '../Link';
@@ -29,17 +29,23 @@ const useStyles = makeStyles(theme => ({
   matchTable: {
     width: '100%',
   },
+  fileLabel: {
+    color: '#5a5f5f',
+    fontSize: '0.875rem',
+    fontFamily: '"Inter", "sans-serif"',
+    fontWeight: '500',
+  },
 }));
 
 function PublicationWrapper({
-  pmId,
+  europePmcId,
   title,
   titleHtml,
   authors,
   journal,
   variant = 'regular',
   abstract,
-  openAccess,
+  fullTextOpen,
 }) {
   const [showAbstract, setShowAbstract] = useState(false);
 
@@ -54,7 +60,7 @@ function PublicationWrapper({
       {/* paper title */}
       <Box style={{ whiteSpace: 'normal' }}>
         <Typography variant={variant === 'small' ? 'subtitle2' : 'subtitle1'}>
-          <Link external to={pmUrl + pmTitleUrl + pmId}>
+          <Link external to={pmUrl + pmTitleUrl + europePmcId}>
             {titleHtml ? (
               <span
                 dangerouslySetInnerHTML={{ __html: titleHtml }}
@@ -67,19 +73,20 @@ function PublicationWrapper({
         </Typography>
       </Box>
 
-      {/* paper data */}
-      {/* authors */}
       <Box style={{ whiteSpace: 'normal' }}>
         <LongText
           lineLimit={1}
           variant={variant === 'small' ? 'caption' : 'body2'}
         >
           {authors
-            .map((author, i) => {
-              return (
-                author.lastName + (author.initials ? ' ' + author.initials : '')
-              );
-            })
+            .reduce((acc, author) => {
+              if (author.lastName)
+                acc.push(
+                  author.lastName +
+                    (author.initials ? ' ' + author.initials : '')
+                );
+              return acc;
+            }, [])
             .join(', ')}
         </LongText>
       </Box>
@@ -95,35 +102,40 @@ function PublicationWrapper({
             </b>
           </span>{' '}
           <span>{journal.volume || ''}</span>
-          <span>({journal.issue || ''})</span>
-          <span>:{journal.page || ''}</span>
+          <span>{journal.issue && `(${journal.issue})`}</span>
+          <span>{journal.page && `:${journal.page}`}</span>
         </Typography>
       </Box>
 
-      <Button
-        className={classes.detailsButton}
-        variant="outlined"
-        size="small"
-        disabled={!abstract}
-        startIcon={
-          showAbstract ? (
-            <RemoveCircleOutlineRounded />
-          ) : (
-            <AddCircleOutlineRounded />
-          )
-        }
-        onClick={handleShowAbstractClick}
-      >
-        {showAbstract ? 'Hide abstract' : 'Show abstract'}
-      </Button>
+      <Box style={{ display: 'flex', alignItems: 'center' }}>
+        <Button
+          className={classes.detailsButton}
+          variant="outlined"
+          size="small"
+          disabled={!abstract}
+          onClick={handleShowAbstractClick}
+          startIcon={
+            showAbstract ? (
+              <FontAwesomeIcon icon={faMinusCircle} size="sm" />
+            ) : (
+              <FontAwesomeIcon icon={faPlusCircle} size="sm" />
+            )
+          }
+        >
+          {showAbstract ? 'Hide abstract' : 'Show abstract'}
+        </Button>
+        {fullTextOpen && (
+          <label className={classes.fileLabel}>
+            <FontAwesomeIcon
+              icon={faFileAlt}
+              style={{ marginRight: '8px' }}
+              size="lg"
+            />
+            Full text available
+          </label>
+        )}
+      </Box>
 
-      <Button
-        className={classes.detailsButton}
-        size="small"
-        startIcon={openAccess ? <LockOpen /> : <LockRounded />}
-      >
-        {openAccess ? 'Open access' : 'Locked access'}
-      </Button>
       {showAbstract && (
         <Box className={classes.detailPanel}>
           <Typography variant="subtitle2">Abstract</Typography>

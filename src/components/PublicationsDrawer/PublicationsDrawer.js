@@ -117,15 +117,17 @@ const ListComponet = ({ entriesIds }) => {
         <CircularProgress size={60} />
         <Box mt={6}>
           <Typography className={listComponetStyles.AccordionSubtitle}>
-            Loading EuropePMC search
+            Loading Europe PMC search results
           </Typography>
         </Box>
       </Box>
     );
 
   const parsedPublications = publications.map(pub => {
+    console.log(pub);
     const row = {};
     row.europePmcId = pub.id;
+    row.fullTextOpen = pub.inEPMC === 'Y' || pub.inPMC === 'Y' ? true : false;
     row.title = pub.title;
     row.year = pub.pubYear;
     row.abstract = pub.abstractText;
@@ -141,13 +143,18 @@ const ListComponet = ({ entriesIds }) => {
   const columns = [
     {
       id: 'publications',
-      label: null,
+      label: ' ',
       renderCell: publication => {
         return <PublicationWrapper {...publication} />;
       },
       filterValue: row =>
-        `${row.journal.journal.title} ${row.title} ${row.year}
-        ${row.authors.map(author => author.fullName).join(' ')}`,
+        `${row.journal.journal?.title} ${row?.title} ${row?.year}
+        ${row.authors
+          .reduce((acc, author) => {
+            if (author.fullName) acc.push(author.fullName);
+            return acc;
+          }, [])
+          .join(' ')}`,
     },
   ];
 
