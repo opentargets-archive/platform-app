@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
 import { DataTable } from '../../../components/Table';
+import PublicationsDrawer from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { epmcUrl, otgStudyUrl } from '../../../utils/urls';
@@ -39,14 +40,14 @@ const columns = [
   {
     id: 'literature',
     label: 'Publication',
-    renderCell: ({ literature, publicationYear, publicationFirstAuthor }) =>
-      literature ? (
-        <Link external to={epmcUrl(literature[0])}>
-          {publicationFirstAuthor} et al, {publicationYear}
-        </Link>
-      ) : (
-        naLabel
-      ),
+    renderCell: ({ literature, publicationYear, publicationFirstAuthor }) => {
+      return (
+        <PublicationsDrawer
+          entries={[{ name: literature[0] }]}
+          customLabel={`${publicationFirstAuthor} et al, ${publicationYear}`}
+        />
+      );
+    },
     filterValue: ({ literature, publicationYear, publicationFirstAuthor }) =>
       `${literature} ${publicationYear} ${publicationFirstAuthor}`,
   },

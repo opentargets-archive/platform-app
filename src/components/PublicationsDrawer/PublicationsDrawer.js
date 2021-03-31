@@ -124,7 +124,6 @@ const ListComponet = ({ entriesIds }) => {
     );
 
   const parsedPublications = publications.map(pub => {
-    console.log(pub);
     const row = {};
     row.europePmcId = pub.id;
     row.fullTextOpen = pub.inEPMC === 'Y' || pub.inPMC === 'Y' ? true : false;
@@ -171,7 +170,12 @@ const ListComponet = ({ entriesIds }) => {
   );
 };
 
-function PublicationsDrawer({ entries, message, caption = 'Publications' }) {
+function PublicationsDrawer({
+  entries,
+  message,
+  customLabel,
+  caption = 'Publications',
+}) {
   const [open, setOpen] = useState(false);
   const classes = sourceDrawerStyles();
 
@@ -198,8 +202,8 @@ function PublicationsDrawer({ entries, message, caption = 'Publications' }) {
   return (
     <>
       <MUILink onClick={toggleDrawer} className={classes.drawerLink}>
-        {message
-          ? message
+        {customLabel
+          ? customLabel
           : entries.length === 1
           ? entries[0].name
           : `${entries.length} entries`}
