@@ -4,7 +4,8 @@ import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
-import { DataTable, TableDrawer } from '../../../components/Table';
+import { DataTable } from '../../../components/Table';
+import PublicationsDrawer from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';
@@ -150,7 +151,7 @@ const columns = [
         }
       });
 
-      return <TableDrawer entries={literatureList} />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];

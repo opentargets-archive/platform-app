@@ -9,12 +9,8 @@ import {
   naLabel,
   defaultRowsPerPageOptions,
 } from '../../../constants';
-import {
-  DataTable,
-  getPage,
-  Table,
-  TableDrawer,
-} from '../../../components/Table';
+import { DataTable, getPage, Table } from '../../../components/Table';
+import PublicationsDrawer from '../../../components/PublicationsDrawer';
 import Description from './Description';
 import Link from '../../../components/Link';
 import { epmcUrl } from '../../../utils/urls';
@@ -178,7 +174,7 @@ const columns = [
           return acc;
         }, []) || [];
 
-      return <TableDrawer entries={literatureList} caption="Literature" />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];

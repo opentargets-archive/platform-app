@@ -4,7 +4,9 @@ import { Box, List, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { loader } from 'graphql.macro';
 
 import ChipList from '../../../components/ChipList';
-import { DataTable, TableDrawer } from '../../../components/Table';
+import { DataTable } from '../../../components/Table';
+import PublicationsDrawer from '../../../components/PublicationsDrawer';
+
 import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
@@ -113,7 +115,7 @@ const columns = [
           ];
         }, []) || [];
 
-      return <TableDrawer entries={literatureList} />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];

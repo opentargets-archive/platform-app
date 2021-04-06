@@ -4,7 +4,8 @@ import { Link, Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Tooltip from '../../../components/Tooltip';
 import SectionItem from '../../../components/Section/SectionItem';
-import { DataTable, TableDrawer } from '../../../components/Table';
+import PublicationsDrawer from '../../../components/PublicationsDrawer';
+import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
@@ -89,7 +90,7 @@ const columns = [
           return acc;
         }, []) || [];
 
-      return <TableDrawer entries={literatureList} />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];
