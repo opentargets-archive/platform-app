@@ -164,7 +164,6 @@ const ListComponet = ({ entriesIds }) => {
         rows={parsedPublications}
         showGlobalFilter
         rowsPerPageOptions={[5, 10, 25, 100]}
-        pageSize={5}
       />
     </Box>
   );
