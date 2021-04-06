@@ -39,70 +39,6 @@ const INTERACTIONS_STATS_QUERY = gql`
   }
 `;
 
-const INTERACTIONS_TAB_QUERY = gql`
-  query InteractionsSectionQuery(
-    $ensgId: String!
-    $sourceDatabase: String
-    $index: Int = 0
-    $size: Int = 10
-  ) {
-    target(ensemblId: $ensgId) {
-      id
-      approvedName
-      approvedSymbol
-
-      interactions(
-        sourceDatabase: $sourceDatabase
-        page: { index: $index, size: $size }
-      ) {
-        count
-        rows {
-          intA
-          intABiologicalRole
-          targetA {
-            id
-            approvedSymbol
-          }
-          speciesA {
-            mnemonic
-          }
-          intB
-          intBBiologicalRole
-          targetB {
-            id
-            approvedSymbol
-          }
-          speciesB {
-            mnemonic
-          }
-          scoring
-          count
-          sourceDatabase
-          evidences {
-            evidenceScore
-            hostOrganismScientificName
-            interactionDetectionMethodMiIdentifier
-            interactionDetectionMethodShortName
-            interactionIdentifier
-            interactionTypeShortName
-            participantDetectionMethodA {
-              miIdentifier
-              shortName
-            }
-            participantDetectionMethodB {
-              miIdentifier
-              shortName
-            }
-            interactionDetectionMethodShortName
-            expansionMethodShortName
-            pubmedId
-          }
-        }
-      }
-    }
-  }
-`;
-
 const getSummaryCounts = ensgId => {
   return client.query({
     query: INTERACTIONS_STATS_QUERY,
@@ -222,11 +158,7 @@ function Body({ definition, label: symbol, id }) {
             <div style={{ marginTop: '50px' }}>
               {/* intact stuff */}
               {source === 'intact' && counts[source] > 0 && (
-                <IntactTab
-                  ensgId={id}
-                  symbol={symbol}
-                  query={INTERACTIONS_TAB_QUERY}
-                />
+                <IntactTab ensgId={id} symbol={symbol} />
               )}
 
               {/* signor stuff */}
