@@ -17,18 +17,10 @@ import {
 
   Typography,
 } from '@material-ui/core';
-import { Info } from '@material-ui/icons';
-import { faBox, faFile } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import Link from '../../components/Link';
 
 import BasePage from '../../components/BasePage';
 import { DataTable } from '../../components/Table';
 import DownloadsDrawer from './DownloadsDrawer';
-import releases from './releases';
-import { useState } from 'react';
-import { mapFile, mapIcon } from './utils';
 import downloadData from './downloadData.json';
 
 const columns = [
@@ -39,7 +31,7 @@ const columns = [
     label: 'Format(s)',
     renderCell: () => {
       return (
-        <DownloadsDrawer schema={downloadData}>JSON Parquet</DownloadsDrawer>
+        <DownloadsDrawer data={downloadData[0]}>JSON Parquet</DownloadsDrawer>
       );
     },
   },

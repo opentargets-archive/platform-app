@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   },
 });
 
-function DownloadsDrawer({ children }) {
+function DownloadsDrawer({ children, data }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -21,6 +21,8 @@ function DownloadsDrawer({ children }) {
     setOpen(false);
   }
 
+  const schema = JSON.parse(data.serialisedSchema);
+
   return (
     <>
       <span onClick={toggleOpen}>{children}</span>
@@ -31,6 +33,7 @@ function DownloadsDrawer({ children }) {
         anchor="right"
       >
         downloads drawer
+        <pre>{JSON.stringify(schema, undefined, 2)}</pre>
       </Drawer>
     </>
   );
