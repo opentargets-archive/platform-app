@@ -1,0 +1,62 @@
+[{
+  "id": "AOTFClickhouse",
+  "resource": {
+    "format": "json",
+    "path": "/AOTFClickhouse"
+  },
+  "serialisedSchema": "{\"type\":\"struct\",\"fields\":[{\"name\":\"row_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"disease_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"disease_data\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"target_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"target_data\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"datasource_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"datatype_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"row_score\",\"type\":\"double\",\"nullable\":true,\"metadata\":{}}]}",
+  "columns": [
+    "row_id",
+    "disease_id",
+    "disease_data",
+    "target_id",
+    "target_data",
+    "datasource_id",
+    "datatype_id",
+    "row_score"
+  ],
+  "timeStamp": "2021-03-23T11:54:28.490Z"
+},
+{
+  "id": "AOTFElasticsearch",
+  "resource": {
+    "format": "json",
+    "path": "/AOTFElasticsearch"
+  },
+  "serialisedSchema": "{\"type\":\"struct\",\"fields\":[{\"name\":\"target_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"disease_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"row_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"disease_data\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"target_data\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"datasource_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"datatype_id\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"row_score\",\"type\":\"double\",\"nullable\":true,\"metadata\":{}},{\"name\":\"facet_therapeuticAreas\",\"type\":{\"type\":\"array\",\"elementType\":\"string\",\"containsNull\":false},\"nullable\":true,\"metadata\":{}},{\"name\":\"facet_classes\",\"type\":{\"type\":\"array\",\"elementType\":{\"type\":\"struct\",\"fields\":[{\"name\":\"l1\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"l2\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]},\"containsNull\":false},\"nullable\":true,\"metadata\":{}},{\"name\":\"facet_tractability_antibody\",\"type\":{\"type\":\"array\",\"elementType\":\"string\",\"containsNull\":true},\"nullable\":true,\"metadata\":{}},{\"name\":\"facet_tractability_smallmolecule\",\"type\":{\"type\":\"array\",\"elementType\":\"string\",\"containsNull\":true},\"nullable\":true,\"metadata\":{}},{\"name\":\"facet_reactome\",\"type\":{\"type\":\"array\",\"elementType\":{\"type\":\"struct\",\"fields\":[{\"name\":\"l1\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"l2\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]},\"containsNull\":true},\"nullable\":true,\"metadata\":{}}]}",
+  "columns": [
+    "target_id",
+    "disease_id",
+    "row_id",
+    "disease_data",
+    "target_data",
+    "datasource_id",
+    "datatype_id",
+    "row_score",
+    "facet_therapeuticAreas",
+    "facet_classes",
+    "facet_tractability_antibody",
+    "facet_tractability_smallmolecule",
+    "facet_reactome"
+  ],
+  "timeStamp": "2021-03-23T11:53:41.685Z"
+},
+{
+  "id": "associationByDatasourceDirect",
+  "resource": {
+    "format": "json",
+    "path": "/associationByDatasourceDirect"
+  },
+  "serialisedSchema": "{\"type\":\"struct\",\"fields\":[{\"name\":\"targetId\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"diseaseId\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"datasourceId\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"datasourceHarmonicScore\",\"type\":\"double\",\"nullable\":true,\"metadata\":{}},{\"name\":\"datasourceEvidenceCount\",\"type\":\"long\",\"nullable\":false,\"metadata\":{}},{\"name\":\"diseaseLabel\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"targetName\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}},{\"name\":\"targetSymbol\",\"type\":\"string\",\"nullable\":true,\"metadata\":{}}]}",
+  "columns": [
+    "targetId",
+    "diseaseId",
+    "datasourceId",
+    "datasourceHarmonicScore",
+    "datasourceEvidenceCount",
+    "diseaseLabel",
+    "targetName",
+    "targetSymbol"
+  ],
+  "timeStamp": "2021-03-23T11:52:49.506Z"
+}]
