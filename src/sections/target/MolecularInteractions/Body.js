@@ -1,6 +1,5 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import client from '../../../client';
-import _ from 'lodash';
 import { gql } from '@apollo/client';
 import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
@@ -97,37 +96,6 @@ const INTERACTIONS_TAB_QUERY = gql`
             interactionDetectionMethodShortName
             expansionMethodShortName
             pubmedId
-          }
-        }
-      }
-    }
-  }
-`;
-
-const INTERACTIONS_STRING_TAB_QUERY = gql`
-  query InteractionsSectionQuery(
-    $ensgId: String!
-    $sourceDatabase: String
-    $index: Int = 0
-    $size: Int = 10
-  ) {
-    target(ensemblId: $ensgId) {
-      id
-      interactions(
-        sourceDatabase: $sourceDatabase
-        page: { index: $index, size: $size }
-      ) {
-        rows {
-          intA
-          intB
-          targetB {
-            approvedSymbol
-            id
-          }
-          scoring
-          evidences {
-            evidenceScore
-            interactionDetectionMethodShortName
           }
         }
       }
@@ -263,29 +231,17 @@ function Body({ definition, label: symbol, id }) {
 
               {/* signor stuff */}
               {source === 'signor' && counts[source] > 0 && (
-                <SignorTab
-                  ensgId={id}
-                  symbol={symbol}
-                  query={INTERACTIONS_TAB_QUERY}
-                />
+                <SignorTab ensgId={id} symbol={symbol} />
               )}
 
               {/* reactome stuff */}
               {source === 'reactome' && counts[source] > 0 && (
-                <ReactomeTab
-                  ensgId={id}
-                  symbol={symbol}
-                  query={INTERACTIONS_TAB_QUERY}
-                />
+                <ReactomeTab ensgId={id} symbol={symbol} />
               )}
 
               {/* string stuff */}
               {source === 'string' && counts[source] > 0 && (
-                <StringTab
-                  ensgId={id}
-                  symbol={symbol}
-                  query={INTERACTIONS_STRING_TAB_QUERY}
-                />
+                <StringTab ensgId={id} symbol={symbol} />
               )}
             </div>
           </>
