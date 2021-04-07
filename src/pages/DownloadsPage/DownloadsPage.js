@@ -29,10 +29,8 @@ const columns = [
   {
     id: 'formats',
     label: 'Format(s)',
-    renderCell: () => {
-      return (
-        <DownloadsDrawer data={downloadData[0]}>JSON Parquet</DownloadsDrawer>
-      );
+    renderCell: ({ formats }) => {
+      return <DownloadsDrawer data={formats}>JSON Parquet</DownloadsDrawer>;
     },
   },
 ];
@@ -41,12 +39,22 @@ const rows = [
   {
     dataset: 'Target',
     description: 'Lorem ipsum dolor sit amet',
-    formats: 'JSON Parquet',
+    formats: downloadData[0],
   },
   {
     dataset: 'Disease',
     description: 'Lorem ipsum dolor sit amet',
-    formats: 'JSON Parquet',
+    formats: downloadData[1],
+  },
+  {
+    dataset: 'Drug - molecule',
+    description: 'Lorem ipsum dolor sit amet',
+    formats: downloadData[0],
+  },
+  {
+    dataset: 'Associations - direct',
+    description: 'Lorem ipsum dolor sit amet',
+    formats: downloadData[1],
   },
 ];
 
@@ -56,16 +64,18 @@ function DownloadsPage() {
       <Typography variant="h4" component="h1" paragraph>
         Data downloads
       </Typography>
-      <Typography>
+      <Typography paragraph>
         The Open Targets Platform is committed to open data and open access
         research and all of our data is publicly available for download and can
         be used for academic or commercial purposes. Please note that some
         datasets integrated into the Platform require a licence for commercial
         use - see our License documentation for more information.
       </Typography>
-      <Typography>Current data version: 21.04 (April 2014)</Typography>
-      <Typography>Access archived datasets via FTP</Typography>
-      <DataTable columns={columns} rows={rows} />
+      <Typography paragraph>
+        Current data version: 21.04 (April 2014)
+      </Typography>
+      <Typography paragraph>Access archived datasets via FTP</Typography>
+      <DataTable showGlobalFilter columns={columns} rows={rows} />
     </BasePage>
   );
 }
