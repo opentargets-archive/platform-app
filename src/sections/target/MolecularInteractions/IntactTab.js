@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { loader } from 'graphql.macro';
 import client from '../../../client';
 
 import DataTable from '../../../components/Table/DataTable';
-import Table from '../../../components/Table/Table';
 import { MethodIconText, MethodIconArrow } from './custom/MethodIcons';
 import Tooltip from '../../../components/Tooltip';
 
@@ -14,6 +13,8 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import Link from '../../../components/Link';
 import EllsWrapper from '../../../components/EllsWrapper';
 import { defaultRowsPerPageOptions } from '../../../constants';
+
+const INTERACTIONS_QUERY = loader('./InteractionsQuery.gql');
 
 const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
@@ -32,8 +33,6 @@ const onLinkClick = function(e) {
   // to avoid selection of a different row
   e.stopPropagation();
 };
-
-const UNSPECIFIED_ROLE = 'unspecified role';
 
 const columns = {
   interactions: [
@@ -273,7 +272,7 @@ const id = 'intact';
 const index = 0;
 const size = 5000;
 
-function IntactTab({ ensgId, symbol, query }) {
+function IntactTab({ ensgId, symbol }) {
   const [data, setData] = useState([]);
   const [evidence, setEvidence] = useState([]);
   const [selectedIntB, setSelectedIntB] = useState('');
@@ -283,7 +282,7 @@ function IntactTab({ ensgId, symbol, query }) {
   useEffect(
     () => {
       setLoading(true);
-      getData(query, ensgId, id, index, size).then(res => {
+      getData(INTERACTIONS_QUERY, ensgId, id, index, size).then(res => {
         if (res.data.target.interactions) {
           setLoading(false);
           setData(res.data.target.interactions.rows);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
+import { loader } from 'graphql.macro';
 import client from '../../../client';
 
 import DataTable from '../../../components/Table/DataTable';
@@ -12,6 +13,8 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import Link from '../../../components/Link';
 import EllsWrapper from '../../../components/EllsWrapper';
 import { defaultRowsPerPageOptions } from '../../../constants';
+
+const INTERACTIONS_QUERY = loader('./InteractionsQuery.gql');
 
 const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
@@ -228,7 +231,7 @@ const id = 'signor';
 const index = 0;
 const size = 5000;
 
-function SignorTab({ ensgId, symbol, query }) {
+function SignorTab({ ensgId, symbol }) {
   const [data, setData] = useState([]);
   const [evidence, setEvidence] = useState([]);
   const [selectedIntB, setSelectedIntB] = useState('');
@@ -238,7 +241,7 @@ function SignorTab({ ensgId, symbol, query }) {
   useEffect(
     () => {
       setLoading(true);
-      getData(query, ensgId, id, index, size).then(res => {
+      getData(INTERACTIONS_QUERY, ensgId, id, index, size).then(res => {
         if (res.data.target.interactions) {
           setLoading(false);
           setData(res.data.target.interactions.rows);

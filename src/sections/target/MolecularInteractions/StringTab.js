@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { loader } from 'graphql.macro';
 import client from '../../../client';
 import { withTheme, makeStyles } from '@material-ui/core';
 
@@ -10,6 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import Link from '../../../components/Link';
 
 import * as d3 from 'd3';
+
+const INTERACTIONS_QUERY = loader('./InteractionsStringQuery.gql');
 
 const getData = (query, ensgId, sourceDatabase, index, size) => {
   return client.query({
@@ -310,7 +313,7 @@ const color = d3
   .domain([0, 1])
   .range(colorRange);
 
-function StringTab({ ensgId, symbol, query }) {
+function StringTab({ ensgId, symbol }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
@@ -320,7 +323,7 @@ function StringTab({ ensgId, symbol, query }) {
   useEffect(
     () => {
       setLoading(true);
-      getData(query, ensgId, id, index, size).then(res => {
+      getData(INTERACTIONS_QUERY, ensgId, id, index, size).then(res => {
         if (res.data.target.interactions) {
           setLoading(false);
           setData(res.data.target.interactions.rows);
