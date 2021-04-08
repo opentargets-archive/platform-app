@@ -30,9 +30,9 @@ const columns = [
   {
     id: 'formats',
     label: 'Format(s)',
-    renderCell: ({ formats }) => {
+    renderCell: ({ dataset, formats }) => {
       return (
-        <DownloadsDrawer title="Title" data={formats}>
+        <DownloadsDrawer title={dataset} data={formats}>
           <Chip label="JSON" clickable size="small" />{' '}
           <Chip label="Parquet" clickable size="small" />
         </DownloadsDrawer>

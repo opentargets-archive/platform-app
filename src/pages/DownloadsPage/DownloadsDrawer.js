@@ -36,7 +36,7 @@ function DownloadsDrawer({ title, data, children }) {
         <Typography>{title}</Typography>
         <Typography>Data</Typography>
         <Typography>Schema</Typography>
-        <ReactJson src={JSON.parse(data.serialisedSchema)} />
+        <ReactJson src={schema} />
       </Drawer>
     </>
   );
