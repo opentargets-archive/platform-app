@@ -14,11 +14,12 @@ import {
   // TableCell,
   // TableHead,
   // TableRow,
-
+  Chip,
   Typography,
 } from '@material-ui/core';
 
 import BasePage from '../../components/BasePage';
+import Link from '../../components/Link';
 import { DataTable } from '../../components/Table';
 import DownloadsDrawer from './DownloadsDrawer';
 import downloadData from './downloadData.json';
@@ -30,7 +31,12 @@ const columns = [
     id: 'formats',
     label: 'Format(s)',
     renderCell: ({ formats }) => {
-      return <DownloadsDrawer data={formats}>JSON Parquet</DownloadsDrawer>;
+      return (
+        <DownloadsDrawer title="Title" data={formats}>
+          <Chip label="JSON" clickable size="small" />{' '}
+          <Chip label="Parquet" clickable size="small" />
+        </DownloadsDrawer>
+      );
     },
   },
 ];
@@ -69,12 +75,21 @@ function DownloadsPage() {
         research and all of our data is publicly available for download and can
         be used for academic or commercial purposes. Please note that some
         datasets integrated into the Platform require a licence for commercial
-        use - see our License documentation for more information.
+        use - see our{' '}
+        <Link
+          external
+          to="https://github.com/opentargets/platform-app/blob/main/LICENSE"
+        >
+          License documentation
+        </Link>{' '}
+        for more information.
       </Typography>
       <Typography paragraph>
         Current data version: 21.04 (April 2014)
       </Typography>
-      <Typography paragraph>Access archived datasets via FTP</Typography>
+      <Typography paragraph>
+        Access archived datasets via <Link to="/">FTP</Link>
+      </Typography>
       <DataTable showGlobalFilter columns={columns} rows={rows} />
     </BasePage>
   );

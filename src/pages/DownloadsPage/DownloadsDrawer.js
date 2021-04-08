@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Drawer, makeStyles } from '@material-ui/core';
+import { Drawer, Typography, makeStyles } from '@material-ui/core';
+import ReactJson from 'react-json-view';
 
 const useStyles = makeStyles({
   backdrop: {
@@ -9,7 +10,7 @@ const useStyles = makeStyles({
   },
 });
 
-function DownloadsDrawer({ children, data }) {
+function DownloadsDrawer({ title, data, children }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -32,8 +33,10 @@ function DownloadsDrawer({ children, data }) {
         onClose={close}
         anchor="right"
       >
-        downloads drawer
-        <pre>{JSON.stringify(schema, undefined, 2)}</pre>
+        <Typography>{title}</Typography>
+        <Typography>Data</Typography>
+        <Typography>Schema</Typography>
+        <ReactJson src={JSON.parse(data.serialisedSchema)} />
       </Drawer>
     </>
   );
