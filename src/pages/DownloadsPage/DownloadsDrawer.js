@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Drawer, Box, Typography, makeStyles } from '@material-ui/core';
+import FileSaver from 'file-saver';
+import { Drawer, Box, Typography, Button, makeStyles } from '@material-ui/core';
 import ReactJson from 'react-json-view';
 
 const useStyles = makeStyles(theme => ({
@@ -32,6 +33,13 @@ function DownloadsDrawer({ title, data, children }) {
     setOpen(false);
   }
 
+  function downloadSchema() {
+    const blob = new Blob([JSON.stringify(schema)], {
+      type: 'application/json;charset=utf-8',
+    });
+    FileSaver.saveAs(blob, 'schema.json', { autoBOM: false });
+  }
+
   const schema = JSON.parse(data.serialisedSchema);
 
   return (
@@ -44,10 +52,13 @@ function DownloadsDrawer({ title, data, children }) {
         anchor="right"
       >
         <Typography className={classes.title}>{title}</Typography>
-        <Box p={2} width={400}>
+        <Box m={2} width={400}>
           <Typography>Data</Typography>
           <Typography>Schema</Typography>
-          <ReactJson src={schema} enableClipboard={false} />
+          <Button variant="outlined" size="small" onClick={downloadSchema}>
+            Download schema (JSON)
+          </Button>
+          <ReactJson src={schema} enableClipboard={false} name={false} />
         </Box>
       </Drawer>
     </>
