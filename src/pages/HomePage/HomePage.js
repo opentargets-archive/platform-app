@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid, Paper, makeStyles } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 
 import { appTitle, externalLinks, mainMenuItems } from '../../constants';
@@ -10,6 +10,15 @@ import NavBar from '../../components/NavBar';
 import Search from '../../components/Search';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCircle,
+  faArrowsAltH,
+  faExpandArrowsAlt,
+  faAngleDown,
+  faChevronDown,
+} from '@fortawesome/free-solid-svg-icons';
 
 const useStyles = makeStyles({
   links: {
@@ -36,6 +45,10 @@ const HomePage = () => {
   const targets = pickTwo(searchExamples.targets);
   const diseases = pickTwo(searchExamples.diseases);
   const drugs = pickTwo(searchExamples.drugs);
+
+  const handleScrollDown = () => {
+    window.scrollTo({ top: window.innerHeight, left: 0, behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -81,6 +94,23 @@ const HomePage = () => {
             </Link>
           </Grid>
         </HomeBox>
+
+        {/* scroll down button */}
+        <Grid container item justify="center">
+          <div
+            className="fa-layers fa-fw fa-3x"
+            style={{
+              height: '0px',
+              marginTop: '-1em',
+              filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .5))',
+              cursor: 'pointer',
+            }}
+            onClick={handleScrollDown}
+          >
+            <FontAwesomeIcon icon={faCircle} inverse />
+            <FontAwesomeIcon icon={faChevronDown} transform="shrink-4" />
+          </div>
+        </Grid>
       </Grid>
       {/* remove for integration day  */}
       {/* <Stats /> */}
