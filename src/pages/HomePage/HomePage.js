@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Paper, makeStyles } from '@material-ui/core';
+import { Grid, Paper, makeStyles, Typography, Box } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 
 import { appTitle, externalLinks, mainMenuItems } from '../../constants';
@@ -14,10 +14,12 @@ import Splash from './Splash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCircle,
-  faArrowsAltH,
-  faExpandArrowsAlt,
-  faAngleDown,
   faChevronDown,
+  faDownload,
+  faLaptopCode,
+  faQuestionCircle,
+  faFileAlt,
+  faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
 
 const useStyles = makeStyles({
@@ -96,7 +98,7 @@ const HomePage = () => {
         </HomeBox>
 
         {/* scroll down button */}
-        <Grid container item justify="center">
+        <Grid container justify="center">
           <div
             className="fa-layers fa-fw fa-3x"
             style={{
@@ -112,6 +114,138 @@ const HomePage = () => {
           </div>
         </Grid>
       </Grid>
+
+      {/* About */}
+      <Grid container justify="center" style={{ margin: '40px 0 40px 0' }}>
+        <Grid item xs={12} md={6}>
+          <Typography variant="h4" component="h1" align="center" paragraph>
+            About the Open Targets Platform
+          </Typography>
+
+          <Typography paragraph>
+            The Open Targets Platform is a comprehensive tool that supports
+            systematic identification and prioritisation of potential
+            therapeutic drug targets.
+          </Typography>
+
+          <Typography paragraph>
+            By integrating publicly available datasets along with data generated
+            by the Open Targets consortium, the Platform builds and scores
+            target-disease associations to assist in drug target identification
+            and prioritisation. It also integrates relevant annotation
+            information about targets, diseases, phenotypes, and drugs, as well
+            as their most relevant relationships.
+          </Typography>
+
+          <Typography paragraph>
+            The Platform is a freely available resource that is actively
+            maintained with bi-monthly data updates. Data is available through
+            an intuitive user interface, an API, and data downloads. The
+            pipeline and infrastructure codebases are open-source and the
+            licence allows the creation of self-hosted private instances of the
+            Platform with custom data.
+          </Typography>
+        </Grid>
+      </Grid>
+
+      {/* Get started */}
+      <Grid container justify="center" style={{ margin: '0 0 40px 0' }}>
+        <Grid item xs={12} md={6}>
+          <Typography variant="h4" component="h1" align="center" paragraph>
+            Get started with the Platform
+          </Typography>
+
+          <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            spacing={4}
+            wrap="nowrap"
+          >
+            <Grid item alignContent="center">
+              <Link>
+                <div className="fa-layers fa-fw fa-6x">
+                  <FontAwesomeIcon icon={faCircle} />
+                  <FontAwesomeIcon
+                    icon={faDownload}
+                    transform="shrink-8"
+                    inverse
+                  />
+                </div>
+                <Typography align="center">
+                  Download all of our datasets
+                </Typography>
+              </Link>
+            </Grid>
+
+            <Grid item alignContent="center">
+              <Link>
+                <div className="fa-layers fa-fw fa-6x">
+                  <FontAwesomeIcon icon={faCircle} />
+                  <FontAwesomeIcon
+                    icon={faLaptopCode}
+                    transform="shrink-9"
+                    inverse
+                  />
+                </div>
+                <Typography align="center">
+                  Access data with our GraphQL API
+                </Typography>
+              </Link>
+            </Grid>
+
+            <Grid item alignContent="center">
+              <Link>
+                <div className="fa-layers fa-fw fa-6x">
+                  <FontAwesomeIcon icon={faCircle} />
+                  <FontAwesomeIcon
+                    icon={faQuestionCircle}
+                    transform="shrink-8"
+                    inverse
+                  />
+                </div>
+                <Typography align="center">
+                  Check out our Platform documentation
+                </Typography>
+              </Link>
+            </Grid>
+
+            <Grid item alignContent="center">
+              <Link>
+                <div className="fa-layers fa-fw fa-6x">
+                  <FontAwesomeIcon icon={faCircle} />
+                  <FontAwesomeIcon
+                    icon={faFileAlt}
+                    transform="shrink-8"
+                    inverse
+                  />
+                </div>
+                <Typography align="center">
+                  Read our latest Platform publications
+                </Typography>
+              </Link>
+            </Grid>
+
+            <Grid item alignContent="center">
+              <Link>
+                <div className="fa-layers fa-fw fa-6x">
+                  <FontAwesomeIcon icon={faCircle} />
+                  <FontAwesomeIcon
+                    icon={faCommentDots}
+                    transform="shrink-8"
+                    inverse
+                  />
+                </div>
+                <Typography align="center">
+                  Join the Open Targets Community
+                </Typography>
+              </Link>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+
       {/* remove for integration day  */}
       {/* <Stats /> */}
       <Footer externalLinks={externalLinks} />
