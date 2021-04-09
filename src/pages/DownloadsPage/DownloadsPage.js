@@ -14,6 +14,8 @@ import {
   // TableCell,
   // TableHead,
   // TableRow,
+  Paper,
+  Box,
   Chip,
   Typography,
 } from '@material-ui/core';
@@ -90,7 +92,11 @@ function DownloadsPage() {
       <Typography paragraph>
         Access archived datasets via <Link to="/">FTP</Link>
       </Typography>
-      <DataTable showGlobalFilter columns={columns} rows={rows} />
+      <Paper variant="outlined" elevation={0}>
+        <Box m={2}>
+          <DataTable showGlobalFilter columns={columns} rows={rows} />
+        </Box>
+      </Paper>
     </BasePage>
   );
 }
