@@ -69,55 +69,52 @@ export const externalLinks = {
 
 // Configuration for the main hamburger menu
 export const mainMenuItems = [
-  // About
+  // Platform
   {
-    name: 'Open Targets Platform',
-    url: 'https://www.targetvalidation.org/about',
-    external: true,
-  },
-  {
-    name: 'Open Targets Consortium',
-    url: '//www.opentargets.org/',
+    name: 'About the Platform',
+    url: 'https://platform-docs.opentargets.org',
     external: true,
   },
   // Help
   {
-    name: 'Documentation & FAQs',
-    url: 'https://docs.targetvalidation.org/',
+    name: 'Documentation',
+    url: 'https://genetics-docs.opentargets.org/getting-started',
     external: true,
   },
   {
-    name: 'support@targetvalidation.org',
-    url:
-      'mailto:support@targetvalidation.org?Subject=Target%20Validation%20Platform%20-%20help%20request',
-    external: true,
-  },
-  {
-    name: 'Outreach and tutorials',
-    url: 'https://www.targetvalidation.org/outreach',
+    name: 'Platform Community',
+    url: '',
     external: true,
   },
   // API
   {
-    name: 'API documentation',
-    url: 'https://docs.targetvalidation.org/programmatic-access/rest-api',
-    external: true,
-  },
-  {
-    name: 'Python client',
-    url: 'https://docs.targetvalidation.org/programmatic-access/python-client',
+    name: 'API',
+    url: 'https://platform-docs.opentargets.org/data-access/graphql-api',
     external: true,
   },
   // Downloads
   {
-    name: 'Downloads',
-    url: '/downloads',
+    name: 'Data downloads',
+    url: '/downloads/data',
     external: false,
+  },
+  // About OT
+  {
+    name: 'About Open Targets',
+    url: '//www.opentargets.org/',
+    external: true,
   },
   // Blog
   {
     name: 'Blog',
     url: '//blog.opentargets.org/',
+    external: true,
+  },
+  // Contact
+  {
+    name: 'Contact us',
+    url: '',
+    // 'mailto:support@targetvalidation.org?Subject=Target%20Validation%20Platform%20-%20help%20request',
     external: true,
   },
 ];
