@@ -70,7 +70,13 @@ function DownloadsDrawer({ title, data, children }) {
           <Button variant="outlined" size="small" onClick={downloadSchema}>
             Download schema (JSON)
           </Button>
-          <ReactJson src={schema} enableClipboard={false} name={false} />
+          <ReactJson
+            src={schema}
+            enableClipboard={false}
+            name={false}
+            displayDataTypes={false}
+            displayObjectSize={false}
+          />
         </Paper>
       </Drawer>
     </>
