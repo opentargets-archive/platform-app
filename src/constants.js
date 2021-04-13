@@ -83,7 +83,7 @@ export const mainMenuItems = [
   },
   {
     name: 'Platform Community',
-    url: '',
+    url: 'https://community.opentargets.org/',
     external: true,
   },
   // API
@@ -101,19 +101,19 @@ export const mainMenuItems = [
   // About OT
   {
     name: 'About Open Targets',
-    url: '//www.opentargets.org/',
+    url: 'https://www.opentargets.org',
     external: true,
   },
   // Blog
   {
     name: 'Blog',
-    url: '//blog.opentargets.org/',
+    url: 'https://blog.opentargets.org',
     external: true,
   },
   // Contact
   {
     name: 'Contact us',
-    url: '',
+    url: 'mailto:helpdesk@opentargets.org',
     // 'mailto:support@targetvalidation.org?Subject=Target%20Validation%20Platform%20-%20help%20request',
     external: true,
   },
