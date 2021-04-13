@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Paper, makeStyles, Typography, Box } from '@material-ui/core';
+import { Grid, makeStyles, Typography, Hidden } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 
 import { appTitle, externalLinks, mainMenuItems } from '../../constants';
@@ -65,22 +65,38 @@ const HomePage = () => {
         />
         <HomeBox>
           <Search autoFocus />
-          <Grid className={classes.links} container justify="space-around">
+          {/* Search examples */}
+          <Grid
+            className={classes.links}
+            container
+            justify="space-around"
+            nowrap
+          >
             <Link to={`/target/${targets[0].id}/associations`}>
               {targets[0].label}
             </Link>
-            <Link to={`/target/${targets[1].id}/associations`}>
-              {targets[1].label}
-            </Link>
+            <Hidden smDown>
+              <Link to={`/target/${targets[1].id}/associations`}>
+                {targets[1].label}
+              </Link>
+            </Hidden>
+
             <Link to={`/disease/${diseases[0].id}/associations`}>
               {diseases[0].label}
             </Link>
-            <Link to={`/disease/${diseases[1].id}/associations`}>
-              {diseases[1].label}
-            </Link>
+            <Hidden smDown>
+              <Link to={`/disease/${diseases[1].id}/associations`}>
+                {diseases[1].label}
+              </Link>
+            </Hidden>
+
             <Link to={`/drug/${drugs[0].id}`}>{drugs[0].label}</Link>
-            <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
+            <Hidden smDown>
+              <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
+            </Hidden>
           </Grid>
+
+          {/* Links to API */}
           <Grid
             className={classes.api}
             container
