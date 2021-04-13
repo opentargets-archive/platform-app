@@ -66,12 +66,7 @@ const HomePage = () => {
         <HomeBox>
           <Search autoFocus />
           {/* Search examples */}
-          <Grid
-            className={classes.links}
-            container
-            justify="space-around"
-            nowrap
-          >
+          <Grid className={classes.links} container justify="space-around">
             <Link to={`/target/${targets[0].id}/associations`}>
               {targets[0].label}
             </Link>
