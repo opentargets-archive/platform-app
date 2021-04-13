@@ -113,7 +113,7 @@ const HomePage = () => {
           </Grid>
 
           {/* Links to API */}
-          <Grid
+          {/* <Grid
             className={classes.api}
             container
             alignItems="center"
@@ -126,7 +126,7 @@ const HomePage = () => {
             >
               Browse our GraphQL API
             </Link>
-          </Grid>
+          </Grid> */}
         </HomeBox>
 
         {/* scroll down button */}
