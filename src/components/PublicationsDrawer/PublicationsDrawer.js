@@ -81,7 +81,7 @@ const listComponetStyles = makeStyles(theme => ({
   },
 }));
 
-const ListComponet = ({ entriesIds }) => {
+export const PublicationsList = ({ entriesIds, hideSearch = false }) => {
   const [publications, setPublications] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -158,14 +158,12 @@ const ListComponet = ({ entriesIds }) => {
   ];
 
   return (
-    <Box my={3} mx={3} p={3} pb={6} bgcolor="white">
-      <DataTable
-        columns={columns}
-        rows={parsedPublications}
-        showGlobalFilter
-        rowsPerPageOptions={[5, 10, 25, 100]}
-      />
-    </Box>
+    <DataTable
+      columns={columns}
+      rows={parsedPublications}
+      showGlobalFilter={!hideSearch}
+      rowsPerPageOptions={[5, 10, 25, 100]}
+    />
   );
 };
 
@@ -230,7 +228,11 @@ function PublicationsDrawer({
         </Paper>
 
         <Box width={600} className={classes.drawerBody}>
-          {open && <ListComponet entriesIds={entriesIds} />}
+          {open && (
+            <Box my={3} mx={3} p={3} pb={6} bgcolor="white">
+              <PublicationsList entriesIds={entriesIds} />
+            </Box>
+          )}
         </Box>
       </Drawer>
     </>

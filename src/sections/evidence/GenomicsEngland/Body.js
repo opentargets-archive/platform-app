@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 
-import PublicationsDrawer from '../../../components/PublicationsDrawer';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';

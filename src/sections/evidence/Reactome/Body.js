@@ -5,7 +5,7 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
 import { DataTable } from '../../../components/Table';
-import PublicationsDrawer from '../../../components/PublicationsDrawer';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';

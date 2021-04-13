@@ -4,7 +4,7 @@ import { Link, Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Tooltip from '../../../components/Tooltip';
 import SectionItem from '../../../components/Section/SectionItem';
-import PublicationsDrawer from '../../../components/PublicationsDrawer';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';

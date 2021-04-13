@@ -56,7 +56,7 @@ function PublicationWrapper({
   const classes = useStyles();
 
   return (
-    <Box mb={4}>
+    <Box mb={2}>
       {/* paper title */}
       <Box style={{ whiteSpace: 'normal' }}>
         <Typography variant={variant === 'small' ? 'subtitle2' : 'subtitle1'}>
