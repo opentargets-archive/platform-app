@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, makeStyles, Typography, Hidden } from '@material-ui/core';
+import { Grid, makeStyles, Typography, Hidden, Box } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 
 import { appTitle, externalLinks, mainMenuItems } from '../../constants';
@@ -29,6 +29,13 @@ const useStyles = makeStyles({
   api: {
     marginTop: '38px',
   },
+  helpBoxes: {
+    maxWidth: '150px',
+    textAlign: 'center',
+  },
+  hpSection: {
+    marginBottom: '40px',
+  },
 });
 
 function pickTwo(arr) {
@@ -52,10 +59,24 @@ const HomePage = () => {
     window.scrollTo({ top: window.innerHeight, left: 0, behavior: 'smooth' });
   };
 
+  const HelpBoxIcon = ({ fai }) => {
+    return (
+      <div className="fa-layers fa-fw fa-6x">
+        <FontAwesomeIcon icon={faCircle} />
+        <FontAwesomeIcon icon={fai} transform="shrink-8" inverse />
+      </div>
+    );
+  };
+
   return (
     <>
       <Helmet title={appTitle} />
-      <Grid container justify="center" alignItems="center">
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        className={classes.hpSection}
+      >
         <Splash />
         <NavBar
           name="platform"
@@ -127,8 +148,8 @@ const HomePage = () => {
       </Grid>
 
       {/* About */}
-      <Grid container justify="center" style={{ margin: '40px 0 40px 0' }}>
-        <Grid item xs={12} md={6}>
+      <Grid container justify="center" className={classes.hpSection}>
+        <Grid item xs={10} md={8}>
           <Typography variant="h4" component="h1" align="center" paragraph>
             About the Open Targets Platform
           </Typography>
@@ -160,8 +181,8 @@ const HomePage = () => {
       </Grid>
 
       {/* Get started */}
-      <Grid container justify="center" style={{ margin: '0 0 40px 0' }}>
-        <Grid item xs={12} md={6}>
+      <Grid container justify="center" className={classes.hpSection}>
+        <Grid item xs={10} md={8}>
           <Typography variant="h4" component="h1" align="center" paragraph>
             Get started with the Platform
           </Typography>
@@ -170,88 +191,63 @@ const HomePage = () => {
             container
             direction="row"
             justify="center"
-            alignItems="center"
+            alignItems="flex-start"
             spacing={4}
             wrap="nowrap"
           >
-            <Grid item alignContent="center">
-              <Link>
-                <div className="fa-layers fa-fw fa-6x">
-                  <FontAwesomeIcon icon={faCircle} />
-                  <FontAwesomeIcon
-                    icon={faDownload}
-                    transform="shrink-8"
-                    inverse
-                  />
-                </div>
-                <Typography align="center">
-                  Download all of our datasets
-                </Typography>
-              </Link>
+            <Grid item>
+              <Box className={classes.helpBoxes}>
+                <Link>
+                  <HelpBoxIcon fai={faDownload} />
+                  <Typography align="center">
+                    Download all of our datasets
+                  </Typography>
+                </Link>
+              </Box>
             </Grid>
 
-            <Grid item alignContent="center">
-              <Link>
-                <div className="fa-layers fa-fw fa-6x">
-                  <FontAwesomeIcon icon={faCircle} />
-                  <FontAwesomeIcon
-                    icon={faLaptopCode}
-                    transform="shrink-9"
-                    inverse
-                  />
-                </div>
-                <Typography align="center">
-                  Access data with our GraphQL API
-                </Typography>
-              </Link>
+            <Grid item>
+              <Box className={classes.helpBoxes}>
+                <Link>
+                  <HelpBoxIcon fai={faLaptopCode} />
+                  <Typography align="center">
+                    Access data with our GraphQL API
+                  </Typography>
+                </Link>
+              </Box>
             </Grid>
 
-            <Grid item alignContent="center">
-              <Link>
-                <div className="fa-layers fa-fw fa-6x">
-                  <FontAwesomeIcon icon={faCircle} />
-                  <FontAwesomeIcon
-                    icon={faQuestionCircle}
-                    transform="shrink-8"
-                    inverse
-                  />
-                </div>
-                <Typography align="center">
-                  Check out our Platform documentation
-                </Typography>
-              </Link>
+            <Grid item>
+              <Box className={classes.helpBoxes}>
+                <Link>
+                  <HelpBoxIcon fai={faQuestionCircle} />
+                  <Typography align="center">
+                    Check out our Platform documentation
+                  </Typography>
+                </Link>
+              </Box>
             </Grid>
 
-            <Grid item alignContent="center">
-              <Link>
-                <div className="fa-layers fa-fw fa-6x">
-                  <FontAwesomeIcon icon={faCircle} />
-                  <FontAwesomeIcon
-                    icon={faFileAlt}
-                    transform="shrink-8"
-                    inverse
-                  />
-                </div>
-                <Typography align="center">
-                  Read our latest Platform publications
-                </Typography>
-              </Link>
+            <Grid item>
+              <Box className={classes.helpBoxes}>
+                <Link>
+                  <HelpBoxIcon fai={faFileAlt} />
+                  <Typography align="center">
+                    Read our latest Platform publications
+                  </Typography>
+                </Link>
+              </Box>
             </Grid>
 
-            <Grid item alignContent="center">
-              <Link>
-                <div className="fa-layers fa-fw fa-6x">
-                  <FontAwesomeIcon icon={faCircle} />
-                  <FontAwesomeIcon
-                    icon={faCommentDots}
-                    transform="shrink-8"
-                    inverse
-                  />
-                </div>
-                <Typography align="center">
-                  Join the Open Targets Community
-                </Typography>
-              </Link>
+            <Grid item>
+              <Box className={classes.helpBoxes}>
+                <Link>
+                  <HelpBoxIcon fai={faCommentDots} />
+                  <Typography align="center">
+                    Join the Open Targets Community
+                  </Typography>
+                </Link>
+              </Box>
             </Grid>
           </Grid>
         </Grid>
