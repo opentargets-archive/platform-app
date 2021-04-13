@@ -197,7 +197,7 @@ const HomePage = () => {
           >
             <Grid item>
               <Box className={classes.helpBoxes}>
-                <Link>
+                <Link to="/downloads/data">
                   <HelpBoxIcon fai={faDownload} />
                   <Typography align="center">
                     Download all of our datasets
@@ -208,7 +208,10 @@ const HomePage = () => {
 
             <Grid item>
               <Box className={classes.helpBoxes}>
-                <Link>
+                <Link
+                  to="https://platform-docs.opentargets.org/data-access/graphql-api"
+                  external
+                >
                   <HelpBoxIcon fai={faLaptopCode} />
                   <Typography align="center">
                     Access data with our GraphQL API
@@ -219,7 +222,7 @@ const HomePage = () => {
 
             <Grid item>
               <Box className={classes.helpBoxes}>
-                <Link>
+                <Link to="https://platform-docs.opentargets.org/" external>
                   <HelpBoxIcon fai={faQuestionCircle} />
                   <Typography align="center">
                     Check out our Platform documentation
@@ -230,7 +233,10 @@ const HomePage = () => {
 
             <Grid item>
               <Box className={classes.helpBoxes}>
-                <Link>
+                <Link
+                  to="https://platform-docs.opentargets.org/citation"
+                  external
+                >
                   <HelpBoxIcon fai={faFileAlt} />
                   <Typography align="center">
                     Read our latest Platform publications
@@ -241,7 +247,7 @@ const HomePage = () => {
 
             <Grid item>
               <Box className={classes.helpBoxes}>
-                <Link>
+                <Link to="https://community.opentargets.org/" external>
                   <HelpBoxIcon fai={faCommentDots} />
                   <Typography align="center">
                     Join the Open Targets Community
