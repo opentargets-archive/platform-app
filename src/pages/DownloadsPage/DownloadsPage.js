@@ -1,4 +1,5 @@
 import React from 'react';
+import { gql, useQuery } from '@apollo/client';
 import {
   // Avatar,
   // Box,
@@ -29,6 +30,7 @@ import downloadData from './downloadData.json';
 const columns = [
   { id: 'dataset', label: 'Dataset' },
   { id: 'description', label: 'Description' },
+  { id: 'schema', label: 'Schema' },
   {
     id: 'formats',
     label: 'Format(s)',
@@ -66,7 +68,26 @@ const rows = [
   },
 ];
 
+const DATA_VERSION_QUERY = gql`
+  query DataVersion {
+    meta {
+      dataVersion {
+        month
+        year
+      }
+    }
+  }
+`;
+
+function getVersion(data) {
+  if (!data) return null;
+  const { month, year } = data.meta.dataVersion;
+  return `${year}.${month < 10 ? '0' : ''}${month}`;
+}
+
 function DownloadsPage() {
+  const { data, error } = useQuery(DATA_VERSION_QUERY);
+
   return (
     <BasePage>
       <Typography variant="h4" component="h1" paragraph>
@@ -75,22 +96,23 @@ function DownloadsPage() {
       <Typography paragraph>
         The Open Targets Platform is committed to open data and open access
         research and all of our data is publicly available for download and can
-        be used for academic or commercial purposes. Please note that some
-        datasets integrated into the Platform require a licence for commercial
-        use - see our{' '}
-        <Link
-          external
-          to="https://github.com/opentargets/platform-app/blob/main/LICENSE"
-        >
+        be used for academic or commercial purposes. Please see our{' '}
+        <Link external to="http://platform-docs.opentargets.org/licence">
           License documentation
         </Link>{' '}
         for more information.
       </Typography>
       <Typography paragraph>
-        Current data version: 21.04 (April 2014)
+        Current data version: {error ? null : getVersion(data)}
       </Typography>
       <Typography paragraph>
-        Access archived datasets via <Link to="/">FTP</Link>
+        Access archived datasets via{' '}
+        <Link
+          external
+          to="http://ftp.ebi.ac.uk/pub/databases/opentargets/platform"
+        >
+          FTP
+        </Link>
       </Typography>
       <Paper variant="outlined" elevation={0}>
         <Box m={2}>
