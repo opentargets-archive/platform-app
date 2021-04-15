@@ -52,14 +52,14 @@ const SmallMoleculeTable = ({ buckets }) => {
           <BucketCell isPurple={buckets.includes(4)}>
             PDB targets with ligands
           </BucketCell>
-          <BucketCell isPurple={buckets.includes(7)}>
+          <BucketCell isPurple={buckets.includes(5)}>
             Active compounds in ChEMBL
           </BucketCell>
           {/* predicted tractable */}
-          <BucketCell isPurple={buckets.includes(5)}>
+          <BucketCell isPurple={buckets.includes(6)}>
             DrugEBIlity score &gt; 0.7
           </BucketCell>
-          <BucketCell isPurple={buckets.includes(6)}>
+          <BucketCell isPurple={buckets.includes(7)}>
             DrugEBIlity score 0 to 0.7
           </BucketCell>
           <BucketCell isPurple={buckets.includes(8)}>
