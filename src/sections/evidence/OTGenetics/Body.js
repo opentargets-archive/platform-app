@@ -6,7 +6,7 @@ import { DataTable } from '../../../components/Table';
 import PublicationsDrawer from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
-import { epmcUrl, otgStudyUrl } from '../../../utils/urls';
+import { otgStudyUrl } from '../../../utils/urls';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
 import Link from '../../../components/Link';
 import ScientificNotation from '../../../components/ScientificNotation';
