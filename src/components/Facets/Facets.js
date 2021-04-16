@@ -34,6 +34,11 @@ const useStyles = makeStyles({
       marginRight: '.5rem',
     },
   },
+  subtitle: {
+    marginTop: '1rem',
+    marginBottom: '1rem',
+    fontWeight: 'bold',
+  },
 });
 
 function Facets({ loading, data, onChange, type }) {
@@ -106,7 +111,9 @@ function Facets({ loading, data, onChange, type }) {
       )}
       {facets.length > 0 && (
         <>
-          <Typography>Evidence-specific filters</Typography>
+          <Typography className={classes.subtitle}>
+            Evidence-specific filters
+          </Typography>
           <Facet
             loading={loading}
             key={facets[0].nodeId}
@@ -115,7 +122,7 @@ function Facets({ loading, data, onChange, type }) {
             aggs={facets[0].aggs}
             onSelectionChange={handleFilterChange}
           />
-          <Typography>
+          <Typography className={classes.subtitle}>
             {type === 'target' ? 'Target' : 'Disease/phenotype'}-specific
             filters
           </Typography>
