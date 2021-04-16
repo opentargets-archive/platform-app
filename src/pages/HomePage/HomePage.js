@@ -1,5 +1,13 @@
 import React from 'react';
-import { Grid, makeStyles, Typography, Hidden, Box } from '@material-ui/core';
+import {
+  Grid,
+  makeStyles,
+  Typography,
+  Hidden,
+  Box,
+  useMediaQuery,
+} from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
 
 import { appTitle, externalLinks, mainMenuItems } from '../../constants';
@@ -22,7 +30,7 @@ import {
   faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   links: {
     marginTop: '12px',
   },
@@ -30,13 +38,16 @@ const useStyles = makeStyles({
     marginTop: '38px',
   },
   helpBoxes: {
-    maxWidth: '150px',
+    maxWidth: '120px',
     textAlign: 'center',
+    [theme.breakpoints.down('xs')]: {
+      textAlign: 'left',
+    },
   },
   hpSection: {
     marginBottom: '40px',
   },
-});
+}));
 
 function pickTwo(arr) {
   let i1 = Math.floor(Math.random() * arr.length);
@@ -54,18 +65,44 @@ const HomePage = () => {
   const targets = pickTwo(searchExamples.targets);
   const diseases = pickTwo(searchExamples.diseases);
   const drugs = pickTwo(searchExamples.drugs);
+  const theme = useTheme();
+  const xsMQ = useMediaQuery(theme.breakpoints.down('xs'));
 
   const handleScrollDown = () => {
     window.scrollTo({ top: window.innerHeight, left: 0, behavior: 'smooth' });
   };
 
-  const HelpBoxIcon = ({ fai }) => {
-    return (
-      <div className="fa-layers fa-fw fa-6x">
-        <FontAwesomeIcon icon={faCircle} />
-        <FontAwesomeIcon icon={fai} transform="shrink-8" inverse />
-      </div>
-    );
+  const HelpBoxPanel = ({ fai, url, label, external }) => {
+    if (xsMQ) {
+      // on xsmall screens
+      return (
+        <Link to={url} external={external}>
+          <Grid container wrap="nowrap" alignItems="center" spacing={1}>
+            <Grid item>
+              <div className="fa-layers fa-fw fa-3x">
+                <FontAwesomeIcon icon={faCircle} />
+                <FontAwesomeIcon icon={fai} transform="shrink-8" inverse />
+              </div>
+            </Grid>
+            <Grid item>
+              <Typography display="inline">{label}</Typography>
+            </Grid>
+          </Grid>
+        </Link>
+      );
+    } else {
+      return (
+        <Box className={classes.helpBoxes}>
+          <Link to={url} external={external}>
+            <div className="fa-layers fa-fw fa-6x">
+              <FontAwesomeIcon icon={faCircle} />
+              <FontAwesomeIcon icon={fai} transform="shrink-8" inverse />
+            </div>
+            <Typography>{label}</Typography>
+          </Link>
+        </Box>
+      );
+    }
   };
 
   return (
@@ -189,71 +226,52 @@ const HomePage = () => {
 
           <Grid
             container
-            direction="row"
-            justify="center"
+            justify="space-evenly"
             alignItems="flex-start"
-            spacing={4}
-            wrap="nowrap"
+            spacing={1}
           >
-            <Grid item>
-              <Box className={classes.helpBoxes}>
-                <Link to="/downloads/data">
-                  <HelpBoxIcon fai={faDownload} />
-                  <Typography align="center">
-                    Download all of our datasets
-                  </Typography>
-                </Link>
-              </Box>
+            <Grid item xs={12} sm={'auto'}>
+              <HelpBoxPanel
+                fai={faDownload}
+                url="/downloads/data"
+                label="Download all of our datasets"
+              />
             </Grid>
 
-            <Grid item>
-              <Box className={classes.helpBoxes}>
-                <Link
-                  to="https://platform-docs.opentargets.org/data-access/graphql-api"
-                  external
-                >
-                  <HelpBoxIcon fai={faLaptopCode} />
-                  <Typography align="center">
-                    Access data with our GraphQL API
-                  </Typography>
-                </Link>
-              </Box>
+            <Grid item xs={12} sm={'auto'}>
+              <HelpBoxPanel
+                fai={faLaptopCode}
+                url="https://platform-docs.opentargets.org/data-access/graphql-api"
+                label="Access data with our GraphQL API"
+                external
+              />
             </Grid>
 
-            <Grid item>
-              <Box className={classes.helpBoxes}>
-                <Link to="https://platform-docs.opentargets.org/" external>
-                  <HelpBoxIcon fai={faQuestionCircle} />
-                  <Typography align="center">
-                    Check out our Platform documentation
-                  </Typography>
-                </Link>
-              </Box>
+            <Grid item xs={12} sm={'auto'}>
+              <HelpBoxPanel
+                fai={faQuestionCircle}
+                url="https://platform-docs.opentargets.org/"
+                label="Check out our Platform documentation"
+                external
+              />
             </Grid>
 
-            <Grid item>
-              <Box className={classes.helpBoxes}>
-                <Link
-                  to="https://platform-docs.opentargets.org/citation"
-                  external
-                >
-                  <HelpBoxIcon fai={faFileAlt} />
-                  <Typography align="center">
-                    Read our latest Platform publications
-                  </Typography>
-                </Link>
-              </Box>
+            <Grid item xs={12} sm={'auto'}>
+              <HelpBoxPanel
+                fai={faFileAlt}
+                url="https://platform-docs.opentargets.org/citation"
+                label="Read our latest Platform publications"
+                external
+              />
             </Grid>
 
-            <Grid item>
-              <Box className={classes.helpBoxes}>
-                <Link to="https://community.opentargets.org/" external>
-                  <HelpBoxIcon fai={faCommentDots} />
-                  <Typography align="center">
-                    Join the Open Targets Community
-                  </Typography>
-                </Link>
-              </Box>
+            <Grid item xs={12} sm={'auto'}>
+              <HelpBoxPanel
+                fai={faCommentDots}
+                url="https://community.opentargets.org/"
+                label="Join the Open Targets Community"
+                external
+              />
             </Grid>
           </Grid>
         </Grid>
