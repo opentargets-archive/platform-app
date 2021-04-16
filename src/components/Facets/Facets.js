@@ -105,7 +105,7 @@ function Facets({ loading, data, onChange, type }) {
         )}
       </Box>
 
-      {loading && !facets.length > 0 && (
+      {loading && facets.length === 0 && (
         // Initial load, show skeleton
         <Skeleton variant="rect" height={48} />
       )}
