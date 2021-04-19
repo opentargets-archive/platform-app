@@ -277,14 +277,11 @@ function getColumns(classes) {
         innerLabel: classes.innerLabel,
       },
       renderCell: row =>
-        getHeatmapCell(
-          getScoreForColumn(row.evidences, 'by homology'),
-          classes
-        ),
+        getHeatmapCell(getScoreForColumn(row.evidences, 'homology'), classes),
       exportValue: row =>
-        getScoreForColumn(row.evidences, 'by homology')?.toFixed(3),
+        getScoreForColumn(row.evidences, 'homology')?.toFixed(3),
       filterValue: row =>
-        getScoreForColumn(row.evidences, 'by homology')?.toFixed(3),
+        getScoreForColumn(row.evidences, 'homology')?.toFixed(3),
     },
   ];
 }
