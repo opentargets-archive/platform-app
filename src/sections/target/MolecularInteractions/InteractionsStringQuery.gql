@@ -17,7 +17,7 @@ query InteractionsSectionQuery(
           approvedSymbol
           id
         }
-        scoring
+        score
         evidences {
           evidenceScore
           interactionDetectionMethodShortName

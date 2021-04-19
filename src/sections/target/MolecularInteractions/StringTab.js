@@ -139,9 +139,9 @@ function getColumns(classes) {
         sortLabel: classes.sortLabel,
         innerLabel: classes.innerLabel,
       },
-      renderCell: row => row.scoring.toFixed(3),
-      exportValue: row => row.scoring.toFixed(3),
-      filterValue: row => row.scoring.toFixed(3),
+      renderCell: row => row.score.toFixed(3),
+      exportValue: row => row.score.toFixed(3),
+      filterValue: row => row.score.toFixed(3),
     },
     {
       id: 'neighbourhood',
