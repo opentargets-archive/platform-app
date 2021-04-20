@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
   ftpURL: {
     color: 'white',
+    textDecoration: 'none',
   },
 }));
 
