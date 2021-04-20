@@ -4,6 +4,7 @@ import { Paper, Box, Chip, Typography } from '@material-ui/core';
 
 import BasePage from '../../components/BasePage';
 import Link from '../../components/Link';
+import { defaultRowsPerPageOptions } from '../../constants';
 import { DataTable } from '../../components/Table';
 import DownloadsDrawer from './DownloadsDrawer';
 import downloadData from './downloadData.json';
@@ -121,7 +122,12 @@ function DownloadsPage() {
       <Paper variant="outlined" elevation={0}>
         <Box m={2}>
           {loading || error ? null : (
-            <DataTable showGlobalFilter columns={columns} rows={rows} />
+            <DataTable
+              showGlobalFilter
+              columns={columns}
+              rows={rows}
+              rowsPerPageOptions={defaultRowsPerPageOptions}
+            />
           )}
         </Box>
       </Paper>
