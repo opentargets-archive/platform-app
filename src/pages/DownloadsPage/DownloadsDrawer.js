@@ -29,6 +29,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.grey[800],
     color: 'white',
   },
+  ftpURL: {
+    color: 'white',
+  },
 }));
 
 const ftpBase = 'ftp.ebi.ac.uk/pub/databases/opentargets/platform/';
@@ -63,9 +66,16 @@ function DownloadsDrawer({ title, format, path, month, year, children }) {
           <Typography variant="subtitle2" gutterBottom>
             FTP
           </Typography>
-          <div className={classes.resourceURL}>{`${ftpBase}${year}.${
-            month < 10 ? '0' : ''
-          }${month}/output/ETL${path}`}</div>
+          <div className={classes.resourceURL}>
+            <a
+              className={classes.ftpURL}
+              href={`https://${ftpBase}${year}.${
+                month < 10 ? '0' : ''
+              }${month}/output/ETL${path}`}
+            >{`${ftpBase}${year}.${
+              month < 10 ? '0' : ''
+            }${month}/output/ETL${path}`}</a>
+          </div>
           <Typography variant="subtitle2" gutterBottom>
             Wget
           </Typography>
