@@ -6,7 +6,7 @@ import Description from './Description';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';
 import Link from '../../../components/Link';
-import PublicationsDrawer from '../../../components/PublicationsDrawer';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';

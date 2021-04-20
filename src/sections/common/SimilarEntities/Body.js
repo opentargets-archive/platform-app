@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { PublicationsList } from '../../../components/PublicationsDrawer';
+import { Autocomplete } from '@material-ui/lab';
+import { get } from 'lodash';
+import { Skeleton } from '@material-ui/lab';
 import {
   Chip,
   makeStyles,
   TextField,
-  Button,
+  Box,
   Select,
   InputLabel,
   MenuItem,
   FormControl,
+  Typography,
 } from '@material-ui/core';
 
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
+const categories = [
+  { value: 'all', label: 'All' },
+  { value: 'target', label: 'Target' },
+  { value: 'disease', label: 'Disease' },
+  { value: 'drug', label: 'Drug' },
+];
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,6 +32,15 @@ const useStyles = makeStyles(theme => ({
     '& > *': {
       margin: theme.spacing(0.5),
     },
+  },
+  categoryAutocomplete: {
+    width: '15rem',
+    '& .MuiFormControl-root': { marginTop: 0 },
+  },
+  AccordionSubtitle: {
+    color: theme.palette.grey[400],
+    fontSize: '0.8rem',
+    fontStyle: 'italic',
   },
 }));
 
@@ -87,166 +106,140 @@ const SIMILARENTITIES_BODY_QUERY = gql`
   }
 `;
 
-function Body({ definition, label: name, id: efoId }) {
+const Loader = () => <Box height="700px" />;
+
+function LiteratureList({ efoId, name }) {
   const classes = useStyles();
   const [selectedChips, setSelectedChips] = useState([]);
-  const categories = ['all', 'target', 'disease', 'drug'];
+
   const [category, setCategory] = useState(categories[0]);
 
-  const [threshold, setThreshold] = useState(0.5);
-  const [size, setSize] = useState(15);
-  let th = 0.5;
-  let sz = 15;
+  const threshold = 0.5;
+  const size = 9;
 
-  const request = useQuery(SIMILARENTITIES_BODY_QUERY, {
+  const { loading, error, data } = useQuery(SIMILARENTITIES_BODY_QUERY, {
     variables: {
       efoId,
       ids: selectedChips.map(c => c.object.id),
       threshold,
       size,
-      entityNames: category === categories[0] ? null : [category],
+      entityNames: category === categories[0] ? null : [category.value],
     },
   });
 
-  const handleSetThreshold = () => {
-    setThreshold(parseFloat(th));
+  const handleSetCategory = (e, selection) => {
+    setCategory(selection);
   };
 
-  const handleSetSize = () => {
-    setSize(parseInt(sz));
-  };
+  if (error) {
+    return <h3>Error</h3>;
+  }
 
-  const handleSetCategory = e => {
-    setCategory(e.target.value);
-  };
+  const disease = get(data, 'disease', null);
 
+  const literatureList = disease
+    ? disease.literatureOcurrences?.rows?.map(({ pmid }) => pmid)
+    : [];
+
+  return (
+    <>
+      <Box className={classes.filterCategoryContainer}>
+        <Typography>Tag category:</Typography>
+        {/* Dropdown menu */}
+        <Autocomplete
+          classes={{ root: classes.categoryAutocomplete }}
+          disableClearable
+          getOptionLabel={option => option.label}
+          getOptionSelected={option => option.value}
+          onChange={handleSetCategory}
+          options={categories}
+          renderInput={params => <TextField {...params} margin="normal" />}
+          value={category}
+        />
+      </Box>
+      <hr />
+
+      <div className={classes.root}>
+        {/* Non-deselectable page entity (i.e. the target or disease) */}
+        <Chip label={name} title={`ID: ${efoId}`} color="primary" />
+
+        {/* selected chips */}
+        {selectedChips.map((e, i) => (
+          <Chip
+            label={e.object.name}
+            key={e.object.id}
+            title={`Score: ${e.score} ID: ${e.object.id}`}
+            color="primary"
+            onDelete={() => {
+              const newChips = [...selectedChips];
+              newChips.splice(i, 1);
+              setSelectedChips(newChips);
+            }}
+          />
+        ))}
+      </div>
+      <div className={classes.root}>
+        {/* API response chips: remove those already selected and the page entity */}
+        {!loading &&
+          disease.similarEntities.map(e => {
+            return efoId === e.object.id ||
+              selectedChips.find(s => s.object.id === e.object.id) ? null : (
+              <Chip
+                label={e.object.name || e.object.approvedSymbol}
+                key={e.object.id}
+                clickable
+                onClick={() => {
+                  selectedChips.push({
+                    score: e.score,
+                    object: {
+                      name: e.object.name || e.object.approvedSymbol,
+                      id: e.object.id,
+                    },
+                  });
+                  setSelectedChips(selectedChips.map(sc => sc));
+                }}
+                title={`Score: ${e.score} ID: ${e.object.id}`}
+                color="primary"
+                variant="outlined"
+              />
+            );
+          })}
+      </div>
+      <div>
+        {loading && <Loader />}
+        {!loading && (
+          <PublicationsList entriesIds={literatureList} hideSearch />
+        )}
+        {!loading && literatureList.length === 0 && (
+          <Box
+            my={20}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+          >
+            <Box mt={6}>
+              <Typography className={classes.AccordionSubtitle}>
+                No results for the query
+              </Typography>
+            </Box>
+          </Box>
+        )}
+      </div>
+    </>
+  );
+}
+
+function Body({ definition, label: name, id: efoId }) {
   return (
     <SectionItem
       definition={definition}
-      request={request}
+      request={{ loading: false, error: null, data: true }}
       renderDescription={() => <Description name={name} />}
-      renderBody={({ disease: { similarEntities, literatureOcurrences } }) => {
-        const literatureList = literatureOcurrences.rows?.map(
-          ({ pmid }) => pmid
-        );
-
+      renderBody={() => {
         return (
           <>
-            {/* For internal development only: set threshold and size */}
-            <div className={classes.root}>
-              <TextField
-                id="threshold-field"
-                label="Threshold"
-                variant="outlined"
-                size="small"
-                defaultValue={threshold}
-                onChange={event => {
-                  th = event.target.value;
-                }}
-                style={{ width: '120px' }}
-              />{' '}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSetThreshold}
-                size="large"
-              >
-                Set
-              </Button>
-              {'  '}
-              <TextField
-                id="size-field"
-                label="Size"
-                variant="outlined"
-                size="small"
-                defaultValue={size}
-                onChange={event => {
-                  sz = event.target.value;
-                }}
-                style={{ width: '120px' }}
-              />{' '}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSetSize}
-                size="large"
-              >
-                Set
-              </Button>
-              {'  '}
-              <FormControl>
-                <InputLabel id="category-select-label" shrink>
-                  Category
-                </InputLabel>
-                <Select
-                  labelId="category-select-label"
-                  id="category-select"
-                  value={category}
-                  onChange={handleSetCategory}
-                >
-                  {categories.map(c => (
-                    <MenuItem value={c} key={c}>
-                      {c}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-            <hr />
-
-            <div className={classes.root}>
-              {/* Non-deselectable page entity (i.e. the target or disease) */}
-              <Chip label={name} title={`ID: ${efoId}`} color="primary" />
-
-              {/* selected chips */}
-              {selectedChips.map((e, i) => (
-                <Chip
-                  label={e.object.name}
-                  key={e.object.id}
-                  clickable
-                  onClick={() => {
-                    selectedChips.splice(i, 1);
-                    setSelectedChips(selectedChips.map(sc => sc));
-                  }}
-                  title={`Score: ${e.score} ID: ${e.object.id}`}
-                  color="primary"
-                  onDelete={() => {
-                    selectedChips.splice(i, 1);
-                    setSelectedChips(selectedChips.map(sc => sc));
-                  }}
-                />
-              ))}
-            </div>
-            <div className={classes.root}>
-              {/* API response chips: remove those already selected and the page entity */}
-              {similarEntities.map((e, i) => {
-                return efoId === e.object.id ||
-                  selectedChips.find(
-                    s => s.object.id === e.object.id
-                  ) ? null : (
-                  <Chip
-                    label={e.object.name || e.object.approvedSymbol}
-                    key={e.object.id}
-                    clickable
-                    onClick={() => {
-                      selectedChips.push({
-                        score: e.score,
-                        object: {
-                          name: e.object.name || e.object.approvedSymbol,
-                          id: e.object.id,
-                        },
-                      });
-                      setSelectedChips(selectedChips.map(sc => sc));
-                      console.log(selectedChips);
-                    }}
-                    title={`Score: ${e.score} ID: ${e.object.id}`}
-                    color="primary"
-                    variant="outlined"
-                  />
-                );
-              })}
-            </div>
-            <PublicationsList entriesIds={literatureList} hideSearch />
+            <LiteratureList efoId={efoId} name={name} />
           </>
         );
       }}
