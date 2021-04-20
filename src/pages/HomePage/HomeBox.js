@@ -7,6 +7,8 @@ const useStyles = makeStyles(theme => ({
   homeboxContainer: {
     overflow: 'visible',
     padding: '30px 60px',
+    maxWidth: '800px',
+    margin: 'auto',
   },
   homeboxHeader: {
     textAlign: 'center',
