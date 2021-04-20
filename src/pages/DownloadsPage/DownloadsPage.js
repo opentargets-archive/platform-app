@@ -1,70 +1,69 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import {
-  // Avatar,
-  // Box,
-  // Card,
-  // CardContent,
-  // CardHeader,
-  // Grid,
-  // makeStyles,
-  // MenuItem,
-  // Select,
-  // Table,
-  // TableBody,
-  // TableCell,
-  // TableHead,
-  // TableRow,
-  Paper,
-  Box,
-  Chip,
-  Typography,
-} from '@material-ui/core';
+import { Paper, Box, Chip, Typography } from '@material-ui/core';
 
 import BasePage from '../../components/BasePage';
 import Link from '../../components/Link';
 import { DataTable } from '../../components/Table';
 import DownloadsDrawer from './DownloadsDrawer';
 import downloadData from './downloadData.json';
+import datasetMappings from './dataset-mappings';
+
+function getFormats(id, downloadData) {
+  const formats = [];
+
+  downloadData.forEach(data => {
+    if (id === data.id) {
+      formats.push({
+        format: data.resource.format,
+        path: data.resource.path,
+      });
+    }
+  });
+
+  return formats;
+}
+
+function getRows(downloadData, datasetMappings) {
+  const rows = [];
+
+  datasetMappings.forEach(mapping => {
+    if (mapping.include_in_fe) {
+      rows.push({
+        niceName: mapping.nice_name,
+        description: mapping.description,
+        formats: getFormats(mapping.id, downloadData),
+      });
+    }
+  });
+
+  return rows;
+}
+
+const rows = getRows(downloadData, datasetMappings);
 
 const columns = [
-  { id: 'dataset', label: 'Dataset' },
+  { id: 'niceName', label: 'Dataset' },
   { id: 'description', label: 'Description' },
-  { id: 'schema', label: 'Schema' },
   {
     id: 'formats',
     label: 'Format(s)',
-    renderCell: ({ dataset, formats }) => {
+    renderCell: ({ niceName, formats }) => {
       return (
-        <DownloadsDrawer title={dataset} data={formats}>
-          <Chip label="JSON" clickable size="small" />{' '}
-          <Chip label="Parquet" clickable size="small" />
+        <DownloadsDrawer title={niceName} data={formats}>
+          {formats.map(format => {
+            return (
+              <Chip
+                key={format.format}
+                label={format.format}
+                clickable
+                size="small"
+              />
+            );
+          })}
         </DownloadsDrawer>
       );
     },
-  },
-];
-
-const rows = [
-  {
-    dataset: 'Target',
-    description: 'Lorem ipsum dolor sit amet',
-    formats: downloadData[0],
-  },
-  {
-    dataset: 'Disease',
-    description: 'Lorem ipsum dolor sit amet',
-    formats: downloadData[1],
-  },
-  {
-    dataset: 'Drug - molecule',
-    description: 'Lorem ipsum dolor sit amet',
-    formats: downloadData[0],
-  },
-  {
-    dataset: 'Associations - direct',
-    description: 'Lorem ipsum dolor sit amet',
-    formats: downloadData[1],
   },
 ];
 
