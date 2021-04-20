@@ -13,14 +13,14 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: config.urlAppolloClient,
+    uri: config.urlApi,
   }),
   cache: new InMemoryCache({ fragmentMatcher }),
 });
 
 const betaClient = new ApolloClient({
   link: new HttpLink({
-    uri: config.urlAppolloClientBeta,
+    uri: config.urlApiBeta,
   }),
   cache: new InMemoryCache({ fragmentMatcher }),
 });
