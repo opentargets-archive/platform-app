@@ -37,26 +37,12 @@ const useStyles = makeStyles(theme => ({
 const ftpBase = 'ftp.ebi.ac.uk/pub/databases/opentargets/platform/';
 const gcloudBase = 'gs://open-targets-data-releases/';
 
-// function DownloadTab({ path }) {
-//   return (
-//     <>
-//       <Typography>FTP</Typography>
-//       <div className={classes.resourceURL}>{`${ftpBase}${year}.${
-//         month < 10 ? '0' : ''
-//       }${month}/output/ETL/target`}</div>
-//       <Typography>Google Cloud</Typography>
-//       <div className={classes.resourceURL}>{`${gcloudBase}${year}.${
-//         month < 10 ? '0' : ''
-//       }${month}/output/ETL/target`}</div>
-//     </>
-//   );
-// }
-
 function DownloadsDrawer({ title, formats, month, year, children }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [tab, setTab] = useState();
-  const [path, setPath] = useState('');
+  const [tab, setTab] = useState(formats[0].format);
+
+  if (formats.length === 0) return null;
 
   function toggleOpen() {
     setOpen(!open);
@@ -70,6 +56,8 @@ function DownloadsDrawer({ title, formats, month, year, children }) {
     console.log('tab', tab);
     setTab(tab);
   }
+
+  const path = formats.find(format => format.format === tab).format;
 
   return (
     <>
@@ -97,11 +85,11 @@ function DownloadsDrawer({ title, formats, month, year, children }) {
           <Typography>FTP</Typography>
           <div className={classes.resourceURL}>{`${ftpBase}${year}.${
             month < 10 ? '0' : ''
-          }${month}/output/ETL/target`}</div>
+          }${month}/output/ETL/${tab}`}</div>
           <Typography>Google Cloud</Typography>
           <div className={classes.resourceURL}>{`${gcloudBase}${year}.${
             month < 10 ? '0' : ''
-          }${month}/output/ETL/target`}</div>
+          }${month}/output/ETL/${tab}`}</div>
         </Paper>
       </Drawer>
     </>
