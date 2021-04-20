@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Paper, Box, Chip, Typography } from '@material-ui/core';
 
@@ -52,16 +52,17 @@ function getColumns(date) {
       renderCell: ({ niceName, formats }) => {
         return formats.map(format => {
           return (
-            <DownloadsDrawer
-              key={format.format}
-              title={niceName}
-              format={format.format}
-              path={format.path}
-              month={date.month}
-              year={date.year}
-            >
-              <Chip label={format.format} clickable size="small" />
-            </DownloadsDrawer>
+            <Fragment key={format.format}>
+              <DownloadsDrawer
+                title={niceName}
+                format={format.format}
+                path={format.path}
+                month={date.month}
+                year={date.year}
+              >
+                <Chip label={format.format} clickable size="small" />
+              </DownloadsDrawer>{' '}
+            </Fragment>
           );
         });
       },
