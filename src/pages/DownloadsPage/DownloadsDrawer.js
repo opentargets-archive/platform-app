@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   resourceURL: {
     marginBottom: '8px',
     padding: '10px',
-    overflowWrap: 'break-word',
+    wordBreak: 'break-all',
     backgroundColor: theme.palette.grey[800],
     color: 'white',
   },
