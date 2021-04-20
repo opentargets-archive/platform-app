@@ -42,30 +42,38 @@ function getRows(downloadData, datasetMappings) {
 
 const rows = getRows(downloadData, datasetMappings);
 
-const columns = [
-  { id: 'niceName', label: 'Dataset' },
-  { id: 'description', label: 'Description' },
-  {
-    id: 'formats',
-    label: 'Format(s)',
-    renderCell: ({ niceName, formats }) => {
-      return (
-        <DownloadsDrawer title={niceName} data={formats}>
-          {formats.map(format => {
-            return (
-              <Chip
-                key={format.format}
-                label={format.format}
-                clickable
-                size="small"
-              />
-            );
-          })}
-        </DownloadsDrawer>
-      );
+function getColumns(date) {
+  const columns = [
+    { id: 'niceName', label: 'Dataset' },
+    { id: 'description', label: 'Description' },
+    {
+      id: 'formats',
+      label: 'Format(s)',
+      renderCell: ({ niceName, formats }) => {
+        return (
+          <DownloadsDrawer
+            title={niceName}
+            formats={formats}
+            month={date.month}
+            year={date.year}
+          >
+            {formats.map(format => {
+              return (
+                <Chip
+                  key={format.format}
+                  label={format.format}
+                  clickable
+                  size="small"
+                />
+              );
+            })}
+          </DownloadsDrawer>
+        );
+      },
     },
-  },
-];
+  ];
+  return columns;
+}
 
 const DATA_VERSION_QUERY = gql`
   query DataVersion {
@@ -85,7 +93,8 @@ function getVersion(data) {
 }
 
 function DownloadsPage() {
-  const { data, error } = useQuery(DATA_VERSION_QUERY);
+  const { data, loading, error } = useQuery(DATA_VERSION_QUERY);
+  const columns = loading || error ? [] : getColumns(data.meta.dataVersion);
 
   return (
     <BasePage>
@@ -115,7 +124,9 @@ function DownloadsPage() {
       </Typography>
       <Paper variant="outlined" elevation={0}>
         <Box m={2}>
-          <DataTable showGlobalFilter columns={columns} rows={rows} />
+          {loading || error ? null : (
+            <DataTable showGlobalFilter columns={columns} rows={rows} />
+          )}
         </Box>
       </Paper>
     </BasePage>
