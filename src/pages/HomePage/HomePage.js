@@ -148,22 +148,6 @@ const HomePage = () => {
               <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
             </Hidden>
           </Grid>
-
-          {/* Links to API */}
-          {/* <Grid
-            className={classes.api}
-            container
-            alignItems="center"
-            direction="column"
-          >
-            <div>Looking to access our data?</div>
-            <Link
-              to="http://platform-api-beta.opentargets.io/api/v4/graphql/browser"
-              external
-            >
-              Browse our GraphQL API
-            </Link>
-          </Grid> */}
         </HomeBox>
 
         {/* scroll down button */}
