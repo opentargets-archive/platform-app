@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Drawer,
-  Paper,
-  Typography,
-  Tab,
-  Tabs,
-  makeStyles,
-} from '@material-ui/core';
+import { Drawer, Paper, Typography, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   backdrop: {
@@ -30,19 +23,20 @@ const useStyles = makeStyles(theme => ({
     padding: '1rem',
   },
   resourceURL: {
+    marginBottom: '8px',
+    padding: '10px',
     overflowWrap: 'break-word',
+    backgroundColor: theme.palette.grey[800],
+    color: 'white',
   },
 }));
 
 const ftpBase = 'ftp.ebi.ac.uk/pub/databases/opentargets/platform/';
 const gcloudBase = 'gs://open-targets-data-releases/';
 
-function DownloadsDrawer({ title, formats, month, year, children }) {
+function DownloadsDrawer({ title, format, path, month, year, children }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [tab, setTab] = useState(formats[0].format);
-
-  if (formats.length === 0) return null;
 
   function toggleOpen() {
     setOpen(!open);
@@ -51,13 +45,6 @@ function DownloadsDrawer({ title, formats, month, year, children }) {
   function close() {
     setOpen(false);
   }
-
-  function handleTabChange(_, tab) {
-    console.log('tab', tab);
-    setTab(tab);
-  }
-
-  const path = formats.find(format => format.format === tab).format;
 
   return (
     <>
@@ -70,26 +57,29 @@ function DownloadsDrawer({ title, formats, month, year, children }) {
       >
         <Typography className={classes.title}>{title}</Typography>
         <Paper className={classes.paper} variant="outlined">
-          <Typography variant="h6">Data formats and access</Typography>
-          <Tabs value="json" onChange={handleTabChange}>
-            {formats.map(format => {
-              return (
-                <Tab
-                  key={format.format}
-                  value={format.format}
-                  label={format.format}
-                />
-              );
-            })}
-          </Tabs>
-          <Typography>FTP</Typography>
+          <Typography variant="h6" gutterBottom>
+            {format.toUpperCase()} Data Format
+          </Typography>
+          <Typography variant="subtitle2" gutterBottom>
+            FTP
+          </Typography>
           <div className={classes.resourceURL}>{`${ftpBase}${year}.${
             month < 10 ? '0' : ''
-          }${month}/output/ETL/${tab}`}</div>
-          <Typography>Google Cloud</Typography>
-          <div className={classes.resourceURL}>{`${gcloudBase}${year}.${
+          }${month}/output/ETL${path}`}</div>
+          <Typography variant="subtitle2" gutterBottom>
+            Wget
+          </Typography>
+          <div className={classes.resourceURL}>{`wget ${ftpBase}${year}.${
             month < 10 ? '0' : ''
-          }${month}/output/ETL/${tab}`}</div>
+          }${month}/output/ETL${path}`}</div>
+          <Typography variant="subtitle2" gutterBottom>
+            Google Cloud
+          </Typography>
+          <div
+            className={classes.resourceURL}
+          >{`gsutil -m cp -r ${gcloudBase}${year}.${
+            month < 10 ? '0' : ''
+          }${month}/output/ETL${path}`}</div>
         </Paper>
       </Drawer>
     </>

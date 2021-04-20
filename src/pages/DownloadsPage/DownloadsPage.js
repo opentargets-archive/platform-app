@@ -50,25 +50,20 @@ function getColumns(date) {
       id: 'formats',
       label: 'Format(s)',
       renderCell: ({ niceName, formats }) => {
-        return (
-          <DownloadsDrawer
-            title={niceName}
-            formats={formats}
-            month={date.month}
-            year={date.year}
-          >
-            {formats.map(format => {
-              return (
-                <Chip
-                  key={format.format}
-                  label={format.format}
-                  clickable
-                  size="small"
-                />
-              );
-            })}
-          </DownloadsDrawer>
-        );
+        return formats.map(format => {
+          return (
+            <DownloadsDrawer
+              key={format.format}
+              title={niceName}
+              format={format.format}
+              path={format.path}
+              month={date.month}
+              year={date.year}
+            >
+              <Chip label={format.format} clickable size="small" />
+            </DownloadsDrawer>
+          );
+        });
       },
     },
   ];
