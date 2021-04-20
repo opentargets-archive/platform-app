@@ -175,7 +175,7 @@ const columns = [
     },
   },
   {
-    label: 'Literatures',
+    label: 'Literature',
     renderCell: ({ literature }) => {
       const literatureList =
         literature?.reduce((acc, id) => {
