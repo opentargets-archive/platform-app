@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Drawer, Paper, Typography, makeStyles } from '@material-ui/core';
+import {
+  Drawer,
+  IconButton,
+  Paper,
+  Typography,
+  makeStyles,
+} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles(theme => ({
   backdrop: {
@@ -11,6 +18,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.grey[300],
   },
   title: {
+    display: 'flex',
+    justifyContent: 'space-between',
     backgroundColor: 'white',
     borderBottom: '1px solid #ccc',
     fontSize: '1.2rem',
@@ -59,7 +68,13 @@ function DownloadsDrawer({ title, format, path, month, year, children }) {
         onClose={close}
         anchor="right"
       >
-        <Typography className={classes.title}>{title}</Typography>
+        <Typography className={classes.title}>
+          {title}
+          <IconButton onClick={close}>
+            <CloseIcon />
+          </IconButton>
+        </Typography>
+
         <Paper className={classes.paper} variant="outlined">
           <Typography variant="h6" gutterBottom>
             {format.toUpperCase()} Data Format
