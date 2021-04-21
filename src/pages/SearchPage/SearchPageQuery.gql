@@ -76,12 +76,6 @@ query SearchPageQuery(
           drugType
           maximumClinicalTrialPhase
           hasBeenWithdrawn
-          withdrawnNotice {
-            classes
-            countries
-            reasons
-            year
-          }
           indications {
             rows {
               disease {
