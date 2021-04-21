@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
-import { DataTable } from '../../../components/Table';
+import { DataTable, TableDrawer } from '../../../components/Table';
 import PublicationsDrawer from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
@@ -29,10 +29,12 @@ const REACTOME_QUERY = gql`
             name
           }
           diseaseFromSource
-          pathwayId
           reactionId
           targetFromSourceId
-          pathwayName
+          pathways {
+            id
+            name
+          }
           targetModulation
           variantAminoacidDescriptions
           literature
@@ -69,14 +71,28 @@ const columns = [
   {
     id: 'pathwayName',
     label: 'Pathway',
-    renderCell: ({ pathwayId, pathwayName }) => (
-      <Link
-        external
-        to={`http://www.reactome.org/PathwayBrowser/#${pathwayId}`}
-      >
-        {pathwayName}
-      </Link>
-    ),
+    renderCell: ({ pathways }) => {
+      if (!pathways || pathways.length === 0) {
+        return naLabel;
+      }
+      if (pathways.length === 1) {
+        return (
+          <Link
+            external
+            to={`http://www.reactome.org/PathwayBrowser/#${pathways[0].id}`}
+          >
+            {pathways[0].name}
+          </Link>
+        );
+      } else {
+        const refs = pathways.map(p => ({
+          url: `http://www.reactome.org/PathwayBrowser/#${p.id}`,
+          name: p.name,
+          group: 'pathways',
+        }));
+        return <TableDrawer entries={refs} />;
+      }
+    },
   },
   {
     id: 'reactionId',
@@ -115,7 +131,7 @@ const columns = [
     },
     label: 'Amino acid variation',
     renderCell: ({ variantAminoacidDescriptions }) => {
-      return variantAminoacidDescriptions.length > 1 ? (
+      return variantAminoacidDescriptions?.length > 1 ? (
         <ul
           style={{
             margin: 0,
@@ -129,7 +145,7 @@ const columns = [
             </li>
           ))}
         </ul>
-      ) : variantAminoacidDescriptions.length === 1 ? (
+      ) : variantAminoacidDescriptions?.length === 1 ? (
         variantAminoacidDescriptions[0]
       ) : (
         naLabel
