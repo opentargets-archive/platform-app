@@ -60,9 +60,11 @@ const columns = [
         const refs = pathways.map(p => ({
           url: `http://www.reactome.org/PathwayBrowser/#${p.id}`,
           name: p.name,
-          group: 'pathways',
+          group: 'Pathways',
         }));
-        return <TableDrawer entries={refs} />;
+        return (
+          <TableDrawer entries={refs} message={`${refs.length} pathways`} />
+        );
       }
     },
   },
