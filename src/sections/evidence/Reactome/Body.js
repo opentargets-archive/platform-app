@@ -1,5 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -13,36 +14,7 @@ import { epmcUrl } from '../../../utils/urls';
 import Link from '../../../components/Link';
 import Summary from './Summary';
 
-const REACTOME_QUERY = gql`
-  query reactomeQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["reactome"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          reactionId
-          targetFromSourceId
-          pathways {
-            id
-            name
-          }
-          targetModulation
-          variantAminoacidDescriptions
-          literature
-        }
-      }
-    }
-  }
-`;
+const REACTOME_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
