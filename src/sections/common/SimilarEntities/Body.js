@@ -51,7 +51,7 @@ const INIT_PAGE_SIZE = 5;
 
 const Loader = () => <Box height="700px" />;
 
-function LiteratureList({ efoId, name, entity, BODY_QUERY }) {
+function LiteratureList({ id, name, entity, BODY_QUERY }) {
   const classes = useStyles();
   const [initialLoading, setInitialLoading] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -71,7 +71,7 @@ function LiteratureList({ efoId, name, entity, BODY_QUERY }) {
       query: BODY_QUERY,
       variables: {
         cursor,
-        efoId,
+        id,
         ids: selectedChips.map(c => c.object.id),
         threshold,
         size,
@@ -160,7 +160,7 @@ function LiteratureList({ efoId, name, entity, BODY_QUERY }) {
       </Box>
 
       <div className={classes.root}>
-        <Chip label={name} title={`ID: ${efoId}`} color="primary" />
+        <Chip label={name} title={`ID: ${id}`} color="primary" />
         {selectedChips.map((e, i) => (
           <Chip
             label={e.object.name}
@@ -181,7 +181,7 @@ function LiteratureList({ efoId, name, entity, BODY_QUERY }) {
         {/* API response chips: remove those already selected and the page entity */}
         {!initialLoading &&
           entities.map(e => {
-            return efoId === e.object.id ||
+            return id === e.object.id ||
               selectedChips.find(s => s.object.id === e.object.id) ? null : (
               <Chip
                 label={e.object.name || e.object.approvedSymbol}
@@ -240,7 +240,7 @@ function LiteratureList({ efoId, name, entity, BODY_QUERY }) {
   );
 }
 
-function Body({ definition, name, efoId, entity, BODY_QUERY }) {
+function Body({ definition, name, id, entity, BODY_QUERY }) {
   return (
     <SectionItem
       definition={definition}
@@ -250,7 +250,7 @@ function Body({ definition, name, efoId, entity, BODY_QUERY }) {
         return (
           <>
             <LiteratureList
-              efoId={efoId}
+              id={id}
               name={name}
               entity={entity}
               BODY_QUERY={BODY_QUERY}

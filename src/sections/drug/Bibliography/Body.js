@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 
 import { Body as Bibliography } from '../../common/SimilarEntities';
 
-const DISEASE_LITERATURE_OCURRENCES = gql`
+const DRUGS_LITERATURE_OCURRENCES = gql`
   query SimilarEntitiesQuery(
     $id: String!
     $ids: [String!] = []
@@ -12,7 +12,7 @@ const DISEASE_LITERATURE_OCURRENCES = gql`
     $entityNames: [String!] = []
     $cursor: String! = ""
   ) {
-    disease(efoId: $id) {
+    drug(chemblId: $id) {
       id
       name
       similarEntities(
@@ -70,10 +70,10 @@ function Body({ definition, id, label: name }) {
   return (
     <Bibliography
       definition={definition}
-      entity="disease"
+      entity="drug"
       id={id}
       name={name}
-      BODY_QUERY={DISEASE_LITERATURE_OCURRENCES}
+      BODY_QUERY={DRUGS_LITERATURE_OCURRENCES}
     />
   );
 }

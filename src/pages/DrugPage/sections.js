@@ -1,6 +1,6 @@
 // Section imports
 import * as DrugWarnings from '../../sections/drug/DrugWarnings';
-import * as Bibliography from '../../sections/common/Bibliography';
+import * as Bibliography from '../../sections/drug/Bibliography';
 import * as ClinicalPrecedence from '../../sections/drug/KnownDrugs';
 import * as Indications from '../../sections/drug/Indications';
 import * as MechanismsOfAction from '../../sections/drug/MechanismsOfAction';
