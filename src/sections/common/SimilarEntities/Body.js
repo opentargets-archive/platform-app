@@ -1,21 +1,14 @@
-import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { PublicationsList } from '../../../components/PublicationsDrawer';
+import React, { useState, useEffect } from 'react';
+import PublicationsList from './PublicationsList';
 import { Autocomplete } from '@material-ui/lab';
-import { get } from 'lodash';
-import { Skeleton } from '@material-ui/lab';
 import {
   Chip,
   makeStyles,
   TextField,
   Box,
-  Select,
-  InputLabel,
-  MenuItem,
-  FormControl,
   Typography,
 } from '@material-ui/core';
-
+import client from '../../../client';
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
 const categories = [
@@ -34,154 +27,160 @@ const useStyles = makeStyles(theme => ({
     },
   },
   categoryAutocomplete: {
-    width: '15rem',
+    width: '20em',
+    marginLeft: '20px',
     '& .MuiFormControl-root': { marginTop: 0 },
+  },
+  filterCategoryContainer: { display: 'flex' },
+  controlsContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '20px 0',
   },
   AccordionSubtitle: {
     color: theme.palette.grey[400],
     fontSize: '0.8rem',
     fontStyle: 'italic',
   },
+  resultCount: {
+    marginLeft: '2rem',
+  },
 }));
 
-const SIMILARENTITIES_BODY_QUERY = gql`
-  query SimilarEntitiesQuery(
-    $efoId: String!
-    $ids: [String!] = []
-    $threshold: Float = 0.5
-    $size: Int! = 15
-    $entityNames: [String!] = []
-  ) {
-    disease(efoId: $efoId) {
-      id
-      name
-
-      similarEntities(
-        additionalIds: $ids
-        threshold: $threshold
-        size: $size
-        entityNames: $entityNames
-      ) {
-        score
-        object {
-          ... on Target {
-            id
-            approvedSymbol
-          }
-          ... on Drug {
-            id
-            name
-          }
-          ... on Disease {
-            id
-            name
-          }
-        }
-      }
-      literatureOcurrences(additionalIds: $ids) {
-        count
-        cursor
-        rows {
-          pmid
-          publicationDate
-          ids
-          sentences {
-            section
-            matches {
-              mappedId
-              matchedLabel
-              sectionStart
-              sectionEnd
-              startInSentence
-              endInSentence
-            }
-          }
-          ocurrencesPerId {
-            keywordId
-            count
-          }
-        }
-      }
-    }
-  }
-`;
+const INIT_PAGE_SIZE = 5;
 
 const Loader = () => <Box height="700px" />;
 
-function LiteratureList({ efoId, name }) {
+function LiteratureList({ efoId, name, entity, BODY_QUERY }) {
   const classes = useStyles();
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [selectedChips, setSelectedChips] = useState([]);
-
+  const [cursor, setCursor] = useState('');
+  const [rows, setRows] = useState([]);
+  const [entities, setEntities] = useState([]);
+  const [count, setCount] = useState(0);
   const [category, setCategory] = useState(categories[0]);
+  const [page, setPage] = useState(0);
 
   const threshold = 0.5;
   const size = 9;
 
-  const { loading, error, data } = useQuery(SIMILARENTITIES_BODY_QUERY, {
-    variables: {
-      efoId,
-      ids: selectedChips.map(c => c.object.id),
-      threshold,
-      size,
-      entityNames: category === categories[0] ? null : [category.value],
+  const fetchLiteratures = cursor => {
+    return client.query({
+      query: BODY_QUERY,
+      variables: {
+        cursor,
+        efoId,
+        ids: selectedChips.map(c => c.object.id),
+        threshold,
+        size,
+        entityNames: category === categories[0] ? null : [category.value],
+      },
+    });
+  };
+
+  useEffect(
+    () => {
+      let isCurrent = true;
+      fetchLiteratures(cursor).then(res => {
+        const newCursor = res.data[entity].literatureOcurrences.cursor || '';
+        if (isCurrent) {
+          const { literatureOcurrences, similarEntities } = res.data[entity];
+          setRows(literatureOcurrences?.rows?.map(({ pmid }) => pmid));
+          setCount(literatureOcurrences.count);
+          setEntities(similarEntities);
+          setInitialLoading(false);
+          setLoading(false);
+          setCursor(newCursor);
+          setPage(0);
+        }
+      });
+      return () => {
+        isCurrent = false;
+      };
     },
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedChips, category]
+  );
 
   const handleSetCategory = (e, selection) => {
+    setLoading(true);
     setCategory(selection);
   };
 
-  if (error) {
-    return <h3>Error</h3>;
-  }
+  const handleDeleteChip = index => {
+    const newChips = [
+      ...selectedChips.slice(0, index),
+      ...selectedChips.slice(index + 1),
+    ];
+    setLoading(true);
+    setSelectedChips(newChips);
+  };
 
-  const disease = get(data, 'disease', null);
-
-  const literatureList = disease
-    ? disease.literatureOcurrences?.rows?.map(({ pmid }) => pmid)
-    : [];
+  const handlePageChange = newPage => {
+    if (
+      INIT_PAGE_SIZE * newPage + INIT_PAGE_SIZE > rows.length &&
+      cursor !== null
+    ) {
+      setLoading(true);
+      fetchLiteratures(cursor).then(res => {
+        const { cursor, rows: newRows } = res.data[entity].literatureOcurrences;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(newPage);
+        setRows([...rows, ...newRows?.map(({ pmid }) => pmid)]);
+      });
+    } else {
+      setPage(newPage);
+    }
+  };
 
   return (
     <>
-      <Box className={classes.filterCategoryContainer}>
-        <Typography>Tag category:</Typography>
-        {/* Dropdown menu */}
-        <Autocomplete
-          classes={{ root: classes.categoryAutocomplete }}
-          disableClearable
-          getOptionLabel={option => option.label}
-          getOptionSelected={option => option.value}
-          onChange={handleSetCategory}
-          options={categories}
-          renderInput={params => <TextField {...params} margin="normal" />}
-          value={category}
-        />
+      <Box className={classes.controlsContainer}>
+        <Box className={classes.filterCategoryContainer}>
+          <Typography>Tag category:</Typography>
+          <Autocomplete
+            classes={{ root: classes.categoryAutocomplete }}
+            disableClearable
+            getOptionLabel={option => option.label}
+            getOptionSelected={option => option.value}
+            onChange={handleSetCategory}
+            options={categories}
+            renderInput={params => <TextField {...params} margin="normal" />}
+            value={category}
+          />
+        </Box>
+        {!initialLoading && (
+          <Typography variant="body2" className={classes.resultCount}>
+            Showing {count > 5 ? 5 : count} of {count} results
+          </Typography>
+        )}
       </Box>
-      <hr />
 
       <div className={classes.root}>
-        {/* Non-deselectable page entity (i.e. the target or disease) */}
         <Chip label={name} title={`ID: ${efoId}`} color="primary" />
-
-        {/* selected chips */}
         {selectedChips.map((e, i) => (
           <Chip
             label={e.object.name}
             key={e.object.id}
             title={`Score: ${e.score} ID: ${e.object.id}`}
             color="primary"
+            clickable
+            onClick={() => {
+              handleDeleteChip(i);
+            }}
             onDelete={() => {
-              const newChips = [...selectedChips];
-              newChips.splice(i, 1);
-              setSelectedChips(newChips);
+              handleDeleteChip(i);
             }}
           />
         ))}
       </div>
       <div className={classes.root}>
         {/* API response chips: remove those already selected and the page entity */}
-        {!loading &&
-          disease.similarEntities.map(e => {
+        {!initialLoading &&
+          entities.map(e => {
             return efoId === e.object.id ||
               selectedChips.find(s => s.object.id === e.object.id) ? null : (
               <Chip
@@ -189,14 +188,18 @@ function LiteratureList({ efoId, name }) {
                 key={e.object.id}
                 clickable
                 onClick={() => {
-                  selectedChips.push({
-                    score: e.score,
-                    object: {
-                      name: e.object.name || e.object.approvedSymbol,
-                      id: e.object.id,
+                  const newChimps = [
+                    ...selectedChips,
+                    {
+                      score: e.score,
+                      object: {
+                        name: e.object.name || e.object.approvedSymbol,
+                        id: e.object.id,
+                      },
                     },
-                  });
-                  setSelectedChips(selectedChips.map(sc => sc));
+                  ];
+                  setLoading(true);
+                  setSelectedChips(newChimps);
                 }}
                 title={`Score: ${e.score} ID: ${e.object.id}`}
                 color="primary"
@@ -207,10 +210,17 @@ function LiteratureList({ efoId, name }) {
       </div>
       <div>
         {loading && <Loader />}
-        {!loading && (
-          <PublicationsList entriesIds={literatureList} hideSearch />
+        {!initialLoading && !loading && (
+          <PublicationsList
+            handlePageChange={handlePageChange}
+            pageSize={INIT_PAGE_SIZE}
+            entriesIds={rows}
+            count={count}
+            page={page}
+            hideSearch
+          />
         )}
-        {!loading && literatureList.length === 0 && (
+        {!initialLoading && rows.length === 0 && (
           <Box
             my={20}
             display="flex"
@@ -230,7 +240,7 @@ function LiteratureList({ efoId, name }) {
   );
 }
 
-function Body({ definition, label: name, id: efoId }) {
+function Body({ definition, name, efoId, entity, BODY_QUERY }) {
   return (
     <SectionItem
       definition={definition}
@@ -239,7 +249,12 @@ function Body({ definition, label: name, id: efoId }) {
       renderBody={() => {
         return (
           <>
-            <LiteratureList efoId={efoId} name={name} />
+            <LiteratureList
+              efoId={efoId}
+              name={name}
+              entity={entity}
+              BODY_QUERY={BODY_QUERY}
+            />
           </>
         );
       }}
