@@ -1,6 +1,6 @@
 // Section imports
 import * as BaselineExpression from '../../sections/target/Expression';
-import * as Bibliography from '../../sections/common/Bibliography';
+import * as Bibliography from '../../sections/target/Bibliography';
 import * as CancerBiomarkers from '../../sections/target/CancerBiomarkers';
 import * as CancerHallmarks from '../../sections/target/CancerHallmarks';
 import * as ChemicalProbes from '../../sections/target/ChemicalProbes';
