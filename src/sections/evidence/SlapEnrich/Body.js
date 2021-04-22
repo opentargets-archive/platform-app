@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 
 import { DataTable } from '../../../components/Table';
@@ -13,32 +14,9 @@ import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const reactomeUrl = id => `http://www.reactome.org/PathwayBrowser/#${id}`;
+const reactomeUrl = id => `https://identifiers.org/reactome:${id}`;
 
-const SLAPENRICH_QUERY = gql`
-  query SlapEnrichQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        size: $size
-        datasourceIds: ["slapenrich"]
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          pathwayId
-          pathwayName
-          resourceScore
-        }
-      }
-    }
-  }
-`;
+const SLAPENRICH_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
@@ -67,10 +45,10 @@ const columns = [
   {
     id: 'pathwayName',
     label: 'Significant pathway',
-    renderCell: ({ pathwayName, pathwayId }) =>
-      pathwayName && pathwayId ? (
-        <Link external to={reactomeUrl(pathwayId)}>
-          {pathwayName}
+    renderCell: ({ pathways }) =>
+      pathways?.length >= 1 ? (
+        <Link external to={reactomeUrl(pathways[0].id)}>
+          {pathways[0].name}
         </Link>
       ) : (
         naLabel
