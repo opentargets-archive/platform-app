@@ -23,6 +23,7 @@ const parsedPublications = publications =>
 const PublicationsList = ({
   hideSearch = false,
   handlePageChange,
+  handleRowsPerPageChange,
   entriesIds,
   pageSize,
   page,
@@ -96,6 +97,7 @@ const PublicationsList = ({
       page={page}
       pageSize={pageSize}
       onPageChange={handlePageChange}
+      onRowsPerPageChange={handleRowsPerPageChange}
     />
   );
 };

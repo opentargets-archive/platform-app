@@ -61,6 +61,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
   const [count, setCount] = useState(0);
   const [category, setCategory] = useState(categories[0]);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(INIT_PAGE_SIZE);
 
   const threshold = 0.5;
   const size = 9;
@@ -131,10 +132,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
   };
 
   const handlePageChange = newPage => {
-    if (
-      INIT_PAGE_SIZE * newPage + INIT_PAGE_SIZE > rows.length &&
-      cursor !== null
-    ) {
+    if (pageSize * newPage + pageSize > rows.length && cursor !== null) {
       setLoading(true);
       fetchLiteratures(cursor).then(res => {
         const { cursor: newCursor, rows: newRows } = res.data[
@@ -147,6 +145,25 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
       });
     } else {
       setPage(newPage);
+    }
+  };
+
+  const handleRowsPerPageChange = newPageSize => {
+    if (newPageSize > rows.length && cursor !== null) {
+      setLoading(true);
+      fetchLiteratures(cursor).then(res => {
+        const { cursor: newCursor, rows: newRows } = res.data[
+          entity
+        ].literatureOcurrences;
+        setCursor(newCursor);
+        setRows([...rows, ...newRows?.map(({ pmid }) => pmid)]);
+        setPage(0);
+        setPageSize(newPageSize);
+        setLoading(false);
+      });
+    } else {
+      setPage(0);
+      setPageSize(newPageSize);
     }
   };
 
@@ -229,8 +246,9 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
           <PublicationsList
             hideSearch
             handlePageChange={handlePageChange}
+            handleRowsPerPageChange={handleRowsPerPageChange}
             entriesIds={rows}
-            pageSize={INIT_PAGE_SIZE}
+            pageSize={pageSize}
             page={page}
             count={count}
             loading={loading}
