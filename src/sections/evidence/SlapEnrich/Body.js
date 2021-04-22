@@ -13,7 +13,7 @@ import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const reactomeUrl = id => `http://www.reactome.org/PathwayBrowser/#${id}`;
+const reactomeUrl = id => `https://identifiers.org/reactome:${id}`;
 
 const SLAPENRICH_QUERY = gql`
   query SlapEnrichQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
@@ -31,8 +31,10 @@ const SLAPENRICH_QUERY = gql`
             name
           }
           diseaseFromSource
-          pathwayId
-          pathwayName
+          pathways {
+            id
+            name
+          }
           resourceScore
         }
       }
@@ -67,10 +69,10 @@ const columns = [
   {
     id: 'pathwayName',
     label: 'Significant pathway',
-    renderCell: ({ pathwayName, pathwayId }) =>
-      pathwayName && pathwayId ? (
-        <Link external to={reactomeUrl(pathwayId)}>
-          {pathwayName}
+    renderCell: ({ pathways }) =>
+      pathways?.length >= 1 ? (
+        <Link external to={reactomeUrl(pathways[0].id)}>
+          {pathways[0].name}
         </Link>
       ) : (
         naLabel
