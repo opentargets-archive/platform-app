@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import { DataTable } from '../../../components/Table';
 import Description from './Description';
@@ -12,35 +13,7 @@ import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const SYSBIO_QUERY = gql`
-  query SysBioQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        size: $size
-        datasourceIds: ["sysbio"]
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          target {
-            id
-            approvedSymbol
-          }
-          studyOverview
-          literature
-          pathways {
-            name
-          }
-        }
-      }
-    }
-  }
-`;
+const SYSBIO_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
