@@ -64,7 +64,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
   const [pageSize, setPageSize] = useState(INIT_PAGE_SIZE);
 
   const threshold = 0.5;
-  const size = 9;
+  const size = 15;
 
   const fetchLiteratures = (cursor = '') => {
     return client.query({
