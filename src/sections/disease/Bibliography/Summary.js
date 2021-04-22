@@ -5,9 +5,9 @@ import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const SIMILARENTTIES_SUMMARY_FRAGMENT = gql`
-  fragment EntitiesSummaryFragment on Disease {
-    similarEntities(threshold: 0.5, size: 20) {
-      score
+  fragment DiseaseBibliography on Disease {
+    literatureOcurrences {
+      count
     }
   }
 `;
@@ -20,14 +20,21 @@ function Summary({ definition }) {
       definition={definition}
       request={request}
       renderSummary={data =>
-        data.similarEntities?.length > 0 ? <>Data available</> : <>no data</>
+        data.literatureOcurrences?.count > 0 ? (
+          <>
+            {data.literatureOcurrences.count.toLocaleString()} publication
+            {data.literatureOcurrences.count === 1 ? '' : 's'}
+          </>
+        ) : (
+          <>no data</>
+        )
       }
     />
   );
 }
 
 Summary.fragments = {
-  EntitiesSummaryFragment: SIMILARENTTIES_SUMMARY_FRAGMENT,
+  DiseaseBibliography: SIMILARENTTIES_SUMMARY_FRAGMENT,
 };
 
 export default Summary;

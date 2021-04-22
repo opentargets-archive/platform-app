@@ -5,7 +5,7 @@ import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const SIMILARENTTIES_SUMMARY_FRAGMENT = gql`
-  fragment EntitiesSummaryFragment on Disease {
+  fragment SimilarEntitiesDisease on Disease {
     similarEntities(threshold: 0.5, size: 20) {
       score
     }
@@ -27,7 +27,7 @@ function Summary({ definition }) {
 }
 
 Summary.fragments = {
-  EntitiesSummaryFragment: SIMILARENTTIES_SUMMARY_FRAGMENT,
+  SimilarEntitiesDisease: SIMILARENTTIES_SUMMARY_FRAGMENT,
 };
 
 export default Summary;
