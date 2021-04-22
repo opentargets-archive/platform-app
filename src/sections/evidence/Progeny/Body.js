@@ -14,7 +14,7 @@ import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const reactomeUrl = id => `http://www.reactome.org/PathwayBrowser/#${id}`;
+const reactomeUrl = id => `https://identifiers.org/reactome:${id}`;
 
 const PROGENY_QUERY = loader('./sectionQuery.gql');
 
