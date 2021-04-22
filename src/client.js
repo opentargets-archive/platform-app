@@ -12,16 +12,14 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri:
-      'https://api-beta-dot-open-targets-eu-dev.ew.r.appspot.com/api/v4/graphql',
+    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
   }),
   cache: new InMemoryCache({ fragmentMatcher }),
 });
 
 const betaClient = new ApolloClient({
   link: new HttpLink({
-    uri:
-      'https://api-beta-dot-open-targets-eu-dev.ew.r.appspot.com/api/v4/graphql',
+    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
   }),
   cache: new InMemoryCache({ fragmentMatcher }),
 });
