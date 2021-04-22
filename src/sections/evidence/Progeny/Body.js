@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 
 import { DataTable } from '../../../components/Table';
@@ -15,32 +16,7 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const reactomeUrl = id => `http://www.reactome.org/PathwayBrowser/#${id}`;
 
-const PROGENY_QUERY = gql`
-  query ProgenyQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        size: $size
-        datasourceIds: ["progeny"]
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          pathways {
-            id
-            name
-          }
-          resourceScore
-        }
-      }
-    }
-  }
-`;
+const PROGENY_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
