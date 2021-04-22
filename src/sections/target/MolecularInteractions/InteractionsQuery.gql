@@ -33,7 +33,7 @@ query InteractionsSectionQuery(
         speciesB {
           mnemonic
         }
-        scoring
+        score
         count
         sourceDatabase
         evidences {

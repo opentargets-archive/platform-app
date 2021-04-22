@@ -91,10 +91,10 @@ const columns = {
       width: '40%',
     },
     {
-      id: 'scoring',
+      id: 'score',
       label: 'Score',
-      renderCell: row => row.scoring.toFixed(2),
-      exportValue: row => row.scoring.toFixed(2),
+      renderCell: row => row.score.toFixed(2),
+      exportValue: row => row.score.toFixed(2),
       width: '14%',
     },
     {

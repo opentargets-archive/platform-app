@@ -7,10 +7,10 @@ import * as MechanismsOfAction from '../../sections/drug/MechanismsOfAction';
 import * as Pharmacovigilance from '../../sections/drug/AdverseEvents';
 
 export default [
-  DrugWarnings,
-  Indications,
   MechanismsOfAction,
+  Indications,
   ClinicalPrecedence,
+  DrugWarnings,
   Pharmacovigilance,
   Bibliography,
 ];

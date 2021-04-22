@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Typography,
   Box,
   CircularProgress,
   IconButton,
@@ -33,9 +34,18 @@ const useStyles = makeStyles({
       marginRight: '.5rem',
     },
   },
+  subtitle1: {
+    marginBottom: '1rem',
+    fontWeight: 'bold',
+  },
+  subtitle2: {
+    marginTop: '1rem',
+    marginBottom: '1rem',
+    fontWeight: 'bold',
+  },
 });
 
-function Facets({ loading, data, onChange }) {
+function Facets({ loading, data, onChange, type }) {
   const [facets, setFacets] = useState([]);
   const classes = useStyles();
 
@@ -99,21 +109,39 @@ function Facets({ loading, data, onChange }) {
         )}
       </Box>
 
-      {loading && !facets.length > 0 && (
+      {loading && facets.length === 0 && (
         // Initial load, show skeleton
         <Skeleton variant="rect" height={48} />
       )}
-      {facets.length > 0 &&
-        facets.map(facet => (
+      {facets.length > 0 && (
+        <>
+          <Typography className={classes.subtitle1}>
+            Evidence-specific filters
+          </Typography>
           <Facet
             loading={loading}
-            key={facet.nodeId}
-            treeId={facet.nodeId}
-            label={facet.label}
-            aggs={facet.aggs}
+            key={facets[0].nodeId}
+            treeId={facets[0].nodeId}
+            label={facets[0].label}
+            aggs={facets[0].aggs}
             onSelectionChange={handleFilterChange}
           />
-        ))}
+          <Typography className={classes.subtitle2}>
+            {type === 'target' ? 'Target' : 'Disease/phenotype'}-specific
+            filters
+          </Typography>
+          {facets.slice(1).map(facet => (
+            <Facet
+              loading={loading}
+              key={facet.nodeId}
+              treeId={facet.nodeId}
+              label={facet.label}
+              aggs={facet.aggs}
+              onSelectionChange={handleFilterChange}
+            />
+          ))}
+        </>
+      )}
     </>
   );
 }
