@@ -1,72 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  makeStyles,
-  Typography,
-  CircularProgress,
-} from '@material-ui/core';
 import { europePmcSearchPOSTQuery } from '../../../utils/urls';
 import PublicationWrapper from '../../../components/PublicationsDrawer/PublicationWrapper';
 import { getPage, Table } from '../../../components/Table';
 
-const listComponetStyles = makeStyles(theme => ({
-  AccordionSubtitle: {
-    color: theme.palette.grey[400],
-    fontSize: '0.8rem',
-    fontStyle: 'italic',
-  },
-}));
-
-const PublicationsList = ({
-  entriesIds,
-  hideSearch = false,
-  pageSize,
-  handlePageChange,
-  page,
-  count,
-}) => {
-  const [publications, setPublications] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(
-    () => {
-      const { baseUrl, formBody } = europePmcSearchPOSTQuery(entriesIds);
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        },
-        body: formBody,
-      };
-      fetch(baseUrl, requestOptions)
-        .then(response => response.json())
-        .then(data => {
-          setLoading(false);
-          setPublications(data.resultList.result);
-        });
-    },
-    [entriesIds]
-  );
-
-  if (loading)
-    return (
-      <Box
-        my={20}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column"
-      >
-        <CircularProgress size={60} />
-        <Box mt={6}>
-          <Typography className={listComponetStyles.AccordionSubtitle}>
-            Loading Europe PMC search results
-          </Typography>
-        </Box>
-      </Box>
-    );
-
-  const parsedPublications = publications.map(pub => {
+const parsedPublications = publications =>
+  publications.map(pub => {
     const row = {};
     row.europePmcId = pub.id;
     row.fullTextOpen = pub.inEPMC === 'Y' || pub.inPMC === 'Y' ? true : false;
@@ -81,6 +19,49 @@ const PublicationsList = ({
     };
     return row;
   });
+
+const PublicationsList = ({
+  hideSearch = false,
+  handlePageChange,
+  entriesIds,
+  pageSize,
+  page,
+  count,
+  loading: parentLoading,
+}) => {
+  const [publications, setPublications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(
+    () => {
+      const ids =
+        page === 0 ? entriesIds : entriesIds.slice(pageSize * page + pageSize);
+      const { baseUrl, formBody } = europePmcSearchPOSTQuery(ids);
+      setLoading(true);
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        },
+        body: formBody,
+      };
+      fetch(baseUrl, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          if (page === 0) {
+            setPublications(parsedPublications(data.resultList.result));
+          } else {
+            setPublications([
+              ...publications,
+              ...parsedPublications(data.resultList.result),
+            ]);
+          }
+          setLoading(false);
+        });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [entriesIds]
+  );
 
   const columns = [
     {
@@ -100,16 +81,21 @@ const PublicationsList = ({
     },
   ];
 
+  const rows =
+    entriesIds.length === publications.length || page === 0
+      ? getPage(publications, page, pageSize)
+      : getPage(publications, page - 1, pageSize);
   return (
     <Table
-      columns={columns}
-      rows={getPage(parsedPublications, page, pageSize)}
       showGlobalFilter={!hideSearch}
+      loading={parentLoading || loading}
+      columns={columns}
+      rows={rows}
+      rowCount={count}
       rowsPerPageOptions={[5, 10, 25, 100]}
       page={page}
       pageSize={pageSize}
       onPageChange={handlePageChange}
-      rowCount={count}
     />
   );
 };

@@ -11,6 +11,7 @@ import {
 import client from '../../../client';
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
+
 const categories = [
   { value: 'all', label: 'All' },
   { value: 'target', label: 'Target' },
@@ -49,8 +50,6 @@ const useStyles = makeStyles(theme => ({
 
 const INIT_PAGE_SIZE = 5;
 
-const Loader = () => <Box height="700px" />;
-
 function LiteratureList({ id, name, entity, BODY_QUERY }) {
   const classes = useStyles();
   const [initialLoading, setInitialLoading] = useState(true);
@@ -66,7 +65,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
   const threshold = 0.5;
   const size = 9;
 
-  const fetchLiteratures = cursor => {
+  const fetchLiteratures = (cursor = '') => {
     return client.query({
       query: BODY_QUERY,
       variables: {
@@ -82,18 +81,30 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
 
   useEffect(
     () => {
-      let isCurrent = true;
       fetchLiteratures(cursor).then(res => {
         const newCursor = res.data[entity].literatureOcurrences.cursor || '';
+        const { literatureOcurrences, similarEntities } = res.data[entity];
+        setCount(literatureOcurrences.count);
+        setInitialLoading(false);
+        setLoading(false);
+        setCursor(newCursor);
+        setPage(0);
+        setRows(literatureOcurrences?.rows?.map(({ pmid }) => pmid));
+        setEntities(similarEntities);
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedChips]
+  );
+
+  useEffect(
+    () => {
+      let isCurrent = true;
+      fetchLiteratures().then(res => {
         if (isCurrent) {
-          const { literatureOcurrences, similarEntities } = res.data[entity];
-          setRows(literatureOcurrences?.rows?.map(({ pmid }) => pmid));
-          setCount(literatureOcurrences.count);
+          const { similarEntities } = res.data[entity];
           setEntities(similarEntities);
-          setInitialLoading(false);
           setLoading(false);
-          setCursor(newCursor);
-          setPage(0);
         }
       });
       return () => {
@@ -101,7 +112,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectedChips, category]
+    [category]
   );
 
   const handleSetCategory = (e, selection) => {
@@ -115,6 +126,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
       ...selectedChips.slice(index + 1),
     ];
     setLoading(true);
+    setCursor('');
     setSelectedChips(newChips);
   };
 
@@ -125,11 +137,13 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
     ) {
       setLoading(true);
       fetchLiteratures(cursor).then(res => {
-        const { cursor, rows: newRows } = res.data[entity].literatureOcurrences;
-        setLoading(false);
-        setCursor(cursor);
-        setPage(newPage);
+        const { cursor: newCursor, rows: newRows } = res.data[
+          entity
+        ].literatureOcurrences;
+        setCursor(newCursor);
         setRows([...rows, ...newRows?.map(({ pmid }) => pmid)]);
+        setPage(newPage);
+        setLoading(false);
       });
     } else {
       setPage(newPage);
@@ -186,6 +200,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
               <Chip
                 label={e.object.name || e.object.approvedSymbol}
                 key={e.object.id}
+                disabled={rows.length === 0 || loading}
                 clickable
                 onClick={() => {
                   const newChimps = [
@@ -199,6 +214,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
                     },
                   ];
                   setLoading(true);
+                  setCursor('');
                   setSelectedChips(newChimps);
                 }}
                 title={`Score: ${e.score} ID: ${e.object.id}`}
@@ -209,32 +225,33 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
           })}
       </div>
       <div>
-        {loading && <Loader />}
-        {!initialLoading && !loading && (
+        {!initialLoading && (
           <PublicationsList
-            handlePageChange={handlePageChange}
-            pageSize={INIT_PAGE_SIZE}
-            entriesIds={rows}
-            count={count}
-            page={page}
             hideSearch
+            handlePageChange={handlePageChange}
+            entriesIds={rows}
+            pageSize={INIT_PAGE_SIZE}
+            page={page}
+            count={count}
+            loading={loading}
           />
         )}
-        {!initialLoading && rows.length === 0 && (
-          <Box
-            my={20}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            flexDirection="column"
-          >
-            <Box mt={6}>
-              <Typography className={classes.AccordionSubtitle}>
-                No results for the query
-              </Typography>
+        {!initialLoading ||
+          (rows.length === 0 && (
+            <Box
+              my={20}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
+            >
+              <Box mt={6}>
+                <Typography className={classes.AccordionSubtitle}>
+                  No results for the query
+                </Typography>
+              </Box>
             </Box>
-          </Box>
-        )}
+          ))}
       </div>
     </>
   );
