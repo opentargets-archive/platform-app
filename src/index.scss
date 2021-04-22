@@ -1,6 +1,4 @@
 @import 'node_modules/cttv.targetGeneTree/index.scss';
-@import 'node_modules/cttv.genome/index.scss';
-@import 'node_modules/tnt.genome/index.scss';
 @import 'node_modules/tntvis/index.scss';
 
 body {
@@ -111,7 +109,7 @@ code {
 /* Molecular interactions */
 .selected-evidence {
   float: right;
-  color: #CCC;
+  color: #ccc;
   visibility: hidden;
 }
 .Mui-selected .selected-evidence {
