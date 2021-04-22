@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 
 import { DataTable } from '../../../components/Table';
@@ -15,32 +16,7 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const reactomeUrl = id => `https://identifiers.org/reactome:${id}`;
 
-const SLAPENRICH_QUERY = gql`
-  query SlapEnrichQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        size: $size
-        datasourceIds: ["slapenrich"]
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          pathways {
-            id
-            name
-          }
-          resourceScore
-        }
-      }
-    }
-  }
-`;
+const SLAPENRICH_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
