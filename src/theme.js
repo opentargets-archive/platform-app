@@ -12,7 +12,7 @@ const theme = {
     borderRadius: 0,
   },
   typography: {
-    fontFamily: '"Inter"',
+    fontFamily: '"Inter", sans-serif',
   },
   palette: {
     primary: {
