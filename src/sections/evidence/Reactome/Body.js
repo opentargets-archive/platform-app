@@ -106,19 +106,12 @@ const columns = [
     label: 'Amino acid variation',
     renderCell: ({ variantAminoacidDescriptions }) => {
       return variantAminoacidDescriptions?.length > 1 ? (
-        <ul
-          style={{
-            margin: 0,
-            padding: 0,
-            listStyle: 'none',
-          }}
-        >
-          {variantAminoacidDescriptions.map(variantAminoacidDescription => (
-            <li key={variantAminoacidDescription}>
-              {variantAminoacidDescription}
-            </li>
-          ))}
-        </ul>
+        <TableDrawer
+          entries={variantAminoacidDescriptions.map(d => ({
+            name: d,
+            group: 'Amino acid variation',
+          }))}
+        />
       ) : variantAminoacidDescriptions?.length === 1 ? (
         variantAminoacidDescriptions[0]
       ) : (
