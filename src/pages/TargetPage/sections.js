@@ -14,7 +14,6 @@ import * as ProteinInformation from '../../sections/target/ProteinInformation';
 import * as Safety from '../../sections/target/Safety';
 import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
-import * as Variation from '../../sections/target/Variation';
 import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
 export default [
@@ -32,7 +31,6 @@ export default [
   CancerBiomarkers,
   CancerHallmarks,
   MousePhenotypes,
-  Variation,
   ComparativeGenomics,
   Bibliography,
 ];
