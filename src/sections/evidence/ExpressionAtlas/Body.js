@@ -9,6 +9,7 @@ import ScientificNotation from '../../../components/ScientificNotation';
 import Summary from './Summary';
 import Description from './Description';
 import Link from '../../../components/Link';
+import { sentenceCase } from '../../../utils/global';
 
 const EXPRESSION_ATLAS_QUERY = gql`
   query expressionAtlasQuery(
@@ -31,6 +32,7 @@ const EXPRESSION_ATLAS_QUERY = gql`
           }
           diseaseFromSource
           contrast
+          confidence
           studyOverview
           log2FoldChangeValue
           resourceScore
@@ -86,6 +88,13 @@ const columns = [
           <span>{contrast}</span>
         </Tooltip>
       );
+    },
+  },
+  {
+    id: 'confidence',
+    label: 'Experiment confidence',
+    renderCell: ({ confidence }) => {
+      return <>{sentenceCase(confidence)}</>;
     },
   },
   {
