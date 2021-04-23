@@ -10,7 +10,7 @@ import {
   defaultRowsPerPageOptions,
 } from '../../../constants';
 import { DataTable, getPage, Table } from '../../../components/Table';
-import PublicationsDrawer from '../../../components/PublicationsDrawer';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import Description from './Description';
 import Link from '../../../components/Link';
 import { epmcUrl } from '../../../utils/urls';

@@ -6,7 +6,7 @@ import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
 import ChipList from '../../../components/ChipList';
 import { DataTable } from '../../../components/Table';
-import PublicationsDrawer from '../../../components/PublicationsDrawer';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { epmcUrl } from '../../../utils/urls';
 import {
   clinvarStarMap,

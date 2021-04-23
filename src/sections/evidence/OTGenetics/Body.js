@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
 import { DataTable } from '../../../components/Table';
-import PublicationsDrawer from '../../../components/PublicationsDrawer';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { otgStudyUrl } from '../../../utils/urls';

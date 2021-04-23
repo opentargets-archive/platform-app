@@ -5,7 +5,7 @@ import { loader } from 'graphql.macro';
 
 import ChipList from '../../../components/ChipList';
 import { DataTable } from '../../../components/Table';
-import PublicationsDrawer from '../../../components/PublicationsDrawer';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 
 import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
 import Description from './Description';
