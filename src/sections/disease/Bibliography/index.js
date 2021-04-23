@@ -2,7 +2,7 @@ export const definition = {
   id: 'bibliography',
   name: 'Bibliography',
   shortName: 'B',
-  hasData: () => true,
+  hasData: data => data.literatureOcurrences?.count > 0,
 };
 
 export { default as Summary } from './Summary';
