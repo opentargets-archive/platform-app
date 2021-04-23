@@ -13,8 +13,8 @@ import { config } from './config/Config';
 import 'dc/dc.min.css';
 import './index.scss';
 
-if (config.gtmid) {
-  TagManager.initialize({ gtmId: config.gtmid });
+if (config.GTMID) {
+  TagManager.initialize({ gtmId: config.GTMID });
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));

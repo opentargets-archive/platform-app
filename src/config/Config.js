@@ -14,5 +14,5 @@ export const config = {
         configUrlApiBeta
       : 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
   // eslint-disable-next-line
-  gtmid: typeof configGTMID !== 'undefined' ? configGTMID : null,
+  GTMID: typeof configGTMID !== 'undefined' ? configGTMID : null,
 };
