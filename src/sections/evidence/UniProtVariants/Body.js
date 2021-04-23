@@ -37,6 +37,7 @@ const UNIPROT_VARIANTS_QUERY = gql`
           studyId
           variantRsId
           confidence
+          literature
         }
       }
     }
@@ -92,6 +93,24 @@ const columns = [
   {
     id: 'confidence',
     label: 'Confidence',
+  },
+  {
+    label: 'Literature',
+    renderCell: ({ literature }) => {
+      const literatureList =
+        literature?.reduce((acc, id) => {
+          if (id !== 'NA') {
+            acc.push({
+              name: id,
+              url: epmcUrl(id),
+              group: 'literature',
+            });
+          }
+          return acc;
+        }, []) || [];
+
+      return <PublicationsDrawer entries={literatureList} />;
+    },
   },
 ];
 
