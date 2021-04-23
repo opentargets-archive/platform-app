@@ -36,6 +36,7 @@ const UNIPROT_VARIANTS_QUERY = gql`
           targetFromSourceId
           studyId
           variantRsId
+          confidence
         }
       }
     }
@@ -87,6 +88,10 @@ const columns = [
         </Link>
       );
     },
+  },
+  {
+    id: 'confidence',
+    label: 'Confidence',
   },
 ];
 
