@@ -4,11 +4,17 @@ import 'react-app-polyfill/stable';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import TagManager from 'react-gtm-module';
 
 import App from './App';
+import { config } from './config/Config';
 
 // styling
 import 'dc/dc.min.css';
 import './index.scss';
+
+if (config.gtmid) {
+  TagManager.initialize({ gtmId: config.gtmid });
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
