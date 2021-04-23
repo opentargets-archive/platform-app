@@ -7,10 +7,10 @@ function Description({ symbol, name }) {
       Literature-reported analysis defining gene signatures causally associating{' '}
       <strong>{symbol}</strong> with <strong>{name}</strong>. Source:{' '}
       <Link
-        to="https://docs.targetvalidation.org/data-sources/affected-pathways#sysbio "
+        to="https://platform-docs.opentargets.org/evidence#gene-signatures"
         external
       >
-        Literature
+        Open Targets
       </Link>
     </>
   );
