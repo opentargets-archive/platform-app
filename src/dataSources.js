@@ -20,6 +20,7 @@ const dataSources = [
   { id: 'europepmc', label: 'Europe PMC' },
   { id: 'expression_atlas', label: 'Expression Atlas' },
   { id: 'phenodigm', label: 'PhenoDigm' },
+  { id: 'uniprot_variants', label: 'UniProt curated variants' },
 ];
 
 export default dataSources;
