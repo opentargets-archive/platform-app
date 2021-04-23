@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Icon from '@material-ui/core/Icon';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withStyles } from '@material-ui/core/styles';
 
 import Link from './Link';
@@ -26,15 +25,19 @@ const linkStyles = () => ({
   },
 });
 
-let FooterLink = ({ label, url, classes, iconClasses }) => (
+let FooterLink = ({ label, url, classes, icon }) => (
   <Grid item xs={12} className={classes.linkContainer}>
     <Typography color="inherit">
       {url.startsWith('mailto') ? (
-        <EmailLink href={url} label={label} iconClasses={iconClasses} />
+        <EmailLink href={url} label={label} icon={icon} />
       ) : (
         <Link external footer to={url}>
-          {iconClasses && (
-            <Icon className={iconClasses + ' ' + classes.iconClass} />
+          {icon && (
+            <FontAwesomeIcon
+              className={classes.iconClass}
+              icon={icon}
+              size="lg"
+            />
           )}
           {label}
         </Link>
@@ -67,10 +70,10 @@ let FooterSocial = ({ social, classes }) => (
   <Fragment>
     <FooterSectionHeading>Follow us</FooterSectionHeading>
     <Grid className={classes.iconsContainer} container justify="space-between">
-      {social.map(({ iconClasses, url }, i) => (
+      {social.map(({ icon, url }, i) => (
         <Grid item key={i}>
           <Link external footer to={url}>
-            <Icon className={iconClasses + ' ' + classes.socialIcon} />
+            <FontAwesomeIcon className={classes.socialIcon} icon={icon} />
           </Link>
         </Grid>
       ))}
@@ -80,35 +83,44 @@ let FooterSocial = ({ social, classes }) => (
 
 FooterSocial = withStyles(socialLinkStyle)(FooterSocial);
 
-const FooterSection = ({ heading, links, social }) => (
-  <Grid
-    item
-    xs={12}
-    sm={6}
-    md={3}
-    container
-    direction="column"
-    justify="space-between"
-  >
-    <Grid item>
-      <FooterSectionHeading>{heading}</FooterSectionHeading>
-      {links.map((link, i) => (
-        <FooterLink
-          key={i}
-          label={link.label}
-          url={link.url}
-          iconClasses={link.iconClasses}
-        />
-      ))}
-    </Grid>
+const useSectionStyles = makeStyles({
+  section: {
+    width: '100%',
+  },
+});
 
-    {social ? (
-      <Grid item>
-        <FooterSocial social={social} />
+const FooterSection = ({ heading, links, social }) => {
+  const classes = useSectionStyles();
+  return (
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={3}
+      container
+      direction="column"
+      justify="space-between"
+    >
+      <Grid item className={classes.section}>
+        <FooterSectionHeading>{heading}</FooterSectionHeading>
+        {links.map((link, i) => (
+          <FooterLink
+            key={i}
+            label={link.label}
+            url={link.url}
+            icon={link.icon}
+          />
+        ))}
       </Grid>
-    ) : null}
-  </Grid>
-);
+
+      {social ? (
+        <Grid item>
+          <FooterSocial social={social} />
+        </Grid>
+      ) : null}
+    </Grid>
+  );
+};
 
 const Footer = ({ classes, externalLinks }) => (
   <Grid className={classes.footer} container justify="center" spacing={3}>

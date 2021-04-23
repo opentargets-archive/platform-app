@@ -20,6 +20,11 @@ function DataTable({
   pageSize: initialPageSize = 10,
   rows,
   rowsPerPageOptions = [],
+  onRowClick,
+  rowIsSelectable,
+  onPagination = () => {},
+  dataDownloaderColumns,
+  loading,
 }) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(initialPageSize);
@@ -31,6 +36,7 @@ function DataTable({
 
   const handleGlobalFilterChange = globalFilter => {
     setGlobalFilterVal(globalFilter);
+    setPage(0);
   };
 
   const handleSortBy = sortBy => {
@@ -42,6 +48,7 @@ function DataTable({
 
   const handlePageChange = page => {
     setPage(page);
+    onPagination(page, pageSize);
   };
 
   const handleRowsPerPageChange = pageSize => {
@@ -71,6 +78,7 @@ function DataTable({
       globalFilter={globalFilterVal}
       dataDownloader={dataDownloader}
       dataDownloaderFileStem={dataDownloaderFileStem}
+      dataDownloaderColumns={dataDownloaderColumns}
       headerGroups={headerGroups}
       sortBy={sortColumn}
       order={sortOrder}
@@ -86,7 +94,10 @@ function DataTable({
       onRowsPerPageChange={handleRowsPerPageChange}
       rowsPerPageOptions={rowsPerPageOptions}
       ActionsComponent={PaginationActionsComplete}
+      onRowClick={onRowClick}
+      rowIsSelectable={rowIsSelectable}
       showPagination={showPagination}
+      loading={loading}
     />
   );
 }

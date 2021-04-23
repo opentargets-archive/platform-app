@@ -6,6 +6,7 @@ import _ from 'lodash';
 
 import DataDownloader from '../../../components/DataDownloader';
 import Link from '../../../components/Link';
+import { naLabel } from '../../../constants';
 import OtTableRF from '../../../components/OtTableRF';
 
 import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
@@ -86,10 +87,13 @@ const getColumns = (
       id: 'pmIds',
       label: 'Sources',
       renderCell: row => {
+        if (row.pmIds.length === 0) {
+          return naLabel;
+        }
         const query = row.pmIds.map(pmId => `EXT_ID:${pmId}`).join(' OR ');
         return (
           <Link external to={`https://europepmc.org/search?query=${query}`}>
-            {row.pmIds.length} publications
+            {row.pmIds.length} publication{row.pmIds.length > 1 ? 's' : ''}
           </Link>
         );
       },
@@ -257,7 +261,10 @@ const transformToRows = mousePhenotypes => {
           ),
           subjectBackground: phenotypeGenotype.subjectBackground,
           //FIXME splitting has to be removed after updating the graphql backend
-          pmIds: phenotypeGenotype.pubmedId.split(','),
+          pmIds:
+            phenotypeGenotype.pubmedId.length === 0
+              ? []
+              : phenotypeGenotype.pubmedId.split('|'),
         });
       }
     }

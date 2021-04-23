@@ -6,7 +6,6 @@ import { Tab, Tabs } from '@material-ui/core';
 import BasePage from '../../components/BasePage';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import { oldPlatformUrl } from '../../constants';
 import Profile from '../TargetPage/Profile';
 import ClassicAssociations from '../TargetPage/ClassicAssociations';
 
@@ -64,11 +63,6 @@ function TargetPage({ location, match }) {
           component={Link}
           label="Profile"
           to={match.url}
-        />
-        <Tab
-          component="a"
-          href={`${oldPlatformUrl}/target/${ensgId}/associations`}
-          label="Classic view"
         />
       </Tabs>
       <Switch>

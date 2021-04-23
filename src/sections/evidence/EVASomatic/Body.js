@@ -5,7 +5,8 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
 import ChipList from '../../../components/ChipList';
-import { DataTable, TableDrawer } from '../../../components/Table';
+import { DataTable } from '../../../components/Table';
+import PublicationsDrawer from '../../../components/PublicationsDrawer';
 import { epmcUrl } from '../../../utils/urls';
 import {
   clinvarStarMap,
@@ -162,7 +163,7 @@ const columns = [
     filterValue: ({ allelicRequirements }) => allelicRequirements.join(),
   },
   {
-    label: 'Confidence',
+    label: 'Review status',
     renderCell: ({ confidence }) => {
       return (
         <Tooltip title={confidence}>
@@ -188,7 +189,7 @@ const columns = [
           return acc;
         }, []) || [];
 
-      return <TableDrawer entries={literatureList} />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];

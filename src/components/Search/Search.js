@@ -29,6 +29,7 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     width: '100%',
+    paddingRight: '60px',
   },
   inputBase: {
     backgroundColor: theme.palette.background.default,

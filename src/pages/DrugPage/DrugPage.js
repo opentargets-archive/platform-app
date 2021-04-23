@@ -4,7 +4,6 @@ import { gql, useQuery } from '@apollo/client';
 import BasePage from '../../components/BasePage';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import { oldPlatformUrl } from '../../constants';
 import Profile from '../DrugPage/Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
@@ -47,10 +46,6 @@ function DrugPage({ match }) {
           label="Profile"
           path="/drug/:chemblId"
           component={() => <Profile chemblId={chemblId} name={name} />}
-        />
-        <RoutingTab
-          label="Classic view"
-          url={`${oldPlatformUrl}/summary?drug=${chemblId}`}
         />
       </RoutingTabs>
     </BasePage>

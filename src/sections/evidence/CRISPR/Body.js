@@ -5,6 +5,7 @@ import { Link } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
+import PublicationsDrawer from '../../../components/PublicationsDrawer';
 import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
@@ -84,7 +85,7 @@ const columns = [
         }
       });
 
-      return <TableDrawer entries={literatureList} />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];

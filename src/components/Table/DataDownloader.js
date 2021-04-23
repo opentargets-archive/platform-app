@@ -150,17 +150,29 @@ function DataDownloader({ columns, rows, fileStem }) {
           <Typography variant="caption">Download table as</Typography>
         </Grid>
         <Grid item>
-          <Button variant="outlined" onClick={handleClickDownloadJSON}>
+          <Button
+            variant="outlined"
+            onClick={handleClickDownloadJSON}
+            size="small"
+          >
             JSON
           </Button>
         </Grid>
         <Grid item>
-          <Button variant="outlined" onClick={handleClickDownloadCSV}>
+          <Button
+            variant="outlined"
+            onClick={handleClickDownloadCSV}
+            size="small"
+          >
             CSV
           </Button>
         </Grid>
         <Grid item>
-          <Button variant="outlined" onClick={handleClickDownloadTSV}>
+          <Button
+            variant="outlined"
+            onClick={handleClickDownloadTSV}
+            size="small"
+          >
             TSV
           </Button>
         </Grid>

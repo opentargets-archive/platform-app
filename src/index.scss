@@ -107,3 +107,13 @@ code {
 .highlights .separator {
   font-weight: 700;
 }
+
+/* Molecular interactions */
+.selected-evidence {
+  float: right;
+  color: #CCC;
+  visibility: hidden;
+}
+.Mui-selected .selected-evidence {
+  visibility: visible;
+}

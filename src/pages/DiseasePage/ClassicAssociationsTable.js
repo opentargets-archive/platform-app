@@ -283,7 +283,12 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
 
   const getAllAssociations = useBatchDownloader(
     DISEASE_ASSOCIATIONS_QUERY,
-    { efoId, filter: filter === '' ? null : filter, sortBy },
+    {
+      efoId,
+      filter: filter === '' ? null : filter,
+      sortBy,
+      aggregationFilters,
+    },
     'data.disease.associatedTargets'
   );
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import {
   CircularProgress,
@@ -37,6 +37,7 @@ const Table = ({
   dataDownloader = false,
   dataDownloaderFileStem = 'data',
   dataDownloaderRows,
+  dataDownloaderColumns,
   hover = false,
   noWrap = true,
   noWrapHeader = true,
@@ -45,8 +46,12 @@ const Table = ({
   globalFilter,
   rowsPerPageOptions = [],
   ActionsComponent,
+  onRowClick = () => {},
+  rowIsSelectable = false,
 }) => {
   const emptyRows = pageSize - rows.length;
+  // const classes = tableStyles();
+  const [selectedRow, setSelectedRow] = useState(0);
   const defaultClasses = tableStyles();
 
   const handleGlobalFilterChange = newGlobalFilter => {
@@ -63,14 +68,21 @@ const Table = ({
     onRowsPerPageChange(event.target.value);
   };
   const handleChangePage = (_, page) => {
+    // reset the selected;
+    // TODO: maybe should be handled in individual implementation
+    setSelectedRow(0);
     onPageChange(page);
+  };
+  const handleClick = (event, row, i) => {
+    setSelectedRow(i);
+    onRowClick(row, i);
   };
 
   return (
     <Grid container direction="column">
       <Grid item container>
         {showGlobalFilter && (
-          <Grid className={defaultClasses.filter} item xs={12} md={5} lg={7}>
+          <Grid className={defaultClasses.filter} item xs={12} md={4} lg={4}>
             <GlobalFilter onGlobalFilterChange={handleGlobalFilterChange} />
           </Grid>
         )}
@@ -79,11 +91,11 @@ const Table = ({
             className={defaultClasses.downloader}
             item
             xs={12}
-            md={7}
-            lg={5}
+            md={8}
+            lg={8}
           >
             <DataDownloader
-              columns={columns}
+              columns={dataDownloaderColumns || columns}
               rows={dataDownloaderRows}
               fileStem={dataDownloaderFileStem}
             />
@@ -115,6 +127,8 @@ const Table = ({
                 key={i}
                 row={row}
                 noWrap={noWrap}
+                onClick={event => handleClick(event, row, i)}
+                selected={rowIsSelectable && selectedRow === i}
               />
             ))}
             {page > 0 && noWrap && emptyRows > 0 && (

@@ -3,9 +3,10 @@ import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
 import { DataTable } from '../../../components/Table';
+import PublicationsDrawer from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
-import { epmcUrl, otgStudyUrl } from '../../../utils/urls';
+import { otgStudyUrl } from '../../../utils/urls';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
 import Link from '../../../components/Link';
 import ScientificNotation from '../../../components/ScientificNotation';
@@ -39,14 +40,15 @@ const columns = [
   {
     id: 'literature',
     label: 'Publication',
-    renderCell: ({ literature, publicationYear, publicationFirstAuthor }) =>
-      literature ? (
-        <Link external to={epmcUrl(literature[0])}>
-          {publicationFirstAuthor} et al, {publicationYear}
-        </Link>
-      ) : (
-        naLabel
-      ),
+    renderCell: ({ literature, publicationYear, publicationFirstAuthor }) => {
+      if (!literature) return naLabel;
+      return (
+        <PublicationsDrawer
+          entries={[{ name: literature[0] }]}
+          customLabel={`${publicationFirstAuthor} et al, ${publicationYear}`}
+        />
+      );
+    },
     filterValue: ({ literature, publicationYear, publicationFirstAuthor }) =>
       `${literature} ${publicationYear} ${publicationFirstAuthor}`,
   },
@@ -129,20 +131,38 @@ const columns = [
   },
   {
     id: 'oddsRatio',
+    label: 'Odds Ratio (CI 95%)',
     numeric: true,
-    renderCell: ({ oddsRatio }) =>
-      oddsRatio ? parseFloat(oddsRatio.toFixed(3)) : naLabel,
+    renderCell: ({
+      oddsRatio,
+      oddsRatioConfidenceIntervalLower,
+      oddsRatioConfidenceIntervalUpper,
+    }) => {
+      const ci =
+        oddsRatioConfidenceIntervalLower && oddsRatioConfidenceIntervalUpper
+          ? `(${parseFloat(
+              oddsRatioConfidenceIntervalLower.toFixed(3)
+            )}, ${parseFloat(oddsRatioConfidenceIntervalUpper.toFixed(3))})`
+          : '';
+      return oddsRatio ? `${parseFloat(oddsRatio.toFixed(3))} ${ci}` : naLabel;
+    },
   },
   {
-    id: 'confidenceInterval',
-    propertyPath: 'confidenceIntervalLower',
+    id: 'betaConfidenceInterval',
+    label: 'Beta (CI 95%)',
     numeric: true,
-    renderCell: ({ confidenceIntervalLower, confidenceIntervalUpper }) => {
-      if (!(confidenceIntervalLower && confidenceIntervalUpper)) return naLabel;
-
-      const ciLo = parseFloat(confidenceIntervalLower.toFixed(3));
-      const ciUp = parseFloat(confidenceIntervalUpper.toFixed(3));
-      return `(${ciLo}, ${ciUp})`;
+    renderCell: ({
+      beta,
+      betaConfidenceIntervalLower,
+      betaConfidenceIntervalUpper,
+    }) => {
+      const ci =
+        betaConfidenceIntervalLower && betaConfidenceIntervalUpper
+          ? `(${parseFloat(
+              betaConfidenceIntervalLower.toFixed(3)
+            )}, ${parseFloat(betaConfidenceIntervalUpper.toFixed(3))})`
+          : '';
+      return beta ? `${parseFloat(beta.toFixed(3))} ${ci}` : naLabel;
     },
   },
   {

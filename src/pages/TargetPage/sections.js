@@ -15,6 +15,7 @@ import * as Safety from '../../sections/target/Safety';
 import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
 import * as Variation from '../../sections/target/Variation';
+import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
 export default [
   KnownDrugs,
@@ -25,6 +26,7 @@ export default [
   BaselineExpression,
   GeneOntology,
   ProteinInformation,
+  MolecularInteractions,
   Pathways,
   // RelatedTargets,
   CancerBiomarkers,

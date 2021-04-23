@@ -4,8 +4,10 @@ import { Box, List, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { loader } from 'graphql.macro';
 
 import ChipList from '../../../components/ChipList';
-import { DataTable, TableDrawer } from '../../../components/Table';
-import { naLabel } from '../../../constants';
+import { DataTable } from '../../../components/Table';
+import PublicationsDrawer from '../../../components/PublicationsDrawer';
+
+import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
@@ -113,7 +115,7 @@ const columns = [
           ];
         }, []) || [];
 
-      return <TableDrawer entries={literatureList} />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];
@@ -183,6 +185,7 @@ function Body({ definition, id, label }) {
               dataDownloader
               order="desc"
               rows={rows}
+              rowsPerPageOptions={defaultRowsPerPageOptions}
               showGlobalFilter
               sortBy="mutatedSamples"
             />

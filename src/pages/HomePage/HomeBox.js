@@ -1,13 +1,14 @@
 import React from 'react';
 import { Grid, Paper, makeStyles } from '@material-ui/core';
 
-import Link from '../../components/Link';
 import OTLogo from '../../assets/OTLogo';
 
 const useStyles = makeStyles(theme => ({
   homeboxContainer: {
     overflow: 'visible',
     padding: '30px 60px',
+    maxWidth: '800px',
+    margin: 'auto',
   },
   homeboxHeader: {
     textAlign: 'center',
@@ -44,26 +45,6 @@ const HomeBox = ({ children }) => {
         </div>
         {children}
       </Paper>
-      <Grid
-        container
-        direction="column"
-        className={classes.note}
-        alignItems="center"
-      >
-        <Grid item className={classes.important}>
-          <strong> **Important Note** </strong>
-        </Grid>
-        <Grid item>
-          This is the <strong>Beta</strong> version of the redesigned{' '}
-          <Link to="https://www.targetvalidation.org" external>
-            Open Targets Platform
-          </Link>
-          .
-        </Grid>
-        <Grid item>
-          You can search for and view target, disease, and drug profile pages.
-        </Grid>
-      </Grid>
     </Grid>
   );
 };
