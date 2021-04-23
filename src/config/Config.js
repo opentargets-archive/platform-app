@@ -1,7 +1,16 @@
 // Configuration Object
 export const config = {
+  urlApi:
     // eslint-disable-next-line
-    urlApi : typeof configUrlApi !== 'undefined' ? configUrlApi : 'https://platform-api-beta.opentargets.io/api/v4/graphql',
+    typeof configUrlApi !== 'undefined'
+      ? // eslint-disable-next-line
+        configUrlApi
+      : 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
+
+  urlApiBeta:
     // eslint-disable-next-line
-    urlApiBeta : typeof configUrlApiBeta  !== 'undefined' ? configUrlApiBeta : 'https://platform-api-beta.opentargets.io/api/v4/graphql'
+    typeof configUrlApiBeta !== 'undefined'
+      ? // eslint-disable-next-line
+        configUrlApiBeta
+      : 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
 };
