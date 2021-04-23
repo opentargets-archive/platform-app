@@ -2,6 +2,7 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { identifiersOrgLink } from '../../../utils/global';
 import Link from '../../../components/Link';
 import Tooltip from '../../../components/Tooltip';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -23,7 +24,7 @@ const UNIPROT_VARIANTS_QUERY = gql`
       evidences(
         ensemblIds: [$ensemblId]
         enableIndirect: true
-        datasourceIds: ["uniprot_literature"]
+        datasourceIds: ["uniprot_variants"]
         size: $size
       ) {
         rows {
@@ -34,6 +35,7 @@ const UNIPROT_VARIANTS_QUERY = gql`
           diseaseFromSource
           targetFromSourceId
           studyId
+          variantRsId
         }
       }
     }
@@ -71,6 +73,17 @@ const columns = [
       return (
         <Link href={`http://www.uniprot.org/uniprot/${studyId}`}>
           {targetFromSourceId}
+        </Link>
+      );
+    },
+  },
+  {
+    id: 'variantRsId',
+    label: 'Variant',
+    renderCell: ({ variantRsId }) => {
+      return (
+        <Link external to={identifiersOrgLink('ensembl', variantRsId)}>
+          {variantRsId}
         </Link>
       );
     },
