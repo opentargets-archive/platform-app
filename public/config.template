@@ -1,0 +1,3 @@
+// DevOps context
+const configUrlApi = DEVOPS_CONTEXT_PLATFORM_APP_CONFIG_URL_API
+const configUrlApiBeta = DEVOPS_CONTEXT_PLATFORM_APP_CONFIG_URL_API_BETA

@@ -1,0 +1,3 @@
+// DevOps context
+const configUrlAppolloClient = DEVOPS_CONTEXT_PLATFORM_APP_CONFIG_URL_APOLLO_CLIENT
+const configUrlAppolloClientBeta = DEVOPS_CONTEXT_PLATFORM_APP_CONFIG_URL_APOLLO_CLIENT_BETA

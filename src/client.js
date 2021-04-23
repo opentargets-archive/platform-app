@@ -1,3 +1,4 @@
+import { config } from './config/Config';
 import { ApolloClient } from 'apollo-client';
 import {
   InMemoryCache,
@@ -12,14 +13,14 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
+    uri: config.urlApi,
   }),
   cache: new InMemoryCache({ fragmentMatcher }),
 });
 
 const betaClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
+    uri: config.urlApiBeta,
   }),
   cache: new InMemoryCache({ fragmentMatcher }),
 });
