@@ -7,6 +7,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { formatMap } from '../../constants';
 
 const useStyles = makeStyles(theme => ({
   backdrop: {
@@ -74,7 +75,7 @@ function DownloadsDrawer({ title, format, path, month, year, children }) {
 
         <Paper className={classes.paper} variant="outlined">
           <Typography variant="h6" gutterBottom>
-            {format.toUpperCase()} Data Format
+            {formatMap[format]} Data Format
           </Typography>
           <Typography variant="subtitle2" gutterBottom>
             FTP

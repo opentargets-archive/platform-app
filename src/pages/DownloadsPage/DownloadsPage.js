@@ -4,16 +4,11 @@ import { Paper, Box, Chip, Typography } from '@material-ui/core';
 
 import BasePage from '../../components/BasePage';
 import Link from '../../components/Link';
-import { defaultRowsPerPageOptions } from '../../constants';
+import { defaultRowsPerPageOptions, formatMap } from '../../constants';
 import { DataTable } from '../../components/Table';
 import DownloadsDrawer from './DownloadsDrawer';
 import downloadData from './downloadData.json';
 import datasetMappings from './dataset-mappings';
-
-const formatMap = {
-  json: 'JSON',
-  parquet: 'Parquet',
-};
 
 function getFormats(id, downloadData) {
   const formats = [];
