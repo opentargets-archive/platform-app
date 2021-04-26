@@ -108,6 +108,16 @@ function DownloadsPage() {
         for more information.
       </Typography>
       <Typography paragraph>
+        For sample scripts to download and parse datasets using Python or R,
+        please visit our{' '}
+        <Link
+          external
+          to="http://platform-docs.opentargets.org/data-access/datasets"
+        >
+          Data Downloads documentation
+        </Link>
+      </Typography>
+      <Typography paragraph>
         Current data version: {error ? null : getVersion(data)}
       </Typography>
       <Typography paragraph>
