@@ -13,6 +13,7 @@ query reactomeQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
             name
           }
           diseaseFromSource
+          reactionName
           reactionId
           targetFromSourceId
           pathways{
