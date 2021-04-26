@@ -10,6 +10,11 @@ import DownloadsDrawer from './DownloadsDrawer';
 import downloadData from './downloadData.json';
 import datasetMappings from './dataset-mappings';
 
+const formatMap = {
+  json: 'JSON',
+  parquet: 'Parquet',
+};
+
 function getFormats(id, downloadData) {
   const formats = [];
 
@@ -61,7 +66,7 @@ function getColumns(date) {
                 month={date.month}
                 year={date.year}
               >
-                <Chip label={format.format} clickable size="small" />
+                <Chip label={formatMap[format.format]} clickable size="small" />
               </DownloadsDrawer>{' '}
             </Fragment>
           );
