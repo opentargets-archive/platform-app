@@ -172,18 +172,26 @@ const columns = [
     id: 'clinicalStatus',
     label: 'Status',
     renderCell: ({ studyStopReason, clinicalStatus }) => {
-      return studyStopReason ? (
-        <Tooltip showHelpIcon title={<>Study stop reason: {studyStopReason}</>}>
-          {clinicalStatus}
-        </Tooltip>
+      return clinicalStatus ? (
+        studyStopReason ? (
+          <Tooltip
+            showHelpIcon
+            title={<>Study stop reason: {studyStopReason}</>}
+          >
+            {clinicalStatus}
+          </Tooltip>
+        ) : (
+          <>{clinicalStatus}</>
+        )
       ) : (
-        <>{clinicalStatus}</>
+        'N/A'
       );
     },
   },
   {
     id: 'studyStartDate',
     label: 'Start Date',
+    numeric: true,
     renderCell: ({ studyStartDate }) => new Date(studyStartDate).getFullYear(),
   },
   {
