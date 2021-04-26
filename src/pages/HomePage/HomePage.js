@@ -217,8 +217,8 @@ const HomePage = () => {
             <Grid item xs={12} sm={'auto'}>
               <HelpBoxPanel
                 fai={faDownload}
-                url="/downloads/data"
-                label="Download all of our datasets"
+                url="/downloads"
+                label="Download all of our open datasets"
               />
             </Grid>
 
