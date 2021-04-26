@@ -44,9 +44,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ftpBase = 'ftp.ebi.ac.uk/pub/databases/opentargets/platform/';
-const gcloudBase = 'gs://open-targets-data-releases/';
-
 function DownloadsDrawer({ title, format, path, month, year, children }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -85,27 +82,41 @@ function DownloadsDrawer({ title, format, path, month, year, children }) {
           <div className={classes.resourceURL}>
             <a
               className={classes.ftpURL}
-              href={`https://${ftpBase}${year}.${
+              href={`https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/${year}.${
                 month < 10 ? '0' : ''
-              }${month}/output/ETL${path}`}
-            >{`${ftpBase}${year}.${
-              month < 10 ? '0' : ''
-            }${month}/output/ETL${path}`}</a>
+              }${month}/output/etl${path}`}
+            >
+              ftp.ebi.ac.uk/pub/databases/opentargets/platform/{year}.
+              {month.toString().padStart(2, '0')}
+              /etl/output/{format}
+              {path}
+            </a>
+          </div>
+          <Typography>rsync</Typography>
+          <div className={classes.resourceURL}>
+            rsync -rpltvz --delete
+            rsync.ebi.ac.uk::pub/databases/opentargets/platform/{year}.
+            {month.toString().padStart(2, '0')}/etl/output/{format}
+            {path} .
           </div>
           <Typography variant="subtitle2" gutterBottom>
             Wget
           </Typography>
-          <div className={classes.resourceURL}>{`wget ${ftpBase}${year}.${
-            month < 10 ? '0' : ''
-          }${month}/output/ETL${path}`}</div>
+          <div className={classes.resourceURL}>
+            wget --recursive --no-parent --no-host-directories --cut-dirs 7 \
+            ftp://ftp.ebi.ac.uk/pub/databases/opentargets/platform/{year}.
+            {month.toString().padStart(2, '0')}/etl/output/{format}
+            {path} .
+          </div>
           <Typography variant="subtitle2" gutterBottom>
             Google Cloud
           </Typography>
-          <div
-            className={classes.resourceURL}
-          >{`gsutil -m cp -r ${gcloudBase}${year}.${
-            month < 10 ? '0' : ''
-          }${month}/output/ETL${path}`}</div>
+          <div className={classes.resourceURL}>
+            gsutil -m cp -r gs://open-targets-data-releases/{year}.
+            {month.toString().padStart(2, '0')}
+            /etl/output/{format}
+            {path} .
+          </div>
         </Paper>
       </Drawer>
     </>
