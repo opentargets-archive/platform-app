@@ -6,5 +6,5 @@ export const config = {
   urlApiBeta:
     window.configUrlApiBeta ??
     'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
-  GTMID: window.configGTMID ?? null,
+  GTMID: window.configGoogleTagManagerID ?? null,
 };
