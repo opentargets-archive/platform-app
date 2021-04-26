@@ -71,23 +71,6 @@ const columns = [
     label: 'Priority score',
     renderCell: ({ resourceScore }) => resourceScore.toFixed(3),
   },
-  {
-    label: 'Literature',
-    renderCell: ({ literature = [] }) => {
-      const literatureList = [];
-      literature.forEach(id => {
-        if (id !== 'NA') {
-          literatureList.push({
-            name: id,
-            url: epmcUrl(id),
-            group: 'literature',
-          });
-        }
-      });
-
-      return <PublicationsDrawer entries={literatureList} />;
-    },
-  },
 ];
 
 function Body({ definition, id, label }) {
