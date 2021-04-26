@@ -13,8 +13,8 @@ import { config } from './config/Config';
 import 'dc/dc.min.css';
 import './index.scss';
 
-if (config.GTMID) {
-  TagManager.initialize({ gtmId: config.GTMID });
+if (config.googleTagManagerID) {
+  TagManager.initialize({ gtmId: config.googleTagManagerID });
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
