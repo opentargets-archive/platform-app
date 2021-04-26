@@ -1,9 +1,9 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 import { identifiersOrgLink } from '../../../utils/global';
 import Link from '../../../components/Link';
-import usePlatformApi from '../../../hooks/usePlatformApi';
 import Tooltip from '../../../components/Tooltip';
 import SectionItem from '../../../components/Section/SectionItem';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
@@ -13,8 +13,8 @@ import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
 
-const UNIPROT_LITERATURE_QUERY = gql`
-  query UniprotLiteratureQuery(
+const UNIPROT_VARIANTS_QUERY = gql`
+  query UniprotVariantsQuery(
     $ensemblId: String!
     $efoId: String!
     $size: Int!
@@ -24,7 +24,7 @@ const UNIPROT_LITERATURE_QUERY = gql`
       evidences(
         ensemblIds: [$ensemblId]
         enableIndirect: true
-        datasourceIds: ["uniprot_literature"]
+        datasourceIds: ["uniprot_variants"]
         size: $size
       ) {
         rows {
@@ -34,7 +34,8 @@ const UNIPROT_LITERATURE_QUERY = gql`
           }
           diseaseFromSource
           targetFromSourceId
-          studyId
+          variantRsId
+          confidence
           literature
         }
       }
@@ -69,13 +70,28 @@ const columns = [
   {
     id: 'targetFromSourceId',
     label: 'Reported protein',
-    renderCell: ({ targetFromSourceId, studyId }) => {
+    renderCell: ({ targetFromSourceId }) => {
       return (
         <Link external to={identifiersOrgLink('uniprot', targetFromSourceId)}>
           {targetFromSourceId}
         </Link>
       );
     },
+  },
+  {
+    id: 'variantRsId',
+    label: 'Variant',
+    renderCell: ({ variantRsId }) => {
+      return (
+        <Link external to={identifiersOrgLink('ensembl', variantRsId)}>
+          {variantRsId}
+        </Link>
+      );
+    },
+  },
+  {
+    id: 'confidence',
+    label: 'Confidence',
   },
   {
     label: 'Literature',
@@ -100,14 +116,14 @@ const columns = [
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(
-    Summary.fragments.UniprotLiteratureSummary
+    Summary.fragments.UniprotVariantsSummary
   );
 
-  const request = useQuery(UNIPROT_LITERATURE_QUERY, {
+  const request = useQuery(UNIPROT_VARIANTS_QUERY, {
     variables: {
       ensemblId,
       efoId,
-      size: summaryData.uniprotLiteratureSummary.count,
+      size: summaryData.uniprotVariantsSummary.count,
     },
   });
   return (
