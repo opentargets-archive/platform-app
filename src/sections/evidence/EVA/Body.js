@@ -123,28 +123,34 @@ const columns = [
   },
   {
     id: 'allelicRequirements',
-    label: 'Allelic requirement',
-    renderCell: ({ allelicRequirements }) => {
-      return !allelicRequirements ? (
+    label: 'Allele origin',
+    renderCell: ({ alleleOrigins, allelicRequirements }) => {
+      return !alleleOrigins || alleleOrigins.length === 0 ? (
         naLabel
-      ) : allelicRequirements.length === 1 ? (
-        allelicRequirements[0]
-      ) : (
-        <ul
-          style={{
-            margin: 0,
-            padding: 0,
-            listStyle: 'none',
-          }}
+      ) : allelicRequirements ? (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Allelic requirements:
+              </Typography>
+              {allelicRequirements.map(r => (
+                <Typography variant="caption" key={r}>
+                  {r}
+                </Typography>
+              ))}
+            </>
+          }
+          showHelpIcon
         >
-          {allelicRequirements.map(allelicRequirement => {
-            return <li key={allelicRequirement}>{allelicRequirement}</li>;
-          })}
-        </ul>
+          {alleleOrigins.map(a => sentenceCase(a)).join('; ')}
+        </Tooltip>
+      ) : (
+        alleleOrigins.map(a => sentenceCase(a)).join('; ')
       );
     },
-    filterValue: ({ allelicRequirements }) =>
-      allelicRequirements ? allelicRequirements.join() : '',
+    filterValue: ({ alleleOrigins }) =>
+      alleleOrigins ? alleleOrigins.join() : '',
   },
   {
     id: 'confidence',
@@ -210,6 +216,7 @@ const CLINVAR_QUERY = gql`
           }
           clinicalSignificances
           allelicRequirements
+          alleleOrigins
           confidence
           literature
         }
