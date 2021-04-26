@@ -1,6 +1,7 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Link, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import Link from '../../../components/Link';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Tooltip from '../../../components/Tooltip';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -69,7 +70,7 @@ const columns = [
     label: 'Reported protein',
     renderCell: ({ targetFromSourceId, studyId }) => {
       return (
-        <Link href={`http://www.uniprot.org/uniprot/${studyId}`}>
+        <Link external to={`http://www.uniprot.org/uniprot/${studyId}`}>
           {targetFromSourceId}
         </Link>
       );

@@ -34,7 +34,6 @@ const UNIPROT_VARIANTS_QUERY = gql`
           }
           diseaseFromSource
           targetFromSourceId
-          studyId
           variantRsId
           confidence
           literature
@@ -71,9 +70,9 @@ const columns = [
   {
     id: 'targetFromSourceId',
     label: 'Reported protein',
-    renderCell: ({ targetFromSourceId, studyId }) => {
+    renderCell: ({ targetFromSourceId }) => {
       return (
-        <Link href={`http://www.uniprot.org/uniprot/${studyId}`}>
+        <Link external to={identifiersOrgLink('uniprot', targetFromSourceId)}>
           {targetFromSourceId}
         </Link>
       );
