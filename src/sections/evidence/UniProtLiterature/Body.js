@@ -12,6 +12,7 @@ import { defaultRowsPerPageOptions } from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
+import { sentenceCase } from '../../../utils/global';
 
 const UNIPROT_LITERATURE_QUERY = gql`
   query UniprotLiteratureQuery(
@@ -36,6 +37,7 @@ const UNIPROT_LITERATURE_QUERY = gql`
           targetFromSourceId
           studyId
           literature
+          confidence
         }
       }
     }
@@ -75,6 +77,13 @@ const columns = [
           {targetFromSourceId}
         </Link>
       );
+    },
+  },
+  {
+    id: 'confidence',
+    label: 'Confidence',
+    renderCell: ({ confidence }) => {
+      return <>{sentenceCase(confidence)}</>;
     },
   },
   {
