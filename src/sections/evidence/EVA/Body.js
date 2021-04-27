@@ -42,7 +42,7 @@ const columns = [
                 {diseaseFromSource}
               </Typography>
 
-              {cohortPhenotypes?.length > 0 ? (
+              {cohortPhenotypes?.length > 1 ? (
                 <>
                   <Typography
                     variant="subtitle2"
