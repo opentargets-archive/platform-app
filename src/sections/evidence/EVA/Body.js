@@ -47,19 +47,38 @@ const columns = [
   },
   {
     id: 'variantRsId',
-    label: 'Variant',
-    renderCell: ({ variantRsId }) => {
-      return variantRsId ? (
-        <Link
-          external
-          to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
-        >
-          {variantRsId}
-        </Link>
+    label: 'Variant ID (RSID)',
+    renderCell: ({ variantId, variantRsId }) => {
+      return variantId ? (
+        <>
+          <Link
+            external
+            to={`https://genetics.opentargets.org/variant/${variantId}`}
+          >
+            {variantId.substring(0, 20)}
+            {variantId.length > 20 ? '\u2026' : ''}
+          </Link>
+          {variantRsId ? (
+            <>
+              {' '}
+              (
+              <Link
+                external
+                to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
+              >
+                {variantRsId}
+              </Link>
+              )
+            </>
+          ) : (
+            ''
+          )}
+        </>
       ) : (
         naLabel
       );
     },
+    filterValue: ({ variantId, variantRsId }) => `${variantId} ${variantRsId}`,
   },
   {
     id: 'studyId',
@@ -208,6 +227,7 @@ const CLINVAR_QUERY = gql`
             name
           }
           diseaseFromSource
+          variantId
           variantRsId
           studyId
           variantFunctionalConsequence {
