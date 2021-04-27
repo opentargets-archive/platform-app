@@ -2,6 +2,7 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import BasePage from '../../components/BasePage';
+import ScrollToTop from '../../components/ScrollToTop';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
 import Profile from '../DrugPage/Profile';
@@ -40,6 +41,7 @@ function DrugPage({ match }) {
         name={name}
         crossReferences={crossReferences}
       />
+      <ScrollToTop />
 
       <RoutingTabs>
         <RoutingTab
