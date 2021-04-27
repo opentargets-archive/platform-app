@@ -25,7 +25,7 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease, diseaseFromSource }) => {
+    renderCell: ({ disease, diseaseFromSource, cohortPhenotypes }) => {
       return (
         <Tooltip
           title={
@@ -33,9 +33,33 @@ const columns = [
               <Typography variant="subtitle2" display="block" align="center">
                 Reported disease or phenotype:
               </Typography>
-              <Typography variant="caption" display="block" align="center">
+              <Typography
+                variant="caption"
+                display="block"
+                align="center"
+                gutterBottom
+              >
                 {diseaseFromSource}
               </Typography>
+
+              {cohortPhenotypes?.length > 1 ? (
+                <>
+                  <Typography
+                    variant="subtitle2"
+                    display="block"
+                    align="center"
+                  >
+                    All reported phenotypes:
+                  </Typography>
+                  <Typography variant="caption" display="block">
+                    {cohortPhenotypes.map(cp => (
+                      <div key={cp}>{cp}</div>
+                    ))}
+                  </Typography>
+                </>
+              ) : (
+                ''
+              )}
             </>
           }
           showHelpIcon
@@ -47,19 +71,33 @@ const columns = [
   },
   {
     id: 'variantRsId',
-    label: 'Variant',
-    renderCell: ({ variantRsId }) => {
-      return variantRsId ? (
-        <Link
-          external
-          to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
-        >
-          {variantRsId}
-        </Link>
+    label: 'Variant ID (RSID)',
+    renderCell: ({ variantId, variantRsId }) => {
+      return variantId ? (
+        <>
+          {variantId.substring(0, 20)}
+          {variantId.length > 20 ? '\u2026' : ''}
+          {variantRsId ? (
+            <>
+              {' '}
+              (
+              <Link
+                external
+                to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
+              >
+                {variantRsId}
+              </Link>
+              )
+            </>
+          ) : (
+            ''
+          )}
+        </>
       ) : (
         naLabel
       );
     },
+    filterValue: ({ variantId, variantRsId }) => `${variantId} ${variantRsId}`,
   },
   {
     id: 'studyId',
@@ -123,28 +161,34 @@ const columns = [
   },
   {
     id: 'allelicRequirements',
-    label: 'Allelic requirement',
-    renderCell: ({ allelicRequirements }) => {
-      return !allelicRequirements ? (
+    label: 'Allele origin',
+    renderCell: ({ alleleOrigins, allelicRequirements }) => {
+      return !alleleOrigins || alleleOrigins.length === 0 ? (
         naLabel
-      ) : allelicRequirements.length === 1 ? (
-        allelicRequirements[0]
-      ) : (
-        <ul
-          style={{
-            margin: 0,
-            padding: 0,
-            listStyle: 'none',
-          }}
+      ) : allelicRequirements ? (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Allelic requirements:
+              </Typography>
+              {allelicRequirements.map(r => (
+                <Typography variant="caption" key={r}>
+                  {r}
+                </Typography>
+              ))}
+            </>
+          }
+          showHelpIcon
         >
-          {allelicRequirements.map(allelicRequirement => {
-            return <li key={allelicRequirement}>{allelicRequirement}</li>;
-          })}
-        </ul>
+          {alleleOrigins.map(a => sentenceCase(a)).join('; ')}
+        </Tooltip>
+      ) : (
+        alleleOrigins.map(a => sentenceCase(a)).join('; ')
       );
     },
-    filterValue: ({ allelicRequirements }) =>
-      allelicRequirements ? allelicRequirements.join() : '',
+    filterValue: ({ alleleOrigins }) =>
+      alleleOrigins ? alleleOrigins.join() : '',
   },
   {
     id: 'confidence',
@@ -202,6 +246,7 @@ const CLINVAR_QUERY = gql`
             name
           }
           diseaseFromSource
+          variantId
           variantRsId
           studyId
           variantFunctionalConsequence {
@@ -210,8 +255,10 @@ const CLINVAR_QUERY = gql`
           }
           clinicalSignificances
           allelicRequirements
+          alleleOrigins
           confidence
           literature
+          cohortPhenotypes
         }
       }
     }
