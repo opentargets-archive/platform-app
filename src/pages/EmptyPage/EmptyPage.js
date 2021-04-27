@@ -1,12 +1,20 @@
 import React from 'react';
-import { Icon, Grid, Typography, withStyles } from '@material-ui/core';
+import { Grid, Typography, withStyles } from '@material-ui/core';
+import {
+  faEnvelope,
+  faExclamationTriangle,
+  faQuestionCircle,
+  faSearchPlus,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Link from '../../components/Link';
 import Search from '../../components/Search';
 
 const styles = theme => ({
-  warningIcon: {
-    width: '40px',
+  icon: {
+    color: theme.palette.primary.main,
+    marginBottom: '12px',
   },
   actionText: {
     width: '150px',
@@ -23,10 +31,10 @@ const styles = theme => ({
 const EmptyPage = ({ classes, children }) => {
   return (
     <Grid container direction="column" alignItems="center">
-      <Icon
-        className={`fa fa-exclamation-triangle ${classes.warningIcon}`}
-        color="action"
-        fontSize="large"
+      <FontAwesomeIcon
+        icon={faExclamationTriangle}
+        size="3x"
+        className={classes.icon}
       />
       <Typography variant="h5">Sorry</Typography>
       <div className={classes.message}>{children}</div>
@@ -41,14 +49,16 @@ const EmptyPage = ({ classes, children }) => {
           <Link to="/drug/CHEMBL3137343">Keytruda</Link>
         </Grid>
       </Typography>
-      <Typography gutterBottom>You might also want to ...</Typography>
+      <Typography gutterBottom className={classes.message}>
+        You might also want to ...
+      </Typography>
       <Grid item container justify="center">
         <Grid item container direction="column" md={2} alignItems="center">
           <a href="https://platform-docs.opentargets.org/">
-            <Icon
-              className="fa fa-question-circle"
-              color="primary"
-              fontSize="large"
+            <FontAwesomeIcon
+              icon={faQuestionCircle}
+              size="3x"
+              className={classes.icon}
             />
           </a>
           <Typography align="center" className={classes.actionText}>
@@ -57,7 +67,11 @@ const EmptyPage = ({ classes, children }) => {
         </Grid>
         <Grid item container direction="column" md={2} alignItems="center">
           <a href="mailto:helpdesk@opentargets.org">
-            <Icon className="fa fa-envelope" color="primary" fontSize="large" />
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              size="3x"
+              className={classes.icon}
+            />
           </a>
           <Typography align="center" className={classes.actionText}>
             Contact the Platform helpdesk
@@ -65,10 +79,10 @@ const EmptyPage = ({ classes, children }) => {
         </Grid>
         <Grid item container direction="column" md={2} alignItems="center">
           <a href="mailto:helpdesk@opentargets.org">
-            <Icon
-              className="fa fa-search-plus"
-              color="primary"
-              fontSize="large"
+            <FontAwesomeIcon
+              icon={faSearchPlus}
+              size="3x"
+              className={classes.icon}
             />
           </a>
           <Typography align="center" className={classes.actionText}>
