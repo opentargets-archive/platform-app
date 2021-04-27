@@ -75,13 +75,8 @@ const columns = [
     renderCell: ({ variantId, variantRsId }) => {
       return variantId ? (
         <>
-          <Link
-            external
-            to={`https://genetics.opentargets.org/variant/${variantId}`}
-          >
-            {variantId.substring(0, 20)}
-            {variantId.length > 20 ? '\u2026' : ''}
-          </Link>
+          {variantId.substring(0, 20)}
+          {variantId.length > 20 ? '\u2026' : ''}
           {variantRsId ? (
             <>
               {' '}
