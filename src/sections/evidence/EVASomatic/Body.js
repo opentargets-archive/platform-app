@@ -43,6 +43,7 @@ const EVA_SOMATIC_QUERY = gql`
           alleleOrigins
           confidence
           literature
+          cohortPhenotypes
         }
       }
     }
@@ -65,7 +66,7 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease, diseaseFromSource }) => {
+    renderCell: ({ disease, diseaseFromSource, cohortPhenotypes }) => {
       return (
         <Tooltip
           title={
@@ -73,9 +74,33 @@ const columns = [
               <Typography variant="subtitle2" display="block" align="center">
                 Reported disease or phenotype:
               </Typography>
-              <Typography variant="caption" display="block" align="center">
+              <Typography
+                variant="caption"
+                display="block"
+                align="center"
+                gutterBottom
+              >
                 {diseaseFromSource}
               </Typography>
+
+              {cohortPhenotypes?.length > 0 ? (
+                <>
+                  <Typography
+                    variant="subtitle2"
+                    display="block"
+                    align="center"
+                  >
+                    All reported phenotypes:
+                  </Typography>
+                  <Typography variant="caption" display="block">
+                    {cohortPhenotypes.map(cp => (
+                      <div key={cp}>{cp}</div>
+                    ))}
+                  </Typography>
+                </>
+              ) : (
+                ''
+              )}
             </>
           }
           showHelpIcon
