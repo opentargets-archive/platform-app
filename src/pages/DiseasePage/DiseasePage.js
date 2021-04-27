@@ -2,6 +2,7 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import BasePage from '../../components/BasePage';
+import ScrollToTop from '../../components/ScrollToTop';
 import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
@@ -32,7 +33,7 @@ function DiseasePage({ match }) {
   return (
     <BasePage title={name}>
       <Header loading={loading} efoId={efoId} name={name} />
-
+      <ScrollToTop />
       <RoutingTabs>
         <RoutingTab
           label="Associated targets"
