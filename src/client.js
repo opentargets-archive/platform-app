@@ -1,4 +1,3 @@
-import { config } from './config/Config';
 import { ApolloClient } from 'apollo-client';
 import {
   InMemoryCache,
@@ -6,6 +5,7 @@ import {
 } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import introspectionQueryResultData from './fragmentTypes.json';
+import { config } from './config/Config';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,

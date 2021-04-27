@@ -13,13 +13,14 @@ import { sentenceCase } from '../../../utils/global';
 import { epmcUrl } from '../../../utils/urls';
 import Link from '../../../components/Link';
 import Summary from './Summary';
+import EllsWrapper from '../../../components/EllsWrapper';
 
 const REACTOME_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
     id: 'disease.name',
-    label: 'Disease/phenotype',
+    label: 'Disease / phenotype',
     renderCell: ({ disease, diseaseFromSource }) => {
       return (
         <Tooltip
@@ -35,10 +36,13 @@ const columns = [
           }
           showHelpIcon
         >
-          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+          <Link to={`/disease/${disease.id}`}>
+            <EllsWrapper>{disease.name}</EllsWrapper>
+          </Link>
         </Tooltip>
       );
     },
+    width: '18%',
   },
   {
     id: 'pathwayName',
@@ -53,7 +57,7 @@ const columns = [
             external
             to={`http://www.reactome.org/PathwayBrowser/#${pathways[0].id}`}
           >
-            {pathways[0].name}
+            <EllsWrapper>{pathways[0].name}</EllsWrapper>
           </Link>
         );
       } else {
@@ -67,15 +71,17 @@ const columns = [
         );
       }
     },
+    width: '17%',
   },
   {
     id: 'reactionId',
     label: 'Reaction',
-    renderCell: ({ reactionId }) => (
+    renderCell: ({ reactionName, reactionId }) => (
       <Link external to={`https://identifiers.org/reactome/${reactionId}`}>
-        {reactionId}
+        <EllsWrapper>{reactionName}</EllsWrapper>
       </Link>
     ),
+    width: '17%',
   },
   {
     id: 'targetFromSourceId',
@@ -85,17 +91,23 @@ const columns = [
         external
         to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
       >
-        {targetFromSourceId}
+        <EllsWrapper>{targetFromSourceId}</EllsWrapper>
       </Link>
     ),
+    width: '12%',
   },
   {
     id: 'targetModulation',
     label: 'Target modulation',
     renderCell: ({ targetModulation }) => {
-      return targetModulation ? sentenceCase(targetModulation) : naLabel;
+      return targetModulation ? (
+        <EllsWrapper>{sentenceCase(targetModulation)}</EllsWrapper>
+      ) : (
+        naLabel
+      );
     },
     filterValue: ({ targetModulation }) => sentenceCase(targetModulation),
+    width: '12%',
   },
   {
     filterValue: ({ variantAminoacidDescriptions }) => {
@@ -118,6 +130,7 @@ const columns = [
         naLabel
       );
     },
+    width: '12%',
   },
   {
     id: 'literature',
@@ -133,9 +146,9 @@ const columns = [
           });
         }
       });
-
       return <PublicationsDrawer entries={literatureList} />;
     },
+    width: '12%',
   },
 ];
 
@@ -169,6 +182,8 @@ function Body({ definition, id, label }) {
             dataDownloader
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            fixed
+            noWrapHeader={false}
           />
         );
       }}
