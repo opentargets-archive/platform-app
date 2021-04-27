@@ -54,7 +54,7 @@ const EmptyPage = ({ classes, children }) => {
       </Typography>
       <Grid item container justify="center">
         <Grid item container direction="column" md={2} alignItems="center">
-          <a href="https://docs.targetvalidation.org/getting-started/getting-started">
+          <a href="https://platform-docs.opentargets.org/">
             <FontAwesomeIcon
               icon={faQuestionCircle}
               size="3x"
@@ -66,7 +66,7 @@ const EmptyPage = ({ classes, children }) => {
           </Typography>
         </Grid>
         <Grid item container direction="column" md={2} alignItems="center">
-          <a href="mailto:support@targetvalidation.org">
+          <a href="mailto:helpdesk@opentargets.org">
             <FontAwesomeIcon
               icon={faEnvelope}
               size="3x"
@@ -74,11 +74,11 @@ const EmptyPage = ({ classes, children }) => {
             />
           </a>
           <Typography align="center" className={classes.actionText}>
-            Contact our support team
+            Contact the Platform helpdesk
           </Typography>
         </Grid>
         <Grid item container direction="column" md={2} alignItems="center">
-          <a href="mailto:support@targetvalidation.org">
+          <a href="mailto:helpdesk@opentargets.org">
             <FontAwesomeIcon
               icon={faSearchPlus}
               size="3x"
