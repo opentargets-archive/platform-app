@@ -173,7 +173,7 @@ const columns = [
         Causal inference score - see{' '}
         <Link
           external
-          to="https://docs.targetvalidation.org/data-sources/genetic-associations#open-targets-genetics-portal"
+          to="https://platform-docs.opentargets.org/evidence#open-targets-genetics-portal"
         >
           our documentation
         </Link>{' '}
