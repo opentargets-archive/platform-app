@@ -269,3 +269,8 @@ export const clinvarStarMap = {
   'no assertion criteria provided': 0,
   'no assertion provided': 0,
 };
+
+export const formatMap = {
+  json: 'JSON',
+  parquet: 'Parquet',
+};
