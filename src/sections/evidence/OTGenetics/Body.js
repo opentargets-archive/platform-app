@@ -70,7 +70,7 @@ const columns = [
             (
             <Link
               external
-              to={identifiersOrgLink('DBSNP', variantRsId, 'ncbi')}
+              to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
             >
               {variantRsId}
             </Link>

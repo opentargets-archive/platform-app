@@ -30,6 +30,8 @@ import {
   faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
 
+import { config } from '../../config/Config';
+
 const useStyles = makeStyles(theme => ({
   links: {
     marginTop: '12px',
@@ -225,7 +227,7 @@ const HomePage = () => {
             <Grid item xs={12} sm={'auto'}>
               <HelpBoxPanel
                 fai={faLaptopCode}
-                url="https://platform-docs.opentargets.org/data-access/graphql-api"
+                url={config.urlApi.split('/api/v4/graphql')[0]}
                 label="Access data with our GraphQL API"
                 external
               />
