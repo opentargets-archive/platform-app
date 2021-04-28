@@ -182,7 +182,7 @@ const HomePage = () => {
           </Typography>
 
           <Typography paragraph>
-            By integrating publicly available datasets along with data generated
+            By integrating publicly available datasets including data generated
             by the Open Targets consortium, the Platform builds and scores
             target-disease associations to assist in drug target identification
             and prioritisation. It also integrates relevant annotation
