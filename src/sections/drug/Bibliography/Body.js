@@ -44,7 +44,6 @@ const DRUGS_LITERATURE_OCURRENCES = gql`
           pmid
           pmcid
           publicationDate
-          ids
           sentences {
             section
             matches {
@@ -55,10 +54,6 @@ const DRUGS_LITERATURE_OCURRENCES = gql`
               startInSentence
               endInSentence
             }
-          }
-          ocurrencesPerId {
-            keywordId
-            count
           }
         }
       }
