@@ -78,7 +78,7 @@ function DownloadsDrawer({ title, format, path, month, year, children }) {
             {formatMap[format]} Data Format
           </Typography>
           <Typography variant="subtitle2" gutterBottom>
-            FTP
+            FTP (link)
           </Typography>
           <div className={classes.resourceURL}>
             <a
@@ -88,8 +88,7 @@ function DownloadsDrawer({ title, format, path, month, year, children }) {
               }${month}/output/etl${path}`}
             >
               ftp.ebi.ac.uk/pub/databases/opentargets/platform/{year}.
-              {month.toString().padStart(2, '0')}
-              /etl/output/{format}
+              {month.toString().padStart(2, '0')}/output/etl/{format}
               {path}
             </a>
           </div>
@@ -97,17 +96,17 @@ function DownloadsDrawer({ title, format, path, month, year, children }) {
           <div className={classes.resourceURL}>
             rsync -rpltvz --delete
             rsync.ebi.ac.uk::pub/databases/opentargets/platform/{year}.
-            {month.toString().padStart(2, '0')}/etl/output/{format}
+            {month.toString().padStart(2, '0')}/output/etl/{format}
             {path} .
           </div>
           <Typography variant="subtitle2" gutterBottom>
             Wget
           </Typography>
           <div className={classes.resourceURL}>
-            wget --recursive --no-parent --no-host-directories --cut-dirs 7 \
+            wget --recursive --no-parent --no-host-directories --cut-dirs 8 \
             ftp://ftp.ebi.ac.uk/pub/databases/opentargets/platform/{year}.
-            {month.toString().padStart(2, '0')}/etl/output/{format}
-            {path} .
+            {month.toString().padStart(2, '0')}/output/etl/{format}
+            {path}
           </div>
           <Typography variant="subtitle2" gutterBottom>
             Google Cloud
@@ -115,7 +114,7 @@ function DownloadsDrawer({ title, format, path, month, year, children }) {
           <div className={classes.resourceURL}>
             gsutil -m cp -r gs://open-targets-data-releases/{year}.
             {month.toString().padStart(2, '0')}
-            /etl/output/{format}
+            /output/etl/{format}
             {path} .
           </div>
         </Paper>
