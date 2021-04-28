@@ -81,7 +81,10 @@ const columns = [
     renderCell: ({ variantRsId, variantId }) => {
       return (
         <>
-          <Link external to={identifiersOrgLink('DBSNP', variantRsId, 'ncbi')}>
+          <Link
+            external
+            to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
+          >
             {variantRsId}
           </Link>{' '}
           {variantId ? (

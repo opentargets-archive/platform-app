@@ -83,7 +83,10 @@ const columns = [
     label: 'Variant',
     renderCell: ({ variantRsId }) => {
       return (
-        <Link external to={identifiersOrgLink('ensembl', variantRsId)}>
+        <Link
+          external
+          to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
+        >
           {variantRsId}
         </Link>
       );
