@@ -181,7 +181,7 @@ function Body({ definition, label: symbol }) {
             {smallMoleculeBuckets.length > 0 ? (
               <SmallMoleculeTable buckets={smallMoleculeBuckets} />
             ) : (
-              <Typography>
+              <Typography variant="body2">
                 No small molecule tractability data for {symbol} available
               </Typography>
             )}
@@ -189,7 +189,7 @@ function Body({ definition, label: symbol }) {
             {antibodyBuckets.length > 0 ? (
               <AntibodyTable buckets={antibodyBuckets} />
             ) : (
-              <Typography>
+              <Typography variant="body2">
                 No antibody tractability data for {symbol} available
               </Typography>
             )}
