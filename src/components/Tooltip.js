@@ -2,6 +2,9 @@ import React from 'react';
 import { makeStyles, Tooltip as MUITooltip } from '@material-ui/core';
 import _ from 'lodash';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+
 function Tooltip({ style, children, title, showHelpIcon = false, ...props }) {
   const classes = makeStyles(theme =>
     _.merge(style, {
@@ -18,8 +21,46 @@ function Tooltip({ style, children, title, showHelpIcon = false, ...props }) {
         fontWeight: '500',
         cursor: 'default',
       },
+      infoIcon: {
+        color: ' #3489CA',
+        cursor: 'default',
+        position: 'relative',
+        bottom: '0.35rem',
+        fontSize: '0.75rem',
+        paddingLeft: '0.1rem',
+      },
     })
   )();
+
+  // const icon = (
+  //   <span
+  //     className="fa-layers fa-fw"
+  //     style={{
+  //       // marginRight: '20px',
+  //       color: ' #3489CA', // theme.palette.text.disabled,
+  //       cursor: 'default',
+  //       // fontSize: '0.7em',
+  //     }}
+  //   >
+  //     <FontAwesomeIcon icon={faCircle} size="2x" />
+  //     <FontAwesomeIcon
+  //       icon={faInfoCircle}
+  //       size="2x"
+  //       inverse
+  //       transform="shrink-6"
+  //     />
+  //   </span>
+  // );
+
+  // const infoIcon = (
+  //   <span
+  //     className={classes.infoIcon}
+  //   >
+  //     <FontAwesomeIcon
+  //       icon={faInfoCircle}
+  //     />
+  //   </span>
+  // );
 
   return (
     <>
@@ -31,7 +72,14 @@ function Tooltip({ style, children, title, showHelpIcon = false, ...props }) {
         title={title}
         {...props}
       >
-        {showHelpIcon ? <sup className={classes.tooltipIcon}>?</sup> : children}
+        {/* {showHelpIcon ? <sup className={classes.tooltipIcon}>?</sup> : children} */}
+        {showHelpIcon ? (
+          <span className={classes.infoIcon}>
+            <FontAwesomeIcon icon={faInfoCircle} />
+          </span>
+        ) : (
+          children
+        )}
       </MUITooltip>
     </>
   );
