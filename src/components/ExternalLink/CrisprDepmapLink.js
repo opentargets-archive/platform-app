@@ -44,7 +44,7 @@ function CrisprDepmapLink({ symbol }) {
 
   return (
     <span>
-      CRISPR depmap
+      Project Score
       <Tooltip
         classes={{ tooltip: classes.tooltip }}
         title="CRISPR-Cas9 cancer cell line dependency data from Project Score"
