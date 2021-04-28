@@ -59,8 +59,8 @@ const SafetyTables = ({ symbol, data }) => {
             Non-clinical experimental toxicity
           </Typography>
           <Typography variant="body2">
-            Details on the routine testing and screening of {symbol} in
-            non-clinical experimental toxicity panels.
+            Details of assays that can be used to test for {symbol} toxicity in
+            vitro.
           </Typography>
           <SeparatedByDividers>
             {hasTox21 && (
