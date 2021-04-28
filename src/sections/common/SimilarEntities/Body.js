@@ -55,7 +55,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
   const [initialLoading, setInitialLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [selectedChips, setSelectedChips] = useState([]);
-  const [cursor, setCursor] = useState('');
+  const [cursor, setCursor] = useState(null);
   const [rows, setRows] = useState([]);
   const [entities, setEntities] = useState([]);
   const [count, setCount] = useState(0);
@@ -66,7 +66,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
   const threshold = 0.5;
   const size = 15;
 
-  const fetchLiteratures = (cursor = '') => {
+  const fetchLiteratures = (cursor = null) => {
     return client.query({
       query: BODY_QUERY,
       variables: {
@@ -83,7 +83,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
   useEffect(
     () => {
       fetchLiteratures(cursor).then(res => {
-        const newCursor = res.data[entity].literatureOcurrences.cursor || '';
+        const newCursor = res.data[entity].literatureOcurrences.cursor || null;
         const { literatureOcurrences, similarEntities } = res.data[entity];
         setCount(literatureOcurrences.count);
         setInitialLoading(false);
@@ -127,7 +127,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
       ...selectedChips.slice(index + 1),
     ];
     setLoading(true);
-    setCursor('');
+    setCursor(null);
     setSelectedChips(newChips);
   };
 
@@ -139,8 +139,8 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
           entity
         ].literatureOcurrences;
         setCursor(newCursor);
-        setRows([...rows, ...newRows?.map(({ pmid }) => pmid)]);
         setPage(newPage);
+        setRows([...rows, ...newRows?.map(({ pmid }) => pmid)]);
         setLoading(false);
       });
     } else {
@@ -156,8 +156,8 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
           entity
         ].literatureOcurrences;
         setCursor(newCursor);
-        setRows([...rows, ...newRows?.map(({ pmid }) => pmid)]);
         setPage(0);
+        setRows([...rows, ...newRows?.map(({ pmid }) => pmid)]);
         setPageSize(newPageSize);
         setLoading(false);
       });
@@ -231,7 +231,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
                     },
                   ];
                   setLoading(true);
-                  setCursor('');
+                  setCursor(null);
                   setSelectedChips(newChimps);
                 }}
                 title={`Score: ${e.score} ID: ${e.object.id}`}
@@ -242,7 +242,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
           })}
       </div>
       <div>
-        {!initialLoading && (
+        {!initialLoading && rows.length > 0 && (
           <PublicationsList
             hideSearch
             handlePageChange={handlePageChange}
@@ -254,22 +254,21 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
             loading={loading}
           />
         )}
-        {!initialLoading ||
-          (rows.length === 0 && (
-            <Box
-              my={20}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
-            >
-              <Box mt={6}>
-                <Typography className={classes.AccordionSubtitle}>
-                  No results for the query
-                </Typography>
-              </Box>
+        {!initialLoading && rows.length === 0 && (
+          <Box
+            my={20}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+          >
+            <Box mt={6}>
+              <Typography className={classes.AccordionSubtitle}>
+                No results for the query
+              </Typography>
             </Box>
-          ))}
+          </Box>
+        )}
       </div>
     </>
   );

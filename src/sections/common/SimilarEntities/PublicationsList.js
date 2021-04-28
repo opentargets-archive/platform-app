@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { europePmcSearchPOSTQuery } from '../../../utils/urls';
+import {
+  Box,
+  Typography,
+  CircularProgress,
+  makeStyles,
+} from '@material-ui/core';
+import { europePmcBiblioSearchPOSTQuery } from '../../../utils/urls';
 import PublicationWrapper from '../../../components/PublicationsDrawer/PublicationWrapper';
 import { getPage, Table } from '../../../components/Table';
 
-const parsedPublications = publications =>
+const parsePublications = publications =>
   publications.map(pub => {
     const row = {};
     row.europePmcId = pub.id;
@@ -35,10 +41,14 @@ const PublicationsList = ({
 
   useEffect(
     () => {
-      const ids =
-        page === 0 ? entriesIds : entriesIds.slice(pageSize * page + pageSize);
-      const { baseUrl, formBody } = europePmcSearchPOSTQuery(ids);
+      const ids = page === 0 ? entriesIds : entriesIds.slice(pageSize * page);
+      const { baseUrl, formBody } = europePmcBiblioSearchPOSTQuery(ids);
       setLoading(true);
+
+      if (page === 0) {
+        setPublications([]);
+      }
+
       const requestOptions = {
         method: 'POST',
         headers: {
@@ -49,14 +59,10 @@ const PublicationsList = ({
       fetch(baseUrl, requestOptions)
         .then(response => response.json())
         .then(data => {
-          if (page === 0) {
-            setPublications(parsedPublications(data.resultList.result));
-          } else {
-            setPublications([
-              ...publications,
-              ...parsedPublications(data.resultList.result),
-            ]);
-          }
+          const all = [...publications, ...data.resultList.result];
+          const mapedResults = new Map(all.map(key => [key.pmid, key]));
+          const ordered = entriesIds.map(key => mapedResults.get(key));
+          setPublications(ordered);
           setLoading(false);
         });
     },
@@ -82,11 +88,15 @@ const PublicationsList = ({
     },
   ];
 
+  const parsedPublications = parsePublications(publications);
+
   const rows =
     entriesIds.length === publications.length || page === 0
-      ? getPage(publications, page, pageSize)
-      : getPage(publications, page - 1, pageSize);
-  return (
+      ? getPage(parsedPublications, page, pageSize)
+      : getPage(parsedPublications, page - 1, pageSize);
+  return page === 0 && (parentLoading || loading) ? (
+    <Loader />
+  ) : (
     <Table
       showGlobalFilter={!hideSearch}
       loading={parentLoading || loading}
@@ -101,5 +111,30 @@ const PublicationsList = ({
     />
   );
 };
+
+const Loader = () => (
+  <Box
+    my={20}
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+    flexDirection="column"
+  >
+    <CircularProgress size={60} />
+    <Box mt={6}>
+      <Typography className={listComponetStyles.AccordionSubtitle}>
+        Loading Europe PMC search results
+      </Typography>
+    </Box>
+  </Box>
+);
+
+const listComponetStyles = makeStyles(() => ({
+  loader: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+}));
 
 export default PublicationsList;
