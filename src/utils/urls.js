@@ -39,6 +39,19 @@ export function europePmcSearchPOSTQuery(ids) {
   return { baseUrl, formBody };
 }
 
+export function europePmcBiblioSearchPOSTQuery(ids) {
+  const baseUrl = 'https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST';
+  const query = ids.join(' OR ext_id:');
+  const bodyOptions = {
+    resultType: 'core',
+    format: 'json',
+    pageSize: '25',
+    query: `SRC:MED AND (ext_id:${query})`,
+  };
+  const formBody = encodeParams(bodyOptions);
+  return { baseUrl, formBody };
+}
+
 function clinicalTrialsUrl(id) {
   return `https://www.clinicaltrials.gov/ct2/show/${id}`;
 }
