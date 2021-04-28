@@ -10,7 +10,7 @@ const TARGET_LITERATURE_OCURRENCES = gql`
     $threshold: Float = 0.5
     $size: Int! = 15
     $entityNames: [String!] = []
-    $cursor: String! = ""
+    $cursor: String = null
   ) {
     target(ensemblId: $id) {
       id
