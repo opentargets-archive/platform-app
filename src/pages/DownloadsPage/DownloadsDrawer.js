@@ -83,9 +83,9 @@ function DownloadsDrawer({ title, format, path, month, year, children }) {
           <div className={classes.resourceURL}>
             <a
               className={classes.ftpURL}
-              href={`https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/${year}.${
+              href={`http://ftp.ebi.ac.uk/pub/databases/opentargets/platform/${year}.${
                 month < 10 ? '0' : ''
-              }${month}/output/etl${path}`}
+              }${month}/output/etl/${format}${path}`}
             >
               ftp.ebi.ac.uk/pub/databases/opentargets/platform/{year}.
               {month.toString().padStart(2, '0')}/output/etl/{format}
@@ -103,7 +103,7 @@ function DownloadsDrawer({ title, format, path, month, year, children }) {
             Wget
           </Typography>
           <div className={classes.resourceURL}>
-            wget --recursive --no-parent --no-host-directories --cut-dirs 8 \
+            wget --recursive --no-parent --no-host-directories --cut-dirs 8
             ftp://ftp.ebi.ac.uk/pub/databases/opentargets/platform/{year}.
             {month.toString().padStart(2, '0')}/output/etl/{format}
             {path}
