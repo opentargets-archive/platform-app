@@ -9,6 +9,7 @@ import {
   faGithubSquare,
   faYoutubeSquare,
 } from '@fortawesome/free-brands-svg-icons';
+import { config } from './config/Config';
 
 export const externalLinks = {
   about: [
@@ -84,7 +85,7 @@ export const mainMenuItems = [
   // API
   {
     name: 'API',
-    url: 'https://platform-docs.opentargets.org/data-access/graphql-api',
+    url: config.urlApi.split('/api/v4/graphql')[0],
     external: true,
   },
   // Community
