@@ -10,7 +10,6 @@ import * as KnownDrugs from '../../sections/target/KnownDrugs';
 import * as MousePhenotypes from '../../sections/target/MousePhenotypes';
 import * as Pathways from '../../sections/target/Pathways';
 import * as ProteinInformation from '../../sections/target/ProteinInformation';
-// import * as RelatedTargets from '../../sections/target/RelatedTargets';
 import * as Safety from '../../sections/target/Safety';
 import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
@@ -27,7 +26,6 @@ export default [
   ProteinInformation,
   MolecularInteractions,
   Pathways,
-  // RelatedTargets,
   CancerBiomarkers,
   CancerHallmarks,
   MousePhenotypes,
