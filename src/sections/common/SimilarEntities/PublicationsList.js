@@ -61,7 +61,11 @@ const PublicationsList = ({
         .then(data => {
           const all = [...publications, ...data.resultList.result];
           const mapedResults = new Map(all.map(key => [key.pmid, key]));
-          const ordered = entriesIds.map(key => mapedResults.get(key));
+          const ordered = entriesIds.reduce((acc, key) => {
+            const pub = mapedResults.get(key);
+            if (pub) acc.push(pub);
+            return acc;
+          }, []);
           setPublications(ordered);
           setLoading(false);
         });
@@ -103,7 +107,7 @@ const PublicationsList = ({
       columns={columns}
       rows={rows}
       rowCount={count}
-      rowsPerPageOptions={[5, 10, 25, 50]}
+      rowsPerPageOptions={[5, 10, 25]}
       page={page}
       pageSize={pageSize}
       onPageChange={handlePageChange}

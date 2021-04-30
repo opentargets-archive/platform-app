@@ -156,9 +156,9 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
           entity
         ].literatureOcurrences;
         setCursor(newCursor);
+        setPageSize(newPageSize);
         setPage(0);
         setRows([...rows, ...newRows?.map(({ pmid }) => pmid)]);
-        setPageSize(newPageSize);
         setLoading(false);
       });
     } else {
@@ -185,7 +185,7 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
         </Box>
         {!initialLoading && (
           <Typography variant="body2" className={classes.resultCount}>
-            Showing {count > 5 ? 5 : count} of {count} results
+            Showing {count > pageSize ? pageSize : count} of {count} results
           </Typography>
         )}
       </Box>
