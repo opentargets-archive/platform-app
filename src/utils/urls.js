@@ -39,13 +39,13 @@ export function europePmcSearchPOSTQuery(ids) {
   return { baseUrl, formBody };
 }
 
-export function europePmcBiblioSearchPOSTQuery(ids) {
+export function europePmcBiblioSearchPOSTQuery(ids, size = 25) {
   const baseUrl = 'https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST';
   const query = ids.join(' OR ext_id:');
   const bodyOptions = {
     resultType: 'core',
     format: 'json',
-    pageSize: '25',
+    pageSize: size,
     query: `SRC:MED AND (ext_id:${query})`,
   };
   const formBody = encodeParams(bodyOptions);
