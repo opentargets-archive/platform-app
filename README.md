@@ -1,7 +1,7 @@
 # Open Targets Platform App
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/58a127ca-67c0-4cc3-b9e3-88dad47cfc7f/deploy-status)](https://app.netlify.com/sites/platform-app/deploys)
-
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9e2a9704b9934949b416da2a81342dc6)](https://www.codacy.com/gh/CBIIT/ppdc-otg-frontend/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CBIIT/ppdc-otg-frontend&amp;utm_campaign=Badge_Grade)
 This repository holds the new [Open Targets Platform](https://www.targetvalidation.org) web app.
 
 It is a Single Page Application built on [React](https://reactjs.org/) using [Apollo GraphQL](https://www.apollographql.com/docs/react/v3.0-beta) for the data fetching and management and the [Material-UI](https://material-ui.com/) component collection.
