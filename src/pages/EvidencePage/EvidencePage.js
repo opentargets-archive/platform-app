@@ -2,11 +2,11 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import BasePage from '../../components/BasePage';
+import ScrollToTop from '../../components/ScrollToTop';
+
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import { oldPlatformUrl } from '../../constants';
 import Profile from './Profile';
-import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
 const EVIDENCE_PAGE_QUERY = gql`
   query EvidencePageQuery($ensgId: String!, $efoId: String!) {
@@ -43,25 +43,8 @@ function EvidencePage({ match }) {
         symbol={symbol}
         name={name}
       />
-
-      <RoutingTabs>
-        <RoutingTab
-          label="Profile"
-          path="/evidence/:ensgId/:efoId"
-          component={() => (
-            <Profile
-              ensgId={ensgId}
-              efoId={efoId}
-              symbol={symbol}
-              name={name}
-            />
-          )}
-        />
-        <RoutingTab
-          label="View this page in the classic view"
-          url={`${oldPlatformUrl}/evidence/${ensgId}/${efoId}`}
-        />
-      </RoutingTabs>
+      <ScrollToTop />
+      <Profile ensgId={ensgId} efoId={efoId} symbol={symbol} name={name} />
     </BasePage>
   );
 }

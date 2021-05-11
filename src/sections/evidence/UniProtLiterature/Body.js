@@ -1,14 +1,18 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Link, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import { identifiersOrgLink } from '../../../utils/global';
+import Link from '../../../components/Link';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Tooltip from '../../../components/Tooltip';
 import SectionItem from '../../../components/Section/SectionItem';
-import { DataTable, TableDrawer } from '../../../components/Table';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
+import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
+import { sentenceCase } from '../../../utils/global';
 
 const UNIPROT_LITERATURE_QUERY = gql`
   query UniprotLiteratureQuery(
@@ -33,6 +37,7 @@ const UNIPROT_LITERATURE_QUERY = gql`
           targetFromSourceId
           studyId
           literature
+          confidence
         }
       }
     }
@@ -68,10 +73,17 @@ const columns = [
     label: 'Reported protein',
     renderCell: ({ targetFromSourceId, studyId }) => {
       return (
-        <Link href={`http://www.uniprot.org/uniprot/${studyId}`}>
+        <Link external to={identifiersOrgLink('uniprot', targetFromSourceId)}>
           {targetFromSourceId}
         </Link>
       );
+    },
+  },
+  {
+    id: 'confidence',
+    label: 'Confidence',
+    renderCell: ({ confidence }) => {
+      return <>{sentenceCase(confidence)}</>;
     },
   },
   {
@@ -89,7 +101,7 @@ const columns = [
           return acc;
         }, []) || [];
 
-      return <TableDrawer entries={literatureList} />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];

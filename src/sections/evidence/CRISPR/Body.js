@@ -5,7 +5,6 @@ import { Link } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
-import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -69,23 +68,6 @@ const columns = [
     id: 'resourceScore',
     label: 'Priority score',
     renderCell: ({ resourceScore }) => resourceScore.toFixed(3),
-  },
-  {
-    label: 'Literature',
-    renderCell: ({ literature = [] }) => {
-      const literatureList = [];
-      literature.forEach(id => {
-        if (id !== 'NA') {
-          literatureList.push({
-            name: id,
-            url: epmcUrl(id),
-            group: 'literature',
-          });
-        }
-      });
-
-      return <TableDrawer entries={literatureList} />;
-    },
   },
 ];
 

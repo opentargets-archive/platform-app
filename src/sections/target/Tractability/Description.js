@@ -8,7 +8,7 @@ function Description({ symbol }) {
       Target druggability assessment for <strong>{symbol}</strong>. Source:{' '}
       <Link
         external
-        to="https://docs.targetvalidation.org/getting-started/target-tractability"
+        to="https://platform-docs.opentargets.org/target/tractability"
       >
         Open Targets
       </Link>

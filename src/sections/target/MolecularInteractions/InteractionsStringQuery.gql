@@ -1,0 +1,28 @@
+query InteractionsSectionQuery(
+  $ensgId: String!
+  $sourceDatabase: String
+  $index: Int = 0
+  $size: Int = 10
+) {
+  target(ensemblId: $ensgId) {
+    id
+    interactions(
+      sourceDatabase: $sourceDatabase
+      page: { index: $index, size: $size }
+    ) {
+      rows {
+        intA
+        intB
+        targetB {
+          approvedSymbol
+          id
+        }
+        score
+        evidences {
+          evidenceScore
+          interactionDetectionMethodShortName
+        }
+      }
+    }
+  }
+}

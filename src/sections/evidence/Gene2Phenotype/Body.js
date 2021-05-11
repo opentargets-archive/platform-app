@@ -71,6 +71,7 @@ const columns = [
   },
   {
     id: 'confidence',
+    label: 'Confidence category',
     renderCell: ({ confidence }) => sentenceCase(confidence) || naLabel,
   },
   {

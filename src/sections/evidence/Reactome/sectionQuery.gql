@@ -1,0 +1,29 @@
+query reactomeQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+    disease(efoId: $efoId) {
+      id
+      evidences(
+        ensemblIds: [$ensemblId]
+        enableIndirect: true
+        datasourceIds: ["reactome"]
+        size: $size
+      ) {
+        rows {
+          disease {
+            id
+            name
+          }
+          diseaseFromSource
+          reactionName
+          reactionId
+          targetFromSourceId
+          pathways{
+            id
+            name
+          }
+          targetModulation
+          variantAminoacidDescriptions
+          literature
+        }
+      }
+    }
+  }

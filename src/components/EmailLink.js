@@ -1,40 +1,36 @@
 import React from 'react';
-import Icon from '@material-ui/core/Icon';
-import { withStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-import { withContentRect } from 'react-measure';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { makeStyles } from '@material-ui/core';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   emailLink: {
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '0.8rem',
+    display: 'block',
     textDecoration: 'none',
     outline: 'none',
     color: 'inherit',
     '&:hover': {
-      color: theme.palette.primary.main,
+      color: theme.palette.primary.light,
     },
+    maxWidth: '100%',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
-  iconPadding: {
+  icon: {
     marginRight: '10px',
   },
-});
+}));
 
-const EmailLink = ({
-  classes,
-  href,
-  label,
-  iconClasses,
-  measureRef,
-  contentRect,
-}) => (
-  <a className={classes.emailLink} href={href} ref={measureRef}>
-    {iconClasses && (
-      <Icon className={classNames(iconClasses, classes.iconPadding)} />
-    )}
-    {contentRect.bounds.width < 225 ? 'Email support' : label}
-  </a>
-);
+const EmailLink = ({ href, label, icon }) => {
+  const classes = useStyles();
+  return (
+    <a className={classes.emailLink} href={href}>
+      {icon && (
+        <FontAwesomeIcon className={classes.icon} icon={icon} size="lg" />
+      )}
+      {label}
+    </a>
+  );
+};
 
-export default withContentRect('bounds')(withStyles(styles)(EmailLink));
+export default EmailLink;

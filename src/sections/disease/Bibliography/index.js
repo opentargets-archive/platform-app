@@ -1,8 +1,8 @@
 export const definition = {
-  id: 'variation',
-  name: 'Variation and Genomic Context',
-  shortName: 'V',
-  hasData: () => true,
+  id: 'bibliography',
+  name: 'Bibliography',
+  shortName: 'B',
+  hasData: data => data.literatureOcurrences?.count > 0,
 };
 
 export { default as Summary } from './Summary';

@@ -2,9 +2,9 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import BasePage from '../../components/BasePage';
+import ScrollToTop from '../../components/ScrollToTop';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import { oldPlatformUrl } from '../../constants';
 import Profile from '../DrugPage/Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
@@ -41,16 +41,13 @@ function DrugPage({ match }) {
         name={name}
         crossReferences={crossReferences}
       />
+      <ScrollToTop />
 
       <RoutingTabs>
         <RoutingTab
           label="Profile"
           path="/drug/:chemblId"
           component={() => <Profile chemblId={chemblId} name={name} />}
-        />
-        <RoutingTab
-          label="Classic view"
-          url={`${oldPlatformUrl}/summary?drug=${chemblId}`}
         />
       </RoutingTabs>
     </BasePage>

@@ -1,22 +1,26 @@
-import pkg from '../package.json';
+import {
+  faQuestionCircle,
+  faEnvelope,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  faDiscourse,
+  faTwitterSquare,
+  faLinkedin,
+  faGithubSquare,
+  faYoutubeSquare,
+} from '@fortawesome/free-brands-svg-icons';
+import { config } from './config/Config';
 
 export const externalLinks = {
   about: [
     {
-      label: `Version ${pkg.version} (${
-        process.env.REACT_APP_REVISION
-          ? process.env.REACT_APP_REVISION
-          : '2222ccc'
-      })`,
-      url: `https://github.com/opentargets/platform-app/commit/${
-        process.env.REACT_APP_REVISION
-          ? process.env.REACT_APP_REVISION
-          : '2222ccc'
-      }`,
+      label: `Platform version ${process.env.REACT_APP_REVISION ?? 'dev'}`,
+      url: `https://github.com/opentargets/platform-app/releases/tag/${process
+        .env.REACT_APP_REVISION ?? 'v0.1.1'}`,
     },
     {
-      label: 'Github codebase',
-      url: 'https://github.com/opentargets/platform-app',
+      label: 'Community forum',
+      url: 'https://community.opentargets.org',
     },
 
     {
@@ -26,16 +30,13 @@ export const externalLinks = {
 
     {
       label: 'Terms of use',
-      url: 'http://www.targetvalidation.org/terms-of-use',
+      url: 'https://platform-docs.opentargets.org/terms-of-use',
     },
   ],
   network: [
-    {
-      label: 'Overview',
-      url: 'https://www.opentargets.org',
-    },
     { label: 'Science', url: 'https://www.opentargets.org/science' },
-    { label: 'Resources', url: 'https://www.opentargets.org/resources' },
+    { label: 'Publications', url: 'https://www.opentargets.org/publications' },
+    { label: 'Genetics Portal', url: 'https://genetics.opentargets.org' },
     { label: 'Jobs', url: 'https://www.opentargets.org/jobs' },
     { label: 'Blog', url: 'https://blog.opentargets.org' },
   ],
@@ -44,97 +45,59 @@ export const externalLinks = {
     { label: 'EMBL-EBI', url: 'https://www.ebi.ac.uk' },
     { label: 'GSK', url: 'https://www.gsk.com' },
     { label: 'Sanofi', url: 'https://www.sanofi.com' },
-    { label: 'Takeda', url: 'https://www.takeda.com' },
     { label: 'Wellcome Sanger Institute', url: 'https://www.sanger.ac.uk' },
   ],
   help: [
     {
       label: 'Documentation',
-      iconClasses: 'fa fa-question-circle',
-      url: 'https://docs.targetvalidation.org',
+      icon: faQuestionCircle,
+      url: 'https://platform-docs.opentargets.org',
     },
     {
-      label: 'support@targetvalidation.org',
-      iconClasses: 'fa fa-envelope',
-      url: 'mailto:support@targetvalidation.org',
+      label: 'helpdesk@opentargets.org',
+      icon: faEnvelope,
+      url: 'mailto:helpdesk@opentargets.org',
     },
   ],
   social: [
-    {
-      iconClasses: 'fab fa-facebook',
-      url: 'https://www.facebook.com/OpenTargets',
-    },
-    {
-      iconClasses: 'fab fa-twitter-square',
-      url: 'http://twitter.com/targetvalidate',
-    },
-    {
-      iconClasses: 'fab fa-linkedin',
-      url: 'https://www.linkedin.com/company/open-targets',
-    },
-    {
-      iconClasses: 'fab fa-youtube-square',
-      url: 'https://www.youtube.com/channel/UCLMrondxbT0DIGx5nGOSYOQ',
-    },
-    { iconClasses: 'fab fa-medium', url: 'https://medium.com/opentargets' },
-    {
-      iconClasses: 'fab fa-github-square',
-      url: 'https://github.com/opentargets',
-    },
+    { icon: faDiscourse, url: 'https://community.opentargets.org' },
+    { icon: faTwitterSquare, url: 'https://twitter.com/opentargets' },
+    { icon: faLinkedin, url: 'https://www.linkedin.com/company/open-targets' },
+    { icon: faYoutubeSquare, url: 'https://www.youtube.com/opentargets' },
+    { icon: faGithubSquare, url: 'https://github.com/opentargets' },
   ],
 };
 
 // Configuration for the main hamburger menu
 export const mainMenuItems = [
-  // About
+  // Documentation
   {
-    name: 'Open Targets Platform',
-    url: 'https://www.targetvalidation.org/about',
-    external: true,
-  },
-  {
-    name: 'Open Targets Consortium',
-    url: '//www.opentargets.org/',
-    external: true,
-  },
-  // Help
-  {
-    name: 'Documentation & FAQs',
-    url: 'https://docs.targetvalidation.org/',
-    external: true,
-  },
-  {
-    name: 'support@targetvalidation.org',
-    url:
-      'mailto:support@targetvalidation.org?Subject=Target%20Validation%20Platform%20-%20help%20request',
-    external: true,
-  },
-  {
-    name: 'Outreach and tutorials',
-    url: 'https://www.targetvalidation.org/outreach',
-    external: true,
-  },
-  // API
-  {
-    name: 'API documentation',
-    url: 'https://docs.targetvalidation.org/programmatic-access/rest-api',
-    external: true,
-  },
-  {
-    name: 'Python client',
-    url: 'https://docs.targetvalidation.org/programmatic-access/python-client',
+    name: 'Documentation',
+    url: 'https://platform-docs.opentargets.org/getting-started',
     external: true,
   },
   // Downloads
   {
-    name: 'Downloads',
+    name: 'Data downloads',
     url: '/downloads',
     external: false,
   },
-  // Blog
+  // API
   {
-    name: 'Blog',
-    url: '//blog.opentargets.org/',
+    name: 'API',
+    url: config.urlApi.split('/api/v4/graphql')[0],
+    external: true,
+  },
+  // Community
+  {
+    name: 'Community',
+    url: 'https://community.opentargets.org/',
+    external: true,
+  },
+  // Contact
+  {
+    name: 'Contact us',
+    url: 'mailto:helpdesk@opentargets.org',
     external: true,
   },
 ];
@@ -260,9 +223,6 @@ export const downloaderChunkSize = 2500;
 // NA label.
 export const naLabel = 'N/A';
 
-// Old platform-app url.
-export const oldPlatformUrl = 'https://www.targetvalidation.org';
-
 export const colorRange = [
   // '#ffffff',
   '#e5edf4',
@@ -309,4 +269,9 @@ export const clinvarStarMap = {
   'no assertion for the individual variant': 0,
   'no assertion criteria provided': 0,
   'no assertion provided': 0,
+};
+
+export const formatMap = {
+  json: 'JSON',
+  parquet: 'Parquet',
 };

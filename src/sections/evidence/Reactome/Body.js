@@ -1,50 +1,26 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
 import { DataTable, TableDrawer } from '../../../components/Table';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';
 import { epmcUrl } from '../../../utils/urls';
 import Link from '../../../components/Link';
 import Summary from './Summary';
+import EllsWrapper from '../../../components/EllsWrapper';
 
-const REACTOME_QUERY = gql`
-  query reactomeQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["reactome"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          pathwayId
-          reactionId
-          targetFromSourceId
-          pathwayName
-          targetModulation
-          variantAminoacidDescriptions
-          literature
-        }
-      }
-    }
-  }
-`;
+const REACTOME_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
     id: 'disease.name',
-    label: 'Disease/phenotype',
+    label: 'Disease / phenotype',
     renderCell: ({ disease, diseaseFromSource }) => {
       return (
         <Tooltip
@@ -60,31 +36,52 @@ const columns = [
           }
           showHelpIcon
         >
-          <Link to={`/disease/${disease.id}`}>{disease.name}</Link>
+          <Link to={`/disease/${disease.id}`}>
+            <EllsWrapper>{disease.name}</EllsWrapper>
+          </Link>
         </Tooltip>
       );
     },
+    width: '18%',
   },
   {
     id: 'pathwayName',
     label: 'Pathway',
-    renderCell: ({ pathwayId, pathwayName }) => (
-      <Link
-        external
-        to={`http://www.reactome.org/PathwayBrowser/#${pathwayId}`}
-      >
-        {pathwayName}
-      </Link>
-    ),
+    renderCell: ({ pathways }) => {
+      if (!pathways || pathways.length === 0) {
+        return naLabel;
+      }
+      if (pathways.length === 1) {
+        return (
+          <Link
+            external
+            to={`http://www.reactome.org/PathwayBrowser/#${pathways[0].id}`}
+          >
+            <EllsWrapper>{pathways[0].name}</EllsWrapper>
+          </Link>
+        );
+      } else {
+        const refs = pathways.map(p => ({
+          url: `http://www.reactome.org/PathwayBrowser/#${p.id}`,
+          name: p.name,
+          group: 'Pathways',
+        }));
+        return (
+          <TableDrawer entries={refs} message={`${refs.length} pathways`} />
+        );
+      }
+    },
+    width: '17%',
   },
   {
     id: 'reactionId',
     label: 'Reaction',
-    renderCell: ({ reactionId }) => (
+    renderCell: ({ reactionName, reactionId }) => (
       <Link external to={`https://identifiers.org/reactome/${reactionId}`}>
-        {reactionId}
+        <EllsWrapper>{reactionName}</EllsWrapper>
       </Link>
     ),
+    width: '17%',
   },
   {
     id: 'targetFromSourceId',
@@ -94,17 +91,23 @@ const columns = [
         external
         to={`https://identifiers.org/uniprot/${targetFromSourceId}`}
       >
-        {targetFromSourceId}
+        <EllsWrapper>{targetFromSourceId}</EllsWrapper>
       </Link>
     ),
+    width: '12%',
   },
   {
     id: 'targetModulation',
     label: 'Target modulation',
     renderCell: ({ targetModulation }) => {
-      return targetModulation ? sentenceCase(targetModulation) : naLabel;
+      return targetModulation ? (
+        <EllsWrapper>{sentenceCase(targetModulation)}</EllsWrapper>
+      ) : (
+        naLabel
+      );
     },
     filterValue: ({ targetModulation }) => sentenceCase(targetModulation),
+    width: '12%',
   },
   {
     filterValue: ({ variantAminoacidDescriptions }) => {
@@ -114,26 +117,20 @@ const columns = [
     },
     label: 'Amino acid variation',
     renderCell: ({ variantAminoacidDescriptions }) => {
-      return variantAminoacidDescriptions.length > 1 ? (
-        <ul
-          style={{
-            margin: 0,
-            padding: 0,
-            listStyle: 'none',
-          }}
-        >
-          {variantAminoacidDescriptions.map(variantAminoacidDescription => (
-            <li key={variantAminoacidDescription}>
-              {variantAminoacidDescription}
-            </li>
-          ))}
-        </ul>
-      ) : variantAminoacidDescriptions.length === 1 ? (
+      return variantAminoacidDescriptions?.length > 1 ? (
+        <TableDrawer
+          entries={variantAminoacidDescriptions.map(d => ({
+            name: d,
+            group: 'Amino acid variation',
+          }))}
+        />
+      ) : variantAminoacidDescriptions?.length === 1 ? (
         variantAminoacidDescriptions[0]
       ) : (
         naLabel
       );
     },
+    width: '12%',
   },
   {
     id: 'literature',
@@ -149,9 +146,9 @@ const columns = [
           });
         }
       });
-
-      return <TableDrawer entries={literatureList} />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
+    width: '12%',
   },
 ];
 
@@ -185,6 +182,8 @@ function Body({ definition, id, label }) {
             dataDownloader
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            fixed
+            noWrapHeader={false}
           />
         );
       }}

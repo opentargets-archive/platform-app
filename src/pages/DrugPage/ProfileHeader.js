@@ -1,5 +1,12 @@
 import React, { Fragment } from 'react';
 import { gql } from '@apollo/client';
+import { Box } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCheckCircle,
+  faExclamationCircle,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
 import {
   ChipList,
@@ -10,7 +17,6 @@ import {
 import Link from '../../components/Link';
 import Smiles from './Smiles';
 import usePlatformApi from '../../hooks/usePlatformApi';
-import WithdrawnNotice from '../../components/WithdrawnNotice';
 
 const DRUG_PROFILE_HEADER_FRAGMENT = gql`
   fragment DrugProfileHeaderFragment on Drug {
@@ -25,17 +31,12 @@ const DRUG_PROFILE_HEADER_FRAGMENT = gql`
       id
       name
     }
+    isApproved
     hasBeenWithdrawn
+    blackBoxWarning
     maximumClinicalTrialPhase
     tradeNames
-    withdrawnNotice {
-      classes
-      countries
-      reasons
-      year
-    }
     yearOfFirstApproval
-    isApproved
   }
 `;
 
@@ -51,11 +52,12 @@ function ProfileHeader({ chemblId }) {
     childMolecules = [],
     synonyms,
     tradeNames,
-    withdrawnNotice,
     drugType,
     yearOfFirstApproval,
     maximumClinicalTrialPhase,
     isApproved,
+    hasBeenWithdrawn,
+    blackBoxWarning,
   } = data?.drug || {};
 
   return (
@@ -72,9 +74,22 @@ function ProfileHeader({ chemblId }) {
           {maximumClinicalTrialPhase}
         </Field>
         <Field loading={loading} title="Status">
-          {isApproved ? 'Approved' : null}
+          {isApproved ? (
+            <Box component="span" mr={2}>
+              <FontAwesomeIcon icon={faCheckCircle} /> Approved
+            </Box>
+          ) : null}
+          {hasBeenWithdrawn ? (
+            <Box component="span" mr={2}>
+              <FontAwesomeIcon icon={faTimesCircle} /> Withdrawn
+            </Box>
+          ) : null}
+          {blackBoxWarning ? (
+            <Box component="span" mr={2}>
+              <FontAwesomeIcon icon={faExclamationCircle} /> Black box warning
+            </Box>
+          ) : null}
         </Field>
-        <WithdrawnNotice withdrawnNotice={withdrawnNotice} />
         <Field loading={loading} title="Parent molecule">
           {parentMolecule ? (
             <Link to={`/drug/${parentMolecule.id}`}>{parentMolecule.name}</Link>

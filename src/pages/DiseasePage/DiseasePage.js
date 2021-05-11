@@ -2,10 +2,10 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import BasePage from '../../components/BasePage';
+import ScrollToTop from '../../components/ScrollToTop';
 import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import { oldPlatformUrl } from '../../constants';
 import Profile from './Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
@@ -33,7 +33,7 @@ function DiseasePage({ match }) {
   return (
     <BasePage title={name}>
       <Header loading={loading} efoId={efoId} name={name} />
-
+      <ScrollToTop />
       <RoutingTabs>
         <RoutingTab
           label="Associated targets"
@@ -44,10 +44,6 @@ function DiseasePage({ match }) {
           label="Profile"
           path="/disease/:efoId"
           component={() => <Profile efoId={efoId} name={name} />}
-        />
-        <RoutingTab
-          label="Classic view"
-          url={`${oldPlatformUrl}/disease/${efoId}/associations`}
         />
       </RoutingTabs>
     </BasePage>

@@ -15,6 +15,7 @@ const radius = diameter / 2;
 const yOffset = 100;
 
 function textWithEllipsis(text, threshold) {
+  if (!text) return '';
   return text.length <= threshold ? text : text.slice(0, threshold) + '...';
 }
 

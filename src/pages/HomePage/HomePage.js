@@ -1,5 +1,13 @@
 import React from 'react';
-import { Grid, makeStyles } from '@material-ui/core';
+import {
+  Grid,
+  makeStyles,
+  Typography,
+  Hidden,
+  Box,
+  useMediaQuery,
+} from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
 
 import { appTitle, externalLinks, mainMenuItems } from '../../constants';
@@ -11,14 +19,37 @@ import Search from '../../components/Search';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
 
-const useStyles = makeStyles({
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCircle,
+  faChevronDown,
+  faDownload,
+  faLaptopCode,
+  faQuestionCircle,
+  faFileAlt,
+  faCommentDots,
+} from '@fortawesome/free-solid-svg-icons';
+
+import { config } from '../../config/Config';
+
+const useStyles = makeStyles(theme => ({
   links: {
     marginTop: '12px',
   },
   api: {
     marginTop: '38px',
   },
-});
+  helpBoxes: {
+    maxWidth: '120px',
+    textAlign: 'center',
+    [theme.breakpoints.down('xs')]: {
+      textAlign: 'left',
+    },
+  },
+  hpSection: {
+    marginBottom: '40px',
+  },
+}));
 
 function pickTwo(arr) {
   let i1 = Math.floor(Math.random() * arr.length);
@@ -36,11 +67,55 @@ const HomePage = () => {
   const targets = pickTwo(searchExamples.targets);
   const diseases = pickTwo(searchExamples.diseases);
   const drugs = pickTwo(searchExamples.drugs);
+  const theme = useTheme();
+  const xsMQ = useMediaQuery(theme.breakpoints.down('xs'));
+
+  const handleScrollDown = () => {
+    window.scrollTo({ top: window.innerHeight, left: 0, behavior: 'smooth' });
+  };
+
+  const HelpBoxPanel = ({ fai, url, label, external }) => {
+    if (xsMQ) {
+      // on xsmall screens
+      return (
+        <Link to={url} external={external}>
+          <Grid container wrap="nowrap" alignItems="center" spacing={1}>
+            <Grid item>
+              <div className="fa-layers fa-fw fa-3x">
+                <FontAwesomeIcon icon={faCircle} />
+                <FontAwesomeIcon icon={fai} transform="shrink-8" inverse />
+              </div>
+            </Grid>
+            <Grid item>
+              <Typography display="inline">{label}</Typography>
+            </Grid>
+          </Grid>
+        </Link>
+      );
+    } else {
+      return (
+        <Box className={classes.helpBoxes}>
+          <Link to={url} external={external}>
+            <div className="fa-layers fa-fw fa-6x">
+              <FontAwesomeIcon icon={faCircle} />
+              <FontAwesomeIcon icon={fai} transform="shrink-8" inverse />
+            </div>
+            <Typography>{label}</Typography>
+          </Link>
+        </Box>
+      );
+    }
+  };
 
   return (
     <>
       <Helmet title={appTitle} />
-      <Grid container justify="center" alignItems="center">
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        className={classes.hpSection}
+      >
         <Splash />
         <NavBar
           name="platform"
@@ -50,38 +125,144 @@ const HomePage = () => {
         />
         <HomeBox>
           <Search autoFocus />
+          {/* Search examples */}
           <Grid className={classes.links} container justify="space-around">
             <Link to={`/target/${targets[0].id}/associations`}>
               {targets[0].label}
             </Link>
-            <Link to={`/target/${targets[1].id}/associations`}>
-              {targets[1].label}
-            </Link>
+            <Hidden smDown>
+              <Link to={`/target/${targets[1].id}/associations`}>
+                {targets[1].label}
+              </Link>
+            </Hidden>
+
             <Link to={`/disease/${diseases[0].id}/associations`}>
               {diseases[0].label}
             </Link>
-            <Link to={`/disease/${diseases[1].id}/associations`}>
-              {diseases[1].label}
-            </Link>
+            <Hidden smDown>
+              <Link to={`/disease/${diseases[1].id}/associations`}>
+                {diseases[1].label}
+              </Link>
+            </Hidden>
+
             <Link to={`/drug/${drugs[0].id}`}>{drugs[0].label}</Link>
-            <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
-          </Grid>
-          <Grid
-            className={classes.api}
-            container
-            alignItems="center"
-            direction="column"
-          >
-            <div>Looking to access our data?</div>
-            <Link
-              to="http://platform-api-beta.opentargets.io/api/v4/graphql/browser"
-              external
-            >
-              Browse our GraphQL API
-            </Link>
+            <Hidden smDown>
+              <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
+            </Hidden>
           </Grid>
         </HomeBox>
+
+        {/* scroll down button */}
+        <Grid container justify="center">
+          <div
+            className="fa-layers fa-fw fa-3x"
+            style={{
+              height: '0px',
+              marginTop: '-1em',
+              filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .5))',
+              cursor: 'pointer',
+            }}
+            onClick={handleScrollDown}
+          >
+            <FontAwesomeIcon icon={faCircle} inverse />
+            <FontAwesomeIcon icon={faChevronDown} transform="shrink-4" />
+          </div>
+        </Grid>
       </Grid>
+
+      {/* About */}
+      <Grid container justify="center" className={classes.hpSection}>
+        <Grid item xs={10} md={8}>
+          <Typography variant="h4" component="h1" align="center" paragraph>
+            About the Open Targets Platform
+          </Typography>
+
+          <Typography paragraph>
+            The Open Targets Platform is a comprehensive tool that supports
+            systematic identification and prioritisation of potential
+            therapeutic drug targets.
+          </Typography>
+
+          <Typography paragraph>
+            By integrating publicly available datasets including data generated
+            by the Open Targets consortium, the Platform builds and scores
+            target-disease associations to assist in drug target identification
+            and prioritisation. It also integrates relevant annotation
+            information about targets, diseases, phenotypes, and drugs, as well
+            as their most relevant relationships.
+          </Typography>
+
+          <Typography paragraph>
+            The Platform is a freely available resource that is actively
+            maintained with bi-monthly data updates. Data is available through
+            an intuitive user interface, an API, and data downloads. The
+            pipeline and infrastructure codebases are open-source and the
+            licence allows the creation of self-hosted private instances of the
+            Platform with custom data.
+          </Typography>
+        </Grid>
+      </Grid>
+
+      {/* Get started */}
+      <Grid container justify="center" className={classes.hpSection}>
+        <Grid item xs={10} md={8}>
+          <Typography variant="h4" component="h1" align="center" paragraph>
+            Get started with the Platform
+          </Typography>
+
+          <Grid
+            container
+            justify="space-evenly"
+            alignItems="flex-start"
+            spacing={1}
+          >
+            <Grid item xs={12} sm={'auto'}>
+              <HelpBoxPanel
+                fai={faDownload}
+                url="/downloads"
+                label="Download all of our open datasets"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={'auto'}>
+              <HelpBoxPanel
+                fai={faLaptopCode}
+                url={config.urlApi.split('/api/v4/graphql')[0]}
+                label="Access data with our GraphQL API"
+                external
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={'auto'}>
+              <HelpBoxPanel
+                fai={faQuestionCircle}
+                url="https://platform-docs.opentargets.org/"
+                label="Check out our Platform documentation"
+                external
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={'auto'}>
+              <HelpBoxPanel
+                fai={faFileAlt}
+                url="https://platform-docs.opentargets.org/citation"
+                label="Read our latest Platform publications"
+                external
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={'auto'}>
+              <HelpBoxPanel
+                fai={faCommentDots}
+                url="https://community.opentargets.org/"
+                label="Join the Open Targets Community"
+                external
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+
       {/* remove for integration day  */}
       {/* <Stats /> */}
       <Footer externalLinks={externalLinks} />

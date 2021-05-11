@@ -50,6 +50,8 @@ const CHEMBL_QUERY = gql`
           }
           clinicalPhase
           clinicalStatus
+          studyStartDate
+          studyStopReason
           urls {
             niceName
             url
@@ -169,6 +171,28 @@ const columns = [
   {
     id: 'clinicalStatus',
     label: 'Status',
+    renderCell: ({ studyStopReason, clinicalStatus }) => {
+      return clinicalStatus ? (
+        studyStopReason ? (
+          <Tooltip
+            showHelpIcon
+            title={<>Study stop reason: {studyStopReason}</>}
+          >
+            {clinicalStatus}
+          </Tooltip>
+        ) : (
+          <>{clinicalStatus}</>
+        )
+      ) : (
+        'N/A'
+      );
+    },
+  },
+  {
+    id: 'studyStartDate',
+    label: 'Start Date',
+    numeric: true,
+    renderCell: ({ studyStartDate }) => new Date(studyStartDate).getFullYear(),
   },
   {
     label: 'Source',

@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 
+import client from '../../../client';
 import ClinvarStars from '../../../components/ClinvarStars';
 import {
   clinvarStarMap,
   naLabel,
   defaultRowsPerPageOptions,
 } from '../../../constants';
-import {
-  DataTable,
-  getPage,
-  Table,
-  TableDrawer,
-} from '../../../components/Table';
+import { DataTable, getPage, Table } from '../../../components/Table';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import Description from './Description';
 import Link from '../../../components/Link';
 import { epmcUrl } from '../../../utils/urls';
@@ -28,7 +25,7 @@ const columns = [
   {
     id: 'disease.name',
     label: 'Disease/phenotype',
-    renderCell: ({ disease, diseaseFromSource }) => {
+    renderCell: ({ disease, diseaseFromSource, cohortPhenotypes }) => {
       return (
         <Tooltip
           title={
@@ -36,9 +33,33 @@ const columns = [
               <Typography variant="subtitle2" display="block" align="center">
                 Reported disease or phenotype:
               </Typography>
-              <Typography variant="caption" display="block" align="center">
+              <Typography
+                variant="caption"
+                display="block"
+                align="center"
+                gutterBottom
+              >
                 {diseaseFromSource}
               </Typography>
+
+              {cohortPhenotypes?.length > 1 ? (
+                <>
+                  <Typography
+                    variant="subtitle2"
+                    display="block"
+                    align="center"
+                  >
+                    All reported phenotypes:
+                  </Typography>
+                  <Typography variant="caption" display="block">
+                    {cohortPhenotypes.map(cp => (
+                      <div key={cp}>{cp}</div>
+                    ))}
+                  </Typography>
+                </>
+              ) : (
+                ''
+              )}
             </>
           }
           showHelpIcon
@@ -50,19 +71,33 @@ const columns = [
   },
   {
     id: 'variantRsId',
-    label: 'Variant',
-    renderCell: ({ variantRsId }) => {
-      return variantRsId ? (
-        <Link
-          external
-          to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
-        >
-          {variantRsId}
-        </Link>
+    label: 'Variant ID (RSID)',
+    renderCell: ({ variantId, variantRsId }) => {
+      return variantId ? (
+        <>
+          {variantId.substring(0, 20)}
+          {variantId.length > 20 ? '\u2026' : ''}
+          {variantRsId ? (
+            <>
+              {' '}
+              (
+              <Link
+                external
+                to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
+              >
+                {variantRsId}
+              </Link>
+              )
+            </>
+          ) : (
+            ''
+          )}
+        </>
       ) : (
         naLabel
       );
     },
+    filterValue: ({ variantId, variantRsId }) => `${variantId} ${variantRsId}`,
   },
   {
     id: 'studyId',
@@ -126,31 +161,38 @@ const columns = [
   },
   {
     id: 'allelicRequirements',
-    label: 'Allelic requirement',
-    renderCell: ({ allelicRequirements }) => {
-      return !allelicRequirements ? (
+    label: 'Allele origin',
+    renderCell: ({ alleleOrigins, allelicRequirements }) => {
+      return !alleleOrigins || alleleOrigins.length === 0 ? (
         naLabel
-      ) : allelicRequirements.length === 1 ? (
-        allelicRequirements[0]
-      ) : (
-        <ul
-          style={{
-            margin: 0,
-            padding: 0,
-            listStyle: 'none',
-          }}
+      ) : allelicRequirements ? (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="subtitle2" display="block" align="center">
+                Allelic requirements:
+              </Typography>
+              {allelicRequirements.map(r => (
+                <Typography variant="caption" key={r}>
+                  {r}
+                </Typography>
+              ))}
+            </>
+          }
+          showHelpIcon
         >
-          {allelicRequirements.map(allelicRequirement => {
-            return <li key={allelicRequirement}>{allelicRequirement}</li>;
-          })}
-        </ul>
+          {alleleOrigins.map(a => sentenceCase(a)).join('; ')}
+        </Tooltip>
+      ) : (
+        alleleOrigins.map(a => sentenceCase(a)).join('; ')
       );
     },
-    filterValue: ({ allelicRequirements }) =>
-      allelicRequirements ? allelicRequirements.join() : '',
+    filterValue: ({ alleleOrigins }) =>
+      alleleOrigins ? alleleOrigins.join() : '',
   },
   {
-    label: 'Confidence',
+    id: 'confidence',
+    label: 'Review status',
     renderCell: ({ confidence }) => {
       return (
         <Tooltip title={confidence}>
@@ -176,13 +218,13 @@ const columns = [
           return acc;
         }, []) || [];
 
-      return <TableDrawer entries={literatureList} caption="Literature" />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];
 
-const EVA_QUERY = gql`
-  query evaQuery(
+const CLINVAR_QUERY = gql`
+  query clinvarQuery(
     $ensemblId: String!
     $efoId: String!
     $size: Int!
@@ -197,7 +239,6 @@ const EVA_QUERY = gql`
         size: $size
         cursor: $cursor
       ) {
-        count
         cursor
         rows {
           disease {
@@ -205,6 +246,7 @@ const EVA_QUERY = gql`
             name
           }
           diseaseFromSource
+          variantId
           variantRsId
           studyId
           variantFunctionalConsequence {
@@ -213,59 +255,75 @@ const EVA_QUERY = gql`
           }
           clinicalSignificances
           allelicRequirements
+          alleleOrigins
           confidence
           literature
+          cohortPhenotypes
         }
       }
     }
   }
 `;
 
-function Body({ definition, id, label }) {
-  const { ensgId: ensemblId, efoId } = id;
-  const { data: summaryData } = usePlatformApi(Summary.fragments.evaSummary);
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-
-  const request = useQuery(EVA_QUERY, {
+function fetchClinvar(ensemblId, efoId, cursor, size) {
+  return client.query({
+    query: CLINVAR_QUERY,
     variables: {
       ensemblId,
       efoId,
-      size:
-        summaryData.evaSummary.count > 1000
-          ? pageSize
-          : summaryData.evaSummary.count,
+      cursor,
+      size,
     },
-    notifyOnNetworkStatusChange: true,
   });
-  const { loading, data, fetchMore } = request;
+}
+
+function Body({ definition, id, label }) {
+  const { ensgId: ensemblId, efoId } = id;
+  const { data: summaryData } = usePlatformApi(Summary.fragments.evaSummary);
+  const count = summaryData.evaSummary.count; // reuse the count that was fetched in the summary query
+  const [initialLoading, setInitialLoading] = useState(true); // state variable to keep track of initial loading of rows
+  const [loading, setLoading] = useState(false); // state variable to keep track of loading state on page chage
+  const [cursor, setCursor] = useState('');
+  const [rows, setRows] = useState([]);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  useEffect(
+    () => {
+      let isCurrent = true;
+      // Depending on count, make a decision for how many rows to fetch.
+      // For more than 1000 rows, we want to use server side paging
+      // so just fetch 100 rows for the initial page. If there's less
+      // than 1000 rows, just fetch all rows at once and do client side
+      // paging
+      fetchClinvar(ensemblId, efoId, '', count > 1000 ? 100 : count).then(
+        res => {
+          const { cursor, rows } = res.data.disease.evidences;
+
+          if (isCurrent) {
+            setInitialLoading(false);
+            setCursor(cursor);
+            setRows(rows);
+          }
+        }
+      );
+
+      return () => {
+        isCurrent = false;
+      };
+    },
+    [ensemblId, efoId, count]
+  );
 
   function handlePageChange(newPage) {
-    if (newPage * pageSize + pageSize > data.disease.evidences.rows.length) {
-      fetchMore({
-        variables: {
-          ensemblId,
-          efoId,
-          size: pageSize,
-          cursor: data.disease.evidences.cursor,
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          setPage(newPage);
-          return {
-            ...prev,
-            disease: {
-              ...prev.disease,
-              evidences: {
-                ...prev.disease.evidences,
-                cursor: fetchMoreResult.disease.evidences.cursor,
-                rows: [
-                  ...prev.disease.evidences.rows,
-                  ...fetchMoreResult.disease.evidences.rows,
-                ],
-              },
-            },
-          };
-        },
+    if (pageSize * newPage + pageSize > rows.length && cursor !== null) {
+      setLoading(true);
+      fetchClinvar(ensemblId, efoId, cursor, 100).then(res => {
+        const { cursor, rows: newRows } = res.data.disease.evidences;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(newPage);
+        setRows([...rows, ...newRows]);
       });
     } else {
       setPage(newPage);
@@ -273,32 +331,15 @@ function Body({ definition, id, label }) {
   }
 
   function handleRowsPerPageChange(newPageSize) {
-    if (newPageSize > data.disease.evidences.rows.length) {
-      fetchMore({
-        variables: {
-          ensemblId,
-          efoId,
-          size: pageSize,
-          cursor: data.disease.evidences.cursor,
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          setPage(0);
-          setPageSize(newPageSize);
-          return {
-            ...prev,
-            disease: {
-              ...prev.disease,
-              evidences: {
-                ...prev.disease.evidences,
-                cursor: fetchMoreResult.disease.evidences.cursor,
-                rows: [
-                  ...prev.disease.evidences.rows,
-                  ...fetchMoreResult.disease.evidences.rows,
-                ],
-              },
-            },
-          };
-        },
+    if (newPageSize > rows.length && cursor !== null) {
+      setLoading(true);
+      fetchClinvar(ensemblId, efoId, cursor, 100).then(res => {
+        const { cursor, rows: newRows } = res.data.disease.evidences;
+        setLoading(false);
+        setCursor(cursor);
+        setPage(0);
+        setPageSize(newPageSize);
+        setRows([...rows, ...newRows]);
       });
     } else {
       setPage(0);
@@ -309,32 +350,30 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
-      request={request}
+      request={{ loading: initialLoading, data: rows }}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
       )}
-      renderBody={({ disease }) => {
-        const { count, rows } = disease.evidences;
-
-        return summaryData.evaSummary.count > 1000 ? (
+      renderBody={() => {
+        // depending on count, decide whether to use the server side paging
+        // Table component or the client side paging DataTable component
+        return count > 1000 ? (
           <Table
-            dataDownloader
             loading={loading}
             columns={columns}
             rows={getPage(rows, page, pageSize)}
             rowCount={count}
             page={page}
-            pageSize={pageSize}
+            rowsPerPageOptions={defaultRowsPerPageOptions}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleRowsPerPageChange}
-            rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         ) : (
           <DataTable
+            showGlobalFilter
             columns={columns}
             rows={rows}
             dataDownloader
-            showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         );

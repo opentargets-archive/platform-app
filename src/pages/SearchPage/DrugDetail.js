@@ -1,5 +1,6 @@
 import React from 'react';
 import { CardContent, makeStyles, Typography } from '@material-ui/core';
+import WarningIcon from '@material-ui/icons/Warning';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrescriptionBottleAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,18 +8,17 @@ import Chip from '../../components/Chip';
 import Link from '../../components/Link';
 import LongList from '../../components/LongList';
 import LongText from '../../components/LongText';
-import WithdrawnNotice from '../../components/WithdrawnNotice';
 
 const useStyles = makeStyles({
   link: {
     display: 'block',
-    // whiteSpace: 'unset',
   },
   subtitle: {
     fontWeight: 500,
   },
-  icon: {
-    verticalAlign: 'text-bottom',
+  warningIcon: {
+    position: 'relative',
+    top: '5px',
   },
 });
 
@@ -33,7 +33,11 @@ const DrugDetail = ({ data }) => {
         <FontAwesomeIcon icon={faPrescriptionBottleAlt} /> Drug
       </Typography>
       <LongText lineLimit={4}>{data.description}</LongText>
-      <WithdrawnNotice withdrawnNotice={data.withdrawnNotice} />
+      {data.hasBeenWithdrawn ? (
+        <Typography variant="subtitle2" color="secondary">
+          <WarningIcon className={classes.warningIcon} /> Withdrawn Drug
+        </Typography>
+      ) : null}
       <Typography className={classes.subtitle} variant="subtitle1">
         Drug Type
       </Typography>

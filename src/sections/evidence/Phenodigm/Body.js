@@ -87,12 +87,22 @@ const columns = [
     renderCell: ({
       biologicalModelAllelicComposition,
       biologicalModelGeneticBackground,
+      biologicalModelId,
     }) =>
       biologicalModelAllelicComposition && biologicalModelGeneticBackground ? (
-        <MouseModelAllelicComposition
-          allelicComposition={[biologicalModelAllelicComposition]}
-          geneticBackground={[biologicalModelGeneticBackground]}
-        />
+        biologicalModelId ? (
+          <Link external to={`https://identifiers.org/${biologicalModelId}`}>
+            <MouseModelAllelicComposition
+              allelicComposition={[biologicalModelAllelicComposition]}
+              geneticBackground={[biologicalModelGeneticBackground]}
+            />
+          </Link>
+        ) : (
+          <MouseModelAllelicComposition
+            allelicComposition={[biologicalModelAllelicComposition]}
+            geneticBackground={[biologicalModelGeneticBackground]}
+          />
+        )
       ) : (
         naLabel
       ),

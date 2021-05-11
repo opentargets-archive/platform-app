@@ -18,6 +18,7 @@ import * as Reactome from '../../sections/evidence/Reactome';
 import * as SlapEnrich from '../../sections/evidence/SlapEnrich';
 import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
+import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 
 export default [
   OTGenetics,
@@ -26,6 +27,7 @@ export default [
   GenomicsEngland,
   Gene2Phenotype,
   UniProtLiterature,
+  UniProtVariants,
   ClinGen,
   CancerGeneCensus,
   IntOgen,
