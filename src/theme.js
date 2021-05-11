@@ -3,10 +3,6 @@ import { lighten, darken } from 'polished';
 const PRIMARY = '#3489ca'; // '#7b196a'; // '#0091eb';
 const SECONDARY = '#ff6350';
 
-const GENE = PRIMARY;
-const VARIANT = PRIMARY;
-const STUDY = PRIMARY;
-
 const theme = {
   shape: {
     borderRadius: 0,
@@ -30,17 +26,8 @@ const theme = {
     text: {
       primary: '#5A5F5F',
     },
-    gene: GENE,
-    tagVariant: VARIANT,
-    indexVariant: VARIANT,
-    study: STUDY,
-    high: darken(0.2, PRIMARY),
-    medium: PRIMARY,
-    low: lighten(0.2, PRIMARY),
     footer: '#2e2d35',
   },
-  sectionPadding: '8px',
-  widgetHeight: '250px',
   props: {
     MuiTab: {
       disableRipple: true,
