@@ -48,7 +48,7 @@ function Body({ definition, label: name, id: efoId }) {
         console.log(data.disease.indirectLocations);
         console.log(locations);
         return (
-          <div className="bob" style={{ maxWidth: '400px' }}>
+          <div className="bob" style={{ maxWidth: '300px' }}>
             <Anatomogram
               species="homo_sapiens"
               atlasUrl={``}
