@@ -29,6 +29,7 @@ const AtlasTab = ({ ensgId, symbol }) => {
             gene: ensgId,
             target: 'heatmapContainer',
           }}
+          atlasUrl=""
         />
       </Suspense>
     </ErrorBoundary>
