@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import TagManager from 'react-gtm-module';
 
 import App from './App';
-import { config } from './config/Config';
+import config from './config/Config';
 
 // styling
 import 'dc/dc.min.css';
