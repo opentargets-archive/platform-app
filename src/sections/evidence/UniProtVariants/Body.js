@@ -1,6 +1,7 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { identifiersOrgLink } from '../../../utils/global';
 import Link from '../../../components/Link';
@@ -13,35 +14,7 @@ import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
 
-const UNIPROT_VARIANTS_QUERY = gql`
-  query UniprotVariantsQuery(
-    $ensemblId: String!
-    $efoId: String!
-    $size: Int!
-  ) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["uniprot_variants"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          targetFromSourceId
-          variantRsId
-          confidence
-          literature
-        }
-      }
-    }
-  }
-`;
+const UNIPROT_VARIANTS_QUERY = loader('./UniprotVariantsQuery.gql');
 
 const columns = [
   {
