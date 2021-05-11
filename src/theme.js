@@ -1,5 +1,5 @@
 import { lighten, darken } from 'polished';
-import config from './config/Config';
+import config from './config';
 
 const PRIMARY = config.primaryColor;
 const SECONDARY = '#ff6350';
