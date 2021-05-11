@@ -1,0 +1,5 @@
+fragment PhenotypesSummaryFragment on Disease {
+  phenotypes(page: { index: 0, size: 0 }) {
+    count
+  }
+}
