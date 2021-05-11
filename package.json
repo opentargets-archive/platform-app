@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.4",
     "@clampy-js/react-clampy": "^1.2.0",
+    "@ebi-gene-expression-group/anatomogram": "https://github.com/ebi-gene-expression-group/anatomogram",
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
