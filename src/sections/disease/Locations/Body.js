@@ -3,11 +3,11 @@ import { gql, useQuery } from '@apollo/client';
 import _ from 'lodash';
 
 import Description from './Description';
-import { DataTable, TableDrawer } from '../../../components/Table';
-import Link from '../../../components/Link';
+// import { DataTable, TableDrawer } from '../../../components/Table';
+// import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
-import Tooltip from '../../../components/Tooltip';
-import { naLabel } from '../../../constants';
+// import Tooltip from '../../../components/Tooltip';
+// import { naLabel } from '../../../constants';
 
 import Anatomogram from '@ebi-gene-expression-group/anatomogram';
 
