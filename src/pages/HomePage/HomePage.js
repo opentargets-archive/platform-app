@@ -30,7 +30,7 @@ import {
   faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { config } from '../../config/Config';
+import config from '../../config';
 
 const useStyles = makeStyles(theme => ({
   links: {

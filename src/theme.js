@@ -1,6 +1,7 @@
 import { lighten, darken } from 'polished';
+import config from './config';
 
-const PRIMARY = '#3489ca'; // '#7b196a'; // '#0091eb';
+const PRIMARY = config.primaryColor;
 const SECONDARY = '#ff6350';
 
 const GENE = PRIMARY;

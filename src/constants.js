@@ -9,7 +9,7 @@ import {
   faGithubSquare,
   faYoutubeSquare,
 } from '@fortawesome/free-brands-svg-icons';
-import { config } from './config/Config';
+import config from './config';
 
 export const externalLinks = {
   about: [

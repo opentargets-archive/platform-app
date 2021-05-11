@@ -3,16 +3,14 @@ import React, { useState, useEffect } from 'react';
 import Description from './Description';
 import OntologySubgraph from './OntologySubgraph';
 import SectionItem from '../../../components/Section/SectionItem';
-
-const efoURL =
-  'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl';
+import config from '../../../config';
 
 function Body({ definition, id: efoId, label: name }) {
   const [efoNodes, setEfoNodes] = useState(null);
 
   useEffect(() => {
     let isCurrent = true;
-    fetch(efoURL)
+    fetch(config.efoURL)
       .then(res => res.text())
       .then(lines => {
         if (isCurrent) {
