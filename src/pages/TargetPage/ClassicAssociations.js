@@ -14,7 +14,7 @@ import {
   Tabs,
   Tab,
 } from '@material-ui/core';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
@@ -22,35 +22,7 @@ import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { Facets } from '../../components/Facets';
 import Wrapper from './Wrapper';
 
-const TARGET_FACETS_QUERY = gql`
-  query TargetFacetsQuery(
-    $ensemblId: String!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    target(ensemblId: $ensemblId) {
-      id
-      approvedName
-      associatedDiseases(aggregationFilters: $aggregationFilters) {
-        count
-        aggregations {
-          uniques
-          aggs {
-            name
-            uniques
-            rows {
-              key
-              uniques
-              aggs {
-                key
-                uniques
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+const TARGET_FACETS_QUERY = loader('./TargetFacets.gql');
 
 function ClassicAssociations({ ensgId, symbol }) {
   const match = useRouteMatch();

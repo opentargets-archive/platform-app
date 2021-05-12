@@ -1,0 +1,27 @@
+query TargetFacetsQuery(
+  $ensemblId: String!
+  $aggregationFilters: [AggregationFilter!]
+) {
+  target(ensemblId: $ensemblId) {
+    id
+    approvedName
+    associatedDiseases(aggregationFilters: $aggregationFilters) {
+      count
+      aggregations {
+        uniques
+        aggs {
+          name
+          uniques
+          rows {
+            key
+            uniques
+            aggs {
+              key
+              uniques
+            }
+          }
+        }
+      }
+    }
+  }
+}
