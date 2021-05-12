@@ -1,20 +1,9 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const PHEWAS_CATALOG_SUMMARY = gql`
-  fragment PheWASCatalogSummary on Disease {
-    phewasCatalogSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["phewas_catalog"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const PHEWAS_CATALOG_SUMMARY = loader('./PheWASCatalogSummaryQuery.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(PHEWAS_CATALOG_SUMMARY);
