@@ -29,7 +29,7 @@ const AtlasTab = ({ ensgId, symbol }) => {
             gene: ensgId,
             target: 'heatmapContainer',
           }}
-          atlasUrl=""
+          atlasUrl="https://lf-anatogram-test--platform-app.netlify.app/"
         />
       </Suspense>
     </ErrorBoundary>
