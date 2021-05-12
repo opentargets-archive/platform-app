@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { loader } from 'graphql.macros';
+import { loader } from 'graphql.macro';
 import { makeStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import Link from '../../components/Link';
