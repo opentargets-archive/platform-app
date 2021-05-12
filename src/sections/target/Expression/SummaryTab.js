@@ -1,32 +1,12 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Grid } from '@material-ui/core';
 import client from '../../../client';
 
 import DataDownloader from '../../../components/DataDownloader';
 import SummaryTable from './SummaryTable';
 
-const EXPRESSION_QUERY = gql`
-  query ExpressionQuery($ensemblId: String!) {
-    target(ensemblId: $ensemblId) {
-      id
-      expressions {
-        tissue {
-          label
-          organs
-          anatomicalSystems
-        }
-        rna {
-          value
-          level
-        }
-        protein {
-          level
-        }
-      }
-    }
-  }
-`;
+const EXPRESSION_QUERY = loader('./ExpressionQuery.gql');
 
 export function getData(ensgId) {
   return client.query({
