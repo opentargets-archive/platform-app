@@ -1,18 +1,12 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const CANCER_BIOMARKERS_SUMMARY_FRAGMENT = gql`
-  fragment CancerBiomarkersSummaryFragment on Target {
-    cancerBiomarkers {
-      uniqueDrugs
-      uniqueDiseases
-      uniqueBiomarkers
-    }
-  }
-`;
+const CANCER_BIOMARKERS_SUMMARY_FRAGMENT = loader(
+  './CancerBiomarkersSummary.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(CANCER_BIOMARKERS_SUMMARY_FRAGMENT);
