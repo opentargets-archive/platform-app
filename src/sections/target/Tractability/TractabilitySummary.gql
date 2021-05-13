@@ -1,0 +1,13 @@
+fragment TractabilitySummaryFragment on Target {
+  tractability {
+    smallmolecule {
+      buckets
+    }
+    antibody {
+      buckets
+    }
+    otherModalities {
+      buckets
+    }
+  }
+}
