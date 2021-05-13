@@ -1,15 +1,11 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const MOLECULAR_INTERACTIONS_SUMMARY_FRAGMENT = gql`
-  fragment TargetMolecularInteractionsSummaryFragment on Target {
-    interactions {
-      count
-    }
-  }
-`;
+const MOLECULAR_INTERACTIONS_SUMMARY_FRAGMENT = loader(
+  './InteractionsSummary.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(MOLECULAR_INTERACTIONS_SUMMARY_FRAGMENT);

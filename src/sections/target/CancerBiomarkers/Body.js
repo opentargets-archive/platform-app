@@ -1,5 +1,5 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import _ from 'lodash';
 
 import { DataTable } from '../../../components/Table';
@@ -11,41 +11,7 @@ import { TableDrawer } from '../../../components/Table';
 import useBatchQuery from '../../../hooks/useBatchQuery';
 import { epmcUrl } from '../../../utils/urls';
 
-const BIOMARKERS_QUERY = gql`
-  query CancerBiomarkersQuery(
-    $ensgId: String!
-    $index: Int! = 0
-    $size: Int! = 10
-  ) {
-    target(ensemblId: $ensgId) {
-      id
-      cancerBiomarkers(page: { index: $index, size: $size }) {
-        uniqueDrugs
-        uniqueDiseases
-        uniqueBiomarkers
-        count
-        rows {
-          biomarker: id
-          associationType
-          drugName
-          evidenceLevel
-          sources {
-            link
-            name
-          }
-          pubmedIds
-          target {
-            approvedSymbol
-          }
-          disease {
-            name
-            id
-          }
-        }
-      }
-    }
-  }
-`;
+const BIOMARKERS_QUERY = loader('./CancerBiomarkers.gql');
 
 const columns = [
   {

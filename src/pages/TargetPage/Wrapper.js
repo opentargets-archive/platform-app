@@ -1,38 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import gql from 'graphql-tag';
+import { loader } from 'graphql.macro';
 import { Skeleton } from '@material-ui/lab';
 import config from '../../config';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 
-const ASSOCIATIONS_VIZ_QUERY = gql`
-  query AssociationsVizQuery(
-    $ensemblId: String!
-    $index: Int!
-    $size: Int!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    target(ensemblId: $ensemblId) {
-      id
-      associatedDiseases(
-        page: { index: $index, size: $size }
-        aggregationFilters: $aggregationFilters
-      ) {
-        count
-        rows {
-          disease {
-            id
-            name
-          }
-          score
-          datatypeScores {
-            componentId: id
-            score
-          }
-        }
-      }
-    }
-  }
-`;
+const ASSOCIATIONS_VIZ_QUERY = loader('./AssociationsViz.gql');
 
 function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
   const [nodes, setNodes] = useState();

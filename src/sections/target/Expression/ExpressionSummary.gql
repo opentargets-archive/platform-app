@@ -1,0 +1,10 @@
+fragment ExpressionSummaryFragment on Target {
+  expressions {
+    rna {
+      level
+    }
+    protein {
+      level
+    }
+  }
+}

@@ -1,32 +1,13 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import _ from 'lodash';
 
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const CANCER_HALLMARKS_SUMMARY_FRAGMENT = gql`
-  fragment CancerHallmarksSummaryFragment on Target {
-    hallmarks {
-      attributes {
-        name
-        reference {
-          pubmedId
-          description
-        }
-      }
-      rows {
-        label
-        suppress
-        promote
-        reference {
-          description
-          pubmedId
-        }
-      }
-    }
-  }
-`;
+const CANCER_HALLMARKS_SUMMARY_FRAGMENT = loader(
+  './HallmarksSummaryFragment.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(CANCER_HALLMARKS_SUMMARY_FRAGMENT);
