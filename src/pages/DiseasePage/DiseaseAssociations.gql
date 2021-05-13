@@ -1,0 +1,32 @@
+query DiseaseAssociationsQuery(
+  $efoId: String!
+  $index: Int!
+  $size: Int!
+  $filter: String
+  $sortBy: String!
+  $aggregationFilters: [AggregationFilter!]
+) {
+  disease(efoId: $efoId) {
+    id
+    associatedTargets(
+      page: { index: $index, size: $size }
+      orderByScore: $sortBy
+      BFilter: $filter
+      aggregationFilters: $aggregationFilters
+    ) {
+      count
+      rows {
+        target {
+          id
+          approvedSymbol
+          approvedName
+        }
+        score
+        datatypeScores {
+          componentId: id
+          score
+        }
+      }
+    }
+  }
+}

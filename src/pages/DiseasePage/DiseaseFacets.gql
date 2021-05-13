@@ -1,0 +1,27 @@
+query DiseaseFacetsQuery(
+  $efoId: String!
+  $aggregationFilters: [AggregationFilter!]
+) {
+  disease(efoId: $efoId) {
+    id
+    name
+    associatedTargets(aggregationFilters: $aggregationFilters) {
+      count
+      aggregations {
+        uniques
+        aggs {
+          name
+          uniques
+          rows {
+            key
+            uniques
+            aggs {
+              key
+              uniques
+            }
+          }
+        }
+      }
+    }
+  }
+}
