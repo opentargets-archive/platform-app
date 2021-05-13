@@ -1,4 +1,5 @@
 import React from 'react';
+import { loader } from 'graphql.macro';
 import { useQuery } from '@apollo/client';
 import { Switch, Route, Link } from 'react-router-dom';
 import { Tab, Tabs } from '@material-ui/core';
@@ -10,7 +11,7 @@ import NotFoundPage from '../NotFoundPage';
 import Profile from '../TargetPage/Profile';
 import ClassicAssociations from '../TargetPage/ClassicAssociations';
 
-const TARGET_PAGE_QUERY = loader('./TargetPage');
+const TARGET_PAGE_QUERY = loader('./TargetPage.gql');
 
 function TargetPage({ location, match }) {
   const { ensgId } = match.params;
