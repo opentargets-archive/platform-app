@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 import { makeStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import Link from '../../components/Link';
