@@ -35,20 +35,18 @@ const homologyTypeDictionary = {
 export async function getData(ensgId) {
   const urlData = `https://rest.ensembl.org/homology/id/${ensgId}.json?format=full;sequence=none;type=all;target_taxon=9606;target_taxon=10090;target_taxon=10141;target_taxon=9544;target_taxon=9615;target_taxon=9986;target_taxon=10116;target_taxon=9823;target_taxon=8364;target_taxon=7955;target_taxon=9598;target_taxon=7227;target_taxon=6239`;
   const urlTargetIdLookup = 'https://rest.ensembl.org/lookup/id/';
-  const resData = await fetch(urlData);
-  const rawData = await resData.json();
+  const rawData = await fetch(urlData).then(res => res.json());
   const homologies = rawData.data[0].homologies.filter(
     d => scientificName2CommonName[d.target.species]
   );
   const targetIds = homologies.map(d => d.target.id);
-  const resTargetIdLookup = await fetch(urlTargetIdLookup, {
+  const targetIdLookup = await fetch(urlTargetIdLookup, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ ids: targetIds }),
-  });
-  const targetIdLookup = resTargetIdLookup.json();
+  }).then(res => res.json());
   const rows = homologies
     .filter(d => Object.keys(homologyTypeDictionary).indexOf(d.type) >= 0)
     .map(d => ({
