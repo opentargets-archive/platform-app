@@ -1,0 +1,31 @@
+query KnownDrugsQuery(
+  $chemblId: String!
+  $cursor: String
+  $freeTextQuery: String
+  $size: Int = 10
+) {
+  drug(chemblId: $chemblId) {
+    id
+    knownDrugs(cursor: $cursor, freeTextQuery: $freeTextQuery, size: $size) {
+      count
+      cursor
+      rows {
+        phase
+        status
+        urls {
+          name
+          url
+        }
+        disease {
+          id
+          name
+        }
+        target {
+          id
+          approvedName
+          approvedSymbol
+        }
+      }
+    }
+  }
+}
