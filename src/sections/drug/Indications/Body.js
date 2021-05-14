@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import { sourceMap } from '../../../constants';
 import { referenceUrls } from '../../../utils/urls';
@@ -13,30 +14,7 @@ import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import TherapeuticAreasDrawer from './TherapeuticAreasDrawer';
 
-const INDICATIONS_QUERY = gql`
-  query IndicationsQuery($chemblId: String!) {
-    drug(chemblId: $chemblId) {
-      id
-      indications {
-        rows {
-          maxPhaseForIndication
-          disease {
-            id
-            name
-            therapeuticAreas {
-              id
-              name
-            }
-          }
-          references {
-            ids
-            source
-          }
-        }
-      }
-    }
-  }
-`;
+const INDICATIONS_QUERY = loader('./IndicationsQuery.gql');
 
 const columns = [
   {

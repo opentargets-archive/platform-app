@@ -1,0 +1,5 @@
+fragment AdverseEventsSummaryFragment on Drug {
+  adverseEvents {
+    count
+  }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import BasePage from '../../components/BasePage';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -8,18 +9,7 @@ import NotFoundPage from '../NotFoundPage';
 import Profile from '../DrugPage/Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
-const DRUG_PAGE_QUERY = gql`
-  query DrugPageQuery($chemblId: String!) {
-    drug(chemblId: $chemblId) {
-      id
-      name
-      crossReferences {
-        source
-        reference
-      }
-    }
-  }
-`;
+const DRUG_PAGE_QUERY = loader('./DrugPage.gql');
 
 function DrugPage({ match }) {
   const { chemblId } = match.params;
