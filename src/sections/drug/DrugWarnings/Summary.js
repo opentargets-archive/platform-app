@@ -1,15 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const DRUG_WARNINGS_SUMMARY_FRAGMENT = gql`
-  fragment DrugWarningsSummaryFragment on Drug {
-    hasBeenWithdrawn
-    blackBoxWarning
-  }
-`;
+const DRUG_WARNINGS_SUMMARY_FRAGMENT = loader('./DrugWarningsSummaryFragment');
 
 function Summary({ definition }) {
   const request = usePlatformApi(DRUG_WARNINGS_SUMMARY_FRAGMENT);
