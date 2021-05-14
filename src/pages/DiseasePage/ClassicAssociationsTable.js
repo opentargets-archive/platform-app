@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { makeStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import Link from '../../components/Link';
@@ -10,40 +10,7 @@ import useBatchDownloader from '../../hooks/useBatchDownloader';
 import dataTypes from '../../dataTypes';
 import client from '../../client';
 
-const DISEASE_ASSOCIATIONS_QUERY = gql`
-  query DiseaseAssociationsQuery(
-    $efoId: String!
-    $index: Int!
-    $size: Int!
-    $filter: String
-    $sortBy: String!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    disease(efoId: $efoId) {
-      id
-      associatedTargets(
-        page: { index: $index, size: $size }
-        orderByScore: $sortBy
-        BFilter: $filter
-        aggregationFilters: $aggregationFilters
-      ) {
-        count
-        rows {
-          target {
-            id
-            approvedSymbol
-            approvedName
-          }
-          score
-          datatypeScores {
-            componentId: id
-            score
-          }
-        }
-      }
-    }
-  }
-`;
+const DISEASE_ASSOCIATIONS_QUERY = loader('./DiseaseAssociations.gql');
 
 const useStyles = makeStyles(theme => ({
   root: {

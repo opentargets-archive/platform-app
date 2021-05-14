@@ -1,6 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import BasePage from '../../components/BasePage';
 import ScrollToTop from '../../components/ScrollToTop';
 import ClassicAssociations from './ClassicAssociations';
@@ -9,14 +9,7 @@ import NotFoundPage from '../NotFoundPage';
 import Profile from './Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
-const DISEASE_PAGE_QUERY = gql`
-  query DiseasePageQuery($efoId: String!) {
-    disease(efoId: $efoId) {
-      id
-      name
-    }
-  }
-`;
+const DISEASE_PAGE_QUERY = loader('./DiseasePage.gql');
 
 function DiseasePage({ match }) {
   const { efoId } = match.params;
