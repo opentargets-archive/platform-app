@@ -4,7 +4,9 @@ import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const DRUG_WARNINGS_SUMMARY_FRAGMENT = loader('./DrugWarningsSummaryFragment');
+const DRUG_WARNINGS_SUMMARY_FRAGMENT = loader(
+  './DrugWarningsSummaryFragment.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(DRUG_WARNINGS_SUMMARY_FRAGMENT);
