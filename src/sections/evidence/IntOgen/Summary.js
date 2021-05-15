@@ -1,21 +1,9 @@
 import React from 'react';
-import { gql } from '@apollo/client';
-
+import { loader } from 'graphql.macro';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const INTOGEN_SUMMARY_FRAGMENT = gql`
-  fragment IntOgenSummaryFragment on Disease {
-    intOgen: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["intogen"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const INTOGEN_SUMMARY_FRAGMENT = loader('./IntOgenSummaryQuery.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(INTOGEN_SUMMARY_FRAGMENT);
