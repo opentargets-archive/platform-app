@@ -1,20 +1,9 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const REACTOME_SUMMARY = gql`
-  fragment reactomeSummary on Disease {
-    reactomeSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["reactome"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const REACTOME_SUMMARY = loader('./ReactomeSummary.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(REACTOME_SUMMARY);
