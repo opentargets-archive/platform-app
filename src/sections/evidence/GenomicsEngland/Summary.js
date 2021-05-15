@@ -1,21 +1,12 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const GENOMICS_ENGLAND_SUMMARY_FRAGMENT = gql`
-  fragment GenomicsEnglandSummaryFragment on Disease {
-    genomicsEngland: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["genomics_england"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const GENOMICS_ENGLAND_SUMMARY_FRAGMENT = loader(
+  './GenomicsEnglandSummaryFragment.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(GENOMICS_ENGLAND_SUMMARY_FRAGMENT);

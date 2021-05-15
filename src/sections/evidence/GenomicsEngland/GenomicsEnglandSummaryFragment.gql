@@ -1,0 +1,10 @@
+fragment GenomicsEnglandSummaryFragment on Disease {
+  genomicsEngland: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["genomics_england"]
+    size: 0
+  ) {
+    count
+  }
+}
