@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -11,38 +12,7 @@ import Description from './Description';
 import Link from '../../../components/Link';
 import { sentenceCase } from '../../../utils/global';
 
-const EXPRESSION_ATLAS_QUERY = gql`
-  query expressionAtlasQuery(
-    $ensemblId: String!
-    $efoId: String!
-    $size: Int!
-  ) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["expression_atlas"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          contrast
-          confidence
-          studyOverview
-          log2FoldChangeValue
-          resourceScore
-          log2FoldChangePercentileRank
-          studyId
-        }
-      }
-    }
-  }
-`;
+const EXPRESSION_ATLAS_QUERY = loader('./ExpressionAtlasQuery.gql');
 
 const columns = [
   {

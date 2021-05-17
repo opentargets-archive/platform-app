@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
-import { gql } from '@apollo/client';
-
+import { loader } from 'graphql.macro';
 import client from '../../../client';
 import ClinvarStars from '../../../components/ClinvarStars';
 import {
@@ -223,47 +222,7 @@ const columns = [
   },
 ];
 
-const CLINVAR_QUERY = gql`
-  query clinvarQuery(
-    $ensemblId: String!
-    $efoId: String!
-    $size: Int!
-    $cursor: String
-  ) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["eva"]
-        size: $size
-        cursor: $cursor
-      ) {
-        cursor
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          variantId
-          variantRsId
-          studyId
-          variantFunctionalConsequence {
-            id
-            label
-          }
-          clinicalSignificances
-          allelicRequirements
-          alleleOrigins
-          confidence
-          literature
-          cohortPhenotypes
-        }
-      }
-    }
-  }
-`;
+const CLINVAR_QUERY = loader('./ClinvarQuery.gql');
 
 function fetchClinvar(ensemblId, efoId, cursor, size) {
   return client.query({

@@ -1,20 +1,9 @@
 import React from 'react';
-import { gql } from '@apollo/client';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
+import { loader } from 'graphql.macro';
 
-const UNIPROT_VARIANTS_SUMMARY = gql`
-  fragment UniprotVariantsSummary on Disease {
-    uniprotVariantsSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["uniprot_variants"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const UNIPROT_VARIANTS_SUMMARY = loader('./UniprotVariantsSummaryQuery.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(UNIPROT_VARIANTS_SUMMARY);

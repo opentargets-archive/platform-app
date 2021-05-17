@@ -1,21 +1,9 @@
 import React from 'react';
-import { gql } from '@apollo/client';
-
+import { loader } from 'graphql.macro';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const PHENODIGM_SUMMARY_FRAGMENT = gql`
-  fragment PhenodigmSummaryFragment on Disease {
-    phenodigm: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["phenodigm"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const PHENODIGM_SUMMARY_FRAGMENT = loader('./PhenodigmSummaryFragment.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(PHENODIGM_SUMMARY_FRAGMENT);

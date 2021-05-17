@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import BasePage from '../../components/BasePage';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -8,18 +9,7 @@ import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
 import Profile from './Profile';
 
-const EVIDENCE_PAGE_QUERY = gql`
-  query EvidencePageQuery($ensgId: String!, $efoId: String!) {
-    target(ensemblId: $ensgId) {
-      id
-      approvedSymbol
-    }
-    disease(efoId: $efoId) {
-      id
-      name
-    }
-  }
-`;
+const EVIDENCE_PAGE_QUERY = loader('./EvidencePageQuery.gql');
 
 function EvidencePage({ match }) {
   const { ensgId, efoId } = match.params;

@@ -1,21 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const EUROPE_PMC_SUMMARY_FRAGMENT = gql`
-  fragment EuropePmcSummaryFragment on Disease {
-    europePmc: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["europepmc"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const EUROPE_PMC_SUMMARY_FRAGMENT = loader('./EuropePmcSummaryFragment.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(EUROPE_PMC_SUMMARY_FRAGMENT);

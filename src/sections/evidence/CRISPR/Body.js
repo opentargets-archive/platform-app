@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Link } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -8,30 +9,7 @@ import { DataTable, TableDrawer } from '../../../components/Table';
 import Summary from './Summary';
 import Description from './Description';
 
-const CRISPR_QUERY = gql`
-  query crisprQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["crispr"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseCellLines
-          diseaseFromSource
-          resourceScore
-          literature
-        }
-      }
-    }
-  }
-`;
+const CRISPR_QUERY = loader('./CrisprQuery.gql');
 
 const columns = [
   {

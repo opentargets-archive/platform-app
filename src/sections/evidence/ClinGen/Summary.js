@@ -1,20 +1,9 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const CLINGEN_SUMMARY_FRAGMENT = gql`
-  fragment ClinGenSummaryFragment on Disease {
-    clingenSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["clingen"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const CLINGEN_SUMMARY_FRAGMENT = loader('./ClinGenSummaryFragment.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(CLINGEN_SUMMARY_FRAGMENT);

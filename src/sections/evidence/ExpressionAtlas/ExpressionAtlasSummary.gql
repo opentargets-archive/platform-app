@@ -1,0 +1,10 @@
+fragment ExpressionAtlasSummary on Disease {
+  expressionAtlasSummary: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["expression_atlas"]
+    size: 0
+  ) {
+    count
+  }
+}
