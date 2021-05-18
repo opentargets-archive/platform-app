@@ -1,5 +1,5 @@
 // Configuration Object
-export default {
+const config = {
   urlApi:
     window.configUrlApi ??
     'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
@@ -12,3 +12,5 @@ export default {
     'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl',
   primaryColor: window.configPrimaryColor ?? '#3489ca',
 };
+
+export default config;
