@@ -21,9 +21,6 @@
     "@material-ui/core": "^4.9.11",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.50",
-    "apollo-cache-inmemory": "^1.6.5",
-    "apollo-client": "^2.6.8",
-    "apollo-link-http": "^1.5.17",
     "classnames": "^2.2.6",
     "crossfilter2": "^1.4.6",
     "cttv.spinner": "0.0.1",
@@ -87,6 +84,7 @@
   ],
   "devDependencies": {
     "browserstack-local": "^1.4.5",
+    "cross-fetch": "^3.1.4",
     "husky": ">=4",
     "lint-staged": ">=10",
     "nanoid-cli": "^1.1.0",
