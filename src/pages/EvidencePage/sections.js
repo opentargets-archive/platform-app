@@ -20,7 +20,7 @@ import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 
-export default [
+const sections = [
   OTGenetics,
   PheWASCatalog,
   EVA,
@@ -42,3 +42,4 @@ export default [
   ExpressionAtlas,
   Phenodigm,
 ];
+export default sections;

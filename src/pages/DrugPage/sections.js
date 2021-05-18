@@ -6,7 +6,7 @@ import * as Indications from '../../sections/drug/Indications';
 import * as MechanismsOfAction from '../../sections/drug/MechanismsOfAction';
 import * as Pharmacovigilance from '../../sections/drug/AdverseEvents';
 
-export default [
+const sections = [
   MechanismsOfAction,
   Indications,
   ClinicalPrecedence,
@@ -14,3 +14,4 @@ export default [
   Pharmacovigilance,
   Bibliography,
 ];
+export default sections;

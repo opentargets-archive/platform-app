@@ -15,7 +15,7 @@ import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
 import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
-export default [
+const sections = [
   KnownDrugs,
   Tractability,
   Safety,
@@ -32,3 +32,4 @@ export default [
   ComparativeGenomics,
   Bibliography,
 ];
+export default sections;
