@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b52c44fa1c5d479b8e9726a14056a284)](https://app.codacy.com/gh/CBIIT/ppdc-otp-frontend?utm_source=github.com&utm_medium=referral&utm_content=CBIIT/ppdc-otp-frontend&utm_campaign=Badge_Grade_Settings)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/58a127ca-67c0-4cc3-b9e3-88dad47cfc7f/deploy-status)](https://app.netlify.com/sites/platform-app/deploys)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9e2a9704b9934949b416da2a81342dc6)](https://www.codacy.com/gh/CBIIT/ppdc-otg-frontend/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CBIIT/ppdc-otg-frontend&amp;utm_campaign=Badge_Grade)
+
 
 This repository holds the new [Open Targets Platform](https://www.targetvalidation.org) web app.
 
