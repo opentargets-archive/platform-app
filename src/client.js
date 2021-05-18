@@ -7,10 +7,4 @@ const client = new ApolloClient({
   cache: new InMemoryCache({ possibleTypes }),
 });
 
-const betaClient = new ApolloClient({
-  uri: config.urlApiBeta,
-  cache: new InMemoryCache({ possibleTypes }),
-});
-
-export { betaClient };
 export default client;
