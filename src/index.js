@@ -9,8 +9,6 @@ import TagManager from 'react-gtm-module';
 import App from './App';
 import config from './config';
 
-// styling
-import 'dc/dc.min.css';
 import './index.scss';
 
 if (config.googleTagManagerID) {
