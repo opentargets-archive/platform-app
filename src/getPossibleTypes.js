@@ -1,3 +1,5 @@
+// For the reason for the existence of this script, you can find more info here:
+// https://www.apollographql.com/docs/react/data/fragments/#generating-possibletypes-automatically
 const fetch = require('cross-fetch');
 const fs = require('fs');
 
