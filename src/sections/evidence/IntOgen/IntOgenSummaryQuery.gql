@@ -1,0 +1,10 @@
+fragment IntOgenSummaryFragment on Disease {
+  intOgen: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["intogen"]
+    size: 0
+  ) {
+    count
+  }
+}

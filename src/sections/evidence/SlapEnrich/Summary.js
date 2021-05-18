@@ -1,21 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const SLAPENRICH_SUMMARY_FRAGMENT = gql`
-  fragment SlapEnrichSummaryFragment on Disease {
-    slapEnrich: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["slapenrich"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const SLAPENRICH_SUMMARY_FRAGMENT = loader('./SlapEnrichSummaryFragment.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(SLAPENRICH_SUMMARY_FRAGMENT);

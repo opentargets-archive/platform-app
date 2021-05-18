@@ -1,20 +1,9 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const EVA_SOMATIC_SUMMARY = gql`
-  fragment evaSomaticSummary on Disease {
-    evaSomaticSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["eva_somatic"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const EVA_SOMATIC_SUMMARY = loader('./EvaSomaticSummary.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(EVA_SOMATIC_SUMMARY);

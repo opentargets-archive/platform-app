@@ -1,20 +1,9 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const UNIPROT_LITERATURE_SUMMARY = gql`
-  fragment UniprotLiteratureSummary on Disease {
-    uniprotLiteratureSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["uniprot_literature"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const UNIPROT_LITERATURE_SUMMARY = loader('./UniprotLiteratureSummary.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(UNIPROT_LITERATURE_SUMMARY);

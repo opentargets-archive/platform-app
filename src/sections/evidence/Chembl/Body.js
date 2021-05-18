@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import {
   defaultRowsPerPageOptions,
@@ -14,53 +15,7 @@ import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const CHEMBL_QUERY = gql`
-  query ChemblQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["chembl"]
-        size: $size
-      ) {
-        count
-        rows {
-          disease {
-            id
-            name
-          }
-          target {
-            id
-          }
-          targetFromSourceId
-          drug {
-            id
-            name
-            drugType
-            mechanismsOfAction {
-              rows {
-                mechanismOfAction
-                targets {
-                  id
-                  approvedSymbol
-                }
-              }
-            }
-          }
-          clinicalPhase
-          clinicalStatus
-          studyStartDate
-          studyStopReason
-          urls {
-            niceName
-            url
-          }
-        }
-      }
-    }
-  }
-`;
+const CHEMBL_QUERY = loader('./ChemblQuery.gql');
 
 const columns = [
   {
