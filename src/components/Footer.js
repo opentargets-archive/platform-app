@@ -132,7 +132,10 @@ const Footer = ({ classes, externalLinks }) => (
         social={externalLinks.social}
       />
       <FooterSection heading="Partners" links={externalLinks.partners} />
-      <FooterSection heading="Open Targets" links={externalLinks.network} />
+      <FooterSection
+        heading="About Open Targets"
+        links={externalLinks.network}
+      />
     </Grid>
   </Grid>
 );

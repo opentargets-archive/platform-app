@@ -1,28 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <% if (process.env.REACT_APP_GTMID) { %>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','%REACT_APP_GTMID%');</script>
-    <!-- End Google Tag Manager -->
-    <% } %>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon.png" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="theme-color" content="#3489ca" />
-    <!--
-      We do not want robots indexing the alpha release, they should stay in the
-      current version of the platform. To prevent them following links from
-      there to here, we use https://support.google.com/webmasters/answer/93710?hl=en.
-    -->
-    <meta name="robots" content="noindex" />
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -40,12 +25,6 @@
     <title>Open Targets Platform</title>
   </head>
   <body>
-    <% if (process.env.REACT_APP_GTMID) { %>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=%REACT_APP_GTMID%"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <% } %>
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <div id="root"></div>
     <!--
@@ -59,6 +38,8 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 
+    <!--- Deployment Context -->
+    <script type="text/javascript" src="%PUBLIC_URL%/config.js"></script>
     <!-- d3 v3 (needed by tntvis, while v5 is used for newer components) -->
     <script
       type="text/javascript"

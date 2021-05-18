@@ -89,6 +89,7 @@ function ClassicAssociations({ ensgId, symbol }) {
               loading={loading}
               data={facetData}
               onChange={handleChangeFilters}
+              type="disease"
             />
           </CardContent>
         </Card>

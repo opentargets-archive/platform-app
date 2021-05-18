@@ -9,6 +9,7 @@ import {
   faGithubSquare,
   faYoutubeSquare,
 } from '@fortawesome/free-brands-svg-icons';
+import { config } from './config/Config';
 
 export const externalLinks = {
   about: [
@@ -29,7 +30,7 @@ export const externalLinks = {
 
     {
       label: 'Terms of use',
-      url: 'http://www.targetvalidation.org/terms-of-use',
+      url: 'https://platform-docs.opentargets.org/terms-of-use',
     },
   ],
   network: [
@@ -50,7 +51,7 @@ export const externalLinks = {
     {
       label: 'Documentation',
       icon: faQuestionCircle,
-      url: 'https://docs.targetvalidation.org',
+      url: 'https://platform-docs.opentargets.org',
     },
     {
       label: 'helpdesk@opentargets.org',
@@ -69,55 +70,34 @@ export const externalLinks = {
 
 // Configuration for the main hamburger menu
 export const mainMenuItems = [
-  // About
+  // Documentation
   {
-    name: 'Open Targets Platform',
-    url: 'https://www.targetvalidation.org/about',
-    external: true,
-  },
-  {
-    name: 'Open Targets Consortium',
-    url: '//www.opentargets.org/',
-    external: true,
-  },
-  // Help
-  {
-    name: 'Documentation & FAQs',
-    url: 'https://docs.targetvalidation.org/',
-    external: true,
-  },
-  {
-    name: 'support@targetvalidation.org',
-    url:
-      'mailto:support@targetvalidation.org?Subject=Target%20Validation%20Platform%20-%20help%20request',
-    external: true,
-  },
-  {
-    name: 'Outreach and tutorials',
-    url: 'https://www.targetvalidation.org/outreach',
-    external: true,
-  },
-  // API
-  {
-    name: 'API documentation',
-    url: 'https://docs.targetvalidation.org/programmatic-access/rest-api',
-    external: true,
-  },
-  {
-    name: 'Python client',
-    url: 'https://docs.targetvalidation.org/programmatic-access/python-client',
+    name: 'Documentation',
+    url: 'https://platform-docs.opentargets.org/getting-started',
     external: true,
   },
   // Downloads
   {
-    name: 'Downloads',
+    name: 'Data downloads',
     url: '/downloads',
     external: false,
   },
-  // Blog
+  // API
   {
-    name: 'Blog',
-    url: '//blog.opentargets.org/',
+    name: 'API',
+    url: config.urlApi.split('/api/v4/graphql')[0],
+    external: true,
+  },
+  // Community
+  {
+    name: 'Community',
+    url: 'https://community.opentargets.org/',
+    external: true,
+  },
+  // Contact
+  {
+    name: 'Contact us',
+    url: 'mailto:helpdesk@opentargets.org',
     external: true,
   },
 ];
@@ -289,4 +269,9 @@ export const clinvarStarMap = {
   'no assertion for the individual variant': 0,
   'no assertion criteria provided': 0,
   'no assertion provided': 0,
+};
+
+export const formatMap = {
+  json: 'JSON',
+  parquet: 'Parquet',
 };

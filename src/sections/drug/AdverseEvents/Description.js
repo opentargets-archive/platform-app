@@ -9,7 +9,7 @@ function Description({ name }) {
       estimated from reports submitted to the FDA Adverse Event Reporting
       database by healthcare professionals. Source:{' '}
       <Link
-        to="https://docs.targetvalidation.org/getting-started/getting-started/drug-summary/pharmacovigilance"
+        to="https://platform-docs.opentargets.org/drug/pharmacovigilence"
         external
       >
         Open Targets

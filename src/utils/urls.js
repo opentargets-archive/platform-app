@@ -14,6 +14,44 @@ export function europePmcLiteratureQuery(ids) {
   return encodeURI(baseUrl + ids.join(' OR ext_id:'));
 }
 
+export const encodeParams = params => {
+  const formBody = [];
+  for (let property in params) {
+    const encodedKey = encodeURIComponent(property);
+    const encodedValue = encodeURIComponent(params[property]);
+    formBody.push(encodedKey + '=' + encodedValue);
+  }
+  const encodedParams = formBody.join('&');
+  return encodedParams;
+};
+
+export function europePmcSearchPOSTQuery(ids) {
+  const baseUrl = 'https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST';
+  const query = ids.join(' OR ext_id:');
+  const bodyOptions = {
+    resultType: 'core',
+    format: 'json',
+    pageSize: '1000',
+    query: `SRC:MED AND (ext_id:${query})`,
+    sort: 'P_PDATE_D desc',
+  };
+  const formBody = encodeParams(bodyOptions);
+  return { baseUrl, formBody };
+}
+
+export function europePmcBiblioSearchPOSTQuery(ids, size = 25) {
+  const baseUrl = 'https://www.ebi.ac.uk/europepmc/webservices/rest/searchPOST';
+  const query = ids.join(' OR ext_id:');
+  const bodyOptions = {
+    resultType: 'core',
+    format: 'json',
+    pageSize: size,
+    query: `SRC:MED AND (ext_id:${query})`,
+  };
+  const formBody = encodeParams(bodyOptions);
+  return { baseUrl, formBody };
+}
+
 function clinicalTrialsUrl(id) {
   return `https://www.clinicaltrials.gov/ct2/show/${id}`;
 }

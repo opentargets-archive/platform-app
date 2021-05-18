@@ -68,6 +68,7 @@ function ClassicAssociations({ efoId, name }) {
               loading={loading}
               data={facetData}
               onChange={handleChangeFilters}
+              type="target"
             />
           </CardContent>
         </Card>

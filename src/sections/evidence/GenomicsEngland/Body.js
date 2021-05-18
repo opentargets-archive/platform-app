@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 
-import { DataTable, TableDrawer } from '../../../components/Table';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
+import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
@@ -63,16 +64,36 @@ const columns = [
   {
     id: 'disease',
     label: 'Disease/phenotype',
-    renderCell: ({ disease, diseaseFromSource }) => (
+    renderCell: ({ disease, diseaseFromSource, cohortPhenotypes }) => (
       <Tooltip
         title={
           <>
             <Typography variant="subtitle2" display="block" align="center">
               Reported disease or phenotype:
             </Typography>
-            <Typography variant="caption" display="block" align="center">
+            <Typography
+              variant="caption"
+              display="block"
+              align="center"
+              gutterBottom
+            >
               {sentenceCase(diseaseFromSource)}
             </Typography>
+
+            {cohortPhenotypes?.length > 1 ? (
+              <>
+                <Typography variant="subtitle2" display="block" align="center">
+                  All reported phenotypes:
+                </Typography>
+                <Typography variant="caption" display="block">
+                  {cohortPhenotypes.map(cp => (
+                    <div key={cp}>{cp}</div>
+                  ))}
+                </Typography>
+              </>
+            ) : (
+              ''
+            )}
           </>
         }
         showHelpIcon
@@ -82,26 +103,6 @@ const columns = [
     ),
     filterValue: ({ disease, diseaseFromSource }) =>
       [disease.name, diseaseFromSource].join(),
-  },
-  {
-    id: 'cohortPhenotypes',
-    label: 'All phenotypes',
-    renderCell: ({ cohortPhenotypes }) =>
-      cohortPhenotypes ? (
-        <TableDrawer
-          entries={cohortPhenotypes.map(item => ({
-            name: item,
-            group: 'Reported phenotypes',
-          }))}
-          showSingle={false}
-          message={`${cohortPhenotypes.length} phenotype${
-            cohortPhenotypes.length !== 1 ? 's' : ''
-          }`}
-        />
-      ) : (
-        naLabel
-      ),
-    filterValue: ({ cohortPhenotypes }) => cohortPhenotypes.join(),
   },
   {
     id: 'allelicRequirements',
@@ -162,7 +163,7 @@ const columns = [
           ];
         }, []) || [];
 
-      return <TableDrawer entries={literatureList} />;
+      return <PublicationsDrawer entries={literatureList} />;
     },
   },
 ];

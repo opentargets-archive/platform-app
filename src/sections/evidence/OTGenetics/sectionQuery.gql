@@ -28,8 +28,11 @@ query OpenTargetsGeneticsQuery(
         pValueExponent
         pValueMantissa
         oddsRatio
-        confidenceIntervalLower
-        confidenceIntervalUpper
+        oddsRatioConfidenceIntervalLower
+        oddsRatioConfidenceIntervalUpper
+        beta
+        betaConfidenceIntervalLower
+        betaConfidenceIntervalUpper
         variantFunctionalConsequence {
           id
           label

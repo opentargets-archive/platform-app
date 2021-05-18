@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /search?q=* # block search results pages 
+Sitemap: https://platform.opentargets.org/sitemaps/index.xml

@@ -1,43 +1,19 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import { DataTable } from '../../../components/Table';
 import Description from './Description';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';
 import Link from '../../../components/Link';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const INTOGEN_QUERY = gql`
-  query IntOgenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        size: $size
-        datasourceIds: ["sysbio"]
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          target {
-            id
-            approvedSymbol
-          }
-          studyOverview
-          literature
-          pathwayName
-        }
-      }
-    }
-  }
-`;
+const SYSBIO_QUERY = loader('./sectionQuery.gql');
 
 const columns = [
   {
@@ -51,14 +27,14 @@ const columns = [
   {
     id: 'pathwayName',
     label: 'Gene set',
-    renderCell: ({ pathwayName, studyOverview }) =>
-      pathwayName ? (
+    renderCell: ({ pathways, studyOverview }) =>
+      pathways?.length >= 1 ? (
         studyOverview ? (
           <Tooltip title={studyOverview} showHelpIcon>
-            {pathwayName}
+            {pathways[0].name}
           </Tooltip>
         ) : (
-          pathwayName
+          pathways[0].name
         )
       ) : (
         naLabel
@@ -66,14 +42,20 @@ const columns = [
   },
   {
     id: 'literature',
-    renderCell: ({ literature }) =>
-      literature?.[0] ? (
-        <Link external to={epmcUrl(literature[0])}>
-          {literature[0]}
-        </Link>
-      ) : (
-        naLabel
-      ),
+    renderCell: ({ literature }) => {
+      const literatureList =
+        literature?.reduce((acc, id) => {
+          if (id !== 'NA') {
+            acc.push({
+              name: id,
+              url: epmcUrl(id),
+              group: 'literature',
+            });
+          }
+          return acc;
+        }, []) || [];
+      return <PublicationsDrawer entries={literatureList} />;
+    },
   },
 ];
 
@@ -84,7 +66,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
     },
   } = usePlatformApi(Summary.fragments.SysBioSummaryFragment);
 
-  const request = useQuery(INTOGEN_QUERY, {
+  const request = useQuery(SYSBIO_QUERY, {
     variables: { ensemblId: ensgId, efoId, size },
   });
 

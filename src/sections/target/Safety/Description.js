@@ -7,10 +7,7 @@ function Description({ symbol }) {
     <>
       Known target safety effects and target safety risk information for{' '}
       <strong>{symbol}</strong>. Source:{' '}
-      <Link
-        external
-        to="https://docs.targetvalidation.org/getting-started/target-safety"
-      >
+      <Link external to="https://platform-docs.opentargets.org/target/safety">
         Open Targets
       </Link>
       .
