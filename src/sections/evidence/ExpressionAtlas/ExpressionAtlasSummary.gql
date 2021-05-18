@@ -1,4 +1,4 @@
-fragment ExpressionAtlasSummary on Disease {
+fragment expressionAtlasSummary on Disease {
   expressionAtlasSummary: evidences(
     ensemblIds: [$ensgId]
     enableIndirect: true

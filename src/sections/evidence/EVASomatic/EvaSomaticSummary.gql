@@ -1,5 +1,5 @@
-fragment EvaSomaticSummary on Disease {
-  EvaSomaticSummary: evidences(
+fragment evaSomaticSummary on Disease {
+  evaSomaticSummary: evidences(
     ensemblIds: [$ensgId]
     enableIndirect: true
     datasourceIds: ["eva_somatic"]
