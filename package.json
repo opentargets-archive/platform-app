@@ -55,6 +55,7 @@
     "react-scripts": "3.4.1",
     "react-scroll": "^1.7.16",
     "react-sticky": "^6.0.3",
+    "recoil": "^0.3.0",
     "smiles-drawer": "^1.1.22",
     "source-map-explorer": "^2.0.0",
     "tnt.api": "^0.1.1",
