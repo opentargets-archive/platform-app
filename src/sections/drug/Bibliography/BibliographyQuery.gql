@@ -1,4 +1,4 @@
-query SimilarEntitiesQuery(
+query DrugSimilarEntitiesQuery(
   $id: String!
   $ids: [String!] = []
   $threshold: Float = 0.5
