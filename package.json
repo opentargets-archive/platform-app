@@ -42,7 +42,7 @@
     "node-sass": "^4.14.0",
     "particles.js": "^2.0.0",
     "polished": "^2.3.0",
-    "protvista-uniprot": "^2.5.5",
+    "protvista-uniprot": "2.6.1",
     "query-string": "^6.10.1",
     "react": "^17.0.2",
     "react-app-polyfill": "^1.0.6",
