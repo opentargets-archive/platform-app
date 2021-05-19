@@ -1,4 +1,4 @@
-query IntOgenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+query PhenodigmQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
   disease(efoId: $efoId) {
     id
     evidences(

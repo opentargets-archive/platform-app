@@ -1,4 +1,4 @@
-query IntOgenQuery(
+query EuropePmcQuery(
   $ensemblId: String!
   $efoId: String!
   $size: Int!
