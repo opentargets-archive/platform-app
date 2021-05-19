@@ -102,5 +102,8 @@
   },
   "lint-staged": {
     "*.{js,css,md}": "prettier --write"
+  },
+  "resolutions": {
+    "graphql": "^15.0.0"
   }
 }
