@@ -1,4 +1,4 @@
-query InteractionsSectionQuery($ensgId: String!) {
+query InteractionsStatsQuery($ensgId: String!) {
   interactionResources {
     databaseVersion
     sourceDatabase
