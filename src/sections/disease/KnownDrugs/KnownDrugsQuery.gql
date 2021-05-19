@@ -1,4 +1,4 @@
-query KnownDrugsQuery(
+query DiseaseKnownDrugsQuery(
   $efoId: String!
   $cursor: String
   $freeTextQuery: String

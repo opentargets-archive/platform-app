@@ -1,4 +1,4 @@
-query KnownDrugsQuery(
+query TargetKnownDrugsQuery(
   $ensgId: String!
   $cursor: String
   $freeTextQuery: String

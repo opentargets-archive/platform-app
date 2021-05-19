@@ -1,4 +1,4 @@
-query KnownDrugsQuery(
+query DrugKnownDrugsQuery(
   $chemblId: String!
   $cursor: String
   $freeTextQuery: String
