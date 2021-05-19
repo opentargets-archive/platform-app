@@ -16,8 +16,6 @@ import EvidencePage from './pages/EvidencePage';
 import VariantsPage from './pages/VariantsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-import 'typeface-inter';
-
 class App extends Component {
   componentDidMount() {
     initLocalStorage();

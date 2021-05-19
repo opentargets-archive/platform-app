@@ -3,10 +3,9 @@
 const fetch = require('cross-fetch');
 const fs = require('fs');
 
-const YOUR_API_HOST =
-  'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4';
+const API_HOST = 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4';
 
-fetch(`${YOUR_API_HOST}/graphql`, {
+fetch(`${API_HOST}/graphql`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
