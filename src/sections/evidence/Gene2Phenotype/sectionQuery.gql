@@ -1,4 +1,4 @@
-query OpenTargetsGeneticsQuery($ensemblId: String!, $efoId: String!) {
+query Gene2PhenotypeQuery($ensemblId: String!, $efoId: String!) {
   disease(efoId: $efoId) {
     id
     evidences(
