@@ -17,13 +17,7 @@ import SectionError from './SectionError';
 import sectionStyles from './sectionStyles';
 import { createShortName } from '../Summary/utils';
 
-function SectionItem({
-  definition,
-  request,
-  renderDescription,
-  renderBody,
-  tags,
-}) {
+function SectionItem({ definition, request, renderDescription, renderBody }) {
   const classes = sectionStyles();
   const { loading, error, data } = request;
   const shortName = createShortName(definition);
@@ -71,7 +65,6 @@ function SectionItem({
                   {renderDescription()}
                 </Typography>
               }
-              action={tags}
             />
             {loading ? (
               <LinearProgress />

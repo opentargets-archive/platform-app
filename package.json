@@ -67,7 +67,8 @@
     "prettier": "prettier --write",
     "prettier:all": "prettier --write 'src/**/*.js'",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "test:nightwatch": "node ./test/end-to-end-test-runner.js -c nightwatch.conf.js -e chrome,firefox,safari,ie"
+    "test:nightwatch": "node ./test/end-to-end-test-runner.js -c nightwatch.conf.js -e chrome,firefox,safari,ie",
+    "codegen": "apollo client:codegen --target typescript --endpoint=https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql --outputFlat --includes \"src/sections/**\" --excludes \"src/generated\" src/generated"
   },
   "eslintConfig": {
     "extends": "react-app"

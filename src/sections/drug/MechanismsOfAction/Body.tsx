@@ -8,6 +8,10 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import Summary from './Summary';
 import Description from './Description';
+import {
+  MechanismsOfActionSectionQuery,
+  MechanismsOfActionSectionQueryVariables,
+} from '../../../generated/MechanismsOfActionSectionQuery';
 
 const MECHANISMS_OF_ACTION_QUERY = loader('./MechanismsOfActionQuery.gql');
 
@@ -23,13 +27,13 @@ const columns = [
   {
     id: 'targets',
     label: 'Human targets',
-    filterValue: row =>
-      row.targets.map(target => target.approvedSymbol).join(' '),
-    exportValue: row => row.targets.map(target => target.approvedSymbol).join(),
-    renderCell: ({ targets }) => {
+    filterValue: (row: any) =>
+      row.targets.map((target: any) => target.approvedSymbol).join(' '),
+    exportValue: (row: any) => row.targets.map((target: any) => target.approvedSymbol).join(),
+    renderCell: ({ targets } : { targets: any}) => {
       if (!targets) return 'non-human';
 
-      const targetList = targets.map(target => {
+      const targetList = targets.map((target: any) => {
         return {
           name: target.approvedSymbol,
           url: `/target/${target.id}`,
@@ -43,14 +47,14 @@ const columns = [
   {
     id: 'references',
     label: 'References',
-    filterValue: row =>
-      row.references.map(reference => reference.source).join(' '),
-    exportValue: row =>
-      row.references.map(reference => reference.source).join(),
-    renderCell: row =>
+    filterValue: (row: any) =>
+      row.references.map((reference: any) => reference.source).join(' '),
+    exportValue: (row: any) =>
+      row.references.map((reference: any) => reference.source).join(),
+    renderCell: (row: any) =>
       !row.references
         ? 'n/a'
-        : row.references.map((r, i) => {
+        : row.references.map((r: any, i: number) => {
             return (
               <Fragment key={i}>
                 {i > 0 ? ', ' : null}
@@ -67,8 +71,8 @@ const columns = [
   },
 ];
 
-function Body({ definition, id: chemblId, label: name }) {
-  const request = useQuery(MECHANISMS_OF_ACTION_QUERY, {
+function Body({ definition, id: chemblId, label: name }: {definition: any, id: any, label: any}) {
+  const request = useQuery<MechanismsOfActionSectionQuery, MechanismsOfActionSectionQueryVariables>(MECHANISMS_OF_ACTION_QUERY, {
     variables: { chemblId },
   });
   const { data: summaryData } = usePlatformApi(
@@ -86,7 +90,7 @@ function Body({ definition, id: chemblId, label: name }) {
           childMolecules={summaryData.childMolecules}
         />
       )}
-      renderBody={data => {
+      renderBody={(data: any) => {
         const rows = data.drug.mechanismsOfAction.rows;
 
         return (

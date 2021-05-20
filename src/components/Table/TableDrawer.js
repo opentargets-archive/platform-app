@@ -72,7 +72,7 @@ const sourceDrawerStyles = makeStyles(theme => ({
 
 function TableDrawer({
   entries,
-  message,
+  message = null,
   caption = 'Records',
   showSingle = true,
 }) {
@@ -80,7 +80,7 @@ function TableDrawer({
   const classes = sourceDrawerStyles();
 
   if (entries.length === 0) {
-    return naLabel;
+    return <>{naLabel}</>;
   }
 
   if (entries.length === 1 && showSingle) {
@@ -89,7 +89,7 @@ function TableDrawer({
         {entries[0].name}
       </Link>
     ) : (
-      naLabel
+      <>{naLabel}</>
     );
   }
 

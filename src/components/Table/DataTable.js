@@ -6,25 +6,25 @@ import { globalFilter, getComparator } from './sortingAndFiltering';
 import { PaginationActionsComplete } from './TablePaginationActions';
 
 function DataTable({
-  noWrap,
-  noWrapHeader,
-  fixed,
-  hover,
-  showGlobalFilter,
-  dataDownloader,
-  dataDownloaderFileStem,
-  headerGroups,
+  noWrap = true,
+  noWrapHeader = true,
+  fixed = false,
+  hover = false,
+  showGlobalFilter = false,
+  dataDownloader = false,
+  dataDownloaderFileStem = 'data',
+  headerGroups = [],
   columns,
   sortBy = null,
   order = 'asc',
   pageSize: initialPageSize = 10,
   rows,
   rowsPerPageOptions = [],
-  onRowClick,
-  rowIsSelectable,
+  onRowClick = () => {},
+  rowIsSelectable = false,
   onPagination = () => {},
-  dataDownloaderColumns,
-  loading,
+  dataDownloaderColumns = [],
+  loading = false,
 }) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(initialPageSize);
