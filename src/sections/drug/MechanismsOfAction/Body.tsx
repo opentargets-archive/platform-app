@@ -90,7 +90,13 @@ function Body({ definition, id: chemblId, label: name }: {definition: any, id: a
           childMolecules={summaryData.childMolecules}
         />
       )}
-      renderBody={(data: any) => {
+      renderBody={(data: MechanismsOfActionSectionQuery) => {
+        // const rows = data.drug?.mechanismsOfAction?.rows;
+
+        if (!data.drug || !data.drug.mechanismsOfAction) {
+          return null;
+        }
+
         const rows = data.drug.mechanismsOfAction.rows;
 
         return (
