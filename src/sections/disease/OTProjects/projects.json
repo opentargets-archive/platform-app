@@ -1,0 +1,26 @@
+[
+  {
+    "otarCode": "OTAR040",
+    "status": "Active",
+    "projectName": "cyto immunogenomics",
+    "reference": "reference"
+  },
+  {
+    "otarCode": "OTAR041",
+    "status": "Active",
+    "projectName": "CELLector",
+    "reference": "reference"
+  },
+  {
+    "otarCode": "OTAR016",
+    "status": "Closed",
+    "projectName": "Cancer Functional Genomics",
+    "reference": "reference"
+  },
+  {
+    "otarCode": "OTAR2049",
+    "status": "Active",
+    "projectName": "T Cell Survival and Function ",
+    "reference": "reference"
+  }
+]
