@@ -1,0 +1,26 @@
+[
+  {
+    "otarCode": "1",
+    "status": "Active",
+    "projectName": "project name 1",
+    "reference": "reference 1"
+  },
+  {
+    "otarCode": "2",
+    "status": "Active",
+    "projectName": "project name 2",
+    "reference": "reference 2"
+  },
+  {
+    "otarCode": "3",
+    "status": "Closed",
+    "projectName": "project name 3",
+    "reference": "reference 3"
+  },
+  {
+    "otarCode": "4",
+    "status": "Active",
+    "projectName": "project name 4",
+    "reference": "reference 4"
+  }
+]
