@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
 import Description from './Description';
+import Link from '../../../components/Link';
 import { DataTable } from '../../../components/Table';
 import SectionItem from '../../../components/Section/SectionItem';
 import { defaultRowsPerPageOptions } from '../../../constants';
@@ -22,7 +23,13 @@ function getColumns(diseaseName) {
     },
     { id: 'name', label: 'Disease', renderCell: () => diseaseName },
     { id: 'status', label: 'Status' },
-    { id: 'reference', label: 'Open Targest Intranet Link' },
+    {
+      id: 'reference',
+      label: 'Open Targest Intranet Link',
+      renderCell: ({ otarCode }) => {
+        return <Link to="/">{otarCode} project page</Link>;
+      },
+    },
   ];
 }
 
