@@ -1,7 +1,7 @@
 import React from 'react';
 import { loader } from 'graphql.macro';
 
-import { Body as Bibliography } from '../../common/SimilarEntities';
+import { Body as Bibliography } from '../../common/Literature';
 
 const DISEASE_LITERATURE_OCURRENCES = loader('./BibliographyQuery.gql');
 
