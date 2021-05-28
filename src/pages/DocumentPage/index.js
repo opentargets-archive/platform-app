@@ -1,13 +1,27 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Link } from '@material-ui/core';
+import { Grid, Typography, Link, Avatar } from '@material-ui/core';
 import BasePage from '../../components/BasePage';
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
+  floatLeft: {
+    float: 'left',
+  },
+  maxWidth: {
+    maxWidth: '55px',
+  },
   paddingLeft: {
     paddingLeft: '45px !important',
+  },
+  avatar: {
+    color: 'white',
+    backgroundColor: theme.palette.grey[300],
+  },
+  avatarHasData: {
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 
@@ -69,25 +83,48 @@ function DocumentPage() {
             FDA RMTL designations:
           </Grid>
           <Grid item xs={12} className={classes.paddingLeft}>
-            <b>[R] Relevant Molecular Target: </b>
-            These targets have evidence indicating their relevance in the growth
-            or progression of pediatric cancers. Any new drugs developed for
-            these targets in adult cancers must also be studied for use in
-            pediatric cancers.
+            <Grid container spacing={0}>
+              <Grid item xs className={classes.maxWidth}>
+                <Avatar className={classes.avatarHasData}>R</Avatar>
+              </Grid>
+              <Grid item xs>
+                <b>Relevant Molecular Target: </b>
+                These targets have evidence indicating their relevance in the
+                growth or progression of pediatric cancers. Any new drugs
+                developed for these targets in adult cancers must also be
+                studied for use in pediatric cancers.
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={12} className={classes.paddingLeft}>
-            <b>[NR] Non-Relevant Molecular Target: </b>
-            These targets have evidence indicating that they are not relevant in
-            the growth or progression of pediatric cancers, or that studies of
-            them would be ineffective or impractical for therapeutic pediatric
-            use. Any new drugs developed for these targets in adult cancers will
-            receive an automatic waiver from also studying them in pediatric
-            cancers.
+            <Grid container spacing={0}>
+              <Grid item xs className={classes.maxWidth}>
+                <Avatar className={classes.avatarHasData}> NR</Avatar>
+              </Grid>
+              <Grid item xs>
+                <b> Non-Relevant Molecular Target: </b>
+                These targets have evidence indicating that they are not
+                relevant in the growth or progression of pediatric cancers, or
+                that studies of them would be ineffective or impractical for
+                therapeutic pediatric use. Any new drugs developed for these
+                targets in adult cancers will receive an automatic waiver from
+                also studying them in pediatric cancers.
+              </Grid>
+            </Grid>
           </Grid>
+
           <Grid item xs={12} className={classes.paddingLeft}>
-            <b>[?] Unspecified Target:</b>
-            These targets are not mentioned in the FDA RMTL. Most targets within
-            the Open Targets Platform fall into this category by default.
+            <Grid container spacing={0}>
+              <Grid item xs className={classes.maxWidth}>
+                <Avatar className={classes.avatar}> ?</Avatar>
+              </Grid>
+              <Grid item xs>
+                <b> Unspecified Target:</b>
+                These targets are not mentioned in the FDA RMTL. Most targets
+                within the Open Targets Platform fall into this category by
+                default.
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h5">Open Targets Compatibility</Typography>
@@ -107,7 +144,7 @@ function DocumentPage() {
             symbol). As published, the FDA RMTL did not identify targets by a
             consistent set of mappable IDs. In addition, many FDA RMTL targets
             are representations of complex proteins or pathways, each consisting
-            of a multitude of genes (e.g. “Proteasome”, “Tubulins” or “TAZ
+            of a multitude of genes (e.g. “Proteasome”, “Tubulins” or “Hippo
             Pathway”). In order to implement the FDA RMTL into Open Targets, the
             list needed to be machine-readable and contain mappable IDs at
             gene-level resolution. Thus, the following standardization steps
