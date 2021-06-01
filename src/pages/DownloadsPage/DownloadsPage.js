@@ -94,7 +94,10 @@ function DownloadsPage() {
   const columns = loading || error ? [] : getColumns(data.meta.dataVersion);
 
   return (
-    <BasePage>
+    <BasePage
+      title="Data downloads"
+      description="List of open source and open access datasets that are available for download from the Open Targets Platform in various formats"
+    >
       <Typography variant="h4" component="h1" paragraph>
         Data downloads
       </Typography>
