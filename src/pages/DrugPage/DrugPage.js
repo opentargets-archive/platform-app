@@ -22,7 +22,7 @@ function DrugPage({ match }) {
   }
 
   const { name, crossReferences } = data?.drug || {};
-  // Annotation information for DRUG-NAME
+
   return (
     <BasePage
       title={`${name || chemblId} profile page`}
