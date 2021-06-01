@@ -10,7 +10,6 @@ function Summary({ definition }) {
   return (
     <SummaryItem
       definition={definition}
-      ƒ
       request={request}
       renderSummary={({ cancerGeneCensusSummary }) => {
         const { count } = cancerGeneCensusSummary;

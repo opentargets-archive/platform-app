@@ -7,13 +7,14 @@ import {
   Grid,
   LinearProgress,
   Typography,
+  Chip,
 } from '@material-ui/core';
 import { scroller } from 'react-scroll';
 
 import summaryStyles from './summaryStyles';
 import { createShortName } from './utils';
 
-function SummaryItem({ definition, request, renderSummary }) {
+function SummaryItem({ definition, request, renderSummary, chipText }) {
   const classes = summaryStyles();
   const { loading, error, data } = request;
   const shortName = createShortName(definition);
@@ -52,16 +53,21 @@ function SummaryItem({ definition, request, renderSummary }) {
             </Avatar>
           }
           title={
-            <Typography
-              className={classNames({
-                [classes.title]: true,
-                [classes.titleHasData]: hasData,
-                [classes.titleError]: error,
-              })}
-              variant="body2"
-            >
-              {definition.name}
-            </Typography>
+            <>
+              <Typography
+                className={classNames({
+                  [classes.title]: true,
+                  [classes.titleHasData]: hasData,
+                  [classes.titleError]: error,
+                })}
+                variant="body2"
+              >
+                {definition.name}
+              </Typography>
+              {chipText ? (
+                <Chip label={chipText} variant="outlined" size="small" />
+              ) : null}
+            </>
           }
         />
         {loading && <LinearProgress />}
