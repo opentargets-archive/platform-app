@@ -59,29 +59,32 @@ const columns = [
 ];
 
 // Merges data from platform-API and EuropePMC API.
-const mergeData = (rows, literatureData) => {
-  const mergedRows = [...rows];
-
-  rows.forEach(row => {
+function mergeData(rows, literatureData) {
+  const mergedRows = rows.map(row => {
     const relevantEntry = literatureData.find(
       entry => entry.id === row.literature[0]
     );
 
     if (relevantEntry) {
-      row.europePmcId = relevantEntry.id;
-      row.title = relevantEntry.title;
-      row.year = relevantEntry.pubYear;
-      row.abstract = relevantEntry.abstractText;
-      row.authors = relevantEntry.authorList?.author || [];
-      row.journal = {
-        ...relevantEntry.journalInfo,
-        page: relevantEntry.pageInfo,
+      return {
+        ...row,
+        europePmcId: relevantEntry.id,
+        title: relevantEntry.title,
+        year: relevantEntry.pubYear,
+        abstract: relevantEntry.abstractText,
+        authors: relevantEntry.authorList?.author || [],
+        journal: {
+          ...relevantEntry.journalInfo,
+          page: relevantEntry.pageInfo,
+        },
       };
+    } else {
+      return row;
     }
   });
 
   return mergedRows;
-};
+}
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
   const pagesToFetch = 10;
