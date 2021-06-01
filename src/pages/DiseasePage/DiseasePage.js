@@ -24,7 +24,18 @@ function DiseasePage({ match }) {
   const { name } = data?.disease || {};
 
   return (
-    <BasePage title={name}>
+    <BasePage
+      title={
+        location.pathname.includes('associations')
+          ? `Targets associated with ${name}`
+          : `${name} profile page`
+      }
+      description={
+        location.pathname.includes('associations')
+          ? `Ranked list of targets associated with ${name}`
+          : `Annotation information for ${name}`
+      }
+    >
       <Header loading={loading} efoId={efoId} name={name} />
       <ScrollToTop />
       <RoutingTabs>
