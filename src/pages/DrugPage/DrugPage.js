@@ -22,9 +22,12 @@ function DrugPage({ match }) {
   }
 
   const { name, crossReferences } = data?.drug || {};
-
+  // Annotation information for DRUG-NAME
   return (
-    <BasePage title={name || chemblId}>
+    <BasePage
+      title={`${name || chemblId} profile page`}
+      description={`Annotation information for ${name || chemblId}`}
+    >
       <Header
         loading={loading}
         chemblId={chemblId}
