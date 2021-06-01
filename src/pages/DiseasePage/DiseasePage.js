@@ -11,7 +11,7 @@ import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
 const DISEASE_PAGE_QUERY = loader('./DiseasePage.gql');
 
-function DiseasePage({ match }) {
+function DiseasePage({ location, match }) {
   const { efoId } = match.params;
   const { loading, data } = useQuery(DISEASE_PAGE_QUERY, {
     variables: { efoId },
