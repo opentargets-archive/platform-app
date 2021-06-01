@@ -16,6 +16,7 @@ function Summary({ definition }) {
       renderSummary={data =>
         `${data.sysBio.count} entr${data.sysBio.count === 1 ? 'y' : 'ies'}`
       }
+      chipText="Pathways & Sys Bio"
     />
   );
 }

@@ -18,6 +18,7 @@ function Summary({ definition }) {
           data.europePmc.count === 1 ? 'y' : 'ies'
         }`
       }
+      chipText="Literature"
     />
   );
 }

@@ -15,6 +15,7 @@ function Summary({ definition }) {
         const { count } = evaSomaticSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
+      chipText="Somatic Mutations"
     />
   );
 }

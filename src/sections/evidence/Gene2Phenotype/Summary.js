@@ -19,6 +19,7 @@ function Summary({ definition }) {
           data.gene2Phenotype.count === 1 ? 'y' : 'ies'
         }`
       }
+      chipText="Genetic Associations"
     />
   );
 }

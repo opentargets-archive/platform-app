@@ -16,6 +16,7 @@ function Summary({ definition }) {
         const { count } = clingenSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
+      chipText="Genetic Associations"
     />
   );
 }

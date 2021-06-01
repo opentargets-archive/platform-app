@@ -17,6 +17,7 @@ function Summary({ definition }) {
           data.phenodigm.count === 1 ? 'y' : 'ies'
         }`
       }
+      chipText="Animal Models"
     />
   );
 }

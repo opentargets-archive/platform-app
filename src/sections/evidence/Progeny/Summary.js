@@ -16,6 +16,7 @@ function Summary({ definition }) {
       renderSummary={data =>
         `${data.progeny.count} entr${data.progeny.count === 1 ? 'y' : 'ies'}`
       }
+      chipText="Pathways & Sys Bio"
     />
   );
 }

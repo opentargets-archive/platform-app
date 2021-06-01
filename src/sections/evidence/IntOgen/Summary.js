@@ -15,6 +15,7 @@ function Summary({ definition }) {
       renderSummary={data =>
         `${data.intOgen.count} entr${data.intOgen.count === 1 ? 'y' : 'ies'}`
       }
+      chipText="Somatic Mutations"
     />
   );
 }

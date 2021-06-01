@@ -20,6 +20,7 @@ function Summary({ definition }) {
           data.genomicsEngland.count === 1 ? 'y' : 'ies'
         }`
       }
+      chipText="Genetic Associations"
     />
   );
 }
