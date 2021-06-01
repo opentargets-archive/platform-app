@@ -25,7 +25,10 @@ function EvidencePage({ match }) {
   const { name } = data?.disease || {};
 
   return (
-    <BasePage title={`Evidence for ${symbol} in ${name}`}>
+    <BasePage
+      title={`Evidence for ${symbol} and ${name}`}
+      description={`${symbol} is associated with ${name} through Open Targets Platform evidence that is aggregated from genetic evidence, somatic mutations, known drugs, differential expression experiments, pathways & systems biology, text mining, and animal model data sources`}
+    >
       <Header
         loading={loading}
         efoId={efoId}
