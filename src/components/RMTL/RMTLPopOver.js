@@ -8,27 +8,32 @@ import RelevantIcon from './RelevantIcon';
 import NonRelevantIcon from './NonRelevantIcon';
 import UnspecifiedIcon from './UnspecifiedIcon';
 
-const useStyles = makeStyles(theme => ({
-  rmtlTitle: {
-    color: '#3489CA',
-  },
-  rmtlIconBox: {
-    'margin-top': '20px',
-  },
-  typography: {
-    padding: theme.spacing(2),
-    'padding-top': theme.spacing(0),
-  },
-  landpage: {
-    margin: '0px',
-    float: 'right',
-    padding: theme.spacing(0),
-    'padding-top': theme.spacing(2),
-    'padding-right': theme.spacing(2),
-  },
-}));
+function RMTLPopOver({ otherStyle }) {
+  const useStyles = makeStyles(theme => ({
+    rmtlTitle: {
+      color: '#3489CA',
+    },
+    tabContainer: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+    },
+    typography: {
+      padding: theme.spacing(2),
+      paddingTop: theme.spacing(1),
+    },
+    popover: {
+      maxWidth: theme.spacing(110),
+    },
+    landPage: {
+      margin: theme.spacing(0),
+      padding: theme.spacing(0),
+      paddingTop: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      float: 'right',
+    },
+    ...otherStyle,
+  }));
 
-function RMTLPopOver(style) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = event => {
@@ -52,7 +57,7 @@ function RMTLPopOver(style) {
   const RMTLlandingPageUrl = '/rmtl';
 
   return (
-    <div style={{ display: 'inline' }}>
+    <div className={classes.RMTLContainer} style={{ display: 'inline' }}>
       <Typography
         variant="body2"
         onClick={handleClick}
@@ -65,14 +70,6 @@ function RMTLPopOver(style) {
         </span>
         <RelevantIcon />
       </Typography>{' '}
-      <div
-        aria-describedby={id}
-        variant="contained"
-        onClick={handleClick}
-        className="MuiGrid-root"
-      >
-        <div container="" justify="center" />
-      </div>
       <Popover
         id={id}
         open={open}
@@ -86,7 +83,7 @@ function RMTLPopOver(style) {
           vertical: 'top',
           horizontal: 'left',
         }}
-        className={classes.popo}
+        className={classes.popover}
       >
         <Grid
           container
@@ -95,7 +92,7 @@ function RMTLPopOver(style) {
           alignItems="stretch"
         >
           <Grid item>
-            <Typography className={classes.landpage}>
+            <Typography className={classes.landPage}>
               Search the RMTL within Open Targets{' '}
               <Link external to={RMTLlandingPageUrl}>
                 here
@@ -103,27 +100,30 @@ function RMTLPopOver(style) {
             </Typography>
           </Grid>
           <Grid item>
+            <Tabs
+              value={tab}
+              onChange={handleChangeTab}
+              className={classes.tabContainer}
+            >
+              <Tab value="RMTL" icon={<RelevantIcon />} />
+              <Tab value="NonRMTL" icon={<NonRelevantIcon />} />
+              <Tab value="UnspecifyTarget" icon={<UnspecifiedIcon />} />
+            </Tabs>
             <Typography className={classes.typography}>
-              <Tabs value={tab} onChange={handleChangeTab}>
-                <Tab value="RMTL" icon={<RelevantIcon />} />
-                <Tab value="NonRMTL" icon={<NonRelevantIcon />} />
-                <Tab value="UnspecifyTarget" icon={<UnspecifiedIcon />} />
-              </Tabs>
               {tab === 'RMTL' && (
                 <i>
                   Molecular target for which existing evidence and/or biologic
-                  rationale exist to determine <br />
-                  potential relevance to the growth or progression of one or
-                  more pediatric cancers.
+                  rationale exist to determine potential relevance to the growth
+                  or progression of one or more pediatric cancers.
                 </i>
               )}
               {tab === 'NonRMTL' && (
                 <i>
                   Molecular target for which there is evidence that it is not
-                  associated with the growth or progression <br />
-                  of pediatric tumors for which requirement for early pediatric
-                  evaluation of drugs and biologics which <br />
-                  are directed at this target would be waived.
+                  associated with the growth or progression of pediatric tumors
+                  for which requirement for early pediatric evaluation of drugs
+                  and biologics which are directed at this target would be
+                  waived.
                 </i>
               )}
               {tab === 'UnspecifyTarget' && (

@@ -80,7 +80,9 @@ function ProfileHeader() {
                 <Link to={`/target/${ensgId}`}>
                   <FontAwesomeIcon icon={faDna} /> {approvedSymbol}
                 </Link>
-                <RMTLPopover />
+                <RMTLPopover
+                  otherStyle={{ RMTLContainer: { marginLeft: '15px' } }}
+                />
               </Typography>
             }
           />
