@@ -42,6 +42,7 @@ function Header({
   subtitle = null,
   externalLinks,
   rightContent = null,
+  RMTLPopover = null,
 }) {
   const classes = useStyles();
 
@@ -78,6 +79,9 @@ function Header({
               <Typography variant="body2" className={classes.externalLinks}>
                 {loading ? <Skeleton width="50vw" /> : externalLinks}
               </Typography>
+            </Grid>
+            <Grid container>
+              {loading ? <Skeleton width="50vw" /> : RMTLPopover}
             </Grid>
           </Grid>
         </Grid>
