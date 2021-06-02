@@ -27,7 +27,18 @@ function TargetPage({ location, match }) {
   const uniprotId = data?.target.proteinAnnotations?.id;
 
   return (
-    <BasePage title={symbol}>
+    <BasePage
+      title={
+        location.pathname.includes('associations')
+          ? `Diseases associated with ${symbol}`
+          : `${symbol} profile page`
+      }
+      description={
+        location.pathname.includes('associations')
+          ? `Ranked list of diseases and phenotypes associated with ${symbol}`
+          : `Annotation information for ${symbol}`
+      }
+    >
       <ScrollToTop />
       <Header
         loading={loading}
