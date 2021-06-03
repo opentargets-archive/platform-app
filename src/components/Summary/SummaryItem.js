@@ -31,8 +31,7 @@ function SummaryItem({ definition, request, renderSummary, chipText }) {
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
       <Card
-        className={classNames({
-          [classes.card]: true,
+        className={classNames(classes.card, {
           [classes.cardHasData]: hasData,
           [classes.cardError]: error,
         })}
@@ -43,8 +42,7 @@ function SummaryItem({ definition, request, renderSummary, chipText }) {
           className={classes.cardHeader}
           avatar={
             <Avatar
-              className={classNames({
-                [classes.avatar]: true,
+              className={classNames(classes.avatar, {
                 [classes.avatarHasData]: hasData,
                 [classes.avatarError]: error,
               })}
@@ -55,8 +53,7 @@ function SummaryItem({ definition, request, renderSummary, chipText }) {
           title={
             <>
               <Typography
-                className={classNames({
-                  [classes.title]: true,
+                className={classNames(classes.title, {
                   [classes.titleHasData]: hasData,
                   [classes.titleError]: error,
                 })}
@@ -79,8 +76,7 @@ function SummaryItem({ definition, request, renderSummary, chipText }) {
           <Grid item>
             <Typography
               align="center"
-              className={classNames({
-                [classes.subheader]: true,
+              className={classNames(classes.subheader, {
                 [classes.subheaderHasData]: hasData,
                 [classes.subheaderError]: error,
               })}
