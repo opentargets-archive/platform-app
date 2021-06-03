@@ -13,6 +13,7 @@ import { Helmet } from 'react-helmet';
 import {
   appTitle,
   appDescription,
+  appCanonicalUrl,
   externalLinks,
   mainMenuItems,
 } from '../../constants';
@@ -116,6 +117,7 @@ const HomePage = () => {
     <>
       <Helmet title={appTitle}>
         <meta name="description" content={appDescription} />
+        <link rel="canonical" href={appCanonicalUrl} />
       </Helmet>
       <Grid
         container
