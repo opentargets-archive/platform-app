@@ -38,6 +38,7 @@ function TargetPage({ location, match }) {
           ? `Ranked list of diseases and phenotypes associated with ${symbol}`
           : `Annotation information for ${symbol}`
       }
+      location={location}
     >
       <ScrollToTop />
       <Header
