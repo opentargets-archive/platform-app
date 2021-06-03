@@ -11,7 +11,7 @@ import Profile from './Profile';
 
 const EVIDENCE_PAGE_QUERY = loader('./EvidencePageQuery.gql');
 
-function EvidencePage({ match }) {
+function EvidencePage({ location, match }) {
   const { ensgId, efoId } = match.params;
   const { loading, data } = useQuery(EVIDENCE_PAGE_QUERY, {
     variables: { ensgId, efoId },
@@ -28,6 +28,7 @@ function EvidencePage({ match }) {
     <BasePage
       title={`Evidence for ${symbol} and ${name}`}
       description={`${symbol} is associated with ${name} through Open Targets Platform evidence that is aggregated from genetic evidence, somatic mutations, known drugs, differential expression experiments, pathways & systems biology, text mining, and animal model data sources`}
+      location={location}
     >
       <Header
         loading={loading}
