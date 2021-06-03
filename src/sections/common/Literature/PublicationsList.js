@@ -1,68 +1,126 @@
 import React, { useEffect } from 'react';
 import PublicationWrapper from '../../../components/PublicationsDrawer/PublicationWrapper';
 import { getPage, Table } from '../../../components/Table';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
-  literaturesIdsState,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+  useRecoilCallback,
+} from 'recoil';
+import {
+  _literaturesIdsState,
+  fetchLiteratures,
+  _literatureNextCursorState,
+  displayedPublications,
   currentPageState,
   publicationsState,
   cursorState,
+  selectedEntitiesState,
+  similarEntitiesQuery,
+  _literaturesOrderedState,
+  literaturesOrderedState,
+  categoryState,
+  categoryListState,
+  settingsState,
 } from './atoms';
 import { useState } from 'react';
-
-const parsePublications = publications =>
-  publications.map(pub => {
-    const row = {};
-    row.europePmcId = pub.id;
-    row.fullTextOpen = pub.inEPMC === 'Y' || pub.inPMC === 'Y' ? true : false;
-    row.title = pub.title;
-    row.year = pub.pubYear;
-    row.abstract = pub.abstractText;
-    row.openAccess = pub.isOpenAccess === 'N' ? false : true;
-    row.authors = pub.authorList?.author || [];
-    row.journal = {
-      ...pub.journalInfo,
-      page: pub.pageInfo,
-    };
-    return row;
-  });
 
 const PublicationsList = ({
   hideSearch = false,
   handleRowsPerPageChange,
   count,
-  newCursor = null,
-  loading: parentLoading,
 }) => {
-  const literaturesIds = useRecoilValue(literaturesIdsState);
+  const category = useRecoilValue(categoryState);
+  const categories = useRecoilValue(categoryListState);
+  const { id, query, entity } = useRecoilValue(settingsState);
+  const [nextCursor, setNextCursor] = useRecoilState(
+    _literatureNextCursorState
+  );
+  const displayedPubs = useRecoilValue(displayedPublications);
+  const litsIds = useRecoilValue(_literaturesIdsState);
+  // const [orderedIds, setOrderedIds] = useRecoilState(_literaturesOrderedState);
+  const [localIds, setLocalIds] = useRecoilState(literaturesOrderedState);
+  // const setCursor = useRecoilValue(displayedPublications);
   const setCursor = useSetRecoilState(cursorState);
 
   const [compPage, setCompPage] = useState(0);
   const [compPagePubs, setCompPagePubs] = useState([]);
+  const selectedEntities = useRecoilValue(selectedEntitiesState);
 
   const [page, setPage] = useRecoilState(currentPageState);
   const publications = useRecoilValue(publicationsState);
 
+  useEffect(
+    () => {
+      const list = page !== 0 ? [...localIds, ...litsIds] : litsIds;
+      console.log({ list });
+      setLocalIds(list);
+      console.log({ litsIds, localIds });
+    },
+    [litsIds]
+  );
+
+  const handlePageChange = useRecoilCallback(
+    ({ snapshot, set }) => async newPage => {
+      if (5 * newPage + 5 > compPagePubs.length && nextCursor !== null) {
+        // const response = await fetchLiteratures({
+        //   id,
+        //   query,
+        //   cursor: nextCursor,
+        //   entities: selectedEntities,
+        //   category,
+        //   categories,
+        //   entity,
+        // });
+        // const data = response.data[entity];
+        // const {
+        //   literatureOcurrences: { rows, cursor },
+        // } = data;
+        setCursor(nextCursor);
+        // const newLiteratureIds = rows.map(({ pmid }) => pmid);
+
+        // const currentLits = snapshot.getPromise(_literaturesIdsState);
+
+        // console.log({ currentLits, newLiteratureIds });
+
+        setPage(newPage);
+      } else {
+        setPage(newPage);
+      }
+      // pre-fetch user info
+      // set(currentUserIDState, userID); // change current user to start new render
+    }
+  );
+
   const _handlePageChange = newPage => {
-    if (5 * newPage + 5 > compPagePubs.length && newCursor !== null) {
-      setCursor(newCursor);
+    if (5 * newPage + 5 > compPagePubs.length && nextCursor !== null) {
+      setCursor(nextCursor);
       setPage(newPage);
-      setCompPage(newPage);
     } else {
-      setCompPage(newPage);
+      setPage(newPage);
     }
   };
 
   useEffect(
     () => {
-      if (page !== compPage) {
-        setCompPage(page);
-      }
+      setCompPagePubs([]);
+      setPage(0);
       return () => {};
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page]
+    [selectedEntities]
   );
+
+  // useEffect(
+  //   () => {
+  //     if (page !== compPage) {
+  //       setCompPage(page);
+  //     }
+  //     return () => {};
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [page]
+  // );
 
   useEffect(
     () => {
@@ -92,24 +150,16 @@ const PublicationsList = ({
     },
   ];
 
-  const parsedPublications = parsePublications(compPagePubs);
-
-  const rows =
-    literaturesIds.length === compPagePubs.length || compPage === 0
-      ? getPage(parsedPublications, compPage, 5)
-      : getPage(parsedPublications, compPage - 1, 5);
-
   return (
     <Table
       showGlobalFilter={!hideSearch}
-      loading={parentLoading}
       columns={columns}
-      rows={rows}
+      rows={displayedPubs}
       rowCount={count}
       rowsPerPageOptions={[5, 10, 25]}
-      page={compPage}
+      page={page}
       pageSize={5}
-      onPageChange={_handlePageChange}
+      onPageChange={handlePageChange}
       onRowsPerPageChange={handleRowsPerPageChange}
     />
   );
