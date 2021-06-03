@@ -13,6 +13,7 @@ import {
 import { Element } from 'react-scroll';
 
 import ErrorBoundary from '../ErrorBoundary';
+import Chip from '../Chip';
 import SectionError from './SectionError';
 import sectionStyles from './sectionStyles';
 import { createShortName } from '../Summary/utils';
@@ -23,6 +24,7 @@ function SectionItem({
   renderDescription,
   renderBody,
   tags,
+  chipText,
 }) {
   const classes = sectionStyles();
   const { loading, error, data } = request;
@@ -50,15 +52,20 @@ function SectionItem({
                 </Avatar>
               }
               title={
-                <Typography
-                  className={classNames({
-                    [classes.title]: true,
-                    [classes.titleHasData]: true,
-                    [classes.titleError]: error,
-                  })}
-                >
-                  {definition.name}
-                </Typography>
+                <Grid container justify="space-between">
+                  <Typography
+                    className={classNames({
+                      [classes.title]: true,
+                      [classes.titleHasData]: true,
+                      [classes.titleError]: error,
+                    })}
+                  >
+                    {definition.name}
+                  </Typography>
+                  {chipText ? (
+                    <Chip label={chipText} className={classes.chip} />
+                  ) : null}
+                </Grid>
               }
               subheader={
                 <Typography

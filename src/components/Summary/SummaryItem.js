@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { scroller } from 'react-scroll';
 
-import Chip from './../Chip';
+import Chip from '../Chip';
 import summaryStyles from './summaryStyles';
 import { createShortName } from './utils';
 
