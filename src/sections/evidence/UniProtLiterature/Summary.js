@@ -15,7 +15,7 @@ function Summary({ definition }) {
         const { count } = uniprotLiteratureSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
-      chipText="Genetic Associations"
+      chipText="Genetic associations"
     />
   );
 }

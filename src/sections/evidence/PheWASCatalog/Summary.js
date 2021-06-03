@@ -15,7 +15,7 @@ function Summary({ definition }) {
         const { count } = phewasCatalogSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
-      chipText="Genetic Associations"
+      chipText="Genetic associations"
     />
   );
 }

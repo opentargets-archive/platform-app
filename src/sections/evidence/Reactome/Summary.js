@@ -15,7 +15,7 @@ function Summary({ definition }) {
         const { count } = reactomeSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
-      chipText="Pathways & Sys Bio"
+      chipText="Pathways & sys bio"
     />
   );
 }

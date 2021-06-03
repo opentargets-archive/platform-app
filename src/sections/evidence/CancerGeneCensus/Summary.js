@@ -15,7 +15,7 @@ function Summary({ definition }) {
         const { count } = cancerGeneCensusSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
-      chipText="Somatic Mutations"
+      chipText="Somatic mutations"
     />
   );
 }

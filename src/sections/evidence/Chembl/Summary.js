@@ -16,7 +16,7 @@ function Summary({ definition }) {
         const { count } = chemblSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
-      chipText="Known Drugs"
+      chipText="Known drugs"
     />
   );
 }

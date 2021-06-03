@@ -18,7 +18,7 @@ function Summary({ definition }) {
           data.slapEnrich.count === 1 ? 'y' : 'ies'
         }`
       }
-      chipText="Pathways & Sys Bio"
+      chipText="Pathways & sys bio"
     />
   );
 }

@@ -20,7 +20,7 @@ function Summary({ definition }) {
           data.openTargetsGenetics.count === 1 ? 'y' : 'ies'
         }`
       }
-      chipText="Genetic Associations"
+      chipText="Genetic associations"
     />
   );
 }
