@@ -309,6 +309,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText="Genetic associations"
       request={{ loading: initialLoading, data: rows }}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

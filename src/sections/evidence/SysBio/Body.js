@@ -73,6 +73,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
   return (
     <SectionItem
       definition={definition}
+      chipText="Pathways & sys bio"
       request={request}
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={data => (

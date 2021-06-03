@@ -181,6 +181,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
   return (
     <SectionItem
       definition={definition}
+      chipText="Somatic mutations"
       request={request}
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={({

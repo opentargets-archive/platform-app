@@ -192,6 +192,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
   return (
     <SectionItem
       definition={definition}
+      chipText="Literature"
       request={{ loading, error, data }}
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={data => {

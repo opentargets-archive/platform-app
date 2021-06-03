@@ -169,6 +169,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText="Pathways & sys bio"
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

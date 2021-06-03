@@ -182,6 +182,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText="Known drugs"
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
