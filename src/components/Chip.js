@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Chip = ({ label, title }) => {
+const Chip = ({ label, title, disabled }) => {
   const classes = useStyles();
   return (
     <MUIChip
@@ -19,6 +19,7 @@ const Chip = ({ label, title }) => {
       title={title}
       variant="outlined"
       size="small"
+      disabled={disabled}
     />
   );
 };

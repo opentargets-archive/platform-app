@@ -61,7 +61,7 @@ function SummaryItem({ definition, request, renderSummary, chipText }) {
               >
                 {definition.name}
               </Typography>
-              {chipText ? <Chip label={chipText} /> : null}
+              {chipText ? <Chip label={chipText} disabled={!hasData} /> : null}
             </>
           }
         />
