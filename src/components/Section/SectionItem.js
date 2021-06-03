@@ -42,9 +42,7 @@ function SectionItem({
               }}
               avatar={
                 <Avatar
-                  className={classNames({
-                    [classes.avatar]: true,
-                    [classes.avatarHasData]: true,
+                  className={classNames(classes.avatar, classes.avatarHasData, {
                     [classes.avatarError]: error,
                   })}
                 >
@@ -54,9 +52,7 @@ function SectionItem({
               title={
                 <Grid container justify="space-between">
                   <Typography
-                    className={classNames({
-                      [classes.title]: true,
-                      [classes.titleHasData]: true,
+                    className={classNames(classes.title, classes.titleHasData, {
                       [classes.titleError]: error,
                     })}
                   >
@@ -69,11 +65,13 @@ function SectionItem({
               }
               subheader={
                 <Typography
-                  className={classNames({
-                    [classes.description]: true,
-                    [classes.descriptionHasData]: true,
-                    [classes.descriptionError]: error,
-                  })}
+                  className={classNames(
+                    classes.description,
+                    classes.descriptionHasData,
+                    {
+                      [classes.descriptionError]: error,
+                    }
+                  )}
                 >
                   {renderDescription()}
                 </Typography>
