@@ -47,7 +47,7 @@ function RMTLPopOver({ otherStyle }) {
   const id = open ? 'simple-popover' : undefined;
 
   // Tab
-  const defaultTab = 'RMTL';
+  const defaultTab = 'RMT';
   const [tab, setTab] = useState(defaultTab);
 
   const handleChangeTab = (_, tab) => {
@@ -105,19 +105,19 @@ function RMTLPopOver({ otherStyle }) {
               onChange={handleChangeTab}
               className={classes.tabContainer}
             >
-              <Tab value="RMTL" icon={<RelevantIcon />} />
-              <Tab value="NonRMTL" icon={<NonRelevantIcon />} />
+              <Tab value="RMT" icon={<RelevantIcon />} />
+              <Tab value="NonRMT" icon={<NonRelevantIcon />} />
               <Tab value="UnspecifyTarget" icon={<UnspecifiedIcon />} />
             </Tabs>
             <Typography className={classes.typography}>
-              {tab === 'RMTL' && (
+              {tab === 'RMT' && (
                 <i>
                   Molecular target for which existing evidence and/or biologic
                   rationale exist to determine potential relevance to the growth
                   or progression of one or more pediatric cancers.
                 </i>
               )}
-              {tab === 'NonRMTL' && (
+              {tab === 'NonRMT' && (
                 <i>
                   Molecular target for which there is evidence that it is not
                   associated with the growth or progression of pediatric tumors
