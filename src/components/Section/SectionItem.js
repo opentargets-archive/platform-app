@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import {
   Avatar,
@@ -29,9 +29,30 @@ function SectionItem({
   const classes = sectionStyles();
   const { loading, error, data } = request;
   const shortName = createShortName(definition);
+  const sectionEl = useRef(null);
+
+  useEffect(
+    () => {
+      let isCurrent = true;
+
+      setTimeout(() => {
+        if (isCurrent) {
+          const { hash } = window.location;
+          if (hash.slice(1) === definition.id) {
+            sectionEl.current.scrollIntoView();
+          }
+        }
+      }, 700);
+
+      return () => {
+        isCurrent = false;
+      };
+    },
+    [definition.id]
+  );
 
   return (
-    <Grid id={definition.id} item xs={12}>
+    <Grid ref={sectionEl} item xs={12}>
       <Element name={definition.id}>
         <Card elevation={0}>
           <ErrorBoundary>

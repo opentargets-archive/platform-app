@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { gql } from '@apollo/client';
 
 import { createSummaryFragment } from '../../components/Summary/utils';
@@ -27,22 +27,6 @@ const DISEASE_PROFILE_QUERY = gql`
 `;
 
 function Profile({ efoId, name }) {
-  useEffect(() => {
-    let isCurrent = true;
-
-    setTimeout(() => {
-      if (isCurrent) {
-        const { hash } = window.location;
-        const el = document.getElementById(hash.slice(1));
-        el.scrollIntoView();
-      }
-    }, 500);
-
-    return () => {
-      isCurrent = false;
-    };
-  }, []);
-
   return (
     <PlatformApiProvider
       entity="disease"
