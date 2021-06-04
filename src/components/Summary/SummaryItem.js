@@ -10,7 +10,6 @@ import {
 } from '@material-ui/core';
 import { scroller } from 'react-scroll';
 
-import Chip from '../Chip';
 import summaryStyles from './summaryStyles';
 import { createShortName } from './utils';
 
@@ -61,7 +60,14 @@ function SummaryItem({ definition, request, renderSummary, chipText }) {
               >
                 {definition.name}
               </Typography>
-              {chipText ? <Chip label={chipText} disabled={!hasData} /> : null}
+              {chipText ? (
+                <Typography
+                  className={classNames({ [classes.title]: !hasData })}
+                  variant="caption"
+                >
+                  {chipText}
+                </Typography>
+              ) : null}
             </>
           }
         />
