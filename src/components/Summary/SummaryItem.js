@@ -62,7 +62,9 @@ function SummaryItem({ definition, request, renderSummary, chipText }) {
               </Typography>
               {chipText ? (
                 <Typography
-                  className={classNames({ [classes.title]: !hasData })}
+                  className={classNames(classes.subtitle, {
+                    [classes.subtitleHasData]: hasData,
+                  })}
                   variant="caption"
                 >
                   {chipText}
