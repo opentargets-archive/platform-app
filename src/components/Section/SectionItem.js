@@ -31,7 +31,7 @@ function SectionItem({
   const shortName = createShortName(definition);
 
   return (
-    <Grid item xs={12}>
+    <Grid id={definition.id} item xs={12}>
       <Element name={definition.id}>
         <Card elevation={0}>
           <ErrorBoundary>
