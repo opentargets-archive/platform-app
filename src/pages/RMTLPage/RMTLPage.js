@@ -8,9 +8,9 @@ import BasePage from '../../components/BasePage';
 import Link from '../../components/Link';
 import DataDownloader from '../../components/DataDownloader';
 import OtTableRF from '../../components/OtTableRF';
-//import RelevantIcon from '../../components/RMTL/RelevantIcon';
-//import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
-//import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
+import RelevantIcon from '../../components/RMTL/RelevantIcon';
+import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
+import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import RMTLData from './RMTL.json';
 
 function getRows(downloadData) {
@@ -62,9 +62,9 @@ function getColumns(
       id: 'designation',
       label: 'Designation',
       renderCell: row => {
-        let RMTLIcon = '[NR]'; // <NonRelevantIcon />
+        let RMTLIcon = <NonRelevantIcon />;
         if (row.designation === 'Relevant Molecular Target') {
-          RMTLIcon = '[R]'; // <RelevantIcon />
+          RMTLIcon = <RelevantIcon />;
         }
         return (
           <p>
@@ -217,6 +217,9 @@ class RMTLPage extends Component {
       this.versionFilterHandler
     );
     const rowsPerPageOptions = [10, 25, 50];
+    const FDA_RMTL_DocumentationUrl = '/doc';
+    const FDA_Publication =
+      'https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target';
 
     return (
       <BasePage>
@@ -233,29 +236,19 @@ class RMTLPage extends Component {
           Targets in this list are important for studies of pediatric cancer,
           and have special legal requirements associated with drug development.
           See our
-          <Link
-            external
-            to="https://platform-docs.opentargets.org/getting-started"
-          >
-            {' '}
-            FDA RMTL Documentation{' '}
-          </Link>
+          <Link to={FDA_RMTL_DocumentationUrl}> FDA RMTL Documentation </Link>
           or the official{' '}
-          <Link
-            external
-            to="https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target"
-          >
+          <Link external to={FDA_Publication}>
             FDA publication{' '}
           </Link>
           for details.
         </Typography>
         <Typography paragraph>
-          Each target in the list is designated as either a{' '}
-          {/* <RelevantIcon/> */} [R]
-          <b> Relevant Molecular Target</b> or {/* <NonRelevantIcon/> */} [NR]
+          Each target in the list is designated as either a <RelevantIcon />{' '}
+          <b> Relevant Molecular Target </b> or <NonRelevantIcon />{' '}
           <b> Non-Relevant Molecular Target</b>. Any target not in this list is
-          considered an {/* <UnspecifiedIcon /> */} [?]
-          <b> Unspecified Target</b> by default.
+          considered an <UnspecifiedIcon /> <b> Unspecified Target</b> by
+          default.
         </Typography>
         <br />
         <hr />
