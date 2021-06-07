@@ -8,6 +8,7 @@ import {
   TepLink,
 } from '../../components/ExternalLink';
 import HeaderBase from '../../components/Header';
+import RMTLPopover from '../../components/RMTL/RMTLPopover';
 
 function Header({ loading, ensgId, uniprotId, symbol, name }) {
   const ensemblUrl = `http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`;
@@ -44,6 +45,7 @@ function Header({ loading, ensgId, uniprotId, symbol, name }) {
           View {symbol} in Open Targets Genetics
         </Button>
       }
+      RMTLPopover={<RMTLPopover />}
     />
   );
 }

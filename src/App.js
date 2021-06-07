@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
-
 import OtUiThemeProvider from './components/OtUiThemeProvider';
 import client from './client';
 import initLocalStorage from './utils/initLocalStorage';
@@ -14,6 +13,7 @@ import DrugPage from './pages/DrugPage';
 import TargetPage from './pages/TargetPage';
 import EvidencePage from './pages/EvidencePage';
 import VariantsPage from './pages/VariantsPage';
+import DocPage from './pages/DocumentPage';
 import NotFoundPage from './pages/NotFoundPage';
 import RMTLPage from './pages/RMTLPage/RMTLPage';
 
@@ -31,6 +31,7 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/" component={HomePage} />
+              <Route path="/doc" component={DocPage} />
               <Route path="/search" component={SearchPage} />
               <Route path="/downloads" component={DownloadsPage} />
               <Route path="/FDA_RMTL" component={RMTLPage} />

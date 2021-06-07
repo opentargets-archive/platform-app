@@ -76,6 +76,11 @@ export const mainMenuItems = [
     url: 'https://platform-docs.opentargets.org/getting-started',
     external: true,
   },
+  {
+    name: 'RMTL Documentation',
+    url: '/doc',
+    external: false,
+  },
   // Downloads
   {
     name: 'Data downloads',
