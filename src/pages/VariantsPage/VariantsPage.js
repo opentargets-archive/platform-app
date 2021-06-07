@@ -319,11 +319,12 @@ const columns = [
   },
 ];
 
-const VariantsPage = () => {
+const VariantsPage = ({ location }) => {
   return (
     <BasePage
       title="Variant definitions"
       description="Variant definitions, including Sequence Ontology (SO) consequence terms, descriptions, and accession IDs"
+      location={location}
     >
       <Typography variant="h4" component="h1" paragraph>
         Variant definitions

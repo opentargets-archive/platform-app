@@ -8,11 +8,12 @@ import Footer from './Footer';
 import {
   appTitle,
   appDescription,
+  appCanonicalUrl,
   externalLinks,
   mainMenuItems,
 } from '../constants';
 
-const BasePage = ({ title, children, description }) => {
+const BasePage = ({ title, children, description, location }) => {
   const composedTitle = `${title ? title + ' | ' : ''} ${appTitle}`;
 
   return (
@@ -28,6 +29,10 @@ const BasePage = ({ title, children, description }) => {
     >
       <Helmet title={composedTitle}>
         <meta name="description" content={description || appDescription} />
+        <link
+          rel="canonical"
+          href={appCanonicalUrl + (location?.pathname || '')}
+        />
       </Helmet>
       {children}
     </Page>

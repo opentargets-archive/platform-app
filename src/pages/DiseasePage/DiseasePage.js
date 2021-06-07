@@ -35,6 +35,7 @@ function DiseasePage({ location, match }) {
           ? `Ranked list of targets associated with ${name}`
           : `Annotation information for ${name}`
       }
+      location={location}
     >
       <Header loading={loading} efoId={efoId} name={name} />
       <ScrollToTop />
