@@ -8,68 +8,97 @@ import RelevantIcon from './RelevantIcon';
 import NonRelevantIcon from './NonRelevantIcon';
 import UnspecifiedIcon from './UnspecifiedIcon';
 
+function RMTLHelper(fdaDesignationValue) {
+  let rmtlObj = {
+    fdaDesignation: 'Unspecify Target',
+    icon: <UnspecifiedIcon />,
+  };
+
+  if (fdaDesignationValue === 'RMT') {
+    rmtlObj = {
+      fdaDesignation: 'Relevant Molecular Target',
+      icon: <RelevantIcon />,
+    };
+  } else if (fdaDesignationValue === 'NonRMT') {
+    rmtlObj = {
+      fdaDesignation: 'Non-Relevant Molecular Target',
+      icon: <NonRelevantIcon />,
+    };
+  }
+
+  return rmtlObj;
+}
 function RMTLPopOver({ otherStyle }) {
   const useStyles = makeStyles(theme => ({
-    rmtlTitle: {
+    rmtlHeaderText: {
+      display: 'inline',
+      cursor: 'pointer',
+      fontSize: '14px',
+    },
+    fdaDesignation: {
       color: '#3489CA',
     },
+    iconContainer: {
+      display: 'inline',
+    },
+    popover: {
+      maxWidth: theme.spacing(110),
+      fontSize: '14px',
+    },
     tabContainer: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      padding: theme.spacing(2),
+      paddingBottom: theme.spacing(0),
+    },
+    toLandingPageLinkBox: {
+      display: 'inline',
+      width: '100%',
+    },
+    toLandingPageLink: {
+      marginTop: '20px',
+      float: 'right',
     },
     typography: {
       padding: theme.spacing(2),
       paddingTop: theme.spacing(1),
-    },
-    popover: {
-      maxWidth: theme.spacing(110),
-    },
-    landPage: {
-      margin: theme.spacing(0),
-      padding: theme.spacing(0),
-      paddingTop: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      float: 'right',
+      fontSize: '14px',
     },
     ...otherStyle,
   }));
 
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
+  const defaultTab = 'RMT';
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [tab, setTab] = useState(defaultTab);
+
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  // Tab
-  const defaultTab = 'RMT';
-  const [tab, setTab] = useState(defaultTab);
-
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleChangeTab = (_, tab) => {
     setTab(tab);
   };
 
   const RMTLlandingPageUrl = '/rmtl';
 
+  let fdaDesignation = 'RMT'; // rmtlObj content will update depending if a Target is RMT, NonRMT or UnspecifyTarget
+  let rmtlObj = RMTLHelper(fdaDesignation);
+
   return (
     <div className={classes.RMTLContainer} style={{ display: 'inline' }}>
-      <Typography
-        variant="body2"
-        onClick={handleClick}
-        style={{ display: 'inline' }}
-      >
-        <span className={classes.rmtl}>FDA RMTL:</span>
-        <span className={classes.rmtlTitle}>
-          {' '}
-          <b>Relevant Molecular Target </b>
+      <div onClick={handleClick} className={classes.rmtlHeaderText}>
+        <span>FDA RMTL: </span>
+        <span className={classes.fdaDesignation}>
+          <b>{rmtlObj.fdaDesignation}</b>
         </span>
-        <RelevantIcon />
-      </Typography>{' '}
+        <div className={classes.iconContainer}> {rmtlObj.icon} </div>
+      </div>
+
       <Popover
         id={id}
         open={open}
@@ -92,14 +121,6 @@ function RMTLPopOver({ otherStyle }) {
           alignItems="stretch"
         >
           <Grid item>
-            <Typography className={classes.landPage}>
-              Search the RMTL within Open Targets{' '}
-              <Link external to={RMTLlandingPageUrl}>
-                here
-              </Link>
-            </Typography>
-          </Grid>
-          <Grid item>
             <Tabs
               value={tab}
               onChange={handleChangeTab}
@@ -108,30 +129,36 @@ function RMTLPopOver({ otherStyle }) {
               <Tab value="RMT" icon={<RelevantIcon />} />
               <Tab value="NonRMT" icon={<NonRelevantIcon />} />
               <Tab value="UnspecifyTarget" icon={<UnspecifiedIcon />} />
+              <div className={classes.toLandingPageLinkBox}>
+                <span className={classes.toLandingPageLink}>
+                  Search the RMTL within Open Targets{' '}
+                  <Link to={RMTLlandingPageUrl}>here</Link>
+                </span>
+              </div>
             </Tabs>
             <Typography className={classes.typography}>
               {tab === 'RMT' && (
-                <i>
+                <>
                   Molecular target for which existing evidence and/or biologic
                   rationale exist to determine potential relevance to the growth
                   or progression of one or more pediatric cancers.
-                </i>
+                </>
               )}
               {tab === 'NonRMT' && (
-                <i>
+                <>
                   Molecular target for which there is evidence that it is not
                   associated with the growth or progression of pediatric tumors
                   for which requirement for early pediatric evaluation of drugs
                   and biologics which are directed at this target would be
                   waived.
-                </i>
+                </>
               )}
               {tab === 'UnspecifyTarget' && (
-                <i>
+                <>
                   {' '}
                   No guidance on whether this target is relevant for pediatric
                   cancer drug development.{' '}
-                </i>
+                </>
               )}{' '}
               Source:{' '}
               <Link

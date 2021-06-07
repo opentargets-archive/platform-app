@@ -81,7 +81,7 @@ function ProfileHeader() {
                   <FontAwesomeIcon icon={faDna} /> {approvedSymbol}
                 </Link>
                 <RMTLPopover
-                  otherStyle={{ RMTLContainer: { marginLeft: '15px' } }}
+                  otherStyle={{ RMTLContainer: { marginLeft: '50px' } }}
                 />
               </Typography>
             }

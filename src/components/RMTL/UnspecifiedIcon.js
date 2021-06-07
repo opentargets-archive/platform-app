@@ -1,26 +1,27 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Avatar } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-  rmtlIcon: {
-    height: '20px',
-    width: '20px',
+  avatar: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
     backgroundColor: 'gray',
-    borderRadius: '50%',
-    display: 'inline-block',
-    'line-height': '20px',
-    'font-size': '12px',
-    'text-align': 'center',
-    color: 'white',
+    display: 'inline-flex',
+    cursor: 'pointer',
+    fontSize: theme.spacing(2),
   },
 }));
 
 function RelevantIcon() {
   const classes = useStyles();
   return (
-    <span className={classes.rmtlIcon} title="Unspecified Target">
+    <Avatar
+      className={classes.avatar}
+      alt="Unspecified Target Icon"
+      title="Unspecified Target"
+    >
       ?
-    </span>
+    </Avatar>
   );
 }
 
