@@ -17,6 +17,7 @@ import {
 import Link from '../../components/Link';
 import { Skeleton } from '@material-ui/lab';
 import usePlatformApi from '../../hooks/usePlatformApi';
+import RMTLPopover from '../../components/RMTL/RMTLPopover';
 
 const useStyles = makeStyles(theme => ({
   card: { height: '100%' },
@@ -79,6 +80,9 @@ function ProfileHeader() {
                 <Link to={`/target/${ensgId}`}>
                   <FontAwesomeIcon icon={faDna} /> {approvedSymbol}
                 </Link>
+                <RMTLPopover
+                  otherStyle={{ RMTLContainer: { marginLeft: '50px' } }}
+                />
               </Typography>
             }
           />
