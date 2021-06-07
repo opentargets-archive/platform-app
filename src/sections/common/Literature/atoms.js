@@ -7,7 +7,7 @@ import { europePmcBiblioSearchPOSTQuery } from '../../../utils/urls';
 // ------------------------------------------
 // Helpers
 // ------------------------------------------
-const parsePublications = publications =>
+export const parsePublications = publications =>
   publications.map(pub => {
     const row = {};
     row.europePmcId = pub.id;
@@ -96,28 +96,24 @@ export const literaturesOrderedState = atom({
   default: [],
 });
 
+export const allPublicationsState = atom({
+  key: 'allPublicationsState',
+  default: [],
+});
+
+export const _literaturesOrderedState = atom({
+  key: '_literaturesOrderedState',
+  default: [],
+});
+
+export const _nextCursorState = atom({
+  key: '_nextCursorState',
+  default: null,
+});
+
 // ------------------------------------------
 // Selectors
 // ------------------------------------------
-export const _literaturesOrderedState = selector({
-  key: '_literaturesOrderedState',
-  get: ({ get }) => {
-    const page = get(currentPageState);
-    const local = get(literaturesOrderedState);
-    const listFromRequest = get(_literaturesIdsState);
-    return page !== 0 ? listFromRequest : [...local, ...listFromRequest];
-
-    // if (isEmpty(data)) return [];
-    // const { literatureOcurrences } = data;
-    // return literatureOcurrences?.rows?.map(({ pmid }) => pmid);
-  },
-  set: ({ get, set }, newValue) => {
-    const local = get(literaturesOrderedState);
-    const listFromRequest = get(_literaturesIdsState);
-    return set(literaturesOrderedState, newValue);
-  },
-});
-
 export const _literaturesIdsState = selector({
   key: '_literaturesIdsState',
   get: ({ get }) => {
@@ -128,8 +124,8 @@ export const _literaturesIdsState = selector({
   },
 });
 
-export const _literatureNextCursorState = selector({
-  key: '_literatureNextCursorState',
+export const _literatureCursorState = selector({
+  key: '_literatureCursorState',
   get: ({ get }) => {
     const data = get(_similarEntitiesQuery);
     if (isEmpty(data)) return null;
@@ -161,14 +157,14 @@ export const _entitiesState = selector({
 export const publicationsState = selector({
   key: 'literaturePublications',
   get: ({ get }) => {
-    // const page = get(currentPageState);
-    // if(page) = []
-    const literaturesIds = get(_literaturesIdsState);
-    if (isEmpty(literaturesIds)) return [];
-    // const page = get(currentPageState);
-    // const ids = page === 0 ? literaturesIds : literaturesIds.slice(5 * page);
-
-    const publications = get(literaturesEuropePMCQuery({ literaturesIds }));
+    const literaturesIds = get(_literaturesOrderedState);
+    const cutParameter =
+      literaturesIds.length <= 25 ? 0 : literaturesIds.length - 25;
+    const next = [...literaturesIds.slice(cutParameter)];
+    if (isEmpty(next)) return [];
+    const publications = get(
+      literaturesEuropePMCQuery({ literaturesIds: next })
+    );
     const parsedPublications = parsePublications(publications);
     return parsedPublications;
   },
@@ -178,8 +174,8 @@ export const displayedPublications = selector({
   key: 'displayedPublications',
   get: ({ get }) => {
     const page = get(currentPageState);
-    const publications = get(publicationsState);
-    const literaturesIds = get(_literaturesIdsState);
+    const publications = get(literaturesState);
+    const literaturesIds = get(_literaturesOrderedState);
     if (isEmpty(publications)) return [];
     const rows =
       literaturesIds.length === publications.length || page === 0
@@ -257,16 +253,18 @@ export const similarEntitiesQuery = selectorFamily({
     return response.data[entity];
   },
 });
-// export const literaturesState = selectorFamily({
-//   key: 'literaturesState',
-//   default: [],
-//   get: ({ literaturesIds, data }) => () => {
-//     const mapedResults = new Map(data.map(key => [key.pmid, key]));
-//     const ordered = literaturesIds.reduce((acc, key) => {
-//       const pub = mapedResults.get(key);
-//       if (pub) acc.push(pub);
-//       return acc;
-//     }, []);
-//     return ordered;
-//   },
-// });
+
+export const literaturesState = selector({
+  key: 'literaturesState',
+  get: ({ get }) => {
+    const data = get(allPublicationsState);
+    const literaturesIds = get(_literaturesOrderedState);
+    const mapedResults = new Map(data.map(key => [key.europePmcId, key]));
+    const ordered = literaturesIds.reduce((acc, key) => {
+      const pub = mapedResults.get(key);
+      if (pub) acc.push(pub);
+      return acc;
+    }, []);
+    return ordered;
+  },
+});

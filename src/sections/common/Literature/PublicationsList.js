@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PublicationWrapper from '../../../components/PublicationsDrawer/PublicationWrapper';
-import { getPage, Table } from '../../../components/Table';
+import { Table } from '../../../components/Table';
 import {
   useRecoilState,
   useRecoilValue,
@@ -9,21 +9,19 @@ import {
 } from 'recoil';
 import {
   _literaturesIdsState,
-  fetchLiteratures,
-  _literatureNextCursorState,
+  _nextCursorState,
   displayedPublications,
   currentPageState,
   publicationsState,
-  cursorState,
   selectedEntitiesState,
-  similarEntitiesQuery,
   _literaturesOrderedState,
-  literaturesOrderedState,
+  _literatureCursorState,
   categoryState,
   categoryListState,
   settingsState,
+  fetchLiteratures,
+  allPublicationsState,
 } from './atoms';
-import { useState } from 'react';
 
 const PublicationsList = ({
   hideSearch = false,
@@ -33,104 +31,70 @@ const PublicationsList = ({
   const category = useRecoilValue(categoryState);
   const categories = useRecoilValue(categoryListState);
   const { id, query, entity } = useRecoilValue(settingsState);
-  const [nextCursor, setNextCursor] = useRecoilState(
-    _literatureNextCursorState
-  );
+  const nextCursor = useRecoilValue(_nextCursorState);
+  const cursor = useRecoilValue(_literatureCursorState);
   const displayedPubs = useRecoilValue(displayedPublications);
-  const litsIds = useRecoilValue(_literaturesIdsState);
-  // const [orderedIds, setOrderedIds] = useRecoilState(_literaturesOrderedState);
-  const [localIds, setLocalIds] = useRecoilState(literaturesOrderedState);
-  // const setCursor = useRecoilValue(displayedPublications);
-  const setCursor = useSetRecoilState(cursorState);
-
-  const [compPage, setCompPage] = useState(0);
-  const [compPagePubs, setCompPagePubs] = useState([]);
+  const listIds = useRecoilValue(_literaturesIdsState);
   const selectedEntities = useRecoilValue(selectedEntitiesState);
-
-  const [page, setPage] = useRecoilState(currentPageState);
   const publications = useRecoilValue(publicationsState);
+
+  const setAllPubs = useSetRecoilState(allPublicationsState);
+  const setNextCursor = useSetRecoilState(_nextCursorState);
+
+  const [orderedIds, setOrderedIds] = useRecoilState(_literaturesOrderedState);
+  const [page, setPage] = useRecoilState(currentPageState);
+
+  const syncAllPublications = useRecoilCallback(() => () => {
+    if (!listIds) return;
+    setAllPubs(oldPubs => [...oldPubs, ...publications]);
+  });
+
+  const resetPublicationListState = useRecoilCallback(() => () => {
+    if (!listIds) return;
+    setPage(0);
+    setAllPubs([]);
+    setOrderedIds(listIds);
+    setNextCursor(cursor);
+  });
 
   useEffect(
     () => {
-      const list = page !== 0 ? [...localIds, ...litsIds] : litsIds;
-      console.log({ list });
-      setLocalIds(list);
-      console.log({ litsIds, localIds });
+      syncAllPublications();
     },
-    [litsIds]
+    [publications]
   );
 
-  const handlePageChange = useRecoilCallback(
-    ({ snapshot, set }) => async newPage => {
-      if (5 * newPage + 5 > compPagePubs.length && nextCursor !== null) {
-        // const response = await fetchLiteratures({
-        //   id,
-        //   query,
-        //   cursor: nextCursor,
-        //   entities: selectedEntities,
-        //   category,
-        //   categories,
-        //   entity,
-        // });
-        // const data = response.data[entity];
-        // const {
-        //   literatureOcurrences: { rows, cursor },
-        // } = data;
-        setCursor(nextCursor);
-        // const newLiteratureIds = rows.map(({ pmid }) => pmid);
-
-        // const currentLits = snapshot.getPromise(_literaturesIdsState);
-
-        // console.log({ currentLits, newLiteratureIds });
-
-        setPage(newPage);
-      } else {
-        setPage(newPage);
-      }
-      // pre-fetch user info
-      // set(currentUserIDState, userID); // change current user to start new render
-    }
+  useEffect(
+    () => {
+      resetPublicationListState();
+    },
+    [listIds, selectedEntitiesState]
   );
 
-  const _handlePageChange = newPage => {
-    if (5 * newPage + 5 > compPagePubs.length && nextCursor !== null) {
-      setCursor(nextCursor);
+  const handlePageChange = useRecoilCallback(() => async newPage => {
+    if (5 * newPage + 5 > orderedIds.length && nextCursor !== null) {
+      const updatedQuery = await fetchLiteratures({
+        id,
+        query,
+        cursor: nextCursor,
+        entities: selectedEntities,
+        category,
+        categories,
+        entity,
+      });
+      const {
+        literatureOcurrences: { rows, cursor },
+      } = updatedQuery.data[entity];
+      const newLiteratureIds = rows.map(({ pmid }) => pmid);
+      setNextCursor(cursor);
+      setOrderedIds(oldValue => {
+        return [...oldValue, ...newLiteratureIds];
+      });
       setPage(newPage);
     } else {
       setPage(newPage);
     }
-  };
-
-  useEffect(
-    () => {
-      setCompPagePubs([]);
-      setPage(0);
-      return () => {};
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectedEntities]
-  );
-
-  // useEffect(
-  //   () => {
-  //     if (page !== compPage) {
-  //       setCompPage(page);
-  //     }
-  //     return () => {};
-  //   },
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [page]
-  // );
-
-  useEffect(
-    () => {
-      const all = [...compPagePubs, ...publications];
-      setCompPagePubs(all);
-      return () => {};
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [publications]
-  );
+  });
 
   const columns = [
     {

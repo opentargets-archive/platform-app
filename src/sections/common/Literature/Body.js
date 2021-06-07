@@ -8,7 +8,6 @@ import {
   currentPageState,
   _literaturesIdsState,
   _literaturesCountState,
-  _literatureNextCursorState,
   settingsState,
 } from './atoms';
 import Loader from './Loader';
@@ -45,7 +44,6 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
   const page = useRecoilValue(currentPageState);
   // const [cursor, setCursor] = useRecoilState(cursorState);
 
-  const newCursor = useRecoilValue(_literatureNextCursorState);
   const count = useRecoilValue(_literaturesCountState);
   const literaturesIds = useRecoilValue(_literaturesIdsState);
 
@@ -97,7 +95,6 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
             handleRowsPerPageChange={handleRowsPerPageChange}
             page={page}
             count={count}
-            newCursor={newCursor}
           />
         </React.Suspense>
         {literaturesIds.length === 0 && (
