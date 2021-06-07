@@ -61,6 +61,7 @@ const PublicationsList = ({
     () => {
       syncAllPublications();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [publications]
   );
 
@@ -68,6 +69,7 @@ const PublicationsList = ({
     () => {
       resetPublicationListState();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [listIds, selectedEntitiesState]
   );
 
