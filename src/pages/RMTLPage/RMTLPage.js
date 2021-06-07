@@ -147,6 +147,7 @@ const getVersionOptions = rows => {
 class RMTLPage extends Component {
   state = {
     filteredRows: getRows(RMTLData),
+    pageSize: 25,
   };
 
   targetSymbolFilterHandler = (e, selection) => {
@@ -191,6 +192,9 @@ class RMTLPage extends Component {
     this.versionDim = this.rmtlXf.dimension(row => row.version);
     this.targetSymbolDim = this.rmtlXf.dimension(row => row.targetSymbol);
   }
+  handleRowsPerPageChange = newPageSize => {
+    this.setState({ pageSize: newPageSize });
+  };
 
   render() {
     const rows = getRows(RMTLData);
@@ -212,6 +216,7 @@ class RMTLPage extends Component {
       versionOptions,
       this.versionFilterHandler
     );
+    const rowsPerPageOptions = [10, 25, 50];
 
     return (
       <BasePage>
@@ -269,6 +274,8 @@ class RMTLPage extends Component {
                   columns={columns}
                   data={filteredRows}
                   pageSize={pageSize}
+                  onRowsPerPageChange={this.handleRowsPerPageChange}
+                  rowsPerPageOptions={rowsPerPageOptions}
                 />
               </>
             )}
