@@ -82,6 +82,12 @@ export const mainMenuItems = [
     url: '/downloads',
     external: false,
   },
+  // FDA RMTL
+  {
+    name: 'FDA RMTL',
+    url: '/FDA_RMTL',
+    external: false,
+  },
   // API
   {
     name: 'API',
