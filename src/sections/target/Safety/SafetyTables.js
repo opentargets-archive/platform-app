@@ -1,17 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
-import { Typography, Divider, Box, makeStyles } from '@material-ui/core';
+import { Typography, Divider, Box } from '@material-ui/core';
 
 import Link from '../../../components/Link';
 import DataTable from '../../../components/Table/DataTable';
-
-const useStyles = makeStyles(theme => ({
-  tooltip: {
-    backgroundColor: theme.palette.background.paper,
-    border: `1px solid ${theme.palette.grey[300]}`,
-    color: theme.palette.text.primary,
-  },
-}));
 
 const SafetyTables = ({ symbol, data }) => {
   const { adverseEffects, safetyRiskInfo, tox21, etox } = data;
