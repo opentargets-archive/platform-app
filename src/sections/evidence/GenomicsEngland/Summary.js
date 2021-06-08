@@ -3,6 +3,7 @@ import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
 const GENOMICS_ENGLAND_SUMMARY_FRAGMENT = loader(
   './GenomicsEnglandSummaryFragment.gql'
@@ -20,7 +21,7 @@ function Summary({ definition }) {
           data.genomicsEngland.count === 1 ? 'y' : 'ies'
         }`
       }
-      chipText="Genetic associations"
+      subText={dataTypesMap.genetic_association}
     />
   );
 }

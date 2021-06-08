@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { loader } from 'graphql.macro';
 import { useQuery } from '@apollo/client';
 
 import Description from './Description';
 import { europePmcLiteratureQuery } from '../../../utils/urls';
+import { dataTypesMap } from '../../../dataTypes';
 import { getPage, Table } from '../../../components/Table';
 import Link from '../../../components/Link';
 import { naLabel } from '../../../constants';
 import Publication from './Publication';
 import SectionItem from '../../../components/Section/SectionItem';
-import { useEffect } from 'react';
 
 const EUROPE_PMC_QUERY = loader('./sectionQuery.gql');
 
@@ -192,7 +192,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
   return (
     <SectionItem
       definition={definition}
-      chipText="Literature"
+      chipText={dataTypesMap.literature}
       request={{ loading, error, data }}
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={data => {

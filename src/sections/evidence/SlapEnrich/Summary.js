@@ -3,6 +3,7 @@ import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
 const SLAPENRICH_SUMMARY_FRAGMENT = loader('./SlapEnrichSummaryFragment.gql');
 
@@ -18,7 +19,7 @@ function Summary({ definition }) {
           data.slapEnrich.count === 1 ? 'y' : 'ies'
         }`
       }
-      chipText="Pathways & sys bio"
+      subText={dataTypesMap.affected_pathway}
     />
   );
 }

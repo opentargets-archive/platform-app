@@ -19,6 +19,7 @@ import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
 import Summary from './Summary';
+import { dataTypesMap } from '../../../dataTypes';
 
 const columns = [
   {
@@ -309,7 +310,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
-      chipText="Genetic associations"
+      chipText={dataTypesMap.genetic_association}
       request={{ loading: initialLoading, data: rows }}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

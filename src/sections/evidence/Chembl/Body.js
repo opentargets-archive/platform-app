@@ -8,6 +8,7 @@ import {
   sourceMap,
   naLabel,
 } from '../../../constants';
+import { dataTypesMap } from '../../../dataTypes';
 import Description from './Description';
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -182,7 +183,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
-      chipText="Known drugs"
+      chipText={dataTypesMap.known_drug}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

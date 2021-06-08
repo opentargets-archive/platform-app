@@ -2,6 +2,7 @@ import React from 'react';
 import { loader } from 'graphql.macro';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
 const PHENODIGM_SUMMARY_FRAGMENT = loader('./PhenodigmSummaryFragment.gql');
 
@@ -17,7 +18,7 @@ function Summary({ definition }) {
           data.phenodigm.count === 1 ? 'y' : 'ies'
         }`
       }
-      chipText="Animal models"
+      subText={dataTypesMap.animal_model}
     />
   );
 }

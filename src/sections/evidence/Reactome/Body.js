@@ -8,6 +8,7 @@ import Tooltip from '../../../components/Tooltip';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
+import { dataTypesMap } from '../../../dataTypes';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';
 import { epmcUrl } from '../../../utils/urls';
@@ -169,7 +170,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
-      chipText="Pathways & sys bio"
+      chipText={dataTypesMap.affected_pathway}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

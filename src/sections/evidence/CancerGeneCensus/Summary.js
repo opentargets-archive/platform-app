@@ -1,7 +1,9 @@
 import React from 'react';
+import { loader } from 'graphql.macro';
+
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
-import { loader } from 'graphql.macro';
+import { dataTypesMap } from '../../../dataTypes';
 
 const CANCER_GENE_CENSUS_SUMMARY = loader('./CancerGeneCensusSummaryQuery.gql');
 
@@ -15,7 +17,7 @@ function Summary({ definition }) {
         const { count } = cancerGeneCensusSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
-      chipText="Somatic mutations"
+      subText={dataTypesMap.somatic_mutation}
     />
   );
 }

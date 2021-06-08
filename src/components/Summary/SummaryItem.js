@@ -13,7 +13,7 @@ import { scroller } from 'react-scroll';
 import summaryStyles from './summaryStyles';
 import { createShortName } from './utils';
 
-function SummaryItem({ definition, request, renderSummary, chipText }) {
+function SummaryItem({ definition, request, renderSummary, subText }) {
   const classes = summaryStyles();
   const { loading, error, data } = request;
   const shortName = createShortName(definition);
@@ -60,14 +60,14 @@ function SummaryItem({ definition, request, renderSummary, chipText }) {
               >
                 {definition.name}
               </Typography>
-              {chipText ? (
+              {subText ? (
                 <Typography
                   className={classNames(classes.subtitle, {
                     [classes.subtitleHasData]: hasData,
                   })}
                   variant="caption"
                 >
-                  {chipText}
+                  {subText}
                 </Typography>
               ) : null}
             </>

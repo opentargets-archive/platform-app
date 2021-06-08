@@ -6,6 +6,7 @@ import { Link } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
+import { dataTypesMap } from '../../../dataTypes';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -64,7 +65,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
-      chipText="Pathways & sys bio"
+      chipText={dataTypesMap.affected_pathway}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

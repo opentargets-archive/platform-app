@@ -8,6 +8,7 @@ import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
+import { dataTypesMap } from '../../../dataTypes';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -91,7 +92,7 @@ function Body(props) {
   return (
     <SectionItem
       definition={definition}
-      chipText="Genetic associations"
+      chipText={dataTypesMap.genetic_association}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} diseaseName={label.name} />

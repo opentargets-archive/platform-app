@@ -2,6 +2,7 @@ import React from 'react';
 import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
+import { dataTypesMap } from '../../../dataTypes';
 
 const CLINGEN_SUMMARY_FRAGMENT = loader('./ClinGenSummaryFragment.gql');
 
@@ -16,7 +17,7 @@ function Summary({ definition }) {
         const { count } = clingenSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
-      chipText="Genetic associations"
+      subText={dataTypesMap.genetic_association}
     />
   );
 }

@@ -14,6 +14,7 @@ import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';
+import { dataTypesMap } from '../../../dataTypes';
 
 const UNIPROT_LITERATURE_QUERY = loader('./UniprotLiteratureQuery.gql');
 
@@ -95,7 +96,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
-      chipText="Genetic associations"
+      chipText={dataTypesMap.genetic_association}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} diseaseName={label.name} />

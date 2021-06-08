@@ -7,6 +7,7 @@ import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { otgStudyUrl } from '../../../utils/urls';
+import { dataTypesMap } from '../../../dataTypes';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
 import Link from '../../../components/Link';
 import ScientificNotation from '../../../components/ScientificNotation';
@@ -200,7 +201,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
   return (
     <SectionItem
       definition={definition}
-      chipText="Genetic associations"
+      chipText={dataTypesMap.genetic_association}
       request={request}
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={data => (
