@@ -236,7 +236,7 @@ class RMTLPage extends Component {
           See our
           <Link to={FDA_RMTL_DocumentationUrl}> FDA RMTL Documentation </Link>
           or the official{' '}
-          <Link external to={FDA_Publication} external>
+          <Link external to={FDA_Publication}>
             FDA publication{' '}
           </Link>
           for details.
