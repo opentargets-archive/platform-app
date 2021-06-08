@@ -250,29 +250,17 @@ const etoxColumns = [
 ];
 
 const ReferencesCell = ({ children }) => {
-  const classes = useStyles();
-
   return children
     .filter(reference => reference.pubmedId || reference.refLink)
     .map(({ pubUrl, refLabel, pubmedId }) => {
       const isHecatos = pubUrl.indexOf('hecatos') !== -1;
+      const heCaTosUrl = 'https://cordis.europa.eu/project/id/602156/reporting';
       return (
         <React.Fragment key={`${refLabel}:${pubUrl}`}>
-          <Link external to={pubUrl}>
-            <Tooltip
-              classes={{ tooltip: classes.tooltip }}
-              title={
-                isHecatos
-                  ? "HeCaToS Deliverable D01.5 (2015) funded by 'EU 7th Framework Programme (HEALTH-F4-2013-602156)'."
-                  : ''
-              }
-              placement="top"
-            >
-              <span>
-                {refLabel ||
-                  (pubmedId ? `Pubmed ID: ${pubmedId}` : '(no name)')}
-              </span>
-            </Tooltip>
+          <Link external to={isHecatos ? heCaTosUrl : pubUrl}>
+            <span>
+              {refLabel || (pubmedId ? `Pubmed ID: ${pubmedId}` : '(no name)')}
+            </span>
           </Link>{' '}
         </React.Fragment>
       );
