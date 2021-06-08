@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function DocumentPage() {
+function RMTLDocPage() {
   const classes = useStyles();
   const legalRequirementsLink =
     'https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title21-section355c&num=0&edition=prelim';
@@ -34,6 +34,8 @@ function DocumentPage() {
   const ensemblStableIDLink =
     'https://useast.ensembl.org/info/genome/stable_ids/index.html#:~:text=Stable%20identifiers%20are%20ways%20that,and%20consistent%20across%20Ensembl%20releases';
   const hugoHgncLink = 'https://www.genenames.org/download/custom/';
+
+  const fdaRMTL = '/fda-rmtl';
 
   return (
     <BasePage title="RMLT Document Page">
@@ -67,7 +69,7 @@ function DocumentPage() {
             </p>
             <p>
               The full RMTL within Open Targets can be accessed (
-              <Link href={ensemblStableIDLink} rel="noopener" target="_blank">
+              <Link href={fdaRMTL} rel="noopener" target="_blank">
                 here
               </Link>
               ).
@@ -187,4 +189,4 @@ function DocumentPage() {
     </BasePage>
   );
 }
-export default DocumentPage;
+export default RMTLDocPage;

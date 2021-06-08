@@ -217,7 +217,7 @@ class RMTLPage extends Component {
       this.versionFilterHandler
     );
     const rowsPerPageOptions = [10, 25, 50];
-    const FDA_RMTL_DocumentationUrl = '/doc';
+    const FDA_RMTL_DocumentationUrl = '/rmtl';
     const FDA_Publication =
       'https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target';
 
@@ -238,7 +238,7 @@ class RMTLPage extends Component {
           See our
           <Link to={FDA_RMTL_DocumentationUrl}> FDA RMTL Documentation </Link>
           or the official{' '}
-          <Link external to={FDA_Publication}>
+          <Link external to={FDA_Publication} external>
             FDA publication{' '}
           </Link>
           for details.

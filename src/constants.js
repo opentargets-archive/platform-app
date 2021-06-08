@@ -90,7 +90,7 @@ export const mainMenuItems = [
   // FDA RMTL
   {
     name: 'FDA RMTL',
-    url: '/FDA_RMTL',
+    url: '/fda-rmtl',
     external: false,
   },
   // API

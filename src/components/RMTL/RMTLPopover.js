@@ -84,7 +84,7 @@ function RMTLPopOver({ otherStyle }) {
     setTab(tab);
   };
 
-  const RMTLlandingPageUrl = '/FDA_RMTL';
+  const RMTLlandingPageUrl = '/fda-rmtl';
 
   let fdaDesignation = 'RMT'; // rmtlObj content will update depending if a Target is RMT, NonRMT or UnspecifyTarget
   let rmtlObj = RMTLHelper(fdaDesignation);
