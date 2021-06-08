@@ -15,8 +15,8 @@ query ChemblQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
         }
         target {
           id
+          approvedSymbol
         }
-        targetFromSourceId
         drug {
           id
           name
@@ -31,6 +31,7 @@ query ChemblQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
             }
           }
         }
+        targetFromSourceId
         clinicalPhase
         clinicalStatus
         studyStartDate
