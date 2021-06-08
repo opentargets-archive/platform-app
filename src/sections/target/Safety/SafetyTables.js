@@ -1,12 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import {
-  Typography,
-  Divider,
-  Box,
-  Tooltip,
-  makeStyles,
-} from '@material-ui/core';
+import { Typography, Divider, Box, makeStyles } from '@material-ui/core';
 
 import Link from '../../../components/Link';
 import DataTable from '../../../components/Table/DataTable';
