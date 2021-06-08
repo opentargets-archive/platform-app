@@ -13,6 +13,7 @@ import { sentenceCase } from '../../../utils/global';
 import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
 const INTOGEN_QUERY = loader('./sectionQuery.gql');
 
@@ -123,6 +124,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.animal_model}
       request={request}
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={data => (

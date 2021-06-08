@@ -19,6 +19,7 @@ import ClinvarStars from '../../../components/ClinvarStars';
 import Summary from './Summary';
 import Description from './Description';
 import Link from '../../../components/Link';
+import { dataTypesMap } from '../../../dataTypes';
 
 const EVA_SOMATIC_QUERY = loader('./EvaSomaticQuery.gql');
 
@@ -229,6 +230,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.somatic_mutation}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

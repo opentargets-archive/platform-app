@@ -3,6 +3,7 @@ import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
 const SYSBIO_SUMMARY_FRAGMENT = loader('./SysBioSummaryFragment.gql');
 
@@ -16,6 +17,7 @@ function Summary({ definition }) {
       renderSummary={data =>
         `${data.sysBio.count} entr${data.sysBio.count === 1 ? 'y' : 'ies'}`
       }
+      subText={dataTypesMap.affected_pathway}
     />
   );
 }
