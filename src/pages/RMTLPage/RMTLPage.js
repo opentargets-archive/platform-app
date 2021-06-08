@@ -224,10 +224,8 @@ class RMTLPage extends Component {
     return (
       <BasePage>
         <Typography variant="h4" component="h1" paragraph>
-          <b>
-            US Food & Drug Administration Relevant Molecular Target List (FDA
-            RMTL)
-          </b>
+          US Food & Drug Administration Relevant Molecular Target List (FDA
+          RMTL)
         </Typography>
         <br />
         <hr />
