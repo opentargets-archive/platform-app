@@ -73,15 +73,17 @@ const tableSourceLabel = name =>
   ({
     'ATC Information': 'ATC',
     'Clinical Trials Information': 'ClinicalTrials.gov',
+    ClinicalTrials: 'ClinicalTrials.gov',
     'DailyMed Information': 'DailyMed',
+    DailyMed: 'DailyMed',
     'FDA Information': 'FDA',
   }[name]);
 
 const drawerSourceLabel = (name, url) => {
-  if (name === 'Clinical Trials Information') {
+  if (name === 'ClinicalTrials') {
     return url.split('%22')[1] || `${tableSourceLabel(name)} reference`;
   }
-  if (name === 'DailyMed Information') {
+  if (name === 'DailyMed') {
     return url.split('setid=')[1] || `${tableSourceLabel(name)} reference`;
   }
   if (name === 'FDA Information') {
