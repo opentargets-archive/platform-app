@@ -1,10 +1,10 @@
 // Configuration Object
 export const config = {
   urlApi:
-    window.configUrlApi ??
+    window.injectedEnv.configUrlApi ??
     'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
   urlApiBeta:
-    window.configUrlApiBeta ??
+    window.injectedEnv.configUrlApiBeta ??
     'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
-  googleTagManagerID: window.configGoogleTagManagerID ?? null,
+  googleTagManagerID: window.injectedEnv.configGoogleTagManagerID ?? null,
 };
