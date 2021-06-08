@@ -14,12 +14,12 @@ function RMTLHelper(fdaDesignationValue) {
     icon: <UnspecifiedIcon />,
   };
 
-  if (fdaDesignationValue === 'RMT') {
+  if (fdaDesignationValue === 'Relevant Molecular Target') {
     rmtlObj = {
       fdaDesignation: 'Relevant Molecular Target',
       icon: <RelevantIcon />,
     };
-  } else if (fdaDesignationValue === 'NonRMT') {
+  } else if (fdaDesignationValue === 'Non-Relevant Molecular Target') {
     rmtlObj = {
       fdaDesignation: 'Non-Relevant Molecular Target',
       icon: <NonRelevantIcon />,
@@ -28,7 +28,7 @@ function RMTLHelper(fdaDesignationValue) {
 
   return rmtlObj;
 }
-function RMTLPopOver({ otherStyle }) {
+function RMTLPopOver({ otherStyle, rmtl }) {
   const useStyles = makeStyles(theme => ({
     rmtlHeaderText: {
       display: 'inline',
@@ -86,7 +86,7 @@ function RMTLPopOver({ otherStyle }) {
 
   const RMTLlandingPageUrl = '/fda-rmtl';
 
-  let fdaDesignation = 'RMT'; // rmtlObj content will update depending if a Target is RMT, NonRMT or UnspecifyTarget
+  let fdaDesignation = rmtl; // rmtlObj content will update depending if a Target is RMT, NonRMT or UnspecifyTarget
   let rmtlObj = RMTLHelper(fdaDesignation);
 
   return (

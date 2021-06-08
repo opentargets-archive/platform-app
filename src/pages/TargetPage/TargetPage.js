@@ -16,6 +16,7 @@ const TARGET_PAGE_QUERY = gql`
       id
       approvedSymbol
       approvedName
+      rmtl_fda_designation
       proteinAnnotations {
         id
       }
@@ -33,7 +34,8 @@ function TargetPage({ location, match }) {
     return <NotFoundPage />;
   }
 
-  const { approvedSymbol: symbol, approvedName } = data?.target || {};
+  const { approvedSymbol: symbol, approvedName, rmtl_fda_designation: rmtl } =
+    data?.target || {};
   const uniprotId = data?.target.proteinAnnotations?.id;
 
   return (
@@ -45,6 +47,7 @@ function TargetPage({ location, match }) {
         uniprotId={uniprotId}
         symbol={symbol}
         name={approvedName}
+        rmtl={rmtl}
       />
 
       <Tabs
