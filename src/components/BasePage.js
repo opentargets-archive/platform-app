@@ -5,9 +5,15 @@ import Search from './Search';
 import Page from './Page';
 import NavBar from './NavBar';
 import Footer from './Footer';
-import { appTitle, externalLinks, mainMenuItems } from '../constants';
+import {
+  appTitle,
+  appDescription,
+  appCanonicalUrl,
+  externalLinks,
+  mainMenuItems,
+} from '../constants';
 
-const BasePage = ({ title, children }) => {
+const BasePage = ({ title, children, description, location }) => {
   const composedTitle = `${title ? title + ' | ' : ''} ${appTitle}`;
 
   return (
@@ -21,7 +27,13 @@ const BasePage = ({ title, children }) => {
       }
       footer={<Footer externalLinks={externalLinks} />}
     >
-      <Helmet title={composedTitle} />
+      <Helmet title={composedTitle}>
+        <meta name="description" content={description || appDescription} />
+        <link
+          rel="canonical"
+          href={appCanonicalUrl + (location?.pathname || '')}
+        />
+      </Helmet>
       {children}
     </Page>
   );

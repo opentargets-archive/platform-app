@@ -11,7 +11,7 @@ import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
 
 const DRUG_PAGE_QUERY = loader('./DrugPage.gql');
 
-function DrugPage({ match }) {
+function DrugPage({ location, match }) {
   const { chemblId } = match.params;
   const { loading, data } = useQuery(DRUG_PAGE_QUERY, {
     variables: { chemblId },
@@ -24,7 +24,11 @@ function DrugPage({ match }) {
   const { name, crossReferences } = data?.drug || {};
 
   return (
-    <BasePage title={name || chemblId}>
+    <BasePage
+      title={`${name || chemblId} profile page`}
+      description={`Annotation information for ${name || chemblId}`}
+      location={location}
+    >
       <Header
         loading={loading}
         chemblId={chemblId}

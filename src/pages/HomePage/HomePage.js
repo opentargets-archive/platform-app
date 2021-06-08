@@ -10,7 +10,13 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
 
-import { appTitle, externalLinks, mainMenuItems } from '../../constants';
+import {
+  appTitle,
+  appDescription,
+  appCanonicalUrl,
+  externalLinks,
+  mainMenuItems,
+} from '../../constants';
 import Footer from '../../components/Footer';
 import HomeBox from './HomeBox';
 import Link from '../../components/Link';
@@ -109,7 +115,10 @@ const HomePage = () => {
 
   return (
     <>
-      <Helmet title={appTitle} />
+      <Helmet title={appTitle}>
+        <meta name="description" content={appDescription} />
+        <link rel="canonical" href={appCanonicalUrl} />
+      </Helmet>
       <Grid
         container
         justify="center"
