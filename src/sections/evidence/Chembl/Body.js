@@ -44,6 +44,11 @@ const columns = [
         return acc;
       }, new Set());
 
+      if (symbol === '') {
+        const { approvedSymbol: targetSymbol } = target;
+        symbol = targetSymbol;
+      }
+
       return (
         <>
           <Tooltip
