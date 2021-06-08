@@ -15,6 +15,7 @@ import EvidencePage from './pages/EvidencePage';
 import VariantsPage from './pages/VariantsPage';
 import DocPage from './pages/DocumentPage';
 import NotFoundPage from './pages/NotFoundPage';
+import RMTLPage from './pages/RMTLPage/RMTLPage';
 
 import 'typeface-inter';
 
@@ -33,6 +34,7 @@ class App extends Component {
               <Route path="/doc" component={DocPage} />
               <Route path="/search" component={SearchPage} />
               <Route path="/downloads" component={DownloadsPage} />
+              <Route path="/FDA_RMTL" component={RMTLPage} />
               <Route path="/disease/:efoId" component={DiseasePage} />
               <Route path="/target/:ensgId" component={TargetPage} />
               <Route path="/drug/:chemblId" component={DrugPage} />
