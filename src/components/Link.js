@@ -57,7 +57,6 @@ class Link extends React.Component {
         )}
         href={to}
         onClick={onClick}
-        target="_blank"
       >
         {children}
       </a>
