@@ -21,13 +21,11 @@ import {
   settingsState,
   fetchLiteratures,
   allPublicationsState,
+  _literaturesCountState,
 } from './atoms';
 
-const PublicationsList = ({
-  hideSearch = false,
-  handleRowsPerPageChange,
-  count,
-}) => {
+const PublicationsList = ({ hideSearch = false, handleRowsPerPageChange }) => {
+  const count = useRecoilValue(_literaturesCountState);
   const category = useRecoilValue(categoryState);
   const categories = useRecoilValue(categoryListState);
   const { id, query, entity } = useRecoilValue(settingsState);
