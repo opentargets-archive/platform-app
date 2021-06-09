@@ -290,18 +290,20 @@ function OntologySubgraph({
             {nodes.map(node => {
               return (
                 <Fragment key={node.id}>
-                  <text
-                    x={node.y - xOffset}
-                    y={node.x}
-                    dx="9"
-                    fontSize="12"
-                    dominantBaseline="middle"
-                    fill="#5a5f5f"
-                  >
-                    <title>{node.data.name}</title>
-                    {textWithEllipsis(node.data.name || 'No name', textLimit)}
-                  </text>
                   <Link to={`/disease/${node.data.id}`}>
+                    <text
+                      x={node.y - xOffset}
+                      y={node.x}
+                      dx="9"
+                      fontSize="12"
+                      dominantBaseline="middle"
+                      fill="#5a5f5f"
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <title>{node.data.name}</title>
+                      {textWithEllipsis(node.data.name || 'No name', textLimit)}
+                    </text>
+
                     {node.data.parentIds.length === 0 ? (
                       <rect
                         x={node.y - radius - xOffset}
