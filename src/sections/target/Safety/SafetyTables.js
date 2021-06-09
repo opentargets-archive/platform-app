@@ -244,9 +244,7 @@ const ReferencesCell = ({ children }) => {
       return (
         <React.Fragment key={`${refLabel}:${pubUrl}`}>
           <Link external to={isHecatos ? heCaTosUrl : pubUrl}>
-            <span>
-              {refLabel || (pubmedId ? `Pubmed ID: ${pubmedId}` : '(no name)')}
-            </span>
+            {refLabel || (pubmedId ? `Pubmed ID: ${pubmedId}` : '(no name)')}
           </Link>{' '}
         </React.Fragment>
       );
