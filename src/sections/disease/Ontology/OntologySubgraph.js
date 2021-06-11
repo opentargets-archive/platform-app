@@ -1,10 +1,17 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { withContentRect } from 'react-measure';
 import * as d3Base from 'd3';
 import * as d3Dag from 'd3-dag';
 import Link from '../../../components/Link';
 import Tooltip from '../../../components/Tooltip';
-// import {Tooltip} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import classNames from 'classnames';
+
+const useStyles = makeStyles({
+  labelText: {
+    '&:hover': { fontWeight: '700' },
+  },
+});
 
 const d3 = Object.assign({}, d3Base, d3Dag);
 
@@ -119,6 +126,7 @@ function OntologySubgraph({
   contentRect,
 }) {
   line.x(d => d.y - xOffset).y(d => d.x);
+  const classes = useStyles();
   const { width } = contentRect.bounds;
   const dagData = buildDagData(efoId, efo, idToDisease);
   const dag = d3.dagStratify()(dagData);
@@ -291,50 +299,52 @@ function OntologySubgraph({
           <g transform={`translate(0, ${yOffset})`}>
             {nodes.map(node => {
               return (
-                <Fragment key={node.id}>
-                  <Link to={`/disease/${node.data.id}`}>
-                    <Tooltip
-                      title={`${node.data.name || 'No name'} | ID: ${node.id}`}
-                    >
-                      <g>
-                        <text
-                          x={node.y - xOffset}
-                          y={node.x}
-                          dx="9"
-                          fontSize="12"
-                          dominantBaseline="middle"
-                          fill="#5a5f5f"
-                          style={{ cursor: 'pointer' }}
-                        >
-                          <title>{node.data.name}</title>
-                          {textWithEllipsis(
-                            node.data.name || 'No name',
-                            textLimit
-                          )}
-                        </text>
-
-                        {node.data.parentIds.length === 0 ? (
-                          <rect
-                            x={node.y - radius - xOffset}
-                            y={node.x - radius}
-                            width={diameter}
-                            height={diameter}
-                            fill={colorMap[node.data.nodeType]}
-                            stroke="#e0e0e0"
-                          />
-                        ) : (
-                          <circle
-                            cx={node.y - xOffset}
-                            cy={node.x}
-                            r={radius}
-                            fill={colorMap[node.data.nodeType]}
-                            stroke="#e0e0e0"
-                          />
+                <Link
+                  to={`/disease/${node.data.id}`}
+                  className={classNames(classes.labelText)}
+                  key={node.id}
+                >
+                  <Tooltip
+                    title={`${node.data.name || 'No name'} | ID: ${node.id}`}
+                  >
+                    <g>
+                      <text
+                        x={node.y - xOffset}
+                        y={node.x}
+                        dx="9"
+                        fontSize="12"
+                        dominantBaseline="middle"
+                        fill="#5a5f5f"
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <title>{node.data.name}</title>
+                        {textWithEllipsis(
+                          node.data.name || 'No name',
+                          textLimit
                         )}
-                      </g>
-                    </Tooltip>
-                  </Link>
-                </Fragment>
+                      </text>
+
+                      {node.data.parentIds.length === 0 ? (
+                        <rect
+                          x={node.y - radius - xOffset}
+                          y={node.x - radius}
+                          width={diameter}
+                          height={diameter}
+                          fill={colorMap[node.data.nodeType]}
+                          stroke="#e0e0e0"
+                        />
+                      ) : (
+                        <circle
+                          cx={node.y - xOffset}
+                          cy={node.x}
+                          r={radius}
+                          fill={colorMap[node.data.nodeType]}
+                          stroke="#e0e0e0"
+                        />
+                      )}
+                    </g>
+                  </Tooltip>
+                </Link>
               );
             })}
           </g>
