@@ -301,7 +301,7 @@ function OntologySubgraph({
               return (
                 <Link
                   to={`/disease/${node.data.id}`}
-                  className={classNames(classes.labelText)}
+                  className={classes.labelText}
                   key={node.id}
                 >
                   <Tooltip
