@@ -5,7 +5,6 @@ import * as d3Dag from 'd3-dag';
 import Link from '../../../components/Link';
 import Tooltip from '../../../components/Tooltip';
 import { makeStyles } from '@material-ui/core';
-import classNames from 'classnames';
 
 const useStyles = makeStyles({
   labelText: {
