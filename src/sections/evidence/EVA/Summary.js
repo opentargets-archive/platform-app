@@ -2,6 +2,7 @@ import React from 'react';
 import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
+import { dataTypesMap } from '../../../dataTypes';
 
 const EVA_SUMMARY = loader('./EVASummaryQuery.gql');
 
@@ -15,6 +16,7 @@ function Summary({ definition }) {
         const { count } = evaSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
+      subText={dataTypesMap.genetic_association}
     />
   );
 }

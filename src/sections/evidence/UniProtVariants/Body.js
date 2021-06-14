@@ -13,6 +13,7 @@ import { defaultRowsPerPageOptions } from '../../../constants';
 import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
+import { dataTypesMap } from '../../../dataTypes';
 
 const UNIPROT_VARIANTS_QUERY = loader('./UniprotVariantsQuery.gql');
 
@@ -105,6 +106,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.genetic_association}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} diseaseName={label.name} />

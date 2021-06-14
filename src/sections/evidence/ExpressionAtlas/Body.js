@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
 import Tooltip from '../../../components/Tooltip';
@@ -115,6 +116,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.rna_expression}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

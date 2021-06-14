@@ -8,6 +8,7 @@ import { DataTable } from '../../../components/Table';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 
 import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
+import { dataTypesMap } from '../../../dataTypes';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
@@ -147,6 +148,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.somatic_mutation}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} diseaseName={label.name} />

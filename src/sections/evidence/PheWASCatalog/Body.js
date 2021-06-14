@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 import { DataTable } from '../../../components/Table';
 import ScientificNotation from '../../../components/ScientificNotation';
@@ -16,10 +17,10 @@ import {
   naLabel,
   decimalPlaces,
 } from '../../../constants';
+import { dataTypesMap } from '../../../dataTypes';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
-import { loader } from 'graphql.macro';
 
 const PHEWAS_CATALOG_QUERY = loader('./PhewasCatalogQuery.gql');
 
@@ -141,6 +142,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.genetic_association}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} diseaseName={label.name} />

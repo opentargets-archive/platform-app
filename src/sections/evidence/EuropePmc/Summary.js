@@ -3,6 +3,7 @@ import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
 const EUROPE_PMC_SUMMARY_FRAGMENT = loader('./EuropePmcSummaryFragment.gql');
 
@@ -18,6 +19,7 @@ function Summary({ definition }) {
           data.europePmc.count === 1 ? 'y' : 'ies'
         }`
       }
+      subText={dataTypesMap.literature}
     />
   );
 }

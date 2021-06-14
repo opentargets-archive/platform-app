@@ -2,6 +2,7 @@ import React from 'react';
 import { loader } from 'graphql.macro';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
 const INTOGEN_SUMMARY_FRAGMENT = loader('./IntOgenSummaryQuery.gql');
 
@@ -15,6 +16,7 @@ function Summary({ definition }) {
       renderSummary={data =>
         `${data.intOgen.count} entr${data.intOgen.count === 1 ? 'y' : 'ies'}`
       }
+      subText={dataTypesMap.somatic_mutation}
     />
   );
 }
