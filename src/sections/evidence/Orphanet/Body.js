@@ -86,6 +86,41 @@ const columns = [
   },
 ];
 
+const exportColumns = [
+  {
+    label: 'Disease',
+    exportValue: row => row.disease.name,
+  },
+  {
+    label: 'Disease ID',
+    exportValue: row => row.disease.id,
+  },
+  {
+    label: 'Disease from source',
+    exportValue: row => row.diseaseFromSource,
+  },
+  {
+    label: 'Target from source',
+    exportValue: row => row.targetFromSource,
+  },
+  {
+    label: 'Target from source ID',
+    exportValue: row => row.targetFromSourceId,
+  },
+  {
+    label: 'Allele origins',
+    exportValue: row => row.alleleOrigins.join('; '),
+  },
+  {
+    label: 'Confidence',
+    exportValue: row => row.confidence,
+  },
+  {
+    label: 'Publication IDs',
+    exportValue: row => row.literature.join(', '),
+  },
+];
+
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
   const {
@@ -116,9 +151,10 @@ function Body({ definition, id, label }) {
             columns={columns}
             rows={rows}
             dataDownloader
+            dataDownloaderFileStem={`orphanet-${ensemblId}-${efoId}`}
+            dataDownloaderColumns={exportColumns}
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
-            dataDownloaderFileStem={`orphanet-${ensgId}-${efoId}`}
           />
         );
       }}
