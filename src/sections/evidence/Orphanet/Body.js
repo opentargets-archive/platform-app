@@ -39,6 +39,8 @@ const columns = [
         </Tooltip>
       );
     },
+    filterValue: ({ disease, diseaseFromSource }) =>
+      `${disease.name} ${disease.id} ${diseaseFromSource}`,
   },
   {
     id: 'targetFromSourceId',
@@ -48,6 +50,8 @@ const columns = [
         <Link to={`/target/${targetFromSourceId}`}>{targetFromSource}</Link>
       );
     },
+    filterValue: ({ targetFromSource, targetFromSourceId }) =>
+      `${targetFromSource} ${targetFromSourceId}`,
   },
   {
     id: 'alleleOrigins',
@@ -55,6 +59,7 @@ const columns = [
     renderCell: ({ alleleOrigins }) => {
       return alleleOrigins.join('; ');
     },
+    filterValue: ({ alleleOrigins }) => alleleOrigins.join('; '),
   },
   {
     id: 'confidence',
@@ -113,6 +118,7 @@ function Body({ definition, id, label }) {
             dataDownloader
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            dataDownloaderFileStem={`orphanet-${ensgId}-${efoId}`}
           />
         );
       }}
