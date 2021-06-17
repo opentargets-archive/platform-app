@@ -16,7 +16,7 @@ const listComponetStyles = makeStyles(() => ({
 
 const Loader = ({ message = '' }) => (
   <Box
-    my={20}
+    my={40}
     display="flex"
     justifyContent="center"
     alignItems="center"
