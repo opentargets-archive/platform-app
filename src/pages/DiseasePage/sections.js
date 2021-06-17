@@ -5,5 +5,11 @@ import * as Phenotypes from '../../sections/disease/Phenotypes';
 import * as Bibliography from '../../sections/disease/Bibliography';
 import * as OTProjects from '../../sections/disease/OTProjects';
 
-const sections = [Ontology, KnownDrugs, Phenotypes, Bibliography, OTProjects];
+import config from '../../config';
+
+const sections = [Ontology, KnownDrugs, Phenotypes, Bibliography];
+
+// Conditionally show the OTProjects section
+if (config.flagShowOTARProjects) sections.push(OTProjects);
+
 export default sections;
