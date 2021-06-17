@@ -71,12 +71,10 @@ const sourceDrawerStyles = makeStyles(theme => ({
 
 const tableSourceLabel = name =>
   ({
-    'ATC Information': 'ATC',
-    'Clinical Trials Information': 'ClinicalTrials.gov',
+    ATC: 'ATC',
     ClinicalTrials: 'ClinicalTrials.gov',
-    'DailyMed Information': 'DailyMed',
     DailyMed: 'DailyMed',
-    'FDA Information': 'FDA',
+    FDA: 'FDA',
   }[name]);
 
 const drawerSourceLabel = (name, url) => {
@@ -86,10 +84,12 @@ const drawerSourceLabel = (name, url) => {
   if (name === 'DailyMed') {
     return url.split('setid=')[1] || `${tableSourceLabel(name)} reference`;
   }
-  if (name === 'FDA Information') {
+  if (name === 'FDA') {
     return url.split('set_id:')[1] || `${tableSourceLabel(name)} reference`;
   }
-
+  if (name === 'ATC') {
+    return url.split('code=')[1] || `${tableSourceLabel(name)} reference`;
+  }
   return `${url.name} entry`;
 };
 
