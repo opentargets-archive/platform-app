@@ -11,6 +11,9 @@ const config = {
     window.configEFOURL ??
     'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl',
   primaryColor: window.configPrimaryColor ?? '#3489ca',
+  flagShowOTARProjects:
+    window.configFlagShowOTARProjects ??
+    false
 };
 
 export default config;
