@@ -118,16 +118,12 @@ function Body({ definition, name, id, entity, BODY_QUERY }) {
       renderDescription={() => <Description name={name} />}
       renderBody={() => {
         return (
-          // <Suspense
-          //   fallback={<Loader message="Loading Europe PMC search results" />}
-          // >
           <LiteratureList
             id={id}
             name={name}
             entity={entity}
             BODY_QUERY={BODY_QUERY}
           />
-          // </Suspense>
         );
       }}
     />

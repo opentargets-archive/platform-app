@@ -45,11 +45,6 @@ export const literatureState = atom({
   },
 });
 
-export const publicationsState = atom({
-  key: 'publicationsState',
-  default: [],
-});
-
 // ------------------------------------------
 // SELECTORS
 // ------------------------------------------
@@ -75,13 +70,6 @@ export const selectedCategoriesState = selector({
     const sortedCategories = [...category].sort();
     return sortedCategories;
   },
-  set: ({ set, get }, newStatus) => {
-    const currentState = get(literatureState);
-    return set(literatureState, {
-      ...currentState,
-      category: newStatus,
-    });
-  },
 });
 
 export const litsCursorState = selector({
@@ -97,13 +85,6 @@ export const tablePageState = selector({
   get: ({ get }) => {
     const { page } = get(literatureState);
     return page;
-  },
-  set: ({ set, get }, newPage) => {
-    const currentState = get(literatureState);
-    return set(literatureState, {
-      ...currentState,
-      page: newPage,
-    });
   },
 });
 
@@ -145,34 +126,6 @@ export const litsIdsState = selector({
   },
 });
 
-// export const publicationsLoaded = selector({
-//   key: 'publicationsLoaded',
-//   get: ({ get }) => {
-//     const litsIds = get(litsIdsState);
-//     const readyForRequest = litsIds
-//       .filter(x => x.status === 'ready')
-//       .map(x => x.id);
-//     const queryResult = get(
-//       literaturesEuropePMCQuery({
-//         literaturesIds: readyForRequest,
-//       })
-//     );
-
-//     const parsedPublications = parsePublications(queryResult);
-
-//     const mapedResults = new Map(
-//       parsedPublications.map(key => [key.europePmcId, key])
-//     );
-
-//     const some = litsIds.map(x => {
-//       const publication = mapedResults.get(x.id);
-//       const status = publication ? 'loaded' : 'missing';
-//       return { ...x, status, publication };
-//     });
-//     return some;
-//   },
-// });
-
 export const displayedPublications = selector({
   key: 'displayedPublications',
   get: ({ get }) => {
@@ -184,19 +137,6 @@ export const displayedPublications = selector({
     return rows;
   },
 });
-
-// export const _litsIdsState = selector({
-//   key: '_litsIdsState',
-//   get: ({ get }) => {
-//     const { litsIds } = get(literatureState);
-//     const news = litsIds.map(id => ({
-//       id,
-//       status: 'missing',
-//       publication: null,
-//     }));
-//     return news;
-//   },
-// });
 
 export const entitiesState = selector({
   key: 'entitiesState',
@@ -227,28 +167,6 @@ export const updateLiteratureState = selector({
 });
 
 // ------------------------------------------
-// QUERY
-// ------------------------------------------
-
-// export const similarEntitiesQuery = selectorFamily({
-//   key: 'similarEntitiesQuery',
-//   get: queryParams => async () => {
-//     const { query, id, cursor, entities, category, entity } = queryParams;
-//     const response = await fetchLiteratures({
-//       id,
-//       query,
-//       entities,
-//       category,
-//       cursor,
-//     });
-//     if (response.error) {
-//       throw response.error;
-//     }
-//     return response.data[entity];
-//   },
-// });
-
-// ------------------------------------------
 // Requests
 // ------------------------------------------
 export const literaturesEuropePMCQuery = selectorFamily({
@@ -269,30 +187,6 @@ export const literaturesEuropePMCQuery = selectorFamily({
 
 const fetchLiteraturesFromPMC = async ({ baseUrl, requestOptions }) =>
   fetch(baseUrl, requestOptions).then(response => response.json());
-
-export const fetchLiteratures = ({
-  id,
-  threshold = 0.5,
-  size = 15,
-  query,
-  cursor = null,
-  category = [],
-  entities = [],
-}) => {
-  const entityNames = category.length === 0 ? null : category;
-  const ids = entities.map(c => c.object.id);
-  return client.query({
-    query,
-    variables: {
-      cursor,
-      id,
-      ids,
-      threshold,
-      size,
-      entityNames,
-    },
-  });
-};
 
 export const fetchSimilarEntities = ({
   id = '',

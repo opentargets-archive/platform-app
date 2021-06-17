@@ -26,13 +26,11 @@ const useStyles = makeStyles(theme => ({
 
 function EntitiesToSelect({ id }) {
   const entities = useRecoilValue(entitiesState);
+  const bibliographyState = useRecoilValue(literatureState);
+  const setLiteratureUpdate = useSetRecoilState(updateLiteratureState);
   const [selectedChips, setSelectedChips] = useRecoilState(
     selectedEntitiesState
   );
-
-  const bibliographyState = useRecoilValue(literatureState);
-  const setLiteratureUpdate = useSetRecoilState(updateLiteratureState);
-
   const [loadingEntities, setLoadingEntities] = useRecoilState(
     loadingEntitiesState
   );
