@@ -14,9 +14,9 @@ const listComponetStyles = makeStyles(() => ({
   },
 }));
 
-const Loader = ({ message = '' }) => (
+const Loader = ({ message = '', pageSize = 5 }) => (
   <Box
-    my={40}
+    height={pageSize === 5 ? '850px' : pageSize === 10 ? '1640px' : '4040px'}
     display="flex"
     justifyContent="center"
     alignItems="center"

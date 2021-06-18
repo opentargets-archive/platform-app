@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PublicationsList from './PublicationsList';
-import { makeStyles, Box, Typography } from '@material-ui/core';
+import { makeStyles, Box } from '@material-ui/core';
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
 import { useSetRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
@@ -8,12 +8,10 @@ import {
   literatureState,
   updateLiteratureState,
   fetchSimilarEntities,
-  litsCountState,
-  loadingEntitiesState,
 } from './atoms';
-import Loader from './Loader';
 import Entities from './Entities';
 import Category from './Category';
+import CountInfo from './CountInfo';
 // import TimeTravelObserver from './TimeTravelObserver';
 
 const useStyles = makeStyles(() => ({
@@ -22,30 +20,7 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     margin: '20px 0',
   },
-  resultCount: {
-    marginLeft: '2rem',
-    marginRight: '6rem',
-  },
 }));
-
-const INIT_PAGE_SIZE = 5;
-
-function CountInfo() {
-  const classes = useStyles();
-  const [pageSize] = useState(INIT_PAGE_SIZE);
-  const countLoadable = useRecoilValue(litsCountState);
-  const loadingEntities = useRecoilValue(loadingEntitiesState);
-
-  if (loadingEntities)
-    return <div className={classes.resultCount}>Loading count...</div>;
-
-  return (
-    <Typography variant="body2" className={classes.resultCount}>
-      Showing {countLoadable > pageSize ? pageSize : countLoadable} of{' '}
-      {countLoadable} results
-    </Typography>
-  );
-}
 
 function LiteratureList({ id, name, entity, BODY_QUERY }) {
   const classes = useStyles();
@@ -96,16 +71,8 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
         <CountInfo />
         {/* <TimeTravelObserver /> */}
       </Box>
-
       <Entities id={id} name={name} />
-
-      <div>
-        <React.Suspense
-          fallback={<Loader message="Loading Europe PMC search results" />}
-        >
-          <PublicationsList hideSearch handleRowsPerPageChange={() => {}} />
-        </React.Suspense>
-      </div>
+      <PublicationsList hideSearch handleRowsPerPageChange={() => {}} />
     </div>
   );
 }

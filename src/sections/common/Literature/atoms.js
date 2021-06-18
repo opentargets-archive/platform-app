@@ -171,8 +171,7 @@ export const updateLiteratureState = selector({
 // ------------------------------------------
 export const literaturesEuropePMCQuery = selectorFamily({
   key: 'literaturesEuropePMCQuery',
-  get: queryParams => async () => {
-    const { literaturesIds } = queryParams;
+  get: ({ literaturesIds }) => async () => {
     if (literaturesIds.length === 0) return [];
     const { baseUrl, requestOptions } = europePmcBiblioSearchPOSTQuery(
       literaturesIds

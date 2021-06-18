@@ -8,7 +8,7 @@ import {
   useRecoilCallback,
 } from 'recoil';
 import Loader from './Loader';
-import { Box, Grid } from '@material-ui/core';
+import { Box, Grid, makeStyles, Fade } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 import {
@@ -23,9 +23,17 @@ import {
   literatureState,
   fetchSimilarEntities,
   updateLiteratureState,
+  tablePageSizeState,
 } from './atoms';
 
-const PublicationsList = ({ hideSearch = false, handleRowsPerPageChange }) => {
+const useStyles = makeStyles(() => ({
+  root: {
+    marginTop: 0,
+  },
+}));
+
+const PublicationsList = ({ hideSearch = false }) => {
+  const classes = useStyles();
   const lits = useRecoilValue(litsIdsState);
   const [loadingEntities, setLoadingEntities] = useRecoilState(
     loadingEntitiesState
@@ -36,6 +44,7 @@ const PublicationsList = ({ hideSearch = false, handleRowsPerPageChange }) => {
   const bibliographyState = useRecoilValue(literatureState);
   const setLiteratureUpdate = useSetRecoilState(updateLiteratureState);
   const page = useRecoilValue(tablePageState);
+  const pageSize = useRecoilValue(tablePageSizeState);
 
   // function to request 'ready' literatures ids
   const syncLiteraturesState = useRecoilCallback(
@@ -76,9 +85,50 @@ const PublicationsList = ({ hideSearch = false, handleRowsPerPageChange }) => {
     [lits]
   );
 
+  const handleRowsPerPageChange = useRecoilCallback(
+    ({ snapshot }) => async newPageSize => {
+      const expected = newPageSize * page + newPageSize;
+      if (expected > lits.length && cursor !== null) {
+        const {
+          query,
+          id,
+          category,
+          selectedEntities,
+          cursor,
+          globalEntity,
+        } = bibliographyState;
+        setLoadingEntities(true);
+        const request = await fetchSimilarEntities({
+          query,
+          id,
+          category,
+          entities: selectedEntities,
+          cursor,
+        });
+        setLoadingEntities(false);
+        const data = request.data[globalEntity];
+        const loadedPublications = await snapshot.getPromise(litsIdsState);
+        const newLits = data.literatureOcurrences?.rows?.map(({ pmid }) => ({
+          id: pmid,
+          status: 'ready',
+          publication: null,
+        }));
+        const update = {
+          litsIds: [...loadedPublications, ...newLits],
+          cursor: data.literatureOcurrences?.cursor,
+          page: 0,
+          pageSize: newPageSize,
+        };
+        setLiteratureUpdate(update);
+      } else {
+        setLiteratureUpdate({ pageSize: newPageSize });
+      }
+    }
+  );
+
   const handlePageChange = useRecoilCallback(
-    ({ set, snapshot }) => async newPage => {
-      if (5 * newPage + 5 > lits.length && cursor !== null) {
+    ({ snapshot }) => async newPage => {
+      if (pageSize * newPage + pageSize > lits.length && cursor !== null) {
         const {
           query,
           id,
@@ -110,7 +160,7 @@ const PublicationsList = ({ hideSearch = false, handleRowsPerPageChange }) => {
         };
         setLiteratureUpdate(update);
       } else {
-        set(tablePageState, newPage);
+        setLiteratureUpdate({ page: newPage });
       }
     }
   );
@@ -119,9 +169,9 @@ const PublicationsList = ({ hideSearch = false, handleRowsPerPageChange }) => {
     {
       id: 'publications',
       label: ' ',
-      renderCell: ({ id, publication, status }) => {
+      renderCell: ({ publication, status }) => {
         if (status === 'ready') return <SkeletonRow />;
-        if (status === 'missing') return <div>{id} Missing</div>;
+        if (status === 'missing') return null;
         return <PublicationWrapper {...publication} />;
       },
       filterValue: ({ row: publication }) =>
@@ -138,17 +188,23 @@ const PublicationsList = ({ hideSearch = false, handleRowsPerPageChange }) => {
   ];
 
   if (loadingEntities)
-    return <Loader message="Loading literature ocurrences results" />;
+    return (
+      <Loader
+        pageSize={pageSize}
+        message="Loading literature ocurrences results"
+      />
+    );
 
   return (
     <Table
+      classes={classes}
       showGlobalFilter={!hideSearch}
       columns={columns}
       rows={displayedPubs}
       rowCount={count}
       rowsPerPageOptions={[5, 10, 25]}
       page={page}
-      pageSize={5}
+      pageSize={pageSize}
       onPageChange={handlePageChange}
       onRowsPerPageChange={handleRowsPerPageChange}
     />
@@ -157,20 +213,22 @@ const PublicationsList = ({ hideSearch = false, handleRowsPerPageChange }) => {
 
 const SkeletonRow = () => {
   return (
-    <div>
-      <Skeleton height={45} />
-      <Box pt={0.5}>
-        <Skeleton width="60%" height={30} />
+    <Fade in>
+      <Box mb={2}>
+        <Skeleton height={60} />
+        {/* <Box pt="1px"> */}
+        <Skeleton width="60%" height={45} />
+        {/* </Box> */}
+        <Grid container wrap="nowrap">
+          <Box width={130} mr={1}>
+            <Skeleton height={45} />
+          </Box>
+          <Box width={130}>
+            <Skeleton height={45} />
+          </Box>
+        </Grid>
       </Box>
-      <Grid container wrap="nowrap">
-        <Box width={130} mr={1}>
-          <Skeleton height={30} />
-        </Box>
-        <Box width={130}>
-          <Skeleton height={30} />
-        </Box>
-      </Grid>
-    </div>
+    </Fade>
   );
 };
 
