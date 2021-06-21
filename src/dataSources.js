@@ -21,6 +21,7 @@ const dataSources = [
   { id: 'expression_atlas', label: 'Expression Atlas' },
   { id: 'phenodigm', label: 'PhenoDigm' },
   { id: 'uniprot_variants', label: 'UniProt curated variants' },
+  { id: 'orphanet', label: 'Orphanet' },
 ];
 
 export default dataSources;

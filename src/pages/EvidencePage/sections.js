@@ -19,6 +19,7 @@ import * as SlapEnrich from '../../sections/evidence/SlapEnrich';
 import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
+import * as Orphanet from '../../sections/evidence/Orphanet';
 
 const sections = [
   OTGenetics,
@@ -29,6 +30,7 @@ const sections = [
   UniProtLiterature,
   UniProtVariants,
   ClinGen,
+  Orphanet,
   CancerGeneCensus,
   IntOgen,
   EVASomatic,
