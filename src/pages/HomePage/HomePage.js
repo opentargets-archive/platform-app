@@ -24,6 +24,7 @@ import NavBar from '../../components/NavBar';
 import Search from '../../components/Search';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
+import Version from './Version';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -159,6 +160,7 @@ const HomePage = () => {
               <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
             </Hidden>
           </Grid>
+          <Version />
         </HomeBox>
 
         {/* scroll down button */}
