@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
-import { sourceMap } from '../../../constants';
+import { sourceMap, phaseMap } from '../../../constants';
 import { referenceUrls } from '../../../utils/urls';
 import {
   DataTable,
@@ -41,6 +41,8 @@ const columns = [
     label: 'Max Phase',
     sortable: true,
     width: '10%',
+    renderCell: ({ maxPhaseForIndication }) => phaseMap[maxPhaseForIndication],
+    filterValue: ({ maxPhaseForIndication }) => phaseMap[maxPhaseForIndication],
   },
   {
     id: 'references',
