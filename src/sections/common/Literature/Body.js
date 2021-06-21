@@ -12,7 +12,7 @@ import {
 import Entities from './Entities';
 import Category from './Category';
 import CountInfo from './CountInfo';
-// import TimeTravelObserver from './TimeTravelObserver';
+import TimeTravelObserver from './TimeTravelObserver';
 
 const useStyles = makeStyles(() => ({
   controlsContainer: {
@@ -63,13 +63,12 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-
   return (
     <div>
       <Box className={classes.controlsContainer}>
         <Category />
         <CountInfo />
-        {/* <TimeTravelObserver /> */}
+        {process.env.NODE_ENV === 'development' ? <TimeTravelObserver /> : null}
       </Box>
       <Entities id={id} name={name} />
       <PublicationsList hideSearch handleRowsPerPageChange={() => {}} />
