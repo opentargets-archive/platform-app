@@ -49,6 +49,7 @@
     "react-scripts": "4.0.3",
     "react-scroll": "^1.7.16",
     "react-sticky": "^6.0.3",
+    "recoil": "^0.3.0",
     "smiles-drawer": "^1.1.22",
     "tnt.api": "^0.1.1",
     "tnt.rest": "^0.1.1",
