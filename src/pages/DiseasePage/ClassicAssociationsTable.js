@@ -11,7 +11,6 @@ import dataTypes from '../../dataTypes';
 import client from '../../client';
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
-import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
   query DiseaseAssociationsQuery(
@@ -377,7 +376,7 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
         dataDownloader
         dataDownloaderRows={getAllAssociations}
         dataDownloaderFileStem={`${efoId}-associated-diseases`}
-        classes={{ root: classes.root, table: classes.table, align: 'center' }}
+        classes={{ root: classes.root, table: classes.table }}
         sortBy={sortBy}
         order="asc"
         page={page}
