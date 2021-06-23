@@ -58,11 +58,13 @@ const getIconAndTextRMTL = row => {
   let rmtlText = 'Unspecified Target';
   if (row.rmtl === 'RMT' || RMTLType === 'RMT') {
     rmtlIcon = (
-      <RelevantIcon inputWidth={8} inputHeight={18} inputFontSize={12} />
+      <RelevantIcon inputWidth={18} inputHeight={18} inputFontSize={12} />
     );
     rmtlText = 'Relevant Molecular Targent';
   } else if (row.rmtl === 'NonRMT' || RMTLType === 'NonRMT') {
-    rmtlIcon = <NonRelevantIcon />;
+    rmtlIcon = (
+      <NonRelevantIcon inputWidth={20} inputHeight={20} inputFontSize={11.5} />
+    );
     rmtlText = 'Non-Relevant Molecular Targent';
   }
   return { rmtlIcon: rmtlIcon, rmtlText: rmtlText };
@@ -163,6 +165,7 @@ function getColumns(efoId, classes) {
     {
       id: 'FDARMTL',
       label: 'FDA RMTL',
+      align: 'center',
       classes: {
         headerCell: classes.symbolHeaderCell,
         cell: classes.symbolCell,
@@ -374,7 +377,7 @@ function ClassicAssociationsTable({ efoId, aggregationFilters }) {
         dataDownloader
         dataDownloaderRows={getAllAssociations}
         dataDownloaderFileStem={`${efoId}-associated-diseases`}
-        classes={{ root: classes.root, table: classes.table }}
+        classes={{ root: classes.root, table: classes.table, align: 'center' }}
         sortBy={sortBy}
         order="asc"
         page={page}
