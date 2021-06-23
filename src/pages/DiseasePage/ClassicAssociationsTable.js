@@ -48,7 +48,7 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
   }
 `;
 
-const RMTLType = 'RMT';
+const RMTLType = 'NonRMT';
 
 /* Given a Data with RMTL properties, we can generate the corresponding of RMTL
  * Icon to display on the Associations Table and test form when user download the data.
@@ -58,7 +58,7 @@ const getIconAndTextRMTL = row => {
   let rmtlText = 'Unspecified Target';
   if (row.rmtl === 'RMT' || RMTLType === 'RMT') {
     rmtlIcon = (
-      <RelevantIcon inputWidth={18} inputHeight={18} inputFontSize={12} />
+      <RelevantIcon inputWidth={20} inputHeight={20} inputFontSize={14} />
     );
     rmtlText = 'Relevant Molecular Targent';
   } else if (row.rmtl === 'NonRMT' || RMTLType === 'NonRMT') {
