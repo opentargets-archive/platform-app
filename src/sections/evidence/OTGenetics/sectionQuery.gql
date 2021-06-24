@@ -38,6 +38,7 @@ query OpenTargetsGeneticsQuery(
           label
         }
         resourceScore
+        projectId
       }
     }
   }

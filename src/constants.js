@@ -278,3 +278,10 @@ export const formatMap = {
   json: 'JSON',
   parquet: 'Parquet',
 };
+
+export const studySourceMap = {
+  FINNGEN: 'FinnGen',
+  GCST: 'GWAS Catalog',
+  SAIGE: 'UK Biobank',
+  NEALE: 'UK Biobank',
+};
