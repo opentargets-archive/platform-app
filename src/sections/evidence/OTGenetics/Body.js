@@ -4,7 +4,11 @@ import { loader } from 'graphql.macro';
 
 import { DataTable } from '../../../components/Table';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
-import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
+import {
+  defaultRowsPerPageOptions,
+  naLabel,
+  studySourceMap,
+} from '../../../constants';
 import Description from './Description';
 import { otgStudyUrl } from '../../../utils/urls';
 import { dataTypesMap } from '../../../dataTypes';
@@ -52,6 +56,15 @@ const columns = [
     },
     filterValue: ({ literature, publicationYear, publicationFirstAuthor }) =>
       `${literature} ${publicationYear} ${publicationFirstAuthor}`,
+  },
+  {
+    id: 'studySource',
+    label: 'Study source',
+    renderCell: ({ projectId }) => {
+      if (!projectId) return naLabel;
+      if (Object.keys(studySourceMap).indexOf(projectId) < 0) return naLabel;
+      return studySourceMap[projectId];
+    },
   },
   {
     id: 'variantId',
