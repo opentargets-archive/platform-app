@@ -32,11 +32,14 @@ const columns = [
   {
     id: 'diseaseFromSource',
     label: 'Reported disease/phenotype',
-    renderCell: ({ diseaseFromSource, studyId }) => (
-      <Link external to={otgStudyUrl(studyId)}>
-        {diseaseFromSource ? diseaseFromSource : studyId}
-      </Link>
-    ),
+    renderCell: ({ diseaseFromSource, studyId }) => {
+      const parsedDiseaseFromSource = diseaseFromSource.replace(/['"]+/g, '');
+      return (
+        <Link external to={otgStudyUrl(studyId)}>
+          {diseaseFromSource ? parsedDiseaseFromSource : studyId}
+        </Link>
+      );
+    },
   },
   {
     id: 'literature',
