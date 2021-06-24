@@ -80,9 +80,7 @@ const columns = [
             </Link>
             )
           </Typography>
-        ) : (
-          naLabel
-        )}
+        ) : null}
       </>
     ),
     filterValue: ({ variantId, variantRsId }) => `${variantId} ${variantRsId}`,
