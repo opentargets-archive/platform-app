@@ -10,7 +10,7 @@ import UnspecifiedIcon from './UnspecifiedIcon';
 
 function RMTLHelper(fdaDesignationValue) {
   let rmtlObj = {
-    fdaDesignation: 'Unspecify Target',
+    fdaDesignation: 'Unspecified Target',
     icon: <UnspecifiedIcon />,
   };
 
