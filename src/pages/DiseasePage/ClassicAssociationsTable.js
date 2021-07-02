@@ -9,6 +9,8 @@ import Legend from '../../components/Legend';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 import dataTypes from '../../dataTypes';
 import client from '../../client';
+import RelevantIcon from '../../components/RMTL/RelevantIcon';
+import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
   query DiseaseAssociationsQuery(
@@ -44,6 +46,28 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
     }
   }
 `;
+
+const RMTLType = 'NonRMT';
+
+/* Given a Data with RMTL properties, we can generate the corresponding of RMTL
+ * Icon to display on the Associations Table and test form when user download the data.
+ */
+const getIconAndTextRMTL = row => {
+  let rmtlIcon = '';
+  let rmtlText = 'Unspecified Target';
+  if (row.rmtl === 'RMT' || RMTLType === 'RMT') {
+    rmtlIcon = (
+      <RelevantIcon inputWidth={20} inputHeight={20} inputFontSize={14} />
+    );
+    rmtlText = 'Relevant Molecular Targent';
+  } else if (row.rmtl === 'NonRMT' || RMTLType === 'NonRMT') {
+    rmtlIcon = (
+      <NonRelevantIcon inputWidth={20} inputHeight={20} inputFontSize={11.5} />
+    );
+    rmtlText = 'Non-Relevant Molecular Targent';
+  }
+  return { rmtlIcon: rmtlIcon, rmtlText: rmtlText };
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -137,6 +161,17 @@ const useStyles = makeStyles(theme => ({
 
 function getColumns(efoId, classes) {
   const columns = [
+    {
+      id: 'FDARMTL',
+      label: 'FDA RMTL',
+      align: 'center',
+      classes: {
+        headerCell: classes.symbolHeaderCell,
+        cell: classes.symbolCell,
+      },
+      exportValue: data => getIconAndTextRMTL(data).rmtlText,
+      renderCell: row => getIconAndTextRMTL(row).rmtlIcon,
+    },
     {
       id: 'symbol',
       label: 'Symbol',
