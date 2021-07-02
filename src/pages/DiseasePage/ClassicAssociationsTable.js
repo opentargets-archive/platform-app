@@ -35,6 +35,7 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
             id
             approvedSymbol
             approvedName
+            rmtl_fda_designation
           }
           score
           datatypeScores {
@@ -47,20 +48,18 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
   }
 `;
 
-const RMTLType = 'NonRMT';
-
 /* Given a Data with RMTL properties, we can generate the corresponding of RMTL
  * Icon to display on the Associations Table and test form when user download the data.
  */
 const getIconAndTextRMTL = row => {
   let rmtlIcon = '';
   let rmtlText = 'Unspecified Target';
-  if (row.rmtl === 'RMT' || RMTLType === 'RMT') {
+  if (row.rmtl === 'Relevant Molecular Target') {
     rmtlIcon = (
       <RelevantIcon inputWidth={20} inputHeight={20} inputFontSize={14} />
     );
     rmtlText = 'Relevant Molecular Targent';
-  } else if (row.rmtl === 'NonRMT' || RMTLType === 'NonRMT') {
+  } else if (row.rmtl === 'Non-Relevant Molecular Target') {
     rmtlIcon = (
       <NonRelevantIcon inputWidth={20} inputHeight={20} inputFontSize={11.5} />
     );
@@ -162,7 +161,7 @@ const useStyles = makeStyles(theme => ({
 function getColumns(efoId, classes) {
   const columns = [
     {
-      id: 'FDARMTL',
+      id: 'rmtl',
       label: 'FDA RMTL',
       align: 'center',
       classes: {
@@ -261,6 +260,7 @@ function getRows(data) {
       symbol: d.target.approvedSymbol,
       name: d.target.approvedName,
       score: d.score,
+      rmtl: d.target.rmtl_fda_designation,
     };
     dataTypes.forEach(dataType => {
       const dataTypeScore = d.datatypeScores.find(
