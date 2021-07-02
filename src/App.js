@@ -13,7 +13,7 @@ import DrugPage from './pages/DrugPage';
 import TargetPage from './pages/TargetPage';
 import EvidencePage from './pages/EvidencePage';
 import VariantsPage from './pages/VariantsPage';
-import DocPage from './pages/DocumentPage';
+import RMTLDocPage from './pages/RMTLDocPage';
 import NotFoundPage from './pages/NotFoundPage';
 import RMTLPage from './pages/RMTLPage/RMTLPage';
 
@@ -31,10 +31,10 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/" component={HomePage} />
-              <Route path="/doc" component={DocPage} />
+              <Route path="/rmtl" component={RMTLDocPage} />
               <Route path="/search" component={SearchPage} />
               <Route path="/downloads" component={DownloadsPage} />
-              <Route path="/FDA_RMTL" component={RMTLPage} />
+              <Route path="/fda-rmtl" component={RMTLPage} />
               <Route path="/disease/:efoId" component={DiseasePage} />
               <Route path="/target/:ensgId" component={TargetPage} />
               <Route path="/drug/:chemblId" component={DrugPage} />

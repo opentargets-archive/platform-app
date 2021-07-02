@@ -1,15 +1,20 @@
 import React from 'react';
 import { makeStyles, Avatar } from '@material-ui/core';
 
-function RelevantIcon(aWidth = 0, aHeight = 0) {
+function RelevantIcon({
+  inputWidth = 0,
+  inputHeight = 0,
+  inputFontSize = 0,
+  cursor = 'pointer',
+}) {
   const useStyles = makeStyles(theme => ({
     avatar: {
-      width: theme.spacing(3),
-      height: theme.spacing(3),
+      width: inputWidth === 0 ? theme.spacing(3) : inputWidth,
+      height: inputHeight === 0 ? theme.spacing(3) : inputHeight,
       backgroundColor: '#3489CA',
       display: 'inline-flex',
-      cursor: 'pointer',
-      fontSize: theme.spacing(2),
+      cursor: cursor,
+      fontSize: inputFontSize === 0 ? theme.spacing(2) : inputFontSize, // = 8 * 2
     },
   }));
 

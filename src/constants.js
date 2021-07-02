@@ -76,21 +76,22 @@ export const mainMenuItems = [
     url: 'https://platform-docs.opentargets.org/getting-started',
     external: true,
   },
+  // RMTL Doc
   {
-    name: 'RMTL Documentation',
-    url: '/doc',
+    name: 'RMTL ',
+    url: '/rmtl',
+    external: false,
+  },
+  // FDA RMTL
+  {
+    name: 'FDA RMTL',
+    url: '/fda-rmtl',
     external: false,
   },
   // Downloads
   {
     name: 'Data downloads',
     url: '/downloads',
-    external: false,
-  },
-  // FDA RMTL
-  {
-    name: 'FDA RMTL',
-    url: '/FDA_RMTL',
     external: false,
   },
   // API

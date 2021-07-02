@@ -217,17 +217,15 @@ class RMTLPage extends Component {
       this.versionFilterHandler
     );
     const rowsPerPageOptions = [10, 25, 50];
-    const FDA_RMTL_DocumentationUrl = '/doc';
+    const FDA_RMTL_DocumentationUrl = '/rmtl';
     const FDA_Publication =
       'https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target';
 
     return (
       <BasePage>
         <Typography variant="h4" component="h1" paragraph>
-          <b>
-            US Food & Drug Administration Relevant Molecular Target List (FDA
-            RMTL)
-          </b>
+          US Food & Drug Administration Relevant Molecular Target List (FDA
+          RMTL)
         </Typography>
         <br />
         <hr />

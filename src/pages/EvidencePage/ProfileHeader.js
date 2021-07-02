@@ -61,6 +61,8 @@ function ProfileHeader() {
     data?.disease || {};
   const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
 
+  const rmtl = data?.target.rmtl_fda_designation || undefined;
+
   const diseaseSynonyms = parseSynonyms(data?.disease.synonyms || []);
 
   const { id: ensgId, approvedSymbol } = data?.target || {};
@@ -82,6 +84,7 @@ function ProfileHeader() {
                 </Link>
                 <RMTLPopover
                   otherStyle={{ RMTLContainer: { marginLeft: '50px' } }}
+                  rmtl={rmtl}
                 />
               </Typography>
             }

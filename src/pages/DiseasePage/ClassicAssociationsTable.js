@@ -9,6 +9,8 @@ import Legend from '../../components/Legend';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 import dataTypes from '../../dataTypes';
 import client from '../../client';
+import RelevantIcon from '../../components/RMTL/RelevantIcon';
+import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 
 const DISEASE_ASSOCIATIONS_QUERY = gql`
   query DiseaseAssociationsQuery(
@@ -33,6 +35,7 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
             id
             approvedSymbol
             approvedName
+            rmtl_fda_designation
           }
           score
           datatypeScores {
@@ -44,6 +47,26 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
     }
   }
 `;
+
+/* Given a Data with RMTL properties, we can generate the corresponding of RMTL
+ * Icon to display on the Associations Table and test form when user download the data.
+ */
+const getIconAndTextRMTL = row => {
+  let rmtlIcon = '';
+  let rmtlText = 'Unspecified Target';
+  if (row.rmtl === 'Relevant Molecular Target') {
+    rmtlIcon = (
+      <RelevantIcon inputWidth={20} inputHeight={20} inputFontSize={14} />
+    );
+    rmtlText = 'Relevant Molecular Targent';
+  } else if (row.rmtl === 'Non-Relevant Molecular Target') {
+    rmtlIcon = (
+      <NonRelevantIcon inputWidth={20} inputHeight={20} inputFontSize={11.5} />
+    );
+    rmtlText = 'Non-Relevant Molecular Targent';
+  }
+  return { rmtlIcon: rmtlIcon, rmtlText: rmtlText };
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -138,6 +161,17 @@ const useStyles = makeStyles(theme => ({
 function getColumns(efoId, classes) {
   const columns = [
     {
+      id: 'rmtl',
+      label: 'FDA RMTL',
+      align: 'center',
+      classes: {
+        headerCell: classes.symbolHeaderCell,
+        cell: classes.symbolCell,
+      },
+      exportValue: data => getIconAndTextRMTL(data).rmtlText,
+      renderCell: row => getIconAndTextRMTL(row).rmtlIcon,
+    },
+    {
       id: 'symbol',
       label: 'Symbol',
       classes: {
@@ -226,6 +260,7 @@ function getRows(data) {
       symbol: d.target.approvedSymbol,
       name: d.target.approvedName,
       score: d.score,
+      rmtl: d.target.rmtl_fda_designation,
     };
     dataTypes.forEach(dataType => {
       const dataTypeScore = d.datatypeScores.find(
