@@ -13,6 +13,22 @@ import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import RMTLData from './RMTL.json';
 
+function getDownloadRows(downloadData) {
+  const rows = [];
+  downloadData.forEach(mapping => {
+    rows.push({
+      ensemblID: mapping.Ensembl_ID,
+      targetSymbol: mapping.Approved_Symbol,
+      designation: mapping.FDA_Designation,
+      version: mapping.RMTL_Version,
+      fdaClass: mapping.FDA_Class,
+      fdaTarget: mapping.FDA_Target,
+      reformatMethod: mapping.Reformat_Method,
+    });
+  });
+  return rows;
+}
+
 function getRows(downloadData) {
   const rows = [];
   downloadData.forEach(mapping => {
@@ -20,18 +36,28 @@ function getRows(downloadData) {
       ensemblID: mapping.Ensembl_ID,
       targetSymbol: mapping.Approved_Symbol,
       designation: mapping.FDA_Designation,
-      version: mapping.Version + '',
+      version: mapping.RMTL_Version + '',
+      fdaClass: mapping.FDA_Class,
+      fdaTarget: mapping.FDA_Target,
+      reformatMethod: mapping.Reformat_Method,
     });
   });
   return rows;
 }
+
 function getColumns(
   targetSymbolOption,
   targetSymbolFilterHandler,
   designationOption,
   designationFilterHandler,
   versionOption,
-  versionFilterHandler
+  versionFilterHandler,
+  fdaClassOption,
+  fdaClassFilterHandler,
+  fdaTargetOption,
+  fdaTargetFilterHandler,
+  reformatMethodOption,
+  reformatMethodFilterHandler
 ) {
   const columns = [
     {
@@ -99,21 +125,56 @@ function getColumns(
         />
       ),
     },
+    {
+      id: 'fdaClass',
+      label: 'FDA Class',
+      renderFilter: () => (
+        <Autocomplete
+          options={fdaClassOption}
+          getOptionLabel={option => option.label}
+          getOptionSelected={option => option.value}
+          onChange={fdaClassFilterHandler}
+          renderInput={params => (
+            <TextField {...params} label="Select..." margin="normal" />
+          )}
+        />
+      ),
+    },
+    {
+      id: 'fdaTarget',
+      label: 'FDA Target',
+
+      renderFilter: () => (
+        <Autocomplete
+          options={fdaTargetOption}
+          getOptionLabel={option => option.label}
+          getOptionSelected={option => option.value}
+          onChange={fdaTargetFilterHandler}
+          renderInput={params => (
+            <TextField {...params} label="Select..." margin="normal" />
+          )}
+        />
+      ),
+    },
+
+    {
+      id: 'reformatMethod',
+      label: 'Reformat Method',
+
+      renderFilter: () => (
+        <Autocomplete
+          options={reformatMethodOption}
+          getOptionLabel={option => option.label}
+          getOptionSelected={option => option.value}
+          onChange={reformatMethodFilterHandler}
+          renderInput={params => (
+            <TextField {...params} label="Select..." margin="normal" />
+          )}
+        />
+      ),
+    },
   ];
   return columns;
-}
-
-function getDownloadRows(downloadData) {
-  const rows = [];
-  downloadData.forEach(mapping => {
-    rows.push({
-      ensemblID: mapping.Ensembl_ID,
-      targetSymbol: mapping.Approved_Symbol,
-      designation: mapping.FDA_Designation,
-      version: mapping.Version,
-    });
-  });
-  return rows;
 }
 
 const downloadColumns = [
@@ -121,6 +182,9 @@ const downloadColumns = [
   { id: 'targetSymbol', label: 'Approved_Symbol' },
   { id: 'designation', label: 'FDA_Designation' },
   { id: 'version', label: 'Version' },
+  { id: 'fdaClass', label: 'FDA_Class' },
+  { id: 'fdaTarget', label: 'FDA_Target' },
+  { id: 'reformatMethod', label: 'Reformat_Method' },
 ];
 
 const getTargetSymbolOptions = rows => {
@@ -144,54 +208,78 @@ const getVersionOptions = rows => {
   }));
 };
 
+const getFdaClassOptions = rows => {
+  return _.uniqBy(rows, 'fdaClass').map(row => ({
+    label: row.fdaClass,
+    value: row.fdaClass,
+  }));
+};
+
+const getFdaTargetOptions = rows => {
+  return _.uniqBy(rows, 'fdaTarget').map(row => ({
+    label: row.fdaTarget,
+    value: row.fdaTarget,
+  }));
+};
+
+const getReformatMethodOptions = rows => {
+  return _.uniqBy(rows, 'reformatMethod').map(row => ({
+    label: row.reformatMethod,
+    value: row.reformatMethod,
+  }));
+};
+
 class RMTLPage extends Component {
   state = {
     filteredRows: getRows(RMTLData),
     pageSize: 25,
   };
-
-  targetSymbolFilterHandler = (e, selection) => {
-    const { rmtlXf, targetSymbolDim } = this;
-
+  // Generic Function to handle column filtering
+  columnFilterHandler = (e, selection, rmtlXf, columnDim) => {
     if (selection) {
-      targetSymbolDim.filter(d => d === selection.value);
+      columnDim.filter(d => d === selection.value);
     } else {
-      targetSymbolDim.filterAll();
+      columnDim.filterAll();
     }
 
     this.setState({ filteredRows: rmtlXf.allFiltered() });
+  };
+
+  targetSymbolFilterHandler = (e, selection) => {
+    this.columnFilterHandler(e, selection, this.rmtlXf, this.targetSymbolDim);
   };
 
   designationFilterHandler = (e, selection) => {
-    const { rmtlXf, designationDim } = this;
-
-    if (selection) {
-      designationDim.filter(d => d === selection.value);
-    } else {
-      designationDim.filterAll();
-    }
-
-    this.setState({ filteredRows: rmtlXf.allFiltered() });
+    this.columnFilterHandler(e, selection, this.rmtlXf, this.designationDim);
   };
 
   versionFilterHandler = (e, selection) => {
-    const { rmtlXf, versionDim } = this;
+    this.columnFilterHandler(e, selection, this.rmtlXf, this.versionDim);
+  };
 
-    if (selection) {
-      versionDim.filter(d => d === selection.value);
-    } else {
-      versionDim.filterAll();
-    }
+  fdaClassFilterHandler = (e, selection) => {
+    this.columnFilterHandler(e, selection, this.rmtlXf, this.fdaClassDim);
+  };
 
-    this.setState({ filteredRows: rmtlXf.allFiltered() });
+  fdaTargetFilterHandler = (e, selection) => {
+    this.columnFilterHandler(e, selection, this.rmtlXf, this.fdaTargetDim);
+  };
+
+  reformatMethodFilterHandler = (e, selection) => {
+    this.columnFilterHandler(e, selection, this.rmtlXf, this.reformatMethodDim);
   };
 
   componentDidMount() {
     this.rmtlXf = crossfilter(getRows(RMTLData));
+    this.targetSymbolDim = this.rmtlXf.dimension(row => row.targetSymbol);
     this.designationDim = this.rmtlXf.dimension(row => row.designation);
     this.versionDim = this.rmtlXf.dimension(row => row.version);
-    this.targetSymbolDim = this.rmtlXf.dimension(row => row.targetSymbol);
+
+    this.fdaClassDim = this.rmtlXf.dimension(row => row.fdaClass);
+    this.fdaTargetDim = this.rmtlXf.dimension(row => row.fdaTarget);
+    this.reformatMethodDim = this.rmtlXf.dimension(row => row.reformatMethod);
   }
+
   handleRowsPerPageChange = newPageSize => {
     this.setState({ pageSize: newPageSize });
   };
@@ -208,13 +296,23 @@ class RMTLPage extends Component {
     const designationOptions = getDesignationOptions(rows);
     const versionOptions = getVersionOptions(rows);
 
+    const fdaClassOptions = getFdaClassOptions(rows);
+    const fdaTargetOptions = getFdaTargetOptions(rows);
+    const reformatMethodOptions = getReformatMethodOptions(rows);
+
     const columns = getColumns(
       targetSymbolOptions,
       this.targetSymbolFilterHandler,
       designationOptions,
       this.designationFilterHandler,
       versionOptions,
-      this.versionFilterHandler
+      this.versionFilterHandler,
+      fdaClassOptions,
+      this.fdaClassFilterHandler,
+      fdaTargetOptions,
+      this.fdaTargetFilterHandler,
+      reformatMethodOptions,
+      this.reformatMethodFilterHandler
     );
     const rowsPerPageOptions = [10, 25, 50];
     const FDA_RMTL_DocumentationUrl = '/rmtl';
