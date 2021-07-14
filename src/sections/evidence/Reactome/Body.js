@@ -126,7 +126,7 @@ const columns = [
           }))}
         />
       ) : variantAminoacidDescriptions?.length === 1 ? (
-        variantAminoacidDescriptions[0]
+        <EllsWrapper>{variantAminoacidDescriptions[0]}</EllsWrapper>
       ) : (
         naLabel
       );
