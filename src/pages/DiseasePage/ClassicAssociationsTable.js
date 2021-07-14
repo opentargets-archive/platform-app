@@ -48,24 +48,21 @@ const DISEASE_ASSOCIATIONS_QUERY = gql`
   }
 `;
 
-/* Given a Data with RMTL properties, we can generate the corresponding of RMTL
- * Icon to display on the Associations Table and test form when user download the data.
+/* Given an FDA designation, getRMTLIcon can return the corresponding RMTL
+ * Icon to display on the Associations Table.
  */
-const getIconAndTextRMTL = row => {
+const getRMTLIcon = designation => {
   let rmtlIcon = '';
-  let rmtlText = 'Unspecified Target';
-  if (row.rmtl === 'Relevant Molecular Target') {
+  if (designation === 'Relevant Molecular Target') {
     rmtlIcon = (
       <RelevantIcon inputWidth={20} inputHeight={20} inputFontSize={14} />
     );
-    rmtlText = 'Relevant Molecular Targent';
-  } else if (row.rmtl === 'Non-Relevant Molecular Target') {
+  } else if (designation === 'Non-Relevant Molecular Target') {
     rmtlIcon = (
       <NonRelevantIcon inputWidth={20} inputHeight={20} inputFontSize={11.5} />
     );
-    rmtlText = 'Non-Relevant Molecular Targent';
   }
-  return { rmtlIcon: rmtlIcon, rmtlText: rmtlText };
+  return rmtlIcon;
 };
 
 const useStyles = makeStyles(theme => ({
@@ -168,8 +165,9 @@ function getColumns(efoId, classes) {
         headerCell: classes.symbolHeaderCell,
         cell: classes.symbolCell,
       },
-      exportValue: data => getIconAndTextRMTL(data).rmtlText,
-      renderCell: row => getIconAndTextRMTL(row).rmtlIcon,
+      exportValue: data =>
+        data.target.rmtl_fda_designation || 'Unspecified Target',
+      renderCell: row => getRMTLIcon(row.rmtl),
     },
     {
       id: 'symbol',
