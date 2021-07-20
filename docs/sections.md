@@ -225,8 +225,8 @@ query IndicationsQuery($chemblId: String!) {
 
 # Other examples
 
-- [Related Diseases](https://github.com/opentargets/platform-app/tree/alpha/src/sections/disease/RelatedDiseases): Uses Platform-API with separate queries for summary and body.
-- [Comparative Genomics](https://github.com/opentargets/platform-app/tree/alpha/src/sections/target/ComparativeGenomics): External API.
+- [Indications](https://github.com/opentargets/platform-app/tree/alpha/src/sections/drug/Indications): Uses Platform-API with separate queries for summary and body.
+- [EuropePmc](https://github.com/opentargets/platform-app/tree/alpha/src/sections/evidence/EuropePmc): Uses both internal and external APIs; evidence page queries requires both gene id and disease id.
 - [Baseline Expression](https://github.com/opentargets/platform-app/tree/alpha/src/sections/target/Expression): Platform-API in the summary; both Platform-API and external API in the body, uses a query inside each subcomponent.
 
 # Other documentation
