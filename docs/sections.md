@@ -15,7 +15,7 @@ src
             └── <sectionId>Query.gql
 ```
 
-The following describe all the files in detail, following the simple [TEP section](https://github.com/opentargets/platform-app/tree/alpha/src/sections/target/Tep) from the `target` entity page as an example.
+The following describe all the files in detail, following the simple [TEP section](https://github.com/opentargets/platform-app/tree/main/src/sections/target/Tep) from the `target` entity page as an example.
 
 ### GraphQL queries
 
@@ -25,7 +25,7 @@ There are generally two queries: one for the Summary and one for the actual widg
 
 Note that the Summary query is a `Fragment`: all fragments are then bundled together in one query for the page.
 
-Below we also use examples from the [Indications section](https://github.com/opentargets/platform-app/tree/alpha/src/sections/drug/Indications) on the `drug` entity page to show the Body query.
+Below we also use examples from the [Indications section](https://github.com/opentargets/platform-app/tree/main/src/sections/drug/Indications) on the `drug` entity page to show the Body query.
 
 ## <a name="index"></a> `index.js`
 
@@ -77,7 +77,7 @@ The summary component will be used in the entity's profile page, and will bring 
 - `label`: label of the entity, in case of a target it will contain the `approvedSymbol` field from the API (`ALAS2`).
 - `definition`: the `definition` object exported by [`index.js`](#index).
 
-The render must be done in using the render prop `renderSummary` of a root [`SummaryItem`](https://github.com/opentargets/platform-app/blob/alpha/src/components/Summary/SummaryItem.js) component. It must be passed the definition for the section, and takes a `data` parameter, which will contain the request's `data` field. It is safe to assume there will be data in there, as the `SummaryItem` takes care of the loading and error states.
+The render must be done in using the render prop `renderSummary` of a root [`SummaryItem`](https://github.com/opentargets/platform-app/tree/main/src/components/Summary/SummaryItem.js) component. It must be passed the definition for the section, and takes a `data` parameter, which will contain the request's `data` field. It is safe to assume there will be data in there, as the `SummaryItem` takes care of the loading and error states.
 
 For this to assumption to work when using custom requests, the `SummaryItem` component must be passed an object with the requests' state and data structured as follows:
 
@@ -87,7 +87,7 @@ For this to assumption to work when using custom requests, the `SummaryItem` com
 | error   | `object \| null` | should be `null` if no error    |
 | data    | `object \| null` |                                 |
 
-It is also worth noting that the for sections using [Open Target's GraphQL API](https://platform-api-alpha.opentargets.io/api/v4/graphql/browser), the summary should use the [`usePlatformApi` hook](https://github.com/opentargets/platform-app/blob/alpha/src/hooks/usePlatformApi.js) to store the summary data in the [context provider](https://github.com/opentargets/platform-app/blob/alpha/src/contexts/PlatformApiProvider.js), which later on can be retrieved from the section's body if it is needed. Passing the query as a parameter is optional, and it filters the object contents to only return the part relevant to this section.
+It is also worth noting that the for sections using [Open Target's GraphQL API](https://platform-api-alpha.opentargets.io/api/v4/graphql/browser), the summary should use the [`usePlatformApi` hook](https://github.com/opentargets/platform-app/tree/main/src/hooks/usePlatformApi.js) to store the summary data in the [context provider](https://github.com/opentargets/platform-app/tree/main/src/contexts/PlatformApiProvider.js), which later on can be retrieved from the section's body if it is needed. Passing the query as a parameter is optional, and it filters the object contents to only return the part relevant to this section.
 
 ```javascript
 function Summary({ definition }) {
@@ -225,9 +225,9 @@ query IndicationsQuery($chemblId: String!) {
 
 # Other examples
 
-- [Indications](https://github.com/opentargets/platform-app/tree/alpha/src/sections/drug/Indications): Uses Platform-API with separate queries for summary and body.
-- [EuropePmc](https://github.com/opentargets/platform-app/tree/alpha/src/sections/evidence/EuropePmc): Uses both internal and external APIs; evidence page queries requires both gene id and disease id.
-- [Baseline Expression](https://github.com/opentargets/platform-app/tree/alpha/src/sections/target/Expression): Platform-API in the summary; both Platform-API and external API in the body, uses a query inside each subcomponent.
+- [Indications](https://github.com/opentargets/platform-app/tree/main/src/sections/drug/Indications): Uses Platform-API with separate queries for summary and body.
+- [EuropePmc](https://github.com/opentargets/platform-app/tree/main/src/sections/evidence/EuropePmc): Uses both internal and external APIs; evidence page queries requires both gene id and disease id.
+- [Baseline Expression](https://github.com/opentargets/platform-app/tree/main/src/sections/target/Expression): Platform-API in the summary; both Platform-API and external API in the body, uses a query inside each subcomponent.
 
 # Other documentation
 
