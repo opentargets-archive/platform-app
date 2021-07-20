@@ -17,6 +17,16 @@ src
 
 The following describe all the files in detail, following the simple [TEP section](https://github.com/opentargets/platform-app/tree/alpha/src/sections/target/Tep) from the `target` entity page as an example.
 
+### GraphQL queries
+
+The queries should be imported as a separate `.gql` file whenever possible, for improved code quality and testing.
+
+There are generally two queries: one for the Summary and one for the actual widget. Some page sections will have both, some will only have the Summary query.
+
+Note that the Summary query is a `Fragment`: all fragments are then bundled together in one query for the page.
+
+Below we also use examples from the [Indications section](https://github.com/opentargets/platform-app/tree/alpha/src/sections/drug/Indications) on the `drug` entity page to show the Body query.
+
 ## <a name="index"></a> `index.js`
 
 The `index.js` defines the section information as well as exporting its `Body`and `Summary` components:
