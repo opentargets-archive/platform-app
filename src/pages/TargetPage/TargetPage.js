@@ -10,6 +10,7 @@ import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
 import Profile from '../TargetPage/Profile';
 import ClassicAssociations from '../TargetPage/ClassicAssociations';
+import AssociationsOnTheFly from './AssociationsOnTheFly';
 
 const TARGET_PAGE_QUERY = loader('./TargetPage.gql');
 
@@ -51,8 +52,10 @@ function TargetPage({ location, match }) {
 
       <Tabs
         value={
-          location.pathname.includes('associations')
+          location.pathname.endsWith('associations')
             ? `${match.url}/associations`
+            : location.pathname.endsWith('fly')
+            ? `${match.url}/associations-on-the-fly`
             : location.pathname
         }
       >
@@ -61,6 +64,12 @@ function TargetPage({ location, match }) {
           component={Link}
           to={`${match.url}/associations`}
           label="Associated diseases"
+        />
+        <Tab
+          value={`${match.url}/associations-on-the-fly`}
+          component={Link}
+          to={`${match.url}/associations-on-the-fly`}
+          label="Associations on the fly"
         />
         <Tab
           value={match.url}
@@ -72,6 +81,9 @@ function TargetPage({ location, match }) {
       <Switch>
         <Route path={`${match.path}/associations`}>
           <ClassicAssociations ensgId={ensgId} symbol={symbol} />
+        </Route>
+        <Route path={`${match.path}/associations-on-the-fly`}>
+          <AssociationsOnTheFly />
         </Route>
         <Route path={match.path}>
           <Profile ensgId={ensgId} symbol={symbol} />
