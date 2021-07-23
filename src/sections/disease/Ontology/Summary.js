@@ -1,19 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const ONTOLOGY_SUMMARY_FRAGMENT = gql`
-  fragment OntologySummaryFragment on Disease {
-    id
-    name
-    isTherapeuticArea
-    therapeuticAreas {
-      id
-    }
-  }
-`;
+const ONTOLOGY_SUMMARY_FRAGMENT = loader('./OntologySummaryFragment.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(ONTOLOGY_SUMMARY_FRAGMENT);

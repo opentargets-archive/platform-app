@@ -24,6 +24,9 @@ const summaryStyles = makeStyles(theme => ({
     '&:hover $titleHasData': {
       color: 'white',
     },
+    '&:hover $subtitle': {
+      color: 'white',
+    },
     '&:hover $subheaderHasData': {
       color: 'white',
     },
@@ -69,6 +72,12 @@ const summaryStyles = makeStyles(theme => ({
   titleHasData: {
     color: theme.palette.primary.main,
     fontWeight: 'bold',
+  },
+  subtitle: {
+    color: theme.palette.grey[500],
+  },
+  subtitleHasData: {
+    color: theme.palette.text.primary,
   },
   titleError: {
     color: theme.palette.secondary.main,

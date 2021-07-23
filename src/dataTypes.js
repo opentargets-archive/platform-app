@@ -8,4 +8,11 @@ const dataTypes = [
   { id: 'animal_model', label: 'Animal models' },
 ];
 
+const dataTypesMap = dataTypes.reduce((acc, dataType) => {
+  acc[dataType.id] = dataType.label;
+  return acc;
+}, {});
+
+export { dataTypesMap };
+
 export default dataTypes;

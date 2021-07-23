@@ -1,0 +1,5 @@
+fragment TargetMolecularInteractionsSummaryFragment on Target {
+  interactions {
+    count
+  }
+}

@@ -1,16 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const PHENOTYPES_SUMMARY_FRAGMENT = gql`
-  fragment PhenotypesSummaryFragment on Disease {
-    phenotypes(page: { index: 0, size: 0 }) {
-      count
-    }
-  }
-`;
+const PHENOTYPES_SUMMARY_FRAGMENT = loader('./PhenotypesSummaryFragment.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(PHENOTYPES_SUMMARY_FRAGMENT);

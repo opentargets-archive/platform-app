@@ -1,21 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const EXPRESSION_SUMMARY_FRAGMENT = gql`
-  fragment ExpressionSummaryFragment on Target {
-    expressions {
-      rna {
-        level
-      }
-      protein {
-        level
-      }
-    }
-  }
-`;
+const EXPRESSION_SUMMARY_FRAGMENT = loader('./ExpressionSummary.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(EXPRESSION_SUMMARY_FRAGMENT);

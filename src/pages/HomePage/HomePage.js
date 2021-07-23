@@ -10,7 +10,13 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
 
-import { appTitle, externalLinks, mainMenuItems } from '../../constants';
+import {
+  appTitle,
+  appDescription,
+  appCanonicalUrl,
+  externalLinks,
+  mainMenuItems,
+} from '../../constants';
 import Footer from '../../components/Footer';
 import HomeBox from './HomeBox';
 import Link from '../../components/Link';
@@ -18,6 +24,7 @@ import NavBar from '../../components/NavBar';
 import Search from '../../components/Search';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
+import Version from './Version';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -30,7 +37,7 @@ import {
   faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { config } from '../../config/Config';
+import config from '../../config';
 
 const useStyles = makeStyles(theme => ({
   links: {
@@ -109,7 +116,10 @@ const HomePage = () => {
 
   return (
     <>
-      <Helmet title={appTitle} />
+      <Helmet title={appTitle}>
+        <meta name="description" content={appDescription} />
+        <link rel="canonical" href={appCanonicalUrl} />
+      </Helmet>
       <Grid
         container
         justify="center"
@@ -150,6 +160,7 @@ const HomePage = () => {
               <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
             </Hidden>
           </Grid>
+          <Version />
         </HomeBox>
 
         {/* scroll down button */}

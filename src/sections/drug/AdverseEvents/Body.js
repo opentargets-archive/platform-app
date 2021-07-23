@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { makeStyles, Typography } from '@material-ui/core';
 import _ from 'lodash';
 
@@ -9,32 +10,7 @@ import { Table, PaginationActionsComplete } from '../../../components/Table';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
 import Link from '../../../components/Link';
 
-const ADVERSE_EVENTS_QUERY = gql`
-  query AdverseEventsQuery(
-    $chemblId: String!
-    $index: Int = 0
-    $size: Int = 10
-  ) {
-    drug(chemblId: $chemblId) {
-      id
-      maxLlr: adverseEvents(page: { index: 0, size: 1 }) {
-        rows {
-          logLR
-        }
-      }
-      adverseEvents(page: { index: $index, size: $size }) {
-        criticalValue
-        count
-        rows {
-          name
-          count
-          logLR
-          meddraCode
-        }
-      }
-    }
-  }
-`;
+const ADVERSE_EVENTS_QUERY = loader('./AdverseEventsQuery.gql');
 
 const useStyles = makeStyles(theme => ({
   levelBarContainer: {

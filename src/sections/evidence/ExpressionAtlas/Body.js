@@ -1,7 +1,9 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
 import Tooltip from '../../../components/Tooltip';
@@ -11,38 +13,7 @@ import Description from './Description';
 import Link from '../../../components/Link';
 import { sentenceCase } from '../../../utils/global';
 
-const EXPRESSION_ATLAS_QUERY = gql`
-  query expressionAtlasQuery(
-    $ensemblId: String!
-    $efoId: String!
-    $size: Int!
-  ) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["expression_atlas"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          contrast
-          confidence
-          studyOverview
-          log2FoldChangeValue
-          resourceScore
-          log2FoldChangePercentileRank
-          studyId
-        }
-      }
-    }
-  }
-`;
+const EXPRESSION_ATLAS_QUERY = loader('./ExpressionAtlasQuery.gql');
 
 const columns = [
   {
@@ -145,6 +116,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.rna_expression}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

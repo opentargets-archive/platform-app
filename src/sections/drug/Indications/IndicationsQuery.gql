@@ -1,0 +1,22 @@
+query IndicationsQuery($chemblId: String!) {
+  drug(chemblId: $chemblId) {
+    id
+    indications {
+      rows {
+        maxPhaseForIndication
+        disease {
+          id
+          name
+          therapeuticAreas {
+            id
+            name
+          }
+        }
+        references {
+          ids
+          source
+        }
+      }
+    }
+  }
+}

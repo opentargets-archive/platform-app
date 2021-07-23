@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import gql from 'graphql-tag';
+import { loader } from 'graphql.macro';
 import { makeStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import Link from '../../components/Link';
@@ -12,41 +12,8 @@ import client from '../../client';
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 
-const DISEASE_ASSOCIATIONS_QUERY = gql`
-  query DiseaseAssociationsQuery(
-    $efoId: String!
-    $index: Int!
-    $size: Int!
-    $filter: String
-    $sortBy: String!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    disease(efoId: $efoId) {
-      id
-      associatedTargets(
-        page: { index: $index, size: $size }
-        orderByScore: $sortBy
-        BFilter: $filter
-        aggregationFilters: $aggregationFilters
-      ) {
-        count
-        rows {
-          target {
-            id
-            approvedSymbol
-            approvedName
-            rmtl_fda_designation
-          }
-          score
-          datatypeScores {
-            componentId: id
-            score
-          }
-        }
-      }
-    }
-  }
-`;
+
+const DISEASE_ASSOCIATIONS_QUERY = loader('./DiseaseAssociations.gql');
 
 /* Given a Data with RMTL properties, we can generate the corresponding of RMTL
  * Icon to display on the Associations Table and test form when user download the data.

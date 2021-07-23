@@ -13,6 +13,7 @@ import {
 import { Element } from 'react-scroll';
 
 import ErrorBoundary from '../ErrorBoundary';
+import Chip from '../Chip';
 import SectionError from './SectionError';
 import sectionStyles from './sectionStyles';
 import { createShortName } from '../Summary/utils';
@@ -23,6 +24,7 @@ function SectionItem({
   renderDescription,
   renderBody,
   tags,
+  chipText,
 }) {
   const classes = sectionStyles();
   const { loading, error, data } = request;
@@ -40,9 +42,7 @@ function SectionItem({
               }}
               avatar={
                 <Avatar
-                  className={classNames({
-                    [classes.avatar]: true,
-                    [classes.avatarHasData]: true,
+                  className={classNames(classes.avatar, classes.avatarHasData, {
                     [classes.avatarError]: error,
                   })}
                 >
@@ -50,23 +50,28 @@ function SectionItem({
                 </Avatar>
               }
               title={
-                <Typography
-                  className={classNames({
-                    [classes.title]: true,
-                    [classes.titleHasData]: true,
-                    [classes.titleError]: error,
-                  })}
-                >
-                  {definition.name}
-                </Typography>
+                <Grid container justify="space-between">
+                  <Typography
+                    className={classNames(classes.title, classes.titleHasData, {
+                      [classes.titleError]: error,
+                    })}
+                  >
+                    {definition.name}
+                  </Typography>
+                  {chipText ? (
+                    <Chip label={chipText} className={classes.chip} />
+                  ) : null}
+                </Grid>
               }
               subheader={
                 <Typography
-                  className={classNames({
-                    [classes.description]: true,
-                    [classes.descriptionHasData]: true,
-                    [classes.descriptionError]: error,
-                  })}
+                  className={classNames(
+                    classes.description,
+                    classes.descriptionHasData,
+                    {
+                      [classes.descriptionError]: error,
+                    }
+                  )}
                 >
                   {renderDescription()}
                 </Typography>

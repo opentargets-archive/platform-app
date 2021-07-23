@@ -1,0 +1,10 @@
+query DrugPageQuery($chemblId: String!) {
+  drug(chemblId: $chemblId) {
+    id
+    name
+    crossReferences {
+      source
+      reference
+    }
+  }
+}
