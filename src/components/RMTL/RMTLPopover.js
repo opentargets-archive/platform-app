@@ -10,19 +10,22 @@ import UnspecifiedIcon from './UnspecifiedIcon';
 
 function RMTLHelper(fdaDesignationValue) {
   let rmtlObj = {
-    fdaDesignation: 'Unspecify Target',
+    fdaDesignation: 'Unspecified Target',
     icon: <UnspecifiedIcon />,
+    defaultTab: 'UnspecifyTarget',
   };
 
   if (fdaDesignationValue === 'Relevant Molecular Target') {
     rmtlObj = {
       fdaDesignation: 'Relevant Molecular Target',
       icon: <RelevantIcon />,
+      defaultTab: 'RMT',
     };
   } else if (fdaDesignationValue === 'Non-Relevant Molecular Target') {
     rmtlObj = {
       fdaDesignation: 'Non-Relevant Molecular Target',
       icon: <NonRelevantIcon />,
+      defaultTab: 'NonRMT',
     };
   }
 
@@ -66,13 +69,19 @@ function RMTLPopOver({ otherStyle, rmtl }) {
   }));
 
   const classes = useStyles();
-  const defaultTab = 'RMT';
+
+  const fdaDesignation = rmtl; // rmtlObj content will update depending if a Target is RMT, NonRMT or UnspecifyTarget
+  const rmtlObj = RMTLHelper(fdaDesignation);
+
+  const defaultTab = rmtlObj.defaultTab;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [tab, setTab] = useState(defaultTab);
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+
+  const RMTLlandingPageUrl = '/fda-rmtl';
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -83,11 +92,6 @@ function RMTLPopOver({ otherStyle, rmtl }) {
   const handleChangeTab = (_, tab) => {
     setTab(tab);
   };
-
-  const RMTLlandingPageUrl = '/fda-rmtl';
-
-  let fdaDesignation = rmtl; // rmtlObj content will update depending if a Target is RMT, NonRMT or UnspecifyTarget
-  let rmtlObj = RMTLHelper(fdaDesignation);
 
   return (
     <div className={classes.RMTLContainer} style={{ display: 'inline' }}>
