@@ -1,6 +1,7 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Box, Typography, makeStyles } from '@material-ui/core';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -18,49 +19,9 @@ import ClinvarStars from '../../../components/ClinvarStars';
 import Summary from './Summary';
 import Description from './Description';
 import Link from '../../../components/Link';
+import { dataTypesMap } from '../../../dataTypes';
 
-const EVA_SOMATIC_QUERY = gql`
-  query evaSomaticQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["eva_somatic"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          variantId
-          variantRsId
-          studyId
-          clinicalSignificances
-          allelicRequirements
-          alleleOrigins
-          confidence
-          literature
-          cohortPhenotypes
-        }
-      }
-    }
-    target(ensemblId: $ensemblId) {
-      id
-      hallmarks {
-        attributes {
-          reference {
-            pubmedId
-            description
-          }
-          name
-        }
-      }
-    }
-  }
-`;
+const EVA_SOMATIC_QUERY = loader('./EvaSomaticQuery.gql');
 
 const columns = [
   {
@@ -269,6 +230,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.somatic_mutation}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

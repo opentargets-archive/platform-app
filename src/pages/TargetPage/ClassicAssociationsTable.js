@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import gql from 'graphql-tag';
+import { loader } from 'graphql.macro';
 import { makeStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import Link from '../../components/Link';
@@ -10,39 +10,7 @@ import Legend from '../../components/Legend';
 import dataTypes from '../../dataTypes';
 import client from '../../client';
 
-const TARGET_ASSOCIATIONS_QUERY = gql`
-  query TargetAssociationsQuery(
-    $ensemblId: String!
-    $index: Int!
-    $size: Int!
-    $filter: String
-    $sortBy: String!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    target(ensemblId: $ensemblId) {
-      id
-      associatedDiseases(
-        page: { index: $index, size: $size }
-        orderByScore: $sortBy
-        BFilter: $filter
-        aggregationFilters: $aggregationFilters
-      ) {
-        count
-        rows {
-          disease {
-            id
-            name
-          }
-          score
-          datatypeScores {
-            componentId: id
-            score
-          }
-        }
-      }
-    }
-  }
-`;
+const TARGET_ASSOCIATIONS_QUERY = loader('./TargetAssociations.gql');
 
 const useStyles = makeStyles(theme => ({
   root: {

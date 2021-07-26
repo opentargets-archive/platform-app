@@ -1,0 +1,14 @@
+fragment MechanismsOfActionSummaryFragment on Drug {
+  mechanismsOfAction {
+    uniqueActionTypes
+    uniqueTargetTypes
+  }
+  parentMolecule {
+    id
+    name
+  }
+  childMolecules {
+    id
+    name
+  }
+}

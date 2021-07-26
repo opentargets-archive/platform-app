@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
+import { RecoilRoot } from 'recoil';
 import OtUiThemeProvider from './components/OtUiThemeProvider';
 import client from './client';
 import initLocalStorage from './utils/initLocalStorage';
@@ -17,8 +18,6 @@ import RMTLDocPage from './pages/RMTLDocPage';
 import NotFoundPage from './pages/NotFoundPage';
 import RMTLPage from './pages/RMTLPage/RMTLPage';
 
-import 'typeface-inter';
-
 class App extends Component {
   componentDidMount() {
     initLocalStorage();
@@ -26,25 +25,30 @@ class App extends Component {
 
   render() {
     return (
-      <ApolloProvider client={client}>
-        <OtUiThemeProvider theme={theme}>
-          <Router>
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/rmtl" component={RMTLDocPage} />
-              <Route path="/search" component={SearchPage} />
-              <Route path="/downloads" component={DownloadsPage} />
-              <Route path="/fda-rmtl" component={RMTLPage} />
-              <Route path="/disease/:efoId" component={DiseasePage} />
-              <Route path="/target/:ensgId" component={TargetPage} />
-              <Route path="/drug/:chemblId" component={DrugPage} />
-              <Route path="/evidence/:ensgId/:efoId" component={EvidencePage} />
-              <Route path="/variants" component={VariantsPage} />
-              <Route component={NotFoundPage} />
-            </Switch>
-          </Router>
-        </OtUiThemeProvider>
-      </ApolloProvider>
+      <RecoilRoot>
+        <ApolloProvider client={client}>
+          <OtUiThemeProvider theme={theme}>
+            <Router>
+              <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/search" component={SearchPage} />
+                <Route path="/downloads" component={DownloadsPage} />
+                <Route path="/disease/:efoId" component={DiseasePage} />
+                <Route path="/target/:ensgId" component={TargetPage} />
+                <Route path="/drug/:chemblId" component={DrugPage} />
+                <Route
+                  path="/evidence/:ensgId/:efoId"
+                  component={EvidencePage}
+                />
+                <Route path="/variants" component={VariantsPage} />
+                <Route path="/rmtl" component={RMTLDocPage} />
+                <Route path="/fda-rmtl" component={RMTLPage} />
+                <Route component={NotFoundPage} />
+              </Switch>
+            </Router>
+          </OtUiThemeProvider>
+        </ApolloProvider>
+      </RecoilRoot>
     );
   }
 }

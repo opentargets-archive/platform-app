@@ -1,0 +1,24 @@
+query AdverseEventsQuery(
+  $chemblId: String!
+  $index: Int = 0
+  $size: Int = 10
+) {
+  drug(chemblId: $chemblId) {
+    id
+    maxLlr: adverseEvents(page: { index: 0, size: 1 }) {
+      rows {
+        logLR
+      }
+    }
+    adverseEvents(page: { index: $index, size: $size }) {
+      criticalValue
+      count
+      rows {
+        name
+        count
+        logLR
+        meddraCode
+      }
+    }
+  }
+}

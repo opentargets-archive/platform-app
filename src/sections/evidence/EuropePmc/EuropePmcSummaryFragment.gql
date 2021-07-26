@@ -1,0 +1,10 @@
+fragment EuropePmcSummaryFragment on Disease {
+  europePmc: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["europepmc"]
+    size: 0
+  ) {
+    count
+  }
+}

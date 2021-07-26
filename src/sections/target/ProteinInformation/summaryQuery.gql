@@ -1,5 +1,7 @@
-fragment targetProteinAnnotationsFragment on Target {
+fragment ProteinInformationSummaryFragment on Target {
   proteinAnnotations {
+    id
     subcellularLocations
+    subunits
   }
 }

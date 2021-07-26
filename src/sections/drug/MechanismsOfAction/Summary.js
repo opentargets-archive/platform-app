@@ -1,25 +1,12 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const MECHANISM_OF_ACTION_SUMMARY_FRAGMENT = gql`
-  fragment MechanismsOfActionSummaryFragment on Drug {
-    mechanismsOfAction {
-      uniqueActionTypes
-      uniqueTargetTypes
-    }
-    parentMolecule {
-      id
-      name
-    }
-    childMolecules {
-      id
-      name
-    }
-  }
-`;
+const MECHANISM_OF_ACTION_SUMMARY_FRAGMENT = loader(
+  './MechanismsOfActionSummaryFragment.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(MECHANISM_OF_ACTION_SUMMARY_FRAGMENT);

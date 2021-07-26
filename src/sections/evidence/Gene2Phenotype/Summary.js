@@ -1,21 +1,12 @@
 import React from 'react';
-import { gql } from '@apollo/client';
-
+import { loader } from 'graphql.macro';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
-const GENE_2_PHENOTYPE_SUMMARY_FRAGMENT = gql`
-  fragment Gene2PhenotypeSummaryFragment on Disease {
-    gene2Phenotype: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["gene2phenotype"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const GENE_2_PHENOTYPE_SUMMARY_FRAGMENT = loader(
+  './Gene2PhenotypeSummaryFragment.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(GENE_2_PHENOTYPE_SUMMARY_FRAGMENT);
@@ -29,6 +20,7 @@ function Summary({ definition }) {
           data.gene2Phenotype.count === 1 ? 'y' : 'ies'
         }`
       }
+      subText={dataTypesMap.genetic_association}
     />
   );
 }

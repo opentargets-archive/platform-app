@@ -1,16 +1,12 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const SIMILARENTTIES_SUMMARY_FRAGMENT = gql`
-  fragment DiseaseBibliography on Disease {
-    literatureOcurrences {
-      count
-    }
-  }
-`;
+const SIMILARENTTIES_SUMMARY_FRAGMENT = loader(
+  './BibliographySummaryFragment.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(SIMILARENTTIES_SUMMARY_FRAGMENT);

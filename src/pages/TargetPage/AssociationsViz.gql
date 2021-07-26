@@ -1,0 +1,27 @@
+query AssociationsVizQuery(
+  $ensemblId: String!
+  $index: Int!
+  $size: Int!
+  $aggregationFilters: [AggregationFilter!]
+) {
+  target(ensemblId: $ensemblId) {
+    id
+    associatedDiseases(
+      page: { index: $index, size: $size }
+      aggregationFilters: $aggregationFilters
+    ) {
+      count
+      rows {
+        disease {
+          id
+          name
+        }
+        score
+        datatypeScores {
+          componentId: id
+          score
+        }
+      }
+    }
+  }
+}

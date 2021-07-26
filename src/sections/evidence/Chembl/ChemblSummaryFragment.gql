@@ -1,0 +1,10 @@
+fragment ChemblSummaryFragment on Disease {
+  chemblSummary: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["chembl"]
+    size: 0
+  ) {
+    count
+  }
+}

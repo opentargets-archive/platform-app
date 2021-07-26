@@ -1,21 +1,11 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
-const PROGENY_SUMMARY_FRAGMENT = gql`
-  fragment ProgenySummaryFragment on Disease {
-    progeny: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["progeny"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const PROGENY_SUMMARY_FRAGMENT = loader('./ProgenySummaryFragment.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(PROGENY_SUMMARY_FRAGMENT);
@@ -27,6 +17,7 @@ function Summary({ definition }) {
       renderSummary={data =>
         `${data.progeny.count} entr${data.progeny.count === 1 ? 'y' : 'ies'}`
       }
+      subText={dataTypesMap.affected_pathway}
     />
   );
 }

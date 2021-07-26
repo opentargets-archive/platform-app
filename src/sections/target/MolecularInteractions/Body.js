@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import client from '../../../client';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -14,30 +14,7 @@ import SignorTab from './SignorTab';
 import ReactomeTab from './ReactomeTab';
 import StringTab from './StringTab';
 
-const INTERACTIONS_STATS_QUERY = gql`
-  query InteractionsSectionQuery($ensgId: String!) {
-    interactionResources {
-      databaseVersion
-      sourceDatabase
-    }
-
-    target(ensemblId: $ensgId) {
-      id
-      intact: interactions(sourceDatabase: "intact") {
-        count
-      }
-      signor: interactions(sourceDatabase: "signor") {
-        count
-      }
-      reactome: interactions(sourceDatabase: "reactome") {
-        count
-      }
-      string: interactions(sourceDatabase: "string") {
-        count
-      }
-    }
-  }
-`;
+const INTERACTIONS_STATS_QUERY = loader('./InteractionsStats.gql');
 
 const getSummaryCounts = ensgId => {
   return client.query({

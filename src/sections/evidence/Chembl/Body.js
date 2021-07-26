@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import {
   defaultRowsPerPageOptions,
@@ -7,6 +8,7 @@ import {
   sourceMap,
   naLabel,
 } from '../../../constants';
+import { dataTypesMap } from '../../../dataTypes';
 import Description from './Description';
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -14,53 +16,7 @@ import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const CHEMBL_QUERY = gql`
-  query ChemblQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["chembl"]
-        size: $size
-      ) {
-        count
-        rows {
-          disease {
-            id
-            name
-          }
-          target {
-            id
-          }
-          targetFromSourceId
-          drug {
-            id
-            name
-            drugType
-            mechanismsOfAction {
-              rows {
-                mechanismOfAction
-                targets {
-                  id
-                  approvedSymbol
-                }
-              }
-            }
-          }
-          clinicalPhase
-          clinicalStatus
-          studyStartDate
-          studyStopReason
-          urls {
-            niceName
-            url
-          }
-        }
-      }
-    }
-  }
-`;
+const CHEMBL_QUERY = loader('./ChemblQuery.gql');
 
 const columns = [
   {
@@ -88,6 +44,11 @@ const columns = [
         });
         return acc;
       }, new Set());
+
+      if (symbol === '') {
+        const { approvedSymbol: targetSymbol } = target;
+        symbol = targetSymbol;
+      }
 
       return (
         <>
@@ -227,6 +188,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.known_drug}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />

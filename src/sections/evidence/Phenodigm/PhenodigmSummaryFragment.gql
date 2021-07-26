@@ -1,0 +1,10 @@
+fragment PhenodigmSummaryFragment on Disease {
+  phenodigm: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["phenodigm"]
+    size: 0
+  ) {
+    count
+  }
+}

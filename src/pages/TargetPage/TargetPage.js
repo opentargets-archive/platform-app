@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
+import { useQuery } from '@apollo/client';
 import { Switch, Route, Link } from 'react-router-dom';
 import { Tab, Tabs } from '@material-ui/core';
 
@@ -10,19 +11,8 @@ import NotFoundPage from '../NotFoundPage';
 import Profile from '../TargetPage/Profile';
 import ClassicAssociations from '../TargetPage/ClassicAssociations';
 
-const TARGET_PAGE_QUERY = gql`
-  query TargetPageQuery($ensgId: String!) {
-    target(ensemblId: $ensgId) {
-      id
-      approvedSymbol
-      approvedName
-      rmtl_fda_designation
-      proteinAnnotations {
-        id
-      }
-    }
-  }
-`;
+
+const TARGET_PAGE_QUERY = loader('./TargetPage.gql');
 
 function TargetPage({ location, match }) {
   const { ensgId } = match.params;
@@ -39,7 +29,19 @@ function TargetPage({ location, match }) {
   const uniprotId = data?.target.proteinAnnotations?.id;
 
   return (
-    <BasePage title={symbol}>
+    <BasePage
+      title={
+        location.pathname.includes('associations')
+          ? `Diseases associated with ${symbol}`
+          : `${symbol} profile page`
+      }
+      description={
+        location.pathname.includes('associations')
+          ? `Ranked list of diseases and phenotypes associated with ${symbol}`
+          : `Annotation information for ${symbol}`
+      }
+      location={location}
+    >
       <ScrollToTop />
       <Header
         loading={loading}
