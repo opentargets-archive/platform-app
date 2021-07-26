@@ -17,6 +17,16 @@ const useStyles = makeStyles({
   },
 });
 
+/**
+ * Creates an element to display values in a heatmap.
+ * It generates a <spa> element with backgroud color and a link to an evidence page.
+ * Example:
+ *  <AssocCell score={score} ensemblId={ensemblId} efoId={efoId} />
+ *
+ * @param {score} Values 0-1
+ * @param {ensemblId} String
+ * @param {efoId} String
+ */
 function AssocCell({ score, ensemblId, efoId }) {
   const classes = useStyles();
   return (
