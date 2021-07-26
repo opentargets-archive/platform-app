@@ -1,18 +1,18 @@
 // Configuration Object
 const config = {
   urlApi:
-    window.configUrlApi ??
+    window.injectedEnv.configUrlApi ??
     'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
   urlApiBeta:
-    window.configUrlApiBeta ??
+    window.injectedEnv.configUrlApiBeta ??
     'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
-  googleTagManagerID: window.configGoogleTagManagerID ?? null,
+  googleTagManagerID: window.injectedEnv.configGoogleTagManagerID ?? null,
   efoURL:
-    window.configEFOURL ??
+    window.injectedEnv.configEFOURL ??
     'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl',
-  primaryColor: window.configPrimaryColor ?? '#3489ca',
+  primaryColor: window.injectedEnv.configPrimaryColor ?? '#3489ca',
   flagShowOTARProjects:
-    window.configFlagShowOTARProjects ??
+    window.injectedEnv.configFlagShowOTARProjects ??
     false
 };
 
