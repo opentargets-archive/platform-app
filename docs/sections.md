@@ -229,6 +229,59 @@ query IndicationsQuery($chemblId: String!) {
 - [EuropePmc](https://github.com/opentargets/platform-app/tree/main/src/sections/evidence/EuropePmc): Uses both internal and external APIs; evidence page queries requires both gene id and disease id.
 - [Baseline Expression](https://github.com/opentargets/platform-app/tree/main/src/sections/target/Expression): Platform-API in the summary; both Platform-API and external API in the body, uses a query inside each subcomponent.
 
+## Display literature info in a table using the `PublicationsDrawer`
+
+Profile or evidence sections/widgets often include tables with a "publications" column. The `PublicationsDrawer` component allows to display minimal information in the table cell, which can be expanded on user click to show publications details in a clean "drawer" that slides in from the side of the page.
+
+Using the `PublicationsDrawer` component is really straightforward and ensures a consitent and unified publications display across the platform.
+The component takes one prop `entries`, an array containing Objects in the format `{name, url, group}`.
+
+Below is an example from the CancerGeneCensus evidence table.
+
+```
+// column definition
+const columns = [
+  // ...
+  {
+    label: 'Literature',
+    renderCell: ({ literature }) => {
+      const literatureList =
+        literature?.reduce((acc, id) => {
+          if (id === 'NA') return acc;
+
+          return [
+            ...acc,
+            {
+              name: id,
+              url: epmcUrl(id),
+              group: 'literature',
+            },
+          ];
+        }, []) || [];
+
+      return <PublicationsDrawer entries={literatureList} />;
+    },
+  }
+];
+
+// ...
+
+function Body({ definition, id, label }) {
+  return (
+    <SectionItem
+
+      // ...
+
+      return (
+        <DataTable
+          columns={columns}
+          // ...
+        />
+      )
+    />
+}
+```
+
 # Other documentation
 
 - [A quick guide for migrating components from the old structure](https://github.com/opentargets/platform/issues/1131#issuecomment-697681546).
