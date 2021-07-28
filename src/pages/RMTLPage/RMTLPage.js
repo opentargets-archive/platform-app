@@ -7,11 +7,14 @@ import _ from 'lodash';
 import BasePage from '../../components/BasePage';
 import Link from '../../components/Link';
 import DataDownloader from '../../components/DataDownloader';
-import OtTableRF from '../../components/OtTableRF';
+import RMTLTable from '../../components/RMTLTable';
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import RMTLData from './RMTL.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { Link as Lk } from '@material-ui/core';
 
 function getDownloadRows(downloadData) {
   const rows = [];
@@ -196,6 +199,16 @@ function getColumns(
         />
       ),
       comparator: (a, b) => genericComparator(a, b, 'reformatMethod'),
+      tooltip: {
+        badgeContent: () => (
+          <Lk
+            href="/rmtl#reformat-methods"
+            title="Reformat Method column description"
+          >
+            <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+          </Lk>
+        ),
+      },
     },
   ];
   return columns;
@@ -377,12 +390,19 @@ class RMTLPage extends Component {
           <Box m={2}>
             {loading || error ? null : (
               <>
+                <Lk
+                  href="/rmtl#colums-description"
+                  title="FDA RMTL Columns Description"
+                >
+                  <FontAwesomeIcon icon={faInfoCircle} size="md" /> Columns
+                  Description
+                </Lk>
                 <DataDownloader
                   tableHeaders={downloadColumns}
                   rows={downloadRows}
                   fileStem={`rmtl`}
                 />
-                <OtTableRF
+                <RMTLTable
                   filters
                   columns={columns}
                   data={filteredRows}
