@@ -1,0 +1,8 @@
+fragment OntologySummaryFragment on Disease {
+  id
+  name
+  isTherapeuticArea
+  therapeuticAreas {
+    id
+  }
+}

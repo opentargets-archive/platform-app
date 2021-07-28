@@ -1,25 +1,11 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import _ from 'lodash';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const CHEMICAL_PROBES_SUMMARY_FRAGMENT = gql`
-  fragment ChemicalProbesSummaryFragment on Target {
-    chemicalProbes {
-      probeminer
-      rows {
-        chemicalprobe
-        note
-        sourcelinks {
-          source
-          link
-        }
-      }
-    }
-  }
-`;
+const CHEMICAL_PROBES_SUMMARY_FRAGMENT = loader('./ProbesSummaryFragment.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(CHEMICAL_PROBES_SUMMARY_FRAGMENT);

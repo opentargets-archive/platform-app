@@ -1,39 +1,12 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Grid, Typography } from '@material-ui/core';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { Facets } from '../../components/Facets';
 
-const DISEASE_FACETS_QUERY = gql`
-  query DiseaseFacetsQuery(
-    $efoId: String!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    disease(efoId: $efoId) {
-      id
-      name
-      associatedTargets(aggregationFilters: $aggregationFilters) {
-        count
-        aggregations {
-          uniques
-          aggs {
-            name
-            uniques
-            rows {
-              key
-              uniques
-              aggs {
-                key
-                uniques
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+const DISEASE_FACETS_QUERY = loader('./DiseaseFacets.gql');
 
 function ClassicAssociations({ efoId, name }) {
   const [aggregationFilters, setAggregationFilters] = useState([]);

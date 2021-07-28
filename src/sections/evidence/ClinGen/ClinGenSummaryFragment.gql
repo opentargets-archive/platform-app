@@ -1,0 +1,10 @@
+fragment ClinGenSummaryFragment on Disease {
+  clingenSummary: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["clingen"]
+    size: 0
+  ) {
+    count
+  }
+}

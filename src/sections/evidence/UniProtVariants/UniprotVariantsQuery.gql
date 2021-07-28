@@ -1,0 +1,23 @@
+query UniprotVariantsQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      datasourceIds: ["uniprot_variants"]
+      size: $size
+    ) {
+      rows {
+        disease {
+          id
+          name
+        }
+        diseaseFromSource
+        targetFromSourceId
+        variantRsId
+        confidence
+        literature
+      }
+    }
+  }
+}

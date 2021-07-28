@@ -47,6 +47,10 @@ const sectionStyles = makeStyles(theme => ({
   titleError: {
     color: theme.palette.secondary.main,
   },
+  chip: {
+    position: 'relative',
+    top: '5px',
+  },
 }));
 
 export default sectionStyles;

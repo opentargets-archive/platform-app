@@ -4,9 +4,14 @@ import { loader } from 'graphql.macro';
 
 import { DataTable } from '../../../components/Table';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
-import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
+import {
+  defaultRowsPerPageOptions,
+  naLabel,
+  studySourceMap,
+} from '../../../constants';
 import Description from './Description';
 import { otgStudyUrl } from '../../../utils/urls';
+import { dataTypesMap } from '../../../dataTypes';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
 import Link from '../../../components/Link';
 import ScientificNotation from '../../../components/ScientificNotation';
@@ -31,11 +36,14 @@ const columns = [
   {
     id: 'diseaseFromSource',
     label: 'Reported disease/phenotype',
-    renderCell: ({ diseaseFromSource, studyId }) => (
-      <Link external to={otgStudyUrl(studyId)}>
-        {diseaseFromSource ? diseaseFromSource : studyId}
-      </Link>
-    ),
+    renderCell: ({ diseaseFromSource, studyId }) => {
+      const parsedDiseaseFromSource = diseaseFromSource.replace(/['"]+/g, '');
+      return (
+        <Link external to={otgStudyUrl(studyId)}>
+          {diseaseFromSource ? parsedDiseaseFromSource : studyId}
+        </Link>
+      );
+    },
   },
   {
     id: 'literature',
@@ -51,6 +59,15 @@ const columns = [
     },
     filterValue: ({ literature, publicationYear, publicationFirstAuthor }) =>
       `${literature} ${publicationYear} ${publicationFirstAuthor}`,
+  },
+  {
+    id: 'studySource',
+    label: 'Study source',
+    renderCell: ({ projectId }) => {
+      if (!projectId) return naLabel;
+      if (Object.keys(studySourceMap).indexOf(projectId) < 0) return naLabel;
+      return studySourceMap[projectId];
+    },
   },
   {
     id: 'variantId',
@@ -76,9 +93,7 @@ const columns = [
             </Link>
             )
           </Typography>
-        ) : (
-          naLabel
-        )}
+        ) : null}
       </>
     ),
     filterValue: ({ variantId, variantRsId }) => `${variantId} ${variantRsId}`,
@@ -200,6 +215,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.genetic_association}
       request={request}
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={data => (

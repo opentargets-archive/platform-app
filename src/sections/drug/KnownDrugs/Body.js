@@ -1,42 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import { Body as KnownDrugsBody } from '../../common/KnownDrugs';
 import Description from './Description';
 
-const KNOWN_DRUGS_BODY_QUERY = gql`
-  query KnownDrugsQuery(
-    $chemblId: String!
-    $cursor: String
-    $freeTextQuery: String
-    $size: Int = 10
-  ) {
-    drug(chemblId: $chemblId) {
-      id
-      knownDrugs(cursor: $cursor, freeTextQuery: $freeTextQuery, size: $size) {
-        count
-        cursor
-        rows {
-          phase
-          status
-          urls {
-            name
-            url
-          }
-          disease {
-            id
-            name
-          }
-          target {
-            id
-            approvedName
-            approvedSymbol
-          }
-        }
-      }
-    }
-  }
-`;
+const KNOWN_DRUGS_BODY_QUERY = loader('./KnownDrugsQuery.gql');
 
 function Body({ definition, id: chemblId, label: name }) {
   return (

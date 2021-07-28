@@ -1,0 +1,10 @@
+fragment ProgenySummaryFragment on Disease {
+  progeny: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["progeny"]
+    size: 0
+  ) {
+    count
+  }
+}

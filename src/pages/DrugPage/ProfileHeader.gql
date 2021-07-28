@@ -1,0 +1,19 @@
+fragment DrugProfileHeaderFragment on Drug {
+  description
+  drugType
+  synonyms
+  parentMolecule {
+    id
+    name
+  }
+  childMolecules {
+    id
+    name
+  }
+  isApproved
+  hasBeenWithdrawn
+  blackBoxWarning
+  maximumClinicalTrialPhase
+  tradeNames
+  yearOfFirstApproval
+}

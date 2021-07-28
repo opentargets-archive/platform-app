@@ -1,24 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const TRACTABILITY_SUMMARY_FRAGMENT = gql`
-  fragment TractabilitySummaryFragment on Target {
-    tractability {
-      smallmolecule {
-        buckets
-      }
-      antibody {
-        buckets
-      }
-      otherModalities {
-        buckets
-      }
-    }
-  }
-`;
+const TRACTABILITY_SUMMARY_FRAGMENT = loader('./TractabilitySummary.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(TRACTABILITY_SUMMARY_FRAGMENT);

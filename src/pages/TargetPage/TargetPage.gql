@@ -1,0 +1,11 @@
+query TargetPageQuery($ensgId: String!) {
+  target(ensemblId: $ensgId) {
+    id
+    approvedSymbol
+    approvedName
+    rmtl_fda_designation
+    proteinAnnotations {
+      id
+    }
+  }
+}

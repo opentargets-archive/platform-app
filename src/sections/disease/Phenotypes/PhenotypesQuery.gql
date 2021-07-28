@@ -1,0 +1,44 @@
+query PhenotypesQuery($efoId: String!, $index: Int! = 0, $size: Int! = 10) {
+  disease(efoId: $efoId) {
+    id
+    phenotypes(page: { index: $index, size: $size }) {
+      count
+      rows {
+        phenotypeHPO {
+          id
+          name
+          description
+          namespace
+        }
+        phenotypeEFO {
+          id
+          name
+        }
+        evidence {
+          aspect
+          bioCuration
+          diseaseFromSourceId
+          diseaseFromSource
+          evidenceType
+          frequency
+          frequencyHPO {
+            name
+            id
+          }
+          qualifierNot
+          onset {
+            name
+            id
+          }
+          modifiers {
+            name
+            id
+          }
+          references
+          sex
+          resource
+        }
+      }
+    }
+  }
+}

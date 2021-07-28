@@ -1,20 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
+import { dataTypesMap } from '../../../dataTypes';
 
-const EXPRESSION_ATLAS_SUMMARY = gql`
-  fragment expressionAtlasSummary on Disease {
-    expressionAtlasSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["expression_atlas"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const EXPRESSION_ATLAS_SUMMARY = loader('./ExpressionAtlasSummary.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(EXPRESSION_ATLAS_SUMMARY);
@@ -26,6 +16,7 @@ function Summary({ definition }) {
         const { count } = expressionAtlasSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
+      subText={dataTypesMap.rna_expression}
     />
   );
 }

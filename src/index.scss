@@ -16,19 +16,6 @@ code {
     monospace;
 }
 
-/* Overrides of dc.js */
-.dc-chart g.row text,
-.dc-chart .pie-label-group .pie-label {
-  fill: black;
-}
-.dc-chart .pie-slice path {
-  stroke: #fff;
-}
-
-.dcChartOverflow svg {
-  overflow: visible;
-}
-
 /* Rules for Bibliography abstract highlight */
 [data-entity='TARGET&DISEASE'],
 [data-entity='DISEASE'],

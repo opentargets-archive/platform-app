@@ -1,6 +1,7 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
+import { loader } from 'graphql.macro';
 import { identifiersOrgLink } from '../../../utils/global';
 import Link from '../../../components/Link';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -13,36 +14,9 @@ import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';
+import { dataTypesMap } from '../../../dataTypes';
 
-const UNIPROT_LITERATURE_QUERY = gql`
-  query UniprotLiteratureQuery(
-    $ensemblId: String!
-    $efoId: String!
-    $size: Int!
-  ) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["uniprot_literature"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          targetFromSourceId
-          studyId
-          literature
-          confidence
-        }
-      }
-    }
-  }
-`;
+const UNIPROT_LITERATURE_QUERY = loader('./UniprotLiteratureQuery.gql');
 
 const columns = [
   {
@@ -122,6 +96,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.genetic_association}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} diseaseName={label.name} />

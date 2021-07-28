@@ -1,18 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const PROTEIN_INFORMATION_SUMMARY_FRAGMENT = gql`
-  fragment ProteinInformationSummaryFragment on Target {
-    proteinAnnotations {
-      id
-      subcellularLocations
-      subunits
-    }
-  }
-`;
+const PROTEIN_INFORMATION_SUMMARY_FRAGMENT = loader('./summaryQuery.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(PROTEIN_INFORMATION_SUMMARY_FRAGMENT);

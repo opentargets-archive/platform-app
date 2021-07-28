@@ -49,7 +49,14 @@ export function europePmcBiblioSearchPOSTQuery(ids, size = 25) {
     query: `SRC:MED AND (ext_id:${query})`,
   };
   const formBody = encodeParams(bodyOptions);
-  return { baseUrl, formBody };
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+    },
+    body: formBody,
+  };
+  return { baseUrl, formBody, requestOptions };
 }
 
 function clinicalTrialsUrl(id) {

@@ -1,25 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const PATHWAYS_SUMMARY_FRAGMENT = gql`
-  fragment PathwaysSummaryFragment on Target {
-    proteinAnnotations {
-      id
-    }
-    reactome {
-      id
-      label
-      ancestors {
-        isRoot
-        id
-        label
-      }
-    }
-  }
-`;
+const PATHWAYS_SUMMARY_FRAGMENT = loader('./PathwaysSummary.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(PATHWAYS_SUMMARY_FRAGMENT);
