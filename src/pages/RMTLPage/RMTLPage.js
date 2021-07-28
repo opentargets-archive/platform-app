@@ -186,7 +186,6 @@ function getColumns(
     {
       id: 'reformatMethod',
       label: 'Reformat Method',
-
       renderFilter: () => (
         <Autocomplete
           options={reformatMethodOption}

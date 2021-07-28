@@ -230,6 +230,8 @@ class OtTableRF extends Component {
       this.setState({ page: 0 });
     }
   };
+
+  
   render() {
     const {
       loading,
@@ -261,6 +263,28 @@ class OtTableRF extends Component {
         ))}
       </TableRow>
     ) : null;
+    
+    const displayOrderable = column => {
+      if (column.orderable !== false) {
+        return (<TableSortLabel
+          active={column.id === sortBy}
+          direction={order}
+          onClick={this.selectSortColumn.bind(
+            null,
+            column.id
+          )}
+          className={
+            column.verticalHeader
+              ? classes.verticalHeader
+              : null
+          }
+        >
+          {column.label}
+        </TableSortLabel>)
+      }
+      return column.label
+    }
+
     return (
       <PlotContainer
         loading={loading}
@@ -316,29 +340,11 @@ class OtTableRF extends Component {
                             horizontal: 'left',
                           }}
                         >
-                          {column.orderable !== false ? (
-                            <TableSortLabel
-                              active={column.id === sortBy}
-                              direction={order}
-                              onClick={this.selectSortColumn.bind(
-                                null,
-                                column.id
-                              )}
-                              className={
-                                column.verticalHeader
-                                  ? classes.verticalHeader
-                                  : null
-                              }
-                            >
-                              {column.label}
-                            </TableSortLabel>
-                          ) : (
-                            column.label
-                          )}
+                          {displayOrderable(column)}
                         </Badge>
-                      ) : (
-                        column.label
-                      )}
+                      ) : 
+                        displayOrderable(column)
+                      }
                     </TableCell>
                   ))}
                   {verticalHeaders ? (
