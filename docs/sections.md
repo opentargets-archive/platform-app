@@ -56,7 +56,7 @@ This component is in charge of handling the data acquisition for the summary, an
 
 ![Section summary example](Summary.png)
 
-If the section uses [Open Target's GraphQL API](https://platform-api-alpha.opentargets.io/api/v4/graphql/browser), it must include a `fragments` field with the query. This is used to add the data to the context provider used by the profile page. The query should be imported as a separate .gql file whenever possible.
+If the section uses [Open Target's GraphQL API](https://api.platform.opentargets.org/api/v4/graphql/browser), it must include a `fragments` field with the query. This is used to add the data to the context provider used by the profile page. The query should be imported as a separate .gql file whenever possible.
 
 ```javascript
 const TEP_SUMMARY_FRAGMENT = loader('./TepSummaryFragment.gql');
@@ -87,7 +87,7 @@ For this to assumption to work when using custom requests, the `SummaryItem` com
 | error   | `object \| null` | should be `null` if no error    |
 | data    | `object \| null` |                                 |
 
-It is also worth noting that the for sections using [Open Target's GraphQL API](https://platform-api-alpha.opentargets.io/api/v4/graphql/browser), the summary should use the [`usePlatformApi` hook](https://github.com/opentargets/platform-app/tree/main/src/hooks/usePlatformApi.js) to store the summary data in the [context provider](https://github.com/opentargets/platform-app/tree/main/src/contexts/PlatformApiProvider.js), which later on can be retrieved from the section's body if it is needed. Passing the query as a parameter is optional, and it filters the object contents to only return the part relevant to this section.
+It is also worth noting that the for sections using [Open Target's GraphQL API](https://api.platform.opentargets.org/api/v4/graphql/browser), the summary should use the [`usePlatformApi` hook](https://github.com/opentargets/platform-app/tree/main/src/hooks/usePlatformApi.js) to store the summary data in the [context provider](https://github.com/opentargets/platform-app/tree/main/src/contexts/PlatformApiProvider.js), which later on can be retrieved from the section's body if it is needed. Passing the query as a parameter is optional, and it filters the object contents to only return the part relevant to this section.
 
 ```javascript
 function Summary({ definition }) {
