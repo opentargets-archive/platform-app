@@ -1,0 +1,16 @@
+query AssocsOnTheFlyQuery($ensemblId: String!) {
+  target(ensemblId: $ensemblId) {
+    associatedDiseases(page: { index: 0, size: 2 }) {
+      rows {
+        disease {
+          name
+        }
+        score
+        datasourceScores {
+          id
+          score
+        }
+      }
+    }
+  }
+}

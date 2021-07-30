@@ -83,7 +83,7 @@ function TargetPage({ location, match }) {
           <ClassicAssociations ensgId={ensgId} symbol={symbol} />
         </Route>
         <Route path={`${match.path}/associations-on-the-fly`}>
-          <AssociationsOnTheFly />
+          <AssociationsOnTheFly ensemblId={ensgId} />
         </Route>
         <Route path={match.path}>
           <Profile ensgId={ensgId} symbol={symbol} />
