@@ -11,7 +11,6 @@ import NotFoundPage from '../NotFoundPage';
 import Profile from '../TargetPage/Profile';
 import ClassicAssociations from '../TargetPage/ClassicAssociations';
 
-
 const TARGET_PAGE_QUERY = loader('./TargetPage.gql');
 
 function TargetPage({ location, match }) {

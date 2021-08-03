@@ -12,7 +12,6 @@ import client from '../../client';
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 
-
 const DISEASE_ASSOCIATIONS_QUERY = loader('./DiseaseAssociations.gql');
 
 /* Given an FDA designation, getRMTLIcon can return the corresponding RMTL
