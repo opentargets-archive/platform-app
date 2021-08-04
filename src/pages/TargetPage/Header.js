@@ -10,7 +10,7 @@ import {
 import HeaderBase from '../../components/Header';
 
 function Header({ loading, ensgId, uniprotId, symbol, name }) {
-  const ensemblUrl = `http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`;
+  const ensemblUrl = `https://identifiers.org/ensembl:${ensgId}`;
   const uniprotUrl = `https://identifiers.org/uniprot:${uniprotId}`;
   const genecardsUrl = `https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`;
   const hgncUrl = `https://www.genenames.org/tools/search/#!/all?query=${symbol}`;
