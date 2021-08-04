@@ -12,7 +12,7 @@ import HeaderBase from '../../components/Header';
 function Header({ loading, ensgId, uniprotId, symbol, name }) {
   const ensemblUrl = `https://identifiers.org/ensembl:${ensgId}`;
   const uniprotUrl = `https://identifiers.org/uniprot:${uniprotId}`;
-  const genecardsUrl = `https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`;
+  const genecardsUrl = `https://identifiers.org/genecards:${symbol}`;
   const hgncUrl = `https://www.genenames.org/tools/search/#!/all?query=${symbol}`;
   const geneticsUrl = `https://genetics.opentargets.org/gene/${ensgId}`;
 
