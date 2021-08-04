@@ -24,7 +24,9 @@ function TargetPage({ location, match }) {
   }
 
   const { approvedSymbol: symbol, approvedName } = data?.target || {};
-  const uniprotId = data?.target.proteinAnnotations?.id;
+  const uniprotId = data?.target.proteinIds.find(
+    p => p.source === 'uniprot_swissprot'
+  )?.id;
 
   return (
     <BasePage
