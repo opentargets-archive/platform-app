@@ -27,6 +27,8 @@ function TargetPage({ location, match }) {
   const uniprotId = data?.target.proteinIds.find(
     p => p.source === 'uniprot_swissprot'
   )?.id;
+  const crisprId = data?.target.dbXrefs.find(p => p.source === 'ProjectScore')
+    ?.id;
 
   return (
     <BasePage
@@ -49,6 +51,7 @@ function TargetPage({ location, match }) {
         uniprotId={uniprotId}
         symbol={symbol}
         name={approvedName}
+        crisprId={crisprId}
       />
 
       <Tabs

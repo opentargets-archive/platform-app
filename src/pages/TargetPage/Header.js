@@ -9,7 +9,7 @@ import {
 } from '../../components/ExternalLink';
 import HeaderBase from '../../components/Header';
 
-function Header({ loading, ensgId, uniprotId, symbol, name }) {
+function Header({ loading, ensgId, uniprotId, symbol, name, crisprId }) {
   const ensemblUrl = `https://identifiers.org/ensembl:${ensgId}`;
   const uniprotUrl = `https://identifiers.org/uniprot:${uniprotId}`;
   const genecardsUrl = `https://identifiers.org/genecards:${symbol}`;
@@ -28,7 +28,7 @@ function Header({ loading, ensgId, uniprotId, symbol, name }) {
           <ExternalLink title="UniProt" id={uniprotId} url={uniprotUrl} />
           <ExternalLink title="GeneCards" id={symbol} url={genecardsUrl} />
           <ExternalLink title="HGNC" id={symbol} url={hgncUrl} />
-          <CrisprDepmapLink symbol={symbol} />
+          <CrisprDepmapLink id={crisprId} />
           <TepLink ensgId={ensgId} symbol={symbol} />
         </>
       }
