@@ -13,7 +13,7 @@ function Header({ loading, ensgId, uniprotId, symbol, name }) {
   const ensemblUrl = `https://identifiers.org/ensembl:${ensgId}`;
   const uniprotUrl = `https://identifiers.org/uniprot:${uniprotId}`;
   const genecardsUrl = `https://identifiers.org/genecards:${symbol}`;
-  const hgncUrl = `https://www.genenames.org/tools/search/#!/all?query=${symbol}`;
+  const hgncUrl = `https://identifiers.org/hgnc.symbol:${symbol}`;
   const geneticsUrl = `https://genetics.opentargets.org/gene/${ensgId}`;
 
   return (
