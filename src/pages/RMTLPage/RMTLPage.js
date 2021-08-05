@@ -23,7 +23,6 @@ function getDownloadRows(downloadData) {
       ensemblID: mapping.Ensembl_ID,
       targetSymbol: mapping.Approved_Symbol,
       designation: mapping.FDA_Designation,
-      version: mapping.RMTL_Version,
       fdaClass: mapping.FDA_Class,
       fdaTarget: mapping.FDA_Target,
       reformatMethod: mapping.Reformat_Method,
@@ -39,7 +38,6 @@ function getRows(downloadData) {
       ensemblID: mapping.Ensembl_ID,
       targetSymbol: mapping.Approved_Symbol,
       designation: mapping.FDA_Designation,
-      version: mapping.RMTL_Version + '',
       fdaClass: mapping.FDA_Class,
       fdaTarget: mapping.FDA_Target,
       reformatMethod: mapping.Reformat_Method,
@@ -71,8 +69,6 @@ function getColumns(
   targetSymbolFilterHandler,
   designationOption,
   designationFilterHandler,
-  versionOption,
-  versionFilterHandler,
   fdaClassOption,
   fdaClassFilterHandler,
   fdaTargetOption,
@@ -132,22 +128,6 @@ function getColumns(
         />
       ),
       comparator: (a, b) => genericComparator(a, b, 'designation'),
-    },
-    {
-      id: 'version',
-      label: 'Version',
-      renderFilter: () => (
-        <Autocomplete
-          options={versionOption}
-          getOptionLabel={option => option.label}
-          getOptionSelected={option => option.value}
-          onChange={versionFilterHandler}
-          renderInput={params => (
-            <TextField {...params} label="Select..." margin="normal" />
-          )}
-        />
-      ),
-      comparator: (a, b) => genericComparator(a, b, 'version'),
     },
     {
       id: 'fdaClass',
@@ -217,7 +197,6 @@ const downloadColumns = [
   { id: 'ensemblID', label: 'Ensembl_ID' },
   { id: 'targetSymbol', label: 'Approved_Symbol' },
   { id: 'designation', label: 'FDA_Designation' },
-  { id: 'version', label: 'Version' },
   { id: 'fdaClass', label: 'FDA_Class' },
   { id: 'fdaTarget', label: 'FDA_Target' },
   { id: 'reformatMethod', label: 'Reformat_Method' },
@@ -234,13 +213,6 @@ const getDesignationOptions = rows => {
   return _.uniqBy(rows, 'designation').map(row => ({
     label: row.designation,
     value: row.designation,
-  }));
-};
-
-const getVersionOptions = rows => {
-  return _.uniqBy(rows, 'version').map(row => ({
-    label: row.version + '',
-    value: row.version + '',
   }));
 };
 
@@ -289,10 +261,6 @@ class RMTLPage extends Component {
     this.columnFilterHandler(e, selection, this.rmtlXf, this.designationDim);
   };
 
-  versionFilterHandler = (e, selection) => {
-    this.columnFilterHandler(e, selection, this.rmtlXf, this.versionDim);
-  };
-
   fdaClassFilterHandler = (e, selection) => {
     this.columnFilterHandler(e, selection, this.rmtlXf, this.fdaClassDim);
   };
@@ -309,7 +277,6 @@ class RMTLPage extends Component {
     this.rmtlXf = crossfilter(getRows(RMTLData));
     this.targetSymbolDim = this.rmtlXf.dimension(row => row.targetSymbol);
     this.designationDim = this.rmtlXf.dimension(row => row.designation);
-    this.versionDim = this.rmtlXf.dimension(row => row.version);
 
     this.fdaClassDim = this.rmtlXf.dimension(row => row.fdaClass);
     this.fdaTargetDim = this.rmtlXf.dimension(row => row.fdaTarget);
@@ -330,7 +297,6 @@ class RMTLPage extends Component {
       error = false;
     const targetSymbolOptions = getTargetSymbolOptions(rows);
     const designationOptions = getDesignationOptions(rows);
-    const versionOptions = getVersionOptions(rows);
 
     const fdaClassOptions = getFdaClassOptions(rows);
     const fdaTargetOptions = getFdaTargetOptions(rows);
@@ -341,8 +307,6 @@ class RMTLPage extends Component {
       this.targetSymbolFilterHandler,
       designationOptions,
       this.designationFilterHandler,
-      versionOptions,
-      this.versionFilterHandler,
       fdaClassOptions,
       this.fdaClassFilterHandler,
       fdaTargetOptions,
