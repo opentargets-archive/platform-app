@@ -10,7 +10,7 @@ import usePlatformApi from '../../hooks/usePlatformApi';
 
 const TARGET_PROFILE_HEADER_FRAGMENT = loader('./TargetProfileHeader.gql');
 
-/**
+/*
  * Target synonyms from the API have a "label" and a "source"
  * and can be lister more than once, with different sources.
  * Parse synonyms to a unique list (label) where terms can have
@@ -18,6 +18,13 @@ const TARGET_PROFILE_HEADER_FRAGMENT = loader('./TargetProfileHeader.gql');
  */
 const parseSynonyms = synonyms => {
   const t = [];
+  // Synonyms needs to be sorted by source in specific order
+  // (order converted to a map for convenience when doing the sort)
+  const sortingOrder = ['HGNC', 'uniprot', 'NCBI_entrez'].reduce(
+    (acc, a, i) => ({ ...acc, [a]: i }),
+    {}
+  );
+
   synonyms.forEach(s => {
     const thisSyn = t.find(
       t => t.label.toLowerCase() === s.label.toLowerCase()
@@ -30,6 +37,11 @@ const parseSynonyms = synonyms => {
       thisSyn.tooltip.push(s.source);
     }
   });
+  t.sort(
+    (a, b) =>
+      (sortingOrder[a.tooltip[0]] || -1) - (sortingOrder[b.tooltip[0]] || -1)
+  );
+
   // Tooltip component needs a string to display correctly
   t.forEach(syn => (syn.tooltip = syn.tooltip.join(', ')));
   return t;
