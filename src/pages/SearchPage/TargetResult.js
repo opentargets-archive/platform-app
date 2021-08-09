@@ -27,9 +27,9 @@ const TargetResult = ({ classes, data, highlights }) => {
         <FontAwesomeIcon icon={faDna} className={classes.icon} />{' '}
         {data.approvedSymbol}
       </Link>
-      {data.proteinAnnotations ? (
+      {data.functionDescriptions.length > 0 ? (
         <Typography variant="body2" component="div">
-          <Clampy clampSize="4">{data.proteinAnnotations.functions[0]}</Clampy>
+          <Clampy clampSize="4">{data.functionDescriptions[0]}</Clampy>
         </Typography>
       ) : null}
       <Highlights highlights={highlights} />

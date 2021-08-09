@@ -17,11 +17,11 @@ const TargetDetail = ({ classes, data }) => {
     id,
     approvedSymbol,
     approvedName,
+    functionDescriptions,
     proteinAnnotations,
-    bioType,
+    biotype,
   } = data;
 
-  const functions = proteinAnnotations ? proteinAnnotations.functions : null;
   const accessions = proteinAnnotations ? proteinAnnotations.accessions : null;
 
   return (
@@ -34,11 +34,13 @@ const TargetDetail = ({ classes, data }) => {
         <Typography color="primary">
           <FontAwesomeIcon icon={faDna} /> Target
         </Typography>
-        {functions ? <LongText lineLimit={4}>{functions[0]}</LongText> : null}
+        {functionDescriptions.length > 0 ? (
+          <LongText lineLimit={4}>{functionDescriptions[0]}</LongText>
+        ) : null}
         <Typography className={classes.subtitle} variant="subtitle1">
           Biotype
         </Typography>
-        <Typography variant="body2">{bioType}</Typography>
+        <Typography variant="body2">{biotype}</Typography>
         {/* temporarily hide uniprot accessions */}
         {/* accessions && accessions.length > 0*/ false ? (
           <>
