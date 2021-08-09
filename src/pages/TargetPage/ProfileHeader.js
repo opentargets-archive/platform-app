@@ -17,42 +17,42 @@ const TARGET_PROFILE_HEADER_FRAGMENT = loader('./TargetProfileHeader.gql');
  * multiple sources in a tooltip
  */
 const parseSynonyms = synonyms => {
-  const t = [];
+  const sources = {
+    HGNC: 'HGNC',
+    uniprot: 'UniProt',
+    NCBI_entrez: 'Entrez',
+  };
   // Synonyms needs to be sorted by source in specific order
   // (order converted to a map for convenience when doing the sort)
   const sortingOrder = ['HGNC', 'uniprot', 'NCBI_entrez'].reduce(
     (acc, a, i) => ({ ...acc, [a]: i }),
     {}
   );
+  const sortedSynonyms = synonyms
+    .slice()
+    .sort((a, b) => sortingOrder[a.source] - sortingOrder[b.source]);
 
-  const sources = {
-    HGNC: 'HGNC',
-    uniprot: 'UniProt',
-    NCBI_entrez: 'Entrez',
-  };
+  const parsedSynonyms = [];
 
-  synonyms.forEach(s => {
-    const thisSyn = t.find(
-      t => t.label.toLowerCase() === s.label.toLowerCase()
+  sortedSynonyms.forEach(s => {
+    const thisSyn = parsedSynonyms.find(
+      parsedSynonyms =>
+        parsedSynonyms.label.toLowerCase() === s.label.toLowerCase()
     );
     if (!thisSyn) {
-      t.push({ label: s.label, tooltip: [s.source] });
+      parsedSynonyms.push({ label: s.label, tooltip: [s.source] });
     } else {
-      // if the synonym is already in the list,
-      // just add the source to its tooltip
+      // if synonym already in the list add the source to its tooltip
       thisSyn.tooltip.push(s.source);
     }
   });
-  t.sort(
-    (a, b) =>
-      (sortingOrder[a.tooltip[0]] || -1) - (sortingOrder[b.tooltip[0]] || -1)
-  );
 
-  t.forEach(
+  parsedSynonyms.forEach(
     syn =>
       (syn.tooltip = 'Source: ' + syn.tooltip.map(s => sources[s]).join(', '))
   );
-  return t;
+
+  return parsedSynonyms;
 };
 
 function ProfileHeader() {
