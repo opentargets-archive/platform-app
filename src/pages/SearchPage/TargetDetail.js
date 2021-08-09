@@ -18,11 +18,10 @@ const TargetDetail = ({ classes, data }) => {
     approvedSymbol,
     approvedName,
     functionDescriptions,
-    proteinAnnotations,
     biotype,
   } = data;
 
-  const accessions = proteinAnnotations ? proteinAnnotations.accessions : null;
+  // const accessions = proteinAnnotations ? proteinAnnotations.accessions : null;
 
   return (
     <>
@@ -42,7 +41,7 @@ const TargetDetail = ({ classes, data }) => {
         </Typography>
         <Typography variant="body2">{biotype}</Typography>
         {/* temporarily hide uniprot accessions */}
-        {/* accessions && accessions.length > 0*/ false ? (
+        {/* {accessions && accessions.length > 0 ? (
           <>
             <Typography className={classes.subtitle} variant="subtitle1">
               Uniprot accessions
@@ -60,7 +59,7 @@ const TargetDetail = ({ classes, data }) => {
               );
             })}
           </>
-        ) : null}
+        ) : null} */}
       </CardContent>
     </>
   );
