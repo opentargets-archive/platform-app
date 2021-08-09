@@ -25,6 +25,12 @@ const parseSynonyms = synonyms => {
     {}
   );
 
+  const sources = {
+    HGNC: 'HGNC',
+    uniprot: 'UniProt',
+    NCBI_entrez: 'Entrez',
+  };
+
   synonyms.forEach(s => {
     const thisSyn = t.find(
       t => t.label.toLowerCase() === s.label.toLowerCase()
@@ -42,8 +48,10 @@ const parseSynonyms = synonyms => {
       (sortingOrder[a.tooltip[0]] || -1) - (sortingOrder[b.tooltip[0]] || -1)
   );
 
-  // Tooltip component needs a string to display correctly
-  t.forEach(syn => (syn.tooltip = syn.tooltip.join(', ')));
+  t.forEach(
+    syn =>
+      (syn.tooltip = 'Source: ' + syn.tooltip.map(s => sources[s]).join(', '))
+  );
   return t;
 };
 
