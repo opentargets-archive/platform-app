@@ -35,6 +35,8 @@ export const sentenceCase = str =>
 
 export const formatComma = d3.format(',');
 
-export function getUniprotId(proteinIds) {
-  return proteinIds.find(p => p.source === 'uniprot_swissprot')?.id;
+export function getUniprotIds(proteinIds) {
+  return proteinIds
+    .filter(proteinId => proteinId.source === 'uniprot_swissprot')
+    .map(proteinId => proteinId.id);
 }

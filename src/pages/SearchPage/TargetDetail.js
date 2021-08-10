@@ -5,7 +5,7 @@ import { faDna } from '@fortawesome/free-solid-svg-icons';
 
 import Link from '../../components/Link';
 import LongText from '../../components/LongText';
-import { getUniprotId } from '../../utils/global';
+import { getUniprotIds } from '../../utils/global';
 
 const styles = () => ({
   subtitle: {
@@ -22,6 +22,8 @@ const TargetDetail = ({ classes, data }) => {
     biotype,
     proteinIds,
   } = data;
+
+  const uniprotIds = getUniprotIds(proteinIds);
 
   return (
     <>
@@ -41,9 +43,13 @@ const TargetDetail = ({ classes, data }) => {
         </Typography>
         <Typography variant="body2">{biotype}</Typography>
         <Typography className={classes.subtitle} variant="subtitle1">
-          UniProt protein ID
+          UniProt protein ID{uniprotIds.length > 1 ? 's' : ''}
         </Typography>
-        <Typography variant="body2">{getUniprotId(proteinIds)}</Typography>
+        <Typography component="div" variant="body2">
+          {uniprotIds.map(id => (
+            <div key={id}>{id}</div>
+          ))}
+        </Typography>
       </CardContent>
     </>
   );

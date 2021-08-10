@@ -10,6 +10,7 @@ import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
 import Profile from '../TargetPage/Profile';
 import ClassicAssociations from '../TargetPage/ClassicAssociations';
+import { getUniprotIds } from '../../utils/global';
 
 const TARGET_PAGE_QUERY = loader('./TargetPage.gql');
 
@@ -24,9 +25,7 @@ function TargetPage({ location, match }) {
   }
 
   const { approvedSymbol: symbol, approvedName } = data?.target || {};
-  const uniprotId = data?.target.proteinIds.find(
-    p => p.source === 'uniprot_swissprot'
-  )?.id;
+  const uniprotId = loading ? null : getUniprotIds(data.target.proteinIds)[0];
   const crisprId = data?.target.dbXrefs.find(p => p.source === 'ProjectScore')
     ?.id;
 
