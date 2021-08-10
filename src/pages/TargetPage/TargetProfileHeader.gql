@@ -3,4 +3,5 @@ fragment TargetProfileHeaderFragment on Target {
     label
     source
   }
+  functionDescriptions
 }

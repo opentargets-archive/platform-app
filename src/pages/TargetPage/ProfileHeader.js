@@ -61,7 +61,7 @@ function ProfileHeader() {
   //TODO: Errors!
   if (error) return null;
 
-  const description = data?.target.proteinAnnotations?.functions?.[0];
+  const description = data?.target.functionDescriptions?.[0];
   const synonyms = parseSynonyms(data?.target.synonyms || []);
 
   return (
