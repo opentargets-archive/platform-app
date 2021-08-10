@@ -1,4 +1,5 @@
 fragment TargetProfileHeaderFragment on Target {
+  functionDescriptions
   synonyms{
     label
     source
