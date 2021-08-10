@@ -50,8 +50,12 @@ query SearchPageQuery(
           id
           approvedSymbol
           approvedName
-          biotype
           functionDescriptions
+          biotype
+          proteinIds {
+            id
+            source
+          }
         }
         ... on Disease {
           id
