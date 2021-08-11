@@ -43,7 +43,7 @@ const TargetDetail = ({ classes, data }) => {
         </Typography>
         <Typography variant="body2">{biotype}</Typography>
         <Typography className={classes.subtitle} variant="subtitle1">
-          UniProt protein ID{uniprotIds.length > 1 ? 's' : ''}
+          UniProt accession{uniprotIds.length > 1 ? 's' : ''}
         </Typography>
         <Typography component="div" variant="body2">
           {uniprotIds.map(id => (
