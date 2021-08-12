@@ -13,7 +13,7 @@ import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics'
 // import * as Safety from '../../sections/target/Safety';
 // import * as Tep from '../../sections/target/Tep';
 // import * as Tractability from '../../sections/target/Tractability';
-// import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
+import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
 const sections = [
   // KnownDrugs,
@@ -24,7 +24,7 @@ const sections = [
   // BaselineExpression,
   // GeneOntology,
   // ProteinInformation,
-  // MolecularInteractions,
+  MolecularInteractions,
   // Pathways,
   // CancerBiomarkers,
   // CancerHallmarks,
