@@ -1,13 +1,9 @@
 fragment TractabilitySummaryFragment on Target {
-  tractability {
-    smallmolecule {
-      buckets
-    }
-    antibody {
-      buckets
-    }
-    otherModalities {
-      buckets
-    }
+  id
+  tractability{
+    value
+    modality
+    # Must rename the id, or Apollo will cache it, messing up the response data
+    label: id
   }
 }
