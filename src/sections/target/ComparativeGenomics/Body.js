@@ -37,12 +37,8 @@ function Body({ definition, id: ensemblId, label: symbol }) {
             <Tab value="table" label="Homology table" />
             <Tab value="tree" label="Gene tree" />
           </Tabs>
-          {tab === 'table' ? (
-            <HomologyTableTab symbol={symbol} data={data} />
-          ) : null}
-          {tab === 'tree' ? (
-            <GeneTreeTab ensgId={ensemblId} symbol={symbol} />
-          ) : null}
+          {tab === 'table' ? <HomologyTableTab data={data} /> : null}
+          {tab === 'tree' ? <GeneTreeTab ensgId={ensemblId} /> : null}
         </>
       )}
     />
