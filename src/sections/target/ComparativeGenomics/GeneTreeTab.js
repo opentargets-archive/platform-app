@@ -35,14 +35,18 @@ class GeneTreeTab extends React.Component {
   };
 
   async componentDidMount() {
-    await import('tntvis');
-    await import('tnt.utils');
-    await import('tnt.rest');
-    const tooltip = await import('../../../utils/tooltip');
+    await Promise.all([
+      import('tntvis'),
+      import('tnt.utils'),
+      import('tnt.rest'),
+    ]);
+    const [tooltip, targetGeneTree] = await Promise.all([
+      import('../../../utils/tooltip'),
+      import('cttv.targetGeneTree'),
+    ]);
 
     window.tnt.tooltip = tooltip.default;
 
-    const targetGeneTree = await import('cttv.targetGeneTree');
     this.targetGeneTree = targetGeneTree.default;
     this.setState({ componentLoaded: true });
 
