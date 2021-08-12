@@ -13,6 +13,7 @@ const columns = [
   {
     id: 'homologyType',
     label: 'Homology type',
+    renderCell: ({ homologyType }) => homologyType.replace(/_/, ' '),
   },
   {
     id: 'targetGeneSymbol',
@@ -46,12 +47,11 @@ const columns = [
 ];
 
 function HomologyTableTab({ data }) {
-  const { homologues } = data.target;
   return (
     <DataTable
       dataDownloader
       columns={columns}
-      rows={homologues}
+      rows={data.target.homologues}
       rowsPerPageOptions={defaultRowsPerPageOptions}
     />
   );
