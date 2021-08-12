@@ -6,7 +6,7 @@
 // import * as ChemicalProbes from '../../sections/target/ChemicalProbes';
 // import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics';
 // import * as GeneOntology from '../../sections/target/GeneOntology';
-// import * as KnownDrugs from '../../sections/target/KnownDrugs';
+import * as KnownDrugs from '../../sections/target/KnownDrugs';
 // import * as MousePhenotypes from '../../sections/target/MousePhenotypes';
 // import * as Pathways from '../../sections/target/Pathways';
 // import * as ProteinInformation from '../../sections/target/ProteinInformation';
@@ -16,7 +16,7 @@
 // import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
 const sections = [
-  // KnownDrugs,
+  KnownDrugs,
   // Tractability,
   // Safety,
   // Tep,
