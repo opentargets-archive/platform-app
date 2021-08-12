@@ -12,12 +12,12 @@
 // import * as ProteinInformation from '../../sections/target/ProteinInformation';
 // import * as Safety from '../../sections/target/Safety';
 // import * as Tep from '../../sections/target/Tep';
-// import * as Tractability from '../../sections/target/Tractability';
+import * as Tractability from '../../sections/target/Tractability';
 // import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
 const sections = [
   // KnownDrugs,
-  // Tractability,
+  Tractability,
   // Safety,
   // Tep,
   // ChemicalProbes,
