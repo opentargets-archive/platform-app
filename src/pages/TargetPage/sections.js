@@ -4,7 +4,7 @@ import * as Bibliography from '../../sections/target/Bibliography';
 // import * as CancerBiomarkers from '../../sections/target/CancerBiomarkers';
 // import * as CancerHallmarks from '../../sections/target/CancerHallmarks';
 // import * as ChemicalProbes from '../../sections/target/ChemicalProbes';
-// import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics';
+import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics';
 // import * as GeneOntology from '../../sections/target/GeneOntology';
 // import * as KnownDrugs from '../../sections/target/KnownDrugs';
 // import * as MousePhenotypes from '../../sections/target/MousePhenotypes';
@@ -29,7 +29,7 @@ const sections = [
   // CancerBiomarkers,
   // CancerHallmarks,
   // MousePhenotypes,
-  // ComparativeGenomics,
+  ComparativeGenomics,
   Bibliography,
 ];
 export default sections;
