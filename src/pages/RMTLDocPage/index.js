@@ -65,11 +65,6 @@ function RMTLDocPage() {
         'FDA designation of “Relevant” or “Non-Relevant” in the growth of pediatric cancers',
       ],
       [
-        'Version',
-        1,
-        'Release version of the RMTL as presented in Open Targets',
-      ],
-      [
         'FDA Class',
         'Gene Abnormality',
         'Category of the target as listed in the FDA publication',
