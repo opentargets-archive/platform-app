@@ -1,7 +1,6 @@
 fragment ProteinInformationSummaryFragment on Target {
-  proteinAnnotations {
+  proteinIds {
     id
-    subcellularLocations
-    subunits
+    source
   }
 }

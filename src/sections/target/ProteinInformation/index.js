@@ -1,9 +1,15 @@
 export const definition = {
   id: 'proteinInformation',
-  name: 'Protein Information',
-  shortName: 'PI',
-  hasData: data =>
-    data.proteinAnnotations?.subcellularLocations.length > 0 || false,
+  name: 'ProtVista',
+  shortName: 'PV',
+  hasData: ({ proteinIds }) => {
+    for (let i = 0; i < proteinIds.length; i++) {
+      if (proteinIds[i].source === 'uniprot_swissprot') {
+        return true;
+      }
+    }
+    return false;
+  },
 };
 
 export { default as Summary } from './Summary';
