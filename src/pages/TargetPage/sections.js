@@ -1,5 +1,5 @@
 // Section imports
-// import * as BaselineExpression from '../../sections/target/Expression';
+import * as BaselineExpression from '../../sections/target/Expression';
 import * as Bibliography from '../../sections/target/Bibliography';
 // import * as CancerBiomarkers from '../../sections/target/CancerBiomarkers';
 // import * as CancerHallmarks from '../../sections/target/CancerHallmarks';
@@ -21,7 +21,7 @@ const sections = [
   // Safety,
   // Tep,
   // ChemicalProbes,
-  // BaselineExpression,
+  BaselineExpression,
   // GeneOntology,
   ProtVista,
   MolecularInteractions,
