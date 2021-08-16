@@ -5,7 +5,7 @@ import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { getUniprotIds } from '../../../utils/global';
-import ProtVistaTab from './ProtVistaTab';
+import ProtVista from './ProtVista';
 
 const PROTVISTA_SUMMARY_FRAGMENT = loader('./summaryQuery.gql');
 
@@ -20,7 +20,7 @@ function Body({ definition, label: symbol }) {
       renderBody={({ proteinIds }) => {
         const uniprotId = getUniprotIds(proteinIds)[0];
 
-        return <ProtVistaTab uniprotId={uniprotId} />;
+        return <ProtVista uniprotId={uniprotId} />;
       }}
     />
   );
