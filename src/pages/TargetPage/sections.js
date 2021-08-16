@@ -11,7 +11,7 @@ import * as KnownDrugs from '../../sections/target/KnownDrugs';
 // import * as Pathways from '../../sections/target/Pathways';
 import * as ProtVista from '../../sections/target/ProtVista';
 // import * as Safety from '../../sections/target/Safety';
-// import * as Tep from '../../sections/target/Tep';
+import * as Tep from '../../sections/target/Tep';
 // import * as Tractability from '../../sections/target/Tractability';
 import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
@@ -19,7 +19,7 @@ const sections = [
   KnownDrugs,
   // Tractability,
   // Safety,
-  // Tep,
+  Tep,
   // ChemicalProbes,
   // BaselineExpression,
   // GeneOntology,
