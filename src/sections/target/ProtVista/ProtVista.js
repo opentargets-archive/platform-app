@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'litemol/dist/css/LiteMol-plugin.css';
 
-function ProtVistaTab({ uniprotId }) {
+function ProtVista({ uniprotId }) {
   const [componentLoaded, setComponentLoaded] = useState(false);
 
   useEffect(() => {
@@ -27,4 +27,4 @@ function ProtVistaTab({ uniprotId }) {
   );
 }
 
-export default ProtVistaTab;
+export default ProtVista;
