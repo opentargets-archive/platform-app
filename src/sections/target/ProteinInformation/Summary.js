@@ -19,7 +19,7 @@ function Summary({ definition }) {
 }
 
 Summary.fragments = {
-  ProteinInformationSummaryFragment: PROTEIN_INFORMATION_SUMMARY_FRAGMENT,
+  ProtVistaSummaryFragment: PROTEIN_INFORMATION_SUMMARY_FRAGMENT,
 };
 
 export default Summary;

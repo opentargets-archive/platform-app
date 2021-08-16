@@ -1,17 +1,16 @@
 import React from 'react';
+import { loader } from 'graphql.macro';
 
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
-import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { getUniprotIds } from '../../../utils/global';
-
 import ProtVistaTab from './ProtVistaTab';
 
+const PROTVISTA_SUMMARY_FRAGMENT = loader('./summaryQuery.gql');
+
 function Body({ definition, label: symbol }) {
-  const request = usePlatformApi(
-    Summary.fragments.ProteinInformationSummaryFragment
-  );
+  const request = usePlatformApi(PROTVISTA_SUMMARY_FRAGMENT);
 
   return (
     <SectionItem

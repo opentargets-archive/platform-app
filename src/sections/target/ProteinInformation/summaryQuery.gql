@@ -1,4 +1,4 @@
-fragment ProteinInformationSummaryFragment on Target {
+fragment ProtVistaSummaryFragment on Target {
   proteinIds {
     id
     source

@@ -1,5 +1,5 @@
 export const definition = {
-  id: 'proteinInformation',
+  id: 'protVista',
   name: 'ProtVista',
   shortName: 'PV',
   hasData: ({ proteinIds }) => {
