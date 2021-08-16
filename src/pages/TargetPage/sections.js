@@ -9,7 +9,7 @@ import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics'
 import * as KnownDrugs from '../../sections/target/KnownDrugs';
 // import * as MousePhenotypes from '../../sections/target/MousePhenotypes';
 // import * as Pathways from '../../sections/target/Pathways';
-import * as ProteinInformation from '../../sections/target/ProteinInformation';
+import * as ProtVista from '../../sections/target/ProtVista';
 // import * as Safety from '../../sections/target/Safety';
 // import * as Tep from '../../sections/target/Tep';
 // import * as Tractability from '../../sections/target/Tractability';
@@ -23,7 +23,7 @@ const sections = [
   // ChemicalProbes,
   // BaselineExpression,
   // GeneOntology,
-  ProteinInformation,
+  ProtVista,
   MolecularInteractions,
   // Pathways,
   // CancerBiomarkers,
