@@ -55,7 +55,7 @@ const modalities = [
 /**
  * Parse given data for the specified modality and return a list (divs)
  * @param {String} modality e.g. 'SM'
- * @param {Array} data the tractability data array returned by the API
+ * @param {Array} data the tractability data array returned by the API {value, modality, label(id)}
  * @returns
  */
 const ModalityList = ({ modality, data }) => {
@@ -104,7 +104,7 @@ function Body({ definition, label: symbol }) {
           <>
             <Grid container spacing={3}>
               {modalities.map(m => (
-                <Grid item xs={3} key={m.modality}>
+                <Grid item xs={6} sm={3} key={m.modality}>
                   <Typography variant="subtitle1" gutterBottom>
                     {m.label}
                   </Typography>
