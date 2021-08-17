@@ -1,5 +1,5 @@
 import React from 'react';
-// import classNames from 'classnames';
+import classNames from 'classnames';
 import { Grid, Typography, makeStyles } from '@material-ui/core';
 
 import Summary from './Summary';
@@ -15,18 +15,21 @@ import {
 import EllsWrapper from '../../../components/EllsWrapper';
 
 const useStyles = makeStyles(theme => ({
-  modalityIcon: {
-    fontSize: '1.5rem',
-    background: 'red',
+  modality: {
+    marginBottom: '0.35em',
   },
   modalityEnabled: {
     fontWeight: 'bold',
-    '& .modalityIcon': {
-      color: theme.palette.primary.main,
-    },
   },
   modalityDisabled: {
     color: theme.palette.grey[300],
+  },
+  modalityIcon: {
+    paddingRight: '0.5em',
+    float: 'left',
+  },
+  modalityIconEnabled: {
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -58,17 +61,24 @@ const ModalityList = ({ modality, data }) => {
         .map(d => (
           <div
             key={d.label}
-            className={
+            className={classNames(
+              classes.modality,
               d.value ? classes.modalityEnabled : classes.modalityDisabled
-            }
+            )}
           >
-            <span className="modalityIcon">
-              <FontAwesomeIcon
-                icon={d.value ? faCheckCircle : faTimesCircle}
-                size="lg"
-              />
-            </span>
-            &nbsp;<EllsWrapper>{d.label}</EllsWrapper>
+            <EllsWrapper>
+              <span
+                className={classNames(classes.modalityIcon, {
+                  [classes.modalityIconEnabled]: d.value,
+                })}
+              >
+                <FontAwesomeIcon
+                  icon={d.value ? faCheckCircle : faTimesCircle}
+                  size="lg"
+                />
+              </span>
+              {d.label}
+            </EllsWrapper>
           </div>
         ))}
     </>
