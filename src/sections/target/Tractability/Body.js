@@ -52,6 +52,12 @@ const modalities = [
   },
 ];
 
+/**
+ * Parse given data for the specified modality and return a list (divs)
+ * @param {String} modality e.g. 'SM'
+ * @param {Array} data the tractability data array returned by the API
+ * @returns
+ */
 const ModalityList = ({ modality, data }) => {
   const classes = useStyles();
   return (
@@ -66,7 +72,7 @@ const ModalityList = ({ modality, data }) => {
               d.value ? classes.modalityEnabled : classes.modalityDisabled
             )}
           >
-            <EllsWrapper>
+            <EllsWrapper title={d.label}>
               <span
                 className={classNames(classes.modalityIcon, {
                   [classes.modalityIconEnabled]: d.value,
