@@ -1,9 +1,10 @@
+import countOrthologues from './countOrthologues';
+
 export const definition = {
-  id: 'orthologs',
+  id: 'compGenomics',
   name: 'Comparative Genomics',
   shortName: 'CG',
-  hasData: data => data.orthologueCount > 0,
-  external: true,
+  hasData: data => countOrthologues(data.homologues) > 0,
 };
 
 export { default as Summary } from './Summary';

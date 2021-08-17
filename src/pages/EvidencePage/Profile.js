@@ -21,12 +21,12 @@ const EVIDENCE_PROFILE_QUERY = gql`
     target(ensemblId: $ensgId) {
       id
       approvedSymbol
-      proteinAnnotations {
-        id
-        functions
+      approvedName
+      functionDescriptions
+      synonyms {
+        label
+        source
       }
-      symbolSynonyms
-      nameSynonyms
     }
     disease(efoId: $efoId) {
       id
