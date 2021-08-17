@@ -14,6 +14,7 @@ import * as ProtVista from '../../sections/target/ProtVista';
 import * as Tep from '../../sections/target/Tep';
 // import * as Tractability from '../../sections/target/Tractability';
 import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
+import * as SubcellularLocation from '../../sections/target/SubcellularLocation';
 
 const sections = [
   KnownDrugs,
@@ -30,6 +31,7 @@ const sections = [
   // CancerHallmarks,
   // MousePhenotypes,
   ComparativeGenomics,
+  SubcellularLocation,
   Bibliography,
 ];
 export default sections;
