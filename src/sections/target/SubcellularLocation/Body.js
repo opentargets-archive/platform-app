@@ -6,6 +6,7 @@ import { Typography, List, ListItem } from '@material-ui/core';
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
 import Link from '../../../components/Link';
+import { identifiersOrgLink, getUniprotIds } from '../../../utils/global';
 
 const SUBCELLULAR_LOCATION_QUERY = loader('./SubcellularLocation.gql');
 
@@ -19,13 +20,14 @@ function Body({ definition, id: ensemblId, label: symbol }) {
       definition={definition}
       request={request}
       renderDescription={() => <Description symbol={symbol} />}
-      renderBody={data => {
+      renderBody={({ target }) => {
+        const uniprotId = getUniprotIds(target.proteinIds)[0];
         const hpaMain = [];
         const hpaAdditional = [];
         const hpaExtracellular = [];
         const uniprot = [];
 
-        data.target.subcellularLocations.forEach(({ source, location }) => {
+        target.subcellularLocations.forEach(({ source, location }) => {
           if (source === 'HPA_main') {
             hpaMain.push(location);
           }
@@ -46,13 +48,18 @@ function Body({ definition, id: ensemblId, label: symbol }) {
             hpaAdditional.length > 0 ||
             hpaExtracellular.length > 0 ? (
               <>
-                <Typography variant="h5">HPA - {ensemblId}</Typography>
+                <Typography variant="h5">
+                  HPA -{' '}
+                  <Link external to={identifiersOrgLink('hpa', ensemblId)}>
+                    {ensemblId}
+                  </Link>
+                </Typography>
                 {hpaMain.length > 0 ? (
                   <>
                     <Typography variant="h6">HPA (main)</Typography>
                     <List>
                       {hpaMain.map(location => (
-                        <ListItem key={location}>{location}</ListItem>
+                        <ListItem key={location}>- {location}</ListItem>
                       ))}
                     </List>
                   </>
@@ -62,7 +69,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
                     <Typography variant="h6">HPA (additional)</Typography>
                     <List>
                       {hpaAdditional.map(location => (
-                        <ListItem key={location}>{location}</ListItem>
+                        <ListItem key={location}>- {location}</ListItem>
                       ))}
                     </List>
                   </>
@@ -72,7 +79,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
                     <Typography variant="h6">HPA (extracellular)</Typography>
                     <List>
                       {hpaExtracellular.map(location => (
-                        <ListItem key={location}>{location}</ListItem>
+                        <ListItem key={location}>- {location}</ListItem>
                       ))}
                     </List>
                   </>
@@ -81,10 +88,15 @@ function Body({ definition, id: ensemblId, label: symbol }) {
             ) : null}
             {uniprot.length > 0 ? (
               <>
-                <Typography variant="h5">UniProt</Typography>
+                <Typography variant="h5">
+                  UniProt -{' '}
+                  <Link external to={identifiersOrgLink('uniprot', uniprotId)}>
+                    {uniprotId}
+                  </Link>
+                </Typography>
                 <List>
                   {uniprot.map(location => (
-                    <ListItem key={location}>{location}</ListItem>
+                    <ListItem key={location}>- {location}</ListItem>
                   ))}
                 </List>
               </>
