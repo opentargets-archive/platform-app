@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-import { Typography, List, ListItem } from '@material-ui/core';
+import { Typography, List, ListItem, Box } from '@material-ui/core';
 
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -47,47 +47,49 @@ function Body({ definition, id: ensemblId, label: symbol }) {
             {hpaMain.length > 0 ||
             hpaAdditional.length > 0 ||
             hpaExtracellular.length > 0 ? (
-              <>
+              <Box ml={4} mt={2}>
                 <Typography variant="h5">
                   HPA -{' '}
                   <Link external to={identifiersOrgLink('hpa', ensemblId)}>
                     {ensemblId}
                   </Link>
                 </Typography>
-                {hpaMain.length > 0 ? (
-                  <>
-                    <Typography variant="h6">HPA (main)</Typography>
-                    <List>
-                      {hpaMain.map(location => (
-                        <ListItem key={location}>- {location}</ListItem>
-                      ))}
-                    </List>
-                  </>
-                ) : null}
-                {hpaAdditional.length > 0 ? (
-                  <>
-                    <Typography variant="h6">HPA (additional)</Typography>
-                    <List>
-                      {hpaAdditional.map(location => (
-                        <ListItem key={location}>- {location}</ListItem>
-                      ))}
-                    </List>
-                  </>
-                ) : null}
-                {hpaExtracellular.length > 0 ? (
-                  <>
-                    <Typography variant="h6">HPA (extracellular)</Typography>
-                    <List>
-                      {hpaExtracellular.map(location => (
-                        <ListItem key={location}>- {location}</ListItem>
-                      ))}
-                    </List>
-                  </>
-                ) : null}
-              </>
+                <Box ml={4} mt={1}>
+                  {hpaMain.length > 0 ? (
+                    <>
+                      <Typography variant="h6">HPA (main)</Typography>
+                      <List>
+                        {hpaMain.map(location => (
+                          <ListItem key={location}>- {location}</ListItem>
+                        ))}
+                      </List>
+                    </>
+                  ) : null}
+                  {hpaAdditional.length > 0 ? (
+                    <>
+                      <Typography variant="h6">HPA (additional)</Typography>
+                      <List>
+                        {hpaAdditional.map(location => (
+                          <ListItem key={location}>- {location}</ListItem>
+                        ))}
+                      </List>
+                    </>
+                  ) : null}
+                  {hpaExtracellular.length > 0 ? (
+                    <>
+                      <Typography variant="h6">HPA (extracellular)</Typography>
+                      <List>
+                        {hpaExtracellular.map(location => (
+                          <ListItem key={location}>- {location}</ListItem>
+                        ))}
+                      </List>
+                    </>
+                  ) : null}
+                </Box>
+              </Box>
             ) : null}
             {uniprot.length > 0 ? (
-              <>
+              <Box ml={4}>
                 <Typography variant="h5">
                   UniProt -{' '}
                   <Link external to={identifiersOrgLink('uniprot', uniprotId)}>
@@ -99,7 +101,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
                     <ListItem key={location}>- {location}</ListItem>
                   ))}
                 </List>
-              </>
+              </Box>
             ) : null}
           </>
         );
