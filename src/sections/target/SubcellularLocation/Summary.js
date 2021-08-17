@@ -15,10 +15,9 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={({ subcellularLocations }) => {
-        console.log('data', subcellularLocations);
-        return `${subcellularLocations.length} subcelullar locations`;
-      }}
+      renderSummary={({ subcellularLocations }) =>
+        `${subcellularLocations.length} subcelullar locations`
+      }
     />
   );
 }
