@@ -48,7 +48,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
             hpaAdditional.length > 0 ||
             hpaExtracellular.length > 0 ? (
               <Box ml={4} mt={2}>
-                <Typography variant="h5">
+                <Typography variant="h6">
                   HPA -{' '}
                   <Link external to={identifiersOrgLink('hpa', ensemblId)}>
                     {ensemblId}
@@ -57,7 +57,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
                 <Box ml={4} mt={1}>
                   {hpaMain.length > 0 ? (
                     <>
-                      <Typography variant="h6">HPA (main)</Typography>
+                      <Typography>HPA (main)</Typography>
                       <List>
                         {hpaMain.map(location => (
                           <ListItem key={location}>- {location}</ListItem>
@@ -67,7 +67,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
                   ) : null}
                   {hpaAdditional.length > 0 ? (
                     <>
-                      <Typography variant="h6">HPA (additional)</Typography>
+                      <Typography>HPA (additional)</Typography>
                       <List>
                         {hpaAdditional.map(location => (
                           <ListItem key={location}>- {location}</ListItem>
@@ -77,7 +77,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
                   ) : null}
                   {hpaExtracellular.length > 0 ? (
                     <>
-                      <Typography variant="h6">HPA (extracellular)</Typography>
+                      <Typography>HPA (extracellular)</Typography>
                       <List>
                         {hpaExtracellular.map(location => (
                           <ListItem key={location}>- {location}</ListItem>
@@ -90,7 +90,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
             ) : null}
             {uniprot.length > 0 ? (
               <Box ml={4}>
-                <Typography variant="h5">
+                <Typography variant="h6">
                   UniProt -{' '}
                   <Link external to={identifiersOrgLink('uniprot', uniprotId)}>
                     {uniprotId}
