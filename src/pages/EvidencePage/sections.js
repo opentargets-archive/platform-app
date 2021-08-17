@@ -9,7 +9,7 @@ import * as EVA from '../../sections/evidence/EVA';
 import * as ExpressionAtlas from '../../sections/evidence/ExpressionAtlas';
 import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
 import * as GenomicsEngland from '../../sections/evidence/GenomicsEngland';
-// import * as IntOgen from '../../sections/evidence/IntOgen';
+import * as IntOgen from '../../sections/evidence/IntOgen';
 import * as OTGenetics from '../../sections/evidence/OTGenetics';
 // import * as Phenodigm from '../../sections/evidence/Phenodigm';
 import * as PheWASCatalog from '../../sections/evidence/PheWASCatalog';
@@ -32,7 +32,7 @@ const sections = [
   ClinGen,
   Orphanet,
   // CancerGeneCensus,
-  // IntOgen,
+  IntOgen,
   // EVASomatic,
   Chembl,
   CRISPR,
