@@ -1,5 +1,5 @@
 // Section imports
-// import * as CancerGeneCensus from '../../sections/evidence/CancerGeneCensus';
+import * as CancerGeneCensus from '../../sections/evidence/CancerGeneCensus';
 import * as Chembl from '../../sections/evidence/Chembl';
 import * as ClinGen from '../../sections/evidence/ClinGen';
 import * as CRISPR from '../../sections/evidence/CRISPR';
@@ -31,7 +31,7 @@ const sections = [
   UniProtVariants,
   ClinGen,
   Orphanet,
-  // CancerGeneCensus,
+  CancerGeneCensus,
   IntOgen,
   // EVASomatic,
   Chembl,
