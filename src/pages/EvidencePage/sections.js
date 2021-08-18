@@ -5,7 +5,7 @@ import * as ClinGen from '../../sections/evidence/ClinGen';
 import * as CRISPR from '../../sections/evidence/CRISPR';
 import * as EuropePmc from '../../sections/evidence/EuropePmc';
 import * as EVA from '../../sections/evidence/EVA';
-// import * as EVASomatic from '../../sections/evidence/EVASomatic';
+import * as EVASomatic from '../../sections/evidence/EVASomatic';
 import * as ExpressionAtlas from '../../sections/evidence/ExpressionAtlas';
 import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
 import * as GenomicsEngland from '../../sections/evidence/GenomicsEngland';
@@ -33,7 +33,7 @@ const sections = [
   Orphanet,
   CancerGeneCensus,
   IntOgen,
-  // EVASomatic,
+  EVASomatic,
   Chembl,
   CRISPR,
   SlapEnrich,
