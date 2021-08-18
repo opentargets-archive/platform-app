@@ -1,0 +1,9 @@
+query Pathways($ensemblId: String!) {
+  target(ensemblId: $ensemblId) {
+    id
+    pathways {
+      pathway
+      pathwayId
+    }
+  }
+}

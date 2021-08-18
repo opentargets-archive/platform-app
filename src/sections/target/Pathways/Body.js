@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Tabs, Tab } from '@material-ui/core';
 
 import BrowserTab from './BrowserTab';
@@ -7,12 +9,15 @@ import { Helmet } from 'react-helmet';
 import OverviewTab from './OverviewTab';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
-import usePlatformApi from '../../../hooks/usePlatformApi';
 
-function Body({ definition, label: symbol }) {
+const PATHWAYS_QUERY = loader('./Pathways.gql');
+
+function Body({ definition, id: ensemblId, label: symbol }) {
   const defaultTab = 'overview';
   const [tab, setTab] = useState(defaultTab);
-  const request = usePlatformApi(Summary.fragments.PathwaysSummaryFragment);
+  const request = useQuery(PATHWAYS_QUERY, {
+    variables: { ensemblId },
+  });
 
   const handleChangeTab = (_, tab) => {
     setTab(tab);
@@ -24,28 +29,7 @@ function Body({ definition, label: symbol }) {
       request={request}
       renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => {
-        const uniprotId = data.proteinAnnotations?.id;
-        const lowLevelPathways = data.reactome.map(
-          ({ id, label, ancestors }) => {
-            const topLevelParents = ancestors
-              .filter(ancestor => ancestor.isRoot)
-              .map(({ label, id }) => ({ name: label, id }));
-            return {
-              id,
-              name: label,
-              parents: topLevelParents,
-              parentNames: topLevelParents
-                .map(parent => parent.name)
-                .join(', '),
-              url:
-                `https://reactome.org/PathwayBrowser/#/${encodeURIComponent(
-                  id
-                )}` +
-                (uniprotId ? `&FLG=${encodeURIComponent(uniprotId)}` : ''),
-            };
-          }
-        );
-
+        console.log('data', data);
         return (
           <>
             <Helmet
@@ -65,13 +49,10 @@ function Body({ definition, label: symbol }) {
               <Tab value="browser" label="Reactome Pathway Browser" />
             </Tabs>
             {tab === 'overview' ? (
-              <OverviewTab
-                symbol={symbol}
-                lowLevelPathways={lowLevelPathways}
-              />
+              <OverviewTab symbol={symbol} lowLevelPathways={[]} />
             ) : null}
             {tab === 'browser' ? (
-              <BrowserTab symbol={symbol} lowLevelPathways={lowLevelPathways} />
+              <BrowserTab symbol={symbol} lowLevelPathways={[]} />
             ) : null}
           </>
         );

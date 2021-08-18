@@ -8,7 +8,7 @@ import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics'
 // import * as GeneOntology from '../../sections/target/GeneOntology';
 import * as KnownDrugs from '../../sections/target/KnownDrugs';
 // import * as MousePhenotypes from '../../sections/target/MousePhenotypes';
-// import * as Pathways from '../../sections/target/Pathways';
+import * as Pathways from '../../sections/target/Pathways';
 import * as ProtVista from '../../sections/target/ProtVista';
 // import * as Safety from '../../sections/target/Safety';
 import * as Tep from '../../sections/target/Tep';
@@ -26,7 +26,7 @@ const sections = [
   // GeneOntology,
   ProtVista,
   MolecularInteractions,
-  // Pathways,
+  Pathways,
   // CancerBiomarkers,
   // CancerHallmarks,
   // MousePhenotypes,
