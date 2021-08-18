@@ -8,7 +8,6 @@ import Description from './Description';
 import { Helmet } from 'react-helmet';
 import OverviewTab from './OverviewTab';
 import SectionItem from '../../../components/Section/SectionItem';
-import Summary from './Summary';
 
 const PATHWAYS_QUERY = loader('./Pathways.gql');
 
@@ -28,8 +27,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
       definition={definition}
       request={request}
       renderDescription={() => <Description symbol={symbol} />}
-      renderBody={data => {
-        console.log('data', data);
+      renderBody={({ target }) => {
         return (
           <>
             <Helmet
@@ -49,7 +47,10 @@ function Body({ definition, id: ensemblId, label: symbol }) {
               <Tab value="browser" label="Reactome Pathway Browser" />
             </Tabs>
             {tab === 'overview' ? (
-              <OverviewTab symbol={symbol} lowLevelPathways={[]} />
+              <OverviewTab
+                symbol={target.approvedSymbol}
+                pathways={target.pathways}
+              />
             ) : null}
             {tab === 'browser' ? (
               <BrowserTab symbol={symbol} lowLevelPathways={[]} />

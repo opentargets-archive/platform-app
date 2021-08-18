@@ -1,70 +1,50 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarker } from '@fortawesome/free-solid-svg-icons';
 
-import DataDownloader from '../../../components/DataDownloader';
-import FilteringOtTableRF from '../../../components/FilteringOtTableRF';
+import { DataTable } from '../../../components/Table';
+import { identifiersOrgLink } from '../../../utils/global';
 import Link from '../../../components/Link';
 
-// const OverviewTab = ({ symbol, lowLevelPathways }) => (
-//   <>
-//     <DataDownloader
-//       tableHeaders={columns}
-//       rows={lowLevelPathways}
-//       fileStem={`${symbol}-pathways`}
-//     />
-//     <FilteringOtTableRF
-//       loading={false}
-//       error={null}
-//       columns={columns}
-//       data={lowLevelPathways}
-//     />
-//   </>
-// );
+function getColumns(symbol) {
+  return [
+    {
+      id: 'pathway',
+      label: 'Pathway',
+      renderCell: ({ pathwayId }) => {
+        return (
+          <Link external to={identifiersOrgLink('reactome', pathwayId)}>
+            {pathwayId}
+          </Link>
+        );
+      },
+    },
+    {
+      id: 'topLevelTerm',
+      label: 'Top-level parent pathway',
+    },
+    {
+      id: 'pathwayId',
+      label: 'View target and pathway',
+      renderCell: ({ pathwayId }) => {
+        return (
+          <>
+            <FontAwesomeIcon icon={faMapMarker} />{' '}
+            <Link
+              external
+              to={`https://reactome.org/PathwayBrowser/#/${pathwayId}&FLG=${symbol}`}
+            >
+              Reactome pathway browser
+            </Link>
+          </>
+        );
+      },
+    },
+  ];
+}
 
-// const columns = [
-//   {
-//     id: 'name',
-//     label: 'Pathway',
-//     filterable: true,
-//   },
-//   {
-//     id: 'id',
-//     label: 'Pathway ID',
-//     renderCell: d => (
-//       <Link external to={`https://reactome.org/content/detail/${d.id}`}>
-//         {d.id}
-//       </Link>
-//     ),
-//     filterable: true,
-//   },
-//   {
-//     id: 'parentNames',
-//     label: 'Top-level parent pathway',
-//     renderCell: d => (
-//       <React.Fragment>
-//         {d.parents.map((p, i) => (
-//           <React.Fragment key={i}>
-//             {i > 0 ? <br /> : null}
-//             {p.name}
-//           </React.Fragment>
-//         ))}
-//       </React.Fragment>
-//     ),
-//     filterable: true,
-//     dropdownFilterValue: row => row.parents.map(parent => parent.name),
-//   },
-//   {
-//     id: 'url',
-//     label: 'View target and pathway',
-//     renderCell: ({ url }) => (
-//       <Link external to={url}>
-//         Link
-//       </Link>
-//     ),
-//   },
-// ];
-
-function OverviewTab() {
-  return <div>overview tab</div>;
+function OverviewTab({ symbol, pathways }) {
+  return <DataTable columns={getColumns(symbol)} rows={pathways} />;
 }
 
 export default OverviewTab;

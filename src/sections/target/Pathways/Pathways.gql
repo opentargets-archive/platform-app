@@ -1,9 +1,11 @@
 query Pathways($ensemblId: String!) {
   target(ensemblId: $ensemblId) {
     id
+    approvedSymbol
     pathways {
-      pathway
       pathwayId
+      pathway
+      topLevelTerm
     }
   }
 }
