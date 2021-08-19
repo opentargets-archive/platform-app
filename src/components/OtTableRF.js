@@ -31,23 +31,23 @@ const actionsStyles = theme => ({
 
 class TablePaginationActions extends Component {
   handleFirstPageButtonClick = event => {
-    this.props.onChangePage(event, 0);
+    this.props.onPageChange(event, 0);
   };
 
   handleBackButtonClick = event => {
-    const { onChangePage, page } = this.props;
-    onChangePage(event, page - 1);
+    const { onPageChange, page } = this.props;
+    onPageChange(event, page - 1);
   };
 
   handleNextButtonClick = event => {
-    const { onChangePage, page } = this.props;
-    onChangePage(event, page + 1);
+    const { onPageChange, page } = this.props;
+    onPageChange(event, page + 1);
   };
 
   handleLastPageButtonClick = event => {
-    const { onChangePage, count, rowsPerPage } = this.props;
+    const { onPageChange, count, rowsPerPage } = this.props;
     const lastPage = Math.ceil(count / rowsPerPage) - 1;
-    onChangePage(event, lastPage);
+    onPageChange(event, lastPage);
   };
 
   render() {

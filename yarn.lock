@@ -4644,6 +4644,11 @@ core-js@^2.4.0, core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
+core-js@^3.13.0:
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.16.1.tgz#f4485ce5c9f3c6a7cb18fa80488e08d362097249"
+  integrity sha512-AAkP8i35EbefU+JddyWi12AWE9f2N/qr/pwnDtWz4nyUIBGMJPX99ANFFRSw6FefM374lDujdtLDyhN2A/btHw==
+
 core-js@^3.6.5:
   version "3.15.2"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.15.2.tgz#740660d2ff55ef34ce664d7e2455119c5bdd3d61"
@@ -11128,10 +11133,10 @@ module-deps@~2.0.0:
     stream-combiner "~0.1.0"
     through2 "~0.4.1"
 
-molstar@2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/molstar/-/molstar-2.0.6.tgz#5f886f2eb4da686268b806c1d0037612159be82e"
-  integrity sha512-EfX5DEcbHgticllgX/Fr8O26C4gHUthk8F2zXBQiQe2fmg/0HDjqXBJYgwAra3cxETrpQxIDarudb440tAnR7w==
+molstar@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/molstar/-/molstar-2.2.0.tgz#43efd1ef49ac7b1ff32ca2bf46966054db254259"
+  integrity sha512-HsL+QQj9q6/0FS4ChTdRGp1tzjGlOWtImuWXaTy2T/GzL16F3Xqe9vL63cVoEBwDrZKy8VJrHhyjaZUqDHVp6w==
   dependencies:
     "@types/argparse" "^1.0.38"
     "@types/benchmark" "^2.1.0"
@@ -13268,13 +13273,13 @@ protvista-structure-adapter@^2.18.0:
     protvista-feature-adapter "^2.18.0"
     uuid "^8.1.0"
 
-protvista-structure@^3.2.7:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/protvista-structure/-/protvista-structure-3.3.0.tgz#77eb321d2514c3a487815c57f8f5c23bae3bf26e"
-  integrity sha512-Uh0bkVH0n4Cq+nraZUd3LODN8uAmX512pYzWQDf3eaGLJYIqxAmcXbhA8PD7QsgPQtElM17wqCW/3zCkeyDHig==
+protvista-structure@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/protvista-structure/-/protvista-structure-3.3.1.tgz#d4a64c03c87bc0694fe22de4accc481a0ee10472"
+  integrity sha512-PAGFj603beWEZdIQ60sv9o3WBM6RdKXsnKpPG4ytu9nszJWKiXAu3xJm+oH3HDITFsTsViWcA01X8yRQ7lYK5w==
   dependencies:
     data-loader "3.0.0"
-    molstar "2.0.6"
+    molstar "2.2.0"
     react "17.0.2"
 
 protvista-tooltip@^2.18.3:
@@ -13301,15 +13306,15 @@ protvista-track@^3.2.14:
     lodash-es "^4.17.11"
     protvista-zoomable "^3.2.14"
 
-protvista-uniprot@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/protvista-uniprot/-/protvista-uniprot-2.6.1.tgz#4b9e67159eb722ffd2e675651b8ec9d0e717745c"
-  integrity sha512-tcEYoBDZscnCUv4b6HbqBJ2S2h7NlKr42EY4QjTZ5dK3hSwyKy+sWnOkyoTbAd2haRh58zQFiLpAvLXGr034Iw==
+protvista-uniprot@2.7.4:
+  version "2.7.4"
+  resolved "https://registry.yarnpkg.com/protvista-uniprot/-/protvista-uniprot-2.7.4.tgz#90c4a1d8cc5fdb1fa5a01197a3c874c734994ad4"
+  integrity sha512-i9c4W7+NROUfNHX3R3DzKuNoDiwXr3IG8O7VT9K/yJPmgCTDoEe6w4vqjhawrQYRre1Pff5KQXK9itUpwsW+Tg==
   dependencies:
+    core-js "^3.13.0"
     data-loader "^2.9.1"
     file-saver "^2.0.2"
     lit-element "^2.2.0"
-    litemol "^2.4.2"
     protvista-datatable "^2.18.0"
     protvista-feature-adapter "^2.18.0"
     protvista-filter "^2.12.0"
@@ -13319,7 +13324,7 @@ protvista-uniprot@2.6.1:
     protvista-navigation "^2.16.0"
     protvista-proteomics-adapter "^2.18.0"
     protvista-sequence "^2.18.0"
-    protvista-structure "^3.2.7"
+    protvista-structure "3.3.1"
     protvista-structure-adapter "^2.18.0"
     protvista-tooltip "^2.18.3"
     protvista-track "^2.18.2"
@@ -13327,7 +13332,7 @@ protvista-uniprot@2.6.1:
     protvista-variation-adapter "^3.2.6"
     protvista-variation-graph "^2.18.2"
     protvista-zoomable "^2.18.0"
-    timing-functions "^1.0.0"
+    timing-functions "^2.0.1"
     url-join "^4.0.1"
 
 protvista-utils@^2.18.0:
@@ -16182,10 +16187,10 @@ timers-browserify@~1.0.1:
   dependencies:
     process "~0.5.1"
 
-timing-functions@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/timing-functions/-/timing-functions-1.0.0.tgz#483482e0efb8339e811d0a9f690c47976fd64cd8"
-  integrity sha512-+ampbNCJVWnyoQJeDH6m3X+IuKKe7j6XpGty+jQkva4RzDOfKeYhchc6S1hzOrGpZeNErnCgL3txETgSKvp68Q==
+timing-functions@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/timing-functions/-/timing-functions-2.0.1.tgz#84145da4f68de95051ea96b57b9d9d76383d7140"
+  integrity sha512-3sLJqeghQTekD7DmrH3Xpp6/PIJ7gj9ldqn7gfaoBiQGHSsCE17qnvoFLcNQTTv8lJzzKZyiBO6IBiilJVW8Qg==
 
 timsort@^0.3.0:
   version "0.3.0"
