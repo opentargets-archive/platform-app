@@ -8,9 +8,6 @@ const Description = ({ symbol, name }) => (
     <strong>{name}</strong>. Source:{' '}
     <Link to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis/tree/dev/analyses/" external>
       OpenPedCan
-    </Link>, {' '}
-    <Link to="https://www.ncbi.nlm.nih.gov/gap/" external>
-      dbgap
     </Link>
   </>
 );
