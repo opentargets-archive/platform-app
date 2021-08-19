@@ -196,8 +196,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
         const roleInCancerItems = attributes
           .filter(attribute => attribute.name === 'role in cancer')
           .map(attribute => ({
-            label: attribute.reference.description,
-            url: epmcUrl(attribute.reference.pubmedId),
+            label: attribute.description,
+            url: epmcUrl(attribute.pmid),
           }));
 
         return (

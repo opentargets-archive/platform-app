@@ -36,10 +36,8 @@ query IntOgenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
     id
     hallmarks {
       attributes {
-        reference {
-          pubmedId
-          description
-        }
+        description
+        pmid
         name
       }
     }
