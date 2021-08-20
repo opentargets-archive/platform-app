@@ -11,10 +11,10 @@ function getColumns(symbol) {
     {
       id: 'pathway',
       label: 'Pathway',
-      renderCell: ({ pathwayId }) => {
+      renderCell: ({ pathwayId, pathway }) => {
         return (
           <Link external to={identifiersOrgLink('reactome', pathwayId)}>
-            {pathwayId}
+            {pathway}
           </Link>
         );
       },

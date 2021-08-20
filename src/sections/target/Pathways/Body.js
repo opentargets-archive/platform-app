@@ -1,26 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-import { Tabs, Tab } from '@material-ui/core';
 
-import BrowserTab from './BrowserTab';
 import Description from './Description';
-import { Helmet } from 'react-helmet';
-import OverviewTab from './OverviewTab';
+import PathwaysTable from './PathwaysTable';
 import SectionItem from '../../../components/Section/SectionItem';
 
 const PATHWAYS_QUERY = loader('./Pathways.gql');
 
 function Body({ definition, id: ensemblId, label: symbol }) {
-  const defaultTab = 'overview';
-  const [tab, setTab] = useState(defaultTab);
   const request = useQuery(PATHWAYS_QUERY, {
     variables: { ensemblId },
   });
-
-  const handleChangeTab = (_, tab) => {
-    setTab(tab);
-  };
 
   return (
     <SectionItem
@@ -29,33 +20,10 @@ function Body({ definition, id: ensemblId, label: symbol }) {
       renderDescription={() => <Description symbol={symbol} />}
       renderBody={({ target }) => {
         return (
-          <>
-            <Helmet
-              script={[
-                {
-                  src:
-                    'https://www.reactome.org/DiagramJs/diagram/diagram.nocache.js',
-                },
-              ]}
-            />
-            <Tabs
-              value={tab}
-              onChange={handleChangeTab}
-              style={{ marginBottom: '1rem' }}
-            >
-              <Tab value="overview" label="Pathways Overview" />
-              <Tab value="browser" label="Reactome Pathway Browser" />
-            </Tabs>
-            {tab === 'overview' ? (
-              <OverviewTab
-                symbol={target.approvedSymbol}
-                pathways={target.pathways}
-              />
-            ) : null}
-            {tab === 'browser' ? (
-              <BrowserTab symbol={symbol} lowLevelPathways={[]} />
-            ) : null}
-          </>
+          <PathwaysTable
+            symbol={target.approvedSymbol}
+            pathways={target.pathways}
+          />
         );
       }}
     />
