@@ -5,6 +5,7 @@ import { faMapMarker } from '@fortawesome/free-solid-svg-icons';
 import { DataTable } from '../../../components/Table';
 import { identifiersOrgLink } from '../../../utils/global';
 import Link from '../../../components/Link';
+import { defaultRowsPerPageOptions } from '../../../constants';
 
 function getColumns(symbol) {
   return [
@@ -44,7 +45,15 @@ function getColumns(symbol) {
 }
 
 function OverviewTab({ symbol, pathways }) {
-  return <DataTable columns={getColumns(symbol)} rows={pathways} />;
+  return (
+    <DataTable
+      showGlobalFilter
+      dataDownloader
+      columns={getColumns(symbol)}
+      rows={pathways}
+      rowsPerPageOptions={defaultRowsPerPageOptions}
+    />
+  );
 }
 
 export default OverviewTab;
