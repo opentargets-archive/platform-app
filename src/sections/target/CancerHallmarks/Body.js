@@ -12,15 +12,15 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 const columns = [
   {
     id: 'label',
-    label: 'Hallmarks',
+    label: 'Hallmark',
     renderCell: row => row.label,
-    exportLabel: 'Hallmarks',
+    exportLabel: 'Hallmark',
   },
   {
     id: 'activity',
-    label: 'Promotes or suppresses',
+    label: 'Effect',
     renderCell: row => row.activity,
-    exportLabel: 'Promotes or suppresses',
+    exportLabel: 'Effect',
   },
   {
     id: 'description',
@@ -29,18 +29,18 @@ const columns = [
     exportLabel: 'Description',
   },
   {
-    id: 'sources',
-    label: 'Sources',
+    id: 'literature',
+    label: 'Literature',
     renderCell: row => (
       <Link
         external
-        to={`http://europepmc.org/search?query=EXT_ID:${row.pubmedId}`}
+        to={`http://europepmc.org/search?query=EXT_ID:${row.pmid}`}
       >
         1&nbsp;publication
       </Link>
     ),
-    exportLabel: 'Sources (PubMed id)',
-    exportValue: row => row.pubmedId,
+    exportLabel: 'Literature (PubMed id)',
+    exportValue: row => row.pmid,
   },
 ];
 
@@ -53,7 +53,7 @@ const useStyles = makeStyles({
   roleInCancerTitle: { marginRight: '.5rem' },
 });
 
-function Section({ definition, id: ensgId, label: symbol }) {
+function Section({ definition, label: symbol }) {
   const classes = useStyles();
   const request = usePlatformApi(
     Summary.fragments.CancerHallmarksSummaryFragment
@@ -68,16 +68,14 @@ function Section({ definition, id: ensgId, label: symbol }) {
         const roleInCancer = data.hallmarks.attributes
           .filter(a => a.name === 'role in cancer')
           .map(r => ({
-            label: r.reference.description,
-            url: `http://europepmc.org/search?query=EXT_ID:${
-              r.reference.pubmedId
-            }`,
+            label: r.description,
+            url: `http://europepmc.org/search?query=EXT_ID:${r.pmid}`,
           }));
-        const rows = data.hallmarks.rows.map(r => ({
+        const rows = data.hallmarks.cancerHallmarks.map(r => ({
           label: r.label,
-          activity: r.promote ? 'promotes' : r.suppress ? 'suppresses' : '',
-          description: r.reference.description,
-          pubmedId: r.reference.pubmedId,
+          activity: r.impact === 'promotes' ? 'promotes' : 'suppresses',
+          description: r.description,
+          pmid: r.pmid,
         }));
 
         return (
