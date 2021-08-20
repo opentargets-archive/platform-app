@@ -9,8 +9,8 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
 import { naLabel } from '../../../constants';
-import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import ChipList from '../../../components/ChipList';
+import { TableDrawer } from '../../../components/Table';
 
 const scores = [
   {
@@ -104,7 +104,7 @@ const columns = [
     label: 'Reference',
     renderCell: row => {
       return row.urls ? (
-        <PublicationsDrawer
+        <TableDrawer
           entries={row.urls.map(u => ({
             name: u.niceName,
             url: u.url,
