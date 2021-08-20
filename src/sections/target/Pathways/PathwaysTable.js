@@ -29,15 +29,12 @@ function getColumns(symbol) {
       label: 'View target and pathway',
       renderCell: ({ pathwayId }) => {
         return (
-          <>
-            <FontAwesomeIcon icon={faMapMarker} />{' '}
-            <Link
-              external
-              to={`https://reactome.org/PathwayBrowser/#/${pathwayId}&FLG=${symbol}`}
-            >
-              Reactome pathway browser
-            </Link>
-          </>
+          <Link
+            external
+            to={`https://reactome.org/PathwayBrowser/#/${pathwayId}&FLG=${symbol}`}
+          >
+            <FontAwesomeIcon icon={faMapMarker} /> Reactome pathway browser
+          </Link>
         );
       },
     },
