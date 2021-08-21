@@ -39,6 +39,17 @@ const scores = [
   },
 ];
 
+/**
+ * Style the tooltips as "label: value" with a bold label
+ */
+const TooltipStyledLabel = ({ label, value }) => {
+  return (
+    <Typography variant="body2">
+      <span style={{ fontWeight: 'bold' }}>{label}:</span> {value}
+    </Typography>
+  );
+};
+
 const columns = [
   {
     id: 'id',
@@ -51,9 +62,12 @@ const columns = [
         <span>{row.id}</span>
       );
       return row.control ? (
-        <Tooltip title={<>Control: {row.control}</>} showHelpIcon>
+        <Tooltip
+          title={<TooltipStyledLabel label="Control" value={row.control} />}
+          showHelpIcon
+        >
           {c}
-        </Tooltip> //TODO: make bold!!
+        </Tooltip>
       ) : (
         c
       );
@@ -91,7 +105,12 @@ const columns = [
         <ChipList
           items={rowScores.map(s => ({
             label: s.label + ': ' + row[s.field],
-            tooltip: s.description,
+            tooltip: (
+              <>
+                <TooltipStyledLabel label="Score" value={row[s.field]} />
+                <TooltipStyledLabel label="Description" value={s.description} />
+              </>
+            ),
           }))}
         />
       ) : (
