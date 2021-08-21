@@ -72,6 +72,7 @@ const columns = [
       );
     },
     // export: rowData => rowData.sourcelinks.map(d => d.link).join(', '),
+    width: '15%',
   },
   {
     id: 'targetFromSourceId',
@@ -84,16 +85,19 @@ const columns = [
         {row.targetFromSourceId}
       </Link>
     ),
+    width: '15%',
   },
   {
     id: 'mechanismOfAction',
     label: 'Mechanism of action',
     renderCell: row => row.mechanismOfAction?.join(', ') || naLabel,
+    width: '15%',
   },
   {
     id: 'origin',
     label: 'Probe origin',
     renderCell: row => row.origin?.join(', ') || naLabel,
+    width: '15%',
   },
   {
     id: 'score',
@@ -116,6 +120,7 @@ const columns = [
         naLabel
       );
     },
+    width: '25%',
   },
   {
     id: 'sources',
@@ -133,6 +138,7 @@ const columns = [
         naLabel
       );
     },
+    width: '15%',
   },
 ];
 
@@ -154,6 +160,10 @@ function Body({ definition, label: symbol }) {
                 showGlobalFilter
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-chemical-probes`}
+                fixed
+                rowsPerPageOptions={defaultRowsPerPageOptions}
+                noWrap={false}
+                noWrapHeader={false}
               />
             ) : null}
           </>
