@@ -2,15 +2,14 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 
 import Link from '../../../components/Link';
-import OtTableRF from '../../../components/OtTableRF';
-import DataDownloader from '../../../components/DataDownloader';
 import SectionItem from '../../../components/Section/SectionItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
 import { naLabel } from '../../../constants';
 import ChipList from '../../../components/ChipList';
-import { TableDrawer } from '../../../components/Table';
+import { DataTable, TableDrawer } from '../../../components/Table';
+import { defaultRowsPerPageOptions } from '../../../constants';
 
 const scores = [
   {
@@ -149,17 +148,13 @@ function Body({ definition, label: symbol }) {
         return (
           <>
             {data.target.chemicalProbes?.length > 0 ? (
-              <>
-                <DataDownloader
-                  tableHeaders={columns}
-                  rows={data.target.chemicalProbes}
-                  fileStem={`${symbol}-chemical-probes`}
-                />
-                <OtTableRF
-                  columns={columns}
-                  data={data.target.chemicalProbes}
-                />
-              </>
+              <DataTable
+                columns={columns}
+                rows={data.target.chemicalProbes}
+                showGlobalFilter
+                dataDownloader
+                dataDownloaderFileStem={`${symbol}-chemical-probes`}
+              />
             ) : null}
           </>
         );
