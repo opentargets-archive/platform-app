@@ -1,6 +1,5 @@
 import React from 'react';
 import { loader } from 'graphql.macro';
-import _ from 'lodash';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
