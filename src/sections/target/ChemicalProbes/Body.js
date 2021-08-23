@@ -83,6 +83,7 @@ const columns = [
       <ClinvarStars num={row.isHighQuality ? 1 : 0} length={1} />
     ),
     exportValue: row => (row.isHighQuality ? 'high' : ''),
+    filterValue: row => (row.isHighQuality ? 1 : 0),
     width: '15%',
   },
   {
@@ -182,6 +183,8 @@ function Body({ definition, label: symbol }) {
                 rowsPerPageOptions={defaultRowsPerPageOptions}
                 noWrap={false}
                 noWrapHeader={false}
+                sortBy={'isHighQuality'}
+                order={'des'}
               />
             ) : null}
           </>
