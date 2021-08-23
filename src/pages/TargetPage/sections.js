@@ -1,14 +1,13 @@
 // Section imports
 import * as BaselineExpression from '../../sections/target/Expression';
 import * as Bibliography from '../../sections/target/Bibliography';
-// import * as CancerBiomarkers from '../../sections/target/CancerBiomarkers';
-// import * as CancerHallmarks from '../../sections/target/CancerHallmarks';
+import * as CancerHallmarks from '../../sections/target/CancerHallmarks';
 import * as ChemicalProbes from '../../sections/target/ChemicalProbes';
 import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics';
 // import * as GeneOntology from '../../sections/target/GeneOntology';
 import * as KnownDrugs from '../../sections/target/KnownDrugs';
 // import * as MousePhenotypes from '../../sections/target/MousePhenotypes';
-// import * as Pathways from '../../sections/target/Pathways';
+import * as Pathways from '../../sections/target/Pathways';
 import * as ProtVista from '../../sections/target/ProtVista';
 // import * as Safety from '../../sections/target/Safety';
 import * as Tep from '../../sections/target/Tep';
@@ -26,9 +25,9 @@ const sections = [
   // GeneOntology,
   ProtVista,
   MolecularInteractions,
-  // Pathways,
+  Pathways,
   // CancerBiomarkers,
-  // CancerHallmarks,
+  CancerHallmarks,
   // MousePhenotypes,
   ComparativeGenomics,
   SubcellularLocation,
