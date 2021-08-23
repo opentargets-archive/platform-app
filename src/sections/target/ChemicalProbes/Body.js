@@ -72,6 +72,7 @@ const columns = [
       );
     },
     exportValue: row => row.id,
+    filterValue: row => row.id,
     width: '15%',
   },
   {
@@ -86,6 +87,7 @@ const columns = [
       </Link>
     ),
     exportValue: row => row.targetFromSourceId,
+    filterValue: row => row.targetFromSourceId,
     width: '15%',
   },
   {
@@ -93,6 +95,7 @@ const columns = [
     label: 'Mechanism of action',
     renderCell: row => row.mechanismOfAction?.join(', ') || naLabel,
     exportValue: row => row.mechanismOfAction?.join(', '),
+    filterValue: row => row.mechanismOfAction?.join(', ') || naLabel,
     width: '15%',
   },
   {
@@ -100,6 +103,7 @@ const columns = [
     label: 'Probe origin',
     renderCell: row => row.origin?.join(', ') || naLabel,
     exportValue: row => row.origin?.join(', '),
+    filterValue: row => row.origin?.join(', ') || naLabel,
     width: '15%',
   },
   {
@@ -128,6 +132,11 @@ const columns = [
         .filter(s => row[s.field] !== null)
         .map(s => s.label + ': ' + row[s.field])
         .join(', '),
+    filterValue: row =>
+      scores
+        .filter(s => row[s.field] !== null)
+        .map(s => s.label + ': ' + row[s.field])
+        .join(', ') || naLabel,
     width: '25%',
   },
   {
@@ -147,6 +156,11 @@ const columns = [
       );
     },
     exportValue: row => row.urls.map(u => u.niceName + ': ' + u.url).join(', '),
+    filterValue: row =>
+      row.urls
+        .map(u => u.niceName + ': ' + u.url)
+        .concat(row.urls.length > 1 ? [`${row.urls.length} entries`] : [])
+        .join(', '),
     width: '15%',
   },
 ];
