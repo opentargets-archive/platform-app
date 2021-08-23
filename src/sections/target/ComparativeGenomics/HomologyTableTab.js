@@ -9,6 +9,9 @@ import Tooltip from '../../../components/Tooltip';
 import { DataTable } from '../../../components/Table';
 import { identifiersOrgLink } from '../../../utils/global';
 import { defaultRowsPerPageOptions, decimalPlaces } from '../../../constants';
+import speciesIcons from './speciesIcons';
+
+console.log('worm', speciesIcons.worm);
 
 const useStyles = makeStyles(theme => ({
   star: {
@@ -25,6 +28,16 @@ function getColumns(classes) {
     {
       id: 'speciesName',
       label: 'Species',
+      renderCell: ({ speciesId, speciesName }) => {
+        return (
+          <>
+            <svg style={{ height: '13px' }} viewBox="0 0 1040 950">
+              <path d={speciesIcons[speciesId]} />
+            </svg>{' '}
+            {speciesName}
+          </>
+        );
+      },
     },
     {
       id: 'homologyType',
