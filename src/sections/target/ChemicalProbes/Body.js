@@ -109,7 +109,7 @@ const columns = [
     label: 'Score',
     renderCell: row => {
       const rowScores = scores.filter(s => row[s.field] !== null);
-      return rowScores ? (
+      return rowScores?.length > 0 ? (
         <ChipList
           items={rowScores.map(s => ({
             label: s.label + ': ' + row[s.field],
@@ -122,7 +122,7 @@ const columns = [
           }))}
         />
       ) : (
-        naLabel
+        <ChipList items={[{ label: 'Not available' }]} />
       );
     },
     exportValue: row =>
