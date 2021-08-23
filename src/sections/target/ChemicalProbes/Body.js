@@ -71,7 +71,7 @@ const columns = [
         c
       );
     },
-    // export: rowData => rowData.sourcelinks.map(d => d.link).join(', '),
+    exportValue: row => row.id,
     width: '15%',
   },
   {
@@ -85,18 +85,21 @@ const columns = [
         {row.targetFromSourceId}
       </Link>
     ),
+    exportValue: row => row.targetFromSourceId,
     width: '15%',
   },
   {
     id: 'mechanismOfAction',
     label: 'Mechanism of action',
     renderCell: row => row.mechanismOfAction?.join(', ') || naLabel,
+    exportValue: row => row.mechanismOfAction?.join(', '),
     width: '15%',
   },
   {
     id: 'origin',
     label: 'Probe origin',
     renderCell: row => row.origin?.join(', ') || naLabel,
+    exportValue: row => row.origin?.join(', '),
     width: '15%',
   },
   {
@@ -120,6 +123,11 @@ const columns = [
         naLabel
       );
     },
+    exportValue: row =>
+      scores
+        .filter(s => row[s.field] !== null)
+        .map(s => s.label + ': ' + row[s.field])
+        .join(', '),
     width: '25%',
   },
   {
@@ -138,6 +146,7 @@ const columns = [
         naLabel
       );
     },
+    exportValue: row => row.urls.map(u => u.niceName + ': ' + u.url).join(', '),
     width: '15%',
   },
 ];
