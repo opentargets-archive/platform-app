@@ -13,7 +13,7 @@ const columns = [
   {
     id: 'homologyType',
     label: 'Homology type',
-    renderCell: ({ homologyType }) => homologyType.replace(/_/, ' '),
+    renderCell: ({ homologyType }) => homologyType.replaceAll('_', ' '),
   },
   {
     id: 'targetGeneSymbol',
@@ -23,10 +23,6 @@ const columns = [
         {targetGeneSymbol}
       </Link>
     ),
-  },
-  {
-    id: 'dNdS',
-    label: `dN/dS`,
   },
   {
     id: 'queryPercentageIdentity',
