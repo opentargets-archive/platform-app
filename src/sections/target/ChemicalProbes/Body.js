@@ -10,6 +10,7 @@ import { naLabel } from '../../../constants';
 import ChipList from '../../../components/ChipList';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
+import ClinvarStars from '../../../components/ClinvarStars';
 
 const scores = [
   {
@@ -76,18 +77,12 @@ const columns = [
     width: '15%',
   },
   {
-    id: 'targetFromSourceId',
-    label: 'Reported target',
+    id: 'isHighQuality',
+    label: 'Quality',
     renderCell: row => (
-      <Link
-        external
-        to={`https://identifiers.org/uniprot:${row.targetFromSourceId}`}
-      >
-        {row.targetFromSourceId}
-      </Link>
+      <ClinvarStars num={row.isHighQuality ? 1 : 0} length={1} />
     ),
-    exportValue: row => row.targetFromSourceId,
-    filterValue: row => row.targetFromSourceId,
+    exportValue: row => (row.isHighQuality ? 'high' : ''),
     width: '15%',
   },
   {

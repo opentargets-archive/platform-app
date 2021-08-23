@@ -3,6 +3,7 @@ fragment ChemicalProbesSummaryFragment on Target {
       id
       control
       drugId
+      isHighQuality
       mechanismOfAction
       origin
       probeMinerScore
