@@ -117,7 +117,7 @@ const columns = [
       return rowScores?.length > 0 ? (
         <ChipList
           items={rowScores.map(s => ({
-            label: s.label + ': ' + row[s.field],
+            label: s.label + ': ' + Number(row[s.field]).toPrecision(),
             tooltip: (
               <>
                 <TooltipStyledLabel label="Score" value={row[s.field]} />
