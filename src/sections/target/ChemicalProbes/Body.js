@@ -11,6 +11,7 @@ import ChipList from '../../../components/ChipList';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import ClinvarStars from '../../../components/ClinvarStars';
+import _ from 'lodash';
 
 const scores = [
   {
@@ -176,12 +177,23 @@ function Body({ definition, label: symbol }) {
       request={request}
       renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => {
+        // sort probes manually as we need a double custom sort based on quality and origin
+        const sortedProbes = _.sortBy(data.target.chemicalProbes, [
+          function(p) {
+            return !p.isHighQuality;
+          },
+          function(p) {
+            return !p.origin
+              ?.map(o => o.toLowerCase())
+              .includes('experimental');
+          },
+        ]);
         return (
           <>
             {data.target.chemicalProbes?.length > 0 ? (
               <DataTable
                 columns={columns}
-                rows={data.target.chemicalProbes}
+                rows={sortedProbes}
                 showGlobalFilter
                 dataDownloader
                 dataDownloaderFileStem={`${symbol}-chemical-probes`}
@@ -189,8 +201,6 @@ function Body({ definition, label: symbol }) {
                 rowsPerPageOptions={defaultRowsPerPageOptions}
                 noWrap={false}
                 noWrapHeader={false}
-                sortBy={'isHighQuality'}
-                order={'des'}
               />
             ) : null}
           </>
