@@ -9,9 +9,38 @@ import Tooltip from '../../../components/Tooltip';
 import { DataTable } from '../../../components/Table';
 import { identifiersOrgLink } from '../../../utils/global';
 import { defaultRowsPerPageOptions, decimalPlaces } from '../../../constants';
+
 import speciesIcons from './speciesIcons';
 
-console.log('worm', speciesIcons.worm);
+import ChimpanzeeIcon from './ChimpanzeeIcon';
+import HumanIcon from './HumanIcon';
+import RatIcon from './RatIcon';
+import FrogIcon from './FrogIcon';
+import DogIcon from './DogIcon';
+import FlyIcon from './FlyIcon';
+import RabbitIcon from './RabbitIcon';
+import MacaqueIcon from './MacaqueIcon';
+import PigIcon from './PigIcon';
+import WormIcon from './WormIcon';
+import ZebrafishIcon from './ZebrafishIcon';
+import GuineaPigIcon from './GuineaPigIcon';
+import MouseIcon from './MouseIcon';
+
+const speciesIcons2 = {
+  9598: ChimpanzeeIcon,
+  10116: RatIcon,
+  9606: HumanIcon,
+  8364: FrogIcon,
+  9615: DogIcon,
+  7227: FlyIcon,
+  9986: RabbitIcon,
+  9544: MacaqueIcon,
+  9823: PigIcon,
+  6239: WormIcon,
+  7955: ZebrafishIcon,
+  10141: GuineaPigIcon,
+  10090: MouseIcon,
+};
 
 const useStyles = makeStyles(theme => ({
   star: {
@@ -29,12 +58,10 @@ function getColumns(classes) {
       id: 'speciesName',
       label: 'Species',
       renderCell: ({ speciesId, speciesName }) => {
+        const SpeciesIcon = speciesIcons2[speciesId];
         return (
           <>
-            <svg style={{ height: '13px' }} viewBox="0 0 1040 950">
-              <path d={speciesIcons[speciesId]} />
-            </svg>{' '}
-            {speciesName}
+            <SpeciesIcon /> {speciesName}
           </>
         );
       },
