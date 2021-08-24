@@ -80,9 +80,13 @@ const columns = [
     id: 'isHighQuality',
     label: 'Quality',
     renderCell: row => (
-      <ClinvarStars num={row.isHighQuality ? 1 : 0} length={1} />
+      <Tooltip title={row.isHighQuality ? 'High quality' : 'Low quality'}>
+        <div>
+          <ClinvarStars num={row.isHighQuality ? 1 : 0} length={1} />
+        </div>
+      </Tooltip>
     ),
-    exportValue: row => (row.isHighQuality ? 'high' : ''),
+    exportValue: row => (row.isHighQuality ? 'high' : 'low'),
     filterValue: row => (row.isHighQuality ? 1 : 0),
     tooltip:
       'Chemical probes selection based on the union of following criteria: compound belongs to one of the high-quality probe sets; use in Cells or Organisms rating ≥ 75%; P&D approved experimental probe; not labelled as obsolete.',
