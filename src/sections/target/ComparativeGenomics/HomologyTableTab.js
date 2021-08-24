@@ -24,7 +24,7 @@ import ZebrafishIcon from './ZebrafishIcon';
 import GuineaPigIcon from './GuineaPigIcon';
 import MouseIcon from './MouseIcon';
 
-// map species id to species icon component
+// map species ids to species icon component
 const speciesIcons = {
   9598: ChimpanzeeIcon,
   10116: RatIcon,
@@ -45,6 +45,12 @@ const useStyles = makeStyles(theme => ({
   star: {
     color: theme.palette.primary.main,
   },
+  iconContainer: {
+    display: 'inline-block',
+    textAlign: 'right',
+    width: '43px',
+    marginRight: '5px',
+  },
   container: {
     display: 'inline-block',
     width: '16px',
@@ -60,7 +66,10 @@ function getColumns(classes) {
         const SpeciesIcon = speciesIcons[speciesId];
         return (
           <>
-            <SpeciesIcon /> {speciesName}
+            <span className={classes.iconContainer}>
+              <SpeciesIcon />
+            </span>{' '}
+            {speciesName}
           </>
         );
       },
