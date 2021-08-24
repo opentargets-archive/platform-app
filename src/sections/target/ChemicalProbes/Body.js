@@ -179,14 +179,8 @@ function Body({ definition, label: symbol }) {
       renderBody={data => {
         // sort probes manually as we need a double custom sort based on quality and origin
         const sortedProbes = _.sortBy(data.target.chemicalProbes, [
-          function(p) {
-            return !p.isHighQuality;
-          },
-          function(p) {
-            return !p.origin
-              ?.map(o => o.toLowerCase())
-              .includes('experimental');
-          },
+          p => !p.isHighQuality,
+          p => !p.origin?.map(o => o.toLowerCase()).includes('experimental'),
         ]);
         return (
           <>
