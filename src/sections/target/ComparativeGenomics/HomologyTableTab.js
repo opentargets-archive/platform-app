@@ -10,8 +10,6 @@ import { DataTable } from '../../../components/Table';
 import { identifiersOrgLink } from '../../../utils/global';
 import { defaultRowsPerPageOptions, decimalPlaces } from '../../../constants';
 
-import speciesIcons from './speciesIcons';
-
 import ChimpanzeeIcon from './ChimpanzeeIcon';
 import HumanIcon from './HumanIcon';
 import RatIcon from './RatIcon';
@@ -26,7 +24,8 @@ import ZebrafishIcon from './ZebrafishIcon';
 import GuineaPigIcon from './GuineaPigIcon';
 import MouseIcon from './MouseIcon';
 
-const speciesIcons2 = {
+// map species id to species icon component
+const speciesIcons = {
   9598: ChimpanzeeIcon,
   10116: RatIcon,
   9606: HumanIcon,
@@ -58,7 +57,7 @@ function getColumns(classes) {
       id: 'speciesName',
       label: 'Species',
       renderCell: ({ speciesId, speciesName }) => {
-        const SpeciesIcon = speciesIcons2[speciesId];
+        const SpeciesIcon = speciesIcons[speciesId];
         return (
           <>
             <SpeciesIcon /> {speciesName}
