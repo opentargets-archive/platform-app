@@ -1,9 +1,10 @@
 import React from 'react';
 import { withContentRect } from 'react-measure';
+import * as d3 from 'd3';
 
 // TODO: update tntvis to use the latest version of d3 (not v3 as here)
 // this file is a tweaked version of that in the `tnt.tooltip` dep
-const d3 = window.d3;
+// const d3 = window.d3;
 
 // TODO: Currently, when a resize occurs, we just
 // redraw the widget, meaning internal state is lost.
