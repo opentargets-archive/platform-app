@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-import HomologyTableTab from './HomologyTableTab';
+import HomologyTable from './HomologyTable';
 
 import SectionItem from '../../../components/Section/SectionItem';
 import Description from './Description';
@@ -15,7 +15,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
       definition={definition}
       request={request}
       renderDescription={() => <Description symbol={symbol} />}
-      renderBody={data => <HomologyTableTab data={data} />}
+      renderBody={data => <HomologyTable homologues={data.target.homologues} />}
     />
   );
 }

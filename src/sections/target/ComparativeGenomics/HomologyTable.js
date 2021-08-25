@@ -131,14 +131,15 @@ function getColumns(classes) {
   ];
 }
 
-function HomologyTableTab({ data }) {
+function HomologyTableTab({ homologues }) {
   const classes = useStyles();
 
   return (
     <DataTable
+      showGlobalFilter
       dataDownloader
       columns={getColumns(classes)}
-      rows={data.target.homologues}
+      rows={homologues}
       rowsPerPageOptions={defaultRowsPerPageOptions}
     />
   );
