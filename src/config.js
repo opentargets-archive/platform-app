@@ -12,7 +12,10 @@ const config = {
   efoURL:
     window.configEFOURL ??
     'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl',
-  primaryColor: window.configPrimaryColor ?? '#3489ca',
+  primaryColor:
+    window.configPrimaryColor ??
+    process.env.REACT_APP_configPrimaryColor ??
+    '#3489ca',
   // primaryColor: window.configPrimaryColor ?? '#407253',
   flagShowOTARProjects: window.configFlagShowOTARProjects ?? false,
 
