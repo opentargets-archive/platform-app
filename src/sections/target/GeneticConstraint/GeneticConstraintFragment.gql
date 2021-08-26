@@ -1,0 +1,5 @@
+fragment GeneticConstraintFragment on Target {
+  geneticConstraint {
+    constraintType
+  }
+}
