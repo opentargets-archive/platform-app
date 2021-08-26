@@ -1,8 +1,10 @@
 query CompGenomics($ensemblId: String!) {
   target(ensemblId: $ensemblId) {
     homologues {
+      speciesId
       speciesName
       homologyType
+      isHighConfidence
       targetGeneId
       targetGeneSymbol
       queryPercentageIdentity
