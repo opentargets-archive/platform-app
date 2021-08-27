@@ -1,10 +1,11 @@
 import React from 'react';
+import Link from '../../../components/Link';
 
 function Description({ symbol }) {
   return (
     <>
-      Pathogenicity metrics for the Ensembl canonical transcript of {symbol}.
-      Source:{' '}
+      Mutational constraint observed in {symbol} canonical transcript in natural
+      populations. Source:{' '}
       <Link external to="https://gnomad.broadinstitute.org">
         gnomAD
       </Link>

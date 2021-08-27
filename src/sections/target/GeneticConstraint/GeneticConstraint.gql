@@ -1,0 +1,14 @@
+query GeneticConstraint($ensemblId: String!) {
+  target(ensemblId: $ensemblId) {
+    geneticConstraint {
+      constraintType
+      exp
+      obs
+      score
+      oe
+      oeLower
+      oeUpper
+      upperBin6
+    }
+  }
+}
