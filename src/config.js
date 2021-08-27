@@ -9,7 +9,7 @@ const config = {
   googleTagManagerID: window.injectedEnv.configGoogleTagManagerID ?? null,
   efoURL:
     window.injectedEnv.configEFOURL ??
-    'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl',
+    'https://platform.opentargets.org/data/ontology/efo_json/diseases_efo.jsonl',
   primaryColor: window.injectedEnv.configPrimaryColor ?? '#3489ca',
   flagShowOTARProjects: window.injectedEnv.configFlagShowOTARProjects ?? false
 };
