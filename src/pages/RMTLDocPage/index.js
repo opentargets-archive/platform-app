@@ -187,9 +187,9 @@ function RMTLDocPage() {
             <Typography paragraph>
               In 2018, the United States Food & Drug Administration (FDA)
               published the Pediatric Relevant Molecular Target List (RMTL). In
-              general, this list contains targets that are important for studies
-              of pediatric cancer. The targets in this list have special legal
-              requirements associated with drug development.
+              general, this list contains targets that are <b>important for studies
+              of pediatric cancer</b>. The targets in this list have <b>special legal
+              requirements</b> associated with drug development.
             </Typography>
             <Typography paragraph>
               The official FDA publication can be found (
@@ -339,7 +339,7 @@ function RMTLDocPage() {
             <Typography paragraph>
               The detailed expanded RMTL containing FDA source targets and
               editor’s notes can be accessed (
-              <Link href={hugoHgncLink} rel="noopener" target="_blank">
+              <Link href={fdaRMTL} rel="noopener" target="_blank">
                 here
               </Link>
               ) .
