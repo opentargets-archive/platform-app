@@ -17,6 +17,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
       renderDescription={() => <Description symbol={symbol} />}
       renderBody={({ target }) => (
         <GeneticConstraintTable
+          ensemblId={ensemblId}
           symbol={symbol}
           geneticConstraint={target.geneticConstraint}
         />

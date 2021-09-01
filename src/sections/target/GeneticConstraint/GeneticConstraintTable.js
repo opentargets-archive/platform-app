@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { Typography, makeStyles } from '@material-ui/core';
 
 import Link from '../../../components/Link';
+import Tooltip from '../../../components/Tooltip';
 
 import { DataTable } from '../../../components/Table';
 
@@ -26,6 +27,9 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '50%',
     marginRight: '3px',
   },
+  oe: {
+    marginBottom: '10px',
+  },
 }));
 
 const constraintTypeMap = {
@@ -34,7 +38,7 @@ const constraintTypeMap = {
   lof: 'pLoF',
 };
 
-function getColumns(symbol, classes) {
+function getColumns(ensemblId, symbol, classes) {
   return [
     {
       id: 'constraintType',
@@ -80,15 +84,23 @@ function getColumns(symbol, classes) {
         return (
           <>
             <div>Z = {score}</div>
-            <div>
+            <div className={classes.oe}>
               o/e = {oe} ({oeLower} - {oeUpper})
             </div>
-            <div>Constraint assessment</div>
+            <Tooltip
+              title={`Binned representation of ${symbol} rank in the loss-function observed/expected upper bound fraction (LOEUF) distribution. Higher scored assessments correspond to strong selection against predicted loss-of-function (pLoF) variation in the particular gene.`}
+              showHelpIcon
+            >
+              <span>Constraint assessment</span>
+            </Tooltip>
             <div />
             {constraintType === 'lof' ? (
               <>
                 <div>{circles}</div>
-                <Link external to="">
+                <Link
+                  external
+                  to={`https://gnomad.broadinstitute.org/gene/${ensemblId}`}
+                >
                   {symbol} constraint report
                 </Link>
               </>
@@ -100,14 +112,13 @@ function getColumns(symbol, classes) {
   ];
 }
 
-function GeneticConstraintTable({ symbol, geneticConstraint }) {
+function GeneticConstraintTable({ ensemblId, symbol, geneticConstraint }) {
   const classes = useStyles();
 
   return (
     <DataTable
-      showGlobalFilter
       dataDownloader
-      columns={getColumns(symbol, classes)}
+      columns={getColumns(ensemblId, symbol, classes)}
       rows={geneticConstraint}
       rowsPerPageOptions={defaultRowsPerPageOptions}
     />
