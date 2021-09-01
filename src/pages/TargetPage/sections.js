@@ -4,7 +4,7 @@ import * as Bibliography from '../../sections/target/Bibliography';
 import * as CancerHallmarks from '../../sections/target/CancerHallmarks';
 import * as ChemicalProbes from '../../sections/target/ChemicalProbes';
 import * as ComparativeGenomics from '../../sections/target/ComparativeGenomics';
-// import * as GeneOntology from '../../sections/target/GeneOntology';
+import * as GeneOntology from '../../sections/target/GeneOntology';
 import * as KnownDrugs from '../../sections/target/KnownDrugs';
 // import * as MousePhenotypes from '../../sections/target/MousePhenotypes';
 import * as Pathways from '../../sections/target/Pathways';
@@ -22,7 +22,7 @@ const sections = [
   Tep,
   ChemicalProbes,
   BaselineExpression,
-  // GeneOntology,
+  GeneOntology,
   ProtVista,
   MolecularInteractions,
   Pathways,
