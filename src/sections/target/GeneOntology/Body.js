@@ -26,7 +26,7 @@ const extractCategory = row => ({
 const sourceURLS = {
   Reactome: id => `https://identifiers.org/reactome:${id}`,
   DOI: id => `https://doi.org/${id}}`,
-  GO_REF: id => `https://identifiers.org/${id}}`,
+  GO_REF: id => `https://identifiers.org/GO_REF:${id}`,
 };
 
 const sourceMapContent = source => {
