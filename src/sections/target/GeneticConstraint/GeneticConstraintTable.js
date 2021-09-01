@@ -65,10 +65,6 @@ function getColumns(ensemblId, symbol, classes) {
         oeUpper,
         upperBin6,
       }) => {
-        if (constraintType === 'lof') {
-          console.log({ upperBin6 });
-        }
-
         const circles = [];
 
         for (let i = 0; i < 5; i++) {
