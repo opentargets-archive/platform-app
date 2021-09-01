@@ -16,7 +16,10 @@ const config = {
     window.configPrimaryColor ??
     process.env.REACT_APP_configPrimaryColor ??
     '#3489ca',
-  flagShowOTARProjects: window.configFlagShowOTARProjects ?? false,
+  flagShowOTARProjects:
+    window.configFlagShowOTARProjects ??
+    process.env.REACT_APP_configFlagShowOTARProjects ??
+    false,
 
   // partner preview options
   isPartnerPreview:
