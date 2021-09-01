@@ -57,14 +57,7 @@ function getColumns(ensemblId, symbol, classes) {
     {
       id: 'metrics',
       label: 'Constraint metrics',
-      renderCell: ({
-        constraintType,
-        score,
-        oe,
-        oeLower,
-        oeUpper,
-        upperBin6,
-      }) => {
+      renderCell: ({ score, oe, oeLower, oeUpper, upperBin6 }) => {
         const circles = [];
 
         if (upperBin6 !== null) {
