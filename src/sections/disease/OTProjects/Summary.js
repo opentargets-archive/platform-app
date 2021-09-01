@@ -13,11 +13,11 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={data => {
+      renderSummary={({ otarProjects }) => {
         let numActive = 0;
         let numClosed = 0;
 
-        data.otarProjects.forEach(({ status }) => {
+        otarProjects.forEach(({ status }) => {
           if (status === 'Active') {
             numActive++;
           } else {

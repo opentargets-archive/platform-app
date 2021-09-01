@@ -5,7 +5,7 @@ import Link from '../../../components/Link';
 import { DataTable } from '../../../components/Table';
 import SectionItem from '../../../components/Section/SectionItem';
 import { defaultRowsPerPageOptions } from '../../../constants';
-import projects from './projects.json';
+import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
 const columns = [
@@ -28,20 +28,20 @@ const columns = [
 ];
 
 function Body({ definition, label }) {
-  const request = usePlatformApi();
+  const request = usePlatformApi(Summary.fragments.OTProjectsSummaryFragment);
 
   return (
     <SectionItem
       definition={definition}
       request={request}
       renderDescription={() => <Description name={label} />}
-      renderBody={() => {
+      renderBody={({ otarProjects }) => {
         return (
           <DataTable
             showGlobalFilter
             dataDownloader
             columns={columns}
-            rows={projects}
+            rows={otarProjects}
             rowsPerPageOptions={defaultRowsPerPageOptions}
             sortBy="status"
           />
