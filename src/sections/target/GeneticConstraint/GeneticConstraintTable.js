@@ -1,6 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
-import { Typography, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import Link from '../../../components/Link';
 import Tooltip from '../../../components/Tooltip';
