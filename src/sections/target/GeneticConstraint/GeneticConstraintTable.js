@@ -67,13 +67,17 @@ function getColumns(ensemblId, symbol, classes) {
       }) => {
         const circles = [];
 
-        for (let i = 0; i < 5; i++) {
-          circles.push(
-            <span
-              key={i}
-              className={5 - upperBin6 > i ? classes.filled : classes.notFilled}
-            />
-          );
+        if (upperBin6 !== null) {
+          for (let i = 0; i < 5; i++) {
+            circles.push(
+              <span
+                key={i}
+                className={
+                  5 - upperBin6 > i ? classes.filled : classes.notFilled
+                }
+              />
+            );
+          }
         }
 
         return (
@@ -82,15 +86,15 @@ function getColumns(ensemblId, symbol, classes) {
             <div className={classes.oe}>
               o/e = {oe} ({oeLower} - {oeUpper})
             </div>
-            <Tooltip
-              title={`Binned representation of ${symbol} rank in the loss-function observed/expected upper bound fraction (LOEUF) distribution. Higher scored assessments correspond to strong selection against predicted loss-of-function (pLoF) variation in the particular gene.`}
-              showHelpIcon
-            >
-              <span>Constraint assessment</span>
-            </Tooltip>
-            <div />
-            {constraintType === 'lof' ? (
+            {upperBin6 !== null ? (
               <>
+                <Tooltip
+                  title={`Binned representation of ${symbol} rank in the loss-function observed/expected upper bound fraction (LOEUF) distribution. Higher scored assessments correspond to strong selection against predicted loss-of-function (pLoF) variation in the particular gene.`}
+                  showHelpIcon
+                >
+                  <span>Constraint assessment</span>
+                </Tooltip>
+
                 <div>{circles}</div>
                 <Link
                   external
