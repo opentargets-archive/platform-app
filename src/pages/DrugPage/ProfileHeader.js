@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Box } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -18,27 +18,7 @@ import Link from '../../components/Link';
 import Smiles from './Smiles';
 import usePlatformApi from '../../hooks/usePlatformApi';
 
-const DRUG_PROFILE_HEADER_FRAGMENT = gql`
-  fragment DrugProfileHeaderFragment on Drug {
-    description
-    drugType
-    synonyms
-    parentMolecule {
-      id
-      name
-    }
-    childMolecules {
-      id
-      name
-    }
-    isApproved
-    hasBeenWithdrawn
-    blackBoxWarning
-    maximumClinicalTrialPhase
-    tradeNames
-    yearOfFirstApproval
-  }
-`;
+const DRUG_PROFILE_HEADER_FRAGMENT = loader('./ProfileHeader.gql');
 
 function ProfileHeader({ chemblId }) {
   const { loading, error, data } = usePlatformApi();

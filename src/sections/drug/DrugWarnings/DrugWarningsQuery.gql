@@ -1,0 +1,18 @@
+query DrugWarningsQuery($chemblId: String!) {
+  drug(chemblId: $chemblId) {
+    id
+    drugWarnings {
+      warningType
+      description
+      toxicityClass
+      meddraSocCode
+      country
+      year
+      references {
+        id
+        source
+        url
+      }
+    }
+  }
+}

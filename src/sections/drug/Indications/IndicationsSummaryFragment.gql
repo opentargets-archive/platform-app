@@ -1,0 +1,5 @@
+fragment IndicationsSummaryFragment on Drug {
+  indications {
+    count
+  }
+}

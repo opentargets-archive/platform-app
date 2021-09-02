@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -8,26 +9,7 @@ import { identifiersOrgLink } from '../../../utils/global';
 import Description from './Description';
 import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
 
-const DRUG_WARNINGS_QUERY = gql`
-  query DrugWarningsQuery($chemblId: String!) {
-    drug(chemblId: $chemblId) {
-      id
-      drugWarnings {
-        warningType
-        description
-        toxicityClass
-        meddraSocCode
-        country
-        year
-        references {
-          id
-          source
-          url
-        }
-      }
-    }
-  }
-`;
+const DRUG_WARNINGS_QUERY = loader('./DrugWarningsQuery.gql');
 
 const columns = [
   {

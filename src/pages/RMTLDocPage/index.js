@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Link, Avatar } from '@material-ui/core';
+import { Grid, Typography, Link, Avatar, Paper } from '@material-ui/core';
 import BasePage from '../../components/BasePage';
 
 const useStyles = makeStyles(theme => ({
@@ -23,6 +23,20 @@ const useStyles = makeStyles(theme => ({
   avatarHasData: {
     backgroundColor: theme.palette.primary.main,
   },
+  table: {
+    'border-collapse': 'collapse',
+    width: '100%',
+  },
+  td: {
+    border: '1px solid #dddddd',
+    textAlign: 'left',
+    padding: '8px',
+  },
+  th: {
+    border: '1px solid #dddddd',
+    textAlign: 'left',
+    padding: '8px',
+  },
 }));
 
 function RMTLDocPage() {
@@ -36,6 +50,128 @@ function RMTLDocPage() {
   const hugoHgncLink = 'https://www.genenames.org/download/custom/';
 
   const fdaRMTL = '/fda-rmtl';
+
+  const fdaRmtlColumns = {
+    tableHeader: ['Column Header', 'Example Value', 'Description'],
+    tableDetail: [
+      [
+        'Target Symbol',
+        'JAK1',
+        'Gene-resolution HGNC approved symbol compatible with the Open Targets Platform',
+      ],
+      [
+        'Designation',
+        'Relevant Molecular Target',
+        'FDA designation of “Relevant” or “Non-Relevant” in the growth of pediatric cancers',
+      ],
+      [
+        'FDA Class',
+        'Gene Abnormality',
+        'Category of the target as listed in the FDA publication',
+      ],
+      [
+        'FDA Target',
+        'JAK1, 2, and 3',
+        'Target as originally listed in the FDA publication. For targets in the Gene ' +
+          'Abnormality FDA Class, the gene abnormality from the FDA publication is included here, separated from the target by “ | “',
+      ],
+      [
+        'Reformat Method',
+        'Separate List',
+        'Brief description of the action taken to map the target as listed in the FDA ' +
+          'publication into one or more unique, gene-level targets compatible with the Open Targets Platform',
+      ],
+    ],
+  };
+
+  const reformatMethods = {
+    tableHeader: [
+      'Reformat Method',
+      'Example FDA Target',
+      'Example Target Symbol(s) after reformatting',
+      'Description',
+    ],
+    tableDetail: [
+      [
+        'Unchanged from FDA list',
+        'PTEN',
+        'PTEN',
+        'FDA Target appears exactly as in the FDA publication',
+      ],
+      [
+        'Standardize symbol',
+        'Thymidylate synthase',
+        'TYMS',
+        'FDA Target was mapped to a single HGNC approved symbol',
+      ],
+      [
+        'Separate list',
+        'JAK1, 2, and 3',
+        ['JAK1', 'JAK2', 'JAK3'],
+        'FDA Targets in a human-readable list were separated into unique targets',
+      ],
+      [
+        'Separate gene fusion',
+        'BRD3-NUTM1',
+        ['BRD3', 'NUTM1'],
+        'FDA Target gene fusions were separated into component genes as unique targets',
+      ],
+      [
+        'Separate gene abnormalities',
+        'EZH2 | EZH2 Gene Abnormalities: SMARCB1, SMARCA4',
+        ['EZH2', 'SMARCB1', 'SMARCA4'],
+        'FDA Targets and their listed gene abnormalities were separated into unique targets',
+      ],
+      [
+        'Unpack complex target',
+        'BET bromodomain family',
+        ['BRD2', 'BRD3', 'BRD4', 'BRDT'],
+        'FDA Targets consisting of multiple genes (such as gene families or complex proteins) were separated into unique, gene-level targets',
+      ],
+      [
+        'Fix human error…',
+        'IDH1 and IHD2',
+        ['IDH1', 'IDH2'],
+        'FDA Targets containing typos or mismatched citations were corrected. Details given for each instance',
+      ],
+    ],
+  };
+
+  function displayTable(data) {
+    return (
+      <table className={classes.table}>
+        <thead>
+          <tr>
+            {!data.tableHeader
+              ? null
+              : data.tableHeader.map(header => (
+                  <th className={classes.th} key={header}>
+                    {' '}
+                    {header}{' '}
+                  </th>
+                ))}
+          </tr>
+        </thead>
+        <tbody>
+          {!data.tableDetail
+            ? null
+            : data.tableDetail.map((row, i) => (
+                <tr key={i + row}>
+                  {row.map((detail, i) => (
+                    <td className={classes.td} key={i + row + detail}>
+                      {typeof detail !== 'object'
+                        ? detail
+                        : detail.map((item, i) => (
+                            <p key={i + detail + item}> {item} </p>
+                          ))}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+        </tbody>
+      </table>
+    );
+  }
 
   return (
     <BasePage title="RMLT Document Page">
@@ -51,9 +187,9 @@ function RMTLDocPage() {
             <Typography paragraph>
               In 2018, the United States Food & Drug Administration (FDA)
               published the Pediatric Relevant Molecular Target List (RMTL). In
-              general, this list contains targets that are important for studies
-              of pediatric cancer. The targets in this list have special legal
-              requirements associated with drug development.
+              general, this list contains targets that are <b>important for studies
+              of pediatric cancer</b>. The targets in this list have <b>special legal
+              requirements</b> associated with drug development.
             </Typography>
             <Typography paragraph>
               The official FDA publication can be found (
@@ -203,11 +339,48 @@ function RMTLDocPage() {
             <Typography paragraph>
               The detailed expanded RMTL containing FDA source targets and
               editor’s notes can be accessed (
-              <Link href={hugoHgncLink} rel="noopener" target="_blank">
+              <Link href={fdaRMTL} rel="noopener" target="_blank">
                 here
               </Link>
               ) .
             </Typography>
+          </Grid>
+
+          <Grid item xs={12} id="colums-description">
+            <Typography variant="h4">FDA RMTL Columns</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography paragraph>
+              The table below contains examples and descriptions of each column
+              within the searchable FDA RMTL page.
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper variant="outlined" elevation={0}>
+              {displayTable(fdaRmtlColumns)}
+            </Paper>
+          </Grid>
+          <br />
+
+          <Grid item xs={12} id="reformat-methods">
+            <Typography variant="h4">FDA RMTL Reformat Methods</Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography paragraph>
+              The table below contains a description of each potential value in
+              the Reformat Method column. These describe the action(s) taken to
+              map targets within the FDA RMTL publication into the computable,
+              gene-level targets used in Open Targets. Many FDA targets required
+              more than one action to reach Open Targets compatibility; these
+              are all listed for each target when appropriate (e.g. “Separate
+              list and standardize symbol”).
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper variant="outlined" elevation={0}>
+              {displayTable(reformatMethods)}
+            </Paper>
           </Grid>
         </Grid>
       </div>

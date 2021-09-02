@@ -1,29 +1,10 @@
-import { ApolloClient } from 'apollo-client';
-import {
-  InMemoryCache,
-  IntrospectionFragmentMatcher,
-} from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import introspectionQueryResultData from './fragmentTypes.json';
-import { config } from './config/Config';
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData,
-});
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import possibleTypes from './possibleTypes.json';
+import config from './config';
 
 const client = new ApolloClient({
-  link: new HttpLink({
-    uri: config.urlApi,
-  }),
-  cache: new InMemoryCache({ fragmentMatcher }),
+  uri: config.urlApi,
+  cache: new InMemoryCache({ possibleTypes }),
 });
 
-const betaClient = new ApolloClient({
-  link: new HttpLink({
-    uri: config.urlApiBeta,
-  }),
-  cache: new InMemoryCache({ fragmentMatcher }),
-});
-
-export { betaClient };
 export default client;

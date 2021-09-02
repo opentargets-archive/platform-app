@@ -1,40 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import gql from 'graphql-tag';
+import { loader } from 'graphql.macro';
 import { Skeleton } from '@material-ui/lab';
+import config from '../../config';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 
-const efoURL =
-  'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl';
-
-const ASSOCIATIONS_VIZ_QUERY = gql`
-  query AssociationsVizQuery(
-    $ensemblId: String!
-    $index: Int!
-    $size: Int!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    target(ensemblId: $ensemblId) {
-      id
-      associatedDiseases(
-        page: { index: $index, size: $size }
-        aggregationFilters: $aggregationFilters
-      ) {
-        count
-        rows {
-          disease {
-            id
-            name
-          }
-          score
-          datatypeScores {
-            componentId: id
-            score
-          }
-        }
-      }
-    }
-  }
-`;
+const ASSOCIATIONS_VIZ_QUERY = loader('./AssociationsViz.gql');
 
 function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
   const [nodes, setNodes] = useState();
@@ -50,7 +20,7 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
     () => {
       let isCurrent = true;
       const promises = [
-        fetch(efoURL).then(res => res.text()),
+        fetch(config.efoURL).then(res => res.text()),
         getAllAssociations(),
       ];
       Promise.all(promises).then(data => {

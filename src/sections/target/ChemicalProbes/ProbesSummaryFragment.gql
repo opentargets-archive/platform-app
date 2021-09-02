@@ -1,0 +1,13 @@
+fragment ChemicalProbesSummaryFragment on Target {
+  chemicalProbes {
+    probeminer
+    rows {
+      chemicalprobe
+      note
+      sourcelinks {
+        source
+        link
+      }
+    }
+  }
+}

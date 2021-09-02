@@ -7,11 +7,14 @@ import _ from 'lodash';
 import BasePage from '../../components/BasePage';
 import Link from '../../components/Link';
 import DataDownloader from '../../components/DataDownloader';
-import OtTableRF from '../../components/OtTableRF';
+import RMTLTable from '../../components/RMTLTable';
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import RMTLData from './RMTL.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { Link as Lk } from '@material-ui/core';
 
 function getDownloadRows(downloadData) {
   const rows = [];
@@ -20,7 +23,6 @@ function getDownloadRows(downloadData) {
       ensemblID: mapping.Ensembl_ID,
       targetSymbol: mapping.Approved_Symbol,
       designation: mapping.FDA_Designation,
-      version: mapping.RMTL_Version,
       fdaClass: mapping.FDA_Class,
       fdaTarget: mapping.FDA_Target,
       reformatMethod: mapping.Reformat_Method,
@@ -36,7 +38,6 @@ function getRows(downloadData) {
       ensemblID: mapping.Ensembl_ID,
       targetSymbol: mapping.Approved_Symbol,
       designation: mapping.FDA_Designation,
-      version: mapping.RMTL_Version + '',
       fdaClass: mapping.FDA_Class,
       fdaTarget: mapping.FDA_Target,
       reformatMethod: mapping.Reformat_Method,
@@ -44,14 +45,30 @@ function getRows(downloadData) {
   });
   return rows;
 }
+/*
+ * genericComparator: comparing row1 and row2 using the input keyName.
+ * return: -1 if first string is lexicographically less than second property
+ *          1 if first string is lexicographically greater than second property
+ *          0 if both property are equal
+ */
+function genericComparator(row1, row2, keyName) {
+  const a =
+    typeof row1[keyName] === 'string'
+      ? row1[keyName].toLowerCase()
+      : row1[keyName];
+  const b =
+    typeof row2[keyName] === 'string'
+      ? row2[keyName].toLowerCase()
+      : row2[keyName];
+
+  return a < b ? -1 : a > b ? 1 : 0;
+}
 
 function getColumns(
   targetSymbolOption,
   targetSymbolFilterHandler,
   designationOption,
   designationFilterHandler,
-  versionOption,
-  versionFilterHandler,
   fdaClassOption,
   fdaClassFilterHandler,
   fdaTargetOption,
@@ -83,6 +100,7 @@ function getColumns(
           )}
         />
       ),
+      comparator: (a, b) => genericComparator(a, b, 'targetSymbol'),
     },
     {
       id: 'designation',
@@ -109,21 +127,7 @@ function getColumns(
           )}
         />
       ),
-    },
-    {
-      id: 'version',
-      label: 'Version',
-      renderFilter: () => (
-        <Autocomplete
-          options={versionOption}
-          getOptionLabel={option => option.label}
-          getOptionSelected={option => option.value}
-          onChange={versionFilterHandler}
-          renderInput={params => (
-            <TextField {...params} label="Select..." margin="normal" />
-          )}
-        />
-      ),
+      comparator: (a, b) => genericComparator(a, b, 'designation'),
     },
     {
       id: 'fdaClass',
@@ -139,6 +143,7 @@ function getColumns(
           )}
         />
       ),
+      comparator: (a, b) => genericComparator(a, b, 'fdaClass'),
     },
     {
       id: 'fdaTarget',
@@ -155,12 +160,12 @@ function getColumns(
           )}
         />
       ),
+      comparator: (a, b) => genericComparator(a, b, 'fdaTarget'),
     },
 
     {
       id: 'reformatMethod',
       label: 'Reformat Method',
-
       renderFilter: () => (
         <Autocomplete
           options={reformatMethodOption}
@@ -172,6 +177,17 @@ function getColumns(
           )}
         />
       ),
+      comparator: (a, b) => genericComparator(a, b, 'reformatMethod'),
+      tooltip: {
+        badgeContent: () => (
+          <Lk
+            href="/rmtl#reformat-methods"
+            title="Reformat Method column description"
+          >
+            <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+          </Lk>
+        ),
+      },
     },
   ];
   return columns;
@@ -181,7 +197,6 @@ const downloadColumns = [
   { id: 'ensemblID', label: 'Ensembl_ID' },
   { id: 'targetSymbol', label: 'Approved_Symbol' },
   { id: 'designation', label: 'FDA_Designation' },
-  { id: 'version', label: 'Version' },
   { id: 'fdaClass', label: 'FDA_Class' },
   { id: 'fdaTarget', label: 'FDA_Target' },
   { id: 'reformatMethod', label: 'Reformat_Method' },
@@ -198,13 +213,6 @@ const getDesignationOptions = rows => {
   return _.uniqBy(rows, 'designation').map(row => ({
     label: row.designation,
     value: row.designation,
-  }));
-};
-
-const getVersionOptions = rows => {
-  return _.uniqBy(rows, 'version').map(row => ({
-    label: row.version + '',
-    value: row.version + '',
   }));
 };
 
@@ -253,10 +261,6 @@ class RMTLPage extends Component {
     this.columnFilterHandler(e, selection, this.rmtlXf, this.designationDim);
   };
 
-  versionFilterHandler = (e, selection) => {
-    this.columnFilterHandler(e, selection, this.rmtlXf, this.versionDim);
-  };
-
   fdaClassFilterHandler = (e, selection) => {
     this.columnFilterHandler(e, selection, this.rmtlXf, this.fdaClassDim);
   };
@@ -273,7 +277,6 @@ class RMTLPage extends Component {
     this.rmtlXf = crossfilter(getRows(RMTLData));
     this.targetSymbolDim = this.rmtlXf.dimension(row => row.targetSymbol);
     this.designationDim = this.rmtlXf.dimension(row => row.designation);
-    this.versionDim = this.rmtlXf.dimension(row => row.version);
 
     this.fdaClassDim = this.rmtlXf.dimension(row => row.fdaClass);
     this.fdaTargetDim = this.rmtlXf.dimension(row => row.fdaTarget);
@@ -294,7 +297,6 @@ class RMTLPage extends Component {
       error = false;
     const targetSymbolOptions = getTargetSymbolOptions(rows);
     const designationOptions = getDesignationOptions(rows);
-    const versionOptions = getVersionOptions(rows);
 
     const fdaClassOptions = getFdaClassOptions(rows);
     const fdaTargetOptions = getFdaTargetOptions(rows);
@@ -305,8 +307,6 @@ class RMTLPage extends Component {
       this.targetSymbolFilterHandler,
       designationOptions,
       this.designationFilterHandler,
-      versionOptions,
-      this.versionFilterHandler,
       fdaClassOptions,
       this.fdaClassFilterHandler,
       fdaTargetOptions,
@@ -353,12 +353,19 @@ class RMTLPage extends Component {
           <Box m={2}>
             {loading || error ? null : (
               <>
+                <Lk
+                  href="/rmtl#colums-description"
+                  title="FDA RMTL Columns Description"
+                >
+                  <FontAwesomeIcon icon={faInfoCircle} size="md" /> Columns
+                  Description
+                </Lk>
                 <DataDownloader
                   tableHeaders={downloadColumns}
                   rows={downloadRows}
                   fileStem={`rmtl`}
                 />
-                <OtTableRF
+                <RMTLTable
                   filters
                   columns={columns}
                   data={filteredRows}

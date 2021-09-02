@@ -1,21 +1,11 @@
 import React from 'react';
+import { loader } from 'graphql.macro';
 import _ from 'lodash';
-import { gql } from '@apollo/client';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const GENE_ONTOLOGY_SUMMARY_FRAGMENT = gql`
-  fragment GeneOntologySummaryFragment on Target {
-    proteinAnnotations {
-      id
-    }
-    geneOntology {
-      term
-      id
-    }
-  }
-`;
+const GENE_ONTOLOGY_SUMMARY_FRAGMENT = loader('./GeneOntologySummary.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(GENE_ONTOLOGY_SUMMARY_FRAGMENT);

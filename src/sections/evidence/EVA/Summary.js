@@ -1,20 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
+import { dataTypesMap } from '../../../dataTypes';
 
-const EVA_SUMMARY = gql`
-  fragment evaSummary on Disease {
-    evaSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["eva"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const EVA_SUMMARY = loader('./EVASummaryQuery.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(EVA_SUMMARY);
@@ -26,6 +16,7 @@ function Summary({ definition }) {
         const { count } = evaSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
+      subText={dataTypesMap.genetic_association}
     />
   );
 }

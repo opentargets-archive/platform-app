@@ -1,5 +1,5 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import {
   Description,
@@ -8,16 +8,7 @@ import {
 } from '../../components/ProfileHeader';
 import usePlatformApi from '../../hooks/usePlatformApi';
 
-const TARGET_PROFILE_HEADER_FRAGMENT = gql`
-  fragment TargetProfileHeaderFragment on Target {
-    proteinAnnotations {
-      id
-      functions
-    }
-    symbolSynonyms
-    nameSynonyms
-  }
-`;
+const TARGET_PROFILE_HEADER_FRAGMENT = loader('./TargetProfileHeader.gql');
 
 function ProfileHeader() {
   const { loading, error, data } = usePlatformApi();

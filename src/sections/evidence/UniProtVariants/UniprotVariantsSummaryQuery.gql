@@ -1,0 +1,10 @@
+fragment UniprotVariantsSummary on Disease {
+  uniprotVariantsSummary: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["uniprot_variants"]
+    size: 0
+  ) {
+    count
+  }
+}

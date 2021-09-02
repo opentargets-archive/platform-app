@@ -1,0 +1,10 @@
+fragment SysBioSummaryFragment on Disease {
+  sysBio: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["sysbio"]
+    size: 0
+  ) {
+    count
+  }
+}

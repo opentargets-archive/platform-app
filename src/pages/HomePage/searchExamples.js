@@ -1,4 +1,4 @@
-export default {
+const searchExamples = {
   targets: [
     { label: 'IL13', id: 'ENSG00000169194' },
     { label: 'TSLP', id: 'ENSG00000145777' },
@@ -55,3 +55,5 @@ export default {
     { label: 'LYRICA', id: 'CHEMBL1059' },
   ],
 };
+
+export default searchExamples;

@@ -1,20 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
+import { dataTypesMap } from '../../../dataTypes';
 
-const CHEMBL_SUMMARY_FRAGMENT = gql`
-  fragment ChemblSummaryFragment on Disease {
-    chemblSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["chembl"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const CHEMBL_SUMMARY_FRAGMENT = loader('./ChemblSummaryFragment.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(CHEMBL_SUMMARY_FRAGMENT);
@@ -27,6 +17,7 @@ function Summary({ definition }) {
         const { count } = chemblSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
+      subText={dataTypesMap.known_drug}
     />
   );
 }

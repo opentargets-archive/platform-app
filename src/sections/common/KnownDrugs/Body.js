@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import client from '../../../client';
 import Link from '../../../components/Link';
-import { naLabel } from '../../../constants';
+import { naLabel, phaseMap } from '../../../constants';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
 import SourceDrawer from './SourceDrawer';
@@ -16,6 +16,10 @@ function getColumnPool(id, entity) {
       columns: [
         {
           id: 'phase',
+          label: 'Phase',
+          sortable: true,
+          renderCell: ({ phase }) => phaseMap[phase],
+          filterValue: ({ phase }) => phaseMap[phase],
         },
         {
           id: 'status',
