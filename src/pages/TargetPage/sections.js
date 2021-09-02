@@ -14,6 +14,7 @@ import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
 import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 import * as SubcellularLocation from '../../sections/target/SubcellularLocation';
+import * as GeneticConstraint from '../../sections/target/GeneticConstraint';
 
 const sections = [
   KnownDrugs,
@@ -23,6 +24,7 @@ const sections = [
   ChemicalProbes,
   BaselineExpression,
   // GeneOntology,
+  GeneticConstraint,
   ProtVista,
   MolecularInteractions,
   Pathways,
