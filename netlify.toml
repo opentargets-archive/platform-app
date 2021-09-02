@@ -9,7 +9,8 @@
 
 [context.lf-partner-preview.environment]
   REACT_APP_configUrlApi = "https://api.partner-platform.opentargets.org/api/v4/graphql"
-  REACT_APP_configUrlApiBeta = "https://api.partner-platform.opentargets.org/api/v4/graphql"
+  # REACT_APP_configUrlApiBeta = "https://api.partner-platform.opentargets.org/api/v4/graphql"
   REACT_APP_configPrimaryColor = "#407253"
   REACT_APP_isPartnerPreview = "true"
   REACT_APP_configFlagShowOTARProjects = "true"
+  REACT_APP_partnerDiseaseSectionIds = "otarProjects"
