@@ -15,6 +15,7 @@ const columns = [
     renderCell: ({ Gene_symbol, Gene_Ensembl_ID }) => 
         <Link to={`/target/${Gene_Ensembl_ID}`}>{Gene_symbol}</Link>
   },
+  // { id: 'Gene_Ensembl_ID', label: 'Gene Ensembl ID'},
   { id:'Variant_type', label:'Variant type'}, 
   { id:'Variant_category', label:'Variant category'},
   { id:'Dataset', label:'Dataset'},
@@ -32,11 +33,35 @@ const columns = [
   // { id:'EFO', label:'EFO'},
   // { id:'MONDO', label:'MONDO'},
 ]
+
+const dataDownloaderColumns = [
+  { id: 'Disease' },
+  { id: 'Gene_symbol' },
+  { id: 'Gene_Ensembl_ID' },
+  { id:'Variant_type' }, 
+  { id:'Variant_category' },
+  { id:'Dataset' },
+  { id:'Disease' },
+  { id:'Total_alterations/Patients_in_dataset' },
+  { id:'Frequency_in_overall_dataset' },
+  { id:'Total_primary_tumors_altered/Primary_tumors_in_dataset' },
+  { id:'Frequency_in_primary_tumors' },
+  { id:'Total_relapse_tumors_altered/Relapse_tumors_in_dataset' },
+  { id:'Frequency_in_relapse_tumors' },
+  { id:'Gene_full_name' },
+  { id:'RMTL', label:'RMTL' },
+  { id:'OncoKB_cancer_gene' },
+  { id:'OncoKB_oncogene_TSG' },
+  { id:'EFO' },
+  { id:'MONDO' },
+]
+
 function CnvByGeneTab({data}) {
   return (
     <Grid container>
       <Grid item xs={12}>
         <DataTable
+          dataDownloaderColumns={dataDownloaderColumns}
           columns={columns}
           rows={data}
           dataDownloader
