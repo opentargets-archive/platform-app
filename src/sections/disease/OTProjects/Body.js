@@ -22,7 +22,11 @@ const columns = [
     id: 'reference',
     label: 'Open Targest Intranet Link',
     renderCell: ({ otarCode }) => {
-      return <Link to="/">{otarCode} project page</Link>;
+      return (
+        <Link external to={`http://home.opentargets.org/${otarCode}`}>
+          {otarCode} project page
+        </Link>
+      );
     },
   },
 ];
