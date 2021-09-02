@@ -17,6 +17,7 @@ import Chip from '../Chip';
 import SectionError from './SectionError';
 import sectionStyles from './sectionStyles';
 import { createShortName } from '../Summary/utils';
+import PartnerLockIcon from '../PartnerLockIcon';
 
 function SectionItem({
   definition,
@@ -56,7 +57,8 @@ function SectionItem({
                       [classes.titleError]: error,
                     })}
                   >
-                    {definition.name}
+                    {definition.name}{' '}
+                    {definition.isPrivate ? <PartnerLockIcon /> : null}
                   </Typography>
                   {chipText ? (
                     <Chip label={chipText} className={classes.chip} />
