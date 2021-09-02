@@ -35,10 +35,24 @@ const columns = [
 ]
 
 const dataDownloaderColumns = [
-  ...columns,
-  { id: 'EFO', label: 'EFO' },
-  { id: 'MONDO',label: 'MONDO'},
-  { id: 'Gene_Ensembl_ID',label: 'Gene Ensembl ID'},
+  { id: 'Disease' },
+  { id: 'Gene_symbol' },
+  { id: 'PMTL' },
+  { id: 'Dataset' },
+  { id: 'EFO' },
+  { id: 'MONDO' },
+  { id: 'Gene_full_name' },
+  { id: 'Gene_type' },
+  { id: 'Protein_RefSeq_ID' },
+  { id: 'Gene_Ensembl_ID' },
+  { id: 'Total_mutations_Over_Patients_in_dataset' },
+  { id: 'Frequency_in_overall_dataset' },
+  { id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset' },
+  { id: 'Frequency_in_relapse_tumors' },
+  { id: 'OncoKB_cancer_gene' },
+  { id: 'OncoKB_oncogene_T' },
+  { id: 'PedcBioPortal' },
+  { id: 'PedcBioPed' },
 ]
 function SnvByGeneTab({data}) {
   return (
