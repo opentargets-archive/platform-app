@@ -26,8 +26,9 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '50%',
     marginRight: '3px',
   },
-  oe: {
-    marginBottom: '10px',
+  title: {
+    display: 'inline-block',
+    marginTop: '11px',
   },
 }));
 
@@ -37,7 +38,46 @@ const constraintTypeMap = {
   lof: 'pLoF',
 };
 
-function getColumns(ensemblId, symbol, classes) {
+const upperBin6Map = {
+  0: 'very high constraint',
+  1: 'high constraint',
+  2: 'medium constraint',
+  3: 'low constraint',
+  4: 'very low constraint',
+  5: 'very low constraint',
+};
+
+function ConstraintAssessment({ ensemblId, symbol, upperBin6 }) {
+  const classes = useStyles();
+  const circles = [];
+
+  for (let i = 0; i < 5; i++) {
+    circles.push(
+      <span
+        key={i}
+        className={5 - upperBin6 > i ? classes.filled : classes.notFilled}
+      />
+    );
+  }
+
+  return (
+    <>
+      <Tooltip
+        title={`Binned representation of ${symbol} rank in the loss-function observed/expected upper bound fraction (LOEUF) distribution. Higher scored assessments correspond to strong selection against predicted loss-of-function (pLoF) variation in the particular gene.`}
+        showHelpIcon
+      >
+        <span className={classes.title}>Constraint assessment</span>
+      </Tooltip>
+
+      <div>{circles}</div>
+      <Link external to={`https://gnomad.broadinstitute.org/gene/${ensemblId}`}>
+        {5 - upperBin6}/5 {upperBin6Map[upperBin6]}
+      </Link>
+    </>
+  );
+}
+
+function getColumns(ensemblId, symbol) {
   return [
     {
       id: 'constraintType',
@@ -58,45 +98,19 @@ function getColumns(ensemblId, symbol, classes) {
       id: 'metrics',
       label: 'Constraint metrics',
       renderCell: ({ score, oe, oeLower, oeUpper, upperBin6 }) => {
-        const circles = [];
-
-        if (upperBin6 !== null) {
-          for (let i = 0; i < 5; i++) {
-            circles.push(
-              <span
-                key={i}
-                className={
-                  5 - upperBin6 > i ? classes.filled : classes.notFilled
-                }
-              />
-            );
-          }
-        }
-
         return (
           <>
             <div>Z = {score}</div>
-            <div className={classes.oe}>
+            <div>
               o/e = {oe} ({oeLower} - {oeUpper})
             </div>
-            {upperBin6 !== null ? (
-              <>
-                <Tooltip
-                  title={`Binned representation of ${symbol} rank in the loss-function observed/expected upper bound fraction (LOEUF) distribution. Higher scored assessments correspond to strong selection against predicted loss-of-function (pLoF) variation in the particular gene.`}
-                  showHelpIcon
-                >
-                  <span>Constraint assessment</span>
-                </Tooltip>
-
-                <div>{circles}</div>
-                <Link
-                  external
-                  to={`https://gnomad.broadinstitute.org/gene/${ensemblId}`}
-                >
-                  {symbol} constraint report
-                </Link>
-              </>
-            ) : null}
+            {upperBin6 === null ? null : (
+              <ConstraintAssessment
+                ensemblId={ensemblId}
+                symbol={symbol}
+                upperBin6={upperBin6}
+              />
+            )}
           </>
         );
       },
@@ -105,12 +119,10 @@ function getColumns(ensemblId, symbol, classes) {
 }
 
 function GeneticConstraintTable({ ensemblId, symbol, geneticConstraint }) {
-  const classes = useStyles();
-
   return (
     <DataTable
       dataDownloader
-      columns={getColumns(ensemblId, symbol, classes)}
+      columns={getColumns(ensemblId, symbol)}
       rows={geneticConstraint}
       rowsPerPageOptions={defaultRowsPerPageOptions}
     />
