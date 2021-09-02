@@ -3,10 +3,9 @@ import { makeStyles } from '@material-ui/core';
 
 import Link from '../../../components/Link';
 import Tooltip from '../../../components/Tooltip';
-
 import { DataTable } from '../../../components/Table';
-
 import { defaultRowsPerPageOptions } from '../../../constants';
+import upperBin6Map from './upperBin6Map';
 
 const useStyles = makeStyles(theme => ({
   filled: {
@@ -36,15 +35,6 @@ const constraintTypeMap = {
   syn: 'Synonymous',
   mis: 'Missense',
   lof: 'pLoF',
-};
-
-const upperBin6Map = {
-  0: 'very high constraint',
-  1: 'high constraint',
-  2: 'medium constraint',
-  3: 'low constraint',
-  4: 'very low constraint',
-  5: 'very low constraint',
 };
 
 function ConstraintAssessment({ ensemblId, symbol, upperBin6 }) {
