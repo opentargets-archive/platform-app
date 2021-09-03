@@ -22,7 +22,7 @@ const dataSources = [
   { id: 'phenodigm', label: 'PhenoDigm' },
   { id: 'uniprot_variants', label: 'UniProt curated variants' },
   { id: 'orphanet', label: 'Orphanet' },
-  { id: 'ot_cripsr', label: 'OT CRISPR' },
+  { id: 'ot_crispr', label: 'OT CRISPR' },
 ];
 
 export default dataSources;
