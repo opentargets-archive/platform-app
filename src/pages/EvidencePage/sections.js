@@ -20,6 +20,7 @@ import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
+import * as OTCRISPR from '../../sections/evidence/OTCRISPR';
 
 const sections = [
   OTGenetics,
@@ -43,5 +44,6 @@ const sections = [
   EuropePmc,
   ExpressionAtlas,
   Phenodigm,
+  OTCRISPR,
 ];
 export default sections;
