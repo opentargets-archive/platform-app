@@ -1,5 +1,6 @@
 import React from 'react';
 import { loader } from 'graphql.macro';
+import _ from 'lodash';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -14,25 +15,8 @@ function Summary({ definition }) {
       definition={definition}
       request={request}
       renderSummary={data => {
-        const safetyDataTypes = [
-          {
-            id: 'adverseEffects',
-            label: 'Known effects',
-          },
-          {
-            id: 'safetyRiskInfo',
-            label: 'Risk info',
-          },
-          {
-            id: 'experimentalToxicity',
-            label: 'Non-clinical toxicity',
-          },
-        ];
-
-        return safetyDataTypes
-          .filter(d => data.safety[d.id].length > 0)
-          .map(d => d.label)
-          .join(' • ');
+        const uniqueEvents = _.uniqBy(data.safetyLiabilities, 'event');
+        return `${uniqueEvents.length} unique safety events`;
       }}
     />
   );
