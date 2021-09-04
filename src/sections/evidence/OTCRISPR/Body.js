@@ -39,10 +39,9 @@ const columns = [
     renderCell: row => row.crisprScreenLibrary,
   },
   {
-    id: 'significance',
+    id: 'resourceScore',
     label: 'Significance',
     renderCell: row => row.resourceScore, // TODO: add statisticalTestTail as a FontAwesome icon
-    // filterValue: ({ diseaseFromSource }) => diseaseFromSource,
   },
 ];
 
@@ -76,6 +75,8 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            sortBy="resourceScore"
+            order="desc"
           />
         );
       }}
