@@ -76,7 +76,6 @@ function Body({ definition, id, label }) {
             dataDownloader
             showGlobalFilter
             sortBy="resourceScore"
-            order="desc"
           />
         );
       }}
