@@ -40,7 +40,14 @@ const columns = [
   {
     id: 'cellType',
     label: 'Cell type',
-    renderCell: row => row.cellType,
+    renderCell: row =>
+      row.cellLineBackground ? (
+        <Tooltip title={row.cellLineBackground}>
+          <span>{row.cellType}</span>
+        </Tooltip>
+      ) : (
+        row.cellType
+      ),
   },
   {
     id: 'crisprScreenLibrary',
