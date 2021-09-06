@@ -95,6 +95,49 @@ const getColumns = classes => [
   },
 ];
 
+const exportColumns = [
+  {
+    label: 'disease',
+    exportValue: row => row.disease.name,
+  },
+  {
+    label: 'disease id',
+    exportValue: row => row.disease.id,
+  },
+  {
+    label: 'OTAR project code',
+    exportValue: row => row.projectId,
+  },
+  {
+    label: 'contrast',
+    exportValue: row => row.contrast,
+  },
+  {
+    label: 'study overview',
+    exportValue: row => row.studyOverview,
+  },
+  {
+    label: 'cell type',
+    exportValue: row => row.cellType,
+  },
+  {
+    label: 'cell line background',
+    exportValue: row => row.cellLineBackground,
+  },
+  {
+    label: 'CRISPR screen library',
+    exportValue: row => row.crisprScreenLibrary,
+  },
+  {
+    label: 'resource score',
+    exportValue: row => row.resourceScore,
+  },
+  {
+    label: 'statistical test tail',
+    exportValue: row => row.statisticalTestTail,
+  },
+];
+
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(
@@ -124,6 +167,8 @@ function Body({ definition, id, label }) {
             columns={getColumns(classes)}
             rows={rows}
             dataDownloader
+            dataDownloaderColumns={exportColumns}
+            dataDownloaderFileStem={`${ensemblId}-${efoId}-otcrispr`}
             showGlobalFilter
             sortBy="resourceScore"
             fixed
