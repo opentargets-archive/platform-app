@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-import { Link } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
@@ -16,6 +14,7 @@ import {
   faCaretSquareDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { makeStyles } from '@material-ui/core';
+import Link from '../../../components/Link';
 
 const CRISPR_QUERY = loader('./OTCrisprQuery.gql');
 
@@ -31,7 +30,9 @@ const getColumns = classes => [
   {
     id: 'disease',
     label: 'Reported disease',
-    renderCell: row => row.disease.name,
+    renderCell: row => (
+      <Link to={`/disease/${row.disease.id}`}>{row.disease.name}</Link>
+    ),
   },
   {
     id: 'projectId',
