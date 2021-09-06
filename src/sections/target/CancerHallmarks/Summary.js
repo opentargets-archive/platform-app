@@ -31,7 +31,7 @@ function Summary({ definition }) {
           <>
             {hallmarks.length} hallmarks
             <br />
-            {promote.length} promote • {suppress.length} suppress
+            {promote.length} promoted • {suppress.length} suppressed
           </>
         );
       }}

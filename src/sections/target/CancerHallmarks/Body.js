@@ -4,10 +4,11 @@ import { Box, makeStyles, Typography } from '@material-ui/core';
 import ChipList from '../../../components/ChipList';
 import Description from './Description';
 import DataTable from '../../../components/Table/DataTable';
-import Link from '../../../components/Link';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { defaultRowsPerPageOptions } from '../../../constants';
 
 const columns = [
   {
@@ -29,15 +30,18 @@ const columns = [
     exportLabel: 'Description',
   },
   {
-    id: 'literature',
-    label: 'Literature',
-    renderCell: row => (
-      <Link
-        external
-        to={`http://europepmc.org/search?query=EXT_ID:${row.pmid}`}
-      >
-        1&nbsp;publication
-      </Link>
+    id: 'publications',
+    label: 'Publications',
+    renderCell: ({ pmid }) => (
+      <PublicationsDrawer
+        entries={[
+          {
+            name: pmid,
+            url: `http://europepmc.org/search?query=EXT_ID:${pmid}`,
+            group: 'literature',
+          },
+        ]}
+      />
     ),
     exportLabel: 'Literature (PubMed id)',
     exportValue: row => row.pmid,
@@ -98,6 +102,7 @@ function Section({ definition, label: symbol }) {
               dataDownloaderFileStem={`${symbol}-hallmarks`}
               rows={rows}
               noWrap={false}
+              rowsPerPageOptions={defaultRowsPerPageOptions}
             />
           </>
         );
