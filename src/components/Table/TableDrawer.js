@@ -89,7 +89,7 @@ function TableDrawer({
         {entries[0].name}
       </Link>
     ) : (
-      naLabel
+      entries[0].name ?? naLabel
     );
   }
 

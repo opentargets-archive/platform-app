@@ -3,8 +3,12 @@ query Safety($ensemblId: String!) {
     id
     safetyLiabilities {
       event
+      eventId
       biosample {
+        cellFormat
+        cellLabel
         tissueLabel
+        tissueId
       }
       effects {
         dosing
