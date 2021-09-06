@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
-import { DataTable, TableDrawer } from '../../../components/Table';
+import { DataTable } from '../../../components/Table';
 import { dataTypesMap } from '../../../dataTypes';
 import Summary from './Summary';
 import Description from './Description';
@@ -96,7 +96,6 @@ function Body({ definition, id, label }) {
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.OtCrisprSummary
   );
-  // console.log(summaryData);
   const request = useQuery(CRISPR_QUERY, {
     variables: {
       ensemblId,
