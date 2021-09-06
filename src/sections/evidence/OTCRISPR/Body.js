@@ -9,6 +9,7 @@ import { DataTable, TableDrawer } from '../../../components/Table';
 import { dataTypesMap } from '../../../dataTypes';
 import Summary from './Summary';
 import Description from './Description';
+import Tooltip from '../../../components/Tooltip';
 
 const CRISPR_QUERY = loader('./OTCrisprQuery.gql');
 
@@ -26,7 +27,14 @@ const columns = [
   {
     id: 'contrast',
     label: 'Contrast / Study overview',
-    renderCell: row => row.contrast ?? row.studyOverview,
+    renderCell: row =>
+      row.contrast ? (
+        <Tooltip title={row.studyOverview}>
+          <span>{row.contrast}</span>
+        </Tooltip>
+      ) : (
+        row.studyOverview
+      ),
   },
   {
     id: 'cellType',
