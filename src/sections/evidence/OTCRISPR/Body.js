@@ -33,6 +33,7 @@ const getColumns = classes => [
     renderCell: row => (
       <Link to={`/disease/${row.disease.id}`}>{row.disease.name}</Link>
     ),
+    filterValue: row => row.disease.name + ', ' + row.disease.id,
   },
   {
     id: 'projectId',
@@ -51,6 +52,7 @@ const getColumns = classes => [
         row.studyOverview
       ),
     width: '25%',
+    filterValue: row => row.contrast + '; ' + row.studyOverview,
   },
   {
     id: 'cellType',
@@ -63,6 +65,7 @@ const getColumns = classes => [
       ) : (
         row.cellType
       ),
+    filterValue: row => row.cellType + '; ' + row.cellLineBackground,
   },
   {
     id: 'crisprScreenLibrary',
@@ -88,6 +91,7 @@ const getColumns = classes => [
         </Tooltip>
       </>
     ),
+    filterValue: row => row.resourceScore + '; ' + row.statisticalTestTail,
   },
 ];
 
