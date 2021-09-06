@@ -38,7 +38,11 @@ const getColumns = classes => [
   {
     id: 'projectId',
     label: 'OTAR project code',
-    renderCell: row => row.projectId,
+    renderCell: row => (
+      <Link external to={`http://home.opentargets.org/${row.projectId}`}>
+        {row.projectId}
+      </Link>
+    ),
   },
   {
     id: 'contrast',
