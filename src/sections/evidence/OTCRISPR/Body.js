@@ -35,6 +35,7 @@ const columns = [
       ) : (
         row.studyOverview
       ),
+    width: '25%',
   },
   {
     id: 'cellType',
@@ -84,6 +85,9 @@ function Body({ definition, id, label }) {
             dataDownloader
             showGlobalFilter
             sortBy="resourceScore"
+            fixed
+            noWrap={false}
+            noWrapHeader={false}
           />
         );
       }}
