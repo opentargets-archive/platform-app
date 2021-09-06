@@ -10,10 +10,24 @@ import { dataTypesMap } from '../../../dataTypes';
 import Summary from './Summary';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCaretSquareUp,
+  faCaretSquareDown,
+} from '@fortawesome/free-solid-svg-icons';
+import { makeStyles } from '@material-ui/core';
 
 const CRISPR_QUERY = loader('./OTCrisprQuery.gql');
 
-const columns = [
+const useStyles = makeStyles(theme => {
+  return {
+    significanceIcon: {
+      color: theme.palette.primary.main,
+    },
+  };
+});
+
+const getColumns = classes => [
   {
     id: 'disease',
     label: 'Reported disease',
@@ -57,7 +71,22 @@ const columns = [
   {
     id: 'resourceScore',
     label: 'Significance',
-    renderCell: row => row.resourceScore, // TODO: add statisticalTestTail as a FontAwesome icon
+    renderCell: row => (
+      <>
+        {row.resourceScore}{' '}
+        <Tooltip title={row.statisticalTestTail}>
+          <span className={classes.significanceIcon}>
+            <FontAwesomeIcon
+              icon={
+                row.statisticalTestTail.toLowerCase() === 'upper tail'
+                  ? faCaretSquareUp
+                  : faCaretSquareDown
+              }
+            />
+          </span>
+        </Tooltip>
+      </>
+    ),
   },
 ];
 
@@ -74,6 +103,7 @@ function Body({ definition, id, label }) {
       size: summaryData.OtCrisprSummary.count,
     },
   });
+  const classes = useStyles();
 
   return (
     <SectionItem
@@ -87,7 +117,7 @@ function Body({ definition, id, label }) {
         const { rows } = disease.evidences;
         return (
           <DataTable
-            columns={columns}
+            columns={getColumns(classes)}
             rows={rows}
             dataDownloader
             showGlobalFilter
