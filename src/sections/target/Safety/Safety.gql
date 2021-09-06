@@ -1,0 +1,18 @@
+query Safety($ensemblId: String!) {
+  target(ensemblId: $ensemblId) {
+    id
+    safetyLiabilities {
+      event
+      biosample {
+        tissueLabel
+      }
+      effects {
+        dosing
+      }
+      study {
+        name
+      }
+      datasource
+    }
+  }
+}

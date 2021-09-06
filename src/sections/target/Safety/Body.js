@@ -1,14 +1,25 @@
 import React from 'react';
-import _ from 'lodash';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
-import Description from './Description';
-import SafetyTables from './SafetyTables';
 import SectionItem from '../../../components/Section/SectionItem';
-import Summary from './Summary';
-import usePlatformApi from '../../../hooks/usePlatformApi';
+import Description from './Description';
+import SafetyTable from './SafetyTable';
 
-function Body({ definition, label: symbol }) {
-  return <div>Safety</div>;
+const SAFETY_QUERY = loader('./Safety.gql');
+
+function Body({ definition, id: ensemblId, label: symbol }) {
+  const request = useQuery(SAFETY_QUERY, { variables: { ensemblId } });
+  return (
+    <SectionItem
+      definition={definition}
+      request={request}
+      renderDescription={() => <Description symbol={symbol} />}
+      renderBody={data => (
+        <SafetyTable safetyLiabilities={data.target.safetyLiabilities} />
+      )}
+    />
+  );
 }
 
 export default Body;
