@@ -15,6 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { makeStyles } from '@material-ui/core';
 import Link from '../../../components/Link';
+import { defaultRowsPerPageOptions } from '../../../constants';
 
 const CRISPR_QUERY = loader('./OTCrisprQuery.gql');
 
@@ -178,6 +179,7 @@ function Body({ definition, id, label }) {
             fixed
             noWrap={false}
             noWrapHeader={false}
+            rowsPerPageOptions={defaultRowsPerPageOptions}
           />
         );
       }}
