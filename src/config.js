@@ -30,6 +30,11 @@ const config = {
     window.partnerDiseaseSectionIds ??
     process.env.REACT_APP_partnerDiseaseSectionIds ??
     '',
+
+  partnerEvidenceSectionIds:
+    window.partnerEvidenceSectionIds ??
+    process.env.REACT_APP_partnerEvidenceSectionIds ??
+    '',
 };
 
 export default config;
