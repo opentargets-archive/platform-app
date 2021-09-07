@@ -22,6 +22,8 @@ import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
 import * as OTCRISPR from '../../sections/evidence/OTCRISPR';
 
+import config from '../../config';
+
 const sections = [
   OTGenetics,
   PheWASCatalog,
@@ -45,5 +47,11 @@ const sections = [
   ExpressionAtlas,
   Phenodigm,
   OTCRISPR,
-];
+].filter(
+  // only include public section (i.e. not partner sections),
+  // or private sections if it's a partner preview
+  section =>
+    !section.definition.isPrivate ||
+    (section.definition.isPrivate && config.isPartnerPreview)
+);
 export default sections;
