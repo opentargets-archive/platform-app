@@ -26,6 +26,22 @@ const columns = [
       );
     },
   },
+  {
+    id: 'modelPhenotypeClasses',
+    label: 'Category',
+    renderCell: ({ modelPhenotypeClasses }) => {
+      console.log('modelPhenotypeClasses', modelPhenotypeClasses);
+      const entries = modelPhenotypeClasses.map(phenotypeClass => {
+        return { name: 'lol', url: 'https://platform.opentargets.org' };
+      });
+      return (
+        <TableDrawer
+          message={`${modelPhenotypeClasses.length} categories`}
+          entries={entries}
+        />
+      );
+    },
+  },
 ];
 
 function PhenotypesTable({ mousePhenotypes }) {
