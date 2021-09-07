@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Tab, Tabs } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -6,6 +6,8 @@ import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
 import Summary from './Summary';
 import Description from './Description';
+import DataDownloader from '../../../components/Table/DataDownloader';
+import { getDefaultValues } from '@apollo/client/utilities';
 
 const EXPRESSION_ATLAS_QUERY = gql`
   query expressionAtlasQuery(
@@ -116,10 +118,41 @@ const columns = [
 
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
+  console.log("ensemblId: ", ensemblId);
+  console.log("efoId: ", efoId);
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.expressionAtlasSummary
   );
+  const [data, setData] = useState([])
   const [tab, setTab] = useState('diseaseVsBaseline');
+
+  // 
+  useEffect(
+    ()=>{
+       async function fetchData() {
+        if (tab === "plot"){
+          let url = 'https://openpedcan-api-qa.d3b.io/tpm/gene-disease-gtex/json?ensemblId=' + ensemblId + '&efoId=' + efoId
+          url = 'https://openpedcan-api-qa.d3b.io/tpm/gene-disease-gtex/json?ensemblId=ENSG00000157764&efoId=EFO_0000621';
+          const fetchObj = {
+            crossDomain:true,
+            mode: 'no-cors',
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+         
+          };
+          fetch(url, fetchObj)
+         .then(response => response.json())
+          .then(data => {
+            console.log("Response with data: ", data);
+            setData(data);
+          })
+          .catch(error => console.log("There was error: ", error))
+          
+        }
+      }
+      fetchData()
+  
+    }, [efoId, ensemblId, tab])
 
   let request = useQuery(EXPRESSION_ATLAS_QUERY, {
     variables: {
@@ -129,7 +162,7 @@ function Body({ definition, id, label }) {
     },
   });
 
-  console.log('request: ', request);
+  // console.log('request: ', request);
   request = {
     ...request,
     ...{
@@ -191,7 +224,7 @@ function Body({ definition, id, label }) {
         <Description symbol={label.symbol} name={label.name} />
       )}
       renderBody={({ disease }) => {
-        console.log('Row: ', disease.evidences);
+        // console.log('Row: ', disease.evidences);
         const { rows } = disease.evidences;
         return (
           <>
@@ -228,7 +261,10 @@ function Body({ definition, id, label }) {
             ) : null}
 
             {tab === 'plot' ? (
-              <img src="https://i.stack.imgur.com/y9DpT.jpg" alt="Dummy Plot" />
+              <>
+                <DataDownloader rows={[]} columns={[]}/>
+                <img src="https://i.stack.imgur.com/y9DpT.jpg" alt="Dummy Plot" />
+              </>
             ) : null}
           </>
         );
