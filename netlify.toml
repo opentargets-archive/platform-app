@@ -13,5 +13,5 @@
   REACT_APP_configPrimaryColor = "#407253"
   REACT_APP_isPartnerPreview = "true"
   REACT_APP_configFlagShowOTARProjects = "true"
-  REACT_APP_partnerDiseaseSectionIds = "otarProjects"
+  REACT_APP_partnerDiseaseSectionIds = "otProjects"
   REACT_APP_partnerEvidenceSectionIds = "otCrispr"
