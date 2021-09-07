@@ -26,6 +26,9 @@ const config = {
     window.isPartnerPreview ?? process.env.REACT_APP_isPartnerPreview ?? false,
 
   // partner (private) widgets on disease page, identified by widget id (as defined in widget definition)
+  diseaseSectionIds:
+    window.diseaseSectionIds ?? process.env.REACT_APP_diseaseSectionIds ?? '',
+
   partnerDiseaseSectionIds:
     window.partnerDiseaseSectionIds ??
     process.env.REACT_APP_partnerDiseaseSectionIds ??
