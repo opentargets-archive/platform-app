@@ -1,0 +1,15 @@
+query MousePhenotypes($ensemblId: String!) {
+  target(ensemblId: $ensemblId) {
+    id
+    mousePhenotypes {
+      targetInModel
+      targetInModelMgiId
+      modelPhenotypeId
+      modelPhenotypeLabel
+      modelPhenotypeClasses {
+        id
+        label
+      }
+    }
+  }
+}
