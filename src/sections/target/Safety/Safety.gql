@@ -12,11 +12,15 @@ query Safety($ensemblId: String!) {
       }
       effects {
         dosing
+        direction
       }
       study {
         name
+        type
+        description
       }
       datasource
+      literature
     }
   }
 }
