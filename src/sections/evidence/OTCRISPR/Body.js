@@ -99,7 +99,6 @@ const getColumns = classes => [
     label: 'Significance',
     renderCell: row => (
       <>
-        {row.resourceScore}{' '}
         <Tooltip
           title={
             <TooltipStyledLabel
@@ -117,7 +116,8 @@ const getColumns = classes => [
               }
             />
           </span>
-        </Tooltip>
+        </Tooltip>{' '}
+        {row.resourceScore}
       </>
     ),
     filterValue: row => row.resourceScore + '; ' + row.statisticalTestTail,
