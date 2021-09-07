@@ -8,6 +8,7 @@ import { dataTypesMap } from '../../../dataTypes';
 import Summary from './Summary';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
+import TooltipStyledLabel from '../../../components/TooltipStyledLabel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCaretSquareUp,
@@ -50,7 +51,15 @@ const getColumns = classes => [
     label: 'Contrast / Study overview',
     renderCell: row =>
       row.contrast ? (
-        <Tooltip title={row.studyOverview}>
+        <Tooltip
+          showHelpIcon
+          title={
+            <TooltipStyledLabel
+              label={'Study overview'}
+              description={row.studyOverview}
+            />
+          }
+        >
           <span>{row.contrast}</span>
         </Tooltip>
       ) : (
@@ -64,7 +73,15 @@ const getColumns = classes => [
     label: 'Cell type',
     renderCell: row =>
       row.cellLineBackground ? (
-        <Tooltip title={row.cellLineBackground}>
+        <Tooltip
+          showHelpIcon
+          title={
+            <TooltipStyledLabel
+              label={'Cell line background'}
+              description={row.cellLineBackground}
+            />
+          }
+        >
           <span>{row.cellType}</span>
         </Tooltip>
       ) : (
@@ -83,7 +100,14 @@ const getColumns = classes => [
     renderCell: row => (
       <>
         {row.resourceScore}{' '}
-        <Tooltip title={row.statisticalTestTail}>
+        <Tooltip
+          title={
+            <TooltipStyledLabel
+              label={'Statistical test tail'}
+              description={row.statisticalTestTail}
+            />
+          }
+        >
           <span className={classes.significanceIcon}>
             <FontAwesomeIcon
               icon={
