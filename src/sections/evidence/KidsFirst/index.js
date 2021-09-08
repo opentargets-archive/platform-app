@@ -1,7 +1,7 @@
 export const definition = {
   id: 'kidsFirst',
-  name: 'Gabriella Miller Kids First Pediatric Research Program',
-  shortName: 'KF',
+  name: 'OpenPedCan Pediatric Expression',
+  shortName: 'OP',
   hasData: ({ expressionAtlasSummary }) => 5 > 0,
 };
 
