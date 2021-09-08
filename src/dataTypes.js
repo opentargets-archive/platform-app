@@ -6,7 +6,7 @@ const dataTypes = [
   { id: 'literature', label: 'Text mining' },
   { id: 'rna_expression', label: 'RNA expression' },
   { id: 'animal_model', label: 'Animal models' },
-  { id: 'ot_partner', label: 'OTAR project data' },
+  { id: 'ot_partner', label: 'Open Targets Projects' },
 ];
 
 const dataTypesMap = dataTypes.reduce((acc, dataType) => {
