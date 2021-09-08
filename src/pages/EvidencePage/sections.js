@@ -48,10 +48,16 @@ const sections = [
   Phenodigm,
   OTCRISPR,
 ].filter(
-  // only include public section (i.e. not partner sections),
-  // or private sections if it's a partner preview
+  // select sections to show based on:
+  // 1. there is no specific selection for this page (length==0)
+  //    OR there is a specific list which includes this section
+  // AND
+  // 2. only include public section (i.e. not partner sections),
+  //    OR also private sections if it's a partner preview
   section =>
-    !section.definition.isPrivate ||
-    (section.definition.isPrivate && config.isPartnerPreview)
+    (config.evidenceSectionIds.length == 0 ||
+      config.evidenceSectionIds.split(',').includes(section.definition.id)) &&
+    (!section.definition.isPrivate ||
+      (section.definition.isPrivate && config.isPartnerPreview))
 );
 export default sections;
