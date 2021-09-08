@@ -21,11 +21,19 @@ const config = {
   //   process.env.REACT_APP_configFlagShowOTARProjects ??
   //   false,
 
-  // partner preview options
+  // Partner preview config options
+
+  // main flag to toggle partner preview on/off
   isPartnerPreview:
     window.isPartnerPreview ?? process.env.REACT_APP_isPartnerPreview ?? false,
 
-  // partner (private) widgets on disease page, identified by widget id (as defined in widget definition)
+  // Page specific sections:
+  // [page]SectionsIds: show only the specified sections (comma separated ids, no spaecs, e.g. 'bibliography,otProjects')
+  // or leave as empty string to show all sections (all public sections, private sections depending on settings)
+  //
+  // partner[Page]SectionIds: specify the private widget on this page
+
+  // disease page
   diseaseSectionIds:
     window.diseaseSectionIds ?? process.env.REACT_APP_diseaseSectionIds ?? '',
 
@@ -33,6 +41,28 @@ const config = {
     window.partnerDiseaseSectionIds ??
     process.env.REACT_APP_partnerDiseaseSectionIds ??
     '',
+
+  // target page
+  targetSectionIds:
+    window.targetSectionIds ?? process.env.REACT_APP_targetSectionIds ?? '',
+
+  partnerTargetSectionIds:
+    window.partnerTargetSectionIds ??
+    process.env.REACT_APP_partnerTargetSectionIds ??
+    '',
+
+  // drug page
+  drugSectionIds:
+    window.drugSectionIds ?? process.env.REACT_APP_drugSectionIds ?? '',
+
+  partnerDrugSectionIds:
+    window.partnerDrugSectionIds ??
+    process.env.REACT_APP_partnerDrugSectionIds ??
+    '',
+
+  // evidence page
+  evidenceSectionIds:
+    window.evidenceSectionIds ?? process.env.REACT_APP_evidenceSectionIds ?? '',
 
   partnerEvidenceSectionIds:
     window.partnerEvidenceSectionIds ??
