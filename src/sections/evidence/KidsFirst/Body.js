@@ -134,11 +134,9 @@ function Body({ definition, id, label }) {
           let url = 'https://openpedcan-api-qa.d3b.io/tpm/gene-disease-gtex/json?ensemblId=' + ensemblId + '&efoId=' + efoId
           url = 'https://openpedcan-api-qa.d3b.io/tpm/gene-disease-gtex/json?ensemblId=ENSG00000157764&efoId=EFO_0000621';
           const fetchObj = {
-            crossDomain:true,
             mode: 'no-cors',
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
-         
           };
           fetch(url, fetchObj)
          .then(response => response.json())
