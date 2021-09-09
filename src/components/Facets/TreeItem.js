@@ -6,6 +6,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { TreeItem as MUITreeItem } from '@material-ui/lab';
+import PartnerLockIcon from '../PartnerLockIcon';
 
 const useStyles = makeStyles(theme => ({
   countLabel: {
@@ -63,6 +64,7 @@ function TreeItem({
   checked,
   indeterminate,
   onClick,
+  isPrivate,
   ...other
 }) {
   const classes = useStyles();
@@ -95,7 +97,11 @@ function TreeItem({
                 indeterminate={indeterminate}
               />
             }
-            label={<span title={label}>{label}</span>}
+            label={
+              <span title={label}>
+                {label} {isPrivate && <PartnerLockIcon />}
+              </span>
+            }
           />
           <Typography className={classes.countLabel}>{count}</Typography>
         </>
