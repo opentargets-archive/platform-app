@@ -15,6 +15,13 @@ export const fixLabel = id => {
   return `${spacedLabel.charAt(0).toUpperCase()}${spacedLabel.slice(1)}`;
 };
 
+/**
+ * Check if specified facet (id) is set as private
+ * in the facet data (so datatypes and datasource)
+ */
+const fixIsPrivate = id =>
+  facetData.find(item => item.id === id)?.isPrivate || false;
+
 const sortLevel = (a, b) => {
   const aIndex = facetData.findIndex(item => item.id === a.nodeId);
   const bIndex = facetData.findIndex(item => item.id === b.nodeId);
@@ -33,6 +40,7 @@ const extractLevel = level =>
       checked: false,
       aggs: extractLevel(agg.aggs || agg.rows),
       root: !!agg.name,
+      isPrivate: fixIsPrivate(agg.key || agg.name),
     }))
     .sort(sortLevel);
 
