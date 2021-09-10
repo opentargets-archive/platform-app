@@ -68,6 +68,10 @@ const config = {
     window.partnerEvidenceSectionIds ??
     process.env.REACT_APP_partnerEvidenceSectionIds ??
     '',
+
+  // partner colour scale
+  partnerColorRange:
+    window.partnerColorRange ?? process.env.REACT_APP_partnerColorRange ?? '',
 };
 
 export default config;
