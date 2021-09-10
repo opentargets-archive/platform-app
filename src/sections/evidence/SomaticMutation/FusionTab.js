@@ -34,7 +34,7 @@ const columns = [
   { id: 'RMTL', label: 'PMTL', sortable:true , renderCell: () => <RelevantIcon/>},
   // { id: 'EFO', label: 'EFO', sortable:true },
   { id: 'Dataset', label: 'Dataset', sortable:true },
-  { id: 'Total_alterations_Over_Patients_in_dataset', label: 'Total_alterations Over Patients in dataset', sortable:true },
+  { id: 'Total_alterations_Over_Patients_in_dataset', label: 'Total alterations Over Patients in dataset', sortable:true },
   { id: 'Frequency_in_overall_dataset', label: 'Frequency in overall dataset', sortable:true },
   { id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable:true },
   { id: 'Frequency_in_primary_tumors', label: 'Frequency in primary tumors', sortable:true },
