@@ -9,7 +9,7 @@ import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 // Configuration for how the tables will display the data
 const columns = [
   {
-    id: 'Gene_symbol', label: 'Targets', sortable: true,
+    id: 'Gene_symbol', label: 'Gene symbol', sortable: true,
     renderCell: ({ Gene_symbol, Gene_Ensembl_ID }) => 
         <Link to={`/target/${Gene_Ensembl_ID}`}>{Gene_symbol}</Link>
   },
