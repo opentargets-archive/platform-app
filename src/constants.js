@@ -226,7 +226,7 @@ export const downloaderChunkSize = 2500;
 // NA label.
 export const naLabel = 'N/A';
 
-export const colorRange = [
+export const colorRange = config.partnerColorRange?.split(',') || [
   // '#ffffff',
   '#e5edf4',
   '#ccdcea',
