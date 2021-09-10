@@ -54,6 +54,10 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: 'transparent',
     },
   },
+  treeItemLabelIcon: {
+    float: 'right',
+    marginLeft: '0.5em',
+  },
 }));
 
 function TreeItem({
@@ -99,7 +103,12 @@ function TreeItem({
             }
             label={
               <span title={label}>
-                {label} {isPrivate && <PartnerLockIcon />}
+                {isPrivate && (
+                  <span className={classes.treeItemLabelIcon}>
+                    <PartnerLockIcon />
+                  </span>
+                )}
+                {label}
               </span>
             }
           />
