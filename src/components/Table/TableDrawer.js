@@ -143,7 +143,7 @@ function TableDrawer({
                   {group}
                 </Typography>
                 <Typography className={classes.AccordionSubtitle}>
-                  {groupedEntries[group].length} references
+                  {groupedEntries[group].length} {caption}
                 </Typography>
               </Box>
             </AccordionSummary>
