@@ -181,7 +181,7 @@ function getColumns(
       tooltip: {
         badgeContent: () => (
           <Lk
-            href="/rmtl#reformat-methods"
+            href="/fda-pmtl-docs#reformat-methods"
             title="Reformat Method column description"
           >
             <FontAwesomeIcon icon={faInfoCircle} size="sm" />
@@ -315,7 +315,7 @@ class RMTLPage extends Component {
       this.reformatMethodFilterHandler
     );
     const rowsPerPageOptions = [10, 25, 50];
-    const FDA_RMTL_DocumentationUrl = '/rmtl';
+    const FDA_RMTL_DocumentationUrl = '/fda-pmtl-docs';
     const FDA_Publication =
       'https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target';
 
@@ -354,7 +354,7 @@ class RMTLPage extends Component {
             {loading || error ? null : (
               <>
                 <Lk
-                  href="/rmtl#colums-description"
+                  href="/fda-pmtl-docs#colums-description"
                   title="FDA RMTL Columns Description"
                 >
                   <FontAwesomeIcon icon={faInfoCircle} size="md" /> Columns

@@ -78,14 +78,14 @@ export const mainMenuItems = [
   },
   // RMTL Doc
   {
-    name: 'FDA RMTL Documentation',
-    url: '/rmtl',
+    name: 'FDA PMTL Documentation',
+    url: '/fda-pmtl-docs',
     external: false,
   },
   // FDA RMTL
   {
-    name: 'FDA RMTL',
-    url: '/fda-rmtl',
+    name: 'FDA PMTL',
+    url: '/fda-pmtl',
     external: false,
   },
   // Downloads

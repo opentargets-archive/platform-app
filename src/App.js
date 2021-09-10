@@ -41,8 +41,8 @@ class App extends Component {
                   component={EvidencePage}
                 />
                 <Route path="/variants" component={VariantsPage} />
-                <Route path="/rmtl" component={RMTLDocPage} />
-                <Route path="/fda-rmtl" component={RMTLPage} />
+                <Route path="/fda-pmtl" component={RMTLPage} />
+                <Route path="/fda-pmtl-docs" component={RMTLDocPage} />
                 <Route component={NotFoundPage} />
               </Switch>
             </Router>

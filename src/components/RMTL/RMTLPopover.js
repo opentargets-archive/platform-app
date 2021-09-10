@@ -81,7 +81,7 @@ function RMTLPopOver({ otherStyle, rmtl }) {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const RMTLlandingPageUrl = '/fda-rmtl';
+  const RMTLlandingPageUrl = '/fda-pmtl';
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

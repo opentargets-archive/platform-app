@@ -49,7 +49,7 @@ function RMTLDocPage() {
     'https://useast.ensembl.org/info/genome/stable_ids/index.html#:~:text=Stable%20identifiers%20are%20ways%20that,and%20consistent%20across%20Ensembl%20releases';
   const hugoHgncLink = 'https://www.genenames.org/download/custom/';
 
-  const fdaRMTL = '/fda-rmtl';
+  const fdaRMTL = '/fda-pmtl';
 
   const fdaRmtlColumns = {
     tableHeader: ['Column Header', 'Example Value', 'Description'],
