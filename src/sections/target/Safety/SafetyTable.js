@@ -34,7 +34,7 @@ const columns = [
             : sample.tissueLabel,
           url: sample.cellFormat
             ? null
-            : `https://identifiers.org/${sample.tissueId}`,
+            : `https://identifiers.org/${sample.tissueId.replace('_', ':')}`,
           group: sample.cellFormat ? 'Assay' : 'Organ system',
         };
       });
