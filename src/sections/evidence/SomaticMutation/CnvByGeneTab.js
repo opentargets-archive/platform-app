@@ -8,7 +8,7 @@ import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'Gene_symbol', label: 'targets',
+  { id: 'Gene_symbol', label: 'Gene symbol',
     renderCell: ({ Gene_symbol, Gene_Ensembl_ID }) => 
       <Link to={`/target/${Gene_Ensembl_ID}`}> {Gene_symbol} </Link> },
   { id: 'Gene_Ensembl_ID', label: 'Gene Ensembl ID' },
