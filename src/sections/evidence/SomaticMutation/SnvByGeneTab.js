@@ -9,7 +9,7 @@ import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 // Configuration for how the tables will display the data
 const columns = [
   {
-    id: 'Gene_symbol', label: 'Targets', sortable: true,
+    id: 'Gene_symbol', label: 'Gene symbol', sortable: true,
     renderCell: ({ Gene_symbol, Gene_Ensembl_ID }) => 
         <Link to={`/target/${Gene_Ensembl_ID}`}>{Gene_symbol}</Link>
   },
@@ -22,8 +22,8 @@ const columns = [
   { id: 'Gene_full_name', label: 'Gene full name', sortable: true },
   { id: 'Gene_type', label: 'Gene type', sortable: true },
   { id: 'Protein_RefSeq_ID', label: 'Protein RefSeq ID', sortable: true },
-  { id: 'Gene_Ensembl_ID', label: 'Gene Ensembl ID' },
-  { id: 'Protein_Ensembl_ID', label: 'Protein Ensembl ID' },
+  { id: 'Gene_Ensembl_ID', label: 'Gene Ensembl ID', sortable: true },
+  { id: 'Protein_Ensembl_ID', label: 'Protein Ensembl ID', sortable: true },
   { id: 'Total_mutations_Over_Patients_in_dataset', label: 'Total mutations Over Patients in dataset', sortable: true },
   { id: 'Frequency_in_overall_dataset', label: 'Frequency in overall dataset', sortable: true },
   { id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable: true },
