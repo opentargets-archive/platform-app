@@ -8,6 +8,7 @@ import {
 
 import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
 import Tooltip from '../../../components/Tooltip';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import Link from '../../../components/Link';
 import SafetyStudiesDrawer from './SafetyStudiesDrawer';
@@ -155,9 +156,16 @@ function getColumns(classes) {
       id: 'source',
       label: 'Source',
       renderCell: ({ datasource, literature }) => {
-        // console.log('datasource', datasource);
-        // console.log('literature', literature);
-        return 'Source';
+        if (literature) {
+          return (
+            <PublicationsDrawer
+              entries={[{ name: literature }]}
+              customLabel={datasource}
+            />
+          );
+        }
+
+        return datasource;
       },
     },
   ];
