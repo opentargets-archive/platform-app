@@ -170,7 +170,11 @@ function TableDrawer({
 
   return (
     <>
-      <MUILink onClick={toggleDrawer} className={classes.drawerLink}>
+      <MUILink
+        onClick={toggleDrawer}
+        className={classes.drawerLink}
+        underline="none"
+      >
         {message ? message : `${entries.length} entries`}
       </MUILink>
 

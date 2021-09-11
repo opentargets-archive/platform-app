@@ -10,6 +10,7 @@ import { naLabel, defaultRowsPerPageOptions } from '../../../constants';
 import Tooltip from '../../../components/Tooltip';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import Link from '../../../components/Link';
+import SafetyStudiesDrawer from './SafetyStudiesDrawer';
 
 const useStyles = makeStyles(theme => ({
   blue: {
@@ -147,8 +148,7 @@ function getColumns(classes) {
       id: 'studies',
       label: 'Experimental studies',
       renderCell: ({ study }) => {
-        // console.log('study', study);
-        return 'Experimental studies';
+        return <SafetyStudiesDrawer studies={study} />;
       },
     },
     {
