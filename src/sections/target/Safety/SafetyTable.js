@@ -55,6 +55,15 @@ function getColumns(classes) {
     {
       id: 'biosample',
       label: 'Biosamples',
+      filterValue: ({ biosample }) => {
+        if (biosample.length === 1) {
+          const sample = biosample[0];
+          return `${sample.cellFormat} ${sample.cellLabel} ${
+            sample.tissueLabel
+          }`.trim();
+        }
+        return 'biosamples';
+      },
       renderCell: ({ biosample }) => {
         const entries = biosample.map(sample => {
           return {
@@ -153,7 +162,7 @@ function getColumns(classes) {
       },
     },
     {
-      id: 'source',
+      id: 'datasource',
       label: 'Source',
       renderCell: ({ datasource, literature }) => {
         if (literature) {
