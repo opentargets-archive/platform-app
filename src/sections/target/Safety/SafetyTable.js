@@ -21,7 +21,21 @@ const useStyles = makeStyles(theme => ({
   direction: {
     marginBottom: '7px',
   },
+  circleUp: {
+    marginRight: '10px',
+  },
 }));
+
+function EffectTooltipContent({ classes, effect }) {
+  return (
+    <>
+      <strong>Direction:</strong>
+      <div className={classes.direction}>{effect.direction}</div>
+      <strong>Dosing:</strong>
+      <div>{effect.dosing}</div>
+    </>
+  );
+}
 
 function getColumns(classes) {
   return [
@@ -69,29 +83,24 @@ function getColumns(classes) {
       id: 'dosing',
       label: 'Dosing effects',
       renderCell: ({ effects }) => {
-        console.log('effects', effects);
-        const circleUpData = effects.find(
-          effect => effect.direction === 'activation'
-        );
-        const circleDownData = effects.find(
-          effect => effect.direction === 'inhibition'
-        );
+        const circleUpData = effects
+          ? effects.find(effect => effect.direction === 'activation')
+          : null;
+        const circleDownData = effects
+          ? effects.find(effect => effect.direction === 'inhibition')
+          : null;
         return (
           <>
             {circleUpData ? (
               <Tooltip
                 title={
-                  <>
-                    <strong>Direction:</strong>
-                    <div className={classes.direction}>
-                      {circleUpData.direction}
-                    </div>
-                    <strong>Dosing:</strong>
-                    <div>{circleUpData.dosing}</div>
-                  </>
+                  <EffectTooltipContent
+                    classes={classes}
+                    effect={circleUpData}
+                  />
                 }
               >
-                <span>
+                <span className={classes.circleUp}>
                   <FontAwesomeIcon
                     className={classes.blue}
                     icon={faArrowAltCircleUp}
@@ -101,7 +110,7 @@ function getColumns(classes) {
               </Tooltip>
             ) : (
               <FontAwesomeIcon
-                className={classes.grey}
+                className={`${classes.circleUp} ${classes.grey}`}
                 icon={faArrowAltCircleUp}
                 size="lg"
               />
@@ -109,14 +118,10 @@ function getColumns(classes) {
             {circleDownData ? (
               <Tooltip
                 title={
-                  <>
-                    <strong>Direction:</strong>
-                    <div className={classes.direction}>
-                      {circleDownData.direction}
-                    </div>
-                    <strong>Dosing:</strong>
-                    <div>{circleDownData.dosing}</div>
-                  </>
+                  <EffectTooltipContent
+                    classes={classes}
+                    effect={circleDownData}
+                  />
                 }
               >
                 <span>
