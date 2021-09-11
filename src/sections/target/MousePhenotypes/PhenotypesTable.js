@@ -30,12 +30,16 @@ const columns = [
     id: 'modelPhenotypeClasses',
     label: 'Category',
     renderCell: ({ modelPhenotypeClasses }) => {
-      console.log('modelPhenotypeClasses', modelPhenotypeClasses);
       const entries = modelPhenotypeClasses.map(phenotypeClass => {
-        return { name: 'lol', url: 'https://platform.opentargets.org' };
+        return {
+          name: phenotypeClass.label,
+          url: `https://identifiers.org/${phenotypeClass.id}`,
+          group: 'Categories',
+        };
       });
       return (
         <TableDrawer
+          caption="Category"
           message={`${modelPhenotypeClasses.length} categories`}
           entries={entries}
         />
