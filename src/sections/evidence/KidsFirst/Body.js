@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Tab, Tabs } from '@material-ui/core';
+import { getGeneAllCancerJSON } from '../../../utils/externalAPI';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
@@ -54,13 +55,6 @@ const columns = [
   {
     id: 'Comparison_ID',
     label: 'Comparison ID',
-
-    /* Follow this filter method to implement RMTL Landing page
-    // filterValue: (row) => {
-    //   console.log("Row: ", row)
-    //   console.log("studyOverview: ", row.contrast)
-    //   return row.contrast + ' ' + row.studyOverview;
-    */
   },
   {
     id: 'G1',
@@ -129,26 +123,12 @@ function Body({ definition, id, label }) {
   // 
   useEffect(
     ()=>{
-       async function fetchData() {
-        if (tab === "plot"){
-          let url = 'https://openpedcan-api-dev.d3b.io/tpm/gene-all-cancer/json?ensemblId=ENSG00000273032';
-          const fetchObj = {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json'},
-          };
-          fetch(url, fetchObj)
-         .then(response => response.json())
-          .then(data => {
-            console.log("Response with data: ", data);
-            setData(data);
-          })
-          .catch(error => console.log("There was error: ", error))
-          
-        }
+     if (tab === "plot"){
+          getGeneAllCancerJSON(ensemblId,(data)=>console.log(data));
       }
-      fetchData()
-  
-    }, [efoId, ensemblId, tab])
+    }, [efoId, ensemblId, tab]);
+
+
 
   let request = useQuery(EXPRESSION_ATLAS_QUERY, {
     variables: {
