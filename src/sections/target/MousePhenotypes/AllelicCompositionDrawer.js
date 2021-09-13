@@ -60,11 +60,22 @@ function AllelicCompositionDrawer({ biologicalModels }) {
 
   if (biologicalModels.length === 1) {
     console.log('hello?');
+    const {
+      allelicComposition,
+      geneticBackground,
+      literature,
+    } = biologicalModels[0];
     return (
-      <MouseModelAllelicComposition
-        allelicComposition={biologicalModels[0].allelicComposition}
-        geneticBackground={biologicalModels[0].geneticBackground}
-      />
+      <>
+        <MouseModelAllelicComposition
+          allelicComposition={allelicComposition}
+          geneticBackground={geneticBackground}
+        />
+        <div>
+          Publications:{' '}
+          {literature && literature.length > 0 ? literature.join(', ') : 'N/A'}
+        </div>
+      </>
     );
   }
 
