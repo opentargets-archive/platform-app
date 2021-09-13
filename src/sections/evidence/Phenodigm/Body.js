@@ -94,14 +94,14 @@ const columns = [
         biologicalModelId ? (
           <Link external to={`https://identifiers.org/${biologicalModelId}`}>
             <MouseModelAllelicComposition
-              allelicComposition={[biologicalModelAllelicComposition]}
-              geneticBackground={[biologicalModelGeneticBackground]}
+              allelicComposition={biologicalModelAllelicComposition}
+              geneticBackground={biologicalModelGeneticBackground}
             />
           </Link>
         ) : (
           <MouseModelAllelicComposition
-            allelicComposition={[biologicalModelAllelicComposition]}
-            geneticBackground={[biologicalModelGeneticBackground]}
+            allelicComposition={biologicalModelAllelicComposition}
+            geneticBackground={biologicalModelGeneticBackground}
           />
         )
       ) : (

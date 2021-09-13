@@ -3,6 +3,7 @@ import React from 'react';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
+
 import AllelicCompositionDrawer from './AllelicCompositionDrawer';
 
 const columns = [

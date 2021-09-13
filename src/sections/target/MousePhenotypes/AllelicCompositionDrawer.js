@@ -10,6 +10,8 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
+import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
+
 const useStyles = makeStyles(theme => ({
   drawerLink: {
     cursor: 'pointer',
@@ -57,11 +59,12 @@ function AllelicCompositionDrawer({ biologicalModels }) {
   }
 
   if (biologicalModels.length === 1) {
+    console.log('hello?');
     return (
-      <>
-        <div>{biologicalModels[0].allelicComposition}</div>
-        <div>{biologicalModels[0].geneticBackground}</div>
-      </>
+      <MouseModelAllelicComposition
+        allelicComposition={biologicalModels[0].allelicComposition}
+        geneticBackground={biologicalModels[0].geneticBackground}
+      />
     );
   }
 
