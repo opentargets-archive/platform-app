@@ -1,7 +1,9 @@
 import React from 'react';
+
 import { DataTable, TableDrawer } from '../../../components/Table';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
+import AllelicCompositionDrawer from './AllelicCompositionDrawer';
 
 const columns = [
   {
@@ -44,6 +46,13 @@ const columns = [
           entries={entries}
         />
       );
+    },
+  },
+  {
+    id: 'lol',
+    label: 'Allelic composition',
+    renderCell: ({ biologicalModels }) => {
+      return <AllelicCompositionDrawer biologicalModels={biologicalModels} />;
     },
   },
 ];
