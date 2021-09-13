@@ -89,7 +89,7 @@ function TableDrawer({
         {entries[0].name}
       </Link>
     ) : (
-      naLabel
+      entries[0].name ?? naLabel
     );
   }
 
@@ -143,7 +143,7 @@ function TableDrawer({
                   {group}
                 </Typography>
                 <Typography className={classes.AccordionSubtitle}>
-                  {groupedEntries[group].length} references
+                  {groupedEntries[group].length} {caption}
                 </Typography>
               </Box>
             </AccordionSummary>
@@ -170,7 +170,11 @@ function TableDrawer({
 
   return (
     <>
-      <MUILink onClick={toggleDrawer} className={classes.drawerLink}>
+      <MUILink
+        onClick={toggleDrawer}
+        className={classes.drawerLink}
+        underline="none"
+      >
         {message ? message : `${entries.length} entries`}
       </MUILink>
 
