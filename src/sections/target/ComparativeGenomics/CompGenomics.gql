@@ -1,5 +1,6 @@
 query CompGenomics($ensemblId: String!) {
   target(ensemblId: $ensemblId) {
+    id
     homologues {
       speciesId
       speciesName
