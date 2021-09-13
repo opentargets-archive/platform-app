@@ -131,10 +131,8 @@ function Body({ definition, id, label }) {
     ()=>{
        async function fetchData() {
         if (tab === "plot"){
-          let url = 'https://openpedcan-api-qa.d3b.io/tpm/gene-disease-gtex/json?ensemblId=' + ensemblId + '&efoId=' + efoId
-          url = 'https://openpedcan-api-qa.d3b.io/tpm/gene-disease-gtex/json?ensemblId=ENSG00000157764&efoId=EFO_0000621';
+          let url = 'https://openpedcan-api-dev.d3b.io/tpm/gene-all-cancer/json?ensemblId=ENSG00000273032';
           const fetchObj = {
-            mode: 'no-cors',
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
           };
