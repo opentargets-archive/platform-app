@@ -59,7 +59,6 @@ function AllelicCompositionDrawer({ biologicalModels }) {
   }
 
   if (biologicalModels.length === 1) {
-    console.log('hello?');
     const {
       allelicComposition,
       geneticBackground,
@@ -100,7 +99,23 @@ function AllelicCompositionDrawer({ biologicalModels }) {
             <CloseIcon />
           </IconButton>
         </Typography>
-        LOL
+        {biologicalModels.map(model => {
+          const { allelicComposition, geneticBackground, literature } = model;
+          return (
+            <Paper className={classes.paper} variant="outlined">
+              <MouseModelAllelicComposition
+                allelicComposition={allelicComposition}
+                geneticBackground={geneticBackground}
+              />
+              <div>
+                Publications:{' '}
+                {literature && literature.length > 0
+                  ? literature.join(', ')
+                  : 'N/A'}
+              </div>
+            </Paper>
+          );
+        })}
       </Drawer>
     </>
   );
