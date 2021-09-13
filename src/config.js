@@ -14,4 +14,9 @@ const config = {
   flagShowOTARProjects: window.injectedEnv.configFlagShowOTARProjects ?? false
 };
 
+export const configPedOT = {
+  pedOtUrlApi: window.injectedEnv.configUrlApi ?? 'https://ppdc-otp-dev.bento-tools.org/api/v4/graphql'
+}
+
+
 export default config;

@@ -1,10 +1,16 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import possibleTypes from './possibleTypes.json';
-import config from './config';
+import config, { configPedOT } from './config';
 
 const client = new ApolloClient({
   uri: config.urlApi,
   cache: new InMemoryCache({ possibleTypes }),
 });
+
+export const pedOtClient = new ApolloClient({
+  uri: configPedOT.pedOtUrlApi,
+  cache: new InMemoryCache({ possibleTypes }),
+});
+
 
 export default client;

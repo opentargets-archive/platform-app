@@ -6,6 +6,12 @@ import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
 import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 
+import { loader } from 'graphql.macro';
+import { useQuery } from '@apollo/client';
+import {pedOtClient} from '../../../client'
+
+const SNV_BY_GENE_QUERY = loader('./SnvByGeneQuery.gql');
+
 // Configuration for how the tables will display the data
 const columns = [
   { id: 'Disease', label: 'Disease', sortable: true,
@@ -84,7 +90,21 @@ const dataDownloaderColumns = [
   { id: 'EFO' },
 ]
 
-function FusionByGeneTab({data}) {
+function FusionByGeneTab({data, ids, label}) {
+  console.log("ids: ", ids)
+  const ensemblId = ids.ensgId;
+  const efoId = ids.efoId;
+  console.log("label: ", label)
+
+  const request = useQuery(SNV_BY_GENE_QUERY, { pedOtClient,
+    variables: {
+      ensemblId,
+      efoId,
+      size: 50,
+    },
+  });
+  
+
   return (
     <Grid container>
       <Grid item xs={12}>
