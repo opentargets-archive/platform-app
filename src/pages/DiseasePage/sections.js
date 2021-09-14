@@ -21,8 +21,10 @@ const sections = [
   // 2. only include public section (i.e. not partner sections),
   //    OR also private sections if it's a partner preview
   section =>
-    (config.diseaseSectionIds.length === 0 ||
-      config.diseaseSectionIds.split(',').includes(section.definition.id)) &&
+    (config.hideDiseaseSectionIds.length === 0 ||
+      !config.hideDiseaseSectionIds
+        .split(',')
+        .includes(section.definition.id)) &&
     (!section.definition.isPrivate ||
       (section.definition.isPrivate && config.isPartnerPreview))
 );

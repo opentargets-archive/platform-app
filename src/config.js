@@ -28,14 +28,16 @@ const config = {
     window.isPartnerPreview ?? process.env.REACT_APP_isPartnerPreview ?? false,
 
   // Page specific sections:
-  // [page]SectionsIds: show only the specified sections (comma separated ids, no spaecs, e.g. 'bibliography,otProjects')
+  // hide[Page]SectionsIds: hide the specified sections (comma separated ids, no spaecs, e.g. 'bibliography,otProjects')
   // or leave as empty string to show all sections (all public sections, private sections depending on settings)
   //
   // partner[Page]SectionIds: specify the private widget on this page
 
   // disease page
-  diseaseSectionIds:
-    window.diseaseSectionIds ?? process.env.REACT_APP_diseaseSectionIds ?? '',
+  hideDiseaseSectionIds:
+    window.hideDiseaseSectionIds ??
+    process.env.REACT_APP_hideDiseaseSectionIds ??
+    '',
 
   partnerDiseaseSectionIds:
     window.partnerDiseaseSectionIds ??
