@@ -121,7 +121,16 @@ function AllelicCompositionDrawer({ biologicalModels }) {
               <div>
                 Publications:{' '}
                 {literature && literature.length > 0
-                  ? literature.join(', ')
+                  ? literature.map((lit, i) => {
+                      return (
+                        <Fragment key={lit}>
+                          <Link external to={identifiersOrgLink('pubmed', lit)}>
+                            {lit}
+                          </Link>
+                          {i === literature.length - 1 ? '' : ', '}
+                        </Fragment>
+                      );
+                    })
                   : 'N/A'}
               </div>
             </Paper>
