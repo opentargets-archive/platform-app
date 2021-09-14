@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     backgroundColor: theme.palette.grey[300],
+    display: 'unset',
   },
   title: {
     display: 'flex',
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     width: '420px',
-    margin: '0.5rem 1rem 0.5rem 1rem',
+    margin: '1rem',
     padding: '1rem',
   },
 }));
@@ -60,16 +61,19 @@ function AllelicCompositionDrawer({ biologicalModels }) {
 
   if (biologicalModels.length === 1) {
     const {
+      id,
       allelicComposition,
       geneticBackground,
       literature,
     } = biologicalModels[0];
     return (
       <>
-        <MouseModelAllelicComposition
-          allelicComposition={allelicComposition}
-          geneticBackground={geneticBackground}
-        />
+        <Link external to={`https://identifiers.org/${id}`}>
+          <MouseModelAllelicComposition
+            allelicComposition={allelicComposition}
+            geneticBackground={geneticBackground}
+          />
+        </Link>
         <div>
           Publications:{' '}
           {literature && literature.length > 0
@@ -111,13 +115,20 @@ function AllelicCompositionDrawer({ biologicalModels }) {
           </IconButton>
         </Typography>
         {biologicalModels.map((model, i) => {
-          const { allelicComposition, geneticBackground, literature } = model;
+          const {
+            id,
+            allelicComposition,
+            geneticBackground,
+            literature,
+          } = model;
           return (
             <Paper key={i} className={classes.paper} variant="outlined">
-              <MouseModelAllelicComposition
-                allelicComposition={allelicComposition}
-                geneticBackground={geneticBackground}
-              />
+              <Link external to={`https://identifiers.org/${id}`}>
+                <MouseModelAllelicComposition
+                  allelicComposition={allelicComposition}
+                  geneticBackground={geneticBackground}
+                />
+              </Link>
               <div>
                 Publications:{' '}
                 {literature && literature.length > 0
