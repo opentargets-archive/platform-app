@@ -7,10 +7,4 @@ const client = new ApolloClient({
   cache: new InMemoryCache({ possibleTypes }),
 });
 
-export const pedOtClient = new ApolloClient({
-  uri: configPedOT.pedOtUrlApi,
-  cache: new InMemoryCache({ possibleTypes }),
-});
-
-
 export default client;
