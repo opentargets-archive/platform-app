@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Tab, Tabs } from '@material-ui/core';
+import { getGeneAllCancerJSON } from '../../../utils/externalAPI';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
@@ -56,13 +57,6 @@ const columns = [
   {
     id: 'Comparison_ID',
     label: 'Comparison ID',
-
-    /* Follow this filter method to implement RMTL Landing page
-    // filterValue: (row) => {
-    //   console.log("Row: ", row)
-    //   console.log("studyOverview: ", row.contrast)
-    //   return row.contrast + ' ' + row.studyOverview;
-    */
   },
   {
     id: 'G1',
@@ -131,29 +125,12 @@ function Body({ definition, id, label }) {
   // 
   useEffect(
     ()=>{
-        function fetchData() {
-        if (tab === "plot"){
-          let url = 'https://openpedcan-api-qa.d3b.io/tpm/gene-disease-gtex/json?ensemblId=' + ensemblId + '&efoId=' + efoId
-          url = 'https://openpedcan-api-qa.d3b.io/tpm/gene-disease-gtex/json?ensemblId=ENSG00000157764&efoId=EFO_0000621';
-          const fetchObj = {
-            method: 'GET',
-            crossDomain:true,
-            mode: 'no-cors',
-            headers: {'Content-Type': 'application/json'},
-          };
-          fetch(url, fetchObj)
-         .then(response => response.json())
-          .then(data => {
-            console.log("Response with data: ", data);
-            setData(data);
-          })
-          .catch(error => console.log("There was error: ", error))
-          
-        }
+     if (tab === "plot"){
+          getGeneAllCancerJSON(ensemblId,(data)=> {console.log(data); setData(data)});
       }
-      fetchData()
-  
-    }, [efoId, ensemblId, tab])
+    }, [efoId, ensemblId, tab]);
+
+
 
   let request = useQuery(EXPRESSION_ATLAS_QUERY, {
     variables: {
@@ -344,7 +321,7 @@ function Body({ definition, id, label }) {
               <>
               <Grid container>
                 <Grid item xs={12}>
-                <DataDownloader rows={rows} columns={columns} fileStem="data"/>
+                <DataDownloader rows={data} columns={columns} fileStem="data"/>
 
                 <img src="https://openpedcan-api-qa.d3b.io/tpm/gene-disease-gtex/plot?ensemblId=ENSG00000157764&efoId=EFO_0000621" width='1600' height='900' alt="Dummy Plot" />
                 </Grid>
