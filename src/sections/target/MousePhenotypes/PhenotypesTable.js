@@ -19,7 +19,7 @@ const columns = [
     },
   },
   {
-    id: 'modelPhenotypesId',
+    id: 'modelPhenotypeLabel',
     label: 'Phenotype',
     renderCell: ({ modelPhenotypeLabel, modelPhenotypeId }) => {
       return (
@@ -32,6 +32,12 @@ const columns = [
   {
     id: 'modelPhenotypeClasses',
     label: 'Category',
+    filterValue: ({ modelPhenotypeClasses }) => {
+      if (modelPhenotypeClasses.length === 1) {
+        return modelPhenotypeClasses[0].label;
+      }
+      return 'categories';
+    },
     renderCell: ({ modelPhenotypeClasses }) => {
       const entries = modelPhenotypeClasses.map(phenotypeClass => {
         return {
@@ -61,6 +67,8 @@ const columns = [
 function PhenotypesTable({ mousePhenotypes }) {
   return (
     <DataTable
+      showGlobalFilter
+      dataDownloader
       columns={columns}
       rows={mousePhenotypes}
       rowsPerPageOptions={defaultRowsPerPageOptions}
