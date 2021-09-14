@@ -35,14 +35,16 @@ const sections = [
   Bibliography,
 ].filter(
   // select sections to show based on:
-  // 1. there is no specific selection for this page (length==0)
-  //    OR there is a specific list which includes this section
+  // 1. there is no specific hidden section for this page (length==0)
+  //    OR this section is not specified as hidden
   // AND
   // 2. only include public section (i.e. not partner sections),
   //    OR also private sections if it's a partner preview
   section =>
-    (config.targetSectionIds.length === 0 ||
-      config.targetSectionIds.split(',').includes(section.definition.id)) &&
+    (config.hideTargetSectionIds.length === 0 ||
+      !config.hideTargetSectionIds
+        .split(',')
+        .includes(section.definition.id)) &&
     (!section.definition.isPrivate ||
       (section.definition.isPrivate && config.isPartnerPreview))
 );

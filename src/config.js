@@ -45,8 +45,10 @@ const config = {
     '',
 
   // target page
-  targetSectionIds:
-    window.targetSectionIds ?? process.env.REACT_APP_targetSectionIds ?? '',
+  hideTargetSectionIds:
+    window.hideTargetSectionIds ??
+    process.env.REACT_APP_hideTargetSectionIds ??
+    '',
 
   partnerTargetSectionIds:
     window.partnerTargetSectionIds ??
