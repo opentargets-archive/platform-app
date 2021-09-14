@@ -56,8 +56,8 @@ const config = {
     '',
 
   // drug page
-  drugSectionIds:
-    window.drugSectionIds ?? process.env.REACT_APP_drugSectionIds ?? '',
+  hideDrugSectionIds:
+    window.hideDrugSectionIds ?? process.env.REACT_APP_hideDrugSectionIds ?? '',
 
   partnerDrugSectionIds:
     window.partnerDrugSectionIds ??
