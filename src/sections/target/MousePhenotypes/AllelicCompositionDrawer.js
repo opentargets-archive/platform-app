@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import {
   Drawer,
-  Link,
+  Link as MuiLink,
   IconButton,
   Paper,
   Typography,
@@ -10,6 +10,8 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
+import Link from '../../../components/Link';
+import { identifiersOrgLink } from '../../../utils/global';
 import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
 
 const useStyles = makeStyles(theme => ({
@@ -35,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     width: '420px',
-    margin: '1.5rem',
+    margin: '0.5rem 1rem 0.5rem 1rem',
     padding: '1rem',
   },
 }));
@@ -51,8 +53,6 @@ function AllelicCompositionDrawer({ biologicalModels }) {
   function close() {
     setOpen(false);
   }
-
-  console.log('biologicalModels', biologicalModels);
 
   if (biologicalModels.length === 0) {
     return 'N/A';
@@ -72,7 +72,18 @@ function AllelicCompositionDrawer({ biologicalModels }) {
         />
         <div>
           Publications:{' '}
-          {literature && literature.length > 0 ? literature.join(', ') : 'N/A'}
+          {literature && literature.length > 0
+            ? literature.map((lit, i) => {
+                return (
+                  <Fragment key={lit}>
+                    <Link external to={identifiersOrgLink('pubmed', lit)}>
+                      {lit}
+                    </Link>
+                    {i === literature.length - 1 ? '' : ', '}
+                  </Fragment>
+                );
+              })
+            : 'N/A'}
         </div>
       </>
     );
@@ -80,13 +91,13 @@ function AllelicCompositionDrawer({ biologicalModels }) {
 
   return (
     <>
-      <Link
+      <MuiLink
         className={classes.drawerLink}
         onClick={toggleOpen}
         underline="none"
       >
         {biologicalModels.length} studies
-      </Link>
+      </MuiLink>
       <Drawer
         classes={{ root: classes.backdrop, paper: classes.container }}
         open={open}
@@ -99,10 +110,10 @@ function AllelicCompositionDrawer({ biologicalModels }) {
             <CloseIcon />
           </IconButton>
         </Typography>
-        {biologicalModels.map(model => {
+        {biologicalModels.map((model, i) => {
           const { allelicComposition, geneticBackground, literature } = model;
           return (
-            <Paper className={classes.paper} variant="outlined">
+            <Paper key={i} className={classes.paper} variant="outlined">
               <MouseModelAllelicComposition
                 allelicComposition={allelicComposition}
                 geneticBackground={geneticBackground}
