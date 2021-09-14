@@ -65,8 +65,10 @@ const config = {
     '',
 
   // evidence page
-  evidenceSectionIds:
-    window.evidenceSectionIds ?? process.env.REACT_APP_evidenceSectionIds ?? '',
+  hideEvidenceSectionIds:
+    window.hideEvidenceSectionIds ??
+    process.env.REACT_APP_hideEvidenceSectionIds ??
+    '',
 
   partnerEvidenceSectionIds:
     window.partnerEvidenceSectionIds ??
