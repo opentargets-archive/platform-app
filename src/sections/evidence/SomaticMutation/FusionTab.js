@@ -56,7 +56,7 @@ const dataDownloaderColumns = [
   { id: 'Gene1B_anno' },
   { id: 'Gene2A_anno' },
   { id: 'Gene2B_anno' },
-  { id: 'targetFromSourceId', label: 'Gene_Ensembl_ID' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
   { id: 'Disease' },
   { id: 'MONDO' },
   { id: 'RMTL' },
@@ -71,7 +71,6 @@ const dataDownloaderColumns = [
 ]
 
 function FusionTab({data}) {
-  console.log("data: ", data)
   return (
     <Grid container>
       <Grid item xs={12}>
