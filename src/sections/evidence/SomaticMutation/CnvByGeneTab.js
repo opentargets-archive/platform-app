@@ -6,34 +6,37 @@ import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
 import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 
+import { genericComparator } from '../../../utils/comparators'
+
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'Gene_symbol', label: 'Gene symbol',
-    renderCell: ({ Gene_symbol, Gene_Ensembl_ID }) => 
-      <Link to={`/target/${Gene_Ensembl_ID}`}> {Gene_symbol} </Link> },
-  { id: 'Gene_Ensembl_ID', label: 'Gene Ensembl ID' },
-  { id: 'Variant_type', label: 'Variant type' }, 
-  { id: 'Variant_category', label: 'Variant category' },
-  { id: 'Dataset', label: 'Dataset' },
-  { id: 'Disease', label: 'Disease', 
-    renderCell: ({ EFO, Disease }) => <Link to={`/disease/${EFO}`}>{Disease}</Link> },
-  { id: 'Total_alterations/Patients_in_dataset', label: 'Total alterations/Patients in dataset' },
-  { id: 'Frequency_in_overall_dataset', label: 'Frequency in overall dataset' },
-  { id: 'Total_primary_tumors_altered/Primary_tumors_in_dataset', label: 'Total primary tumors altered/Primary tumors in dataset' },
-  { id: 'Frequency_in_primary_tumors', label: 'Frequency in primary tumors' },
-  { id: 'Total_relapse_tumors_altered/Relapse_tumors_in_dataset', label: 'Total relapse tumors altered/Relapse tumors in dataset' },
-  { id: 'Frequency_in_relapse_tumors', label: 'Frequency in relapse tumors' },
-  { id: 'Gene_full_name', label: 'Gene full name' },
-  { id: 'RMTL', label: 'RMTL', renderCell: () => <RelevantIcon/>},
-  { id: 'OncoKB_cancer_gene', label: 'OncoKB cancer gene' },
-  { id: 'OncoKB_oncogene_TSG', label: 'OncoKB oncogene TSG' },
-  // { id: 'EFO', label: 'EFO' },
-  // { id: 'MONDO', label: 'MONDO' },
+  { id: 'Gene_symbol', label: 'Gene symbol', sortable: true,
+    renderCell: ({ Gene_symbol, targetFromSourceId }) => 
+      <Link to={`/target/${targetFromSourceId}`}> {Gene_symbol} </Link> },
+  { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
+  { id: 'Variant_type', label: 'Variant type', sortable: true }, 
+  { id: 'Variant_category', label: 'Variant category', sortable: true },
+  { id: 'Dataset', label: 'Dataset', sortable: true, comparator: (row1, row2) => genericComparator(row1, row2, 'Dataset') },
+  { id: 'Disease', label: 'Disease', sortable: true, 
+    renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
+      <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> },
+  { id: 'Total_alterations/Patients_in_dataset', label: 'Total alterations/Patients in dataset', sortable: true },
+  { id: 'Frequency_in_overall_dataset', label: 'Frequency in overall dataset', sortable: true },
+  { id: 'Total_primary_tumors_altered/Primary_tumors_in_dataset', label: 'Total primary tumors altered/Primary tumors in dataset', sortable: true },
+  { id: 'Frequency_in_primary_tumors', label: 'Frequency in primary tumors', sortable: true },
+  { id: 'Total_relapse_tumors_altered/Relapse_tumors_in_dataset', label: 'Total relapse tumors altered/Relapse tumors in dataset', sortable: true },
+  { id: 'Frequency_in_relapse_tumors', label: 'Frequency in relapse tumors', sortable: true },
+  { id: 'Gene_full_name', label: 'Gene full name', sortable: true },
+  { id: 'RMTL', label: 'RMTL', sortable: true, renderCell: () => <RelevantIcon/>},
+  { id: 'OncoKB_cancer_gene', label: 'OncoKB cancer gene', sortable: true },
+  { id: 'OncoKB_oncogene_TSG', label: 'OncoKB oncogene TSG', sortable: true },
+  // { id: 'EFO', label: 'EFO', sortable: true },
+  // { id: 'MONDO', label: 'MONDO', sortable: true },
 ]
 
 const dataDownloaderColumns = [
   { id: 'Gene_symbol' },
-  { id: 'Gene_Ensembl_ID' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
   { id: 'Variant_type' }, 
   { id: 'Variant_category' },
   { id: 'Dataset' },
@@ -48,7 +51,7 @@ const dataDownloaderColumns = [
   { id: 'RMTL', },
   { id: 'OncoKB_cancer_gene' },
   { id: 'OncoKB_oncogene_TSG' },
-  { id: 'EFO' },
+  { id: 'diseaseFromSourceMappedId', label: 'EFO' },
   { id: 'MONDO' },
 ]
 
