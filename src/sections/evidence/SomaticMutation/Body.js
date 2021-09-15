@@ -5,7 +5,6 @@ import { loader } from 'graphql.macro';
 
 import SectionItem from '../../../components/Section/SectionItem';
 import Description from './Description';
-import * as DummyData from './DummyData';
 
 import SnvByGeneTab from './SnvByGeneTab';
 import SnvByVariantTab from './SnvByVariantTab';
@@ -13,7 +12,7 @@ import CnvByGeneTab from './CnvByGeneTab';
 import FusionByGeneTab from './FusionByGeneTab';
 import FusionTab from './FusionTab';
 
-const QUERY = loader('./SomaticMutationQuery.gql');
+const SOMATIC_MUTATION_QUERY = loader('./SomaticMutationQuery.gql');
 
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
@@ -21,7 +20,7 @@ function Body({ definition, id, label }) {
   const defaultTab = "snvByGene";
   const [tab, setTab] = useState(defaultTab);
 
-  const request = useQuery(QUERY, {
+  const request = useQuery(SOMATIC_MUTATION_QUERY, {
     variables: { ensemblId, efoId, size: 9999 },
   });
 
@@ -37,7 +36,7 @@ function Body({ definition, id, label }) {
         <Description symbol={label.symbol} name={label.name} />
       )}
        renderBody={(data) => {
-       const {SnvByGene,SnvByVariant,CnvByGene,FusionByGene,Fusion} = data;
+       const {SnvByGene, SnvByVariant, CnvByGene, FusionByGene, Fusion} = data;
         return (
                  <>
             <Tabs value={tab} onChange={handleChangeTab} style={{ marginBottom: '2rem' }}>

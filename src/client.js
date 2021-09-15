@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import possibleTypes from './possibleTypes.json';
-import config, { configPedOT } from './config';
+import config from './config';
 
 const client = new ApolloClient({
   uri: config.urlApi,
