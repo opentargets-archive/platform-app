@@ -9,7 +9,7 @@ function MouseModelAllelicComposition({
   const match = regex.exec(allelicComposition);
   return (
     <>
-      <Typography>
+      <Typography variant="body2">
         {match !== null ? (
           <>
             {match[1]}
