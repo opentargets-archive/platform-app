@@ -1,8 +1,7 @@
 import React from 'react';
 import { loader } from 'graphql.macro';
-
+import TargetDescription from './TargetDescription';
 import {
-  Description,
   ProfileHeader as BaseProfileHeader,
   ChipList,
 } from '../../components/ProfileHeader';
@@ -55,18 +54,39 @@ const parseSynonyms = synonyms => {
   return parsedSynonyms;
 };
 
+// TODO: Replace this with PublicationsDrawer component
+function makePmidLink(match) {
+  const id = match.substring(7);
+  const linkStyles =
+    'color: #3489ca; font-size: inherit; text-decoration: none;';
+  return `PubMed:<a style="${linkStyles}" href="https://europepmc.org/abstract/med/${id}" target="_blank">${id}</a>`;
+}
+
+function clearCodes(descriptions) {
+  if (!descriptions) return [];
+  return descriptions.map(desc => {
+    const codeStart = desc.indexOf('{');
+    const parsedDesc = desc.slice(0, codeStart);
+    return parsedDesc.replace(/Pubmed:\d+/gi, makePmidLink);
+  });
+}
+
 function ProfileHeader() {
   const { loading, error, data } = usePlatformApi();
 
   //TODO: Errors!
   if (error) return null;
 
-  const description = data?.target.functionDescriptions?.[0];
+  const targetDescription = clearCodes(data?.target.functionDescriptions);
   const synonyms = parseSynonyms(data?.target.synonyms || []);
 
   return (
     <BaseProfileHeader>
-      <Description loading={loading}>{description}</Description>
+      <TargetDescription
+        loading={loading}
+        descriptions={targetDescription}
+        targetId={data?.target.id}
+      />
       <ChipList title="Synonyms" loading={loading}>
         {synonyms}
       </ChipList>
