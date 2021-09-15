@@ -11,7 +11,6 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 
 import Link from '../../../components/Link';
-import { identifiersOrgLink } from '../../../utils/global';
 import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 
@@ -44,6 +43,24 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+function Model({ model }) {
+  const { id, allelicComposition, geneticBackground, literature } = model;
+  const entries = literature.map(lit => ({ name: lit }));
+  return (
+    <>
+      <Link external to={`https://identifiers.org/${id}`}>
+        <MouseModelAllelicComposition
+          allelicComposition={allelicComposition}
+          geneticBackground={geneticBackground}
+        />
+      </Link>
+      <div>
+        Publications: <PublicationsDrawer entries={entries} />
+      </div>
+    </>
+  );
+}
+
 function AllelicCompositionDrawer({ biologicalModels }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -61,26 +78,7 @@ function AllelicCompositionDrawer({ biologicalModels }) {
   }
 
   if (biologicalModels.length === 1) {
-    const {
-      id,
-      allelicComposition,
-      geneticBackground,
-      literature,
-    } = biologicalModels[0];
-    const entries = literature.map(lit => ({ name: lit }));
-    return (
-      <>
-        <Link external to={`https://identifiers.org/${id}`}>
-          <MouseModelAllelicComposition
-            allelicComposition={allelicComposition}
-            geneticBackground={geneticBackground}
-          />
-        </Link>
-        <div>
-          Publications: <PublicationsDrawer entries={entries} />
-        </div>
-      </>
-    );
+    return <Model model={biologicalModels[0]} />;
   }
 
   return (
@@ -104,25 +102,10 @@ function AllelicCompositionDrawer({ biologicalModels }) {
             <CloseIcon />
           </IconButton>
         </Typography>
-        {biologicalModels.map((model, i) => {
-          const {
-            id,
-            allelicComposition,
-            geneticBackground,
-            literature,
-          } = model;
-          const entries = literature.map(lit => ({ name: lit }));
+        {biologicalModels.map(model => {
           return (
-            <Paper key={i} className={classes.paper} variant="outlined">
-              <Link external to={`https://identifiers.org/${id}`}>
-                <MouseModelAllelicComposition
-                  allelicComposition={allelicComposition}
-                  geneticBackground={geneticBackground}
-                />
-              </Link>
-              <div>
-                Publications: <PublicationsDrawer entries={entries} />
-              </div>
+            <Paper key={model.id} className={classes.paper} variant="outlined">
+              <Model model={model} />
             </Paper>
           );
         })}
