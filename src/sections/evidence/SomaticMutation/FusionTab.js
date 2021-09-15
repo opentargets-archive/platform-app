@@ -10,9 +10,9 @@ import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 const columns = [
   { id: 'FusionName', label: 'Fusion Name', sortable:true },
   { id: 'Fusion_Type', label: 'Fusion Type', sortable:true },
-  { id: 'Gene_Symbol', label: 'Gene symbol', sortable:true,
-    renderCell: ({ Gene_Symbol, Gene_Ensembl_ID }) => 
-        <Link to={`/target/${Gene_Ensembl_ID}`}>{Gene_Symbol}</Link>
+  { id: 'Gene_symbol', label: 'Gene symbol', sortable:true,
+    renderCell: ({ Gene_symbol, targetFromSourceId }) => 
+        <Link to={`/target/${targetFromSourceId}`}>{Gene_symbol}</Link>
   },
   { id: 'Gene_Position', label: 'Gene Position', sortable:true },
   { id: 'Fusion_anno', label: 'Fusion anno', sortable:true },
@@ -25,10 +25,10 @@ const columns = [
   { id: 'Gene1B_anno', label: 'Gene1B anno', sortable:true },
   { id: 'Gene2A_anno', label: 'Gene2A anno', sortable:true },
   { id: 'Gene2B_anno', label: 'Gene2B anno', sortable:true },
-  { id: 'Gene_Ensembl_ID', label: 'Gene Ensembl ID', sortable:true },
+  { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable:true },
   { id: 'Disease', label: 'Disease', sortable:true,
-    renderCell: ({ EFO, Disease }) => 
-      <Link to={`/disease/${EFO}`}>{Disease}</Link> 
+    renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
+      <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> 
   },
   // { id: 'MONDO', label: 'MONDO', sortable:true },
   { id: 'RMTL', label: 'PMTL', sortable:true , renderCell: () => <RelevantIcon/>},
@@ -44,7 +44,7 @@ const columns = [
 const dataDownloaderColumns = [
   { id: 'FusionName' },
   { id: 'Fusion_Type' },
-  { id: 'Gene_Symbol' },
+  { id: 'Gene_symbol' },
   { id: 'Gene_Position' },
   { id: 'Fusion_anno' },
   { id: 'BreakpointLocation' },
@@ -56,11 +56,11 @@ const dataDownloaderColumns = [
   { id: 'Gene1B_anno' },
   { id: 'Gene2A_anno' },
   { id: 'Gene2B_anno' },
-  { id: 'Gene_Ensembl_ID' },
+  { id: 'targetFromSourceId', label: 'Gene_Ensembl_ID' },
   { id: 'Disease' },
   { id: 'MONDO' },
   { id: 'RMTL' },
-  { id: 'EFO' },
+  { id: 'diseaseFromSourceMappedId', label: 'EFO' },
   { id: 'Dataset' },
   { id: 'Total_alterations_Over_Patients_in_dataset' },
   { id: 'Frequency_in_overall_dataset' },
@@ -71,6 +71,7 @@ const dataDownloaderColumns = [
 ]
 
 function FusionTab({data}) {
+  console.log("data: ", data)
   return (
     <Grid container>
       <Grid item xs={12}>
