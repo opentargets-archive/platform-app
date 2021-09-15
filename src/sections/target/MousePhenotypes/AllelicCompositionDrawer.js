@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
 
 function Model({ model }) {
   const { id, allelicComposition, geneticBackground, literature } = model;
-  const entries = literature.map(lit => ({ name: lit }));
+  const entries = literature ? literature.map(lit => ({ name: lit })) : [];
   return (
     <>
       <Link external to={`https://identifiers.org/${id}`}>

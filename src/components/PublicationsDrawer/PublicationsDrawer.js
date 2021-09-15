@@ -207,7 +207,7 @@ function PublicationsDrawer({
           ? customLabel
           : entries.length === 1
           ? entries[0].name
-          : `${entries.length} entries`}
+          : `${entries.length} publications`}
       </MUILink>
 
       <Drawer
