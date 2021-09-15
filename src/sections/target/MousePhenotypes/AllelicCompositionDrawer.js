@@ -13,6 +13,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Link from '../../../components/Link';
 import { identifiersOrgLink } from '../../../utils/global';
 import MouseModelAllelicComposition from '../../../components/MouseModelAllelicComposition';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 
 const useStyles = makeStyles(theme => ({
   drawerLink: {
@@ -66,6 +67,7 @@ function AllelicCompositionDrawer({ biologicalModels }) {
       geneticBackground,
       literature,
     } = biologicalModels[0];
+    const entries = literature.map(lit => ({ name: lit }));
     return (
       <>
         <Link external to={`https://identifiers.org/${id}`}>
@@ -75,19 +77,7 @@ function AllelicCompositionDrawer({ biologicalModels }) {
           />
         </Link>
         <div>
-          Publications:{' '}
-          {literature && literature.length > 0
-            ? literature.map((lit, i) => {
-                return (
-                  <Fragment key={lit}>
-                    <Link external to={identifiersOrgLink('pubmed', lit)}>
-                      {lit}
-                    </Link>
-                    {i === literature.length - 1 ? '' : ', '}
-                  </Fragment>
-                );
-              })
-            : 'N/A'}
+          Publications: <PublicationsDrawer entries={entries} />
         </div>
       </>
     );
@@ -100,7 +90,7 @@ function AllelicCompositionDrawer({ biologicalModels }) {
         onClick={toggleOpen}
         underline="none"
       >
-        {biologicalModels.length} studies
+        {biologicalModels.length} models
       </MuiLink>
       <Drawer
         classes={{ root: classes.backdrop, paper: classes.container }}
@@ -121,6 +111,7 @@ function AllelicCompositionDrawer({ biologicalModels }) {
             geneticBackground,
             literature,
           } = model;
+          const entries = literature.map(lit => ({ name: lit }));
           return (
             <Paper key={i} className={classes.paper} variant="outlined">
               <Link external to={`https://identifiers.org/${id}`}>
@@ -130,19 +121,7 @@ function AllelicCompositionDrawer({ biologicalModels }) {
                 />
               </Link>
               <div>
-                Publications:{' '}
-                {literature && literature.length > 0
-                  ? literature.map((lit, i) => {
-                      return (
-                        <Fragment key={lit}>
-                          <Link external to={identifiersOrgLink('pubmed', lit)}>
-                            {lit}
-                          </Link>
-                          {i === literature.length - 1 ? '' : ', '}
-                        </Fragment>
-                      );
-                    })
-                  : 'N/A'}
+                Publications: <PublicationsDrawer entries={entries} />
               </div>
             </Paper>
           );
