@@ -5,22 +5,20 @@ import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
 import RelevantIcon from '../../../components/RMTL/RelevantIcon';
-
-import { loader } from 'graphql.macro';
-import { useQuery } from '@apollo/client';
+import { genericComparator } from '../../../utils/comparators'
 
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'Gene_Symbol', label: 'Gene symbol', sortable: true,
-      renderCell: ({ Gene_Symbol, Gene_Ensembl_ID }) => 
-        <Link to={`/target/${Gene_Ensembl_ID}`}>{Gene_Symbol}</Link>
+  { id: 'Gene_symbol', label: 'Gene symbol', sortable: true,
+      renderCell: ({ Gene_symbol, targetFromSourceId }) => 
+        <Link to={`/target/${targetFromSourceId}`}>{Gene_symbol}</Link>
   },
-  { id: 'Gene_Ensembl_ID', label: 'Gene Ensembl ID', sortable: true},
+  { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true},
   { id: 'Disease', label: 'Disease', sortable: true,
-      renderCell: ({ EFO, Disease }) => 
-        <Link to={`/disease/${EFO}`}>{Disease}</Link> },
+      renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
+        <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> },
   { id: 'RMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>},
-  { id: 'Dataset', label: 'Dataset', sortable: true},
+  { id: 'Dataset', label: 'Dataset', sortable: true, comparator: (row1, row2) => genericComparator(row1, row2, 'Dataset')},
   { id: 'Total_alterations_Over_Patients_in_dataset', label:'Total alterations Over Patients in dataset', sortable: true},
   { id: 'Frequency_in_overall_dataset', label: 'Frequency in overall dataset', sortable: true},
   { id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable: true},
@@ -32,8 +30,8 @@ const columns = [
   // { id: 'EFO', label: 'EFO', sortable: true},
 ]
 const dataDownloaderColumns = [
-  { id: 'Gene_Symbol' },
-  { id: 'Gene_Ensembl_ID' },
+  { id: 'Gene_symbol' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
   { id: 'Disease'},
   { id: 'RMTL' },
   { id: 'Dataset' },
@@ -44,7 +42,7 @@ const dataDownloaderColumns = [
   { id: 'Total_relapse_tumors_mutated_Over_Relapse_tumors_in_dataset' },
   { id: 'Frequency_in_relapse_tumors' },
   { id: 'MONDO' },
-  { id: 'EFO' },
+  { id: 'diseaseFromSourceMappedId', label: 'EFO' },
 ]
 
 function FusionByGeneTab({data}) {
