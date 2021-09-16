@@ -55,7 +55,7 @@ function Model({ model }) {
         />
       </Link>
       <div>
-        Publications: <PublicationsDrawer entries={entries} />
+        <PublicationsDrawer entries={entries} />
       </div>
     </>
   );

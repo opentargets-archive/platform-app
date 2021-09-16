@@ -58,7 +58,7 @@
   {
     "id": "associationByDatasourceIndirect",
     "category": "Associations",
-    "nice_name": "Associations - indrect (by data source)",
+    "nice_name": "Associations - indirect (by data source)",
     "description": "Data-source metrics for indirect target-disease associations",
     "order": 8,
     "include_in_fe": true
@@ -74,7 +74,7 @@
   {
     "id": "associationByDatatypeIndirect",
     "category": "Associations",
-    "nice_name": "Associations - indrect (by data type)",
+    "nice_name": "Associations - indirect (by data type)",
     "description": "Data-type metrics for indirect target-disease associations",
     "order": 10,
     "include_in_fe": true
@@ -90,7 +90,7 @@
   {
     "id": "interactionEvidence",
     "category": "Target",
-    "nice_name": "Target - molecular interactions",
+    "nice_name": "Target - evidence of molecular interactions",
     "description": "Supporting evidence for target molecular interaction",
     "order": 12,
     "include_in_fe": true
@@ -231,4 +231,4 @@
     "order": null,
     "include_in_fe": false
   }
- ]
+]
