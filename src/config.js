@@ -78,6 +78,19 @@ const config = {
   // partner colour scale
   partnerColorRange:
     window.partnerColorRange ?? process.env.REACT_APP_partnerColorRange ?? '',
+
+  // associations - heatmaps and facets
+  // these work in the same way as the page specific sections.
+  // hideDataTypes: list the id of any datatype to be hidden
+  // partnerDataTypes: list any private datatypes (shown with lock in facets)
+  hideDataTypes:
+    window.hideDataTypes ?? process.env.REACT_APP_hideDataTypes ?? '',
+  partnerDataTypes:
+    window.partnerDataTypes ?? process.env.REACT_APP_partnerDataTypes ?? '',
+
+  // TODO: dataSources cannot be currently hidden. Check if it's a requirement.
+  // hideDataSources: window.hideDataSources ?? process.env.REACT_APP_hideDataSources ?? '',
+  // partnerDataSources: window.partnerDataSources ?? process.env.REACT_APP_partnerDataSources ?? '',
 };
 
 export default config;
