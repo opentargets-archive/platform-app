@@ -326,18 +326,17 @@ class PMTLPage extends Component {
           PMTL)
         </Typography>
         <br />
+        <Typography paragraph>
+        <Link to={FDA_PMTL_DocumentationUrl}> Version 1.1 </Link>
+        </Typography>
         <hr />
         <br />
         <Typography paragraph>
-          Targets in this list are important for studies of pediatric cancer,
-          and have special legal requirements associated with drug development.
-          See our
-          <Link to={FDA_PMTL_DocumentationUrl}> FDA PMTL Documentation </Link>
-          or the official{' '}
-          <Link external to={FDA_Publication}>
-            FDA publication{' '}
-          </Link>
-          for details.
+          Targets in the FDA's Pediatric Molecular Target Lists (PMTL) are important for studies 
+          of pediatric cancer and have special legal requirements associated with drug development. 
+          The table below is a computable interpretation of the target lists published by the FDA. 
+          See our  <Link to={FDA_PMTL_DocumentationUrl}> <b>FDA PMTL Documentation </b></Link> 
+          or the official <Link external to={FDA_Publication}><b>FDA publication{' '}</b> </Link>for details.
         </Typography>
         <Typography paragraph>
           Each target in the list is designated as either a <RelevantIcon />{' '}
