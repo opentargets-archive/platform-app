@@ -16,3 +16,4 @@
   REACT_APP_partnerDiseaseSectionIds = "otProjects"
   REACT_APP_partnerEvidenceSectionIds = "otCrispr"
   REACT_APP_partnerColorRange = '#ebf0ed,#d8e2dc,#c5d4cb,#b2c6ba,#9fb8a9,#8caa97,#799c86,#668e75,#538064,#407253'
+  REACT_APP_partnerDataTypes = 'ot_partner'
