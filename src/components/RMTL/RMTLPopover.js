@@ -135,7 +135,7 @@ function RMTLPopOver({ otherStyle, pmtl }) {
               <Tab value="UnspecifyTarget" icon={<UnspecifiedIcon />} />
               <div className={classes.toLandingPageLinkBox}>
                 <span className={classes.toLandingPageLink}>
-                  Search the RMTL within Open Targets{' '}
+                  Search the PMTL within Open Targets{' '}
                   <Link to={PMTLlandingPageUrl}>here</Link>
                 </span>
               </div>

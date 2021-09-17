@@ -9,7 +9,7 @@ import { genericComparator } from '../../../utils/comparators'
 
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'Gene_symbol', label: 'Gene symbol', sortable: true,
+  { id: 'geneSymbol', label: 'Gene symbol', sortable: true,
       renderCell: ({ Gene_symbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{Gene_symbol}</Link>
   },
@@ -18,29 +18,29 @@ const columns = [
       renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
         <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> },
   { id: 'RMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>},
-  { id: 'Dataset', label: 'Dataset', sortable: true, comparator: (row1, row2) => genericComparator(row1, row2, 'Dataset')},
-  { id: 'Total_alterations_Over_Patients_in_dataset', label:'Total alterations Over Patients in dataset', sortable: true},
-  { id: 'Frequency_in_overall_dataset', label: 'Frequency in overall dataset', sortable: true},
-  { id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable: true},
-  { id: 'Frequency_in_primary_tumors', label: 'Frequency in primary tumors', sortable: true},
-  { id: 'Total_relapse_tumors_mutated_Over_Relapse_tumors_in_dataset', label: 'Total relapse tumors mutated Over Relapse tumors in dataset', sortable: true},
-  { id: 'Frequency_in_relapse_tumors', label: 'Frequency in relapse tumors', sortable: true},
+  { id: 'dataset', label: 'Dataset', sortable: true, comparator: (row1, row2) => genericComparator(row1, row2, 'Dataset')},
+  { id: 'totalAlterationsOverNumberPatientsInDataset', label:'Total alterations Over Patients in dataset', sortable: true},
+  { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable: true},
+  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable: true},
+  { id: 'frequencyInPrimaryTumors', label: 'Frequency in primary tumors', sortable: true},
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated Over Relapse tumors in dataset', sortable: true},
+  { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true},
 
   // { id: 'MONDO', label: 'MONDO', sortable: true},
   // { id: 'EFO', label: 'EFO', sortable: true},
 ]
 const dataDownloaderColumns = [
-  { id: 'Gene_symbol' },
+  { id: 'geneSymbol' },
   { id: 'targetFromSourceId', label: 'geneEnsemblID' },
   { id: 'Disease'},
   { id: 'RMTL' },
-  { id: 'Dataset' },
-  { id: 'Total_alterations_Over_Patients_in_dataset' },
-  { id: 'Frequency_in_overall_dataset' },
-  { id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset' },
-  { id: 'Frequency_in_primary_tumors' },
-  { id: 'Total_relapse_tumors_mutated_Over_Relapse_tumors_in_dataset' },
-  { id: 'Frequency_in_relapse_tumors' },
+  { id: 'dataset' },
+  { id: 'totalAlterationsOverNumberPatientsInDataset' },
+  { id: 'frequencyInOverallDataset' },
+  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
+  { id: 'frequencyInPrimaryTumors' },
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset' },
+  { id: 'frequencyInRelapseTumors' },
   { id: 'MONDO' },
   { id: 'diseaseFromSourceMappedId', label: 'EFO' },
 ]

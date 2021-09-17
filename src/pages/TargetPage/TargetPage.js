@@ -23,7 +23,7 @@ function TargetPage({ location, match }) {
     return <NotFoundPage />;
   }
 
-  const { approvedSymbol: symbol, approvedName, rmtl_fda_designation: rmtl } =
+  const { approvedSymbol: symbol, approvedName, pmtl_fda_designation: pmtl } =
     data?.target || {};
   const uniprotId = data?.target.proteinAnnotations?.id;
 
