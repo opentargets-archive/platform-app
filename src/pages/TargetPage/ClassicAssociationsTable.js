@@ -9,6 +9,7 @@ import useBatchDownloader from '../../hooks/useBatchDownloader';
 import Legend from '../../components/Legend';
 import dataTypes from '../../dataTypes';
 import client from '../../client';
+import config from '../../config';
 
 const TARGET_ASSOCIATIONS_QUERY = loader('./TargetAssociations.gql');
 
@@ -126,28 +127,42 @@ function getColumns(ensemblId, classes) {
     },
   ];
 
-  dataTypes.forEach(dt => {
-    columns.push({
-      id: dt.id,
-      label: dt.label,
-      classes: {
-        headerCell: classes.headerCell,
-        innerLabel: classes.innerLabel,
-        sortLabel: classes.sortLabel,
-        cell: classes.cell,
-      },
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === dt.id
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      sortable: true,
-      renderCell: row => (
-        <AssocCell score={row[dt.id]} ensemblId={ensemblId} efoId={row.efoId} />
-      ),
+  // datatypes columns are filtered based on config
+  // for hide and private (partner) options (i.e.
+  // certain columns will be hidden)
+  dataTypes
+    .filter(
+      dt =>
+        (config.hideDataTypes.length === 0 ||
+          !config.hideDataTypes.split(',').includes(dt.id)) &&
+        (!dt.isPrivate || (dt.isPrivate && config.isPartnerPreview))
+    )
+    .forEach(dt => {
+      columns.push({
+        id: dt.id,
+        label: dt.label,
+        classes: {
+          headerCell: classes.headerCell,
+          innerLabel: classes.innerLabel,
+          sortLabel: classes.sortLabel,
+          cell: classes.cell,
+        },
+        exportValue: data => {
+          const datatypeScore = data.datatypeScores.find(
+            datatypeScore => datatypeScore.componentId === dt.id
+          );
+          return datatypeScore ? datatypeScore.score : 'No data';
+        },
+        sortable: true,
+        renderCell: row => (
+          <AssocCell
+            score={row[dt.id]}
+            ensemblId={ensemblId}
+            efoId={row.efoId}
+          />
+        ),
+      });
     });
-  });
 
   return columns;
 }
