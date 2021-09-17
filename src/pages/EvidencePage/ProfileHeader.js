@@ -61,7 +61,7 @@ function ProfileHeader() {
     data?.disease || {};
   const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
 
-  const rmtl = data?.target.rmtl_fda_designation || undefined;
+  const pmtl = data?.target.pmtl_fda_designation || undefined;
 
   const diseaseSynonyms = parseSynonyms(data?.disease.synonyms || []);
 
@@ -84,7 +84,7 @@ function ProfileHeader() {
                 </Link>
                 <RMTLPopover
                   otherStyle={{ RMTLContainer: { marginLeft: '50px' } }}
-                  rmtl={rmtl}
+                  pmtl={pmtl}
                 />
               </Typography>
             }

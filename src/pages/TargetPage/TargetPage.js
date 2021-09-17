@@ -48,7 +48,7 @@ function TargetPage({ location, match }) {
         uniprotId={uniprotId}
         symbol={symbol}
         name={approvedName}
-        rmtl={rmtl}
+        pmtl={pmtl}
       />
 
       <Tabs
