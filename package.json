@@ -22,7 +22,6 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.50",
     "classnames": "^2.2.6",
-    "crossfilter2": "^1.4.6",
     "d3": "^5.9.2",
     "d3-dag": "^0.5.0",
     "expression-atlas-heatmap-highcharts": "^5.3.1",
