@@ -10,8 +10,8 @@ import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 const columns = [
   {
     id: 'geneSymbol', label: 'Gene symbol', sortable: true,
-    renderCell: ({ Gene_symbol, targetFromSourceId }) => 
-        <Link to={`/target/${targetFromSourceId}`}>{Gene_symbol}</Link>
+    renderCell: ({ geneSymbol, targetFromSourceId }) => 
+        <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
   { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>},
   { id: 'dataset', label: 'Dataset', sortable: true },
