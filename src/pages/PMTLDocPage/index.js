@@ -41,8 +41,6 @@ const useStyles = makeStyles(theme => ({
 
 function PMTLDocPage() {
   const classes = useStyles();
-  const legalRequirementsLink =
-    'https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title21-section355c&num=0&edition=prelim';
   const fDPublicationLink =
     'https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology';
   const ensemblStableIDLink =
