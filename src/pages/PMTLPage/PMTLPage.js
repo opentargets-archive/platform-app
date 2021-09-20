@@ -237,7 +237,7 @@ const getReformatMethodOptions = rows => {
   }));
 };
 
-class RMTLPage extends Component {
+class PMTLPage extends Component {
   state = {
     filteredRows: getRows(RMTLData),
     pageSize: 25,
@@ -315,7 +315,7 @@ class RMTLPage extends Component {
       this.reformatMethodFilterHandler
     );
     const rowsPerPageOptions = [10, 25, 50];
-    const FDA_RMTL_DocumentationUrl = '/fda-pmtl-docs';
+    const FDA_PMTL_DocumentationUrl = '/fda-pmtl-docs';
     const FDA_Publication =
       'https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target';
 
@@ -323,21 +323,20 @@ class RMTLPage extends Component {
       <BasePage>
         <Typography variant="h4" component="h1" paragraph>
           US Food & Drug Administration Relevant Molecular Target List (FDA
-          RMTL)
+          PMTL)
         </Typography>
         <br />
+        <Typography paragraph>
+        <Link to={FDA_PMTL_DocumentationUrl}> Version 1.1 </Link>
+        </Typography>
         <hr />
         <br />
         <Typography paragraph>
-          Targets in this list are important for studies of pediatric cancer,
-          and have special legal requirements associated with drug development.
-          See our
-          <Link to={FDA_RMTL_DocumentationUrl}> FDA RMTL Documentation </Link>
-          or the official{' '}
-          <Link external to={FDA_Publication}>
-            FDA publication{' '}
-          </Link>
-          for details.
+          Targets in the FDA's Pediatric Molecular Target Lists (PMTL) are important for studies 
+          of pediatric cancer and have special legal requirements associated with drug development. 
+          The table below is a computable interpretation of the target lists published by the FDA. 
+          See our  <Link to={FDA_PMTL_DocumentationUrl}> <b>FDA PMTL Documentation </b></Link> 
+          or the official <Link external to={FDA_Publication}><b>FDA publication{' '}</b> </Link>for details.
         </Typography>
         <Typography paragraph>
           Each target in the list is designated as either a <RelevantIcon />{' '}
@@ -355,7 +354,7 @@ class RMTLPage extends Component {
               <>
                 <Lk
                   href="/fda-pmtl-docs#colums-description"
-                  title="FDA RMTL Columns Description"
+                  title="FDA PMTL Columns Description"
                 >
                   <FontAwesomeIcon icon={faInfoCircle} size="md" /> Columns
                   Description
@@ -363,7 +362,7 @@ class RMTLPage extends Component {
                 <DataDownloader
                   tableHeaders={downloadColumns}
                   rows={downloadRows}
-                  fileStem={`rmtl`}
+                  fileStem={`pmtl`}
                 />
                 <RMTLTable
                   filters
@@ -381,4 +380,4 @@ class RMTLPage extends Component {
     );
   }
 }
-export default RMTLPage;
+export default PMTLPage;
