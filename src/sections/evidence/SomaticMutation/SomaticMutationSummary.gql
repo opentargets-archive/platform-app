@@ -1,5 +1,5 @@
 fragment somaticMutationSummary on Disease {
-  SnyByGene: evidences(
+  SnvByGene: evidences(
     ensemblIds: [$ensgId]
     enableIndirect: true
     datasourceIds: ["chop_gene_level_snv"]
