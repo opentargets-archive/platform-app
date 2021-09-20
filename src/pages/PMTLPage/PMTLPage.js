@@ -11,7 +11,7 @@ import RMTLTable from '../../components/RMTLTable';
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
-import RMTLData from './RMTL.json';
+import PMTLData from './PMTL.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link as Lk } from '@material-ui/core';
@@ -25,7 +25,7 @@ function getDownloadRows(downloadData) {
       designation: mapping.FDA_Designation,
       fdaClass: mapping.FDA_Class,
       fdaTarget: mapping.FDA_Target,
-      reformatMethod: mapping.Reformat_Method,
+      reformatMethod: mapping.Mapping_Description,
     });
   });
   return rows;
@@ -40,7 +40,7 @@ function getRows(downloadData) {
       designation: mapping.FDA_Designation,
       fdaClass: mapping.FDA_Class,
       fdaTarget: mapping.FDA_Target,
-      reformatMethod: mapping.Reformat_Method,
+      reformatMethod: mapping.Mapping_Description,
     });
   });
   return rows;
@@ -164,8 +164,8 @@ function getColumns(
     },
 
     {
-      id: 'reformatMethod',
-      label: 'Reformat Method',
+      id: 'mappingDescription',
+      label: 'Mapping Description',
       renderFilter: () => (
         <Autocomplete
           options={reformatMethodOption}
@@ -239,7 +239,7 @@ const getReformatMethodOptions = rows => {
 
 class PMTLPage extends Component {
   state = {
-    filteredRows: getRows(RMTLData),
+    filteredRows: getRows(PMTLData),
     pageSize: 25,
   };
   // Generic Function to handle column filtering
@@ -274,7 +274,7 @@ class PMTLPage extends Component {
   };
 
   componentDidMount() {
-    this.rmtlXf = crossfilter(getRows(RMTLData));
+    this.rmtlXf = crossfilter(getRows(PMTLData));
     this.targetSymbolDim = this.rmtlXf.dimension(row => row.targetSymbol);
     this.designationDim = this.rmtlXf.dimension(row => row.designation);
 
@@ -288,9 +288,9 @@ class PMTLPage extends Component {
   };
 
   render() {
-    const rows = getRows(RMTLData);
+    const rows = getRows(PMTLData);
     // Download Data will be coming from getDownloadRows()
-    const downloadRows = getDownloadRows(RMTLData);
+    const downloadRows = getDownloadRows(PMTLData);
     const { filteredRows, pageSize } = this.state;
 
     const loading = false,
