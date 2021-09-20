@@ -83,11 +83,9 @@ function getColumns(
       renderCell: row => {
         const ensemblID = row.ensemblID;
         const url = '/target/' + ensemblID;
-        return (
-          <Link to={url} external>
-            {row.targetSymbol}
-          </Link>
-        );
+        return ensemblID !== "Symbol_Not_Found" ? 
+        ( <Link to={url} external>{row.targetSymbol}</Link>):
+         (<p> {row.targetSymbol} </p>)
       },
       renderFilter: () => (
         <Autocomplete
