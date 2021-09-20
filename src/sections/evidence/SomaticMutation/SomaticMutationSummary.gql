@@ -1,1 +1,46 @@
-SomaticMutationSummary.gql
+fragment somaticMutationSummary on Disease {
+  SnyByGene: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["chop_gene_level_snv"]
+    size: 0
+  ) {
+    count
+  }
+
+  SnvByVariant: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    size: 0
+    datasourceIds: ["chop_variant_level_snv"]
+  ) {
+    count
+  }
+
+  CnvByGene: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    size: 0
+    datasourceIds: ["chop_gene_level_cnv"]
+  ) {
+    count
+  }
+
+  FusionByGene: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    size: 0
+    datasourceIds: ["chop_putative_oncogene_fused_gene"]
+  ) {
+    count
+  }
+
+  Fusion: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    size: 0
+    datasourceIds: ["chop_putative_oncogene_fusion"]
+  ) {
+    count
+  }
+}
