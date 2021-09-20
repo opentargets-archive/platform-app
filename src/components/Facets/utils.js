@@ -8,11 +8,15 @@ export const fixLabel = id => {
 
   if (label) return label;
 
-  const spacedLabel = id
-    .replace(/_/g, ' ')
-    .replace(/([a-z])([A-Z]+[a-z])/g, '$1 $2');
+  if (/^[a-z]/.test(id)) {
+    const spacedLabel = id
+      .replace(/_/g, ' ')
+      .replace(/([a-z])([A-Z]+[a-z])/g, '$1 $2');
 
-  return `${spacedLabel.charAt(0).toUpperCase()}${spacedLabel.slice(1)}`;
+    return `${spacedLabel.charAt(0).toUpperCase()}${spacedLabel.slice(1)}`;
+  }
+
+  return id;
 };
 
 const sortLevel = (a, b) => {
