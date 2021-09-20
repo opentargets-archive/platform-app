@@ -124,16 +124,16 @@ const useStyles = makeStyles(theme => ({
 function getColumns(efoId, classes) {
   const columns = [
     {
-      id: 'rmtl',
-      label: 'FDA RMTL',
+      id: 'pmtl',
+      label: 'FDA PMTL',
       align: 'center',
       classes: {
         headerCell: classes.symbolHeaderCell,
         cell: classes.symbolCell,
       },
       exportValue: data =>
-        data.target.rmtl_fda_designation || 'Unspecified Target',
-      renderCell: row => getRMTLIcon(row.rmtl),
+        data.target.pmtl_fda_designation || 'Unspecified Target',
+      renderCell: row => getRMTLIcon(row.pmtl),
     },
     {
       id: 'symbol',
@@ -224,7 +224,7 @@ function getRows(data) {
       symbol: d.target.approvedSymbol,
       name: d.target.approvedName,
       score: d.score,
-      rmtl: d.target.rmtl_fda_designation,
+      pmtl: d.target.pmtl_fda_designation,
     };
     dataTypes.forEach(dataType => {
       const dataTypeScore = d.datatypeScores.find(

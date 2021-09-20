@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RMTLDocPage() {
+function PMTLDocPage() {
   const classes = useStyles();
   const legalRequirementsLink =
     'https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title21-section355c&num=0&edition=prelim';
@@ -49,9 +49,9 @@ function RMTLDocPage() {
     'https://useast.ensembl.org/info/genome/stable_ids/index.html#:~:text=Stable%20identifiers%20are%20ways%20that,and%20consistent%20across%20Ensembl%20releases';
   const hugoHgncLink = 'https://www.genenames.org/download/custom/';
 
-  const fdaRMTL = '/fda-pmtl';
+  const fdaPMTL = '/fda-pmtl';
 
-  const fdaRmtlColumns = {
+  const fdaPmtlColumns = {
     tableHeader: ['Column Header', 'Example Value', 'Description'],
     tableDetail: [
       [
@@ -180,13 +180,13 @@ function RMTLDocPage() {
           <Grid item xs={12}>
             <Typography variant="h4">
               US Food & Drug Administration Relevant Molecular Target List (FDA
-              RMTL)
+              PMTL)
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
               In 2018, the United States Food & Drug Administration (FDA)
-              published the Pediatric Relevant Molecular Target List (RMTL). In
+              published the Pediatric Relevant Molecular Target List (PMTL). In
               general, this list contains targets that are <b>important for studies
               of pediatric cancer</b>. The targets in this list have <b>special legal
               requirements</b> associated with drug development.
@@ -204,8 +204,8 @@ function RMTLDocPage() {
               ).
             </Typography>
             <Typography paragraph>
-              The full RMTL within Open Targets can be accessed (
-              <Link href={fdaRMTL} rel="noopener" target="_blank">
+              The full PMTL within Open Targets can be accessed (
+              <Link href={fdaPMTL} rel="noopener" target="_blank">
                 here
               </Link>
               ).
@@ -219,7 +219,7 @@ function RMTLDocPage() {
           <Grid item xs={12}>
             <Typography paragraph>
               In our instance of Open Targets, all targets fall into one of
-              three FDA RMTL designations:
+              three FDA PMTL designations:
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.paddingLeft}>
@@ -265,7 +265,7 @@ function RMTLDocPage() {
               <Grid item xs>
                 <Typography paragraph>
                   <b> Unspecified Target:</b>
-                  These targets are not mentioned in the FDA RMTL. Most targets
+                  These targets are not mentioned in the FDA PMTL. Most targets
                   within the Open Targets Platform fall into this category by
                   default.
                 </Typography>
@@ -277,7 +277,7 @@ function RMTLDocPage() {
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
-              The RMTL as published by the FDA required significant reformatting
+              The PMTL as published by the FDA required significant reformatting
               to allow for machine-readability and compatibility with Open
               Targets.
             </Typography>
@@ -290,15 +290,15 @@ function RMTLDocPage() {
                 Ensembl stable ID
               </Link>
               ) , and then mapped to other information (like gene name and
-              symbol). As published, the FDA RMTL did not identify targets by a
-              consistent set of mappable IDs. In addition, many FDA RMTL targets
+              symbol). As published, the FDA PMTL did not identify targets by a
+              consistent set of mappable IDs. In addition, many FDA PMTL targets
               are representations of complex proteins or pathways, each
               consisting of a multitude of genes (e.g. “Proteasome”, “Tubulins”
-              or “Hippo Pathway”). In order to implement the FDA RMTL into Open
+              or “Hippo Pathway”). In order to implement the FDA PMTL into Open
               Targets, the list needed to be machine-readable and contain
               mappable IDs at gene-level resolution. Thus, the following
               standardization steps were taken to obtain our “expanded” FDA
-              RMTL:
+              PMTL:
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.paddingLeft}>
@@ -322,14 +322,14 @@ function RMTLDocPage() {
               </Link>
               ) resources, manually standardized the names and symbols of all
               targets, which enabled mapping each target to Ensembl gene IDs.
-              Original FDA-curated citations within the RMTL were used to guide
+              Original FDA-curated citations within the PMTL were used to guide
               this process.
             </Typography>
           </Grid>
 
           <Grid item xs={12}>
             <Typography paragraph>
-              Note that each FDA RMTL target appearing in our expanded list can
+              Note that each FDA PMTL target appearing in our expanded list can
               be directly traced to one or more targets in the FDA’s published
               list. No new targets were added that do not depend upon the FDA
               source.
@@ -337,9 +337,9 @@ function RMTLDocPage() {
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
-              The detailed expanded RMTL containing FDA source targets and
+              The detailed expanded PMTL containing FDA source targets and
               editor’s notes can be accessed (
-              <Link href={fdaRMTL} rel="noopener" target="_blank">
+              <Link href={fdaPMTL} rel="noopener" target="_blank">
                 here
               </Link>
               ) .
@@ -347,30 +347,30 @@ function RMTLDocPage() {
           </Grid>
 
           <Grid item xs={12} id="colums-description">
-            <Typography variant="h4">FDA RMTL Columns</Typography>
+            <Typography variant="h4">FDA PMTL Columns</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
               The table below contains examples and descriptions of each column
-              within the searchable FDA RMTL page.
+              within the searchable FDA PMTL page.
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Paper variant="outlined" elevation={0}>
-              {displayTable(fdaRmtlColumns)}
+              {displayTable(fdaPmtlColumns)}
             </Paper>
           </Grid>
           <br />
 
           <Grid item xs={12} id="reformat-methods">
-            <Typography variant="h4">FDA RMTL Reformat Methods</Typography>
+            <Typography variant="h4">FDA PMTL Reformat Methods</Typography>
           </Grid>
 
           <Grid item xs={12}>
             <Typography paragraph>
               The table below contains a description of each potential value in
               the Reformat Method column. These describe the action(s) taken to
-              map targets within the FDA RMTL publication into the computable,
+              map targets within the FDA PMTL publication into the computable,
               gene-level targets used in Open Targets. Many FDA targets required
               more than one action to reach Open Targets compatibility; these
               are all listed for each target when appropriate (e.g. “Separate
@@ -387,4 +387,4 @@ function RMTLDocPage() {
     </BasePage>
   );
 }
-export default RMTLDocPage;
+export default PMTLDocPage;

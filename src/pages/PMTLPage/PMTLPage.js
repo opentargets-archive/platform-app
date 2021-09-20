@@ -237,7 +237,7 @@ const getReformatMethodOptions = rows => {
   }));
 };
 
-class RMTLPage extends Component {
+class PMTLPage extends Component {
   state = {
     filteredRows: getRows(RMTLData),
     pageSize: 25,
@@ -315,7 +315,7 @@ class RMTLPage extends Component {
       this.reformatMethodFilterHandler
     );
     const rowsPerPageOptions = [10, 25, 50];
-    const FDA_RMTL_DocumentationUrl = '/fda-pmtl-docs';
+    const FDA_PMTL_DocumentationUrl = '/fda-pmtl-docs';
     const FDA_Publication =
       'https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target';
 
@@ -323,7 +323,7 @@ class RMTLPage extends Component {
       <BasePage>
         <Typography variant="h4" component="h1" paragraph>
           US Food & Drug Administration Relevant Molecular Target List (FDA
-          RMTL)
+          PMTL)
         </Typography>
         <br />
         <hr />
@@ -332,7 +332,7 @@ class RMTLPage extends Component {
           Targets in this list are important for studies of pediatric cancer,
           and have special legal requirements associated with drug development.
           See our
-          <Link to={FDA_RMTL_DocumentationUrl}> FDA RMTL Documentation </Link>
+          <Link to={FDA_PMTL_DocumentationUrl}> FDA PMTL Documentation </Link>
           or the official{' '}
           <Link external to={FDA_Publication}>
             FDA publication{' '}
@@ -355,7 +355,7 @@ class RMTLPage extends Component {
               <>
                 <Lk
                   href="/fda-pmtl-docs#colums-description"
-                  title="FDA RMTL Columns Description"
+                  title="FDA PMTL Columns Description"
                 >
                   <FontAwesomeIcon icon={faInfoCircle} size="md" /> Columns
                   Description
@@ -363,7 +363,7 @@ class RMTLPage extends Component {
                 <DataDownloader
                   tableHeaders={downloadColumns}
                   rows={downloadRows}
-                  fileStem={`rmtl`}
+                  fileStem={`pmtl`}
                 />
                 <RMTLTable
                   filters
@@ -381,4 +381,4 @@ class RMTLPage extends Component {
     );
   }
 }
-export default RMTLPage;
+export default PMTLPage;
