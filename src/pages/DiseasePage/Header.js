@@ -5,40 +5,42 @@ import HeaderBase from '../../components/Header';
 import { ExternalLink } from '../../components/ExternalLink';
 import { XRefLinks } from '../../components/ExternalLink';
 
-const urlStems = {
-  mondo: 'http://purl.obolibrary.org/obo/MONDO_',
-  mesh: 'https://identifiers.org/mesh:',
-  ncit: 'https://identifiers.org/ncit:',
-  meddra: 'https://identifiers.org/meddra:',
-  umls: 'https://identifiers.org/umls:',
-  orphanet: 'https://identifiers.org/orphanet:',
-  icd10: 'https://identifiers.org/icd:',
-  omim: 'https://www.omim.org/entry/',
+const xrefsToDisplay = {
+  mondo: { label: 'MONDO', urlStem: 'http://purl.obolibrary.org/obo/MONDO_' },
+  mesh: { label: 'MeSH', urlStem: 'https://identifiers.org/mesh:' },
+  ncit: { label: 'NCIt', urlStem: 'https://identifiers.org/ncit:' },
+  meddra: { label: 'MedDRA', urlStem: 'https://identifiers.org/meddra:' },
+  umls: { label: 'UMLS', urlStem: 'https://identifiers.org/umls:' },
+  orphanet: { label: 'Orphanet', urlStem: 'https://identifiers.org/orphanet:' },
+  icd10: { label: 'ICD10', urlStem: 'https://identifiers.org/icd:' },
+  omim: { label: 'OMIM', urlStem: 'https://www.omim.org/entry/' },
 };
 
-function Header({ loading, efoId, name, dbXRefs = [] }) {
-  console.log('dbXRefs', dbXRefs);
-  const efoUrl = `https://www.ebi.ac.uk/ols/ontologies/efo/terms?short_form=${efoId}`;
+function processXRefs(dbXRefs) {
   const xrefs = {};
-
   for (let i = 0; i < dbXRefs.length; i++) {
     const [label, id] = dbXRefs[i].split(':');
     const source = label.toLowerCase();
 
-    if (urlStems[source]) {
+    if (xrefsToDisplay[source]) {
       if (xrefs[source]) {
         xrefs[source].ids.push(id);
       } else {
         xrefs[source] = {
-          label,
-          urlStem: urlStems[source],
+          label: xrefsToDisplay[source].label,
+          urlStem: xrefsToDisplay[source].urlStem,
           ids: [id],
         };
       }
     }
   }
+  return xrefs;
+}
 
-  // console.log('LOL', data);
+function Header({ loading, efoId, name, dbXRefs = [] }) {
+  console.log('dbXRefs', dbXRefs);
+  const efoUrl = `https://www.ebi.ac.uk/ols/ontologies/efo/terms?short_form=${efoId}`;
+  const xrefs = processXRefs(dbXRefs);
 
   return (
     <HeaderBase
