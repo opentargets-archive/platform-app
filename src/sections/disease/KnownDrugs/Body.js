@@ -7,7 +7,7 @@ import { sentenceCase } from '../../../utils/global';
 
 const KNOWN_DRUGS_BODY_QUERY = loader('./KnownDrugsQuery.gql');
 
-const exportColumns = () => [
+const exportColumns = [
   {
     label: 'diseaseId',
     exportValue: row => row.disease.id,
@@ -80,7 +80,7 @@ function Body({ definition, id: efoId, label: name }) {
       Description={() => <Description name={name} />}
       columnsToShow={['disease', 'drug', 'target', 'clinicalTrials']}
       stickyColumn="drug"
-      exportColumns={exportColumns(efoId)}
+      exportColumns={exportColumns}
     />
   );
 }
