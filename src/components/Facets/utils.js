@@ -8,6 +8,10 @@ export const fixLabel = id => {
 
   if (label) return label;
 
+  if (id === 'tractabilityProtac') {
+    return 'Tractability PROTAC';
+  }
+
   // only do this for ids that start with a lowercase character
   if (/^[a-z]/.test(id)) {
     const spacedLabel = id.replace(/([a-z])([A-Z])/g, '$1 $2');
