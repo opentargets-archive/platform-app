@@ -24,13 +24,15 @@ function processXRefs(dbXRefs) {
 
     if (xrefsToDisplay[source]) {
       if (xrefs[source]) {
-        xrefs[source].ids.push(id);
+        xrefs[source].ids.add(id);
       } else {
-        xrefs[source] = {
+        const xrefObject = {
           label: xrefsToDisplay[source].label,
           urlStem: xrefsToDisplay[source].urlStem,
-          ids: [id],
+          ids: new Set(),
         };
+        xrefObject.ids.add(id);
+        xrefs[source] = xrefObject;
       }
     }
   }
@@ -38,7 +40,6 @@ function processXRefs(dbXRefs) {
 }
 
 function Header({ loading, efoId, name, dbXRefs = [] }) {
-  console.log('dbXRefs', dbXRefs);
   const efoUrl = `https://www.ebi.ac.uk/ols/ontologies/efo/terms?short_form=${efoId}`;
   const xrefs = processXRefs(dbXRefs);
 
@@ -56,7 +57,7 @@ function Header({ loading, efoId, name, dbXRefs = [] }) {
                 key={xref}
                 label={xrefs[xref].label}
                 urlStem={xrefs[xref].urlStem}
-                ids={xrefs[xref].ids}
+                ids={Array.from(xrefs[xref].ids)}
               />
             );
           })}
