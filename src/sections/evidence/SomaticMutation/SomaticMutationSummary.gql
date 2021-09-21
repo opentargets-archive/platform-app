@@ -1,5 +1,5 @@
 fragment somaticMutationSummary on Disease {
-  SnvByGene: evidences(
+  snvByGene: evidences(
     ensemblIds: [$ensgId]
     enableIndirect: true
     datasourceIds: ["chop_gene_level_snv"]
@@ -8,7 +8,7 @@ fragment somaticMutationSummary on Disease {
     count
   }
 
-  SnvByVariant: evidences(
+  snvByVariant: evidences(
     ensemblIds: [$ensgId]
     enableIndirect: true
     size: 0
@@ -17,7 +17,7 @@ fragment somaticMutationSummary on Disease {
     count
   }
 
-  CnvByGene: evidences(
+  cnvByGene: evidences(
     ensemblIds: [$ensgId]
     enableIndirect: true
     size: 0
@@ -26,7 +26,7 @@ fragment somaticMutationSummary on Disease {
     count
   }
 
-  FusionByGene: evidences(
+  fusionByGene: evidences(
     ensemblIds: [$ensgId]
     enableIndirect: true
     size: 0
@@ -35,7 +35,7 @@ fragment somaticMutationSummary on Disease {
     count
   }
 
-  Fusion: evidences(
+  fusion: evidences(
     ensemblIds: [$ensgId]
     enableIndirect: true
     size: 0

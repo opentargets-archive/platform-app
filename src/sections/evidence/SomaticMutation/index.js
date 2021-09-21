@@ -3,9 +3,9 @@ export const definition = {
   name: 'Somatic Mutation',
   shortName: 'SM',
   hasData: ( somaticMutationSummary ) => {
-    const {SnvByGene, SnvByVariant, CnvByGene, FusionByGene, Fusion} = somaticMutationSummary;
-    const hasCount = SnvByGene.count > 0 || SnvByVariant.count > 0 || CnvByGene.count > 0 || FusionByGene.count > 0 || Fusion.count > 0
-
+    const {snvByGene, snvByVariant, cnvByGene, fusionByGene, fusion} = somaticMutationSummary;
+    const hasCount = snvByGene.count > 0 || snvByVariant.count > 0 || cnvByGene.count > 0 
+                      || fusionByGene.count > 0 || fusion.count > 0
     return hasCount
   
   },
