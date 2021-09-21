@@ -52,12 +52,13 @@ function Header({ loading, efoId, name, dbXRefs = [] }) {
         <>
           <ExternalLink title="EFO" id={efoId} url={efoUrl} />
           {Object.keys(xrefs).map(xref => {
+            const { label, urlStem, ids } = xrefs[xref];
             return (
               <XRefLinks
                 key={xref}
-                label={xrefs[xref].label}
-                urlStem={xrefs[xref].urlStem}
-                ids={Array.from(xrefs[xref].ids)}
+                label={label}
+                urlStem={urlStem}
+                ids={Array.from(ids)}
               />
             );
           })}
