@@ -38,28 +38,28 @@ function Body({ definition, id, label }) {
        renderBody={(data) => {
        const {SnvByGene, SnvByVariant, CnvByGene, FusionByGene, Fusion} = data;
         return (
-                 <>
+          <>
             <Tabs value={tab} onChange={handleChangeTab} style={{ marginBottom: '2rem' }}>
-              <Tab value="snvByGene" label="SNV By Gene"></Tab>
-              <Tab value="snvByVariant" label="SNV By Variant"></Tab>
-              <Tab value="cnvByGene" label="CNV By Gene"></Tab>
-              <Tab value="fusionByGene" label="Fusion By Gene"></Tab>
-              <Tab value="fusion" label="Fusion"></Tab>
+              <Tab value="snvByGene" label="SNV By Gene" disabled={SnvByGene.evidences.count === 0}></Tab>
+              <Tab value="snvByVariant" label="SNV By Variant" disabled={SnvByVariant.evidences.count === 0}></Tab>
+              <Tab value="cnvByGene" label="CNV By Gene" disabled={CnvByGene.evidences.count === 0}></Tab>
+              <Tab value="fusionByGene" label="Fusion By Gene" disabled={FusionByGene.evidences.count === 0}></Tab>
+              <Tab value="fusion" label="Fusion" disabled={Fusion.evidences.count === 0}></Tab>
             </Tabs>
             {/* table 1: SNV by Gene */}
-            { tab === "snvByGene" && <SnvByGeneTab data={SnvByGene.evidences.rows} ids={id} labels={label}  /> }
+            { tab === "snvByGene" && SnvByGene.evidences.count > 0 && <SnvByGeneTab data={SnvByGene.evidences.rows} ids={id} labels={label}  /> }
 
             {/* table 2: SNV by Variant */}
-            { tab === "snvByVariant" && <SnvByVariantTab data={SnvByVariant.evidences.rows} ids={id} labels={label} /> }
+            { tab === "snvByVariant" && SnvByVariant.evidences.count > 0 && <SnvByVariantTab data={SnvByVariant.evidences.rows} ids={id} labels={label} /> }
 
             {/* table 3: CNV by Gene*/}
-            { tab === "cnvByGene" && <CnvByGeneTab data={CnvByGene.evidences.rows} ids={id} labels={label}  /> }
+            { tab === "cnvByGene" && CnvByGene.evidences.count > 0 && <CnvByGeneTab data={CnvByGene.evidences.rows} ids={id} labels={label}  /> }
 
             {/* table 4: Fusion by Gene*/}
-            { tab === "fusionByGene" && <FusionByGeneTab data={FusionByGene.evidences.rows} ids={id} labels={label}  /> }
+            { tab === "fusionByGene" && FusionByGene.evidences.count > 0 && <FusionByGeneTab data={FusionByGene.evidences.rows} ids={id} labels={label}  /> }
 
             {/* table 5: Fusion */}
-            { tab === "fusion" && <FusionTab data={Fusion.evidences.rows} ids={id} labels={label}  /> }
+            { tab === "fusion" && Fusion.evidences.count > 0 && <FusionTab data={Fusion.evidences.rows} ids={id} labels={label}  /> }
 
           </>
         );
