@@ -24,7 +24,11 @@ function processXRefs(dbXRefs) {
 
     if (xrefsToDisplay[source]) {
       if (xrefs[source]) {
-        xrefs[source].ids.add(id);
+        // Only show at most 3 ids. Future work will implement 'show more' functionality
+        // to display all ids
+        if (xrefs[source].ids.size < 3) {
+          xrefs[source].ids.add(id);
+        }
       } else {
         const xrefObject = {
           label: xrefsToDisplay[source].label,
