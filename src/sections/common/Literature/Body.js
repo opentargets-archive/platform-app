@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, lazy } from 'react';
+import React, { useEffect } from 'react';
 import PublicationsList from './PublicationsList';
 import { makeStyles, Box } from '@material-ui/core';
 import Description from './Description';
@@ -12,7 +12,6 @@ import {
 import Entities from './Entities';
 import Category from './Category';
 import CountInfo from './CountInfo';
-const TimeTravelObserver = lazy(() => import('./TimeTravelObserver'));
 
 const useStyles = makeStyles(() => ({
   controlsContainer: {
@@ -68,11 +67,6 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
       <Box className={classes.controlsContainer}>
         <Category />
         <CountInfo />
-        <Suspense fallback={<div>Loading debug tool...</div>}>
-          {process.env.NODE_ENV === 'development' ? (
-            <TimeTravelObserver />
-          ) : null}
-        </Suspense>
       </Box>
       <Entities id={id} name={name} />
       <PublicationsList hideSearch handleRowsPerPageChange={() => {}} />
