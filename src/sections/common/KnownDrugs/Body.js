@@ -204,7 +204,7 @@ function Body({
 
   const getWholeDataset = useCursorBatchDownloader(
     BODY_QUERY,
-    (variables = { ...variables, freeTextQuery: globalFilter }),
+    { ...variables, freeTextQuery: globalFilter },
     `data[${entity}].knownDrugs`
   );
 
