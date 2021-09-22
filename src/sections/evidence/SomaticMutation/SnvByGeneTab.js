@@ -30,8 +30,10 @@ const columns = [
   { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true },
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer geneD', sortable: true},
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true},
-  { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot URL', renderCell: ({PedcBio_PedOT_oncoprint_plot_URL}) => <Link external to={PedcBio_PedOT_oncoprint_plot_URL}> oncoprint </Link>},
-  { id: 'pedcbioPedotMutationsPlotURL', label: 'PedcBio PedOT mutations plot URL', renderCell: ({PedcBio_PedOT_mutations_plot_URL}) => <Link external to={PedcBio_PedOT_mutations_plot_URL}> mutations </Link>},
+  { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot URL', 
+    renderCell: ({pedcbioPedotOncoprintPlotURL}) => <Link external to={pedcbioPedotOncoprintPlotURL}> oncoprint </Link> },
+  { id: 'pedcbioPedotMutationsPlotURL', label: 'PedcBio PedOT mutations plot URL', 
+    renderCell: ({pedcbioPedotMutationsPlotURL}) => <Link external to={pedcbioPedotMutationsPlotURL}> mutations </Link> },
 ]
 
 const dataDownloaderColumns = [
