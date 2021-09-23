@@ -25,7 +25,7 @@ function getDownloadRows(downloadData) {
       designation: mapping.FDA_Designation,
       fdaClass: mapping.FDA_Class,
       fdaTarget: mapping.FDA_Target,
-      reformatMethod: mapping.Mapping_Description,
+      mappingDescription: mapping.Mapping_Description,
     });
   });
   return rows;
@@ -40,7 +40,7 @@ function getRows(downloadData) {
       designation: mapping.FDA_Designation,
       fdaClass: mapping.FDA_Class,
       fdaTarget: mapping.FDA_Target,
-      reformatMethod: mapping.Mapping_Description,
+      mappingDescription: mapping.Mapping_Description,
     });
   });
   return rows;
@@ -73,8 +73,8 @@ function getColumns(
   fdaClassFilterHandler,
   fdaTargetOption,
   fdaTargetFilterHandler,
-  reformatMethodOption,
-  reformatMethodFilterHandler
+  mappingDescriptionOption,
+  mappingDescriptionFilterHandler
 ) {
   const columns = [
     {
@@ -166,21 +166,21 @@ function getColumns(
       label: 'Mapping Description',
       renderFilter: () => (
         <Autocomplete
-          options={reformatMethodOption}
+          options={mappingDescriptionOption}
           getOptionLabel={option => option.label}
           getOptionSelected={option => option.value}
-          onChange={reformatMethodFilterHandler}
+          onChange={mappingDescriptionFilterHandler}
           renderInput={params => (
             <TextField {...params} label="Select..." margin="normal" />
           )}
         />
       ),
-      comparator: (a, b) => genericComparator(a, b, 'reformatMethod'),
+      comparator: (a, b) => genericComparator(a, b, 'mappingDescription'),
       tooltip: {
         badgeContent: () => (
           <Lk
-            href="/fda-pmtl-docs#reformat-methods"
-            title="Reformat Method column description"
+            href="/fda-pmtl-docs#mapping-description"
+            title="Explanation of 'Mapping Description' column"
           >
             <FontAwesomeIcon icon={faInfoCircle} size="sm" />
           </Lk>
@@ -197,7 +197,7 @@ const downloadColumns = [
   { id: 'designation', label: 'FDA_Designation' },
   { id: 'fdaClass', label: 'FDA_Class' },
   { id: 'fdaTarget', label: 'FDA_Target' },
-  { id: 'reformatMethod', label: 'Reformat_Method' },
+  { id: 'mappingDescription', label: 'Reformat_Method' },
 ];
 
 const getTargetSymbolOptions = rows => {
@@ -229,9 +229,9 @@ const getFdaTargetOptions = rows => {
 };
 
 const getReformatMethodOptions = rows => {
-  return _.uniqBy(rows, 'reformatMethod').map(row => ({
-    label: row.reformatMethod,
-    value: row.reformatMethod,
+  return _.uniqBy(rows, 'mappingDescription').map(row => ({
+    label: row.mappingDescription,
+    value: row.mappingDescription,
   }));
 };
 
@@ -267,8 +267,8 @@ class PMTLPage extends Component {
     this.columnFilterHandler(e, selection, this.rmtlXf, this.fdaTargetDim);
   };
 
-  reformatMethodFilterHandler = (e, selection) => {
-    this.columnFilterHandler(e, selection, this.rmtlXf, this.reformatMethodDim);
+  mappingDescriptionFilterHandler = (e, selection) => {
+    this.columnFilterHandler(e, selection, this.rmtlXf, this.mappingDescriptionDim);
   };
 
   componentDidMount() {
@@ -278,7 +278,7 @@ class PMTLPage extends Component {
 
     this.fdaClassDim = this.rmtlXf.dimension(row => row.fdaClass);
     this.fdaTargetDim = this.rmtlXf.dimension(row => row.fdaTarget);
-    this.reformatMethodDim = this.rmtlXf.dimension(row => row.reformatMethod);
+    this.mappingDescriptionDim = this.rmtlXf.dimension(row => row.mappingDescription);
   }
 
   handleRowsPerPageChange = newPageSize => {
@@ -298,7 +298,7 @@ class PMTLPage extends Component {
 
     const fdaClassOptions = getFdaClassOptions(rows);
     const fdaTargetOptions = getFdaTargetOptions(rows);
-    const reformatMethodOptions = getReformatMethodOptions(rows);
+    const mappingDescriptionOptions = getReformatMethodOptions(rows);
 
     const columns = getColumns(
       targetSymbolOptions,
@@ -309,8 +309,8 @@ class PMTLPage extends Component {
       this.fdaClassFilterHandler,
       fdaTargetOptions,
       this.fdaTargetFilterHandler,
-      reformatMethodOptions,
-      this.reformatMethodFilterHandler
+      mappingDescriptionOptions,
+      this.mappingDescriptionFilterHandler
     );
     const rowsPerPageOptions = [10, 25, 50];
     const FDA_PMTL_DocumentationUrl = '/fda-pmtl-docs';

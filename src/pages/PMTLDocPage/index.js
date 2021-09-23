@@ -80,7 +80,7 @@ function PMTLDocPage() {
     ],
   };
 
-  const reformatMethods = {
+  const mappingDescription = {
     tableHeader: [
       'Mapping Description',
       'Example FDA Target',
@@ -409,7 +409,7 @@ function PMTLDocPage() {
           </Grid>
           <br />
 
-          <Grid item xs={12} id="reformat-methods">
+          <Grid item xs={12} id="mapping-description">
             <Typography variant="h4">FDA PMTL Mapping Description</Typography>
           </Grid>
 
@@ -426,7 +426,7 @@ function PMTLDocPage() {
           </Grid>
           <Grid item xs={12}>
             <Paper variant="outlined" elevation={0}>
-              {displayTable(reformatMethods)}
+              {displayTable(mappingDescription)}
             </Paper>
           </Grid>
         </Grid>
