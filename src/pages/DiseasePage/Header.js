@@ -2,8 +2,7 @@ import React from 'react';
 import { faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
 import HeaderBase from '../../components/Header';
-import { ExternalLink } from '../../components/ExternalLink';
-import { XRefLinks } from '../../components/ExternalLink';
+import { ExternalLink, XRefLinks } from '../../components/ExternalLink';
 
 const xrefsToDisplay = {
   mondo: { label: 'MONDO', urlStem: 'http://purl.obolibrary.org/obo/MONDO_' },
