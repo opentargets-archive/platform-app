@@ -82,7 +82,7 @@ function getColumns(classes) {
         return (
           <TableDrawer
             message="n biosystems"
-            caption="Biosamples"
+            caption="Biosystems"
             entries={entries}
           />
         );
