@@ -54,7 +54,7 @@ function getColumns(classes) {
     },
     {
       id: 'biosample',
-      label: 'Biosamples',
+      label: 'Biosystems',
       filterValue: ({ biosample }) => {
         if (biosample.length === 1) {
           const sample = biosample[0];
@@ -81,9 +81,7 @@ function getColumns(classes) {
 
         return (
           <TableDrawer
-            message={`${biosample.length} biosample${
-              biosample.length > 1 ? 's' : ''
-            }`}
+            message="n biosystems"
             caption="Biosamples"
             entries={entries}
           />
