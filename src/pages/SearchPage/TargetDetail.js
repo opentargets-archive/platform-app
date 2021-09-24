@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDna } from '@fortawesome/free-solid-svg-icons';
 
 import Link from '../../components/Link';
-import LongText from '../../components/LongText';
-import { getUniprotIds } from '../../utils/global';
+import TargetDescription from '../TargetPage/TargetDescription';
+import { getUniprotIds, clearDescriptionCodes } from '../../utils/global';
 
 const styles = () => ({
   subtitle: {
@@ -25,6 +25,8 @@ const TargetDetail = ({ classes, data }) => {
 
   const uniprotIds = getUniprotIds(proteinIds);
 
+  const targetDescription = clearDescriptionCodes(functionDescriptions);
+
   return (
     <>
       <CardContent>
@@ -35,8 +37,13 @@ const TargetDetail = ({ classes, data }) => {
         <Typography color="primary">
           <FontAwesomeIcon icon={faDna} /> Target
         </Typography>
-        {functionDescriptions.length > 0 ? (
-          <LongText lineLimit={4}>{functionDescriptions[0]}</LongText>
+        {targetDescription.length > 0 ? (
+          <TargetDescription
+            descriptions={targetDescription}
+            targetId={id}
+            showLabel={false}
+            lineLimit={4}
+          />
         ) : null}
         <Typography className={classes.subtitle} variant="subtitle1">
           Biotype

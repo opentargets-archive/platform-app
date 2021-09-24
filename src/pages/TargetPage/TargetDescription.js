@@ -84,7 +84,13 @@ const LongText = ({
 
 const StyledLongText = withStyles(styles)(LongText);
 
-function TargetDescription({ descriptions, loading = false, targetId }) {
+function TargetDescription({
+  descriptions,
+  loading = false,
+  showLabel = true,
+  targetId,
+  lineLimit = 3,
+}) {
   let content;
 
   if (!descriptions || descriptions.length < 1) {
@@ -93,7 +99,7 @@ function TargetDescription({ descriptions, loading = false, targetId }) {
     content = (
       <>
         <StyledLongText
-          lineLimit={3}
+          lineLimit={lineLimit}
           descriptions={descriptions}
           targetId={targetId}
         />
@@ -103,7 +109,7 @@ function TargetDescription({ descriptions, loading = false, targetId }) {
 
   return (
     <>
-      <Typography variant="subtitle2">Description</Typography>
+      {showLabel && <Typography variant="subtitle2">Description</Typography>}
       {loading ? <Skeleton /> : content}
     </>
   );
