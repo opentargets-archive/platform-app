@@ -89,11 +89,14 @@ const columns = [
   {
     id: 'goTerm',
     label: 'GO term',
-    renderCell: ({ term }) => (
-      <Link external to={`https://identifiers.org/${term.id}`}>
-        {term.name}
-      </Link>
-    ),
+    renderCell: ({ term }) =>
+      term ? (
+        <Link external to={`https://identifiers.org/${term.id}`}>
+          {term.name}
+        </Link>
+      ) : (
+        'N/A'
+      ),
     exportLabel: 'GO term',
     exportValue: ({ term }) => term.name,
     filterValue: ({ term }) => term.name,
@@ -101,16 +104,19 @@ const columns = [
   {
     id: 'geneProduct',
     label: 'Gene product',
-    renderCell: ({ geneProduct, term }) => (
-      <Link
-        external
-        to={`https://www.ebi.ac.uk/QuickGO/annotations?geneProductId=${geneProduct}&goId=${
-          term.id
-        }`}
-      >
-        {geneProduct}
-      </Link>
-    ),
+    renderCell: ({ geneProduct, term }) =>
+      term ? (
+        <Link
+          external
+          to={`https://www.ebi.ac.uk/QuickGO/annotations?geneProductId=${geneProduct}&goId=${
+            term.id
+          }`}
+        >
+          {geneProduct}
+        </Link>
+      ) : (
+        geneProduct
+      ),
     exportLabel: 'GO term',
     exportValue: ({ term }) => term.name,
   },

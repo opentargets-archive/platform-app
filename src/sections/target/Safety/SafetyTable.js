@@ -81,7 +81,7 @@ function getColumns(classes) {
 
         return (
           <TableDrawer
-            message="n biosystems"
+            message={`${entries.length} biosystems`}
             caption="Biosystems"
             entries={entries}
           />
