@@ -91,9 +91,11 @@ const NavBar = ({
       elevation={0}
     >
       <Toolbar variant="dense">
-        <Button component={ReactRouterLink} to="/" color="inherit">
-          <OpenTargetsTitle name={name} />
-        </Button>
+        {homepage ? null : (
+          <Button component={ReactRouterLink} to="/" color="inherit">
+            <OpenTargetsTitle name={name} />
+          </Button>
+        )}
         <div className={classes.flex} />
         {search ? search : null}
 
