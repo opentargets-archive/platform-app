@@ -176,12 +176,12 @@ function PMTLDocPage() {
   }
 
   return (
-    <BasePage title="RMLT Document Page">
+    <BasePage title="PMLT Document">
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography variant="h4">
-              US Food & Drug Administration Relevant Molecular Target List (FDA
+              US Food & Drug Administration Pediatric Molecular Target Lists (FDA
               PMTL)
             </Typography>
           </Grid>
