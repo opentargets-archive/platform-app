@@ -28,13 +28,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const refMap = {
-  Toxcast:
-    'https://www.epa.gov/chemical-research/exploring-toxcast-data-downloadable-data',
-  HeCaToS: 'https://cordis.europa.eu/project/id/602156/reporting',
-  'Urban et al. (2012)': 'https://doi.org/10.1002/9781118098141.ch2',
-};
-
 function EffectTooltipContent({ classes, effect }) {
   return (
     <>
@@ -181,8 +174,11 @@ function getColumns(classes) {
           );
         }
 
-        return refMap[datasource] ? (
-          <Link external to={refMap[datasource]}>
+        return datasource === 'ToxCast' ? (
+          <Link
+            external
+            to="https://www.epa.gov/chemical-research/exploring-toxcast-data-downloadable-data"
+          >
             {datasource}
           </Link>
         ) : (
