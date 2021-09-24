@@ -8,7 +8,7 @@ export const definition = {
     const { paralogueCount, orthologueCount } = countHomologues(
       data.homologues
     );
-    return paralogueCount > 0 && orthologueCount > 0;
+    return paralogueCount > 0 || orthologueCount > 0;
   },
 };
 
