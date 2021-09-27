@@ -65,19 +65,21 @@ function getColumns(classes) {
         return 'biosamples';
       },
       renderCell: ({ biosample }) => {
-        const entries = biosample.map(sample => {
-          return {
-            name: sample.cellFormat
-              ? `${sample.cellFormat}${
-                  sample.cellLabel ? ` (${sample.cellLabel})` : ''
-                }`
-              : sample.tissueLabel,
-            url: sample.cellFormat
-              ? null
-              : `https://identifiers.org/${sample.tissueId.replace('_', ':')}`,
-            group: sample.cellFormat ? 'Assay' : 'Organ system',
-          };
-        });
+        const entries = biosample.map(
+          ({ cellFormat, cellLabel, tissueLabel, tissueId }) => {
+            return {
+              name: cellFormat
+                ? `${cellFormat}${cellLabel ? ` (${cellLabel})` : ''}`
+                : tissueLabel,
+              url: cellFormat
+                ? null
+                : tissueId
+                ? `https://identifiers.org/${tissueId.replace('_', ':')}`
+                : null,
+              group: cellFormat ? 'Assay' : 'Organ system',
+            };
+          }
+        );
 
         return (
           <TableDrawer
