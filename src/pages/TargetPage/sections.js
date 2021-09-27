@@ -10,7 +10,6 @@ import * as MousePhenotypes from '../../sections/target/MousePhenotypes';
 import * as Pathways from '../../sections/target/Pathways';
 import * as ProtVista from '../../sections/target/ProtVista';
 import * as Safety from '../../sections/target/Safety';
-import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
 import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 import * as SubcellularLocation from '../../sections/target/SubcellularLocation';
@@ -20,7 +19,6 @@ const sections = [
   KnownDrugs,
   Tractability,
   Safety,
-  Tep,
   ChemicalProbes,
   BaselineExpression,
   GeneOntology,
