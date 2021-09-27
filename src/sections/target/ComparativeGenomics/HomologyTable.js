@@ -108,7 +108,7 @@ function getColumns(classes) {
       label: 'Homologue',
       renderCell: ({ targetGeneId, targetGeneSymbol }) => (
         <Link external to={identifiersOrgLink('ensembl', targetGeneId)}>
-          {targetGeneSymbol}
+          {targetGeneSymbol || targetGeneId}
         </Link>
       ),
     },
