@@ -238,14 +238,15 @@ function Body({ definition, id, label }) {
       renderBody={({ disease, target: { hallmarks } }) => {
         const { rows } = disease.evidences;
 
-        const roleInCancerItems = hallmarks
-          ? hallmarks.attributes
-              .filter(attribute => attribute.name === 'role in cancer')
-              .map(attribute => ({
-                label: attribute.description,
-                url: epmcUrl(attribute.pmid),
-              }))
-          : [{ label: 'Unknown' }];
+        const roleInCancerItems =
+          hallmarks && hallmarks.attributes.length > 0
+            ? hallmarks.attributes
+                .filter(attribute => attribute.name === 'role in cancer')
+                .map(attribute => ({
+                  label: attribute.description,
+                  url: epmcUrl(attribute.pmid),
+                }))
+            : [{ label: 'Unknown' }];
         return (
           <>
             <Box className={classes.roleInCancerBox}>
