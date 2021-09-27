@@ -15,6 +15,8 @@ import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
 import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
+import * as SomaticMutation from '../../sections/target/SomaticMutation'
+
 const sections = [
   KnownDrugs,
   Tractability,
@@ -30,6 +32,6 @@ const sections = [
   CancerHallmarks,
   MousePhenotypes,
   ComparativeGenomics,
-  Bibliography,
+  SomaticMutation
 ];
 export default sections;
