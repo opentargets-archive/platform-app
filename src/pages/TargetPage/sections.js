@@ -32,6 +32,7 @@ const sections = [
   CancerHallmarks,
   MousePhenotypes,
   ComparativeGenomics,
-  SomaticMutation
+  Bibliography,
+  SomaticMutation,
 ];
 export default sections;
