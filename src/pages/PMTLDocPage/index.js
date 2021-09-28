@@ -176,7 +176,7 @@ function PMTLDocPage() {
   }
 
   return (
-    <BasePage title="PMLT Document">
+    <BasePage title="PMTL Document">
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>

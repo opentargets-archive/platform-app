@@ -318,7 +318,7 @@ class PMTLPage extends Component {
       'https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target';
 
     return (
-      <BasePage title="PMLT">
+      <BasePage title="PMTL">
         <Typography variant="h4" component="h1" paragraph>
           US Food & Drug Administration Pediatric Molecular Target Lists (FDA
           PMTL)
