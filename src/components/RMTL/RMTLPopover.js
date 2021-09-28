@@ -9,29 +9,29 @@ import NonRelevantIcon from './NonRelevantIcon';
 import UnspecifiedIcon from './UnspecifiedIcon';
 
 function RMTLHelper(fdaDesignationValue) {
-  let rmtlObj = {
+  let pmtlObj = {
     fdaDesignation: 'Unspecified Target',
     icon: <UnspecifiedIcon />,
     defaultTab: 'UnspecifyTarget',
   };
 
   if (fdaDesignationValue === 'Relevant Molecular Target') {
-    rmtlObj = {
+    pmtlObj = {
       fdaDesignation: 'Relevant Molecular Target',
       icon: <RelevantIcon />,
       defaultTab: 'RMT',
     };
   } else if (fdaDesignationValue === 'Non-Relevant Molecular Target') {
-    rmtlObj = {
+    pmtlObj = {
       fdaDesignation: 'Non-Relevant Molecular Target',
       icon: <NonRelevantIcon />,
       defaultTab: 'NonRMT',
     };
   }
 
-  return rmtlObj;
+  return pmtlObj;
 }
-function RMTLPopOver({ otherStyle, rmtl }) {
+function RMTLPopOver({ otherStyle, pmtl }) {
   const useStyles = makeStyles(theme => ({
     rmtlHeaderText: {
       display: 'inline',
@@ -70,10 +70,10 @@ function RMTLPopOver({ otherStyle, rmtl }) {
 
   const classes = useStyles();
 
-  const fdaDesignation = rmtl; // rmtlObj content will update depending if a Target is RMT, NonRMT or UnspecifyTarget
-  const rmtlObj = RMTLHelper(fdaDesignation);
+  const fdaDesignation = pmtl; // pmtlObj content will update depending if a Target is RMT, NonRMT or UnspecifyTarget
+  const pmtlObj = RMTLHelper(fdaDesignation);
 
-  const defaultTab = rmtlObj.defaultTab;
+  const defaultTab = pmtlObj.defaultTab;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [tab, setTab] = useState(defaultTab);
@@ -81,7 +81,7 @@ function RMTLPopOver({ otherStyle, rmtl }) {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const RMTLlandingPageUrl = '/fda-rmtl';
+  const PMTLlandingPageUrl = '/fda-pmtl';
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -96,11 +96,11 @@ function RMTLPopOver({ otherStyle, rmtl }) {
   return (
     <div className={classes.RMTLContainer} style={{ display: 'inline' }}>
       <div onClick={handleClick} className={classes.rmtlHeaderText}>
-        <span>FDA RMTL: </span>
+        <span>FDA PMTL: </span>
         <span className={classes.fdaDesignation}>
-          <b>{rmtlObj.fdaDesignation}</b>
+          <b>{pmtlObj.fdaDesignation}</b>
         </span>
-        <div className={classes.iconContainer}> {rmtlObj.icon} </div>
+        <div className={classes.iconContainer}> {pmtlObj.icon} </div>
       </div>
 
       <Popover
@@ -135,8 +135,8 @@ function RMTLPopOver({ otherStyle, rmtl }) {
               <Tab value="UnspecifyTarget" icon={<UnspecifiedIcon />} />
               <div className={classes.toLandingPageLinkBox}>
                 <span className={classes.toLandingPageLink}>
-                  Search the RMTL within Open Targets{' '}
-                  <Link to={RMTLlandingPageUrl}>here</Link>
+                  Search the PMTL within Open Targets{' '}
+                  <Link to={PMTLlandingPageUrl}>here</Link>
                 </span>
               </div>
             </Tabs>

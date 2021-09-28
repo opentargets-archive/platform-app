@@ -5,56 +5,52 @@ import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
 import RelevantIcon from '../../../components/RMTL/RelevantIcon';
+import { genericComparator } from '../../../utils/comparators'
 
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'Disease', label: 'Disease', 
-    renderCell: ({ EFO, Disease }) => 
-      <Link to={`/disease/${EFO}`}>{Disease}</Link>},
-  {
-    id: 'Gene_Symbol', label: 'Targets',
-    renderCell: ({ Gene_Symbol, Gene_Ensembl_ID }) => 
-        <Link to={`/target/${Gene_Ensembl_ID}`}>{Gene_Symbol}</Link>
+  { id: 'geneSymbol', label: 'Gene symbol', sortable: true,
+      renderCell: ({ geneSymbol, targetFromSourceId }) => 
+        <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
-  {id: 'FusionName', label: 'Fusion Name'},
-  {id: 'Fusion_Type', label: 'Fusion Type'},
-  {id: 'Kinase_domain_retained_Gene1A', label: 'Kinase domain retained Gene1A'},
-  {id: 'Kinase_domain_retained_Gene1B', label: 'Kinase domain retained Gene1B'},
-  {id: 'reciprocal_exists', label: 'Reciprocal exists'},
-  {id: 'annots', label: 'Annots'},
-  {id: 'BreakpointLocation', label: 'Breakpoint location'},
-  {id: 'Gene1A_anno', label: 'Gene1A anno'},
-  {id: 'Gene1B_anno', label: 'Gene1B anno'},
-  {id: 'Gene2A_anno', label: 'Gene2A anno'},
-  {id: 'Gene2B_anno', label: 'Gene2B anno'},
-  {id: 'Fusion_anno', label: 'Fusion anno'},
-  {id: 'Reciprocal_exists_either_gene_kinase', label: 'Reciprocal exists either gene kinase'},
-  {id: 'Gene_Position', label: 'Gene Position'},
-  // {id: 'Gene_Symbol', label: 'Gene Symbol'},
-  {id: 'Alt_ID', label: 'Alt ID'},
-  {id: 'Total_alterations', label: 'Total alterations'},
-  {id: 'Frequency_in_overall_dataset', label: 'Frequency in overall dataset'},
-  {id: 'Total_primary_tumors_mutated', label: 'Total primary tumors mutated'},
-  {id: 'Total_relapse_tumors_mutated', label: 'Total relapse tumors mutated'},
-  {id: 'Primary_tumors_in_dataset', label: 'Primary tumors in dataset'},
-  {id: 'Relapse_tumors_in_dataset', label: 'Relapse tumors in dataset'},
-  {id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset', label: 'Total primary tumors mutated Over Primary tumors in dataset'},
-  {id: 'Total_relapse_tumors_mutated_Over_Relapse_tumors_in_dataset', label: 'Total relapse tumors mutated Over Relapse tumors in dataset'},
-  {id: 'Frequency_in_primary_tumors', label: 'Frequency in primary tumors'},
-  {id: 'Frequency_in_relapse_tumors', label: 'Frequency in relapse tumors'},
-  // {id: 'Disease', label: 'Disease'},
-  {id: 'Dataset', label: 'Dataset'},
-  // {id: 'Gene_Ensembl_ID', label: 'Gene Ensembl ID'},
-  // {id: 'Gene_full_name', label: 'Gene full name'},
-  // {id: 'MONDO', label: 'MONDO'},
-  { id: 'RMTL', label: 'PMTL', renderCell: () => <RelevantIcon/>},
-  // {id: 'EFO', label: 'EFO'},
+  { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true},
+  { id: 'Disease', label: 'Disease', sortable: true,
+      renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
+        <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> },
+  { id: 'RMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>},
+  { id: 'dataset', label: 'Dataset', sortable: true, comparator: (row1, row2) => genericComparator(row1, row2, 'Dataset')},
+  { id: 'totalAlterationsOverNumberPatientsInDataset', label:'Total alterations Over Patients in dataset', sortable: true},
+  { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable: true},
+  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable: true},
+  { id: 'frequencyInPrimaryTumors', label: 'Frequency in primary tumors', sortable: true},
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated Over Relapse tumors in dataset', sortable: true},
+  { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true},
+
+  // { id: 'MONDO', label: 'MONDO', sortable: true},
+  // { id: 'EFO', label: 'EFO', sortable: true},
 ]
+const dataDownloaderColumns = [
+  { id: 'geneSymbol' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'Disease'},
+  { id: 'RMTL' },
+  { id: 'dataset' },
+  { id: 'totalAlterationsOverNumberPatientsInDataset' },
+  { id: 'frequencyInOverallDataset' },
+  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
+  { id: 'frequencyInPrimaryTumors' },
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset' },
+  { id: 'frequencyInRelapseTumors' },
+  { id: 'MONDO' },
+  { id: 'diseaseFromSourceMappedId', label: 'EFO' },
+]
+
 function FusionByGeneTab({data}) {
   return (
     <Grid container>
       <Grid item xs={12}>
         <DataTable
+          dataDownloaderColumns={dataDownloaderColumns}
           columns={columns}
           rows={data}
           dataDownloader

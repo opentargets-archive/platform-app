@@ -27,7 +27,7 @@ const EVIDENCE_PROFILE_QUERY = gql`
       }
       symbolSynonyms
       nameSynonyms
-      rmtl_fda_designation
+      pmtl_fda_designation
     }
     disease(efoId: $efoId) {
       id

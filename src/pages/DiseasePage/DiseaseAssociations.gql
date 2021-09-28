@@ -20,7 +20,7 @@ query DiseaseAssociationsQuery(
           id
           approvedSymbol
           approvedName
-          rmtl_fda_designation
+          pmtl_fda_designation
         }
         score
         datatypeScores {

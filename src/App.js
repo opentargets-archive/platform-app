@@ -14,9 +14,9 @@ import DrugPage from './pages/DrugPage';
 import TargetPage from './pages/TargetPage';
 import EvidencePage from './pages/EvidencePage';
 import VariantsPage from './pages/VariantsPage';
-import RMTLDocPage from './pages/RMTLDocPage';
+import PMTLDocPage from './pages/PMTLDocPage';
 import NotFoundPage from './pages/NotFoundPage';
-import RMTLPage from './pages/RMTLPage/RMTLPage';
+import PMTLPage from './pages/PMTLPage/PMTLPage';
 
 class App extends Component {
   componentDidMount() {
@@ -41,8 +41,8 @@ class App extends Component {
                   component={EvidencePage}
                 />
                 <Route path="/variants" component={VariantsPage} />
-                <Route path="/rmtl" component={RMTLDocPage} />
-                <Route path="/fda-rmtl" component={RMTLPage} />
+                <Route path="/fda-pmtl" component={PMTLPage} />
+                <Route path="/fda-pmtl-docs" component={PMTLDocPage} />
                 <Route component={NotFoundPage} />
               </Switch>
             </Router>

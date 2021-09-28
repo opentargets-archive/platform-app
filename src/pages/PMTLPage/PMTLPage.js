@@ -11,7 +11,7 @@ import RMTLTable from '../../components/RMTLTable';
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
-import RMTLData from './RMTL.json';
+import PMTLData from './PMTL.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link as Lk } from '@material-ui/core';
@@ -25,7 +25,7 @@ function getDownloadRows(downloadData) {
       designation: mapping.FDA_Designation,
       fdaClass: mapping.FDA_Class,
       fdaTarget: mapping.FDA_Target,
-      reformatMethod: mapping.Reformat_Method,
+      mappingDescription: mapping.Mapping_Description,
     });
   });
   return rows;
@@ -40,7 +40,7 @@ function getRows(downloadData) {
       designation: mapping.FDA_Designation,
       fdaClass: mapping.FDA_Class,
       fdaTarget: mapping.FDA_Target,
-      reformatMethod: mapping.Reformat_Method,
+      mappingDescription: mapping.Mapping_Description,
     });
   });
   return rows;
@@ -73,8 +73,8 @@ function getColumns(
   fdaClassFilterHandler,
   fdaTargetOption,
   fdaTargetFilterHandler,
-  reformatMethodOption,
-  reformatMethodFilterHandler
+  mappingDescriptionOption,
+  mappingDescriptionFilterHandler
 ) {
   const columns = [
     {
@@ -83,11 +83,9 @@ function getColumns(
       renderCell: row => {
         const ensemblID = row.ensemblID;
         const url = '/target/' + ensemblID;
-        return (
-          <Link to={url} external>
-            {row.targetSymbol}
-          </Link>
-        );
+        return ensemblID !== "Symbol_Not_Found" ? 
+        ( <Link to={url} external>{row.targetSymbol}</Link>):
+         (<p> {row.targetSymbol} </p>)
       },
       renderFilter: () => (
         <Autocomplete
@@ -164,25 +162,25 @@ function getColumns(
     },
 
     {
-      id: 'reformatMethod',
-      label: 'Reformat Method',
+      id: 'mappingDescription',
+      label: 'Mapping Description',
       renderFilter: () => (
         <Autocomplete
-          options={reformatMethodOption}
+          options={mappingDescriptionOption}
           getOptionLabel={option => option.label}
           getOptionSelected={option => option.value}
-          onChange={reformatMethodFilterHandler}
+          onChange={mappingDescriptionFilterHandler}
           renderInput={params => (
             <TextField {...params} label="Select..." margin="normal" />
           )}
         />
       ),
-      comparator: (a, b) => genericComparator(a, b, 'reformatMethod'),
+      comparator: (a, b) => genericComparator(a, b, 'mappingDescription'),
       tooltip: {
         badgeContent: () => (
           <Lk
-            href="/rmtl#reformat-methods"
-            title="Reformat Method column description"
+            href="/fda-pmtl-docs#mapping-description"
+            title="Explanation of 'Mapping Description' column"
           >
             <FontAwesomeIcon icon={faInfoCircle} size="sm" />
           </Lk>
@@ -199,7 +197,7 @@ const downloadColumns = [
   { id: 'designation', label: 'FDA_Designation' },
   { id: 'fdaClass', label: 'FDA_Class' },
   { id: 'fdaTarget', label: 'FDA_Target' },
-  { id: 'reformatMethod', label: 'Reformat_Method' },
+  { id: 'mappingDescription', label: 'Reformat_Method' },
 ];
 
 const getTargetSymbolOptions = rows => {
@@ -231,15 +229,15 @@ const getFdaTargetOptions = rows => {
 };
 
 const getReformatMethodOptions = rows => {
-  return _.uniqBy(rows, 'reformatMethod').map(row => ({
-    label: row.reformatMethod,
-    value: row.reformatMethod,
+  return _.uniqBy(rows, 'mappingDescription').map(row => ({
+    label: row.mappingDescription,
+    value: row.mappingDescription,
   }));
 };
 
-class RMTLPage extends Component {
+class PMTLPage extends Component {
   state = {
-    filteredRows: getRows(RMTLData),
+    filteredRows: getRows(PMTLData),
     pageSize: 25,
   };
   // Generic Function to handle column filtering
@@ -269,18 +267,18 @@ class RMTLPage extends Component {
     this.columnFilterHandler(e, selection, this.rmtlXf, this.fdaTargetDim);
   };
 
-  reformatMethodFilterHandler = (e, selection) => {
-    this.columnFilterHandler(e, selection, this.rmtlXf, this.reformatMethodDim);
+  mappingDescriptionFilterHandler = (e, selection) => {
+    this.columnFilterHandler(e, selection, this.rmtlXf, this.mappingDescriptionDim);
   };
 
   componentDidMount() {
-    this.rmtlXf = crossfilter(getRows(RMTLData));
+    this.rmtlXf = crossfilter(getRows(PMTLData));
     this.targetSymbolDim = this.rmtlXf.dimension(row => row.targetSymbol);
     this.designationDim = this.rmtlXf.dimension(row => row.designation);
 
     this.fdaClassDim = this.rmtlXf.dimension(row => row.fdaClass);
     this.fdaTargetDim = this.rmtlXf.dimension(row => row.fdaTarget);
-    this.reformatMethodDim = this.rmtlXf.dimension(row => row.reformatMethod);
+    this.mappingDescriptionDim = this.rmtlXf.dimension(row => row.mappingDescription);
   }
 
   handleRowsPerPageChange = newPageSize => {
@@ -288,9 +286,9 @@ class RMTLPage extends Component {
   };
 
   render() {
-    const rows = getRows(RMTLData);
+    const rows = getRows(PMTLData);
     // Download Data will be coming from getDownloadRows()
-    const downloadRows = getDownloadRows(RMTLData);
+    const downloadRows = getDownloadRows(PMTLData);
     const { filteredRows, pageSize } = this.state;
 
     const loading = false,
@@ -300,7 +298,7 @@ class RMTLPage extends Component {
 
     const fdaClassOptions = getFdaClassOptions(rows);
     const fdaTargetOptions = getFdaTargetOptions(rows);
-    const reformatMethodOptions = getReformatMethodOptions(rows);
+    const mappingDescriptionOptions = getReformatMethodOptions(rows);
 
     const columns = getColumns(
       targetSymbolOptions,
@@ -311,33 +309,32 @@ class RMTLPage extends Component {
       this.fdaClassFilterHandler,
       fdaTargetOptions,
       this.fdaTargetFilterHandler,
-      reformatMethodOptions,
-      this.reformatMethodFilterHandler
+      mappingDescriptionOptions,
+      this.mappingDescriptionFilterHandler
     );
     const rowsPerPageOptions = [10, 25, 50];
-    const FDA_RMTL_DocumentationUrl = '/rmtl';
+    const FDA_PMTL_DocumentationUrl = '/fda-pmtl-docs';
     const FDA_Publication =
       'https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target';
 
     return (
-      <BasePage>
+      <BasePage title="PMLT">
         <Typography variant="h4" component="h1" paragraph>
-          US Food & Drug Administration Relevant Molecular Target List (FDA
-          RMTL)
+          US Food & Drug Administration Pediatric Molecular Target Lists (FDA
+          PMTL)
         </Typography>
         <br />
+        <Typography paragraph>
+        <Link to={FDA_PMTL_DocumentationUrl}> Version 1.1 </Link>
+        </Typography>
         <hr />
         <br />
         <Typography paragraph>
-          Targets in this list are important for studies of pediatric cancer,
-          and have special legal requirements associated with drug development.
-          See our
-          <Link to={FDA_RMTL_DocumentationUrl}> FDA RMTL Documentation </Link>
-          or the official{' '}
-          <Link external to={FDA_Publication}>
-            FDA publication{' '}
-          </Link>
-          for details.
+          Targets in the FDA's Pediatric Molecular Target Lists (PMTL) are important for studies 
+          of pediatric cancer and have special legal requirements associated with drug development. 
+          The table below is a computable interpretation of the target lists published by the FDA. 
+          See our  <Link to={FDA_PMTL_DocumentationUrl}> <b>FDA PMTL Documentation </b></Link> 
+          or the official <Link external to={FDA_Publication}><b>FDA publication{' '}</b> </Link>for details.
         </Typography>
         <Typography paragraph>
           Each target in the list is designated as either a <RelevantIcon />{' '}
@@ -354,8 +351,8 @@ class RMTLPage extends Component {
             {loading || error ? null : (
               <>
                 <Lk
-                  href="/rmtl#colums-description"
-                  title="FDA RMTL Columns Description"
+                  href="/fda-pmtl-docs#colums-description"
+                  title="FDA PMTL Columns Description"
                 >
                   <FontAwesomeIcon icon={faInfoCircle} size="md" /> Columns
                   Description
@@ -363,7 +360,7 @@ class RMTLPage extends Component {
                 <DataDownloader
                   tableHeaders={downloadColumns}
                   rows={downloadRows}
-                  fileStem={`rmtl`}
+                  fileStem={`pmtl`}
                 />
                 <RMTLTable
                   filters
@@ -381,4 +378,4 @@ class RMTLPage extends Component {
     );
   }
 }
-export default RMTLPage;
+export default PMTLPage;

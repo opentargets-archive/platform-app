@@ -8,49 +8,64 @@ import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'Disease', label: 'Disease', 
-    renderCell: ({ EFO, Disease }) => 
-      <Link to={`/disease/${EFO}`}>{Disease}</Link>},
-  {
-    id: 'Gene_Symbol', label: 'Targets',
-    renderCell: ({ Gene_Symbol, Gene_Ensembl_ID }) => 
-        <Link to={`/target/${Gene_Ensembl_ID}`}>{Gene_Symbol}</Link>
+  { id: 'fusionName', label: 'Fusion Name', sortable:true },
+  { id: 'fusionType', label: 'Fusion Type', sortable:true },
+  { id: 'geneSymbol', label: 'Gene symbol', sortable:true,
+    renderCell: ({ Gene_symbol, targetFromSourceId }) => 
+        <Link to={`/target/${targetFromSourceId}`}>{Gene_symbol}</Link>
   },
-  {id: 'FusionName', label: 'Fusion Name'},
-  {id: 'Fusion_Type', label: 'Fusion Type'},
-  {id: 'Kinase_domain_retained_Gene1A', label: 'Kinase domain retained Gene1A'},
-  {id: 'Kinase_domain_retained_Gene1B', label: 'Kinase domain retained Gene1B'},
-  {id: 'reciprocal_exists', label: 'Reciprocal exists'},
-  {id: 'annots', label: 'annots'},
-  {id: 'BreakpointLocation', label: 'Breakpoint location'},
-  {id: 'Gene1A_anno', label: 'Gene1A anno'},
-  {id: 'Gene1B_anno', label: 'Gene1B anno'},
-  {id: 'Gene2A_anno', label: 'Gene2A anno'},
-  {id: 'Gene2B_anno', label: 'Gene2B anno'},
-  {id: 'Fusion_anno', label: 'Fusion anno'},
-  {id: 'Reciprocal_exists_either_gene_kinase', label: 'Reciprocal exists either gene kinase'},
-  {id: 'Gene_Position', label: 'Gene Position'},
-  // {id: 'Gene_Symbol', label: 'Gene_Symbol'},
-  {id: 'Alt_ID', label: 'Alt ID'},
-  {id: 'Total_alterations', label: 'Total alterations'},
-  {id: 'Patients_in_dataset', label: 'Patients in dataset'},
-  {id: 'Total_alterations_Over_Patients_in_dataset', label: 'Total_alterations Over Patients in dataset'},
-  {id: 'Frequency_in_overall_dataset', label: 'Frequency in overall dataset'},
-  {id: 'Total_primary_tumors_mutated', label: 'Total primary tumors mutated'},
-  {id: 'Total_relapse_tumors_mutated', label: 'Total relapse tumors mutated'},
-  {id: 'Primary_tumors_in_dataset', label: 'Primary tumors in dataset'},
-  {id: 'Relapse_tumors_in_dataset', label: 'Relapse tumors in dataset'},
-  {id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset', label: 'Total primary tumors mutated Over Primary tumors in dataset'},
-  {id: 'Total_relapse_tumors_mutated_Over_Relapse_tumors_in_dataset', label: 'Total_relapse tumors mutated Over Relapse tumors in dataset'},
-  {id: 'Frequency_in_primary_tumors', label: 'Frequency in primary tumors'},
-  {id: 'Frequency_in_relapse_tumors', label: 'Frequency in relapse tumors', },
-  // {id: 'Disease', label: 'Disease'},
-  {id: 'Dataset', label: 'Dataset'},
-  // {id: 'Gene_Ensembl_ID', label: 'Gene_Ensembl_ID'},
-  // {id: 'Gene_full_name', label: 'Gene full name'},
-  // {id: 'MONDO', label: 'MONDO'},
-  { id: 'RMTL', label: 'PMTL', renderCell: () => <RelevantIcon/>},
-  // {id: 'EFO', label: 'EFO'},
+  { id: 'genePosition', label: 'Gene Position', sortable:true },
+  { id: 'fusionAnno', label: 'Fusion anno', sortable:true },
+  { id: 'breakpointLocation', label: 'Breakpoint location', sortable:true },
+  { id: 'annots', label: 'annots', sortable:true },
+  { id: 'kinaseDomainRetainedGene1A', label: 'Kinase domain retained Gene1A', sortable:true },
+  { id: 'kinaseDomainRetainedGene1B', label: 'Kinase domain retained Gene1B', sortable:true },
+  { id: 'reciprocalExistsEitherGeneKinase', label: 'Reciprocal exists either gene kinase', sortable:true },
+  { id: 'gene1AAnno', label: 'Gene1A anno', sortable:true },
+  { id: 'gene1BAnno', label: 'Gene1B anno', sortable:true },
+  { id: 'gene2AAnno', label: 'Gene2A anno', sortable:true },
+  { id: 'gene2BAnno', label: 'Gene2B anno', sortable:true },
+  { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable:true },
+  { id: 'Disease', label: 'Disease', sortable:true,
+    renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
+      <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> 
+  },
+  { id: 'RMTL', label: 'PMTL', sortable:true , renderCell: () => <RelevantIcon/>},
+  { id: 'dataset', label: 'Dataset', sortable:true },
+  { id: 'totalAlterationsOverNumberPatientsInDataset', label: 'Total alterations Over Patients in dataset', sortable:true },
+  { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable:true },
+  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable:true },
+  { id: 'frequencyInPrimaryTumors', label: 'Frequency in primary tumors', sortable:true },
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated Over Relapse tumors in dataset', sortable:true },
+  { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable:true },
+]
+const dataDownloaderColumns = [
+  { id: 'fusionName' },
+  { id: 'fusionType' },
+  { id: 'geneSymbol' },
+  { id: 'genePosition' },
+  { id: 'fusionAnno' },
+  { id: 'breakpointLocation' },
+  { id: 'annots' },
+  { id: 'kinaseDomainRetainedGene1A' },
+  { id: 'kinaseDomainRetainedGene1B' },
+  { id: 'reciprocalExistsEitherGeneKinase' },
+  { id: 'gene1AAnno' },
+  { id: 'gene1BAnno' },
+  { id: 'gene2AAnno' },
+  { id: 'gene2BAnno' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'Disease' },
+  { id: 'MONDO' },
+  { id: 'RMTL' },
+  { id: 'diseaseFromSourceMappedId', label: 'EFO' },
+  { id: 'dataset' },
+  { id: 'totalAlterationsOverNumberPatientsInDataset' },
+  { id: 'frequencyInOverallDataset' },
+  { id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset' },
+  { id: 'Frequency_in_primary_tumors' },
+  { id: 'Total_relapse_tumors_mutated_Over_Relapse_tumors_in_dataset' },
+  { id: 'Frequency_in_relapse_tumors' },
 ]
 
 function FusionTab({data}) {
@@ -58,6 +73,7 @@ function FusionTab({data}) {
     <Grid container>
       <Grid item xs={12}>
         <DataTable
+          dataDownloaderColumns={dataDownloaderColumns}
           columns={columns}
           rows={data}
           dataDownloader

@@ -10,7 +10,7 @@ import {
 import HeaderBase from '../../components/Header';
 import RMTLPopover from '../../components/RMTL/RMTLPopover';
 
-function Header({ loading, ensgId, uniprotId, symbol, name, rmtl }) {
+function Header({ loading, ensgId, uniprotId, symbol, name, pmtl }) {
   const ensemblUrl = `http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`;
   const uniprotUrl = `https://www.uniprot.org/uniprot/${uniprotId}`;
   const genecardsUrl = `https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`;
@@ -45,7 +45,7 @@ function Header({ loading, ensgId, uniprotId, symbol, name, rmtl }) {
           View {symbol} in Open Targets Genetics
         </Button>
       }
-      RMTLPopover={<RMTLPopover rmtl={rmtl} />}
+      RMTLPopover={<RMTLPopover pmtl={pmtl} />}
     />
   );
 }

@@ -8,36 +8,61 @@ import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'Disease', label: 'Disease', 
-    renderCell: ({ EFO, Disease }) => 
-      <Link to={`/disease/${EFO}`}>{Disease}</Link>},
   {
-    id: 'Gene_symbol', label: 'Targets',
-    renderCell: ({ Gene_symbol, Gene_Ensembl_ID }) => 
-        <Link to={`/target/${Gene_Ensembl_ID}`}>{Gene_symbol}</Link>
+    id: 'geneSymbol', label: 'Gene symbol', sortable: true,
+    renderCell: ({ geneSymbol, targetFromSourceId }) => 
+        <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
-  { id: 'PMTL', label: 'PMTL', renderCell: () => <RelevantIcon/>},
-  { id: 'Dataset', label: 'Dataset' },
-  // { id: 'EFO', label: 'EFO' },
-  // { id: 'MONDO',label: 'MONDO'},
-  { id: 'Gene_full_name',label: 'Gene full name'},
-  { id: 'Gene_type', label: 'Gene type'},
-  { id: 'Protein_RefSeq_ID', label: 'Protein RefSeq ID' },
-  { id: 'Total_mutations_Over_Patients_in_dataset', label: 'Total mutations Over Patients in dataset'},
-  { id: 'Frequency_in_overall_dataset', label: 'Frequency in overall dataset'},
-  { id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset', label: 'Total primary tumors mutated Over Primary tumors in dataset'},
-  { id: 'Frequency_in_relapse_tumors', label: 'Frequency in relapse tumors'},
-  { id: 'OncoKB_cancer_gene', label: 'OncoKB cancer geneD'},
-  { id: 'OncoKB_oncogene_T', label: 'OncoKB oncogene T'},
-  { id: 'PedcBioPortal', label: 'PedcBioPortal', renderCell: ({PedcBioPortal}) => <Link external to={'https://pedcbioportal.kidsfirstdrc.org/results/oncoprint?cancer_study_list=ped_opentargets_2021&case_set_id=ped_opentargets_2021_pbta_ependymoma&Action=Submit&gene_list=CXCL8'}>{PedcBioPortal}</Link>},
-  { id: 'PedcBioPed', label: 'PedcBioPed', renderCell: ({PedcBioPed}) => <Link external to={'https://pedcbioportal.kidsfirstdrc.org/results/mutations?cancer_study_list=ped_opentargets_2021&case_set_id=ped_opentargets_2021_pbta_ependymoma&Action=Submit&gene_list=CXCL8'}>{PedcBioPed}</Link>},
+  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>},
+  { id: 'dataset', label: 'Dataset', sortable: true },
+  
+  { id: 'Disease', label: 'Disease', sortable: true,
+    renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
+      <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link>},
+  { id: 'geneFullName', label: 'Gene full name', sortable: true },
+  { id: 'geneType', label: 'Gene type', sortable: true },
+  { id: 'proteinRefseqId', label: 'Protein RefSeq ID', sortable: true },
+  { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
+  { id: 'proteinEnsemblId', label: 'Protein Ensembl ID', sortable: true },
+  { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations Over Patients in dataset', sortable: true },
+  { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable: true },
+  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable: true },
+  { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true },
+  { id: 'OncoKBCancerGene', label: 'OncoKB cancer geneD', sortable: true},
+  { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true},
+  { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot URL', 
+    renderCell: ({pedcbioPedotOncoprintPlotURL}) => <Link external to={pedcbioPedotOncoprintPlotURL}> oncoprint </Link> },
+  { id: 'pedcbioPedotMutationsPlotURL', label: 'PedcBio PedOT mutations plot URL', 
+    renderCell: ({pedcbioPedotMutationsPlotURL}) => <Link external to={pedcbioPedotMutationsPlotURL}> mutations </Link> },
 ]
 
+const dataDownloaderColumns = [
+  { id: 'geneSymbol' },
+  { id: 'PMTL' },
+  { id: 'dataset' },
+  { id: 'Disease' },
+  { id: 'diseaseFromSourceMappedId', label:'EFO' },
+  { id: 'MONDO' },
+  { id: 'geneFullName' },
+  { id: 'geneType' },
+  { id: 'proteinRefseqId' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'proteinEnsemblId' },
+  { id: 'totalMutationsOverPatientsInDataset' },
+  { id: 'frequencyInOverallDataset' },
+  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
+  { id: 'frequencyInRelapseTumors' },
+  { id: 'OncoKBCancerGene' },
+  { id: 'OncoKBOncogeneTSG' },
+  { id: 'pedcbioPedotOncoprintPlotURL' },
+  { id: 'pedcbioPedotMutationsPlotURL' },
+]
 function SnvByGeneTab({data}) {
   return (
     <Grid container>
       <Grid item xs={12}>
         <DataTable
+          dataDownloaderColumns={dataDownloaderColumns}
           columns={columns}
           rows={data}
           dataDownloader
