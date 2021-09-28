@@ -71,9 +71,15 @@ function EntitiesToSelect({ id }) {
     setLiteratureUpdate(update);
   };
 
+  const validateEntity = entity => {
+    if (!entity.object) return null;
+    if (id === entity.object?.id) return null;
+    if (selectedChips.find(s => s.object.id === entity.object.id)) return null;
+    return entity;
+  };
+
   return entities.map(e => {
-    return id === e.object.id ||
-      selectedChips.find(s => s.object.id === e.object.id) ? null : (
+    return validateEntity(e) ? (
       <Grow in key={e.object.id}>
         <Chip
           style={{ opacity: loadingEntities ? 0.5 : 1 }}
@@ -88,7 +94,7 @@ function EntitiesToSelect({ id }) {
           variant="outlined"
         />
       </Grow>
-    );
+    ) : null;
   });
 }
 
