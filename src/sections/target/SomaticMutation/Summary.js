@@ -2,16 +2,12 @@ import React from 'react';
 import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
-import { dataTypesMap } from '../../../dataTypes';
 import usePlatformApi from '../../../hooks/usePlatformApi';
-
 
 const SOMATIC_MUTATION_SUMMARY = loader('./SomaticMutationSummary.gql')
 
 function Summary({ definition }) {
-
   const request = usePlatformApi(SOMATIC_MUTATION_SUMMARY);
-
   return (
     <SummaryItem
       definition={definition}
@@ -20,14 +16,12 @@ function Summary({ definition }) {
         const hasData = definition.hasData(data);
         return  hasData ? 'Available' : 'no data';
       }}
-      subText={dataTypesMap.somatic_mutation}
     />
   );
 }
 
 Summary.fragments = {
-  somaticMutationSummaryT: SOMATIC_MUTATION_SUMMARY,
+  targetSomaticMutationSummary: SOMATIC_MUTATION_SUMMARY,
 };
-
 
 export default Summary;
