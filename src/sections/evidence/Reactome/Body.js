@@ -138,7 +138,7 @@ const columns = [
     label: 'Literature',
     renderCell: ({ literature = [] }) => {
       const literatureList = [];
-      literature.forEach(id => {
+      literature?.forEach(id => {
         if (id !== 'NA') {
           literatureList.push({
             name: id,
