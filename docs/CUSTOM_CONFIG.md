@@ -9,8 +9,8 @@ Here we will look at the various options and how to configure them.
 
 ## Front end and back end
 
-The front end code allows for a number of options to be configured in `config.js` where default values are also defined.
-These can be overwritten via environmental variables defined by the backend. **TODO** More details will be available soon.
+The front end code has a number of options configured in `config.js`: here default values are defined.
+Defaults can be overwritten via environmental variables - in Open Targets this is implemeneted by the back end team.
 
 ## Options
 
