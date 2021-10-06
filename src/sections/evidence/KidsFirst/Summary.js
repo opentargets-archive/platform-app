@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
 import { getGeneDiseaseGtexJSON } from '../../../utils/externalAPI';
+import { dataTypesMap } from '../../../dataTypes';
 
 export async function getData(id, setData, setLoading, setHasData=(_)=>_){
   const { ensgId: ensemblId, efoId } = id;
@@ -40,6 +41,7 @@ function Summary({ definition, id }) {
         const hasData = definition.hasData(data)
         return hasData ? "Available" : "no data"
       }}
+      subText={dataTypesMap.rna_expression}
     />
   );
 }
