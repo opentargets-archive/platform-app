@@ -11,8 +11,8 @@ const columns = [
   { id: 'fusionName', label: 'Fusion Name', sortable:true },
   { id: 'fusionType', label: 'Fusion Type', sortable:true },
   { id: 'geneSymbol', label: 'Gene symbol', sortable:true,
-    renderCell: ({ Gene_symbol, targetFromSourceId }) => 
-        <Link to={`/target/${targetFromSourceId}`}>{Gene_symbol}</Link>
+    renderCell: ({ geneSymbol, targetFromSourceId }) => 
+        <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
   { id: 'genePosition', label: 'Gene Position', sortable:true },
   { id: 'fusionAnno', label: 'Fusion anno', sortable:true },
@@ -62,10 +62,10 @@ const dataDownloaderColumns = [
   { id: 'dataset' },
   { id: 'totalAlterationsOverNumberPatientsInDataset' },
   { id: 'frequencyInOverallDataset' },
-  { id: 'Total_primary_tumors_mutated_Over_Primary_tumors_in_dataset' },
-  { id: 'Frequency_in_primary_tumors' },
-  { id: 'Total_relapse_tumors_mutated_Over_Relapse_tumors_in_dataset' },
-  { id: 'Frequency_in_relapse_tumors' },
+  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
+  { id: 'frequencyInPrimaryTumors' },
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset' },
+  { id: 'frequencyInRelapseTumors' },
 ]
 
 function FusionTab({data}) {

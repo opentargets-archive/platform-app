@@ -1,5 +1,5 @@
 export const definition = {
-  id: 'somaticMutation',
+  id: 'somaticMutationT',
   name: 'Somatic Mutation',
   shortName: 'SM',
   hasData: ( data ) => {
