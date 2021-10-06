@@ -22,7 +22,7 @@ function Summary({ definition, id }) {
   const { ensgId: ensemblId, efoId } = id;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [error, setError] = useState(false);
+  const [error] = useState(false);
 
 
  useEffect(()=>{
