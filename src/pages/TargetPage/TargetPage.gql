@@ -3,8 +3,13 @@ query TargetPageQuery($ensgId: String!) {
     id
     approvedSymbol
     approvedName
-    proteinAnnotations {
+    proteinIds{
       id
+      source
+    }
+    dbXrefs{
+      id
+      source
     }
   }
 }

@@ -9,11 +9,17 @@ export const fixLabel = id => {
 
   if (label) return label;
 
-  const spacedLabel = id
-    .replace(/_/g, ' ')
-    .replace(/([a-z])([A-Z]+[a-z])/g, '$1 $2');
+  if (id === 'tractabilityProtac') {
+    return 'Tractability PROTAC';
+  }
 
-  return `${spacedLabel.charAt(0).toUpperCase()}${spacedLabel.slice(1)}`;
+  // only do this for ids that start with a lowercase character
+  if (/^[a-z]/.test(id)) {
+    const spacedLabel = id.replace(/([a-z])([A-Z])/g, '$1 $2');
+    return `${spacedLabel[0].toUpperCase()}${spacedLabel.slice(1)}`;
+  }
+
+  return id;
 };
 
 /**

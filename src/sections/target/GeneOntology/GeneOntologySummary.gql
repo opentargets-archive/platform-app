@@ -1,9 +1,14 @@
 fragment GeneOntologySummaryFragment on Target {
-  proteinAnnotations {
-    id
-  }
+  id
+  approvedSymbol
   geneOntology {
-    term
-    id
+    term {
+      id
+      name
+    }
+    aspect
+    evidence
+    geneProduct
+    source
   }
 }

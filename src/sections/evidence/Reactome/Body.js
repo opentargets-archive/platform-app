@@ -126,7 +126,7 @@ const columns = [
           }))}
         />
       ) : variantAminoacidDescriptions?.length === 1 ? (
-        variantAminoacidDescriptions[0]
+        <EllsWrapper>{variantAminoacidDescriptions[0]}</EllsWrapper>
       ) : (
         naLabel
       );
@@ -138,7 +138,7 @@ const columns = [
     label: 'Literature',
     renderCell: ({ literature = [] }) => {
       const literatureList = [];
-      literature.forEach(id => {
+      literature?.forEach(id => {
         if (id !== 'NA') {
           literatureList.push({
             name: id,

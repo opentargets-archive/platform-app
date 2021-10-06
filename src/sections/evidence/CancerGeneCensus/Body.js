@@ -37,28 +37,29 @@ const columns = [
     id: 'mutationType',
     propertyPath: 'mutatedSamples.functionalConsequence',
     label: 'Mutation type',
-    renderCell: ({ mutatedSamples }) =>
-      mutatedSamples ? (
+    renderCell: ({ mutatedSamples }) => {
+      if (!mutatedSamples) return naLabel;
+      const sortedMutatedSamples = mutatedSamples
+        .slice()
+        .sort((a, b) => samplePercent(b) - samplePercent(a));
+      return (
         <List style={{ padding: 0 }}>
-          {mutatedSamples
-            .sort((a, b) => samplePercent(b) - samplePercent(a))
-            .map((mutatedSample, index) => (
-              <ListItem key={index} style={{ padding: '.25rem 0' }}>
-                <Link
-                  external
-                  to={identifiersOrgLink(
-                    'SO',
-                    mutatedSample.functionalConsequence.id.slice(3)
-                  )}
-                >
-                  {sentenceCase(mutatedSample.functionalConsequence.label)}
-                </Link>
-              </ListItem>
-            ))}
+          {sortedMutatedSamples.map((mutatedSample, index) => (
+            <ListItem key={index} style={{ padding: '.25rem 0' }}>
+              <Link
+                external
+                to={identifiersOrgLink(
+                  'SO',
+                  mutatedSample.functionalConsequence.id.slice(3)
+                )}
+              >
+                {sentenceCase(mutatedSample.functionalConsequence.label)}
+              </Link>
+            </ListItem>
+          ))}
         </List>
-      ) : (
-        naLabel
-      ),
+      );
+    },
     filterValue: ({ mutatedSamples }) =>
       (mutatedSamples || [])
         .map(mutatedSample =>
@@ -71,29 +72,28 @@ const columns = [
     propertyPath: 'mutatedSamples.numberSamplesWithMutationType',
     label: 'Mutated / Total samples',
     renderCell: ({ mutatedSamples }) => {
+      if (!mutatedSamples) return naLabel;
+      const sortedMutatedSamples = mutatedSamples
+        .slice()
+        .sort((a, b) => samplePercent(b) - samplePercent(a));
       return (
         <List style={{ padding: 0 }}>
-          {mutatedSamples
-            .sort((a, b) => samplePercent(b) - samplePercent(a))
-            .map((item, i) => {
-              const percent = samplePercent(item);
+          {sortedMutatedSamples.map((item, i) => {
+            const percent = samplePercent(item);
 
-              return (
-                <ListItem key={i} style={{ padding: '.25rem 0' }}>
-                  {percent < 5
-                    ? parseFloat(percent.toFixed(2)).toString()
-                    : Math.round(percent)}
-                  %
-                  <Typography
-                    variant="caption"
-                    style={{ marginLeft: '.33rem' }}
-                  >
-                    ({item.numberSamplesWithMutationType}/
-                    {item.numberSamplesTested})
-                  </Typography>
-                </ListItem>
-              );
-            })}
+            return (
+              <ListItem key={i} style={{ padding: '.25rem 0' }}>
+                {percent < 5
+                  ? parseFloat(percent.toFixed(2)).toString()
+                  : Math.round(percent)}
+                %
+                <Typography variant="caption" style={{ marginLeft: '.33rem' }}>
+                  ({item.numberSamplesWithMutationType}/
+                  {item.numberSamplesTested})
+                </Typography>
+              </ListItem>
+            );
+          })}
         </List>
       );
     },
@@ -157,16 +157,17 @@ function Body({ definition, id, label }) {
         disease: {
           evidences: { rows },
         },
-        target: {
-          hallmarks: { attributes },
-        },
+        target: { hallmarks },
       }) => {
-        const roleInCancerItems = attributes
-          .filter(attribute => attribute.name === 'role in cancer')
-          .map(attribute => ({
-            label: attribute.reference.description,
-            url: epmcUrl(attribute.reference.pubmedId),
-          }));
+        const roleInCancerItems =
+          hallmarks && hallmarks.attributes.length > 0
+            ? hallmarks.attributes
+                .filter(attribute => attribute.name === 'role in cancer')
+                .map(attribute => ({
+                  label: attribute.description,
+                  url: epmcUrl(attribute.pmid),
+                }))
+            : [{ label: 'Unknown' }];
 
         return (
           <>
@@ -174,13 +175,7 @@ function Body({ definition, id, label }) {
               <Typography className={classes.roleInCancerTitle}>
                 <b>{label.symbol}</b> role in cancer:
               </Typography>
-              <ChipList
-                items={
-                  roleInCancerItems.length > 0
-                    ? roleInCancerItems
-                    : [{ label: 'Unknown' }]
-                }
-              />
+              <ChipList items={roleInCancerItems} />
             </Box>
             <DataTable
               columns={columns}

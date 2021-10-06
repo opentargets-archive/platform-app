@@ -46,18 +46,23 @@ const columns = [
     label: 'Human phenotypes',
     renderCell: ({
       diseaseModelAssociatedHumanPhenotypes: humanPhenotypes,
-    }) => (
-      <TableDrawer
-        entries={humanPhenotypes.map(entry => ({
-          name: entry.label,
-          group: 'Human phenotypes',
-        }))}
-        showSingle={false}
-        message={`${humanPhenotypes.length} phenotype${
-          humanPhenotypes.length !== 1 ? 's' : ''
-        }`}
-      />
-    ),
+    }) => {
+      const entries = humanPhenotypes
+        ? humanPhenotypes.map(entry => ({
+            name: entry.label,
+            group: 'Human phenotypes',
+          }))
+        : [];
+      return (
+        <TableDrawer
+          entries={entries}
+          showSingle={false}
+          message={`${humanPhenotypes ? humanPhenotypes.length : 0} phenotype${
+            humanPhenotypes === null || humanPhenotypes.length !== 1 ? 's' : ''
+          }`}
+        />
+      );
+    },
     filterValue: ({ diseaseModelAssociatedHumanPhenotypes = [] }) =>
       diseaseModelAssociatedHumanPhenotypes.map(dmahp => dmahp.label).join(),
   },
@@ -94,14 +99,14 @@ const columns = [
         biologicalModelId ? (
           <Link external to={`https://identifiers.org/${biologicalModelId}`}>
             <MouseModelAllelicComposition
-              allelicComposition={[biologicalModelAllelicComposition]}
-              geneticBackground={[biologicalModelGeneticBackground]}
+              allelicComposition={biologicalModelAllelicComposition}
+              geneticBackground={biologicalModelGeneticBackground}
             />
           </Link>
         ) : (
           <MouseModelAllelicComposition
-            allelicComposition={[biologicalModelAllelicComposition]}
-            geneticBackground={[biologicalModelGeneticBackground]}
+            allelicComposition={biologicalModelAllelicComposition}
+            geneticBackground={biologicalModelGeneticBackground}
           />
         )
       ) : (

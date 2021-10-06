@@ -20,6 +20,7 @@ const config = {
   //   window.configFlagShowOTARProjects ??
   //   process.env.REACT_APP_configFlagShowOTARProjects ??
   //   false,
+  helpdeskEmail: window.configHelpdeskEmail ?? 'helpdesk@opentargets.org',
 
   // Partner preview config options
 

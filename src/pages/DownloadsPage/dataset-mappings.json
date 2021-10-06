@@ -5,7 +5,8 @@
     "nice_name": "Target",
     "description": "Core annotation for targets",
     "order": 1,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "diseases",
@@ -13,7 +14,8 @@
     "nice_name": "Disease/Phenotype",
     "description": "Core annotation for diseases and phenotypes",
     "order": 2,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "molecule",
@@ -21,7 +23,8 @@
     "nice_name": "Drug",
     "description": "Core annotation for drug molecules",
     "order": 3,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "evidence",
@@ -29,7 +32,8 @@
     "nice_name": "Target - Disease evidence",
     "description": "Integrated list of target - disease evidence from all datasources",
     "order": 4,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "associationByOverallDirect",
@@ -37,7 +41,8 @@
     "nice_name": "Associations - direct (overall score)",
     "description": "Overall metrics for direct target-disease associations",
     "order": 5,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "associationByOverallIndirect",
@@ -45,7 +50,8 @@
     "nice_name": "Associations - indirect (overall score)",
     "description": "Overall metrics for indirect target-disease associations",
     "order": 6,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "associationByDatasourceDirect",
@@ -53,7 +59,8 @@
     "nice_name": "Associations - direct (by data source)",
     "description": "Data-source metrics for direct target-disease associations",
     "order": 7,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "associationByDatasourceIndirect",
@@ -61,7 +68,8 @@
     "nice_name": "Associations - indrect (by data source)",
     "description": "Data-source metrics for indirect target-disease associations",
     "order": 8,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "associationByDatatypeDirect",
@@ -69,7 +77,8 @@
     "nice_name": "Associations - direct (by data type)",
     "description": "Data-type metrics for direct target-disease associations",
     "order": 9,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "associationByDatatypeIndirect",
@@ -77,7 +86,8 @@
     "nice_name": "Associations - indrect (by data type)",
     "description": "Data-type metrics for indirect target-disease associations",
     "order": 10,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "interaction",
@@ -85,15 +95,17 @@
     "nice_name": "Target - molecular interactions",
     "description": "Target pair-wise molecular interactions",
     "order": 11,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "interactionEvidence",
     "category": "Target",
-    "nice_name": "Target - molecular interactions",
-    "description": "Supporting evidence for target molecular interaction",
+    "nice_name": "Target - evidence of molecular interactions",
+    "description": "Supporting evidence for target pair-wise molecular interactions",
     "order": 12,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "baselineExpression",
@@ -101,134 +113,187 @@
     "nice_name": "Target - baseline expression",
     "description": "Baseline RNA and protein expression data for targets",
     "order": 13,
-    "include_in_fe": true
+    "include_in_fe": true,
+    "include_in_bq": true
+  },
+  {
+    "id": "go",
+    "category": "Target",
+    "nice_name": "Target - gene ontology",
+    "description": "Gene ontology annotations for targets",
+    "order": 14,
+    "include_in_fe": true,
+    "include_in_bq": true
+  },
+  {
+    "id": "mousePhenotypes",
+    "category": "Target",
+    "nice_name": "Target - mouse phenotypes",
+    "description": "Mouse phenotype data for targets",
+    "order": 15,
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "diseaseToPhenotype",
     "category": "Disease/Phenotype",
     "nice_name": "Disease/Phenotype - clinical signs and symptoms",
     "description": "Clinical signs and symptoms linked to diseases and phenotypes",
-    "order": 14,
-    "include_in_fe": true
+    "order": 16,
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "hpo",
     "category": "Disease/Phenotype",
     "nice_name": "Human Phenotype Ontology",
     "description": "Human Phenotype Ontology subset of information included in the Platform",
-    "order": 15,
-    "include_in_fe": true
+    "order": 17,
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "mechanismOfAction",
     "category": "Drug",
     "nice_name": "Drug - mechanism of action",
     "description": "Mechanisms of action for drug molecules",
-    "order": 16,
-    "include_in_fe": true
+    "order": 18,
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "indication",
     "category": "Drug",
     "nice_name": "Drug - indications",
     "description": "Approved and investigational indications for drug molecules",
-    "order": 17,
-    "include_in_fe": true
+    "order": 19,
+    "include_in_fe": true,
+    "include_in_bq": true
+  },
+  {
+    "id": "significantAdverseDrugReactions",
+    "category": "Drug",
+    "nice_name": "Drug - pharmacovigilance",
+    "description": "Significant adverse events for drug molecules",
+    "order": 20,
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "drugWarnings",
     "category": "Drug",
     "nice_name": "Drug - withdrawn and black box warnings",
     "description": "Blackbox and withdrawn information for drug molecules",
-    "order": 18,
-    "include_in_fe": true
+    "order": 21,
+    "include_in_fe": true,
+    "include_in_bq": true
   },
   {
     "id": "knownDrugsAggregated",
     "category": "Evidence",
     "nice_name": "n/a",
-    "description": "n/a",
+    "description": "Aggregated drug ChEMBL evidence used for Known Drugs and Clinical Precedence sections",
     "order": null,
-    "include_in_fe": false
-  },
-  {
-    "id": "cancerBiomarker",
-    "category": "Target",
-    "nice_name": "n/a",
-    "description": "n/a",
-    "order": null,
-    "include_in_fe": false
-  },
-  {
-    "id": "mousePhenotypes",
-    "category": "Target",
-    "nice_name": "n/a",
-    "description": "n/a",
-    "order": null,
-    "include_in_fe": false
+    "include_in_fe": false,
+    "include_in_bq": false
   },
   {
     "id": "reactome",
     "category": "Target",
     "nice_name": "n/a",
-    "description": "n/a",
+    "description": "Reactome pathway data used to annotate targets",
     "order": null,
-    "include_in_fe": false
+    "include_in_fe": false,
+    "include_in_bq": false
   },
   {
     "id": "AOTFClickhouse",
     "category": "Associations",
     "nice_name": "n/a",
-    "description": "n/a",
+    "description": "Associations-on-the-fly data",
     "order": null,
-    "include_in_fe": false
+    "include_in_fe": false,
+    "include_in_bq": false
   },
   {
     "id": "AOTFElasticsearch",
     "category": "Associations",
     "nice_name": "n/a",
-    "description": "n/a",
+    "description": "Associations-on-the-fly data",
     "order": null,
-    "include_in_fe": false
-  },
-  {
-    "id": "eco",
-    "category": "Evidence",
-    "nice_name": "n/a",
-    "description": "n/a",
-    "order": null,
-    "include_in_fe": false
+    "include_in_fe": false,
+    "include_in_bq": false
   },
   {
     "id": "evidenceFailed",
     "category": "Evidence",
     "nice_name": "n/a",
-    "description": "n/a",
+    "description": "Evidence that failed validation",
     "order": null,
-    "include_in_fe": false
+    "include_in_fe": false,
+    "include_in_bq": false
   },
   {
     "id": "searchDisease",
     "category": "Search",
     "nice_name": "n/a",
-    "description": "n/a",
+    "description": "Disease search index",
     "order": null,
-    "include_in_fe": false
+    "include_in_fe": false,
+    "include_in_bq": false
   },
   {
     "id": "searchDrug",
     "category": "Search",
     "nice_name": "n/a",
-    "description": "n/a",
+    "description": "Drug search index",
     "order": null,
-    "include_in_fe": false
+    "include_in_fe": false,
+    "include_in_bq": false
   },
   {
     "id": "searchTarget",
     "category": "Search",
     "nice_name": "n/a",
-    "description": "n/a",
+    "description": "Target search index",
     "order": null,
-    "include_in_fe": false
+    "include_in_fe": false,
+    "include_in_bq": false
+  },
+  {
+    "id": "ebisearchAssociations",
+    "category": "Associations",
+    "nice_name": "n/a",
+    "description": "Dataset generated for EBI Search index",
+    "order": null,
+    "include_in_fe": false,
+    "include_in_bq": false
+  },
+  {
+    "id": "ebisearchEvidence",
+    "category": "Evidence",
+    "nice_name": "n/a",
+    "description": "Dataset generated for EBI Search index",
+    "order": null,
+    "include_in_fe": false,
+    "include_in_bq": false
+  },
+  {
+    "id": "interactionUnmatched",
+    "category": "Target",
+    "nice_name": "n/a",
+    "description": "Molecular interactions not matched to gene IDs",
+    "order": null,
+    "include_in_fe": false,
+    "include_in_bq": false
+  },
+  {
+    "id": "adverseDrugReactions",
+    "category": "Drug",
+    "nice_name": "n/a",
+    "description": "Raw adverse events data for drug molecules",
+    "order": null,
+    "include_in_fe": false,
+    "include_in_bq": false
   }
  ]

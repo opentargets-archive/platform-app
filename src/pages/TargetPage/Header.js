@@ -6,14 +6,14 @@ import {
   CrisprDepmapLink,
   ExternalLink,
   TepLink,
+  XRefLinks,
 } from '../../components/ExternalLink';
 import HeaderBase from '../../components/Header';
 
-function Header({ loading, ensgId, uniprotId, symbol, name }) {
-  const ensemblUrl = `http://www.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=${ensgId}`;
-  const uniprotUrl = `https://www.uniprot.org/uniprot/${uniprotId}`;
-  const genecardsUrl = `https://www.genecards.org/cgi-bin/carddisp.pl?gene=${symbol}`;
-  const hgncUrl = `https://www.genenames.org/tools/search/#!/all?query=${symbol}`;
+function Header({ loading, ensgId, uniprotIds, symbol, name, crisprId }) {
+  const ensemblUrl = `https://identifiers.org/ensembl:${ensgId}`;
+  const genecardsUrl = `https://identifiers.org/genecards:${symbol}`;
+  const hgncUrl = `https://identifiers.org/hgnc.symbol:${symbol}`;
   const geneticsUrl = `https://genetics.opentargets.org/gene/${ensgId}`;
 
   return (
@@ -25,10 +25,14 @@ function Header({ loading, ensgId, uniprotId, symbol, name }) {
       externalLinks={
         <>
           <ExternalLink title="Ensembl" id={ensgId} url={ensemblUrl} />
-          <ExternalLink title="UniProt" id={uniprotId} url={uniprotUrl} />
+          <XRefLinks
+            label="UniProt"
+            urlStem="https://identifiers.org/uniprot:"
+            ids={uniprotIds}
+          />
           <ExternalLink title="GeneCards" id={symbol} url={genecardsUrl} />
           <ExternalLink title="HGNC" id={symbol} url={hgncUrl} />
-          <CrisprDepmapLink symbol={symbol} />
+          <CrisprDepmapLink id={crisprId} />
           <TepLink ensgId={ensgId} symbol={symbol} />
         </>
       }

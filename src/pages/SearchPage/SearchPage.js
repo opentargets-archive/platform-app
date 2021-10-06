@@ -203,7 +203,7 @@ const SearchContainer = ({
   onSetEntity,
 }) => {
   const { entities: entitiesCount } = data.search.aggregations;
-  const topHit = data.topHit.hits[0].object;
+  const topHit = data.topHit.hits[0]?.object;
 
   return (
     <>
@@ -222,14 +222,16 @@ const SearchContainer = ({
           </FormGroup>
         </Grid>
         <Grid item md={7}>
-          <SearchResults
-            page={page}
-            results={data.search}
-            onChangePage={onChangePage}
-          />
+          {data.search.hits.length > 0 ? (
+            <SearchResults
+              page={page}
+              results={data.search}
+              onChangePage={onChangePage}
+            />
+          ) : null}
         </Grid>
         <Grid item md={3}>
-          <TopHitDetail topHit={topHit} />
+          {topHit ? <TopHitDetail topHit={topHit} /> : null}
         </Grid>
       </Grid>
     </>

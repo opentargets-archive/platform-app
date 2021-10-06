@@ -43,11 +43,9 @@ const TopHitTarget = ({ data }) => (
     <Typography display="block" noWrap>
       {data.approvedName}
     </Typography>
-    {data.proteinAnnotations ? (
-      <Typography variant="caption" display="block" noWrap>
-        {data.proteinAnnotations.functions[0]}
-      </Typography>
-    ) : null}
+    <Typography variant="caption" display="block" noWrap>
+      {data.functionDescriptions[0]}
+    </Typography>
   </>
 );
 

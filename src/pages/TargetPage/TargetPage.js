@@ -10,6 +10,7 @@ import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
 import Profile from '../TargetPage/Profile';
 import ClassicAssociations from '../TargetPage/ClassicAssociations';
+import { getUniprotIds } from '../../utils/global';
 
 const TARGET_PAGE_QUERY = loader('./TargetPage.gql');
 
@@ -24,7 +25,9 @@ function TargetPage({ location, match }) {
   }
 
   const { approvedSymbol: symbol, approvedName } = data?.target || {};
-  const uniprotId = data?.target.proteinAnnotations?.id;
+  const uniprotIds = loading ? null : getUniprotIds(data.target.proteinIds);
+  const crisprId = data?.target.dbXrefs.find(p => p.source === 'ProjectScore')
+    ?.id;
 
   return (
     <BasePage
@@ -44,9 +47,10 @@ function TargetPage({ location, match }) {
       <Header
         loading={loading}
         ensgId={ensgId}
-        uniprotId={uniprotId}
+        uniprotIds={uniprotIds}
         symbol={symbol}
         name={approvedName}
+        crisprId={crisprId}
       />
 
       <Tabs

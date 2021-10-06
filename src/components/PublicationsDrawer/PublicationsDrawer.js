@@ -198,12 +198,16 @@ function PublicationsDrawer({
 
   return (
     <>
-      <MUILink onClick={toggleDrawer} className={classes.drawerLink}>
+      <MUILink
+        onClick={toggleDrawer}
+        className={classes.drawerLink}
+        underline="none"
+      >
         {customLabel
           ? customLabel
           : entries.length === 1
           ? entries[0].name
-          : `${entries.length} entries`}
+          : `${entries.length} publications`}
       </MUILink>
 
       <Drawer

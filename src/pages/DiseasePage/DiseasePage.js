@@ -21,7 +21,7 @@ function DiseasePage({ location, match }) {
     return <NotFoundPage />;
   }
 
-  const { name } = data?.disease || {};
+  const { name, dbXRefs } = data?.disease || {};
 
   return (
     <BasePage
@@ -37,7 +37,7 @@ function DiseasePage({ location, match }) {
       }
       location={location}
     >
-      <Header loading={loading} efoId={efoId} name={name} />
+      <Header loading={loading} efoId={efoId} name={name} dbXRefs={dbXRefs} />
       <ScrollToTop />
       <RoutingTabs>
         <RoutingTab

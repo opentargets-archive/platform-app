@@ -4,23 +4,24 @@ import { Box, makeStyles, Typography } from '@material-ui/core';
 import ChipList from '../../../components/ChipList';
 import Description from './Description';
 import DataTable from '../../../components/Table/DataTable';
-import Link from '../../../components/Link';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { defaultRowsPerPageOptions } from '../../../constants';
 
 const columns = [
   {
     id: 'label',
-    label: 'Hallmarks',
+    label: 'Hallmark',
     renderCell: row => row.label,
-    exportLabel: 'Hallmarks',
+    exportLabel: 'Hallmark',
   },
   {
     id: 'activity',
-    label: 'Promotes or suppresses',
+    label: 'Effect',
     renderCell: row => row.activity,
-    exportLabel: 'Promotes or suppresses',
+    exportLabel: 'Effect',
   },
   {
     id: 'description',
@@ -29,18 +30,21 @@ const columns = [
     exportLabel: 'Description',
   },
   {
-    id: 'sources',
-    label: 'Sources',
-    renderCell: row => (
-      <Link
-        external
-        to={`http://europepmc.org/search?query=EXT_ID:${row.pubmedId}`}
-      >
-        1&nbsp;publication
-      </Link>
+    id: 'publications',
+    label: 'Publications',
+    renderCell: ({ pmid }) => (
+      <PublicationsDrawer
+        entries={[
+          {
+            name: pmid,
+            url: `http://europepmc.org/search?query=EXT_ID:${pmid}`,
+            group: 'literature',
+          },
+        ]}
+      />
     ),
-    exportLabel: 'Sources (PubMed id)',
-    exportValue: row => row.pubmedId,
+    exportLabel: 'Literature (PubMed id)',
+    exportValue: row => row.pmid,
   },
 ];
 
@@ -53,7 +57,7 @@ const useStyles = makeStyles({
   roleInCancerTitle: { marginRight: '.5rem' },
 });
 
-function Section({ definition, id: ensgId, label: symbol }) {
+function Section({ definition, label: symbol }) {
   const classes = useStyles();
   const request = usePlatformApi(
     Summary.fragments.CancerHallmarksSummaryFragment
@@ -68,16 +72,14 @@ function Section({ definition, id: ensgId, label: symbol }) {
         const roleInCancer = data.hallmarks.attributes
           .filter(a => a.name === 'role in cancer')
           .map(r => ({
-            label: r.reference.description,
-            url: `http://europepmc.org/search?query=EXT_ID:${
-              r.reference.pubmedId
-            }`,
+            label: r.description,
+            url: `http://europepmc.org/search?query=EXT_ID:${r.pmid}`,
           }));
-        const rows = data.hallmarks.rows.map(r => ({
+        const rows = data.hallmarks.cancerHallmarks.map(r => ({
           label: r.label,
-          activity: r.promote ? 'promotes' : r.suppress ? 'suppresses' : '',
-          description: r.reference.description,
-          pubmedId: r.reference.pubmedId,
+          activity: r.impact === 'promotes' ? 'promotes' : 'suppresses',
+          description: r.description,
+          pmid: r.pmid,
         }));
 
         return (
@@ -100,6 +102,7 @@ function Section({ definition, id: ensgId, label: symbol }) {
               dataDownloaderFileStem={`${symbol}-hallmarks`}
               rows={rows}
               noWrap={false}
+              rowsPerPageOptions={defaultRowsPerPageOptions}
             />
           </>
         );

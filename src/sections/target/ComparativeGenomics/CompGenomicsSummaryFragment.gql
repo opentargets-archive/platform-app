@@ -1,0 +1,5 @@
+fragment CompGenomicsSummaryFragment on Target {
+  homologues {
+    homologyType
+  }
+}

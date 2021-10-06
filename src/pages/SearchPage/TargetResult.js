@@ -1,8 +1,9 @@
 import React from 'react';
-import Clampy from '@clampy-js/react-clampy';
-import { Typography, withStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDna } from '@fortawesome/free-solid-svg-icons';
+import { clearDescriptionCodes } from '../../utils/global';
+import TargetDescription from '../TargetPage/TargetDescription';
 
 import Highlights from '../../components/Highlights';
 import Link from '../../components/Link';
@@ -21,16 +22,21 @@ const styles = theme => ({
 });
 
 const TargetResult = ({ classes, data, highlights }) => {
+  const targetDescription = clearDescriptionCodes(data.functionDescriptions);
+
   return (
     <div className={classes.container}>
       <Link to={`/target/${data.id}/associations`} className={classes.subtitle}>
         <FontAwesomeIcon icon={faDna} className={classes.icon} />{' '}
         {data.approvedSymbol}
       </Link>
-      {data.proteinAnnotations ? (
-        <Typography variant="body2" component="div">
-          <Clampy clampSize="4">{data.proteinAnnotations.functions[0]}</Clampy>
-        </Typography>
+      {data.functionDescriptions.length > 0 ? (
+        <TargetDescription
+          descriptions={targetDescription}
+          targetId={data.id}
+          showLabel={false}
+          lineLimit={4}
+        />
       ) : null}
       <Highlights highlights={highlights} />
     </div>
