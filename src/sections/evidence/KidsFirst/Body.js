@@ -61,7 +61,7 @@ function Body({ definition, id, label }) {
               console.log(error)
             });
       }
-    }, [efoId, hasData, ensemblId, tab]);
+    }, [efoId, hasData, ensemblId, tab, linearPlot.length, log10Plot.length]);
 
   const columns = [
     { id: 'x_labels' },
