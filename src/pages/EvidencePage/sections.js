@@ -20,6 +20,7 @@ import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
+import * as KidsFirst from '../../sections/evidence/KidsFirst';
 import * as SomaticMutation from '../../sections/evidence/SomaticMutation'
 
 const sections = [
@@ -44,6 +45,7 @@ const sections = [
   EuropePmc,
   ExpressionAtlas,
   Phenodigm,
+  KidsFirst,
   SomaticMutation,
 ];
 export default sections;
