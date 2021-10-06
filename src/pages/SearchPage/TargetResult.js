@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core';
+import { withStyles, useTheme } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDna } from '@fortawesome/free-solid-svg-icons';
 import { clearDescriptionCodes } from '../../utils/global';
@@ -22,7 +22,11 @@ const styles = theme => ({
 });
 
 const TargetResult = ({ classes, data, highlights }) => {
-  const targetDescription = clearDescriptionCodes(data.functionDescriptions);
+  const theme = useTheme();
+  const targetDescription = clearDescriptionCodes(
+    data.functionDescriptions,
+    theme.palette.primary.main
+  );
 
   return (
     <div className={classes.container}>
