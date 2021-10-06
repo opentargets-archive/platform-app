@@ -1,37 +1,47 @@
-import React from 'react';
-import { gql } from '@apollo/client';
-import usePlatformApi from '../../../hooks/usePlatformApi';
+import React, { useEffect, useState } from 'react';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const EXPRESSION_ATLAS_SUMMARY = gql`
-  fragment expressionAtlasSummary on Disease {
-    expressionAtlasSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["expression_atlas"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+import { getGeneDiseaseGtexJSON } from '../../../utils/externalAPI';
 
-function Summary({ definition }) {
-  const request = usePlatformApi(EXPRESSION_ATLAS_SUMMARY);
+export async function getData(id, setData, setLoading, setHasData=(_)=>_){
+  const { ensgId: ensemblId, efoId } = id;
+  /********     Get JSON Data    ******** */
+  await getGeneDiseaseGtexJSON(ensemblId, efoId,
+    (resData)=> {
+      setData(resData)
+      setHasData(true)
+      setLoading(false)
+    },
+    (error)=> {
+      setHasData(false)
+      setLoading(false)
+    }, 'summary');
+}
+
+function Summary({ definition, id }) {
+  const { ensgId: ensemblId, efoId } = id;
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(false);
+
+
+ useEffect(()=>{
+    /********     Get JSON Data    ********/
+  getData(id, setData, setLoading)
+    
+}, [ensemblId, efoId, id]) 
+
+  const request = {loading: loading, data, error: error}
   return (
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={({ expressionAtlasSummary }) => {
-        const { count } = expressionAtlasSummary;
-        return `${count} ${count === 1 ? 'entry' : 'entries'}`;
+      renderSummary={( data ) => {
+        const hasData = definition.hasData(data)
+        return hasData ? "Available" : "no data"
       }}
     />
   );
 }
-
-Summary.fragments = {
-  expressionAtlasSummary: EXPRESSION_ATLAS_SUMMARY,
-};
 
 export default Summary;

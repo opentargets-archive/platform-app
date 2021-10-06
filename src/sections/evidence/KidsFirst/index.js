@@ -1,8 +1,11 @@
 export const definition = {
-  id: 'kidsFirst',
-  name: 'OpenPedCan Pediatric Expression',
+  id: 'openPedCanGeneExpression',
+  name: 'OpenPedCan Gene Expression',
   shortName: 'OP',
-  hasData: ({ expressionAtlasSummary }) => 5 > 0,
+  hasData: ( data ) => {
+    return data ? data.length > 0 : false;
+  },
+   external: true
 };
 
 export { default as Summary } from './Summary';
