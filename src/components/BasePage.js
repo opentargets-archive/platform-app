@@ -12,7 +12,6 @@ import {
   appTitle,
   appDescription,
   appCanonicalUrl,
-  externalLinks,
   mainMenuItems,
 } from '../constants';
 

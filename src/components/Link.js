@@ -58,7 +58,7 @@ class Link extends React.Component {
         href={to}
         onClick={onClick}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
       >
         {children}
       </a>

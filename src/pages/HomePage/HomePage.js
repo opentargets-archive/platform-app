@@ -14,8 +14,6 @@ import {
   appTitle,
   appDescription,
   appCanonicalUrl,
-  externalLinks,
-  mainMenuItems,
 } from '../../constants';
 import NCIFooter from '../../components/NCIFooter';
 import NCIHeader from '../../components/NCIHeader';

@@ -4,7 +4,6 @@ import {
   AppBar,
   Button,
   Toolbar,
-  Tooltip as MuiTooltip,
   withStyles,
 } from '@material-ui/core';
 import classnames from 'classnames';
@@ -24,7 +23,6 @@ const NavBar = ({
     setClickedEl(eventName);
   }
 
-  const Tooltip = components.Tooltip || MuiTooltip;
 
   return (
     <AppBar
