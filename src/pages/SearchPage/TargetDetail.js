@@ -1,5 +1,10 @@
-import React, { Fragment } from 'react';
-import { CardContent, Typography, withStyles } from '@material-ui/core';
+import React from 'react';
+import {
+  CardContent,
+  Typography,
+  withStyles,
+  useTheme,
+} from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDna } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,9 +28,14 @@ const TargetDetail = ({ classes, data }) => {
     proteinIds,
   } = data;
 
+  const theme = useTheme();
+
   const uniprotIds = getUniprotIds(proteinIds);
 
-  const targetDescription = clearDescriptionCodes(functionDescriptions);
+  const targetDescription = clearDescriptionCodes(
+    functionDescriptions,
+    theme.palette.primary.main
+  );
 
   return (
     <>

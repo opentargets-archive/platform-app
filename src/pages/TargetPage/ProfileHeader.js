@@ -7,6 +7,7 @@ import {
 } from '../../components/ProfileHeader';
 import usePlatformApi from '../../hooks/usePlatformApi';
 import { clearDescriptionCodes } from '../../utils/global';
+import { useTheme } from '@material-ui/core/styles';
 
 const TARGET_PROFILE_HEADER_FRAGMENT = loader('./TargetProfileHeader.gql');
 
@@ -57,12 +58,14 @@ const parseSynonyms = synonyms => {
 
 function ProfileHeader() {
   const { loading, error, data } = usePlatformApi();
+  const theme = useTheme();
 
   //TODO: Errors!
   if (error) return null;
 
   const targetDescription = clearDescriptionCodes(
-    data?.target.functionDescriptions
+    data?.target.functionDescriptions,
+    theme.palette.primary.main
   );
   const synonyms = parseSynonyms(data?.target.synonyms || []);
 
