@@ -1,10 +1,13 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-
 import Search from './Search';
 import Page from './Page';
+import NCIFooter from './NCIFooter';
+import NCIHeader from './NCIHeader';
+import LinkBar from './LinkBar'; 
+import NCINavBar from './NCINavBar';
 import NavBar from './NavBar';
-import Footer from './Footer';
+
 import {
   appTitle,
   appDescription,
@@ -19,13 +22,18 @@ const BasePage = ({ title, children, description, location }) => {
   return (
     <Page
       header={
-        <NavBar
+      <>
+        <LinkBar/>
+        <NCIHeader/>
+        <NCINavBar/>
+         <NavBar
           name="Platform"
           search={<Search embedded />}
           items={mainMenuItems}
         />
+      </>
       }
-      footer={<Footer externalLinks={externalLinks} />}
+      footer={<NCIFooter/>}
     >
       <Helmet title={composedTitle}>
         <meta name="description" content={description || appDescription} />

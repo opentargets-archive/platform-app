@@ -17,10 +17,12 @@ import {
   externalLinks,
   mainMenuItems,
 } from '../../constants';
-import Footer from '../../components/Footer';
+import NCIFooter from '../../components/NCIFooter';
+import NCIHeader from '../../components/NCIHeader';
+import LinkBar from '../../components/LinkBar'; 
+import NavBar from '../../components/NCINavBar';
 import HomeBox from './HomeBox';
 import Link from '../../components/Link';
-import NavBar from '../../components/NavBar';
 import Search from '../../components/Search';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
@@ -116,6 +118,9 @@ const HomePage = () => {
 
   return (
     <>
+      <LinkBar/>
+      <NCIHeader/>
+      <NavBar/>
       <Helmet title={appTitle}>
         <meta name="description" content={appDescription} />
         <link rel="canonical" href={appCanonicalUrl} />
@@ -127,12 +132,6 @@ const HomePage = () => {
         className={classes.hpSection}
       >
         <Splash />
-        <NavBar
-          name="platform"
-          homepage
-          items={mainMenuItems}
-          placement="bottom-end"
-        />
         <HomeBox>
           <Search autoFocus />
           {/* Search examples */}
@@ -276,7 +275,7 @@ const HomePage = () => {
 
       {/* remove for integration day  */}
       {/* <Stats /> */}
-      <Footer externalLinks={externalLinks} />
+      <NCIFooter/>
     </>
   );
 };
