@@ -50,94 +50,37 @@ export const navBarstyling = {
 
 export const navBarData = [
   {
-    labelText: 'home',
+    labelText: 'HOME',
     type: 'link',
     link: '/home',
   },
   {
-    labelText: 'cases',
+    labelText: 'FDA PMTL Documentation',
     type: 'link',
     link: '/cases',
   },
   {
-    labelText: 'programs',
+    labelText: 'FDA PMTL',
     type: 'link',
     link: '/programs',
   },
   {
-    labelText: 'Studies',
+    labelText: 'Open Target Documentation',
     type: 'link',
     link: '/studies',
   },
   {
-    labelText: 'about',
-    type: 'dropdown',
-
-    dropDownLinks: [
-      {
-        labelText: 'Purpose',
-        link: '/purpose',
-        linkActiveStyle: 'white',
-      },
-      {
-        labelText: 'Steering Committee',
-        link: '/steeringCommittee',
-        linkActiveStyle: 'white',
-      },
-      {
-        labelText: '- Data Governance Advisory Board(DGAB)',
-        link: '/DGAB',
-        sublink: true,
-        linkActiveStyle: 'white',
-      },
-      {
-        labelText: '- Best Practices Sub-Committee(BPSC)',
-        link: '/BPSC',
-        sublink: true,
-        linkActiveStyle: 'white',
-      },
-      {
-        labelText: 'CRDC & Analysis',
-        link: '/crdc',
-        linkActiveStyle: 'white',
-      },
-      {
-        labelText: 'ICDC Data & Model',
-        link: '/icdc-data-model',
-        linkActiveStyle: 'white',
-      },
-      {
-        labelText: 'Developers',
-        link: '/developers',
-        linkActiveStyle: 'white',
-      },
-      {
-        labelText: 'Support',
-        link: '/support',
-        linkActiveStyle: 'white',
-      },
-      {
-        labelText: 'Submitting Data',
-        link: '/submit',
-        linkActiveStyle: 'white',
-      },
-    ],
+    labelText: 'ABOUT',
+    type: 'link',
+    link: '/about',
   },
 ];
-
-export const navBarCartData = {
-  cartLabel: 'MY Files',
-  cartLink: '/fileCentricCart',
-  cartIcon: 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/master/icdc/images/svgs/Icon-MyCases.svg',
-  cartIconAlt: 'cart_logo',
-};
 
 
 const NCINavBar = ({ cartFieldIds }) => (
   <>
     <NavBar
       navBarData={navBarData}
-      navBarCartData={navBarCartData}
       navBarstyling={navBarstyling}
     />
   </>

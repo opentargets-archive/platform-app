@@ -2,16 +2,16 @@ import React from 'react';
 import  Header  from './Header';
 
 const headerData = {
-  globalHeaderLogo: 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/master/icdc/images/svgs/icdc_nih_logo.svg',
+  globalHeaderLogo: 'https://raw.githubusercontent.com/CBIIT/ppdc-otp-frontend/ec23481431865b339be01bc837bf06c2eb561237/CCDI-MT-Logo-COLOR.svg',
   globalHeaderLogoLink: '/',
-  globalHeaderLogoAltText: 'ICDC Logo',
-  globalHeaderImage: 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/master/icdc/images/png/header_Canine3000.png',
+  globalHeaderLogoAltText: 'MTP Logo',
+  globalHeaderImage: '',
 };
 
 
 const customStyle = {
   nihLogoImg: {
-    height: '54px',
+    height: '110px',
     width: '463px',
     marginLeft: '28px',
     minHeight: '54px',

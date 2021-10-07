@@ -13,7 +13,7 @@ import DropdownMenu from './components/DropdownMenu';
 const drawerWidth = 240;
 
 const NavBar = ({
-  classes, isSidebarOpened, navBarData, navBarCartData, navBarstyling, numberOfCases, components = {},
+  classes, isSidebarOpened, navBarData, navBarstyling, numberOfCases, components = {},
 }) => {
   // Similar to componentDidMount and componentDidUpdate:
   // Empty second argument of react useEffect will avoid the infinte loop that
@@ -66,35 +66,6 @@ const NavBar = ({
               )
           ))}
         </div>
-        {/* Start of Theme Switching Icon and logic */}
-        <div className={classes.myCasesPosition}>
-          <Button id="button_navbar_mycases" disableRipple weight="medium" className={classes.logotype} classes={{ root: classes.buttonRootNoRightPadding }}>
-            <HashRouter>
-              <NavLink
-                className={classes.cartLabelText}
-                to={navBarCartData.cartLink}
-              >
-                {navBarCartData.cartLabel}
-                {/* <Badge badgeContent={numberOfCases} max={99999}> */}
-                <Tooltip title="Files" placement="bottom-end">
-                  <span className={classes.badge}>
-                    <img
-                      className={classes.cartIcon}
-                      src={navBarCartData.cartIcon}
-                      alt={navBarCartData.cartIconAlt}
-                    />
-                    <span className={classes.cartCounter}>
-                      {numberOfCases}
-                    </span>
-                  </span>
-                </Tooltip>
-
-                {/* </Badge> */}
-              </NavLink>
-            </HashRouter>
-          </Button>
-        </div>
-
       </Toolbar>
     </AppBar>
   );
@@ -129,12 +100,6 @@ const styles = () => ({
     margin: '0px 0px 0px 6px',
   },
   labelText: (props) => ({
-    textDecoration: 'none',
-    color: props.navBarstyling.global.fontColor ? props.navBarstyling.global.fontColor : '#FFFFFF',
-    fontFamily: props.navBarstyling.global.fontFamily ? props.navBarstyling.global.fontFamily : 'Nunito',
-    fontSize: '13px',
-  }),
-  cartLabelText: (props) => ({
     textDecoration: 'none',
     color: props.navBarstyling.global.fontColor ? props.navBarstyling.global.fontColor : '#FFFFFF',
     fontFamily: props.navBarstyling.global.fontFamily ? props.navBarstyling.global.fontFamily : 'Nunito',

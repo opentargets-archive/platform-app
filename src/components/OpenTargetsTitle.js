@@ -21,7 +21,7 @@ const OpenTargetsTitle = ({ classes, className, name }) => {
   const titleClasses = classNames(classes.root, className);
   return (
     <Typography className={titleClasses} variant="h6" color="inherit">
-      <span className={classes.fat}>Open Targets </span>
+      <span className={classes.fat}>Molecular Targets </span>
       <span className={classes.thin}>{name}</span>
     </Typography>
   );
