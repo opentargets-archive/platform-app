@@ -8,7 +8,7 @@ import RelevantIcon from './RelevantIcon';
 import NonRelevantIcon from './NonRelevantIcon';
 import UnspecifiedIcon from './UnspecifiedIcon';
 
-function RMTLHelper(fdaDesignationValue) {
+function PMTLHelper(fdaDesignationValue) {
   let pmtlObj = {
     fdaDesignation: 'Unspecified Target',
     icon: <UnspecifiedIcon />,
@@ -69,18 +69,13 @@ function RMTLPopOver({ otherStyle, pmtl }) {
   }));
 
   const classes = useStyles();
-
-  const fdaDesignation = pmtl; // pmtlObj content will update depending if a Target is RMT, NonRMT or UnspecifyTarget
-  const pmtlObj = RMTLHelper(fdaDesignation);
-
-  const defaultTab = pmtlObj.defaultTab;
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [tab, setTab] = useState(defaultTab);
+  // icon will update depending if a Target is RMT, NonRMT or UnspecifyTarget
+  const {fdaDesignation, defaultTab, icon: pmtlIcon} = PMTLHelper(pmtl)
+  const [tab, setTab] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-
   const PMTLlandingPageUrl = '/fda-pmtl';
 
   const handleClick = event => {
@@ -98,9 +93,9 @@ function RMTLPopOver({ otherStyle, pmtl }) {
       <div onClick={handleClick} className={classes.rmtlHeaderText}>
         <span>FDA PMTL: </span>
         <span className={classes.fdaDesignation}>
-          <b>{pmtlObj.fdaDesignation}</b>
+          <b>{fdaDesignation}</b>
         </span>
-        <div className={classes.iconContainer}> {pmtlObj.icon} </div>
+        <div className={classes.iconContainer}> {pmtlIcon} </div>
       </div>
 
       <Popover
@@ -126,7 +121,7 @@ function RMTLPopOver({ otherStyle, pmtl }) {
         >
           <Grid item>
             <Tabs
-              value={tab}
+              value={tab || defaultTab}
               onChange={handleChangeTab}
               className={classes.tabContainer}
             >
@@ -141,14 +136,14 @@ function RMTLPopOver({ otherStyle, pmtl }) {
               </div>
             </Tabs>
             <Typography className={classes.typography}>
-              {tab === 'RMT' && (
+              {(tab || defaultTab) === 'RMT' && (
                 <>
                   Molecular target for which existing evidence and/or biologic
                   rationale exist to determine potential relevance to the growth
                   or progression of one or more pediatric cancers.
                 </>
               )}
-              {tab === 'NonRMT' && (
+              {(tab || defaultTab) === 'NonRMT' && (
                 <>
                   Molecular target for which there is evidence that it is not
                   associated with the growth or progression of pediatric tumors
@@ -157,7 +152,7 @@ function RMTLPopOver({ otherStyle, pmtl }) {
                   waived.
                 </>
               )}
-              {tab === 'UnspecifyTarget' && (
+              {(tab || defaultTab) === 'UnspecifyTarget' && (
                 <>
                   {' '}
                   No guidance on whether this target is relevant for pediatric
