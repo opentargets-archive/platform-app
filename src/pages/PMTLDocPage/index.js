@@ -195,9 +195,9 @@ function PMTLDocPage() {
             </Typography>
             <Typography paragraph>
               While the  <Link href={fDPublicationLink} rel="noopener" target="_blank">
-                <b>FDA publications</b>
+                <b>FDA publications </b>
               </Link>
-              remain the authoritative source for these targets, a computable interpretation of the lists has been integrated into Open Targets.
+              remain the authoritative source for these targets, a computable interpretation of the lists is integrated into Open Targets.
             </Typography>
             <Typography paragraph>
               Browse the 
@@ -205,7 +205,6 @@ function PMTLDocPage() {
                 <b> FDA PMTL Landing Page </b>
               </Link>
               to identify pediatric molecular targets within Open Targets.
-              .
             </Typography>
           </Grid>
 
@@ -265,7 +264,7 @@ function PMTLDocPage() {
               </Grid>
               <Grid item xs>
                 <Typography paragraph>
-                  <b> Unspecified Target:</b>
+                  <b> Unspecified Target: </b>
                   These targets are not mentioned in the FDA PMTL. 
                   Most targets within the Open Targets Platform fall 
                   into this category by default.
@@ -291,8 +290,8 @@ function PMTLDocPage() {
               <Link href={ensemblStableIDLink} rel="noopener" target="_blank">
                 <b> Ensembl stable ID</b>
               </Link>
-              ) , and then mapped to other information (like gene name and
-              symbol). As published, As published, the FDA PMTL does not use 
+              ), and then mapped to other information (e.g. gene name and
+              symbol). As published, the FDA PMTL does not use 
               a standardized, computable naming system.  In addition, many FDA PMTL targets
               are representations of complex proteins or pathways, each
               consisting of a multitude of genes (e.g. “Proteasome”, “Tubulins”
@@ -345,10 +344,10 @@ function PMTLDocPage() {
 
           <Grid item xs={12}>
             <Typography paragraph>
-              Also note that many Target Symbols occur more than once on the 
+              Also note that many Target Symbols occur more than once in the 
               FDA PMTL Landing Page by design. Any target derived from multiple
                FDA Targets will appear once for each FDA Target. For example,
-                BRAF is derived from 3 separate FDA Targets: “BRAF | Gene 
+                BRAF is derived from three separate FDA Targets: “BRAF | Gene 
                 Abnormality: BRAF”, “ERK | Gene Abnormality: BRAF, MAP2K1”, 
                 and “MEK | Gene Abnormality: BRAF and BRAF gene fusions, MAP2K1, 
                 NF1”. Searching the Target Symbol column for “BRAF” on the FDA 
@@ -385,8 +384,8 @@ function PMTLDocPage() {
             To view and download previous interpretations of the PMTL 
             and the detailed changelog, access the 
             <Link href={hugoHgncLink} rel="noopener" target="_blank">
-                 <b> archive </b> 
-              </Link>
+                 <b> archive</b> 
+              </Link>.
             </Typography>
           </Grid>
 
@@ -398,7 +397,7 @@ function PMTLDocPage() {
             <Typography paragraph>
               The table below contains examples and descriptions of each column
               within the searchable <Link href={fdaPMTL} rel="noopener" target="_blank">
-                <b> FDA PMTL Landing Page </b>
+                <b> FDA PMTL Landing Page</b>
               </Link>.
             </Typography>
           </Grid>
