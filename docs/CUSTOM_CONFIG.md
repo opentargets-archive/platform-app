@@ -92,4 +92,9 @@ Comma separated (no spaces) list of datatypes ids to _hide_ on the associations 
 #### partnerDataTypes
 
 Comma separated (no spaces) list of datatypes (ids) that are `private`.
-Partner datatypes show lock icon next to the name in the facests. Example: `'ot_partner'`.
+Partner datatypes show lock the icon next to the name in the facets. Example: `'ot_partner'`.
+
+#### partnerDataSources
+
+Comma separated (no spaces) list of datasources (ids) that are `private`.
+Partner datasources show the lock icon next to the name in the facets. Example: `'ot_crispr'`.
