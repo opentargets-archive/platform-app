@@ -13,4 +13,5 @@ export const isPrivateEvidenceSection = id =>
 // associations
 export const isPrivateDataType = id =>
   config.partnerDataTypes.split(',').includes(id);
-// export const isPrivateDataSource = id => config.partnerDataSources.split(',').includes(id);
+export const isPrivateDataSource = id =>
+  config.partnerDataSources.split(',').includes(id);

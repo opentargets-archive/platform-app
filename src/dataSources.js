@@ -1,32 +1,118 @@
+import { isPrivateDataSource } from './utils/partnerPreviewUtils';
+
 const dataSources = [
-  { id: 'ot_genetics_portal', label: 'OT Genetics Portal', isPrivate: false },
-  { id: 'phewas_catalog', label: 'PheWAS Catalog', isPrivate: false },
-  { id: 'eva', label: 'ClinVar', isPrivate: false },
-  { id: 'uniprot', label: 'UniProt curated variants', isPrivate: false },
-  { id: 'genomics_england', label: 'GEL PanelApp', isPrivate: false },
-  { id: 'gene2phenotype', label: 'Gene2phenotype', isPrivate: false },
-  { id: 'uniprot_literature', label: 'UniProt literature', isPrivate: false },
-  { id: 'clingen', label: 'Clingen', isPrivate: false },
-  { id: 'cancer_gene_census', label: 'Cancer Gene Census', isPrivate: false },
-  { id: 'intogen', label: 'IntOGen', isPrivate: false },
-  { id: 'eva_somatic', label: 'ClinVar (somatic)', isPrivate: false },
-  { id: 'uniprot_somatic', label: 'UniProt (somatic)', isPrivate: false },
-  { id: 'chembl', label: 'ChEMBL', isPrivate: false },
-  { id: 'crispr', label: 'Project Score', isPrivate: false },
-  { id: 'slapenrich', label: 'SLAPenrich', isPrivate: false },
-  { id: 'progeny', label: 'PROGENy', isPrivate: false },
-  { id: 'reactome', label: 'Reactome', isPrivate: false },
-  { id: 'sysbio', label: 'Gene signatures', isPrivate: false },
-  { id: 'europepmc', label: 'Europe PMC', isPrivate: false },
-  { id: 'expression_atlas', label: 'Expression Atlas', isPrivate: false },
-  { id: 'phenodigm', label: 'PhenoDigm', isPrivate: false },
+  {
+    id: 'ot_genetics_portal',
+    label: 'OT Genetics Portal',
+    isPrivate: isPrivateDataSource('ot_genetics_portal'),
+  },
+  {
+    id: 'phewas_catalog',
+    label: 'PheWAS Catalog',
+    isPrivate: isPrivateDataSource('phewas_catalog'),
+  },
+  { id: 'eva', label: 'ClinVar', isPrivate: isPrivateDataSource('eva') },
+  {
+    id: 'uniprot',
+    label: 'UniProt curated variants',
+    isPrivate: isPrivateDataSource('uniprot'),
+  },
+  {
+    id: 'genomics_england',
+    label: 'GEL PanelApp',
+    isPrivate: isPrivateDataSource('genomics_england'),
+  },
+  {
+    id: 'gene2phenotype',
+    label: 'Gene2phenotype',
+    isPrivate: isPrivateDataSource('gene2phenotype'),
+  },
+  {
+    id: 'uniprot_literature',
+    label: 'UniProt literature',
+    isPrivate: isPrivateDataSource('uniprot_literature'),
+  },
+  {
+    id: 'clingen',
+    label: 'Clingen',
+    isPrivate: isPrivateDataSource('clingen'),
+  },
+  {
+    id: 'cancer_gene_census',
+    label: 'Cancer Gene Census',
+    isPrivate: isPrivateDataSource('cancer_gene_census'),
+  },
+  {
+    id: 'intogen',
+    label: 'IntOGen',
+    isPrivate: isPrivateDataSource('intogen'),
+  },
+  {
+    id: 'eva_somatic',
+    label: 'ClinVar (somatic)',
+    isPrivate: isPrivateDataSource('eva_somatic'),
+  },
+  {
+    id: 'uniprot_somatic',
+    label: 'UniProt (somatic)',
+    isPrivate: isPrivateDataSource('uniprot_somatic'),
+  },
+  { id: 'chembl', label: 'ChEMBL', isPrivate: isPrivateDataSource('chembl') },
+  {
+    id: 'crispr',
+    label: 'Project Score',
+    isPrivate: isPrivateDataSource('crispr'),
+  },
+  {
+    id: 'slapenrich',
+    label: 'SLAPenrich',
+    isPrivate: isPrivateDataSource('slapenrich'),
+  },
+  {
+    id: 'progeny',
+    label: 'PROGENy',
+    isPrivate: isPrivateDataSource('progeny'),
+  },
+  {
+    id: 'reactome',
+    label: 'Reactome',
+    isPrivate: isPrivateDataSource('reactome'),
+  },
+  {
+    id: 'sysbio',
+    label: 'Gene signatures',
+    isPrivate: isPrivateDataSource('sysbio'),
+  },
+  {
+    id: 'europepmc',
+    label: 'Europe PMC',
+    isPrivate: isPrivateDataSource('europepmc'),
+  },
+  {
+    id: 'expression_atlas',
+    label: 'Expression Atlas',
+    isPrivate: isPrivateDataSource('expression_atlas'),
+  },
+  {
+    id: 'phenodigm',
+    label: 'PhenoDigm',
+    isPrivate: isPrivateDataSource('phenodigm'),
+  },
   {
     id: 'uniprot_variants',
     label: 'UniProt curated variants',
-    isPrivate: false,
+    isPrivate: isPrivateDataSource('uniprot_variants'),
   },
-  { id: 'orphanet', label: 'Orphanet', isPrivate: false },
-  { id: 'ot_crispr', label: 'OTAR CRISPR', isPrivate: true },
+  {
+    id: 'orphanet',
+    label: 'Orphanet',
+    isPrivate: isPrivateDataSource('orphanet'),
+  },
+  {
+    id: 'ot_crispr',
+    label: 'OTAR CRISPR',
+    isPrivate: isPrivateDataSource('ot_crispr'),
+  },
 ];
 
 export default dataSources;
