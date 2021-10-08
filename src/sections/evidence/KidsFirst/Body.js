@@ -102,8 +102,8 @@ function Body({ definition, id, label }) {
                 onChange={handleOnChange}
                 style={{ marginBottom: '1rem' }}
               >
-                <Tab value="linear" label="Gene All Cancer - linear" />
-                <Tab value="log10" label="Gene All Cancer - log 10"/>
+                <Tab value="linear" label="Linear" />
+                <Tab value="log10" label="Log 10"/>
               </Tabs>
 
               {tab === 'linear' ? (
