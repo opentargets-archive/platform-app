@@ -69,6 +69,7 @@ const config = {
     '',
 
   // partner colour scale
+  // default as empty string so it falls back to value in constants.js
   partnerColorRange:
     window.partnerColorRange ?? process.env.REACT_APP_partnerColorRange ?? '',
 
