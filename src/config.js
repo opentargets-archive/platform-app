@@ -81,9 +81,10 @@ const config = {
   partnerDataTypes:
     window.partnerDataTypes ?? process.env.REACT_APP_partnerDataTypes ?? '',
 
-  // TODO: dataSources cannot be currently hidden. Check if it's a requirement.
-  // hideDataSources: window.hideDataSources ?? process.env.REACT_APP_hideDataSources ?? '',
-  // partnerDataSources: window.partnerDataSources ?? process.env.REACT_APP_partnerDataSources ?? '',
+  // for datasources we only set those that are private (partner)
+  // partnerDataSources: list any private datasource (shown with lock in facets)
+  partnerDataSources:
+    window.partnerDataSources ?? process.env.REACT_APP_partnerDataSources ?? '',
 };
 
 export default config;
