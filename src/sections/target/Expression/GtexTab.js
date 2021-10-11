@@ -6,11 +6,11 @@ import GtexVariability from './GtexVariability';
 
 export async function getData(symbol) {
   try {
-    const urlGene = `https://www.gtexportal.org/rest/v1/reference/gene?geneId=${symbol}&v=clversion`;
+    const urlGene = `https://gtexportal.org/rest/v1/reference/gene?format=json&geneId=${symbol}`;
     const resGene = await fetch(urlGene);
     const rawGene = await resGene.json();
     const { gencodeId } = rawGene.gene[0];
-    const urlData = `https://www.gtexportal.org/rest/v1/expression/geneExpression?boxplotDetail=full&gencodeId=${gencodeId}`;
+    const urlData = `https://gtexportal.org/rest/v1/expression/geneExpression?gencodeId=${gencodeId}`;
     const resData = await fetch(urlData);
     const rawData = await resData.json();
     const data = transformData(rawData.geneExpression);
