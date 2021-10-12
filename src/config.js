@@ -18,7 +18,9 @@ const config = {
 
   // main flag to toggle partner preview on/off
   isPartnerPreview:
-    window.isPartnerPreview ?? process.env.REACT_APP_isPartnerPreview ?? false,
+    window.configIsPartnerPreview ??
+    process.env.REACT_APP_configIsPartnerPreview ??
+    false,
 
   // Page specific sections:
   // hide[Page]SectionsIds: hide the specified sections (comma separated ids, no spaecs, e.g. 'bibliography,otProjects')
@@ -28,64 +30,74 @@ const config = {
 
   // disease page
   hideDiseaseSectionIds:
-    window.hideDiseaseSectionIds ??
-    process.env.REACT_APP_hideDiseaseSectionIds ??
+    window.configHideDiseaseSectionIds ??
+    process.env.REACT_APP_configHideDiseaseSectionIds ??
     '',
 
   partnerDiseaseSectionIds:
-    window.partnerDiseaseSectionIds ??
-    process.env.REACT_APP_partnerDiseaseSectionIds ??
+    window.configPartnerDiseaseSectionIds ??
+    process.env.REACT_APP_configPartnerDiseaseSectionIds ??
     '',
 
   // target page
   hideTargetSectionIds:
-    window.hideTargetSectionIds ??
-    process.env.REACT_APP_hideTargetSectionIds ??
+    window.configHideTargetSectionIds ??
+    process.env.REACT_APP_configHideTargetSectionIds ??
     '',
 
   partnerTargetSectionIds:
-    window.partnerTargetSectionIds ??
-    process.env.REACT_APP_partnerTargetSectionIds ??
+    window.configPartnerTargetSectionIds ??
+    process.env.REACT_APP_configPartnerTargetSectionIds ??
     '',
 
   // drug page
   hideDrugSectionIds:
-    window.hideDrugSectionIds ?? process.env.REACT_APP_hideDrugSectionIds ?? '',
+    window.configHideDrugSectionIds ??
+    process.env.REACT_APP_configHideDrugSectionIds ??
+    '',
 
   partnerDrugSectionIds:
-    window.partnerDrugSectionIds ??
-    process.env.REACT_APP_partnerDrugSectionIds ??
+    window.configPartnerDrugSectionIds ??
+    process.env.REACT_APP_configPartnerDrugSectionIds ??
     '',
 
   // evidence page
   hideEvidenceSectionIds:
-    window.hideEvidenceSectionIds ??
-    process.env.REACT_APP_hideEvidenceSectionIds ??
+    window.configHideEvidenceSectionIds ??
+    process.env.REACT_APP_configHideEvidenceSectionIds ??
     '',
 
   partnerEvidenceSectionIds:
-    window.partnerEvidenceSectionIds ??
-    process.env.REACT_APP_partnerEvidenceSectionIds ??
+    window.configPartnerEvidenceSectionIds ??
+    process.env.REACT_APP_configPartnerEvidenceSectionIds ??
     '',
 
   // partner colour scale
   // default as empty string so it falls back to value in constants.js
   partnerColorRange:
-    window.partnerColorRange ?? process.env.REACT_APP_partnerColorRange ?? '',
+    window.configPartnerColorRange ??
+    process.env.REACT_APP_configPartnerColorRange ??
+    '',
 
   // associations - heatmaps and facets
   // these work in the same way as the page specific sections.
   // hideDataTypes: list the id of any datatype to be hidden
   // partnerDataTypes: list any private datatypes (shown with lock in facets)
   hideDataTypes:
-    window.hideDataTypes ?? process.env.REACT_APP_hideDataTypes ?? '',
+    window.configHideDataTypes ??
+    process.env.REACT_APP_configHideDataTypes ??
+    '',
   partnerDataTypes:
-    window.partnerDataTypes ?? process.env.REACT_APP_partnerDataTypes ?? '',
+    window.configPartnerDataTypes ??
+    process.env.REACT_APP_configPartnerDataTypes ??
+    '',
 
   // for datasources we only set those that are private (partner)
   // partnerDataSources: list any private datasource (shown with lock in facets)
   partnerDataSources:
-    window.partnerDataSources ?? process.env.REACT_APP_partnerDataSources ?? '',
+    window.configPartnerDataSources ??
+    process.env.REACT_APP_configPartnerDataSources ??
+    '',
 };
 
 export default config;
