@@ -9,7 +9,12 @@ import {
   makeStyles,
   Snackbar,
   Slide,
+  Drawer,
+  IconButton,
 } from '@material-ui/core';
+import GraphiQL from 'graphiql';
+import { createGraphiQLFetcher } from '@graphiql/toolkit';
+import 'graphiql/graphiql.min.css';
 
 const asJSON = (columns, rows) => {
   const rowStrings = rows.map(row => {
@@ -38,7 +43,6 @@ const asDSV = (columns, rows, separator = ',', quoteStrings = true) => {
     if (Array.isArray(d)) {
       d = d.join(',');
     }
-
     return quoteStrings && typeof d === 'string' ? `"${d}"` : d;
   };
 
@@ -109,8 +113,13 @@ const styles = makeStyles({
   },
 });
 
+const fetcher = createGraphiQLFetcher({
+  url: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
+});
+
 function DataDownloader({ columns, rows, fileStem }) {
   const [downloading, setDownloading] = useState(false);
+  const [open, setOpen] = useState(false);
   const classes = styles();
 
   const downloadData = async (format, columns, rows, fileStem) => {
@@ -142,6 +151,14 @@ function DataDownloader({ columns, rows, fileStem }) {
   const handleClickDownloadTSV = async () => {
     downloadData('tsv', columns, rows, fileStem);
   };
+
+  function togglePlayground() {
+    setOpen(!open);
+  }
+
+  function close() {
+    setOpen(false);
+  }
 
   return (
     <>
@@ -176,6 +193,11 @@ function DataDownloader({ columns, rows, fileStem }) {
             TSV
           </Button>
         </Grid>
+        <Grid item>
+          <Button variant="outlined" size="small" onClick={togglePlayground}>
+            GraphQL
+          </Button>
+        </Grid>
       </Grid>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
@@ -194,6 +216,9 @@ function DataDownloader({ columns, rows, fileStem }) {
           </>
         }
       />
+      <Drawer open={open} onClose={close} anchor="right">
+        <GraphiQL fetcher={fetcher} query={`query { meta { name } }`} />
+      </Drawer>
     </>
   );
 }
