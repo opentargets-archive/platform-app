@@ -15,6 +15,8 @@ import {
 import GraphiQL from 'graphiql';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import 'graphiql/graphiql.min.css';
+import config from '../../config';
+console.log('config', config);
 
 const asJSON = (columns, rows) => {
   const rowStrings = rows.map(row => {
@@ -114,7 +116,7 @@ const styles = makeStyles({
 });
 
 const fetcher = createGraphiQLFetcher({
-  url: 'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
+  url: config.urlApi,
 });
 
 function DataDownloader({ columns, rows, fileStem }) {
