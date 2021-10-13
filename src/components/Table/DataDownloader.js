@@ -12,6 +12,7 @@ import {
   Drawer,
   IconButton,
 } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import GraphiQL from 'graphiql';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import 'graphiql/graphiql.min.css';
@@ -112,6 +113,14 @@ const styles = makeStyles({
   snackbarContentRoot: {
     padding: 0,
   },
+  backdrop: {
+    '& .MuiBackdrop-root': {
+      opacity: '0 !important',
+    },
+  },
+  paper: {
+    width: '80%',
+  },
 });
 
 const fetcher = createGraphiQLFetcher({
@@ -146,10 +155,6 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
 
   const handleClickDownloadJSON = async () => {
     downloadData('json', columns, rows, fileStem);
-  };
-
-  const handleClickDownloadCSV = async () => {
-    downloadData('csv', columns, rows, fileStem);
   };
 
   const handleClickDownloadTSV = async () => {
@@ -211,7 +216,18 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
           </>
         }
       />
-      <Drawer open={open} onClose={close} anchor="right">
+      <Drawer
+        classes={{ root: classes.backdrop, paper: classes.paper }}
+        open={open}
+        onClose={close}
+        anchor="right"
+      >
+        <Typography className={classes.title}>
+          API query
+          <IconButton onClick={close}>
+            <CloseIcon />
+          </IconButton>
+        </Typography>
         <GraphiQL
           fetcher={fetcher}
           query={query}
