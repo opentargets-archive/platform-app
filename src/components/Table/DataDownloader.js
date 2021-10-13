@@ -118,6 +118,9 @@ const fetcher = createGraphiQLFetcher({
   url: config.urlApi,
 });
 
+GraphiQL.Logo = () => null;
+GraphiQL.Toolbar = () => null;
+
 function DataDownloader({ columns, rows, fileStem, query, variables }) {
   const [downloading, setDownloading] = useState(false);
   const [open, setOpen] = useState(false);
