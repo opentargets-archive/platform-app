@@ -172,7 +172,8 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
     setOpen(!open);
   }
 
-  function close() {
+  function close(e) {
+    if (e.key === 'Escape') return;
     setOpen(false);
   }
 
