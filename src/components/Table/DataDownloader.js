@@ -212,8 +212,7 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
         <GraphiQL
           fetcher={fetcher}
           query={query}
-          variables={variables}
-          editorTheme={'dracula'}
+          variables={JSON.stringify(variables, null, 2)}
         />
       </Drawer>
     </>

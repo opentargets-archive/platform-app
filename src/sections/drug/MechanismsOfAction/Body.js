@@ -98,7 +98,7 @@ function Body({ definition, id: chemblId, label: name }) {
             dataDownloader
             dataDownloaderFileStem={`${chemblId}-mechanisms-of-action`}
             query={MECHANISMS_OF_ACTION_QUERY.loc.source.body}
-            variables={JSON.stringify(variables)}
+            variables={variables}
           />
         );
       }}
