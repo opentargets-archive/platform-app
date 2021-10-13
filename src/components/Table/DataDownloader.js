@@ -14,7 +14,6 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import GraphiQL from 'graphiql';
-import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import 'graphiql/graphiql.min.css';
 import config from '../../config';
 
@@ -123,9 +122,17 @@ const styles = makeStyles({
   },
 });
 
-const fetcher = createGraphiQLFetcher({
-  url: config.urlApi,
-});
+const fetcher = async graphQLParams => {
+  const data = await fetch(config.urlApi, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(graphQLParams),
+  });
+  return data.json();
+};
 
 GraphiQL.Logo = () => null;
 GraphiQL.Toolbar = () => null;
