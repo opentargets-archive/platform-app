@@ -16,6 +16,8 @@ import * as Tractability from '../../sections/target/Tractability';
 import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
 import * as SomaticMutation from '../../sections/target/SomaticMutation'
+import * as OpenPedCanGeneExpression from '../../sections/target/OpenPedCanGeneExpression'
+
 
 const sections = [
   KnownDrugs,
@@ -34,5 +36,6 @@ const sections = [
   ComparativeGenomics,
   Bibliography,
   SomaticMutation,
+  OpenPedCanGeneExpression,
 ];
 export default sections;
