@@ -16,7 +16,6 @@ import GraphiQL from 'graphiql';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import 'graphiql/graphiql.min.css';
 import config from '../../config';
-console.log('config', config);
 
 const asJSON = (columns, rows) => {
   const rowStrings = rows.map(row => {
@@ -119,7 +118,7 @@ const fetcher = createGraphiQLFetcher({
   url: config.urlApi,
 });
 
-function DataDownloader({ columns, rows, fileStem }) {
+function DataDownloader({ columns, rows, fileStem, query, variables }) {
   const [downloading, setDownloading] = useState(false);
   const [open, setOpen] = useState(false);
   const classes = styles();
@@ -180,15 +179,6 @@ function DataDownloader({ columns, rows, fileStem }) {
         <Grid item>
           <Button
             variant="outlined"
-            onClick={handleClickDownloadCSV}
-            size="small"
-          >
-            CSV
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="outlined"
             onClick={handleClickDownloadTSV}
             size="small"
           >
@@ -197,7 +187,7 @@ function DataDownloader({ columns, rows, fileStem }) {
         </Grid>
         <Grid item>
           <Button variant="outlined" size="small" onClick={togglePlayground}>
-            GraphQL
+            API query
           </Button>
         </Grid>
       </Grid>
@@ -219,7 +209,12 @@ function DataDownloader({ columns, rows, fileStem }) {
         }
       />
       <Drawer open={open} onClose={close} anchor="right">
-        <GraphiQL fetcher={fetcher} query={`query { meta { name } }`} />
+        <GraphiQL
+          fetcher={fetcher}
+          query={query}
+          variables={variables}
+          editorTheme={'dracula'}
+        />
       </Drawer>
     </>
   );
