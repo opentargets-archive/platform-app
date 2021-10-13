@@ -18,7 +18,6 @@ function SectionOrderProvider({ sections, displaySettingsForExternal,children })
     ls.set(`${entity}SectionsOrder`, newSectionOrder);
   };
 
-  console.log("displaySettingsForExternal", displaySettingsForExternal);
   const shouldRender = (section) => {
     const { hasData, external, id} = section.props.definition;
 
