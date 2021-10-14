@@ -55,7 +55,7 @@ function PMTLDocPage() {
       [
         'Target Symbol',
         'JAK1',
-        'Gene-resolution HGNC approved symbol compatible with the Open Targets Platform',
+        'Gene-resolution HGNC approved symbol compatible with the Molecular Targets Platform',
       ],
       [
         'Designation',
@@ -69,13 +69,13 @@ function PMTLDocPage() {
       ],
       [
         'FDA Target',
-        ['JAK1, 2, and 3 | Gene','Abnormality: JAK1, 2, and 3'],
+        ['JAK1, 2, and 3 | Gene Abnormality: JAK1, 2, and 3'],
         'Target as originally listed in the FDA publication. For targets in the Gene Abnormality FDA Class, the gene abnormality from the FDA publication is included here, separated from the target by “ | “ ' 
       ],
       [
         'Mapping Description',
         'Separate List',
-        'Brief description of the action taken to map the target as listed in the FDA publication into one or more gene-level targets compatible with the Open Targets Platform' 
+        'Brief description of the action taken to map the target as listed in the FDA publication into one or more gene-level targets compatible with the Molecular Targets Platform'
       ],
     ],
   };
@@ -134,7 +134,7 @@ function PMTLDocPage() {
         'Cannot be mapped to gene-level target',
         'GD2',
         'GD2 (Disialoganglioside)',
-        'Feedback from the FDA indicated that the FDA Target should not be mapped to any gene. Though incompatible with Open Targets, it will remain in the table for reference',
+        'Feedback from the FDA indicated that the FDA Target should not be mapped to any gene. Though incompatible with the Molecular Targets Platform, it will remain in the table for reference',
       ],
     ],
   };
@@ -197,14 +197,14 @@ function PMTLDocPage() {
               While the  <Link href={fDPublicationLink} rel="noopener" target="_blank">
                 <b>FDA publications </b>
               </Link>
-              remain the authoritative source for these targets, a computable interpretation of the lists is integrated into Open Targets.
+              remain the authoritative source for these targets, a computable interpretation of the lists is integrated into the Molecular Targets Platform.
             </Typography>
             <Typography paragraph>
               Browse the 
               <Link href={fdaPMTL} rel="noopener" target="_blank">
                 <b> FDA PMTL Landing Page </b>
               </Link>
-              to identify pediatric molecular targets within Open Targets.
+              to identify pediatric molecular targets within the Molecular Targets Platform.
             </Typography>
           </Grid>
 
@@ -214,7 +214,7 @@ function PMTLDocPage() {
 
           <Grid item xs={12}>
             <Typography paragraph>
-              In our instance of Open Targets, all targets fall into one of
+              In the Molecular Targets Platform, all targets fall into one of
               three FDA PMTL designations:
             </Typography>
           </Grid>
@@ -266,29 +266,29 @@ function PMTLDocPage() {
                 <Typography paragraph>
                   <b> Unspecified Target: </b>
                   These targets are not mentioned in the FDA PMTL. 
-                  Most targets within the Open Targets Platform fall 
+                  Most targets within the Molecular Targets Platform fall 
                   into this category by default.
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="h5">Open Targets Compatibility</Typography>
+            <Typography variant="h5">Molecular Targets Platform Compatibility</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
               The PMTL as published by the FDA is optimized for human-readability. 
               This presents several computational challenges for integration into 
-              Open Targets. To overcome these challenges and make the PMTL compatible 
-              with Open Targets, significant reformatting and interpretation was required.
+              the Molecular Targets Platform. To overcome these challenges and make the PMTL compatible 
+              with the Molecular Targets Platform, significant reformatting and interpretation was required.
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
-              In Open Targets, every Target is identified with gene-level
+              In the Molecular Targets Platform, every Target is identified with gene-level
               resolution by a unique (
               <Link href={ensemblStableIDLink} rel="noopener" target="_blank">
-                <b> Ensembl stable ID</b>
+                <b>Ensembl stable ID</b>
               </Link>
               ), and then mapped to other information (e.g. gene name and
               symbol). As published, the FDA PMTL does not use 
@@ -300,7 +300,7 @@ function PMTLDocPage() {
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
-              In order to implement the FDA PMTL into Open Targets, 
+              In order to implement the FDA PMTL into the Molecular Targets Platform,
               each target needs to be machine-readable and contain mappable
                IDs at gene-level resolution. Thus, the following standardization 
                steps were taken to obtain our interpretation of the FDA PMTL:
@@ -361,7 +361,7 @@ function PMTLDocPage() {
 
           <Grid item xs={12}>
             <Typography paragraph>
-               The current version of the FDA PMTL used in Open Targets is <b> version 1.1. </b>
+               The current version of the FDA PMTL used in the Molecular Targets Platform is <b> version 1.1. </b>
             </Typography>
           </Grid>
 
@@ -417,8 +417,8 @@ function PMTLDocPage() {
               The table below contains a description of each potential value in 
               the Mapping Description column. These describe the action(s) taken 
               to map targets within the published FDA PMTL into the computable, 
-              gene-level targets used in Open Targets. Many FDA targets required 
-              more than one action to reach Open Targets compatibility; these are
+              gene-level targets used in the Molecular Targets Platform. Many FDA targets required 
+              more than one action to reach Molecular Targets Platform compatibility; these are
               all listed for each target when appropriate (e.g. “Separate list 
               and standardize symbol”).
             </Typography>
