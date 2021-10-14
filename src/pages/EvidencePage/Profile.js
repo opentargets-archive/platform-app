@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { gql } from '@apollo/client';
 
 import { createSummaryFragment } from '../../components/Summary/utils';
@@ -43,14 +43,19 @@ const EVIDENCE_PROFILE_QUERY = gql`
   ${EVIDENCE_PROFILE_SUMMARY_FRAGMENT}
 `;
 
+
 function Profile({ ensgId, efoId, symbol, name }) {
+
+// display settings for data from external source 
+// display the sections if section.definition.id is presented in the  displaySettingsForExternal array
+const [displaySettingsForExternal, setDisplaySettingsForExternal] = useState([]);
   return (
     <PlatformApiProvider
       entity="disease"
       query={EVIDENCE_PROFILE_QUERY}
       variables={{ ensgId, efoId }}
     >
-      <SectionOrderProvider sections={sections}>
+      <SectionOrderProvider sections={sections} displaySettingsForExternal={displaySettingsForExternal}>
         <ProfileHeader />
 
         <SummaryContainer>
@@ -60,6 +65,8 @@ function Profile({ ensgId, efoId, symbol, name }) {
               id={{ ensgId, efoId }}
               label={{ symbol, name }}
               definition={definition}
+              displaySettingsForExternal={displaySettingsForExternal}
+              updateDisplaySettingsForExternal = {setDisplaySettingsForExternal}
             />
           ))}
         </SummaryContainer>

@@ -9,10 +9,10 @@ import { dataTypesMap } from '../../../dataTypes';
 
 import {getData} from './Summary'; 
 
-function Body({ definition, id, label }) {
+function Body({ definition, id, label}) {
   const { ensgId: ensemblId, efoId } = id;
 
-  const [json, setJson] = useState([])
+  const [json, setJson] = useState([]);
   const [linearPlot, setLinearPlot] = useState('')
   const [log10Plot, setLog10Plot] = useState('')
   const [tab, setTab] = useState('linear');
@@ -26,8 +26,9 @@ function Body({ definition, id, label }) {
 
   useEffect(()=>{
     // Get JSON Data and use this data to determine if TPM plot exist or not
-    getData(id, setJson, setLoading, setHasData)
+    getData(id, setJson, setLoading, setHasData);
   }, [ensemblId, efoId, id])
+  
   useEffect(
     ()=>{
       if (hasData && tab === 'linear' && linearPlot.length === 0) {
