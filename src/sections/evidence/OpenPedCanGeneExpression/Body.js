@@ -7,7 +7,7 @@ import {Body as OpenPedCanGeneExpressionBody} from '../../common/OpenPedCanGeneE
 
 function Body({ definition, id, label}) {
   const { ensgId: ensemblId, efoId } = id;
-  const downloadFileName = `OpenPedCan-${ensemblId}-${efoId}`;
+  const downloadFileName = `OpenPedCanGeneExpression-${ensemblId}-${efoId}`;
   const imageAlt = "Single-gene single-disease all-GTEx-tissue-subgroups";
 
   return (
