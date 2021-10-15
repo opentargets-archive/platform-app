@@ -56,10 +56,9 @@ function Body({ definition, id, label}) {
               console.log(error)
             });
       }
-
       return () => {
-      /********     Get JSON Data    ******** */ 
-        getData(id, setJson, setLoading, setHasData);
+      /********     Get JSON Data    ******** */
+        if (!hasData) getData(id, setJson, setLoading, setHasData);
       }
     }, [efoId, hasData, ensemblId, tab, linearPlot.length, log10Plot.length, id]);
 
@@ -108,8 +107,8 @@ function Body({ definition, id, label}) {
               {tab === 'linear' ? (
                 <>
                   <Grid container>
-                    <Grid item xs={12}>
-                      <DataDownloader rows={json} columns={columns} fileStem={`OpenPedCan-${ensemblId}-${efoId}`}/>
+                    <DataDownloader rows={json} columns={columns} fileStem={`OpenPedCan-${ensemblId}-${efoId}`}/>
+                    <Grid item xs={12} style={{overflow: 'auto'}}>
                       <img src={`data:image/png;base64,${linearPlot}`}
                         width={imageWidth} height={imageHeight} alt="Single-gene single-disease all-GTEx-tissue-subgroups TPM boxplot (Linear)" />
                     </Grid>
@@ -120,8 +119,8 @@ function Body({ definition, id, label}) {
               {tab === 'log10' ? (
                 <>
                   <Grid container>
-                    <Grid item xs={12}>
-                      <DataDownloader rows={json} columns={columns} fileStem={`OpenPedCan-${ensemblId}-${efoId}`}/>
+                    <DataDownloader rows={json} columns={columns} fileStem={`OpenPedCan-${ensemblId}-${efoId}`}/>
+                    <Grid item xs={12} style={{overflow: 'auto'}}>
                       <img src={`data:image/png;base64,${log10Plot}`}
                       width={imageWidth} height={imageHeight} alt="Get a single-gene single-disease all-GTEx-tissue-subgroups TPM boxplot (Lag10)" />
                     </Grid>
