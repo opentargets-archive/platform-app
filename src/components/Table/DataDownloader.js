@@ -10,12 +10,14 @@ import {
   Snackbar,
   Slide,
   Drawer,
+  Paper,
   IconButton,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import GraphiQL from 'graphiql';
 import 'graphiql/graphiql.min.css';
 import config from '../../config';
+import Link from '../Link';
 
 const asJSON = (columns, rows) => {
   const rowStrings = rows.map(row => {
@@ -98,7 +100,7 @@ const createBlob = format =>
       }),
   }[format]);
 
-const styles = makeStyles({
+const styles = makeStyles(theme => ({
   messageProgress: {
     marginRight: '1rem',
   },
@@ -117,10 +119,24 @@ const styles = makeStyles({
       opacity: '0 !important',
     },
   },
-  paper: {
+  container: {
     width: '80%',
+    backgroundColor: theme.palette.grey[300],
   },
-});
+  paper: {
+    margin: '1.5rem',
+    padding: '1rem',
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    borderBottom: '1px solid #ccc',
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    padding: '1rem',
+  },
+}));
 
 const fetcher = async graphQLParams => {
   const data = await fetch(config.urlApi, {
@@ -225,7 +241,7 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
         }
       />
       <Drawer
-        classes={{ root: classes.backdrop, paper: classes.paper }}
+        classes={{ root: classes.backdrop, paper: classes.container }}
         open={open}
         onClose={close}
         anchor="right"
@@ -236,6 +252,21 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
             <CloseIcon />
           </IconButton>
         </Typography>
+        <Paper className={classes.paper} variant="outlined">
+          Press the Play button ("Execute query") to explore the GraphQL API
+          query used to populate this table. You can also visit our{' '}
+          <Link
+            external
+            to="https://platform-docs.opentargets.org/data-access/graphql-api"
+          >
+            GraphQL API documentation
+          </Link>{' '}
+          and{' '}
+          <Link external to="https://community.opentargets.org">
+            Community
+          </Link>{' '}
+          for more how-to guides and tutorials.
+        </Paper>
         <GraphiQL
           fetcher={fetcher}
           query={query}
