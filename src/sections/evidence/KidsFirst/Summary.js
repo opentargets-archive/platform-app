@@ -41,7 +41,7 @@ export async function getData(id, setData, setLoading, setHasData=(_)=>_){
   }
 
 
-function Summary({ definition, id , displaySettingsForExternal,updateDisplaySettingsForExternal}) {
+function Summary({ definition, id, displaySettingsForExternal, updateDisplaySettingsForExternal}) {
   const { ensgId: ensemblId, efoId } = id;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -49,9 +49,13 @@ function Summary({ definition, id , displaySettingsForExternal,updateDisplaySett
 
  useEffect(()=>{
     /********     Get JSON Data    ********/
-  getData(id, setData, setLoading);
-  setDisplaySettingForExternal(definition.hasData(data),definition.id, displaySettingsForExternal,updateDisplaySettingsForExternal);
-}, [ensemblId, efoId, id, data, definition,displaySettingsForExternal,updateDisplaySettingsForExternal]);
+    if (data.length === 0 && loading === true) {
+      getData(id, setData, setLoading);
+    }
+  return () => {
+    setDisplaySettingForExternal(definition.hasData(data), definition.id, displaySettingsForExternal, updateDisplaySettingsForExternal);
+  }
+}, [ensemblId, efoId, id, data, setData, setLoading, definition, displaySettingsForExternal, updateDisplaySettingsForExternal, loading]);
 
   const request = {loading: loading, data, error: error};
   
