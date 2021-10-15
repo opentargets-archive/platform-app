@@ -3,6 +3,7 @@ import SummaryItem from '../../../components/Summary/SummaryItem';
 
 import { getGeneDiseaseGtexJSON } from '../../../utils/externalAPI';
 import { dataTypesMap } from '../../../dataTypes';
+import { setDisplaySettingForExternal } from '../../common/OpenPedCanGeneExpression/utils'
 
 export async function getData(id, setData, setLoading, setHasData=(_)=>_){
   const { ensgId: ensemblId, efoId } = id;
@@ -18,28 +19,6 @@ export async function getData(id, setData, setLoading, setHasData=(_)=>_){
       setLoading(false);
     }, 'summary');
 }
-
-
- // need to review this, possible need to move to util. 
-  const setDisplaySettingForExternal = (flag,definitionKey,displaySettingsForExternal,updateDisplaySettingsForExternal)=>{
-    if(flag){
-      // HasData from external source
-
-      if(!displaySettingsForExternal.includes(definitionKey)){
-         //If this section.difinition.id is not presented in the displaySettingsForExternal array, add id into it.
-        updateDisplaySettingsForExternal([...displaySettingsForExternal, definitionKey]);
-      }
-    }else{
-      // No data from external source
-      if(displaySettingsForExternal.includes(definitionKey)){
-         //If this section.difinition.id is  presented in the displaySettingsForExternal array, remove it from displaySettingsForExternal.
-        const index = displaySettingsForExternal.indexOf(definitionKey);
-        displaySettingsForExternal.splice(index,1);
-        updateDisplaySettingsForExternal([...displaySettingsForExternal]);
-      }
-    }
-  }
-
 
 function Summary({ definition, id, displaySettingsForExternal, updateDisplaySettingsForExternal}) {
   const { ensgId: ensemblId, efoId } = id;
