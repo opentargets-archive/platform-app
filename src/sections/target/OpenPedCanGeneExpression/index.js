@@ -5,7 +5,6 @@ export const definition = {
   hasData: ( data ) => {
     return data ? data.length > 0 : false;
   },
-   external: true
 };
 
 export { default as Summary } from './Summary';

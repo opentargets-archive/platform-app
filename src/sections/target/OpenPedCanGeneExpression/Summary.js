@@ -17,17 +17,39 @@ export async function getData(ensemblId, setData, setLoading, setHasData=(_)=>_)
     }, 'summary');
 }
 
-function Summary({ definition, id }) {
+// need to review this, possible need to move to util. 
+const setDisplaySettingForExternal = (flag,definitionKey,displaySettingsForExternal,updateDisplaySettingsForExternal)=>{
+  if (flag) {
+    // HasData from external source
+    if (!displaySettingsForExternal.includes(definitionKey)) {
+      //If this section.difinition.id is not presented in the displaySettingsForExternal array, add id into it.
+      updateDisplaySettingsForExternal([...displaySettingsForExternal, definitionKey]);
+    }
+  } else {
+    // No data from external source
+    if (displaySettingsForExternal.includes(definitionKey)) {
+      //If this section.difinition.id is  presented in the displaySettingsForExternal array, remove it from displaySettingsForExternal.
+      const index = displaySettingsForExternal.indexOf(definitionKey);
+      displaySettingsForExternal.splice(index,1);
+      updateDisplaySettingsForExternal([...displaySettingsForExternal]);
+    }
+  }
+}
+
+function Summary({ definition, id, displaySettingsForExternal, updateDisplaySettingsForExternal}) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error] = useState(false);
 
-
- useEffect(()=>{
+  useEffect(()=>{
     /********     Get JSON Data    ********/
-  getData(id, setData, setLoading)
-    
-}, [id]) 
+    if (data.length === 0 && loading === true) {
+      getData(id, setData, setLoading)
+    }
+    return () => {
+      setDisplaySettingForExternal(definition.hasData(data), definition.id, displaySettingsForExternal, updateDisplaySettingsForExternal);
+    }
+  }, [id, data, definition, displaySettingsForExternal, updateDisplaySettingsForExternal, loading]) 
 
   const request = {loading: loading, data, error: error}
   return (
@@ -38,7 +60,6 @@ function Summary({ definition, id }) {
         const hasData = definition.hasData(data)
         return hasData ? "Available" : "no data"
       }}
-      // subText={dataTypesMap.rna_expression}
     />
   );
 }
