@@ -136,6 +136,10 @@ const styles = makeStyles(theme => ({
     fontWeight: 'bold',
     padding: '1rem',
   },
+  playgroundContainer: {
+    margin: '0 1.5rem 1.5rem 1.5rem',
+    height: '100%',
+  },
 }));
 
 const fetcher = async graphQLParams => {
@@ -267,11 +271,13 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
           </Link>{' '}
           for more how-to guides and tutorials.
         </Paper>
-        <GraphiQL
-          fetcher={fetcher}
-          query={query}
-          variables={JSON.stringify(variables, null, 2)}
-        />
+        <div className={classes.playgroundContainer}>
+          <GraphiQL
+            fetcher={fetcher}
+            query={query}
+            variables={JSON.stringify(variables, null, 2)}
+          />
+        </div>
       </Drawer>
     </>
   );
