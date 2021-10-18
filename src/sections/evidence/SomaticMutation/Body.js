@@ -1,7 +1,7 @@
 import React from 'react';
 import { loader } from 'graphql.macro';
 
-import { Body as SomaticMutationBody } from '../../common/SomaticMutation';
+import { Body as OpenPedCanSomaticMutationsBody } from '../../common/OpenPedCanSomaticMutations';
 import Description from './Description';
 
 const SOMATIC_MUTATION_QUERY = loader('./SomaticMutationQuery.gql');
@@ -11,7 +11,7 @@ function Body({ definition, id, label }) {
   const variables = { ensemblId, efoId }
   const dataDownloaderFileStem = `OpenPedCanSomaticMutations-${ensemblId}-${efoId}`
   return (
-    <SomaticMutationBody 
+    <OpenPedCanSomaticMutationsBody 
       definition={definition}
       id={id}
       label={label}
