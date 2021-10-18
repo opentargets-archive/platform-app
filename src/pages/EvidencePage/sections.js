@@ -21,7 +21,7 @@ import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
 import * as KidsFirst from '../../sections/evidence/KidsFirst';
-import * as SomaticMutation from '../../sections/evidence/SomaticMutation'
+import * as OpenPedCanSomaticMutations from '../../sections/evidence/OpenPedCanSomaticMutations'
 
 const sections = [
   OTGenetics,
@@ -46,6 +46,6 @@ const sections = [
   ExpressionAtlas,
   Phenodigm,
   KidsFirst,
-  SomaticMutation,
+  OpenPedCanSomaticMutations,
 ];
 export default sections;
