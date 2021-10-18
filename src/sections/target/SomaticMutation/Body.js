@@ -6,13 +6,13 @@ import Description from './Description';
 
 const SOMATIC_MUTATION_QUERY = loader('./SomaticMutationQuery.gql');
 
-function Body({ definition, id, label }) {
+function Body({ definition, id, label: symbol}) {
   const variables = { ensemblId: id };
   return (
     <SomaticMutationBody 
       definition={definition}
       id={id}
-      label={label}
+      label={{symbol}}
       entity="target"
       variables={variables}
       BODY_QUERY={SOMATIC_MUTATION_QUERY}
