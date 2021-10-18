@@ -5,7 +5,6 @@
   status = 200
 
 [context.production.environment]
-  # REACT_APP_GTMID= "GTM-WPXWRDV"
 
 [context.lf-partner-preview.environment]
   REACT_APP_configUrlApi = "https://api.partner-platform.devppreview21091.opentargets.xyz/api/v4/graphql"
