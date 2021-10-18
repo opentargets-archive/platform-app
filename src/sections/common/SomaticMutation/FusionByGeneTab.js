@@ -45,12 +45,13 @@ const dataDownloaderColumns = [
   { id: 'diseaseFromSourceMappedId', label: 'EFO' },
 ]
 
-function FusionByGeneTab({data}) {
+function FusionByGeneTab({data, dataDownloaderFileStem}) {
   return (
     <Grid container>
       <Grid item xs={12}>
         <DataTable
           dataDownloaderColumns={dataDownloaderColumns}
+          dataDownloaderFileStem={dataDownloaderFileStem}
           columns={columns}
           rows={data}
           dataDownloader

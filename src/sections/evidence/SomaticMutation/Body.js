@@ -9,6 +9,7 @@ const SOMATIC_MUTATION_QUERY = loader('./SomaticMutationQuery.gql');
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
   const variables = { ensemblId, efoId }
+  const dataDownloaderFileStem = `OpenPedCanSomaticMutations-${ensemblId}-${efoId}`
   return (
     <SomaticMutationBody 
       definition={definition}
@@ -18,6 +19,7 @@ function Body({ definition, id, label }) {
       variables={variables}
       BODY_QUERY={SOMATIC_MUTATION_QUERY}
       Description={Description}
+      dataDownloaderFileStem={dataDownloaderFileStem}
     />
   );
 }

@@ -11,7 +11,7 @@ import CnvByGeneTab from './CnvByGeneTab';
 import FusionByGeneTab from './FusionByGeneTab';
 import FusionTab from './FusionTab';
 
-function Body({ definition, id, label, entity, variables, BODY_QUERY, Description }) {
+function Body({ definition, id, label, entity, variables, BODY_QUERY, Description, dataDownloaderFileStem}) {
 
   const request = useQuery(BODY_QUERY, {
     variables: { ...variables, size: 9999 },
@@ -43,19 +43,24 @@ function Body({ definition, id, label, entity, variables, BODY_QUERY, Descriptio
               <Tab value="fusion" label="Fusion" disabled={fusion.evidences.count === 0}></Tab>
             </Tabs>
             {/* table 1: SNV by Gene */}
-            { tab === "snvByGene" && snvByGene.evidences.count > 0 && <SnvByGeneTab data={snvByGene.evidences.rows} ids={id} labels={label}  /> }
+            { tab === "snvByGene" && snvByGene.evidences.count > 0 && 
+                <SnvByGeneTab data={snvByGene.evidences.rows} dataDownloaderFileStem={dataDownloaderFileStem} ids={id} labels={label}  /> }
 
             {/* table 2: SNV by Variant */}
-            { tab === "snvByVariant" && snvByVariant.evidences.count > 0 && <SnvByVariantTab data={snvByVariant.evidences.rows} ids={id} labels={label} /> }
+            { tab === "snvByVariant" && snvByVariant.evidences.count > 0 && 
+                <SnvByVariantTab data={snvByVariant.evidences.rows} dataDownloaderFileStem={dataDownloaderFileStem} ids={id} labels={label} /> }
 
             {/* table 3: CNV by Gene*/}
-            { tab === "cnvByGene" && cnvByGene.evidences.count > 0 && <CnvByGeneTab data={cnvByGene.evidences.rows} ids={id} labels={label}  /> }
+            { tab === "cnvByGene" && cnvByGene.evidences.count > 0 && 
+                <CnvByGeneTab data={cnvByGene.evidences.rows} dataDownloaderFileStem={dataDownloaderFileStem} ids={id} labels={label}  /> }
 
             {/* table 4: Fusion by Gene*/}
-            { tab === "fusionByGene" && fusionByGene.evidences.count > 0 && <FusionByGeneTab data={fusionByGene.evidences.rows} ids={id} labels={label}  /> }
+            { tab === "fusionByGene" && fusionByGene.evidences.count > 0 && 
+                <FusionByGeneTab data={fusionByGene.evidences.rows} dataDownloaderFileStem={dataDownloaderFileStem} ids={id} labels={label}  /> }
 
             {/* table 5: Fusion */}
-            { tab === "fusion" && fusion.evidences.count > 0 && <FusionTab data={fusion.evidences.rows} ids={id} labels={label}  /> }
+            { tab === "fusion" && fusion.evidences.count > 0 && 
+                <FusionTab data={fusion.evidences.rows} dataDownloaderFileStem={dataDownloaderFileStem} ids={id} labels={label}  /> }
 
           </>
         );

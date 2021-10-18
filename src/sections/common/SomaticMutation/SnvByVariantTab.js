@@ -71,12 +71,13 @@ const dataDownloaderColumns = [
   { id: 'OncoKBOncogeneTSG' },
 ]
 
-function SnvByVariantTab({data}) {
+function SnvByVariantTab({data, dataDownloaderFileStem}) {
   return (
     <Grid container>
       <Grid item xs={12}>
         <DataTable
           dataDownloaderColumns={dataDownloaderColumns}
+          dataDownloaderFileStem={dataDownloaderFileStem}
           columns={columns}
           rows={data}
           dataDownloader

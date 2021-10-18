@@ -55,12 +55,13 @@ const dataDownloaderColumns = [
   { id: 'MONDO' },
 ]
 
-function CnvByGeneTab({data}) {
+function CnvByGeneTab({data, dataDownloaderFileStem}) {
   return (
     <Grid container>
       <Grid item xs={12}>
         <DataTable
           dataDownloaderColumns={dataDownloaderColumns}
+          dataDownloaderFileStem={dataDownloaderFileStem}
           columns={columns}
           rows={data}
           dataDownloader
