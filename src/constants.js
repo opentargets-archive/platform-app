@@ -230,7 +230,6 @@ export const colorRange =
   config.partnerColorRange?.length > 0
     ? config.partnerColorRange.split(',')
     : [
-        // '#ffffff',
         '#e5edf4',
         '#ccdcea',
         '#b2cbe0',
