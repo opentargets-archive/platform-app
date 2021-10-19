@@ -20,7 +20,7 @@ import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
-import * as KidsFirst from '../../sections/evidence/KidsFirst';
+import * as OpenPedCanGeneExpression from '../../sections/evidence/OpenPedCanGeneExpression';
 import * as OpenPedCanSomaticMutations from '../../sections/evidence/OpenPedCanSomaticMutations'
 
 const sections = [
@@ -45,7 +45,7 @@ const sections = [
   EuropePmc,
   ExpressionAtlas,
   Phenodigm,
-  KidsFirst,
   OpenPedCanSomaticMutations,
+  OpenPedCanGeneExpression,
 ];
 export default sections;
