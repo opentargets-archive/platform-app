@@ -1,6 +1,6 @@
 export const definition = {
-  id: 'somaticMutation',
-  name: 'Somatic Mutation',
+  id: 'openPedCanSomaticMutations',
+  name: 'OpenPedCan Somatic Mutations',
   shortName: 'SM',
   hasData: ( data ) => {
     const {snvByGene, snvByVariant, cnvByGene, fusionByGene, fusion} = data;

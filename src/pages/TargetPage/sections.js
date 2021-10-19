@@ -15,7 +15,7 @@ import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
 import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
 
-import * as SomaticMutation from '../../sections/target/SomaticMutation'
+import * as OpenPedCanSomaticMutations from '../../sections/target/OpenPedCanSomaticMutations'
 import * as OpenPedCanGeneExpression from '../../sections/target/OpenPedCanGeneExpression'
 
 
@@ -35,7 +35,7 @@ const sections = [
   MousePhenotypes,
   ComparativeGenomics,
   Bibliography,
-  SomaticMutation,
+  OpenPedCanSomaticMutations,
   OpenPedCanGeneExpression,
 ];
 export default sections;

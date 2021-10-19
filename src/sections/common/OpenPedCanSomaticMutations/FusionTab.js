@@ -68,12 +68,13 @@ const dataDownloaderColumns = [
   { id: 'frequencyInRelapseTumors' },
 ]
 
-function FusionTab({data}) {
+function FusionTab({data, dataDownloaderFileStem}) {
   return (
     <Grid container>
       <Grid item xs={12}>
         <DataTable
           dataDownloaderColumns={dataDownloaderColumns}
+          dataDownloaderFileStem={dataDownloaderFileStem}
           columns={columns}
           rows={data}
           dataDownloader
