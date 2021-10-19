@@ -1,7 +1,7 @@
 export const definition = {
   id: 'openPedCanGeneExpression',
   name: 'OpenPedCan Gene Expression',
-  shortName: 'OP',
+  shortName: 'GX',
   hasData: ( data ) => {
     return data ? data.length > 0 : false;
   },
