@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Tab, Tabs } from '@material-ui/core';
-import { getGeneDiseaseGtexPlot } from '../../../utils/externalAPI';
+import { Tab, Tabs, Grid } from '@material-ui/core';
+
 import SectionItem from '../../../components/Section/SectionItem';
-import Description from './Description';
 import DataDownloader from '../../../components/Table/DataDownloader';
-import { Grid } from '@material-ui/core';
 import { dataTypesMap } from '../../../dataTypes';
 
-import {getData} from './Summary'; 
-
-function Body({ definition, id, label}) {
-  const { ensgId: ensemblId, efoId } = id;
+function Body({ definition, id, label, getData, getPlot, Description, entity, fileStem, imageAlt}) {
 
   const [json, setJson] = useState([]);
   const [linearPlot, setLinearPlot] = useState('')
@@ -24,17 +19,13 @@ function Body({ definition, id, label}) {
     return setTab(tab);
   };
 
-  useEffect(()=>{
-    // Get JSON Data and use this data to determine if TPM plot exist or not
-    getData(id, setJson, setLoading, setHasData);
-  }, [ensemblId, efoId, id])
-  
   useEffect(
     ()=>{
-      if (hasData && tab === 'linear' && linearPlot.length === 0) {
-        /********     Get Plot    ******** */ 
+      const generticId = (entity === "evidence") ? [id.ensgId, id.efoId] : [id]
+      if (tab === 'linear' && linearPlot.length === 0) {
+        /********     Get Linear Plot    ******** */ 
         setLoading(true)
-        getGeneDiseaseGtexPlot(ensemblId, efoId, tab, 
+        getPlot(...generticId, tab, 
           (resData) => {
             const base64 = Buffer.from(resData).toString('base64')
             const imageSrc = base64
@@ -46,10 +37,10 @@ function Body({ definition, id, label}) {
             setError(true)
             console.log(error)
           });
-      } else if (hasData && tab === 'log10' && log10Plot.length === 0) {
-          /********     Get Plot    ******** */ 
+      } else if (tab === 'log10' && log10Plot.length === 0) {
+          /********     Get Log10 Plot    ******** */ 
           setLoading(true)
-          getGeneDiseaseGtexPlot(ensemblId, efoId, tab,  
+          getPlot(...generticId, tab,  
             (resData) => {
               const base64 = Buffer.from(resData).toString('base64')
               const imageSrc = base64
@@ -62,7 +53,11 @@ function Body({ definition, id, label}) {
               console.log(error)
             });
       }
-    }, [efoId, hasData, ensemblId, tab, linearPlot.length, log10Plot.length]);
+      return () => {
+      /********     Get JSON Data    ******** */
+        if (!hasData) getData(id, setJson, setLoading, setHasData);
+      }
+    }, [hasData, tab, linearPlot.length, log10Plot.length, id, getData, getPlot, entity]);
 
   const columns = [
     { id: 'x_labels' },
@@ -83,11 +78,10 @@ function Body({ definition, id, label}) {
     { id: 'TPM_75th_percentile' },
     { id: 'TPM_max' }
   ]
-  return hasData ? 
-     (
+  return   (
       <SectionItem
         definition={definition}
-        chipText={dataTypesMap.rna_expression}
+        chipText={entity ? dataTypesMap.rna_expression : ''}
         request={{data: {linearPlot, log10Plot, json}, error, loading}}
         renderDescription={() => (
           <Description symbol={label.symbol} name={label.name} />
@@ -110,10 +104,10 @@ function Body({ definition, id, label}) {
               {tab === 'linear' ? (
                 <>
                   <Grid container>
-                    <Grid item xs={12}>
-                      <DataDownloader rows={json} columns={columns} fileStem={`OpenPedCan-${ensemblId}-${efoId}`}/>
+                    <DataDownloader rows={json} columns={columns} fileStem={fileStem}/>
+                    <Grid item xs={12} style={{overflow: 'auto'}}>
                       <img src={`data:image/png;base64,${linearPlot}`}
-                        width={imageWidth} height={imageHeight} alt="Linear Gene All Cancer Plot" />
+                        width={imageWidth} height={imageHeight} alt={`${imageAlt} TPM boxplot (Linear)`} />
                     </Grid>
                 </Grid>
                 </>
@@ -122,10 +116,10 @@ function Body({ definition, id, label}) {
               {tab === 'log10' ? (
                 <>
                   <Grid container>
-                    <Grid item xs={12}>
-                      <DataDownloader rows={json} columns={columns} fileStem={`OpenPedCan-${ensemblId}-${efoId}`}/>
+                    <DataDownloader rows={json} columns={columns} fileStem={fileStem}/>
+                    <Grid item xs={12} style={{overflow: 'auto'}}>
                       <img src={`data:image/png;base64,${log10Plot}`}
-                      width={imageWidth} height={imageHeight} alt="Log10 Gene All Cancer Plot" />
+                      width={imageWidth} height={imageHeight} alt={`${imageAlt} TPM boxplot (Lag10)`} />
                     </Grid>
                 </Grid>
                 </>
@@ -135,7 +129,7 @@ function Body({ definition, id, label}) {
         }}
       />
     )
-        : <></>
+        
 }
 
 export default Body;
