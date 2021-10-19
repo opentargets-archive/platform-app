@@ -81,7 +81,7 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
   return   (
       <SectionItem
         definition={definition}
-        chipText={entity ? dataTypesMap.rna_expression : ''}
+        chipText={entity === "evidence" ? dataTypesMap.rna_expression : ''}
         request={{data: {linearPlot, log10Plot, json}, error, loading}}
         renderDescription={() => (
           <Description symbol={label.symbol} name={label.name} />
