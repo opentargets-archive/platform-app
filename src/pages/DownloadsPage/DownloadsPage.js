@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Paper, Box, Chip, Typography } from '@material-ui/core';
 
-import BasePage from '../../components/BasePage';
 import Link from '../../components/Link';
 import { defaultRowsPerPageOptions, formatMap } from '../../constants';
 import { DataTable } from '../../components/Table';
@@ -89,16 +88,12 @@ function getVersion(data) {
   return `${year}.${month < 10 ? '0' : ''}${month}`;
 }
 
-function DownloadsPage({ location }) {
+function DownloadsPage() {
   const { data, loading, error } = useQuery(DATA_VERSION_QUERY);
   const columns = loading || error ? [] : getColumns(data.meta.dataVersion);
 
   return (
-    <BasePage
-      title="Data downloads"
-      description="List of open source and open access datasets that are available for download from the Open Targets Platform in various formats"
-      location={location}
-    >
+    <Fragment>
       <Typography variant="h4" component="h1" paragraph>
         Data downloads
       </Typography>
@@ -145,7 +140,7 @@ function DownloadsPage({ location }) {
           )}
         </Box>
       </Paper>
-    </BasePage>
+    </Fragment>
   );
 }
 
