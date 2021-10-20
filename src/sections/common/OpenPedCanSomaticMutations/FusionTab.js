@@ -30,7 +30,7 @@ const columns = [
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> 
   },
-  { id: 'RMTL', label: 'PMTL', sortable:true , renderCell: () => <RelevantIcon/>},
+  { id: 'PMTL', label: 'PMTL', sortable:true , renderCell: () => <RelevantIcon/>},
   { id: 'dataset', label: 'Dataset', sortable:true },
   { id: 'totalAlterationsOverNumberPatientsInDataset', label: 'Total alterations Over Patients in dataset', sortable:true },
   { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable:true },
@@ -57,7 +57,7 @@ const dataDownloaderColumns = [
   { id: 'targetFromSourceId', label: 'geneEnsemblID' },
   { id: 'Disease' },
   { id: 'MONDO' },
-  { id: 'RMTL' },
+  { id: 'PMTL' },
   { id: 'diseaseFromSourceMappedId', label: 'EFO' },
   { id: 'dataset' },
   { id: 'totalAlterationsOverNumberPatientsInDataset' },

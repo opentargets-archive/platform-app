@@ -19,7 +19,7 @@ query SomaticMutationQuery($ensemblId: String!, $size: Int!) {
         pedcbioPedotOncoprintPlotURL
         proteinEnsemblId
         proteinRefseqId
-        RMTL
+        PMTL
         totalMutationsOverPatientsInDataset
         totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset
         totalRelapseTumorsMutatedOverRelapseTumorsInDataset
@@ -47,7 +47,7 @@ query SomaticMutationQuery($ensemblId: String!, $size: Int!) {
         MONDO
         OncoKBCancerGene
         OncoKBOncogeneTSG
-        RMTL
+        PMTL
         totalAlterationsOverPatientsInDataset
         totalPrimaryTumorsAlteredOverPrimaryTumorsInDataset
         totalRelapseTumorsAlteredOverRelapseTumorsInDataset
@@ -78,7 +78,7 @@ query SomaticMutationQuery($ensemblId: String!, $size: Int!) {
         frequencyInRelapseTumors
         geneSymbol
         MONDO
-        RMTL
+        PMTL
         totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset
         totalRelapseTumorsMutatedOverRelapseTumorsInDataset
         diseaseFromSourceMappedId
@@ -117,7 +117,7 @@ query SomaticMutationQuery($ensemblId: String!, $size: Int!) {
         kinaseDomainRetainedGene1A
         kinaseDomainRetainedGene1B
         MONDO
-        RMTL
+        PMTL
         reciprocalExistsEitherGeneKinase
         totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset
         totalRelapseTumorsMutatedOverRelapseTumorsInDataset
@@ -156,7 +156,7 @@ query SomaticMutationQuery($ensemblId: String!, $size: Int!) {
         proteinEnsemblId
         proteinRefseqId
         proteinChange
-        RMTL
+        PMTL
         siftImpact
         totalMutationsOverPatientsInDataset
         totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset
