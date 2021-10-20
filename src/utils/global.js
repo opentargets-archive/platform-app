@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+import { format } from 'd3';
 
 export const safeToString = x => {
   switch (typeof x) {
@@ -33,7 +33,7 @@ export const sentenceCase = str =>
         .toLocaleLowerCase()
     : str;
 
-export const formatComma = d3.format(',');
+export const formatComma = format(',');
 
 export function getUniprotIds(proteinIds) {
   return proteinIds
