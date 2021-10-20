@@ -6,6 +6,11 @@ import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
 import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 
+const createExternalLink = (url, description) => {
+  const link = url ? <Link external to={url}> {description} </Link> : '' 
+  return link; 
+}
+
 // Configuration for how the tables will display the data
 const columns = [
   {
@@ -13,9 +18,8 @@ const columns = [
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
-  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>},
+  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>, filterValue: false},
   { id: 'dataset', label: 'Dataset', sortable: true },
-  
   { id: 'Disease', label: 'Disease', sortable: true,
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link>},
@@ -31,9 +35,13 @@ const columns = [
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer geneD', sortable: true},
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true},
   { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot URL', 
-    renderCell: ({pedcbioPedotOncoprintPlotURL}) => <Link external to={pedcbioPedotOncoprintPlotURL}> oncoprint </Link> },
+    renderCell: ({pedcbioPedotOncoprintPlotURL}) => createExternalLink(pedcbioPedotOncoprintPlotURL, "oncoprint"),
+    filterValue: ({pedcbioPedotOncoprintPlotURL}) => pedcbioPedotOncoprintPlotURL ? 'oncoprint' : ''
+  },
   { id: 'pedcbioPedotMutationsPlotURL', label: 'PedcBio PedOT mutations plot URL', 
-    renderCell: ({pedcbioPedotMutationsPlotURL}) => <Link external to={pedcbioPedotMutationsPlotURL}> mutations </Link> },
+    renderCell: ({pedcbioPedotMutationsPlotURL}) => createExternalLink(pedcbioPedotMutationsPlotURL, "mutations"), 
+    filterValue:({pedcbioPedotMutationsPlotURL}) => pedcbioPedotMutationsPlotURL ? 'mutations' : ''
+  },
 ]
 
 const dataDownloaderColumns = [
