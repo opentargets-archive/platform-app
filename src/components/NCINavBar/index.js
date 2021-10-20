@@ -6,7 +6,6 @@ export const navBarstyling = {
     backgroundColor: '#0B3557',
     height: '39px',
     padding: '9px 20px 0px 20px',
-    marginTop: '120px',
     fontFamily: 'Raleway, sans-serif',
     activeLabel: '2px solid  #35b9eb',
     paddingRight: '65px',
@@ -52,28 +51,23 @@ export const navBarData = [
   {
     labelText: 'HOME',
     type: 'link',
-    link: '/home',
+    link: '/',
   },
   {
-    labelText: 'FDA PMTL Documentation',
+    labelText: 'FDA Pediatric Molecular Target Lists',
     type: 'link',
-    link: '/cases',
+    link: '/fda-pmtl',
   },
   {
-    labelText: 'FDA PMTL',
-    type: 'link',
-    link: '/programs',
-  },
-  {
-    labelText: 'Open Target Documentation',
-    type: 'link',
-    link: '/studies',
-  },
-  {
-    labelText: 'ABOUT',
+    labelText: 'About',
     type: 'link',
     link: '/about',
   },
+  {
+    labelText: 'Documentation',
+    type: 'link',
+    link: '/fda-pmtl-docs',
+  }
 ];
 
 

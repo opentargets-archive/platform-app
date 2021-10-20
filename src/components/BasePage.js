@@ -4,8 +4,6 @@ import Search from './Search';
 import Page from './Page';
 import NCIFooter from './NCIFooter';
 import NCIHeader from './NCIHeader';
-import LinkBar from './LinkBar'; 
-import NCINavBar from './NCINavBar';
 import NavBar from './NavBar';
 
 import {
@@ -22,10 +20,8 @@ const BasePage = ({ title, children, description, location }) => {
     <Page
       header={
       <>
-        <LinkBar/>
         <NCIHeader/>
-        <NCINavBar/>
-         <NavBar
+         <NavBar 
           name="Platform"
           search={<Search embedded />}
           items={mainMenuItems}

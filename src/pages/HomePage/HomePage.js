@@ -4,21 +4,9 @@ import {
   makeStyles,
   Typography,
   Hidden,
-  Box,
-  useMediaQuery,
 } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
-import { Helmet } from 'react-helmet';
-
-import {
-  appTitle,
-  appDescription,
-  appCanonicalUrl,
-} from '../../constants';
 import NCIFooter from '../../components/NCIFooter';
 import NCIHeader from '../../components/NCIHeader';
-import LinkBar from '../../components/LinkBar'; 
-import NavBar from '../../components/NCINavBar';
 import HomeBox from './HomeBox';
 import Link from '../../components/Link';
 import Search from '../../components/Search';
@@ -26,18 +14,6 @@ import searchExamples from './searchExamples';
 import Splash from './Splash';
 import Version from './Version';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCircle,
-  faChevronDown,
-  faDownload,
-  faLaptopCode,
-  faQuestionCircle,
-  faFileAlt,
-  faCommentDots,
-} from '@fortawesome/free-solid-svg-icons';
-
-import config from '../../config';
 
 const useStyles = makeStyles(theme => ({
   links: {
@@ -53,8 +29,8 @@ const useStyles = makeStyles(theme => ({
       textAlign: 'left',
     },
   },
-  hpSection: {
-    marginBottom: '40px',
+  aboutBox:{
+    margin: '70px 0',
   },
 }));
 
@@ -74,60 +50,15 @@ const HomePage = () => {
   const targets = pickTwo(searchExamples.targets);
   const diseases = pickTwo(searchExamples.diseases);
   const drugs = pickTwo(searchExamples.drugs);
-  const theme = useTheme();
-  const xsMQ = useMediaQuery(theme.breakpoints.down('xs'));
-
-  const handleScrollDown = () => {
-    window.scrollTo({ top: window.innerHeight, left: 0, behavior: 'smooth' });
-  };
-
-  const HelpBoxPanel = ({ fai, url, label, external }) => {
-    if (xsMQ) {
-      // on xsmall screens
-      return (
-        <Link to={url} external={external}>
-          <Grid container wrap="nowrap" alignItems="center" spacing={1}>
-            <Grid item>
-              <div className="fa-layers fa-fw fa-3x">
-                <FontAwesomeIcon icon={faCircle} />
-                <FontAwesomeIcon icon={fai} transform="shrink-8" inverse />
-              </div>
-            </Grid>
-            <Grid item>
-              <Typography display="inline">{label}</Typography>
-            </Grid>
-          </Grid>
-        </Link>
-      );
-    } else {
-      return (
-        <Box className={classes.helpBoxes}>
-          <Link to={url} external={external}>
-            <div className="fa-layers fa-fw fa-6x">
-              <FontAwesomeIcon icon={faCircle} />
-              <FontAwesomeIcon icon={fai} transform="shrink-8" inverse />
-            </div>
-            <Typography>{label}</Typography>
-          </Link>
-        </Box>
-      );
-    }
-  };
 
   return (
     <>
-      <LinkBar/>
       <NCIHeader/>
-      <NavBar/>
-      <Helmet title={appTitle}>
-        <meta name="description" content={appDescription} />
-        <link rel="canonical" href={appCanonicalUrl} />
-      </Helmet>
       <Grid
         container
         justify="center"
         alignItems="center"
-        className={classes.hpSection}
+        className={classes.homeBox}
       >
         <Splash />
         <HomeBox>
@@ -159,27 +90,10 @@ const HomePage = () => {
           </Grid>
           <Version />
         </HomeBox>
-
-        {/* scroll down button */}
-        <Grid container justify="center">
-          <div
-            className="fa-layers fa-fw fa-3x"
-            style={{
-              height: '0px',
-              marginTop: '-1em',
-              filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .5))',
-              cursor: 'pointer',
-            }}
-            onClick={handleScrollDown}
-          >
-            <FontAwesomeIcon icon={faCircle} inverse />
-            <FontAwesomeIcon icon={faChevronDown} transform="shrink-4" />
-          </div>
-        </Grid>
       </Grid>
 
       {/* About */}
-      <Grid container justify="center" className={classes.hpSection}>
+      <Grid container justify="center" className={classes.aboutBox}>
         <Grid item xs={10} md={8}>
           <Typography variant="h4" component="h1" align="center" paragraph>
             About the Open Targets Platform
@@ -208,66 +122,6 @@ const HomePage = () => {
             licence allows the creation of self-hosted private instances of the
             Platform with custom data.
           </Typography>
-        </Grid>
-      </Grid>
-
-      {/* Get started */}
-      <Grid container justify="center" className={classes.hpSection}>
-        <Grid item xs={10} md={8}>
-          <Typography variant="h4" component="h1" align="center" paragraph>
-            Get started with the Platform
-          </Typography>
-
-          <Grid
-            container
-            justify="space-evenly"
-            alignItems="flex-start"
-            spacing={1}
-          >
-            <Grid item xs={12} sm={'auto'}>
-              <HelpBoxPanel
-                fai={faDownload}
-                url="/downloads"
-                label="Download all of our open datasets"
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={'auto'}>
-              <HelpBoxPanel
-                fai={faLaptopCode}
-                url={config.urlApi.split('/api/v4/graphql')[0]}
-                label="Access data with our GraphQL API"
-                external
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={'auto'}>
-              <HelpBoxPanel
-                fai={faQuestionCircle}
-                url="https://platform-docs.opentargets.org/"
-                label="Check out our Platform documentation"
-                external
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={'auto'}>
-              <HelpBoxPanel
-                fai={faFileAlt}
-                url="https://platform-docs.opentargets.org/citation"
-                label="Read our latest Platform publications"
-                external
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={'auto'}>
-              <HelpBoxPanel
-                fai={faCommentDots}
-                url="https://community.opentargets.org/"
-                label="Join the Open Targets Community"
-                external
-              />
-            </Grid>
-          </Grid>
         </Grid>
       </Grid>
 

@@ -40,12 +40,12 @@ const styles = () => ({
   },
   listHeader: {
     paddingBottom: '4px',
-    fontWeight: 600,
-    fontSize: '14px',
+    fontWeight: 500,
+    fontSize: '25px',
     fontFamily: '"Roboto", "Helvetica", "Arial", "sans-serif"',
   },
   footerRoot: (props) => ({
-    background: props.background,
+    background: '#0B446B',
   }),
   footerComponent: {
     lineHeight: '1.42857143',
@@ -87,18 +87,29 @@ const styles = () => ({
   footerRow: {
     display: 'flex',
     flexDirection: 'column',
-    // width: '1200px',
+    maxWidth: '1200px',
     margin: '0 auto',
-
     '@media (min-width: 900px)': {
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
   },
+  padding20: {
+    padding: '20px',
+  },
   footerRowSection: {
     marginTop: '16px',
     '@media (max-width: 900px)': {
-      margin: '16px',
+      margin: '0 auto',
+    },
+  },
+  footerRowSectionLinks: {
+    marginTop: '16px',
+    '& li': {
+      float: 'left',
+    },
+    '@media (max-width: 900px)': {
+      margin: '0 auto',
     },
   },
   turningNIH: {
@@ -172,7 +183,7 @@ const styles = () => ({
 const Footer = ({ classes, data }) => (
   <div className={classes.footerRoot}>
     <div className={classes.footerComponent}>
-      <div className={classes.footerRow}>
+      <div className={cn(classes.footerRow,classes.padding20)}>
         <div className={
             cn(classes.footerRowSection, classes.footerNciColumn, classes.marginRight40)
   }
@@ -195,15 +206,13 @@ const Footer = ({ classes, data }) => (
             )}
         </div>
         { data.link_sections.slice(0, 3).map((linkSection) => (
-          <div className={classes.footerRowSection}>
-            <ul>
-              <li>
-                <div
+          <div className={classes.footerRowSectionLinks}>
+            <div
                   className={cn(classes.footerText, classes.listHeader)}
                 >
                   { linkSection.title }
                 </div>
-              </li>
+            <ul>
               { linkSection.items.slice(0, 4).map((footerRowSectionItem) => (
                 <li>
                   {footerRowSectionItem.text
@@ -260,60 +269,6 @@ const Footer = ({ classes, data }) => (
           </div>
         </div>
       </div>
-      {/* Quick and dirty for adding version number in footer */}
-      <div className={cn(classes.footerRow, classes.contentJustifyLeft)}>
-        <div
-          className={cn(
-            classes.extraPadding,
-            classes.nciLinks,
-            classes.contentJustifyCenter,
-          )}
-        >
-          <div>
-            <span className={classes.footorVersiontext}>
-              FE Version:&nbsp;
-              {data.version}
-            </span>
-          </div>
-        </div>
-      </div>
-      {/* End of Quick and dirty for adding version number in footer */}
-      {/* Quick and dirty for adding version number in footer */}
-      <div className={cn(classes.footerRow, classes.contentJustifyLeft)}>
-        <div
-          className={cn(
-            classes.nciLinks,
-            classes.contentJustifyCenter,
-          )}
-        >
-          <div>
-            <span className={classes.footorVersiontext}>
-              BE Version:&nbsp;
-              {data.BEversion}
-            </span>
-          </div>
-        </div>
-      </div>
-      {/* End of Quick and dirty for adding version number in footer */}
-      {/* Adding file service version number in footer */}
-      { data.FileServiceVersion && (
-      <div className={cn(classes.footerRow, classes.contentJustifyLeft)}>
-        <div
-          className={cn(
-            classes.nciLinks,
-            classes.contentJustifyCenter,
-          )}
-        >
-          <div>
-            <span className={classes.footorVersiontext}>
-              FS Version:&nbsp;
-              {data.FileServiceVersion}
-            </span>
-          </div>
-        </div>
-      </div>
-      )}
-      {/* End Adding file service version number in footer */}
     </div>
   </div>
 );

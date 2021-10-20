@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, NavLink } from 'react-router-dom';
+import { Link as NavLink } from 'react-router-dom';
 import {
   AppBar,
   Button,
@@ -26,7 +26,7 @@ const NavBar = ({
 
   return (
     <AppBar
-      position="fixed"
+      position="relative"
       className={classnames(classes.appBar, {
         [classes.appBarShift]: isSidebarOpened,
       })}
@@ -50,7 +50,6 @@ const NavBar = ({
               )
               : (
                 <Button id="button_navbar_navButton" disableRipple weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
-                  <HashRouter>
                     <NavLink
                       className={classes.labelText}
                       activeClassName={classes.activeLabel}
@@ -59,7 +58,6 @@ const NavBar = ({
                     >
                       {navButton.labelText}
                     </NavLink>
-                  </HashRouter>
                 </Button>
               )
           ))}
@@ -90,7 +88,6 @@ const styles = () => ({
   },
   appBar: (props) => ({
     backgroundColor: props.navBarstyling.global.backgroundColor ? props.navBarstyling.global.backgroundColor : '#142D64',
-    marginTop: props.navBarstyling.global.marginTop ? props.navBarstyling.global.marginTop : '100px',
     width: '100vw',
   }),
   cartIcon: {
@@ -182,10 +179,6 @@ const styles = () => ({
     zIndex: '1201',
     height: 'calc(100% - 100px)',
   },
-  // headerMenuButton: {
-  //   marginLeft: theme.spacing.unit,
-  //   padding: theme.spacing.unit / 2,
-  // },
 });
 
 NavBar.defaultProps = {

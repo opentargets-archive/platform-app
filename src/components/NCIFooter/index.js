@@ -15,49 +15,6 @@ const FooterData = {
   // A maximum of 4 Anchor Links (global_footer_links) are allowed
   // Ideal size for icon is 20x20 px
   link_sections: [
-    {
-      title: 'About ICDC',
-      items: [
-        {
-          text: 'Purpose',
-          link: '/purpose',
-        },
-        {
-          text: 'Steering Committee',
-          link: '/steeringCommittee',
-        },
-        {
-          text: 'CRDC',
-          link: '/crdc',
-        },
-        {
-          text: 'Contact Us',
-          link: 'icdchelpdesk@nih.gov',
-        },
-      ],
-    },
-
-    {
-      title: 'About the Data',
-      items: [
-        {
-          text: 'ICDC Data & Model',
-          link: '/icdc-data-model',
-        },
-        {
-          text: 'Analyzing Data',
-          link: '/crdc',
-        },
-        {
-          text: 'Developers (APIs)',
-          link: '/developers',
-        },
-        {
-          text: 'Submission Guide',
-          link: '/submit',
-        },
-      ],
-    },
 
     {
       title: 'More Information',

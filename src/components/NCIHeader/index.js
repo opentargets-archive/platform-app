@@ -1,36 +1,34 @@
 import React from 'react';
-import  Header  from './Header';
+import { withStyles } from '@material-ui/core';
+import LinkBar from '../LinkBar';
+import NCINavBar from '../NCINavBar';
+import NCILogoBar from '../NCILogoBar';
+import NCITagLine from '../NCITagLine';
 
-const headerData = {
-  globalHeaderLogo: 'https://raw.githubusercontent.com/CBIIT/ppdc-otp-frontend/ec23481431865b339be01bc837bf06c2eb561237/CCDI-MT-Logo-COLOR.svg',
-  globalHeaderLogoLink: '/',
-  globalHeaderLogoAltText: 'MTP Logo',
-  globalHeaderImage: '',
+const styles = ()=>({
+  headerBar:{
+      color: '#8A95A7',
+      width: '100%',
+      margin: '0 auto',
+      minHeight: '100px',
+      justifyContent: 'space-between',
+      background: '#ffffff',
+      position: 'fixed',
+      zIndex: '1000',
+      top: 0,
+    }
+});
+
+const NCIHeader = ({ classes, ...props }) => {
+  return (
+    <div id="header" className={classes.headerBar}>
+      <LinkBar />
+      <NCILogoBar />
+      <NCITagLine />
+      <NCINavBar />
+    </div>
+  );
 };
 
 
-const customStyle = {
-  nihLogoImg: {
-    height: '110px',
-    width: '463px',
-    marginLeft: '28px',
-    minHeight: '54px',
-  },
-  headerBar: {
-    top: '20px',
-    zIndex: '999',
-  },
-};
-
-const NCIHeader = () => (
-  <>
-    <Header
-      logo={headerData.globalHeaderLogo}
-      easter={headerData.globalHeaderImage}
-      alt={headerData.globalHeaderLogoAltText}
-      homeLink={headerData.globalHeaderLogoLink}
-      customStyle={customStyle}
-    />
-  </>
-);
-export default NCIHeader;
+export default withStyles(styles)(NCIHeader);

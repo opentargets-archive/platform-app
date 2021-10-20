@@ -1,7 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core';
 import RouteLinks from '../helpers/routeLinks';
-import nihLogo from '../../assets/logo.svg';
 
 const styles = ()=>({
   grow: {
@@ -14,10 +13,8 @@ const styles = ()=>({
       height: '100px',
       margin: '0 auto',
       display: 'flex',
-      position: 'fixed',
       minHeight: '100px',
       justifyContent: 'space-between',
-      top: '0px',
       zIndex: '1201',
       background: '#ffffff',
     };
@@ -52,7 +49,7 @@ const styles = ()=>({
   },
 });
 
-const Header = ({ classes, ...props }) => {
+const NCILogo = ({ classes, ...props }) => {
   const { logo, alt, homeLink } = props;
   return (
     <div id="header" className={classes.headerBar}>
@@ -72,11 +69,6 @@ const Header = ({ classes, ...props }) => {
   );
 };
 
-Header.defaultProps = {
-  logo: nihLogo,
-  alt: 'NCI CTDC Logo - Clinical Trials Data Commons',
-  homeLink: '/',
-  customStyle: {},
-};
 
-export default withStyles(styles)(Header);
+
+export default withStyles(styles)(NCILogo);
