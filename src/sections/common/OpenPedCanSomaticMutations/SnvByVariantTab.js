@@ -15,7 +15,7 @@ const columns = [
   },
   { id: 'variantIdHg38', label: 'Variant ID hg38', sortable: true },
   { id: 'proteinChange', label: 'Protein change', sortable: true},
-  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>},
+  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>, filterValue: false},
   { id: 'dataset', label: 'Dataset', sortable: true },
   { id: 'Disease', label: 'Disease', sortable: true,
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
