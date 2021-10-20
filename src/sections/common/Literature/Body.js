@@ -3,7 +3,12 @@ import PublicationsList from './PublicationsList';
 import { makeStyles, Box } from '@material-ui/core';
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
-import { useSetRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import {
+  useSetRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  RecoilRoot,
+} from 'recoil';
 import {
   literatureState,
   updateLiteratureState,
@@ -76,21 +81,23 @@ function LiteratureList({ id, name, entity, BODY_QUERY }) {
 
 function Body({ definition, name, id, entity, BODY_QUERY }) {
   return (
-    <SectionItem
-      definition={definition}
-      request={{ loading: false, error: null, data: true }}
-      renderDescription={() => <Description name={name} />}
-      renderBody={() => {
-        return (
-          <LiteratureList
-            id={id}
-            name={name}
-            entity={entity}
-            BODY_QUERY={BODY_QUERY}
-          />
-        );
-      }}
-    />
+    <RecoilRoot>
+      <SectionItem
+        definition={definition}
+        request={{ loading: false, error: null, data: true }}
+        renderDescription={() => <Description name={name} />}
+        renderBody={() => {
+          return (
+            <LiteratureList
+              id={id}
+              name={name}
+              entity={entity}
+              BODY_QUERY={BODY_QUERY}
+            />
+          );
+        }}
+      />
+    </RecoilRoot>
   );
 }
 

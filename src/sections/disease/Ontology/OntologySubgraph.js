@@ -1,7 +1,13 @@
 import React from 'react';
 import { withContentRect } from 'react-measure';
-import * as d3Base from 'd3';
-import * as d3Dag from 'd3-dag';
+import { line as d3Line, max, curveMonotoneX } from 'd3';
+import {
+  layeringLongestPath,
+  decrossTwoLayer,
+  coordCenter,
+  sugiyama,
+  dagStratify,
+} from 'd3-dag';
 import Link from '../../../components/Link';
 import Tooltip from '../../../components/Tooltip';
 import { makeStyles } from '@material-ui/core';
@@ -11,8 +17,6 @@ const useStyles = makeStyles({
     '&:hover': { fontWeight: '700' },
   },
 });
-
-const d3 = Object.assign({}, d3Base, d3Dag);
 
 function getAncestors(efoId, idToDisease) {
   const ancestors = [{ ...idToDisease[efoId], nodeType: 'anchor' }];
@@ -59,12 +63,11 @@ function buildDagData(efoId, efo, idToDisease) {
   return dag;
 }
 
-const layering = d3.layeringLongestPath();
-const decross = d3.decrossTwoLayer();
-const coord = d3.coordCenter();
+const layering = layeringLongestPath();
+const decross = decrossTwoLayer();
+const coord = coordCenter();
 
-const helperLayout = d3
-  .sugiyama()
+const helperLayout = sugiyama()
   .layering(layering)
   .decross(decross)
   .coord(coord);
@@ -114,7 +117,7 @@ const colorMap = {
 const diameter = 12;
 const radius = diameter / 2;
 const yOffset = 100;
-const line = d3.line().curve(d3.curveMonotoneX);
+const line = d3Line().curve(curveMonotoneX);
 
 function OntologySubgraph({
   efoId,
@@ -128,11 +131,10 @@ function OntologySubgraph({
   const classes = useStyles();
   const { width } = contentRect.bounds;
   const dagData = buildDagData(efoId, efo, idToDisease);
-  const dag = d3.dagStratify()(dagData);
+  const dag = dagStratify()(dagData);
   const maxLayerCount = getMaxLayerCount(dag);
   const height = maxLayerCount * 6;
-  const layout = d3
-    .sugiyama()
+  const layout = sugiyama()
     .layering(layering)
     .decross(decross)
     .coord(coord)
@@ -145,7 +147,7 @@ function OntologySubgraph({
   layout(dag);
   const nodes = dag.descendants();
   const links = dag.links();
-  const separation = width / (d3.max(nodes, d => d.layer) + 1);
+  const separation = width / (max(nodes, d => d.layer) + 1);
   const xOffset = separation / 2 - radius;
   const textLimit = separation / 8;
 
