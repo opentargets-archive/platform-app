@@ -6,6 +6,11 @@ import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
 import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 
+const createExternalLink = (url, description) => {
+  const link = url ? <Link external to={url}> {description} </Link> : '' 
+  return link; 
+}
+
 // Configuration for how the tables will display the data
 const columns = [
   {
@@ -31,9 +36,13 @@ const columns = [
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer geneD', sortable: true},
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true},
   { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot URL', 
-    renderCell: ({pedcbioPedotOncoprintPlotURL}) => <Link external to={pedcbioPedotOncoprintPlotURL}> oncoprint </Link> },
+    renderCell: ({pedcbioPedotOncoprintPlotURL}) => createExternalLink(pedcbioPedotOncoprintPlotURL, "oncoprint"),
+    filterValue: ({pedcbioPedotOncoprintPlotURL}) => pedcbioPedotOncoprintPlotURL ? 'oncoprint' : ''
+  },
   { id: 'pedcbioPedotMutationsPlotURL', label: 'PedcBio PedOT mutations plot URL', 
-    renderCell: ({pedcbioPedotMutationsPlotURL}) => <Link external to={pedcbioPedotMutationsPlotURL}> mutations </Link> },
+    renderCell: ({pedcbioPedotMutationsPlotURL}) => createExternalLink(pedcbioPedotMutationsPlotURL, "mutations"), 
+    filterValue:({pedcbioPedotMutationsPlotURL}) => pedcbioPedotMutationsPlotURL ? 'mutations' : ''
+  },
 ]
 
 const dataDownloaderColumns = [
