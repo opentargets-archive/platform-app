@@ -20,7 +20,7 @@ const navPanelStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: { display: 'none' },
   },
   paper: {
-    marginTop: '208px',
+    marginTop: '237px',
     overflow: 'hidden',
     width: 'inherit',
     zIndex: 1000,

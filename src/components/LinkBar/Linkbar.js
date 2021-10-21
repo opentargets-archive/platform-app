@@ -17,7 +17,7 @@ LinkBar.defaultProps = {
 const styles = () => ({
   wrapper: {
     width: '100%',
-    height: '20px',
+    height: '25px',
     margin: '0 auto',
     display: 'flex',
     justifyContent: 'center',
@@ -26,9 +26,10 @@ const styles = () => ({
     borderBottom: '1px #999999 solid',
   },
   link: {
+    lineHeight: '25px',
     textDecoration: 'none',
     color: '#333333',
-    fontFamily: 'Raleway',
+    fontFamily: '"Noto Sans", Arial, sans-serif',
     fontSize: '10px',
   },
 });

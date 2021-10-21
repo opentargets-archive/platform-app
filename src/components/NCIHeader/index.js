@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core';
+import LinkBar from '../LinkBar';
 import NCINavBar from '../NCINavBar';
 import NCILogoBar from '../NCILogoBar';
 import NCITagLine from '../NCITagLine';
@@ -14,13 +15,14 @@ const styles = ()=>({
       background: '#ffffff',
       position: 'fixed',
       zIndex: '1000',
-      top: 24,
+      top: 0,
     }
 });
 
 const NCIHeader = ({ classes, ...props }) => {
   return (
     <div id="header" className={classes.headerBar}>
+      <LinkBar />
       <NCILogoBar />
       <NCITagLine />
       <NCINavBar />
