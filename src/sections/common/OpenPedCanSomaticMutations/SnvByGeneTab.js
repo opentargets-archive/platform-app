@@ -31,8 +31,10 @@ const columns = [
   { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations Over Patients in dataset', sortable: true },
   { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable: true },
   { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable: true },
-  { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true },
-  { id: 'OncoKBCancerGene', label: 'OncoKB cancer geneD', sortable: true},
+  { id: 'frequencyInPrimaryTumors', label: 'Frequency in primary tumors', sortable: true},
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated Over Relapse tumors in dataset', sortable: true},
+  { id: 'frequencyInRelapseTumors',  label: 'Frequency in relapse tumors', sortable: true },
+  { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true},
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true},
   { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot URL', 
     renderCell: ({pedcbioPedotOncoprintPlotURL}) => createExternalLink(pedcbioPedotOncoprintPlotURL, "oncoprint"),
@@ -59,12 +61,15 @@ const dataDownloaderColumns = [
   { id: 'totalMutationsOverPatientsInDataset' },
   { id: 'frequencyInOverallDataset' },
   { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
+  { id: 'frequencyInPrimaryTumors' },
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset' },
   { id: 'frequencyInRelapseTumors' },
   { id: 'OncoKBCancerGene' },
   { id: 'OncoKBOncogeneTSG' },
   { id: 'pedcbioPedotOncoprintPlotURL' },
   { id: 'pedcbioPedotMutationsPlotURL' },
 ]
+
 function SnvByGeneTab({data, dataDownloaderFileStem}) {
   return (
     <Grid container>
