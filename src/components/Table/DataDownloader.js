@@ -221,11 +221,13 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
             TSV
           </Button>
         </Grid>
-        <Grid item>
-          <Button variant="outlined" size="small" onClick={togglePlayground}>
-            API query
-          </Button>
-        </Grid>
+        {query ? (
+          <Grid item>
+            <Button variant="outlined" size="small" onClick={togglePlayground}>
+              API query
+            </Button>
+          </Grid>
+        ) : null}
       </Grid>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
@@ -271,13 +273,15 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
           </Link>{' '}
           for more how-to guides and tutorials.
         </Paper>
-        <div className={classes.playgroundContainer}>
-          <GraphiQL
-            fetcher={fetcher}
-            query={query}
-            variables={JSON.stringify(variables, null, 2)}
-          />
-        </div>
+        {query ? (
+          <div className={classes.playgroundContainer}>
+            <GraphiQL
+              fetcher={fetcher}
+              query={query}
+              variables={JSON.stringify(variables, null, 2)}
+            />
+          </div>
+        ) : null}
       </Drawer>
     </>
   );
