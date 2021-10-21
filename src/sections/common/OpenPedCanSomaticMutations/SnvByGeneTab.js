@@ -34,7 +34,7 @@ const columns = [
   { id: 'frequencyInPrimaryTumors', label: 'Frequency in primary tumors', sortable: true},
   { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated Over Relapse tumors in dataset', sortable: true},
   { id: 'frequencyInRelapseTumors',  label: 'Frequency in relapse tumors', sortable: true },
-  { id: 'OncoKBCancerGene', label: 'OncoKB cancer geneD', sortable: true},
+  { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true},
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true},
   { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot URL', 
     renderCell: ({pedcbioPedotOncoprintPlotURL}) => createExternalLink(pedcbioPedotOncoprintPlotURL, "oncoprint"),
