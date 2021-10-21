@@ -5,15 +5,3 @@
   status = 200
 
 [context.production.environment]
-
-[context.lf-partner-preview.environment]
-  REACT_APP_configUrlApi = "https://api.partner-platform.devppreview21091.opentargets.xyz/api/v4/graphql"
-  # REACT_APP_configUrlApiBeta = "https://api.partner-platform.opentargets.org/api/v4/graphql"
-  REACT_APP_configPrimaryColor = "#407253"
-  REACT_APP_configIsPartnerPreview = "true"
-  # REACT_APP_configFlagShowOTARProjects = "true"
-  REACT_APP_configPartnerDiseaseSectionIds = "otProjects"
-  REACT_APP_configPartnerEvidenceSectionIds = "otCrispr"
-  REACT_APP_configPartnerColorRange = '#ebf0ed,#d8e2dc,#c5d4cb,#b2c6ba,#9fb8a9,#8caa97,#799c86,#668e75,#538064,#407253'
-  REACT_APP_configPartnerDataTypes = 'ot_partner'
-  REACT_APP_configPartnerDataSources = 'ot_crispr'
