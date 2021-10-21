@@ -1,19 +1,5 @@
 fragment ChemicalProbesSummaryFragment on Target {
-  chemicalProbes{
-      id
-      control
-      drugId
-      isHighQuality
-      mechanismOfAction
-      origin
-      probeMinerScore
-      probesDrugScore
-      scoreInCells
-      scoreInOrganisms
-      targetFromSourceId
-      urls{
-        niceName
-        url
-      }
-    }
+  chemicalProbes {
+    id
+  }
 }
