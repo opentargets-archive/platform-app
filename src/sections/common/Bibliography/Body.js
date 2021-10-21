@@ -214,7 +214,7 @@ class Section extends Component {
           <Grid
             container
             direction="column"
-            justify="flex-start"
+            justifyContent="flex-start"
             alignItems="stretch"
             spacing={2}
           >
@@ -287,7 +287,7 @@ class Section extends Component {
               <Grid
                 container
                 direction="column"
-                justify="flex-start"
+                justifyContent="flex-start"
                 alignItems="stretch"
                 spacing={2}
               >

@@ -122,7 +122,7 @@ const HomePage = () => {
       </Helmet>
       <Grid
         container
-        justify="center"
+        justifyContent="center"
         alignItems="center"
         className={classes.hpSection}
       >
@@ -136,7 +136,11 @@ const HomePage = () => {
         <HomeBox>
           <Search autoFocus />
           {/* Search examples */}
-          <Grid className={classes.links} container justify="space-around">
+          <Grid
+            className={classes.links}
+            container
+            justifyContent="space-around"
+          >
             <Link to={`/target/${targets[0].id}/associations`}>
               {targets[0].label}
             </Link>
@@ -164,7 +168,7 @@ const HomePage = () => {
         </HomeBox>
 
         {/* scroll down button */}
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <div
             className="fa-layers fa-fw fa-3x"
             style={{
@@ -182,7 +186,7 @@ const HomePage = () => {
       </Grid>
 
       {/* About */}
-      <Grid container justify="center" className={classes.hpSection}>
+      <Grid container justifyContent="center" className={classes.hpSection}>
         <Grid item xs={10} md={8}>
           <Typography variant="h4" component="h1" align="center" paragraph>
             About the Open Targets Platform
@@ -215,7 +219,7 @@ const HomePage = () => {
       </Grid>
 
       {/* Get started */}
-      <Grid container justify="center" className={classes.hpSection}>
+      <Grid container justifyContent="center" className={classes.hpSection}>
         <Grid item xs={10} md={8}>
           <Typography variant="h4" component="h1" align="center" paragraph>
             Get started with the Platform
@@ -223,7 +227,7 @@ const HomePage = () => {
 
           <Grid
             container
-            justify="space-evenly"
+            justifyContent="space-evenly"
             alignItems="flex-start"
             spacing={1}
           >

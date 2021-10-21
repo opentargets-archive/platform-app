@@ -35,7 +35,7 @@ const getDownloadRows = expressions => {
 
 function SummaryTab({ symbol, data }) {
   return (
-    <Grid container justify="center">
+    <Grid container justifyContent="center">
       <Grid item xs={12} lg={8}>
         <DataDownloader
           tableHeaders={headers}

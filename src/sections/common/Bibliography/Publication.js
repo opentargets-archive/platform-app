@@ -57,7 +57,7 @@ class Publication extends Component {
         <Grid
           container
           direction="column"
-          justify="flex-start"
+          justifyContent="flex-start"
           alignItems="stretch"
           spacing={2}
         >

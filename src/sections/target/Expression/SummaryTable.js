@@ -139,7 +139,7 @@ class SummaryTable extends Component {
         <Grid
           className={classes.groupBy}
           container
-          justify="center"
+          justifyContent="center"
           alignItems="center"
         >
           <Typography className={classes.groupByText} variant="body2">
@@ -157,7 +157,7 @@ class SummaryTable extends Component {
             </ToggleButton>
           </ToggleButtonGroup>
         </Grid>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Table size="small">
             <TableHead>
               <TableRow>
@@ -187,7 +187,7 @@ class SummaryTable extends Component {
                 <TableCell
                   className={classNames(classes.highLow, classes.rnaCell)}
                 >
-                  <Grid container justify="space-between">
+                  <Grid container justifyContent="space-between">
                     <Grid item>High</Grid>
                     <Grid item>Low</Grid>
                   </Grid>
@@ -195,7 +195,7 @@ class SummaryTable extends Component {
                 <TableCell
                   className={classNames(classes.highLow, classes.proteinCell)}
                 >
-                  <Grid container justify="space-between">
+                  <Grid container justifyContent="space-between">
                     <Grid item>Low</Grid>
                     <Grid item>High</Grid>
                   </Grid>

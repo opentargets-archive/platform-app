@@ -40,7 +40,7 @@ const EmptyPage = ({ classes, children }) => {
       <div className={classes.message}>{children}</div>
       <Search />
       <Typography className={classes.suggestions} variant="caption">
-        <Grid container justify="space-between">
+        <Grid container justifyContent="space-between">
           Try:
           <Link to="/target/ENSG00000105810/associations">CDK6</Link>
           <Link to="/disease/EFO_0003086/associations">kidney disease</Link>
@@ -52,7 +52,7 @@ const EmptyPage = ({ classes, children }) => {
       <Typography gutterBottom className={classes.message}>
         You might also want to ...
       </Typography>
-      <Grid item container justify="center">
+      <Grid item container justifyContent="center">
         <Grid item container direction="column" md={2} alignItems="center">
           <a href="https://platform-docs.opentargets.org/">
             <FontAwesomeIcon

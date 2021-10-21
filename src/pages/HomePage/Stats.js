@@ -49,8 +49,14 @@ const Stats = ({ classes }) => {
   }, []);
 
   return (
-    <Grid className={classes.container} container justify="center">
-      <Grid item container direction="column" md={7} justify="space-around">
+    <Grid className={classes.container} container justifyContent="center">
+      <Grid
+        item
+        container
+        direction="column"
+        md={7}
+        justifyContent="space-around"
+      >
         <Typography className={classes.title} variant="h5" align="center">
           Platform Stats
         </Typography>
@@ -58,7 +64,7 @@ const Stats = ({ classes }) => {
           Data last updated September 2019
         </Typography>
         {stats && (
-          <Grid container justify="space-around">
+          <Grid container justifyContent="space-around">
             <Grid item container md={3} direction="column" alignItems="center">
               <FontAwesomeIcon icon={faDna} className={classes.icon} />
               <Typography variant="h6">

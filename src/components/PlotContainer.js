@@ -31,7 +31,7 @@ const PlotContainer = ({
   <Paper className={classes.plotContainer} elevation={0}>
     {left || center || right ? (
       <PlotContainerSection>
-        <Grid container justify="space-between" spacing={1}>
+        <Grid container justifyContent="space-between" spacing={1}>
           <Grid item className={classes.leftContainer}>
             {left}
           </Grid>

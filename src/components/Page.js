@@ -28,7 +28,7 @@ class Page extends Component {
         {header}
         <Grid
           container
-          justify={'center'}
+          justifyContent={'center'}
           spacing={3}
           className={classes.gridContainer}
         >

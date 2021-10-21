@@ -186,7 +186,7 @@ function ClassicAssociationsDAG({
           ref={measureRef}
           item
           container
-          justify="center"
+          justifyContent="center"
           alignItems="center"
           style={{ margin: '0 auto', minHeight: '340px' }}
         >

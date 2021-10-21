@@ -129,7 +129,7 @@ const SearchResults = ({ results, page, onChangePage }) => {
         rowsPerPage={10}
         count={results.total}
         page={page - 1}
-        onChangePage={onChangePage}
+        onPageChange={onChangePage}
       />
       {results.hits.map(({ highlights, object }) => {
         return object.__typename === 'Target' ? (
@@ -150,7 +150,7 @@ const SearchResults = ({ results, page, onChangePage }) => {
         rowsPerPage={10}
         count={results.total}
         page={page - 1}
-        onChangePage={onChangePage}
+        onPageChange={onChangePage}
       />
     </>
   );

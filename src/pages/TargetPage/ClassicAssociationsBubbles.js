@@ -109,7 +109,7 @@ function ClassicAssociationsBubbles({
           container
           ref={measureRef}
           md={10}
-          justify="center"
+          justifyContent="center"
           alignItems="center"
           style={{ margin: '0 auto', minHeight: '340px' }}
         >

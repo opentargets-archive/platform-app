@@ -145,7 +145,7 @@ function DataDownloader({ columns, rows, fileStem }) {
 
   return (
     <>
-      <Grid container alignItems="center" justify="flex-end" spacing={1}>
+      <Grid container alignItems="center" justifyContent="flex-end" spacing={1}>
         <Grid item>
           <Typography variant="caption">Download table as</Typography>
         </Grid>

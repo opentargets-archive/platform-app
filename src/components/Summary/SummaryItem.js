@@ -77,7 +77,7 @@ function SummaryItem({ definition, request, renderSummary, subText }) {
         <Grid
           container
           direction="column"
-          justify="center"
+          justifyContent="center"
           alignItems="center"
           className={classes.content}
         >

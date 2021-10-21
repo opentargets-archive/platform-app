@@ -69,7 +69,11 @@ const socialLinkStyle = () => ({
 let FooterSocial = ({ social, classes }) => (
   <Fragment>
     <FooterSectionHeading>Follow us</FooterSectionHeading>
-    <Grid className={classes.iconsContainer} container justify="space-between">
+    <Grid
+      className={classes.iconsContainer}
+      container
+      justifyContent="space-between"
+    >
       {social.map(({ icon, url }, i) => (
         <Grid item key={i}>
           <Link external footer to={url}>
@@ -99,7 +103,7 @@ const FooterSection = ({ heading, links, social }) => {
       md={3}
       container
       direction="column"
-      justify="space-between"
+      justifyContent="space-between"
     >
       <Grid item className={classes.section}>
         <FooterSectionHeading>{heading}</FooterSectionHeading>
@@ -123,7 +127,12 @@ const FooterSection = ({ heading, links, social }) => {
 };
 
 const Footer = ({ classes, externalLinks }) => (
-  <Grid className={classes.footer} container justify="center" spacing={3}>
+  <Grid
+    className={classes.footer}
+    container
+    justifyContent="center"
+    spacing={3}
+  >
     <Grid item container xs={12} md={10} spacing={2}>
       <FooterSection heading="About" links={externalLinks.about} />
       <FooterSection

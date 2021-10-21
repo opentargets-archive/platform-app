@@ -146,7 +146,7 @@ const Table = ({
           </TableBody>
         </MuiTable>
       </TableContainer>
-      <Grid item container justify="flex-end">
+      <Grid item container justifyContent="flex-end">
         {loading && (
           <CircularProgress className={defaultClasses.progress} size={22} />
         )}
@@ -159,8 +159,8 @@ const Table = ({
             }}
             component="div"
             count={rowCount}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
             page={page}
             rowsPerPage={pageSize}
             rowsPerPageOptions={rowsPerPageOptions}

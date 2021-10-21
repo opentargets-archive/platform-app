@@ -50,7 +50,7 @@ function SectionItem({
                 </Avatar>
               }
               title={
-                <Grid container justify="space-between">
+                <Grid container justifyContent="space-between">
                   <Typography
                     className={classNames(classes.title, classes.titleHasData, {
                       [classes.titleError]: error,
