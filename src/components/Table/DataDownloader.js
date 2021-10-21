@@ -257,8 +257,8 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
           </IconButton>
         </Typography>
         <Paper className={classes.paper} variant="outlined">
-          Press the Play button ("Execute query") to explore the GraphQL API
-          query used to populate this table. You can also visit our{' '}
+          Press the Play button to explore the GraphQL API query used to
+          populate this table. You can also visit our{' '}
           <Link
             external
             to="https://platform-docs.opentargets.org/data-access/graphql-api"
