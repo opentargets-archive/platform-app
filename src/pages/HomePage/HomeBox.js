@@ -1,8 +1,6 @@
 import React from 'react';
 import { Grid, Paper, makeStyles } from '@material-ui/core';
 
-import OTLogo from '../../assets/OTLogo';
-
 const useStyles = makeStyles(theme => ({
   homeboxContainer: {
     overflow: 'visible',
@@ -16,9 +14,10 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     color: theme.palette.grey[700],
-    bottom: '40px',
-    fontSize: '30px',
+    fontSize: '28px',
     marginLeft: '7px',
+    fontFamily: 'Montserrat',
+    padding: '20px 10px',
     position: 'relative',
   },
   logo: {
@@ -33,6 +32,12 @@ const useStyles = makeStyles(theme => ({
   important: {
     marginBottom: '10px',
   },
+  bolder: {
+    fontWeight: '800',
+  },
+  thin: {
+    fontWeight: '400',
+  }
 }));
 
 const HomeBox = ({ children }) => {
@@ -41,7 +46,10 @@ const HomeBox = ({ children }) => {
     <Grid item xs={12} sm={8} md={8} lg={8}>
       <Paper className={classes.homeboxContainer}>
         <div className={classes.homeboxHeader}>
-          <OTLogo className={classes.logo} />
+          <div className={classes.title}>
+              <span className={classes.bolder}>Molecular Targets</span>
+              <span className={classes.thin}> Platform</span>
+            </div>
         </div>
         {children}
       </Paper>
