@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import {
   generatePath,
   Route,
@@ -7,6 +7,7 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 import { Tabs } from '@material-ui/core';
+import LoadingBackdrop from '../LoadingBackdrop';
 
 function RoutingTabs({ children }) {
   const match = useRouteMatch();
@@ -32,17 +33,19 @@ function RoutingTabs({ children }) {
   return (
     <>
       <Tabs value={history.location.pathname}>{preparedChildren}</Tabs>
-      <Switch>
-        {routes.map((route, index) => (
-          <Route
-            // First tab will always be the root page.
-            exact={index === 0}
-            key={index}
-            path={route.path}
-            component={route.component}
-          />
-        ))}
-      </Switch>
+      <Suspense fallback={<LoadingBackdrop />}>
+        <Switch>
+          {routes.map((route, index) => (
+            <Route
+              // First tab will always be the root page.
+              exact={index === 0}
+              key={index}
+              path={route.path}
+              component={route.component}
+            />
+          ))}
+        </Switch>
+      </Suspense>
     </>
   );
 }
