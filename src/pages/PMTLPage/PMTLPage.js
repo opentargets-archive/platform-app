@@ -197,7 +197,7 @@ const downloadColumns = [
   { id: 'designation', label: 'FDA_Designation' },
   { id: 'fdaClass', label: 'FDA_Class' },
   { id: 'fdaTarget', label: 'FDA_Target' },
-  { id: 'mappingDescription', label: 'Reformat_Method' },
+  { id: 'mappingDescription', label: 'Mapping_Description' },
 ];
 
 const getTargetSymbolOptions = rows => {
