@@ -1,5 +1,6 @@
 import dataTypes from '../../dataTypes';
 import dataSources from '../../dataSources';
+import config from '../../config';
 
 const facetData = [...dataTypes, ...dataSources];
 
@@ -21,6 +22,26 @@ export const fixLabel = id => {
   return id;
 };
 
+/**
+ * Check if specified facet (id) is set as private
+ * in the facet data (so datatypes and datasource)
+ */
+const fixIsPrivate = id =>
+  facetData.find(item => item.id === id)?.isPrivate || false;
+
+/**
+ * Filter a level in the datatypes facets based on config where
+ * the datatype can be explicitly hidden, or be private and as such
+ * not shown on public instance.
+ */
+const filterLevel = agg => {
+  return (
+    (config.hideDataTypes.length === 0 ||
+      !config.hideDataTypes.split(',').includes(agg.nodeId)) &&
+    (!agg.isPrivate || (agg.isPrivate && config.isPartnerPreview))
+  );
+};
+
 const sortLevel = (a, b) => {
   const aIndex = facetData.findIndex(item => item.id === a.nodeId);
   const bIndex = facetData.findIndex(item => item.id === b.nodeId);
@@ -30,8 +51,8 @@ const sortLevel = (a, b) => {
     : a.nodeId.localeCompare(b.nodeId);
 };
 
-const extractLevel = level =>
-  level
+const extractLevel = level => {
+  return level
     ?.map(agg => ({
       nodeId: agg.key || agg.name,
       label: fixLabel(agg.key || agg.name),
@@ -39,8 +60,11 @@ const extractLevel = level =>
       checked: false,
       aggs: extractLevel(agg.aggs || agg.rows),
       root: !!agg.name,
+      isPrivate: fixIsPrivate(agg.key || agg.name),
     }))
+    .filter(filterLevel)
     .sort(sortLevel);
+};
 
 export const prepareFacetData = data => extractLevel(data) || [];
 

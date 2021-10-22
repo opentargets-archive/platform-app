@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Paper, Box, Chip, Typography } from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Link from '../../components/Link';
 import { defaultRowsPerPageOptions, formatMap } from '../../constants';
@@ -8,6 +10,13 @@ import { DataTable } from '../../components/Table';
 import DownloadsDrawer from './DownloadsDrawer';
 import downloadData from './downloadData.json';
 import datasetMappings from './dataset-mappings';
+import config from '../../config';
+
+const useStyles = makeStyles(theme => ({
+  alert: {
+    marginBottom: theme.spacing(2),
+  },
+}));
 
 function getFormats(id, downloadData) {
   const formats = [];
@@ -91,6 +100,7 @@ function getVersion(data) {
 function DownloadsPage() {
   const { data, loading, error } = useQuery(DATA_VERSION_QUERY);
   const columns = loading || error ? [] : getColumns(data.meta.dataVersion);
+  const classes = useStyles();
 
   return (
     <Fragment>
@@ -128,6 +138,21 @@ function DownloadsPage() {
           FTP
         </Link>
       </Typography>
+
+      {config.isPartnerPreview ? (
+        <Alert severity="warning" className={classes.alert}>
+          <AlertTitle>Important Note</AlertTitle>
+          These data files do not contain any of the custom data found in this
+          version of the Platform. They are the same files that are available
+          from the public Platform. To download the data for a specific project,
+          please visit the{' '}
+          <Link external to="http://home.opentargets.org/">
+            Open Targets Intranet
+          </Link>{' '}
+          and submit a data request.
+        </Alert>
+      ) : null}
+
       <Paper variant="outlined" elevation={0}>
         <Box m={2}>
           {loading || error ? null : (

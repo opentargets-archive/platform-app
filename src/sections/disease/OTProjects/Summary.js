@@ -1,7 +1,6 @@
 import React from 'react';
 import { loader } from 'graphql.macro';
 
-import projects from './projects.json';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
@@ -14,11 +13,11 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={() => {
+      renderSummary={({ otarProjects }) => {
         let numActive = 0;
         let numClosed = 0;
 
-        projects.forEach(({ status }) => {
+        otarProjects.forEach(({ status }) => {
           if (status === 'Active') {
             numActive++;
           } else {

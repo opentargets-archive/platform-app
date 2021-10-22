@@ -5,4 +5,3 @@
   status = 200
 
 [context.production.environment]
-  REACT_APP_GTMID= "GTM-WPXWRDV"

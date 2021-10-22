@@ -125,6 +125,7 @@ function Facets({ loading, data, onChange, type }) {
             label={facets[0].label}
             aggs={facets[0].aggs}
             onSelectionChange={handleFilterChange}
+            isPrivate={facets[0].isPrivate}
           />
           <Typography className={classes.subtitle2}>
             {type === 'target' ? 'Target' : 'Disease/phenotype'}-specific
@@ -138,6 +139,7 @@ function Facets({ loading, data, onChange, type }) {
               label={facet.label}
               aggs={facet.aggs}
               onSelectionChange={handleFilterChange}
+              isPrivate={facet.isPrivate}
             />
           ))}
         </>

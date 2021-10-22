@@ -20,6 +20,9 @@ import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
+import * as OTCRISPR from '../../sections/evidence/OTCRISPR';
+
+import config from '../../config';
 
 const sections = [
   OTGenetics,
@@ -43,5 +46,20 @@ const sections = [
   EuropePmc,
   ExpressionAtlas,
   Phenodigm,
-];
+  OTCRISPR,
+].filter(
+  // select sections to show based on:
+  // 1. there is no specific hidden section for this page (length==0)
+  //    OR this section is not specified as hidden
+  // AND
+  // 2. only include public section (i.e. not partner sections),
+  //    OR also private sections if it's a partner preview
+  section =>
+    (config.hideEvidenceSectionIds.length === 0 ||
+      !config.hideEvidenceSectionIds
+        .split(',')
+        .includes(section.definition.id)) &&
+    (!section.definition.isPrivate ||
+      (section.definition.isPrivate && config.isPartnerPreview))
+);
 export default sections;

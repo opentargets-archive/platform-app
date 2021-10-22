@@ -15,6 +15,8 @@ import * as MolecularInteractions from '../../sections/target/MolecularInteracti
 import * as SubcellularLocation from '../../sections/target/SubcellularLocation';
 import * as GeneticConstraint from '../../sections/target/GeneticConstraint';
 
+import config from '../../config';
+
 const sections = [
   KnownDrugs,
   Tractability,
@@ -32,5 +34,19 @@ const sections = [
   ComparativeGenomics,
   SubcellularLocation,
   Bibliography,
-];
+].filter(
+  // select sections to show based on:
+  // 1. there is no specific hidden section for this page (length==0)
+  //    OR this section is not specified as hidden
+  // AND
+  // 2. only include public section (i.e. not partner sections),
+  //    OR also private sections if it's a partner preview
+  section =>
+    (config.hideTargetSectionIds.length === 0 ||
+      !config.hideTargetSectionIds
+        .split(',')
+        .includes(section.definition.id)) &&
+    (!section.definition.isPrivate ||
+      (section.definition.isPrivate && config.isPartnerPreview))
+);
 export default sections;

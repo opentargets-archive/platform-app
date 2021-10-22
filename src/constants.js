@@ -226,19 +226,21 @@ export const downloaderChunkSize = 2500;
 // NA label.
 export const naLabel = 'N/A';
 
-export const colorRange = [
-  // '#ffffff',
-  '#e5edf4',
-  '#ccdcea',
-  '#b2cbe0',
-  '#99b9d6',
-  '#7fa8cc',
-  '#6697c1',
-  '#4c85b7',
-  '#3274ad',
-  '#1963a3',
-  '#005299',
-];
+export const colorRange =
+  config.partnerColorRange?.length > 0
+    ? config.partnerColorRange.split(',')
+    : [
+        '#e5edf4',
+        '#ccdcea',
+        '#b2cbe0',
+        '#99b9d6',
+        '#7fa8cc',
+        '#6697c1',
+        '#4c85b7',
+        '#3274ad',
+        '#1963a3',
+        '#005299',
+      ];
 
 export const defaultRowsPerPageOptions = [10, 25, 100];
 

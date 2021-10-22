@@ -3,6 +3,9 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
+import config from '../config';
+import PartnerLockIcon from './PartnerLockIcon';
+
 const styles = () => ({
   root: {
     display: 'inline',
@@ -23,6 +26,12 @@ const OpenTargetsTitle = ({ classes, className, name }) => {
     <Typography className={titleClasses} variant="h6" color="inherit">
       <span className={classes.fat}>Open Targets </span>
       <span className={classes.thin}>{name}</span>
+      {config.isPartnerPreview ? (
+        <>
+          <span className={classes.thin}> - Partner Preview </span>
+          <PartnerLockIcon />
+        </>
+      ) : null}
     </Typography>
   );
 };
