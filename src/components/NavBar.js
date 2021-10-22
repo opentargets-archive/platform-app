@@ -15,6 +15,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.main,
     margin: 0,
     width: '100%',
+    top: 189,
   },
   navbarHomepage: {
     left: 0,
@@ -73,7 +74,7 @@ const NavBar = ({
     className={classNames(classes.navbar, {
       [classes.navbarHomepage]: homepage,
     })}
-    position="static"
+    position="fixed"
     color="primary"
     elevation={0}
   >

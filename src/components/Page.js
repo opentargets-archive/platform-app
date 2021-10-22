@@ -13,7 +13,7 @@ const styles = theme => ({
     width: '100%',
   },
   gridContainer: {
-    margin: 0,
+    margin: '240px 0 0 0',
     padding: '24px',
     width: '100%',
     flex: '1 0 auto',

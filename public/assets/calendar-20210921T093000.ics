@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+TZURL:http://tzurl.org/zoneinfo-outlook/America/Los_Angeles
+X-LIC-LOCATION:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-800
+TZOFFSETTO:-700
+TZNAME:PDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-700
+TZOFFSETTO:-800
+TZNAME:PDT
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:61041629742741
+DTSTAMP:20210921T093000
+LOCATION:https://www.labroots.com/virtual-event/food-insecurity-neighborhood-food-environment-nutrition-health-disparities-science
+DESCRIPTION:Location:\nhttps://www.labroots.com/virtual-event/food-insecurity-neighborhood-food-environment-nutrition-health-disparities-science\n\nAbstract:\nInformation will be updated regularly. Be sure to check back.\n\nBackground\n\nNutrition plays an important role throughout our lives in promoting health and preventing disease. But where we live or how much money we earn can affect our ability to access or afford healthy food choices. Ensuring food security and access to healthy food are key to preventing disparities in a variety of diet-related diseases and conditions, such as cardiovascular disease, obesity, diabetes and cancer. Research has shown that socioeconomic status, food insecurity and the neighborhood food environment are linked to diet quality and nutrition-related health outcomes. Elucidating the role of these social conditions on diet and nutritional status could help address and prevent diet-related health disparities and promote health equity.\n\nGoal\n\nTo review the state of the science, identify research gaps and opportunities related to food insecurity and the neighborhood food environment, and suggest innovative research strategies that will inform policy and practice to address and prevent diet-related health disparities and promote health equity.\n\nObjectives\n\n\n\n	* \n	Summarize the state of the science and identify knowledge gaps related to food insecurity, neighborhood food environments and nutrition health disparities.\n	\n	* \n	Suggest research opportunities and strategies to address those research gaps.\n	\n	* \n	Examine research on evidence-based interventions and implementation approaches to address food insecurity and neighborhood food environments and to promote health equity.\n	\n\nKey Deadlines\n\n	* \n	July 9, 2021: Abstracts due\n	\n	* \n	July 26, 2021: Notification of abstract acceptance\n	\n	* \n	Aug. 23, 2021: Poster presentations due\n	\n	* \n	Sept. 7, 2021: Registration deadline\n	\n\nSpecial Accommodations\n\nIf you have a disability and require any assistive device, service, or other reasonable accommodations to participate in this event, please contact Mark Dennis at 301-670-4990 during business hours at least 10 days before the meeting to discuss your needs.\n
+URL;VALUE=URI:https://www.labroots.com/virtual-event/food-insecurity-neighborhood-food-environment-nutrition-health-disparities-science
+SUMMARY:Food Insecurity, Neighborhood Food Environment, and Nutrition Health Disparities: State of the Science
+DTSTART;TZID=America/Los_Angeles:20210921T093000
+DTEND;TZID=America/Los_Angeles:20210923T173000
+TZID:America/Los_Angeles
+TZOFFSETFROM:-700
+TZOFFSETTO:-800
+END:VEVENT
+END:VCALENDAR
