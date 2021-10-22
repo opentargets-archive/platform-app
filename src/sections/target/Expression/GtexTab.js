@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import * as d3 from 'd3';
+import { median as d3Median, quantile } from 'd3';
 
 import { DownloadSvgPlot } from '../../../components/DownloadSvgPlot';
 import GtexVariability from './GtexVariability';
@@ -25,9 +25,9 @@ const transformData = data => {
   return data.map(d => {
     // d3 requires for the array of values to be sorted before using median and quantile
     d.data.sort((a, b) => a - b);
-    const median = d3.median(d.data);
-    const q1 = d3.quantile(d.data, 0.25);
-    const q3 = d3.quantile(d.data, 0.75);
+    const median = d3Median(d.data);
+    const q1 = quantile(d.data, 0.25);
+    const q3 = quantile(d.data, 0.75);
     const outliers = [];
     const notoutliers = [];
     const iqr = q3 - q1; // interquartile range

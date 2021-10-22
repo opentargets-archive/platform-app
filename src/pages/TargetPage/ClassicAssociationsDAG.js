@@ -1,14 +1,18 @@
 import React, { useState, useMemo, useRef } from 'react';
-import * as d3Base from 'd3';
-import * as d3Dag from 'd3-dag';
+import { max } from 'd3';
+import {
+  layeringLongestPath,
+  decrossTwoLayer,
+  coordCenter,
+  sugiyama,
+  dagStratify,
+} from 'd3-dag';
 import { withContentRect } from 'react-measure';
 import { Grid, Typography } from '@material-ui/core';
 import { DownloadSvgPlot } from '../../components/DownloadSvgPlot';
 import Legend from '../../components/Legend';
 import Slider from './ClassicAssociationsSlider';
 import Dag from './Dag';
-
-const d3 = Object.assign({}, d3Base, d3Dag);
 
 // find closest ancestors that are also associations
 function getParentIds(diseaseId, idToDisease, assocSet) {
@@ -73,12 +77,11 @@ function buildDagData(idToDisease, associations, assocSet) {
   return dag;
 }
 
-const layering = d3.layeringLongestPath();
-const decross = d3.decrossTwoLayer();
-const coord = d3.coordCenter();
+const layering = layeringLongestPath();
+const decross = decrossTwoLayer();
+const coord = coordCenter();
 
-const helperLayout = d3
-  .sugiyama()
+const helperLayout = sugiyama()
   .layering(layering)
   .decross(decross)
   .coord(coord);
@@ -136,11 +139,10 @@ function ClassicAssociationsDAG({
       let dag, maxLayerCount, height, layout, nodes, links, xOffset, textLimit;
 
       if (dagData.length > 0) {
-        dag = d3.dagStratify()(dagData);
+        dag = dagStratify()(dagData);
         maxLayerCount = getMaxLayerCount(dag);
         height = maxLayerCount * 10;
-        layout = d3
-          .sugiyama()
+        layout = sugiyama()
           .layering(layering)
           .decross(decross)
           .coord(coord)
@@ -151,7 +153,7 @@ function ClassicAssociationsDAG({
         nodes = dag.descendants();
         links = dag.links();
 
-        const separation = width / (d3.max(nodes, d => d.layer) + 1);
+        const separation = width / (max(nodes, d => d.layer) + 1);
         xOffset = separation / 2 - radius;
         textLimit = separation / 8;
       }
