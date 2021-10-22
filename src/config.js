@@ -23,23 +23,21 @@ const config = {
 
   // disease page
   hideDiseaseSectionIds: window.configHideDiseaseSectionIds ?? '',
-
-  partnerDiseaseSectionIds: window.configPartnerDiseaseSectionIds ?? '',
+  partnerDiseaseSectionIds:
+    window.configPartnerDiseaseSectionIds ?? 'otProjects',
 
   // target page
   hideTargetSectionIds: window.configHideTargetSectionIds ?? '',
-
   partnerTargetSectionIds: window.configPartnerTargetSectionIds ?? '',
 
   // drug page
   hideDrugSectionIds: window.configHideDrugSectionIds ?? '',
-
   partnerDrugSectionIds: window.configPartnerDrugSectionIds ?? '',
 
   // evidence page
   hideEvidenceSectionIds: window.configHideEvidenceSectionIds ?? '',
-
-  partnerEvidenceSectionIds: window.configPartnerEvidenceSectionIds ?? '',
+  partnerEvidenceSectionIds:
+    window.configPartnerEvidenceSectionIds ?? 'otCrispr',
 
   // partner colour scale
   // default as empty string so it falls back to value in constants.js
@@ -50,11 +48,11 @@ const config = {
   // hideDataTypes: list the id of any datatype to be hidden
   // partnerDataTypes: list any private datatypes (shown with lock in facets)
   hideDataTypes: window.configHideDataTypes ?? '',
-  partnerDataTypes: window.configPartnerDataTypes ?? '',
+  partnerDataTypes: window.configPartnerDataTypes ?? 'ot_partner',
 
   // for datasources we only set those that are private (partner)
   // partnerDataSources: list any private datasource (shown with lock in facets)
-  partnerDataSources: window.configPartnerDataSources ?? '',
+  partnerDataSources: window.configPartnerDataSources ?? 'ot_crispr',
 };
 
 export default config;
