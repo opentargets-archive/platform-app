@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Typography } from '@material-ui/core';
-import BasePage from '../../components/BasePage';
 import { DataTable } from '../../components/Table';
 import Link from '../../components/Link';
 import { naLabel } from '../../constants';
@@ -319,13 +318,9 @@ const columns = [
   },
 ];
 
-const VariantsPage = ({ location }) => {
+const VariantsPage = () => {
   return (
-    <BasePage
-      title="Variant definitions"
-      description="Variant definitions, including Sequence Ontology (SO) consequence terms, descriptions, and accession IDs"
-      location={location}
-    >
+    <Fragment>
       <Typography variant="h4" component="h1" paragraph>
         Variant definitions
       </Typography>
@@ -351,7 +346,7 @@ const VariantsPage = ({ location }) => {
         pageSize={100}
         showPagination={false}
       />
-    </BasePage>
+    </Fragment>
   );
 };
 
