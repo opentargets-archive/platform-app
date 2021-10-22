@@ -10,7 +10,7 @@ import { colorRange } from '../../../constants';
 import Grid from '@material-ui/core/Grid';
 import Link from '../../../components/Link';
 
-import * as d3 from 'd3';
+import { scaleQuantize } from 'd3';
 
 const INTERACTIONS_QUERY = loader('./InteractionsStringQuery.gql');
 
@@ -305,8 +305,7 @@ const getHeatmapCell = (score, classes) => {
 const id = 'string';
 const index = 0;
 const size = 10000;
-const color = d3
-  .scaleQuantize()
+const color = scaleQuantize()
   .domain([0, 1])
   .range(colorRange);
 

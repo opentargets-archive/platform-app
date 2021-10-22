@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import * as d3 from 'd3';
+import {
+  scaleLinear,
+  scalePoint,
+  scaleOrdinal,
+  max,
+  schemeCategory10,
+  select,
+  axisTop,
+  axisLeft,
+} from 'd3';
 import { withTheme } from '@material-ui/core';
 
 const width = 900;
@@ -12,11 +21,11 @@ class GtexVariability extends Component {
   boxPlotRef = React.createRef();
   xAxisRef = React.createRef();
   yAxisRef = React.createRef();
-  xAxis = d3.axisTop();
-  yAxis = d3.axisLeft();
-  x = d3.scaleLinear();
-  y = d3.scalePoint().padding(0.5);
-  colour = d3.scaleOrdinal();
+  xAxis = axisTop();
+  yAxis = axisLeft();
+  x = scaleLinear();
+  y = scalePoint().padding(0.5);
+  colour = scaleOrdinal();
 
   render() {
     const { theme, data } = this.props;
@@ -65,8 +74,8 @@ class GtexVariability extends Component {
 
     const height = data.length * boxHeight + margin.top + margin.bottom;
     const rectHeight = boxHeight - 2 * boxPadding;
-    const xMax = d3.max(data, d => {
-      return d3.max(d.outliers);
+    const xMax = max(data, d => {
+      return max(d.outliers);
     });
 
     x.domain([0, xMax]).range([0, width - margin.left - margin.right]);
@@ -75,11 +84,9 @@ class GtexVariability extends Component {
       height - margin.top - margin.bottom,
     ]);
 
-    colour
-      .domain(data.map(d => d.tissueSiteDetailId))
-      .range(d3.schemeCategory10);
+    colour.domain(data.map(d => d.tissueSiteDetailId)).range(schemeCategory10);
 
-    const boxPlot = d3.select(this.boxPlotRef.current);
+    const boxPlot = select(this.boxPlotRef.current);
 
     const boxContainer = boxPlot
       .selectAll('g')
@@ -163,8 +170,8 @@ class GtexVariability extends Component {
       .attr('fill', 'none')
       .attr('stroke', theme.palette.grey[700]);
 
-    const xAxis = d3.axisTop(x);
-    const yAxis = d3.axisLeft(y);
+    const xAxis = axisTop(x);
+    const yAxis = axisLeft(y);
 
     const customAxis = (g, axis) => {
       g.call(axis);
@@ -173,8 +180,8 @@ class GtexVariability extends Component {
       g.selectAll('.tick text').attr('fill', theme.palette.grey[700]);
     };
 
-    d3.select(this.xAxisRef.current).call(customAxis, xAxis);
-    d3.select(this.yAxisRef.current).call(customAxis, yAxis);
+    select(this.xAxisRef.current).call(customAxis, xAxis);
+    select(this.yAxisRef.current).call(customAxis, yAxis);
   }
 }
 
