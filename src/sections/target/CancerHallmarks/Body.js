@@ -1,14 +1,16 @@
 import React from 'react';
 import { Box, makeStyles, Typography } from '@material-ui/core';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import ChipList from '../../../components/ChipList';
 import Description from './Description';
 import DataTable from '../../../components/Table/DataTable';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import SectionItem from '../../../components/Section/SectionItem';
-import Summary from './Summary';
-import usePlatformApi from '../../../hooks/usePlatformApi';
 import { defaultRowsPerPageOptions } from '../../../constants';
+
+const HALLMARKS_QUERY = loader('./Hallmarks.gql');
 
 const columns = [
   {
@@ -57,11 +59,10 @@ const useStyles = makeStyles({
   roleInCancerTitle: { marginRight: '.5rem' },
 });
 
-function Section({ definition, label: symbol }) {
+function Section({ definition, id, label: symbol }) {
+  const variables = { ensemblId: id };
   const classes = useStyles();
-  const request = usePlatformApi(
-    Summary.fragments.CancerHallmarksSummaryFragment
-  );
+  const request = useQuery(HALLMARKS_QUERY, { variables });
 
   return (
     <SectionItem
@@ -69,13 +70,13 @@ function Section({ definition, label: symbol }) {
       request={request}
       renderDescription={() => <Description symbol={symbol} />}
       renderBody={data => {
-        const roleInCancer = data.hallmarks.attributes
+        const roleInCancer = data.target.hallmarks.attributes
           .filter(a => a.name === 'role in cancer')
           .map(r => ({
             label: r.description,
             url: `http://europepmc.org/search?query=EXT_ID:${r.pmid}`,
           }));
-        const rows = data.hallmarks.cancerHallmarks.map(r => ({
+        const rows = data.target.hallmarks.cancerHallmarks.map(r => ({
           label: r.label,
           activity: r.impact === 'promotes' ? 'promotes' : 'suppresses',
           description: r.description,
@@ -103,6 +104,8 @@ function Section({ definition, label: symbol }) {
               rows={rows}
               noWrap={false}
               rowsPerPageOptions={defaultRowsPerPageOptions}
+              query={HALLMARKS_QUERY.loc.source.body}
+              variables={variables}
             />
           </>
         );
