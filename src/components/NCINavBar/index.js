@@ -63,11 +63,6 @@ export const navBarData = [
     type: 'link',
     link: '/about',
   },
-  {
-    labelText: 'Documentation',
-    type: 'link',
-    link: '/fda-pmtl-docs',
-  }
 ];
 
 
