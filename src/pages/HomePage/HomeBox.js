@@ -4,7 +4,7 @@ import { Grid, Paper, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   homeboxContainer: {
     overflow: 'visible',
-    padding: '60px 60px',
+    padding: '30px 60px',
     maxWidth: '800px',
     margin: 'auto',
   },

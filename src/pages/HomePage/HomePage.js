@@ -12,6 +12,7 @@ import Link from '../../components/Link';
 import Search from '../../components/Search';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
+import Version from './Version';
 
 
 const useStyles = makeStyles(theme => ({
@@ -87,6 +88,7 @@ const HomePage = () => {
               <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
             </Hidden>
           </Grid>
+          <Version />
         </HomeBox>
       </Grid>
 

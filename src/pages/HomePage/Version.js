@@ -35,11 +35,11 @@ function VersionContainer({ children }) {
 }
 
 // LINK
-function VersionLink({ month, year, version }) {
+function VersionLink() {
   return (
     <Box ml={1}>
-      <Link external to="https://platform-docs.opentargets.org/release-notes">
-        {month} 20{year} ({version})
+      <Link external to="/about">
+        MTP 1.0.0-alpha
       </Link>
     </Box>
   );
@@ -61,7 +61,7 @@ function Version() {
 
   return (
     <VersionContainer>
-      Last update:
+      Version:
       <VersionLink month={fullMonth} year={year} version={version} />
     </VersionContainer>
   );
