@@ -131,7 +131,7 @@ function getColumns(classes) {
   ];
 }
 
-function HomologyTableTab({ homologues }) {
+function HomologyTableTab({ homologues, query, variables }) {
   const classes = useStyles();
 
   return (
@@ -141,6 +141,8 @@ function HomologyTableTab({ homologues }) {
       columns={getColumns(classes)}
       rows={homologues}
       rowsPerPageOptions={defaultRowsPerPageOptions}
+      query={query}
+      variables={variables}
     />
   );
 }
