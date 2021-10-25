@@ -15,6 +15,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.main,
     margin: 0,
     width: '100%',
+    zIndex: 40002,
     top: 189,
   },
   navbarHomepage: {
