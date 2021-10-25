@@ -86,32 +86,6 @@ const NavBar = ({
       )}
       <div className={classes.flex} />
       {search ? search : null}
-
-      {docs ? (
-        <MenuExternalLink classes={classes} href={docs}>
-          Docs
-        </MenuExternalLink>
-      ) : null}
-
-      {api ? (
-        <MenuExternalLink classes={classes} href={api}>
-          API
-        </MenuExternalLink>
-      ) : null}
-
-      {downloads ? (
-        <MenuExternalLink classes={classes} href={downloads}>
-          Downloads
-        </MenuExternalLink>
-      ) : null}
-
-      {contact ? (
-        <MenuExternalLink classes={classes} href={contact}>
-          Contact
-        </MenuExternalLink>
-      ) : null}
-
-      {items ? <HeaderMenu items={items} placement={placement} /> : null}
     </Toolbar>
   </AppBar>
 );
