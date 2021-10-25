@@ -64,7 +64,7 @@ const columns = [
   },
 ];
 
-function PhenotypesTable({ mousePhenotypes }) {
+function PhenotypesTable({ mousePhenotypes, query, variables }) {
   return (
     <DataTable
       showGlobalFilter
@@ -72,6 +72,8 @@ function PhenotypesTable({ mousePhenotypes }) {
       columns={columns}
       rows={mousePhenotypes}
       rowsPerPageOptions={defaultRowsPerPageOptions}
+      query={query}
+      variables={variables}
     />
   );
 }
