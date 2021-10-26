@@ -5,6 +5,7 @@ import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
 import { renderPMTLCell } from './utils';
+import { genericComparator } from '../../../utils/comparators'
 
 // Configuration for how the tables will display the data
 const columns = [
@@ -15,8 +16,8 @@ const columns = [
   },
   { id: 'variantIdHg38', label: 'Variant ID hg38', sortable: true },
   { id: 'proteinChange', label: 'Protein change', sortable: true},
-  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
-  { id: 'dataset', label: 'Dataset', sortable: true },
+  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false },
+  { id: 'dataset', label: 'Dataset', sortable: true, comparator: (a, b) => genericComparator(a, b, 'dataset') },
   { id: 'Disease', label: 'Disease', sortable: true,
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link>},
@@ -46,7 +47,7 @@ const dataDownloaderColumns = [
   { id: 'variantIdHg38' },
   { id: 'proteinChange' },
   { id: 'PMTL' },
-  { id: 'Dataset' },
+  { id: 'dataset' },
   { id: 'Disease' },
   { id: 'diseaseFromSourceMappedId', label: 'EFO' },
   { id: 'MONDO' },

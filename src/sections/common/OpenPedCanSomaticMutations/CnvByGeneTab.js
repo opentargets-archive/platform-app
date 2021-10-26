@@ -16,7 +16,7 @@ const columns = [
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
   { id: 'variantType', label: 'Variant type', sortable: true }, 
   { id: 'variantCategory', label: 'Variant category', sortable: true },
-  { id: 'dataset', label: 'Dataset', sortable: true, comparator: (row1, row2) => genericComparator(row1, row2, 'Dataset') },
+  { id: 'dataset', label: 'Dataset', sortable: true, comparator: (row1, row2) => genericComparator(row1, row2, 'dataset') },
   { id: 'Disease', label: 'Disease', sortable: true, 
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> },

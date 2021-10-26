@@ -5,6 +5,8 @@ import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
 import { renderPMTLCell } from './utils'
+import { genericComparator } from '../../../utils/comparators'
+
 const createExternalLink = (url, description) => {
   const link = url ? <Link external to={url}> {description} </Link> : '' 
   return link; 
@@ -18,7 +20,7 @@ const columns = [
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
   { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
-  { id: 'dataset', label: 'Dataset', sortable: true },
+  { id: 'dataset', label: 'Dataset', sortable: true, comparator: (a, b) => genericComparator(a, b, 'dataset')},
   { id: 'Disease', label: 'Disease', sortable: true,
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link>},
