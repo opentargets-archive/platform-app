@@ -7,7 +7,7 @@ export const navBarstyling = {
     height: '39px',
     padding: '9px 20px 0px 20px',
     fontFamily: 'Raleway, sans-serif',
-    activeLabel: '2px solid  #35b9eb',
+    activeLabel: '1px solid  #efefef',
     paddingRight: '65px',
     paddingLeft: '55px',
     fontWeight: '600',
