@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
-import RelevantIcon from '../../../components/RMTL/RelevantIcon';
+import { renderPMTLCell } from './utils';
 
 // Configuration for how the tables will display the data
 const columns = [
@@ -30,7 +30,7 @@ const columns = [
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> 
   },
-  { id: 'PMTL', label: 'PMTL', sortable:true , renderCell: () => <RelevantIcon/>, filterValue: false},
+  { id: 'PMTL', label: 'PMTL', sortable:true , renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
   { id: 'dataset', label: 'Dataset', sortable:true },
   { id: 'totalAlterationsOverNumberPatientsInDataset', label: 'Total alterations Over Patients in dataset', sortable:true },
   { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable:true },

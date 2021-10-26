@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
-import RelevantIcon from '../../../components/RMTL/RelevantIcon';
+import { renderPMTLCell } from './utils';
 
 import { genericComparator } from '../../../utils/comparators'
 
@@ -27,7 +27,7 @@ const columns = [
   { id: 'totalRelapseTumorsAlteredOverRelapseTumorsInDataset', label: 'Total relapse tumors altered/Relapse tumors in dataset', sortable: true },
   { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true },
   { id: 'geneFullName', label: 'Gene full name', sortable: true },
-  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>, filterValue: false},
+  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true },
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true },
   // { id: 'EFO', label: 'EFO', sortable: true },

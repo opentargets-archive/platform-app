@@ -11,15 +11,11 @@ export const renderPMTLCell = (pmtlText) => {
   let PMTLIcon = ''
   if (pmtlText) {
     if (pmtlText.indexOf("Non-Relevant", 0) !== -1) {
-      console.log("PMTLText: ", pmtlText, " PMTLIcon: [NR]")
       PMTLIcon = <NonRelevantIcon/>
     } else {
-      console.log("PMTLText: ", pmtlText, " PMTLIcon: [R]")
       PMTLIcon = <RelevantIcon/>
     }
-  } else {
-    console.log("PMTLText: ", pmtlText, " PMTLIcon: [?]")
-  }
+  } 
   return PMTLIcon;
   
 }
