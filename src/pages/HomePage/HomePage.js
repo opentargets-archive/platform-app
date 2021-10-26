@@ -13,6 +13,7 @@ import Search from '../../components/Search';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
 import Version from './Version';
+import externalIcon from '../../assets/about/About-ExternalLink.svg';
 
 
 const useStyles = makeStyles(theme => ({
@@ -32,6 +33,9 @@ const useStyles = makeStyles(theme => ({
   aboutBox:{
     margin: '70px 0',
   },
+  externalIcon: {
+    width: '15px',
+  }
 }));
 
 function pickTwo(arr) {
@@ -96,33 +100,17 @@ const HomePage = () => {
       <Grid container justify="center" className={classes.aboutBox}>
         <Grid item xs={10} md={8}>
           <Typography variant="h4" component="h1" align="center" paragraph>
-            About the Open Targets Platform
+            The Meolecular Targets Platform
           </Typography>
 
-          <Typography paragraph>
-            The Open Targets Platform is a comprehensive tool that supports
-            systematic identification and prioritisation of potential
-            therapeutic drug targets.
+          <Typography paragraph align="center">
+            The Molecular Targets Platform is an NCI-supported instance of the 
+            <Link to={"https://platform.opentargets.org/"} external> Open Target Platform
+            <img src={externalIcon} alt="redirct to public open targets" className={classes.externalIcon} /></Link> with a focus on
+             preclinical pediatric oncology data. It is a tool that supports the identification and 
+             prioritization of molecular targets expressed in childhood cancers. 
           </Typography>
-
-          <Typography paragraph>
-            By integrating publicly available datasets including data generated
-            by the Open Targets consortium, the Platform builds and scores
-            target-disease associations to assist in drug target identification
-            and prioritisation. It also integrates relevant annotation
-            information about targets, diseases, phenotypes, and drugs, as well
-            as their most relevant relationships.
-          </Typography>
-
-          <Typography paragraph>
-            The Platform is a freely available resource that is actively
-            maintained with bi-monthly data updates. Data is available through
-            an intuitive user interface, an API, and data downloads. The
-            pipeline and infrastructure codebases are open-source and the
-            licence allows the creation of self-hosted private instances of the
-            Platform with custom data.
-          </Typography>
-        </Grid>
+         </Grid>
       </Grid>
 
       {/* remove for integration day  */}
