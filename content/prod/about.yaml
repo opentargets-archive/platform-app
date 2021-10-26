@@ -8,3 +8,121 @@
       paragraph: "NCI's Division of Cancer Treatment and Diagnosis (DCTD) charged the Frederick National Laboratory for Cancer Research (FNLCR) to build the Integrated Canine Data Commons (ICDC), a cloud-based repository of spontaneously-arising canine cancer data. ICDC was established to further research on human cancers by enabling comparative analysis with canine cancer. The data in the ICDC is sourced from multiple different programs and projects; all focused on canine subjects. The data is harmonized into an integrated data model and then made available to the research community. The ICDC is part of the Cancer Research Data Commons (CRDC), an initiative from NCI’s Center for Biomedical Informatics and Information Technology (CBIIT). Bioinformatic analysis of the ICDC data is accomplished using the CRDC’s $$[Cloud Resources](target:_self url:/#/crdc type:0)$$."
     - 
       paragraph: "Within the FNLCR, the Biomedical Informatics and Data Science (BIDS) Directorate is focused on software engineering and data science. The Applied and Developmental Research Directorate (ADRD) is managing the ICDC Steering Committee and providing one of the data sources for the ICDC. Finally, there is also an ICDC Steering Committee (composed of external members, FNLCR and NCI staff) that provides advice to DCTD on the ICDC."
+    - 
+      paragraph: "The Best Practices Sub-Committee (BPSC) has the responsibility for examining past and planned studies to identify and recommend best practices that the Integrated Canine Data Commons (ICDC) will implement to streamline and harmonize data collection, standardize data formats and platforms, and manage and annotate data (especially clinical data). Moreover, we anticipate these recommendations will aid the wider community in study design and data collection and enhance their research to better enable human/canine data comparison. The BPSC is composed of 8 external members, 5 NCI staff, 1 NHGRI staff and is supported by FNLCR staff. The ICDC, which will encompass many data types, is focused into four working groups: Imaging, Clinical/Pathology, Genomics, and Immunology."
+    - 
+      paragraph: "$$#WORKING GROUP GOALS:#$$"
+    - 
+      paragraph: "$$*Imaging*$$: To provide the comparative cancer research community with guidelines and best practices for the collection, formatting and reporting of imaging data collected from canine companion animals with naturally-occurring cancers into the Integrated Canine Data Commons (ICDC). Accomplishing this goal will to facilitate the utilization and analysis of such data by stakeholders in the cancer research community and facilitate dog-to-human translational research and advancement of knowledge in the comparative oncology space."
+    - 
+      paragraph: "$$*Clinical/Pathology*$$: To provide a standard set of clinical and pathological information to be collected when conducting canine clinical trials. By defining these data points for the community, and including an appropriate list of values, we hope to be able to more easily compare subjects and their data across studies."
+    - 
+      paragraph: "$$*Genomics*$$: To provide an overview of next generation sequencing (NGS) study design, assays and analysis approaches (focusing on genomics and transcriptomics) used by diverse canine cancer research teams alongside annotation of validation studies, canine-specific tool needs, and parameters; identify common elements across published analyses; establish general principles in canine cancer genomics best practices modeled on human cancer genomics best practice principles; identify gaps in canine cancer genomics best practices and propose solutions."
+    - 
+      paragraph: "$$*Immunology*$$: To provide a standard and expandable set of immunologic measurements to contextualize the changes that occur during treatment of spontaneously arising cancer in canines. Basic measurements will be compared across studies, while specialized study measurements will be used to understand specific outcomes. We hope this will lead to a better understanding of response to immunologic treatment and potentially to providing potential lines of investigation for treatment in humans."
+    - 
+      table: 
+        - 
+          head: 
+            - name
+            - position
+            - affiliation
+            - "Working Group"
+        - 
+          body: 
+            - 
+              row: 
+                - "Jeff Trent"
+                - "Chair, BPSC"
+                - "Translational Genomics Research Institute (TGen)"
+                - "-"
+            - 
+              row: 
+                - "M. Renee Chambers"
+                - "Chair, Clin/Path WG"
+                - "University of Alabama at Birmingham"
+                - Clinical/Pathology
+            - 
+              row: 
+                - "Dawn Duval"
+                - Member
+                - "Colorado State University"
+                - Genomics
+            - 
+              row: 
+                - "Heather Gardner"
+                - Member
+                - "Translational Genomics Research Institute (TGen)"
+                - Genomics
+            - 
+              row: 
+                - "Allison Heath"
+                - "Co-Chair, Genomics WG"
+                - "Children’s Hospital of Philadelphia"
+                - Genomics
+            - 
+              row: 
+                - "Toby Hecht"
+                - Member
+                - NIH/NCI/DCTD
+                - Immunology
+            - 
+              row: 
+                - "Paula Jacobs"
+                - "Co-Chair, Imaging WG"
+                - NIH/NCI/DCTD
+                - Imaging
+            - 
+              row: 
+                - "Amy LeBlanc"
+                - "Co-Chair, Imaging WG"
+                - NIH/NCI/CCR/COP
+                - Imaging
+            - 
+              row: 
+                - "Deborah Knapp"
+                - "Co-Chair, Immunology WG"
+                - "Purdue University"
+                - "Clinical/Pathology, Immunology"
+            - 
+              row: 
+                - "Cheryl London"
+                - "Co-Chair, Clin/Path WG, Co-Chair, Immunology WG"
+                - "Tufts University"
+                - "Clincal/Pathology, Immunology"
+            - 
+              row: 
+                - "Elaine Ostrander"
+                - Member
+                - NIH/NHGRI/CGCGB
+                - Genomics
+            - 
+              row: 
+                - "Anju Singh"
+                - Member
+                - NIH/NCI/DCTD/DTP/IOB
+                - Immunology
+            - 
+              row: 
+                - "Connie Sommers"
+                - Member
+                - NIH/NCI/DCTD/DTP/IOB
+                - Immunology
+            - 
+              row: 
+                - "Shaying Zhao"
+                - "Co-Chair, Genomics WG"
+                - "University of Georgia"
+                - "Genomics, Immunology"
+            - 
+              row: 
+                - "Matthew Beyers"
+                - Coordinator
+                - FNLCR
+                - "-"
+            - 
+              row: 
+                - "Philip Musk"
+                - "Data Subject Matter Expert"
+                - FNLCR
+                - "-"
