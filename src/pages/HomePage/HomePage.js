@@ -110,7 +110,7 @@ const HomePage = () => {
       <Grid container justify="center" className={classes.aboutBox}>
         <Grid item xs={10} md={8}>
           <Typography variant="h4" component="h1" align="center" paragraph>
-            The Meolecular Targets Platform
+            The Molecular Targets Platform
           </Typography>
 
           <Typography paragraph align="center">
