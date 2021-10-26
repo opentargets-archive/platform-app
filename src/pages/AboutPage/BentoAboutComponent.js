@@ -281,7 +281,7 @@ const styles = () => ({
     float: 'left',
   },
   aboutSection: {
-    padding: '60px 45px',
+    padding: '0px',
   },
   img: {
     width: '100%',
