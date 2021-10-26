@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { HashRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function linkIsInternal(linkElement) {
   return (linkElement.substring(0, 1) === '/');
@@ -17,11 +16,9 @@ const RouteLinks = ({ title, to, children }) => (linkIsEmail(to)
   )
   : (linkIsInternal(to)
     ? (
-      <HashRouter>
         <Link to={to} title={title}>
           {children}
         </Link>
-      </HashRouter>
     )
     : (
       <a
