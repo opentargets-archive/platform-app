@@ -13,7 +13,7 @@ const styles = theme => ({
     margin: 0,
     width: '100%',
     zIndex: 40002,
-    top: 189,
+    top: 194,
   },
   navbarHomepage: {
     left: 0,
