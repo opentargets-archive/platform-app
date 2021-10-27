@@ -5,128 +5,188 @@
   primaryContentImage: 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/main/icdc/aboutPages/Photo-About_Purpose.jpg'
   content: 
     -
-      paragraph: "$$#About the Molecular Targets Platform (in development)#$$"
-    - 
-      paragraph: "This About page is under active development. The text below is placeholder content from the ICDC project." 
+      paragraph: "$$#Molecular Targets Platform#$$"
     -
-      paragraph: "NCI's Division of Cancer Treatment and Diagnosis (DCTD) charged the Frederick National Laboratory for Cancer Research (FNLCR) to build the Integrated Canine Data Commons (ICDC), a cloud-based repository of spontaneously-arising canine cancer data. ICDC was established to further research on human cancers by enabling comparative analysis with canine cancer. The data in the ICDC is sourced from multiple different programs and projects; all focused on canine subjects. The data is harmonized into an integrated data model and then made available to the research community. The ICDC is part of the Cancer Research Data Commons (CRDC), an initiative from NCI’s Center for Biomedical Informatics and Information Technology (CBIIT). Bioinformatic analysis of the ICDC data is accomplished using the CRDC’s $$[Cloud Resources](target:_self url:/#/crdc type:0)$$."
+      paragraph: "This About page is under active development. Content may be added or removed without notice, and many hyperlinks are not yet defined."
+    -
+      paragraph: "$$*About CCDI*$$"  
     - 
-      paragraph: "Within the FNLCR, the Biomedical Informatics and Data Science (BIDS) Directorate is focused on software engineering and data science. The Applied and Developmental Research Directorate (ADRD) is managing the ICDC Steering Committee and providing one of the data sources for the ICDC. Finally, there is also an ICDC Steering Committee (composed of external members, FNLCR and NCI staff) that provides advice to DCTD on the ICDC."
+      paragraph: "The Molecular Targets Platform is part of NCI’s $$[Childhood Cancer Data Initiative (CCDI)](target:[_blank] url:[https://www.cancer.gov/research/areas/childhood/childhood-cancer-data-initiative])$$ which is building a community centered around childhood cancer care and research data. Through enhanced data sharing, we can improve our understanding of cancer biology to improve preventive measures, treatment, quality of life, and survivorship, as well as ensure that researchers learn from every child with cancer. CCDI will help speed progress for children and adolescents and young adults (AYAs) with childhood cancer and their families.  $$[Sign-up for email updates from NCI](target:[_blank] url:[https://public.govdelivery.com/accounts/USNIHNCI/subscriber/new?topic_id=USNIHNCI_223])$$"
     - 
-      paragraph: "The Best Practices Sub-Committee (BPSC) has the responsibility for examining past and planned studies to identify and recommend best practices that the Integrated Canine Data Commons (ICDC) will implement to streamline and harmonize data collection, standardize data formats and platforms, and manage and annotate data (especially clinical data). Moreover, we anticipate these recommendations will aid the wider community in study design and data collection and enhance their research to better enable human/canine data comparison. The BPSC is composed of 8 external members, 5 NCI staff, 1 NHGRI staff and is supported by FNLCR staff. The ICDC, which will encompass many data types, is focused into four working groups: Imaging, Clinical/Pathology, Genomics, and Immunology."
+      paragraph: "$$*About the Molecular Targets Platform*$$" 
+    -
+      paragraph: "On this page |
+        - Molecular Targets Platform overview
+        - Open Targets platforms
+        - Pediatric Cancer Data Sources
+        - Pediatric Cancer Data Visualizations
+        - Change Log"
     - 
-      paragraph: "$$#WORKING GROUP GOALS:#$$"
+      paragraph: "$$*Molecular Targets Platform Overview*$$" 
+    -
+      paragraph: "The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the $$[Open Targets Platform](https://platform.opentargets.org/)$$ with a focus on pediatric cancer data. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including: 
+        -The FDA Pediatric Molecular Target Lists (FDA PMTL)
+        -Analyses of pediatric oncology datasets from the Open Pediatric Cancer (OpenPedCan) project at the Children's Hospital of Philadelphia:
+          -Therapeutically Applicable Research to Generate Effective Treatments (TARGET)
+          -Open Pediatric Brain Tumor Atlas (OpenPBTA)
+          -Gabriella Miller Kids First Neuroblastoma (Kids First)
+      As the project matures, new pediatric cancer data and additional functionality will be added to the Molecular Targets Platform."
     - 
-      paragraph: "$$*Imaging*$$: To provide the comparative cancer research community with guidelines and best practices for the collection, formatting and reporting of imaging data collected from canine companion animals with naturally-occurring cancers into the Integrated Canine Data Commons (ICDC). Accomplishing this goal will to facilitate the utilization and analysis of such data by stakeholders in the cancer research community and facilitate dog-to-human translational research and advancement of knowledge in the comparative oncology space."
+      paragraph: "$$*Open Targets Platform*$$"
     - 
-      paragraph: "$$*Clinical/Pathology*$$: To provide a standard set of clinical and pathological information to be collected when conducting canine clinical trials. By defining these data points for the community, and including an appropriate list of values, we hope to be able to more easily compare subjects and their data across studies."
+      paragraph: "The Open Targets Platform is the open-source infrastructure upon which the Molecular Targets Platform is built."
+    -
+      paragraph: "The Open Targets Platform is a comprehensive tool that supports systematic identification and prioritisation of potential therapeutic drug targets. By integrating publicly available datasets including data generated by the Open Targets consortium, the Platform builds and scores target-disease associations to assist in drug target identification and prioritisation. It also integrates relevant annotation information about targets, diseases, phenotypes, and drugs, as well as their most relevant relationships."
+    -
+      paragraph: "The Open Targets Platform is not an NCI program; their site is not affiliated with the NCI or any other US government agency. However, the Open Targets Platform is an open-source product, meaning that the data and code are shared freely with other organizations for development. The NCI has added pediatric cancer data and additional functionality into a separate instance of the Open Targets Platform under NCI control – the Molecular Targets Platform."
+    -
+      paragraph: "This About page will document all of the new data and features present in the Molecular Targets Platform. For detailed descriptions and tutorials of the built-in functions of the Open Targets Platform, please see their documentation [EXTERNAL] or their most recent publication:
+        -Ochoa, D. et al. (2021). Open Targets Platform: supporting systematic drug–target identification and prioritisation [EXTERNAL]. Nucleic Acids Research."
+    -
+      paragraph: "The Open Targets Platform undergoes regular updates to add new data and functionalities, which are integrated into the Molecular Targets Platform as soon as possible."
+    -
+      paragraph: "$$#Pediatric Cancer Data Sources#$$"
     - 
-      paragraph: "$$*Genomics*$$: To provide an overview of next generation sequencing (NGS) study design, assays and analysis approaches (focusing on genomics and transcriptomics) used by diverse canine cancer research teams alongside annotation of validation studies, canine-specific tool needs, and parameters; identify common elements across published analyses; establish general principles in canine cancer genomics best practices modeled on human cancer genomics best practice principles; identify gaps in canine cancer genomics best practices and propose solutions."
+      paragraph: "$$*FDA Pediatric Molecular Target Lists (FDA PMTL)*$$"
     - 
-      paragraph: "$$*Immunology*$$: To provide a standard and expandable set of immunologic measurements to contextualize the changes that occur during treatment of spontaneously arising cancer in canines. Basic measurements will be compared across studies, while specialized study measurements will be used to understand specific outcomes. We hope this will lead to a better understanding of response to immunologic treatment and potentially to providing potential lines of investigation for treatment in humans."
+      paragraph: "In accordance with the Race to Accelerate Cures and Equity (RACE) for Children Act, the FDA and NCI generated two lists: one list of molecular targets relevant to the growth of pediatric cancers and one list of molecular targets not relevant to the growth of pediatric cancers. The Molecular Targets Platform integrates a computable interpretation of these lists in order to better inform decisions and improve treatments for childhood cancers."
+    -
+      paragraph: "To read more about the implementation of the FDA PMTL within the Molecular Targets Platform, read our detailed FDA PMTL Documentation [link to FDA PMTL documentation page]."
     - 
-      table: 
-        - 
-          head: 
-            - name
-            - position
-            - affiliation
-            - "Working Group"
-        - 
-          body: 
-            - 
-              row: 
-                - "Jeff Trent"
-                - "Chair, BPSC"
-                - "Translational Genomics Research Institute (TGen)"
-                - "-"
-            - 
-              row: 
-                - "M. Renee Chambers"
-                - "Chair, Clin/Path WG"
-                - "University of Alabama at Birmingham"
-                - Clinical/Pathology
-            - 
-              row: 
-                - "Dawn Duval"
-                - Member
-                - "Colorado State University"
-                - Genomics
-            - 
-              row: 
-                - "Heather Gardner"
-                - Member
-                - "Translational Genomics Research Institute (TGen)"
-                - Genomics
-            - 
-              row: 
-                - "Allison Heath"
-                - "Co-Chair, Genomics WG"
-                - "Children’s Hospital of Philadelphia"
-                - Genomics
-            - 
-              row: 
-                - "Toby Hecht"
-                - Member
-                - NIH/NCI/DCTD
-                - Immunology
-            - 
-              row: 
-                - "Paula Jacobs"
-                - "Co-Chair, Imaging WG"
-                - NIH/NCI/DCTD
-                - Imaging
-            - 
-              row: 
-                - "Amy LeBlanc"
-                - "Co-Chair, Imaging WG"
-                - NIH/NCI/CCR/COP
-                - Imaging
-            - 
-              row: 
-                - "Deborah Knapp"
-                - "Co-Chair, Immunology WG"
-                - "Purdue University"
-                - "Clinical/Pathology, Immunology"
-            - 
-              row: 
-                - "Cheryl London"
-                - "Co-Chair, Clin/Path WG, Co-Chair, Immunology WG"
-                - "Tufts University"
-                - "Clincal/Pathology, Immunology"
-            - 
-              row: 
-                - "Elaine Ostrander"
-                - Member
-                - NIH/NHGRI/CGCGB
-                - Genomics
-            - 
-              row: 
-                - "Anju Singh"
-                - Member
-                - NIH/NCI/DCTD/DTP/IOB
-                - Immunology
-            - 
-              row: 
-                - "Connie Sommers"
-                - Member
-                - NIH/NCI/DCTD/DTP/IOB
-                - Immunology
-            - 
-              row: 
-                - "Shaying Zhao"
-                - "Co-Chair, Genomics WG"
-                - "University of Georgia"
-                - "Genomics, Immunology"
-            - 
-              row: 
-                - "Matthew Beyers"
-                - Coordinator
-                - FNLCR
-                - "-"
-            - 
-              row: 
-                - "Philip Musk"
-                - "Data Subject Matter Expert"
-                - FNLCR
-                - "-"
+      paragraph: "Source: FDA Pediatric Molecular Target Lists [needs link]"
+    -
+      paragraph: "Location within the Molecular Targets Platform: FDA PMTL Landing Page [needs link]"
+    -
+      paragraph: "$$*Open Pediatric Cancer (OpenPedCan) Project*$$"
+    - 
+      paragraph: "The Open Pediatric Cancer (OpenPedCan) project at the Children’s Hospital of Philadelphia is an open analysis effort that harmonizes pediatric cancer data from a multitude of sources. "
+    -
+      paragraph: "Within the Molecular Targets Platform, the OpenPedCan analyses currently include the following datasets, described more fully below:
+        - TARGET
+        - Kids First
+        - OpenPBTA"
+    - 
+      paragraph: "Source: OpenPedCan (v10) [needs link]"
+    -
+      paragraph: "Location within the Molecular Targets Platform: OpenPedCan Somatic Mutations [needs link]; OpenPedCan Pediatric Gene Expression [needs link]"
+    -
+      paragraph: "$$*Therapeutically Applicable Research to Generate Effective Treatments (TARGET)*$$"
+    - 
+      paragraph: "The Therapeutically Applicable Research to Generate Effective Treatments (TARGET) Initiative is an NCI-funded collection of disease-specific projects that seeks to identify the genomic changes of pediatric cancers. The overall goal is to collect genomic data to accelerate the development of more effective therapies."
+    -
+      paragraph: "Within the Molecular Targets Platform, the OpenPedCan analyses include the five diseases present in the TARGET dataset: Acute Lymphoblastic Leukemia (ALL), Acute Myeloid Leukemia (AML), Neuroblastoma, Osteosarcoma, and Wilm’s Tumor."
+    - 
+      paragraph: "Source: TARGET (v23) [needs link]"
+    -
+      paragraph: "Location within the Molecular Targets Platform: OpenPedCan Somatic Mutations [needs link]; OpenPedCan Pediatric Gene Expression [needs link]"
+    -
+      paragraph: "$$*Gabriella Miller Kids First Neuroblastoma (Kids First)*$$"
+    - 
+      paragraph: "The Gabriella Miller Kids First Pediatric Research Program (Kids First) is a large-scale effort to accelerate research and gene discovery in pediatric cancers and structural birth defects. The program includes whole genome sequencing (WGS) from patients with pediatric cancers and structural birth defects and their families."
+    -
+      paragraph: "Within the Molecular Targets Platform, the OpenPedCan analyses include Neuroblastoma data from the Kids First project."
+    - 
+      paragraph: "Source: Kids First Neuroblastoma [needs link]"
+    -
+      paragraph: "Location within the Molecular Targets Platform: OpenPedCan Somatic Mutations [needs link]; OpenPedCan Pediatric Gene Expression [needs link]"
+    -
+      paragraph: "$$*Open Pediatric Brain Tumor Atlas (OpenPBTA)*$$"
+    - 
+      paragraph: "The Open Pediatric Brain Tumor Atlas (OpenPBTA) Project is an open science initiative to characterize the genomic data acquired through the Children’s Brain Tumor Network (CBTN). "
+    -
+      paragraph: "Within the Molecular Targets Platform, the OpenPedCan analyses include data from over 30 pediatric cancers across almost 1000 tumors in the OpenPBTA dataset. "
+    - 
+      paragraph: "Source: OpenPBTA for the CBTN (v21) [needs link]"
+    -
+      paragraph: "Location within the Molecular Targets Platform: OpenPedCan Somatic Mutations [needs link]; OpenPedCan Pediatric Gene Expression [needs link]"
+    -
+      paragraph: "$$#Pediatric Cancer Data Visualizations#$$"
+    - 
+      paragraph: "$$*FDA Pediatric Molecular Target Lists (FDA PMTL)*$$"
+    -
+      paragraph: "The designations of the FDA Pediatric Molecular Target Lists can be visualized within the Molecular Targets Platform in several ways:
+        - Browse the dedicated FDA PMTL Landing Page to find Targets and see FDA details
+        - Icons throughout the Molecular Targets Platform identify targets as [R icon] Relevant, [NR icon] Non-Relevant, or [? icon] Unspecified in pediatric cancers, and can be found:
+          - On Target and Evidence Page headers
+          - On Disease pages when viewing the Associated Targets tab
+          - Within the OpenPedCan Somatic Mutations display"
+    -
+      paragraph: "Source: FDA Pediatric Molecular Target Lists [needs link]"
+    -
+      paragraph: "$$*OpenPedCan Somatic Mutations*$$"
+    -
+      paragraph: "The OpenPedCan Somatic Mutations display aggregates data from analyses performed by the OpenPedCan project on several pediatric cancer datasets. The primary goal of this display is to show the frequency of targets in both primary and relapse pediatric cancers."
+    -
+      paragraph: "The display is organized into five tabs, each representing a different type of data: 
+        - SNV by Gene: Frequency of Single Nucleotide Variants aggregated by gene 
+        - SNV by Variant: Frequency of specific Single Nucleotide Variants 
+        - CNV by Gene: Frequency of specific Copy Number Variants
+        - Fusion by Gene: Frequency of gene fusions aggregated by gene
+        - Fusion: Frequency of specific gene fusions"
+    -
+      paragraph: "The OpenPedCan Somatic Mutations display is accessible within the Molecular Target Platform on both the Target and Evidence pages. The data driving each display is identical; however, the Target page display will show frequencies of the Target across all pediatric cancers, while the Evidence page display is filtered to only show frequencies of the Target in a specific Disease."
+    -
+      paragraph: "The data within the OpenPedCan Somatic Mutations display is derived from several source datasets, also known as cohorts. Each frequency is calculated and displayed for each dataset. Some Target-Disease combinations are present in more than one dataset; these also have a frequency calculation across all datasets and are noted as “All Cohorts"."
+    -
+      paragraph: "Sources:
+        - OpenPedCan (v10) [EXTERNAL]
+        - TARGET (v23) [EXTERNAL]
+        - Kids First Neuroblastoma [EXTERNAL]
+        - OpenPBTA for the CBTN (v21) [EXTERNAL]"
+    -
+      paragraph: "$$*OpenPedCan Pediatric Gene Expression*$$"
+    -
+      paragraph: "The OpenPedCan Pediatric Gene Expression plots visualize mRNA expression of Targets within pediatric cancers. The expression is measured in Transcript Per Million (TPM) and viewable with either a linear or log10 scale."
+    -
+      paragraph: "The OpenPedCan Pediatric Gene Expression plots are accessible on both the Target and Evidence pages, though the views differ:
+        - Target Page: expression of specific Target across all pediatric cancers 
+        - Evidence Page: expression of specific Target in specific pediatric cancer alongside expression of specific Target across normal adult GTEx tissues"
+    -
+      paragraph: "Sources:
+        - OpenPedCan (v10) [EXTERNAL]
+        - TARGET (v23) [EXTERNAL]
+        - Kids First Neuroblastoma [EXTERNAL]
+        - OpenPBTA for the CBTN (v21) [EXTERNAL]"
+    -
+      paragraph: "$$#Change Log#$$"
+    -
+      paragraph: "$$*Open Targets Platform*$$"
+    -
+      paragraph: "Version in use: 21.06 (Released 2021-06-30)"
+    -
+      paragraph: "Detailed Change Log: [needs link]"
+    -
+      paragraph: "The Open Targets Platform version represents the built-in data and functions of the Molecular Targets Platform. This includes all data, displays, and site behavior not otherwise defined in this About page."
+    -
+      paragraph: "$$*Molecular Targets Platform FrontEnd*$$"
+    -
+      paragraph: "Version in use: [need version]"
+    -
+      paragraph: "Detailed Change Log: [needs link]"
+    -
+      paragraph: "[Needs description]"
+    -
+      paragraph: "$$*Molecular Targets Platform BackEnd*$$"
+    -
+      paragraph: "Version in use: [need version]"
+    -
+      paragraph: "Detailed Change Log: [needs link]"
+    -
+      paragraph: "[Needs description]"
+    -
+      paragraph: "$$*OpenPedCan Analyses*$$"
+    -
+      paragraph: "Version in use: [need version]"
+    -
+      paragraph: "Detailed Change Log: [needs link]"
+    -
+      paragraph: "[Needs description]"
+    -
+      paragraph: "$$*FDA Pediatric Molecular Targets Lists*$$"
+    -
+      paragraph: "Version in use: v1.1 (Released 2021-09-09)"
+    -
+      paragraph: "Detailed Change Log: [needs link]"
+    -
+      paragraph: "The FDA PMTL version represents the computable interpretation of the lists used within the Molecular Targets Platform. When the FDA publishes new lists, new computable interpretations will be updated here."
+...
