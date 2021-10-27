@@ -5,11 +5,9 @@
   primaryContentImage: 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/main/icdc/aboutPages/Photo-About_Purpose.jpg'
   content: 
     -
-      paragraph: "$$#About the Molecular Targets Platform#$$"
+      paragraph: "$$#About the Molecular Targets Platform (in development)#$$"
     - 
       paragraph: "This About page is under active development. The text below is placeholder content from the ICDC project." 
-    -
-    ---
     -
       paragraph: "NCI's Division of Cancer Treatment and Diagnosis (DCTD) charged the Frederick National Laboratory for Cancer Research (FNLCR) to build the Integrated Canine Data Commons (ICDC), a cloud-based repository of spontaneously-arising canine cancer data. ICDC was established to further research on human cancers by enabling comparative analysis with canine cancer. The data in the ICDC is sourced from multiple different programs and projects; all focused on canine subjects. The data is harmonized into an integrated data model and then made available to the research community. The ICDC is part of the Cancer Research Data Commons (CRDC), an initiative from NCI’s Center for Biomedical Informatics and Information Technology (CBIIT). Bioinformatic analysis of the ICDC data is accomplished using the CRDC’s $$[Cloud Resources](target:_self url:/#/crdc type:0)$$."
     - 
