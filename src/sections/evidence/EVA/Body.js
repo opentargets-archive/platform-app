@@ -247,6 +247,7 @@ function Body({ definition, id, label }) {
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const variables = { ensemblId, efoId, size: count > 1000 ? 100 : count };
 
   useEffect(
     () => {
@@ -336,6 +337,8 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            query={CLINVAR_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}
