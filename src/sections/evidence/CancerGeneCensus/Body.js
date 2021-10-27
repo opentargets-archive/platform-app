@@ -137,12 +137,14 @@ function Body({ definition, id, label }) {
     Summary.fragments.CancerGeneCensusSummary
   );
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.cancerGeneCensusSummary.count,
+  };
+
   const request = useQuery(CANCER_GENE_CENSUS_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.cancerGeneCensusSummary.count,
-    },
+    variables,
   });
 
   return (
@@ -185,6 +187,8 @@ function Body({ definition, id, label }) {
               rowsPerPageOptions={defaultRowsPerPageOptions}
               showGlobalFilter
               sortBy="mutatedSamples"
+              query={CANCER_GENE_CENSUS_QUERY.loc.source.body}
+              variables={variables}
             />
           </>
         );
