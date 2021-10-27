@@ -175,9 +175,10 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
       genomicsEngland: { count: size },
     },
   } = usePlatformApi(Summary.fragments.GenomicsEnglandSummaryFragment);
+  const variables = { ensemblId: ensgId, efoId, size };
 
   const request = useQuery(GENOMICS_ENGLAND_QUERY, {
-    variables: { ensemblId: ensgId, efoId, size },
+    variables,
   });
 
   return (
@@ -197,6 +198,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
           sortBy="confidence"
+          query={GENOMICS_ENGLAND_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />
