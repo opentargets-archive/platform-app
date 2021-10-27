@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {
   AppBar,
   Button,
@@ -22,7 +22,6 @@ const NavBar = ({
   function handleButtonClickEvent(eventName) {
     setClickedEl(eventName);
   }
-
 
   return (
     <AppBar
@@ -51,6 +50,7 @@ const NavBar = ({
               : (
                 <Button id="button_navbar_navButton" disableRipple weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
                     <NavLink
+                      exact={true}
                       className={classes.labelText}
                       activeClassName={classes.activeLabel}
                       to={navButton.link ? navButton.link : '/'}

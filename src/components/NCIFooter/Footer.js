@@ -97,6 +97,10 @@ const styles = () => ({
   padding20: {
     padding: '20px',
   },
+
+  paddingLeft17:{
+    paddingLeft: '17px',
+  },
   footerRowSection: {
     marginTop: '16px',
     '@media (max-width: 900px)': {
@@ -236,6 +240,14 @@ const Footer = ({ classes, data }) => (
                 </li>
               ))}
             </ul>
+              <div>
+                <span className={classes.paddingLeft17}>
+                  Version : &nbsp;
+                  <RouteLinks to={"https://github.com/CBIIT/ppdc-otp-frontend/tags"}>
+                   MTP 1.0.0-alpha
+                  </RouteLinks>
+                </span>
+            </div>
           </div>
         ))}
       </div>
@@ -267,6 +279,7 @@ const Footer = ({ classes, data }) => (
               {data.footerStaticText}
             </span>
           </div>
+         
         </div>
       </div>
     </div>

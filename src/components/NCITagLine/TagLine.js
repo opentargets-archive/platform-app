@@ -4,12 +4,12 @@ import { withStyles } from '@material-ui/core';
 const styles = () => ({
    taglineRoot: {
     width: '100%',
-    background: '#87CEFA',
+    background: '#b2d5ea',
     fontFamily: 'Montserrat',
     height: '30px',
     color: '#333',
     paddingLeft: '89px',
-    fontWeight: '800',
+    fontWeight: 'bold',
     fontSize: '14px',
     lineHeight: '30px',
   },
