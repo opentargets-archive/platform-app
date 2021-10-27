@@ -21,6 +21,7 @@ import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
 import * as OTCRISPR from '../../sections/evidence/OTCRISPR';
+import * as OTEncore from '../../sections/evidence/OTEncore';
 
 import config from '../../config';
 
@@ -47,6 +48,7 @@ const sections = [
   ExpressionAtlas,
   Phenodigm,
   OTCRISPR,
+  OTEncore,
 ].filter(
   // select sections to show based on:
   // 1. there is no specific hidden section for this page (length==0)
