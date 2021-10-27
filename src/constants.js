@@ -226,10 +226,10 @@ export const particlesConfig = {
 };
 
 // App title.
-export const appTitle = 'Open Targets Platform';
+export const appTitle = 'Molecular Targets Platform';
 export const appDescription =
-  'The Open Targets Platform is a data integration tool that supports systematic drug target identification and prioritisation';
-export const appCanonicalUrl = 'https://platform.opentargets.org';
+  'The Molecular Targets Platform is a data integration tool that supports systematic drug target identification and prioritisation';
+export const appCanonicalUrl = 'https://moleculartargets.ccdi.cancer.gov';
 
 // Chunk sizes for server side pagination/download.
 export const tableChunkSize = 100;

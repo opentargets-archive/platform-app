@@ -5,6 +5,7 @@ import {
   Typography,
   Hidden,
 } from '@material-ui/core';
+import { Helmet } from 'react-helmet';
 import NCIFooter from '../../components/NCIFooter';
 import NCIHeader from '../../components/NCIHeader';
 import HomeBox from './HomeBox';
@@ -13,6 +14,11 @@ import Search from '../../components/Search';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
 import Version from './Version';
+import {
+  appTitle,
+  appDescription,
+  appCanonicalUrl,
+} from '../../constants';
 import externalIcon from '../../assets/about/About-ExternalLink.svg';
 
 
@@ -57,6 +63,10 @@ const HomePage = () => {
 
   return (
     <>
+      <Helmet title={appTitle}>
+        <meta name="description" content={appDescription} />
+        <link rel="canonical" href={appCanonicalUrl} />
+      </Helmet>
       <NCIHeader/>
       <Grid
         container

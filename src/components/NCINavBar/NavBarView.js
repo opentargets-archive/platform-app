@@ -23,7 +23,6 @@ const NavBar = ({
     setClickedEl(eventName);
   }
 
-
   return (
     <AppBar
       position="relative"
