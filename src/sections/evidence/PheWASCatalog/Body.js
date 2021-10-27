@@ -131,12 +131,14 @@ function Body({ definition, id, label }) {
     Summary.fragments.PheWASCatalogSummary
   );
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.phewasCatalogSummary.count,
+  };
+
   const request = useQuery(PHEWAS_CATALOG_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.phewasCatalogSummary.count,
-    },
+    variables,
   });
 
   return (
@@ -158,6 +160,8 @@ function Body({ definition, id, label }) {
             rowsPerPageOptions={defaultRowsPerPageOptions}
             sortBy="resourceScore"
             order="asc"
+            query={PHEWAS_CATALOG_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}
