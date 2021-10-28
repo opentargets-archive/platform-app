@@ -16,6 +16,9 @@ const Description = ({ symbol }) => (
     </Link>{', '}
     <Link to="https://www.ccdatalab.org/openpbta" external>
       OpenPBTA for the CBTN (v21)
+    </Link>{', '}
+    <Link to="https://www.oncokb.org/news#07162021" external>
+      OncoKB (v3.5)
     </Link>
   </>
 );
