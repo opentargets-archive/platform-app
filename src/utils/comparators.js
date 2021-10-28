@@ -45,11 +45,12 @@ export const breakpointMatch = (breakpoint, breakpointHelper) => {
 export const genericComparator = (row1, row2, keyName, number=false) => {
   let a = row1[keyName], b = row2[keyName];
   if (number) {
-    a = parseFloat(a) || 0
-    b = parseFloat(b) || 0
+    // Empty column value will be assign as -1
+    a = parseFloat(a || -1); 
+    b = parseFloat(b || -1);
   } else if ((typeof row1[keyName] === 'string') && (typeof row2[keyName] === 'string')) {
-    a = row1[keyName].toLowerCase()
-    b = row2[keyName].toLowerCase()
+    a = row1[keyName].toLowerCase();
+    b = row2[keyName].toLowerCase();
   }
   
   return a < b ? -1 : a > b ? 1 : 0;
