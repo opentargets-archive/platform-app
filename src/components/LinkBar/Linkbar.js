@@ -10,14 +10,13 @@ const LinkBar = ({ classes, title, url }) => (
 );
 
 LinkBar.defaultProps = {
-  title: 'National Cancer Institute - cancer.gov',
-  url: 'https://www.cancer.gov/',
+  title: 'NCI Childhood Cancer Data Initiative',
+  url: 'https://www.cancer.gov/research/areas/childhood/childhood-cancer-data-initiative?cid=cgovnav_hp_ppdc-otp-dev.bento-tools.org',
 };
 
 const styles = () => ({
   wrapper: {
     width: '100%',
-    height: '25px',
     margin: '0 auto',
     display: 'flex',
     justifyContent: 'center',
