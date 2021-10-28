@@ -11,8 +11,6 @@ import Tooltip from '../../../components/Tooltip';
 import TooltipStyledLabel from '../../../components/TooltipStyledLabel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCaretSquareUp,
-  faCaretSquareDown,
   faArrowAltCircleUp,
   faArrowAltCircleDown,
 } from '@fortawesome/free-solid-svg-icons';
@@ -125,30 +123,6 @@ const getColumns = classes => [
     id: 'cellType',
     label: 'Cell line',
     renderCell: row => row.cellType,
-    // (
-    //   <>
-    //     <Tooltip
-    //       title={
-    //         <TooltipStyledLabel
-    //           label={'Statistical test tail'}
-    //           description={row.statisticalTestTail}
-    //         />
-    //       }
-    //     >
-    //       <span className={classes.significanceIcon}>
-    //         <FontAwesomeIcon
-    //           icon={
-    //             row.statisticalTestTail.toLowerCase() === 'upper tail'
-    //               ? faCaretSquareUp
-    //               : faCaretSquareDown
-    //           }
-    //         />
-    //       </span>
-    //     </Tooltip>{' '}
-    //     {row.resourceScore}
-    //   </>
-    // ),
-    // filterValue: row => row.resourceScore + '; ' + row.statisticalTestTail,
   },
 ];
 
