@@ -92,7 +92,34 @@ const getColumns = classes => [
   {
     id: 'geneticInteractionPValue',
     label: 'Cooperativity (Type of effect)',
-    renderCell: row => row.geneticInteractionPValue,
+    renderCell: row => (
+      <Tooltip
+        title={
+          <>
+            <TooltipStyledLabel
+              label={'Method'}
+              description={row.geneticInteractionMethod}
+            />
+            <TooltipStyledLabel
+              label={'Score'}
+              description={row.geneticInteractionScore}
+            />
+            <TooltipStyledLabel
+              label={'P-value'}
+              description={row.geneticInteractionPValue}
+            />
+            <TooltipStyledLabel
+              label={'FDR'}
+              description={row.geneticInteractionFDR}
+            />
+          </>
+        }
+      >
+        <span>
+          {row.geneticInteractionPValue >= 0.05 ? 'Additive' : 'Synergistic'}
+        </span>
+      </Tooltip>
+    ),
   },
   {
     id: 'cellType',
