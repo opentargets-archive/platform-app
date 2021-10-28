@@ -13,6 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCaretSquareUp,
   faCaretSquareDown,
+  faArrowAltCircleUp,
+  faArrowAltCircleDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { makeStyles } from '@material-ui/core';
 import Link from '../../../components/Link';
@@ -28,11 +30,6 @@ const useStyles = makeStyles(theme => {
   };
 });
 
-/*
-
-Disease	Target A	Target B	Direction of effect	Cooperativity (Type of effect)	Cell line
-
- */
 const getColumns = classes => [
   {
     id: 'disease',
@@ -58,8 +55,38 @@ const getColumns = classes => [
   {
     id: 'phenotypicConsequenceLogFoldChange',
     label: 'Direction of effect',
-    renderCell: row =>
-      row.phenotypicConsequenceLogFoldChange >= 0 ? 'up' : 'down',
+    renderCell: row => (
+      <>
+        <Tooltip
+          title={
+            <>
+              <TooltipStyledLabel
+                label={'Log-fold change'}
+                description={row.phenotypicConsequenceLogFoldChange}
+              />
+              <TooltipStyledLabel
+                label={'P-value'}
+                description={row.phenotypicConsequencePValue}
+              />
+              <TooltipStyledLabel
+                label={'FDR'}
+                description={row.phenotypicConsequenceFDR}
+              />
+            </>
+          }
+        >
+          <span className={classes.significanceIcon}>
+            <FontAwesomeIcon
+              icon={
+                row.phenotypicConsequenceLogFoldChange >= 0
+                  ? faArrowAltCircleUp
+                  : faArrowAltCircleDown
+              }
+            />
+          </span>
+        </Tooltip>
+      </>
+    ),
     // filterValue: row => row.cellType + '; ' + row.cellLineBackground,
   },
   {
