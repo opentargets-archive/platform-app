@@ -28,102 +28,77 @@ const useStyles = makeStyles(theme => {
   };
 });
 
-// const getColumns = classes => [
-//   {
-//     id: 'disease',
-//     label: 'Reported disease',
-//     renderCell: row => (
-//       <Link to={`/disease/${row.disease.id}`}>{row.disease.name}</Link>
-//     ),
-//     filterValue: row => row.disease.name + ', ' + row.disease.id,
-//   },
-//   {
-//     id: 'projectId',
-//     label: 'OTAR project code',
-//     renderCell: row => (
-//       <Link external to={`http://home.opentargets.org/${row.projectId}`}>
-//         {row.projectId}
-//       </Link>
-//     ),
-//   },
-//   {
-//     id: 'contrast',
-//     label: 'Contrast / Study overview',
-//     renderCell: row =>
-//       row.contrast ? (
-//         <Tooltip
-//           showHelpIcon
-//           title={
-//             <TooltipStyledLabel
-//               label={'Study overview'}
-//               description={row.studyOverview}
-//             />
-//           }
-//         >
-//           <span>{row.contrast}</span>
-//         </Tooltip>
-//       ) : (
-//         row.studyOverview
-//       ),
-//     width: '25%',
-//     filterValue: row => row.contrast + '; ' + row.studyOverview,
-//   },
-//   {
-//     id: 'cellType',
-//     label: 'Cell type',
-//     renderCell: row =>
-//       row.cellLineBackground ? (
-//         <Tooltip
-//           showHelpIcon
-//           title={
-//             <TooltipStyledLabel
-//               label={'Cell line background'}
-//               description={row.cellLineBackground}
-//             />
-//           }
-//         >
-//           <span>{row.cellType}</span>
-//         </Tooltip>
-//       ) : (
-//         row.cellType
-//       ),
-//     filterValue: row => row.cellType + '; ' + row.cellLineBackground,
-//   },
-//   {
-//     id: 'crisprScreenLibrary',
-//     label: 'CRISPR screen library',
-//     renderCell: row => row.crisprScreenLibrary,
-//   },
-//   {
-//     id: 'resourceScore',
-//     label: 'Significance',
-//     renderCell: row => (
-//       <>
-//         <Tooltip
-//           title={
-//             <TooltipStyledLabel
-//               label={'Statistical test tail'}
-//               description={row.statisticalTestTail}
-//             />
-//           }
-//         >
-//           <span className={classes.significanceIcon}>
-//             <FontAwesomeIcon
-//               icon={
-//                 row.statisticalTestTail.toLowerCase() === 'upper tail'
-//                   ? faCaretSquareUp
-//                   : faCaretSquareDown
-//               }
-//             />
-//           </span>
-//         </Tooltip>{' '}
-//         {row.resourceScore}
-//       </>
-//     ),
-//     filterValue: row => row.resourceScore + '; ' + row.statisticalTestTail,
-//   },
-// ];
+/*
 
+Disease	Target A	Target B	Direction of effect	Cooperativity (Type of effect)	Cell line
+
+ */
+const getColumns = classes => [
+  {
+    id: 'disease',
+    label: 'Disease',
+    renderCell: row => (
+      <Link to={`/disease/${row.disease.id}`}>{row.disease.name}</Link>
+    ),
+    // filterValue: row => row.disease.name + ', ' + row.disease.id,
+  },
+  {
+    id: 'target',
+    label: 'Target A',
+    renderCell: row => (
+      <Link to={`/target/${row.target.id}`}>{row.target.approvedSymbol}</Link>
+    ),
+  },
+  {
+    id: 'interactingTargetFromSourceId',
+    label: 'Target B',
+    renderCell: row => row.interactingTargetFromSourceId,
+    // filterValue: row => row.contrast + '; ' + row.studyOverview,
+  },
+  {
+    id: 'phenotypicConsequenceLogFoldChange',
+    label: 'Direction of effect',
+    renderCell: row =>
+      row.phenotypicConsequenceLogFoldChange >= 0 ? 'up' : 'down',
+    // filterValue: row => row.cellType + '; ' + row.cellLineBackground,
+  },
+  {
+    id: 'geneticInteractionPValue',
+    label: 'Cooperativity (Type of effect)',
+    renderCell: row => row.geneticInteractionPValue,
+  },
+  {
+    id: 'cellType',
+    label: 'Cell line',
+    renderCell: row => row.cellType,
+    // (
+    //   <>
+    //     <Tooltip
+    //       title={
+    //         <TooltipStyledLabel
+    //           label={'Statistical test tail'}
+    //           description={row.statisticalTestTail}
+    //         />
+    //       }
+    //     >
+    //       <span className={classes.significanceIcon}>
+    //         <FontAwesomeIcon
+    //           icon={
+    //             row.statisticalTestTail.toLowerCase() === 'upper tail'
+    //               ? faCaretSquareUp
+    //               : faCaretSquareDown
+    //           }
+    //         />
+    //       </span>
+    //     </Tooltip>{' '}
+    //     {row.resourceScore}
+    //   </>
+    // ),
+    // filterValue: row => row.resourceScore + '; ' + row.statisticalTestTail,
+  },
+];
+
+const exportColumns = [];
 // const exportColumns = [
 //   {
 //     label: 'disease',
@@ -191,23 +166,22 @@ function Body({ definition, id, label }) {
       )}
       renderBody={({ disease }) => {
         const { rows } = disease.evidences;
-        return <>ENCORE data: {rows.length} rows</>;
         {
-          /* return (
-          <DataTable
-            columns={getColumns(classes)}
-            rows={rows}
-            dataDownloader
-            dataDownloaderColumns={exportColumns}
-            dataDownloaderFileStem={`${ensemblId}-${efoId}-otcrispr`}
-            showGlobalFilter
-            sortBy="resourceScore"
-            fixed
-            noWrap={false}
-            noWrapHeader={false}
-            rowsPerPageOptions={defaultRowsPerPageOptions}
-          />
-        ); */
+          return (
+            <DataTable
+              columns={getColumns(classes)}
+              rows={rows}
+              dataDownloader
+              dataDownloaderColumns={exportColumns}
+              dataDownloaderFileStem={`${ensemblId}-${efoId}-otencore`}
+              showGlobalFilter
+              sortBy="resourceScore"
+              fixed
+              noWrap={false}
+              noWrapHeader={false}
+              rowsPerPageOptions={defaultRowsPerPageOptions}
+            />
+          );
         }
       }}
     />
