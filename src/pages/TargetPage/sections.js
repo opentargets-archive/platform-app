@@ -14,12 +14,13 @@ import * as Safety from '../../sections/target/Safety';
 import * as Tep from '../../sections/target/Tep';
 import * as Tractability from '../../sections/target/Tractability';
 import * as MolecularInteractions from '../../sections/target/MolecularInteractions';
-
 import * as OpenPedCanSomaticMutations from '../../sections/target/OpenPedCanSomaticMutations'
 import * as OpenPedCanGeneExpression from '../../sections/target/OpenPedCanGeneExpression'
 
 
 const sections = [
+  OpenPedCanSomaticMutations,
+  OpenPedCanGeneExpression,
   KnownDrugs,
   Tractability,
   Safety,
@@ -35,7 +36,5 @@ const sections = [
   MousePhenotypes,
   ComparativeGenomics,
   Bibliography,
-  OpenPedCanSomaticMutations,
-  OpenPedCanGeneExpression,
 ];
 export default sections;

@@ -24,6 +24,8 @@ import * as OpenPedCanGeneExpression from '../../sections/evidence/OpenPedCanGen
 import * as OpenPedCanSomaticMutations from '../../sections/evidence/OpenPedCanSomaticMutations'
 
 const sections = [
+  OpenPedCanSomaticMutations,
+  OpenPedCanGeneExpression,
   OTGenetics,
   PheWASCatalog,
   EVA,
@@ -45,7 +47,5 @@ const sections = [
   EuropePmc,
   ExpressionAtlas,
   Phenodigm,
-  OpenPedCanSomaticMutations,
-  OpenPedCanGeneExpression,
 ];
 export default sections;

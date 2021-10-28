@@ -25,6 +25,7 @@ function SectionItem({
   renderBody,
   tags,
   chipText,
+  avatarStyle,
 }) {
   const classes = sectionStyles();
   const { loading, error, data } = request;
@@ -42,7 +43,7 @@ function SectionItem({
               }}
               avatar={
                 <Avatar
-                  className={classNames(classes.avatar, classes.avatarHasData, {
+                  className={classNames(classes.avatar, classes.avatarHasData, avatarStyle, {
                     [classes.avatarError]: error,
                   })}
                 >
