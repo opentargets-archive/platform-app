@@ -35,7 +35,7 @@ const getColumns = classes => [
     renderCell: row => (
       <Link to={`/disease/${row.disease.id}`}>{row.disease.name}</Link>
     ),
-    // filterValue: row => row.disease.name + ', ' + row.disease.id,
+    filterValue: row => row.disease.name + ', ' + row.disease.id,
   },
   {
     id: 'target',
@@ -43,12 +43,12 @@ const getColumns = classes => [
     renderCell: row => (
       <Link to={`/target/${row.target.id}`}>{row.target.approvedSymbol}</Link>
     ),
+    filterValue: row => row.target.approvedSymbol + ', ' + row.target.id,
   },
   {
     id: 'interactingTargetFromSourceId',
     label: 'Target B',
     renderCell: row => row.interactingTargetFromSourceId,
-    // filterValue: row => row.contrast + '; ' + row.studyOverview,
   },
   {
     id: 'phenotypicConsequenceLogFoldChange',
@@ -85,7 +85,6 @@ const getColumns = classes => [
         </Tooltip>
       </>
     ),
-    // filterValue: row => row.cellType + '; ' + row.cellLineBackground,
   },
   {
     id: 'geneticInteractionPValue',
@@ -118,6 +117,8 @@ const getColumns = classes => [
         </span>
       </Tooltip>
     ),
+    filterValue: row =>
+      row.geneticInteractionPValue >= 0.05 ? 'Additive' : 'Synergistic',
   },
   {
     id: 'cellType',
