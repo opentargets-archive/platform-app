@@ -1,26 +1,31 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
-import BasePage from '../../components/BasePage';
+import React, { useState, useEffect } from 'react';
+import yaml from 'js-yaml';
+import axios from 'axios';
+import AboutView from './AboutView';
 
-const useStyles = makeStyles(theme => ({}));
+const ABOUT_CONTENT_URL = "https://api.github.com/repos/CBIIT/ppdc-otp-frontend/contents/content/prod/about.yaml";
 
-function PMTLDocPage() {
-  const classes = useStyles();
+function AboutPage() {
+  const [data, setData] = useState([]);
  
+  useEffect(() => {
+    const fetchData = async () => {
+      let resultData = [];
+      let result = [];
+      try {
+        result = await axios.get(ABOUT_CONTENT_URL);
+        if(result.status === 200){
+            resultData = yaml.safeLoad(
+              Buffer.from(result.data.content, "base64").toString())[0];
+        }
+      } catch (error) {
+        resultData = "Under Development ... ";
+      }
+      setData(resultData);
+    };
+    fetchData();
+  },[data.length]);
 
-  return (
-    <BasePage title="About Page">
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Typography variant="h4">
-              About Page
-            </Typography>
-          </Grid>
-        </Grid>
-      </div>
-    </BasePage>
-  );
+  return (<AboutView data={data} />);
 }
-export default PMTLDocPage;
+export default AboutPage;

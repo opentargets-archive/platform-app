@@ -14,7 +14,7 @@ const styles = ()=>({
       justifyContent: 'space-between',
       background: '#ffffff',
       position: 'fixed',
-      zIndex: '1000',
+      zIndex: '40002',
       top: 0,
     }
 });
