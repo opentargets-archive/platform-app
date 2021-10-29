@@ -156,7 +156,6 @@ const fetcher = async graphQLParams => {
 };
 
 GraphiQL.Logo = () => null;
-GraphiQL.Toolbar = () => null;
 
 function DataDownloader({ columns, rows, fileStem, query, variables }) {
   const [downloading, setDownloading] = useState(false);
