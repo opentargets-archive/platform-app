@@ -1,5 +1,5 @@
 import FileSaver from 'file-saver';
-import React, { useState } from 'react';
+import React, { Suspense, useState, lazy } from 'react';
 import _ from 'lodash';
 import {
   Button,
@@ -14,10 +14,11 @@ import {
   IconButton,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import GraphiQL from 'graphiql';
 import 'graphiql/graphiql.min.css';
 import config from '../../config';
 import Link from '../Link';
+
+const GraphiQL = lazy(() => import('graphiql'));
 
 const asJSON = (columns, rows) => {
   const rowStrings = rows.map(row => {
@@ -275,11 +276,13 @@ function DataDownloader({ columns, rows, fileStem, query, variables }) {
         </Paper>
         {query ? (
           <div className={classes.playgroundContainer}>
-            <GraphiQL
-              fetcher={fetcher}
-              query={query}
-              variables={JSON.stringify(variables, null, 2)}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <GraphiQL
+                fetcher={fetcher}
+                query={query}
+                variables={JSON.stringify(variables, null, 2)}
+              />
+            </Suspense>
           </div>
         ) : null}
       </Drawer>
