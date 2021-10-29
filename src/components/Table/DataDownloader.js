@@ -155,6 +155,7 @@ const fetcher = async graphQLParams => {
   return data.json();
 };
 
+// this removes the logo of the playground
 GraphiQL.Logo = () => null;
 
 function DataDownloader({ columns, rows, fileStem, query, variables }) {
