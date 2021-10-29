@@ -22,8 +22,9 @@ const ENCORE_QUERY = loader('./OTEncoreQuery.gql');
 
 const useStyles = makeStyles(theme => {
   return {
-    significanceIcon: {
+    primaryColor: {
       color: theme.palette.primary.main,
+      cursor: 'pointer',
     },
   };
 });
@@ -73,7 +74,7 @@ const getColumns = classes => [
             </>
           }
         >
-          <span className={classes.significanceIcon}>
+          <span className={classes.primaryColor}>
             <FontAwesomeIcon
               icon={
                 row.phenotypicConsequenceLogFoldChange >= 0
@@ -112,7 +113,7 @@ const getColumns = classes => [
           </>
         }
       >
-        <span>
+        <span className={classes.primaryColor}>
           {row.geneticInteractionPValue >= 0.05 ? 'Additive' : 'Synergistic'}
         </span>
       </Tooltip>
