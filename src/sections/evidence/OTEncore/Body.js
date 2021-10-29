@@ -123,7 +123,14 @@ const getColumns = classes => [
   {
     id: 'cellType',
     label: 'Cell line',
-    renderCell: row => row.cellType,
+    renderCell: row => (
+      <Link
+        external
+        to={`https://cellmodelpassports.sanger.ac.uk/passports/${row.cellType}`}
+      >
+        {row.cellType}
+      </Link>
+    ),
   },
 ];
 
