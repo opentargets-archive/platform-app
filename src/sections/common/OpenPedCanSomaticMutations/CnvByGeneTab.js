@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
-import RelevantIcon from '../../../components/RMTL/RelevantIcon';
+import { renderPMTLCell } from './utils';
 
 import { genericComparator } from '../../../utils/comparators'
 
@@ -16,18 +16,24 @@ const columns = [
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
   { id: 'variantType', label: 'Variant type', sortable: true }, 
   { id: 'variantCategory', label: 'Variant category', sortable: true },
-  { id: 'dataset', label: 'Dataset', sortable: true, comparator: (row1, row2) => genericComparator(row1, row2, 'Dataset') },
+  { id: 'dataset', label: 'Dataset', sortable: true, comparator: (row1, row2) => genericComparator(row1, row2, 'dataset') },
   { id: 'Disease', label: 'Disease', sortable: true, 
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> },
-  { id: 'totalAlterationsOverPatientsInDataset', label: 'Total alterations/Patients in dataset', sortable: true },
-  { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable: true },
-  { id: 'totalPrimaryTumorsAlteredOverPrimaryTumorsInDataset', label: 'Total primary tumors altered/Primary tumors in dataset', sortable: true },
-  { id: 'frequencyInPrimaryTumors', label: 'Frequency in primary tumors', sortable: true },
-  { id: 'totalRelapseTumorsAlteredOverRelapseTumorsInDataset', label: 'Total relapse tumors altered/Relapse tumors in dataset', sortable: true },
-  { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true },
+  { id: 'totalAlterationsOverPatientsInDataset', label: 'Total alterations/Patients in dataset', sortable: true,
+    comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
+  { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable: true,
+    comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
+  { id: 'totalPrimaryTumorsAlteredOverPrimaryTumorsInDataset', label: 'Total primary tumors altered/Primary tumors in dataset', sortable: true,
+    comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInPrimaryTumors', true) },
+  { id: 'frequencyInPrimaryTumors', label: 'Frequency in primary tumors', sortable: true,
+    comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInPrimaryTumors', true) },
+  { id: 'totalRelapseTumorsAlteredOverRelapseTumorsInDataset', label: 'Total relapse tumors altered/Relapse tumors in dataset', sortable: true,
+    comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
+  { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true,
+    comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'geneFullName', label: 'Gene full name', sortable: true },
-  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: () => <RelevantIcon/>, filterValue: false},
+  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true },
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true },
   // { id: 'EFO', label: 'EFO', sortable: true },
