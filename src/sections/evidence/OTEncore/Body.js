@@ -127,49 +127,70 @@ const getColumns = classes => [
   },
 ];
 
-const exportColumns = [];
-// const exportColumns = [
-//   {
-//     label: 'disease',
-//     exportValue: row => row.disease.name,
-//   },
-//   {
-//     label: 'disease id',
-//     exportValue: row => row.disease.id,
-//   },
-//   {
-//     label: 'OTAR project code',
-//     exportValue: row => row.projectId,
-//   },
-//   {
-//     label: 'contrast',
-//     exportValue: row => row.contrast,
-//   },
-//   {
-//     label: 'study overview',
-//     exportValue: row => row.studyOverview,
-//   },
-//   {
-//     label: 'cell type',
-//     exportValue: row => row.cellType,
-//   },
-//   {
-//     label: 'cell line background',
-//     exportValue: row => row.cellLineBackground,
-//   },
-//   {
-//     label: 'CRISPR screen library',
-//     exportValue: row => row.crisprScreenLibrary,
-//   },
-//   {
-//     label: 'resource score',
-//     exportValue: row => row.resourceScore,
-//   },
-//   {
-//     label: 'statistical test tail',
-//     exportValue: row => row.statisticalTestTail,
-//   },
-// ];
+const exportColumns = [
+  {
+    label: 'disease',
+    exportValue: row => row.disease.name,
+  },
+  {
+    label: 'disease id',
+    exportValue: row => row.disease.id,
+  },
+  {
+    label: 'target A',
+    exportValue: row => row.target.approvedSymbol,
+  },
+  {
+    label: 'target A id',
+    exportValue: row => row.target.id,
+  },
+  {
+    label: 'target B',
+    exportValue: row => row.interactingTargetFromSourceId,
+  },
+  {
+    label: 'direction of effect',
+    exportValue: row =>
+      row.phenotypicConsequenceLogFoldChange >= 0 ? 'up' : 'down',
+  },
+  {
+    label: 'phenotypicConsequenceLogFoldChange',
+    exportValue: row => row.phenotypicConsequenceLogFoldChange,
+  },
+  {
+    label: 'phenotypicConsequencePValue',
+    exportValue: row => row.phenotypicConsequencePValue,
+  },
+  {
+    label: 'phenotypicConsequenceFDR',
+    exportValue: row => row.phenotypicConsequenceFDR,
+  },
+  {
+    label: 'Cooperativity',
+    exportValue: row =>
+      row.geneticInteractionPValue >= 0.05 ? 'Additive' : 'Synergistic',
+  },
+  {
+    label: 'geneticInteractionMethod',
+    exportValue: row => row.geneticInteractionMethod,
+  },
+  {
+    label: 'geneticInteractionScore',
+    exportValue: row => row.geneticInteractionScore,
+  },
+  {
+    label: 'geneticInteractionPValue',
+    exportValue: row => row.geneticInteractionPValue,
+  },
+  {
+    label: 'geneticInteractionFDR',
+    exportValue: row => row.geneticInteractionFDR,
+  },
+  {
+    label: 'cell line',
+    exportValue: row => row.cellType,
+  },
+];
 
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
