@@ -216,24 +216,22 @@ function Body({ definition, id, label }) {
       )}
       renderBody={({ disease }) => {
         const { rows } = disease.evidences;
-        {
-          return (
-            <DataTable
-              columns={getColumns(classes)}
-              rows={rows}
-              dataDownloader
-              dataDownloaderColumns={exportColumns}
-              dataDownloaderFileStem={`${ensemblId}-${efoId}-otencore`}
-              showGlobalFilter
-              sortBy="geneticInteractionPValue"
-              order="asc"
-              fixed
-              noWrap={false}
-              noWrapHeader={false}
-              rowsPerPageOptions={defaultRowsPerPageOptions}
-            />
-          );
-        }
+        return (
+          <DataTable
+            columns={getColumns(classes)}
+            rows={rows}
+            dataDownloader
+            dataDownloaderColumns={exportColumns}
+            dataDownloaderFileStem={`${ensemblId}-${efoId}-otencore`}
+            showGlobalFilter
+            sortBy="geneticInteractionPValue"
+            order="asc"
+            fixed
+            noWrap={false}
+            noWrapHeader={false}
+            rowsPerPageOptions={defaultRowsPerPageOptions}
+          />
+        );
       }}
     />
   );
