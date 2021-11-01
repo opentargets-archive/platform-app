@@ -17,6 +17,7 @@ import {
 import { makeStyles } from '@material-ui/core';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
+import classNames from 'classnames';
 
 const ENCORE_QUERY = loader('./OTEncoreQuery.gql');
 
@@ -25,6 +26,12 @@ const useStyles = makeStyles(theme => {
     primaryColor: {
       color: theme.palette.primary.main,
       cursor: 'pointer',
+    },
+    grey: {
+      color: theme.palette.grey[300],
+    },
+    circleUp: {
+      marginRight: '10px',
     },
   };
 });
@@ -74,12 +81,24 @@ const getColumns = classes => [
             </>
           }
         >
-          <span className={classes.primaryColor}>
+          <span>
             <FontAwesomeIcon
-              icon={
+              icon={faArrowAltCircleUp}
+              size="lg"
+              className={classNames(
                 row.phenotypicConsequenceLogFoldChange >= 0
-                  ? faArrowAltCircleUp
-                  : faArrowAltCircleDown
+                  ? classes.primaryColor
+                  : classes.grey,
+                classes.circleUp
+              )}
+            />
+            <FontAwesomeIcon
+              icon={faArrowAltCircleDown}
+              size="lg"
+              className={
+                row.phenotypicConsequenceLogFoldChange < 0
+                  ? classes.primaryColor
+                  : classes.grey
               }
             />
           </span>
