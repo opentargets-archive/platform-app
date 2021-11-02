@@ -11,7 +11,7 @@
     -
       paragraph: "$$#About CCDI#$$" 
     - 
-      paragraph: "The Molecular Targets Platform is part of NCI’s $$[Childhood Cancer Data Initiative (CCDI)](target:_blank url:https://www.cancer.gov/research/areas/childhood/childhood-cancer-data-initiative type:0)$$ which is building a community centered around childhood cancer care and research data. Through enhanced data sharing, we can improve our understanding of cancer biology to improve preventive measures, treatment, quality of life, and survivorship, as well as ensure that researchers learn from every child with cancer. CCDI will help speed progress for children and adolescents and young adults (AYAs) with childhood cancer and their families. $$[Sign-up for email updates from NCI](target:_blank url:https://public.govdelivery.com/accounts/USNIHNCI/subscriber/new?topic_id=USNIHNCI_223 type:0)$$."
+      paragraph: "The Molecular Targets Platform is part of NCI’s $$[Childhood Cancer Data Initiative (CCDI)](target:_blank url:https://www.cancer.gov/research/areas/childhood/childhood-cancer-data-initiative type:0)$$, which is building a community centered around childhood cancer care and research data. Through enhanced data sharing, we can improve our understanding of cancer biology to improve preventive measures, treatment, quality of life, and survivorship, as well as ensure that researchers learn from every child with cancer. CCDI will help speed progress for children and adolescents and young adults (AYAs) with childhood cancer and their families. $$[Sign-up for email updates from NCI](target:_blank url:https://public.govdelivery.com/accounts/USNIHNCI/subscriber/new?topic_id=USNIHNCI_223 type:0)$$."
     -
       paragraph: ~
     -
@@ -19,28 +19,10 @@
     -
       paragraph: "The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the $$[Open Targets Platform](https://platform.opentargets.org/)$$ with a focus on pediatric cancer data. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including:"
     -
-      table:
-        -
-          head:
-            - "The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including:"
-        -
-          body:
-            -
-              row:
-                - "The FDA Pediatric Molecular Target Lists (FDA PMTL), which are curated resources identifying potential pediatric cancer drug targets"
-            -
-              row:
-                - "Analyses of pediatric oncology datasets from the Open Pediatric Cancer (OpenPedCan) project at the Children's Hospital of Philadelphila"
-            -
-              row:
-                - "Data from Therapeutically Applicable Research to Generate Effective Treatments (TARGET)"
-            -
-              row:
-                - "Data from Open Pediatric Brain Tumor Atlas (OpenPBTA)"
-            -
-              row:
-                - "Data from Gabriella Miller Kids First (Kids First) Neuroblastoma"
-    -
-      paragraph: ~
+      paragraph: "- The FDA Pediatric Molecular Target Lists (FDA PMTL), which are curated resources identifying potential pediatric cancer drug targets"
+      paragraph: "- Analyses of pediatric oncology datasets from the Open Pediatric Cancer (OpenPedCan) project at the Children's Hospital of Philadelphia"
+      paragraph: "- Data from the Therapeutically Applicable Research to Generate Effective Treatments (TARGET) Initiative"
+      paragraph: "- Data from the Open Pediatric Brain Tumor Atlas (OpenPBTA) Project"
+      paragraph: "- Data from the Gabriella Miller Kids First Research Program (Kids First) Neuroblastoma project"
     -
       paragraph: "As the project matures, new pediatric cancer data and additional functionality will be added to the Molecular Targets Platform."
