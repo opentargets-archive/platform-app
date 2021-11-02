@@ -21,6 +21,9 @@
     -
       table:
         -
+          head:
+            - "The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including:"
+        -
           body:
             -
               row:
