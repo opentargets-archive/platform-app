@@ -5,6 +5,14 @@
   primaryContentImage: 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/main/icdc/aboutPages/Photo-About_Purpose.jpg'
   content: 
     -
-      paragraph: "$$#Molecular Targets Platform#$$"
+      paragraph: "$$#Under Development#$$"
     -
-      paragraph: "This About page is under active development. Content may be added or removed without notice, and many hyperlinks are not yet defined."
+      paragraph: "The About page for the Molecular Targets Platform is under active development, so content may be added or removed without notice. Thank you for your patience as we build a better site."
+    -
+      paragraph: "$$#About CCDI#$$" 
+    - 
+      paragraph: "The Molecular Targets Platform is part of NCI’s $$[Childhood Cancer Data Initiative (CCDI)](target:_blank url:https://www.cancer.gov/research/areas/childhood/childhood-cancer-data-initiative type:0)$$ which is building a community centered around childhood cancer care and research data. Through enhanced data sharing, we can improve our understanding of cancer biology to improve preventive measures, treatment, quality of life, and survivorship, as well as ensure that researchers learn from every child with cancer. CCDI will help speed progress for children and adolescents and young adults (AYAs) with childhood cancer and their families. $$[Sign-up for email updates from NCI](target:_blank url:https://public.govdelivery.com/accounts/USNIHNCI/subscriber/new?topic_id=USNIHNCI_223 type:0)$$."
+    -
+      paragraph: ~
+    -
+      paragraph: "$$#Molecular Targets Platform Overview#$$"
