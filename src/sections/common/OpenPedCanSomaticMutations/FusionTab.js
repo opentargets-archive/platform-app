@@ -11,7 +11,7 @@ import { genericComparator } from '../../../utils/comparators'
 const columns = [
   { id: 'fusionName', label: 'Fusion Name', sortable:true },
   { id: 'fusionType', label: 'Fusion Type', sortable:true },
-  { id: 'geneSymbol', label: 'Gene symbol', sortable:true,
+  { id: 'geneSymbol', label: 'Target', sortable:true,
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
@@ -49,7 +49,7 @@ const columns = [
 const dataDownloaderColumns = [
   { id: 'fusionName' },
   { id: 'fusionType' },
-  { id: 'geneSymbol' },
+  { id: 'geneSymbol', label: 'Target' },
   { id: 'genePosition' },
   { id: 'fusionAnno' },
   { id: 'breakpointLocation' },
