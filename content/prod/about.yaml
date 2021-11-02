@@ -16,3 +16,28 @@
       paragraph: ~
     -
       paragraph: "$$#Molecular Targets Platform Overview#$$"
+    -
+      paragraph: "The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the $$[Open Targets Platform](https://platform.opentargets.org/)$$ with a focus on pediatric cancer data. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including:"
+    -
+      table:
+        -
+          body:
+            -
+              row:
+                - "The FDA Pediatric Molecular Target Lists (FDA PMTL), which are curated resources identifying potential pediatric cancer drug targets"
+            -
+              row:
+                - "Analyses of pediatric oncology datasets from the Open Pediatric Cancer (OpenPedCan) project at the Children's Hospital of Philadelphila"
+            -
+              row:
+                - "Data from Therapeutically Applicable Research to Generate Effective Treatments (TARGET)"
+            -
+              row:
+                - "Data from Open Pediatric Brain Tumor Atlas (OpenPBTA)"
+            -
+              row:
+                - "Data from Gabriella Miller Kids First (Kids First) Neuroblastoma"
+    -
+      paragraph: ~
+    -
+      paragraph: "As the project matures, new pediatric cancer data and additional functionality will be added to the Molecular Targets Platform."
