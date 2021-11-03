@@ -43,7 +43,7 @@ const columns = [
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true},
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true},
-  { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot URL', 
+  { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot', 
     renderCell: ({pedcbioPedotOncoprintPlotURL}) => createExternalLink(pedcbioPedotOncoprintPlotURL, "oncoprint"),
     filterValue: ({pedcbioPedotOncoprintPlotURL}) => pedcbioPedotOncoprintPlotURL ? 'oncoprint' : ''
   },
@@ -73,7 +73,7 @@ const dataDownloaderColumns = [
   { id: 'frequencyInRelapseTumors' },
   { id: 'OncoKBCancerGene' },
   { id: 'OncoKBOncogeneTSG' },
-  { id: 'pedcbioPedotOncoprintPlotURL' },
+  { id: 'pedcbioPedotOncoprintPlotURL', label: 'pedcbioPedotOncoprintPlot'},
   { id: 'pedcbioPedotMutationsPlotURL' },
 ]
 
