@@ -5,17 +5,22 @@
   primaryContentImage: 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/main/icdc/aboutPages/Photo-About_Purpose.jpg'
   content: 
     -
-      paragraph: "$$#Under Development#$$"
+      paragraph: "$$#UNDER DEVELOPMENT#$$"
     -
       paragraph: "The About page for the Molecular Targets Platform is under active development, so content may be added or removed without notice. Thank you for your patience as we build a better site."
     -
-      paragraph: "$$#About CCDI#$$" 
+      paragraph: "$$#ABOUT CCDI#$$" 
     - 
       paragraph: "The Molecular Targets Platform is part of NCI’s $$[Childhood Cancer Data Initiative (CCDI)](target:_blank url:https://www.cancer.gov/research/areas/childhood/childhood-cancer-data-initiative type:0)$$, which is building a community centered around childhood cancer care and research data. Through enhanced data sharing, we can improve understanding of cancer biology,  preventive measures, treatment, quality of life, and survivorship, as well as ensure that researchers learn from every child with cancer. $$[Sign-up for email updates from NCI](target:_blank url:https://public.govdelivery.com/accounts/USNIHNCI/subscriber/new?topic_id=USNIHNCI_223 type:0)$$."
     -
       paragraph: ~
     -
-      paragraph: "$$#Molecular Targets Platform Overview#$$"
+      paragraph: "____________________"
+    -
+      paragraph: ~
+#SECTION SEPARATOR
+    -
+      paragraph: "$$#MOLECULAR TARGETS PLATFORM OVERVIEW#$$"
     -
       paragraph: "The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the $$[Open Targets Platform](https://platform.opentargets.org/)$$ with a focus on pediatric cancer data. This tool allows users to browse and identify associations between $$*molecular targets, diseases*$$, and $$*drugs*$$. The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including:"
     -
@@ -33,7 +38,12 @@
     -
       paragraph: ~
     -
-      paragraph: "$$#Open Targets Platform#$$"
+      paragraph: "____________________"
+    -
+      paragraph: ~
+#SECTION SEPARATOR
+    -
+      paragraph: "$$#OPEN TARGETS PLATFORM#$$"
     -
       paragraph: "The $$[Open Targets Platform](https://platform.opentargets.org/)$$ is the open-source infrastructure upon which the Molecular Targets Platform is built."
     -
@@ -49,7 +59,12 @@
     -
       paragraph: ~
     -
-      paragraph: "$$#Pediatric Cancer Data Sources#$$"
+      paragraph: "____________________"
+    -
+      paragraph: ~
+#SECTION SEPARATOR
+    -
+      paragraph: "$$#PEDIATRIC CANCER DATA SOURCES#$$"
     -
       paragraph: "$$#FDA Pediatric Molecular Target Lists (FDA PMTL)#$$"
     -
@@ -60,6 +75,8 @@
       paragraph: "$$*Source*$$: $$[FDA Publications of Pediatric Molecular Target Lists](target:_blank url:https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target type:0)$$"
     -
       paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: $$[FDA PMTL Landing Page](target:_self url:/#/fda-pmtl type:0)$$"
+    -
+      paragraph: ~
 #SUBSECTION SEPARATOR
     -
       paragraph: "$$#Open Pediatric Cancer (OpenPedCan)#$$"
@@ -71,6 +88,8 @@
       paragraph: "$$*Source*$$: $$[OpenPedCan (v10)](https://github.com/PediatricOpenTargets/OpenPedCan-analysis)$$"
     -
       paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression"
+    -
+      paragraph: ~
 #SUBSECTION SEPARATOR
     -
       paragraph: "$$#Therapeutically Applicable Research to Generate Effective Treatments (TARGET)#$$"
@@ -82,6 +101,8 @@
       paragraph: "$$*Source*$$: $$[TARGET (v23)](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000218.v23.p8)$$"
     -
       paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression"
+    -
+      paragraph: ~
 #SUBSECTION SEPARATOR
     -
       paragraph: "$$#Gabriella Miller Kids First Neuroblastoma (Kids First)#$$"
@@ -93,6 +114,8 @@
       paragraph: "$$*Source*$$: $$[Kids First Neuroblastoma](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001436.v1.p1)$$"
     -
       paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression"
+    -
+      paragraph: ~
 #SUBSECTION SEPARATOR
     -
       paragraph: "$$#Open Pediatric Brain Tumor Atlas (OpenPBTA)#$$"
@@ -104,6 +127,8 @@
       paragraph: "$$*Source*$$: $$[OpenPBTA for the CBTN (v21)](https://alexslemonade.github.io/OpenPBTA-manuscript/)$$"
     -
       paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression"
+    -
+      paragraph: ~
 #SUBSECTION SEPARATOR
     -
       paragraph: "$$#Oncology Knowledge Base (OncoKB) Cancer Gene List#$$"
@@ -117,3 +142,7 @@
       paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: OpenPedCan Somatic Mutations"
     -
       paragraph: ~
+    -
+      paragraph: "____________________"
+    -
+      paragraph: ~      
