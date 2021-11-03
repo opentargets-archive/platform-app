@@ -47,7 +47,7 @@ const columns = [
     renderCell: ({pedcbioPedotOncoprintPlotURL}) => createExternalLink(pedcbioPedotOncoprintPlotURL, "oncoprint"),
     filterValue: ({pedcbioPedotOncoprintPlotURL}) => pedcbioPedotOncoprintPlotURL ? 'oncoprint' : ''
   },
-  { id: 'pedcbioPedotMutationsPlotURL', label: 'PedcBio PedOT mutations plot URL', 
+  { id: 'pedcbioPedotMutationsPlotURL', label: 'PedcBio PedOT mutation plot', 
     renderCell: ({pedcbioPedotMutationsPlotURL}) => createExternalLink(pedcbioPedotMutationsPlotURL, "mutations"), 
     filterValue:({pedcbioPedotMutationsPlotURL}) => pedcbioPedotMutationsPlotURL ? 'mutations' : ''
   },
@@ -74,7 +74,7 @@ const dataDownloaderColumns = [
   { id: 'OncoKBCancerGene' },
   { id: 'OncoKBOncogeneTSG' },
   { id: 'pedcbioPedotOncoprintPlotURL', label: 'pedcbioPedotOncoprintPlot'},
-  { id: 'pedcbioPedotMutationsPlotURL' },
+  { id: 'pedcbioPedotMutationsPlotURL', label: 'pedcbioPedotMutationPlot' },
 ]
 
 function SnvByGeneTab({data, dataDownloaderFileStem}) {
