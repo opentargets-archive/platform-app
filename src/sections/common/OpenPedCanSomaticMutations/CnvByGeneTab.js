@@ -20,7 +20,7 @@ const columns = [
   { id: 'Disease', label: 'Disease', sortable: true, 
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> },
-  { id: 'totalAlterationsOverPatientsInDataset', label: 'Total alterations/Patients in dataset', sortable: true,
+  { id: 'totalAlterationsOverPatientsInDataset', label: 'Total alterations / Subjects in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
   { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
@@ -47,7 +47,7 @@ const dataDownloaderColumns = [
   { id: 'variantCategory' },
   { id: 'dataset' },
   { id: 'Disease' },
-  { id: 'totalAlterationsOverPatientsInDataset' },
+  { id: 'totalAlterationsOverPatientsInDataset', label: 'totalAlterationsOverSubjectsInDataset'},
   { id: 'frequencyInOverallDataset' },
   { id: 'totalPrimaryTumorsAlteredOverPrimaryTumorsInDataset' },
   { id: 'frequencyInPrimaryTumors' },
