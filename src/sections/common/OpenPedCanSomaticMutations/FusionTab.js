@@ -41,7 +41,7 @@ const columns = [
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInPrimaryTumors', true) },
   { id: 'frequencyInPrimaryTumors', label: 'Frequency in primary tumors', sortable:true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInPrimaryTumors', true) },
-  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated Over Relapse tumors in dataset', sortable:true,
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated / Relapse tumors in dataset', sortable:true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable:true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
