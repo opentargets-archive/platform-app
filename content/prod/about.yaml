@@ -48,3 +48,16 @@
       paragraph: "The Open Targets Platform undergoes regular updates to add new data and functionalities, which are integrated into the Molecular Targets Platform as soon as possible."
     -
       paragraph: ~
+    -
+      paragraph: "$$#Pediatric Cancer Data Sources#$$"
+    -
+      paragraph: "$$#FDA Pediatric Molecular Target Lists (FDA PMTL)#$$"
+    -
+      paragraph: "In accordance with the $$[Race to Accelerate Cures and Equity (RACE) for Children Act](target:_blank url:https://www.cancer.gov/about-nci/legislative/recent-public-laws#fda-reauthorization-act-of-2017-public-law-no-115-52 type:0)$$, the FDA and NCI generated two lists: one list of molecular targets relevant to the growth of pediatric cancers and one list of molecular targets not relevant to the growth of pediatric cancers. The Molecular Targets Platform integrates a computable interpretation of these lists to better inform decisions and improve treatments for childhood cancers."
+    -
+      paragraph: "To read more about the implementation of the FDA PMTL within the Molecular Targets Platform, read our detailed $$[FDA PMTL Documentation](target:_self url:/#/fda-pmtl-docs type:0)$$."
+    -
+      paragraph: "$$*Source*$$: $$[FDA Publications of Pediatric Molecular Target Lists](target:_blank url:https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target type:0)$$"
+    -
+      paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: $$[FDA PMTL Landing Page](target:_self url:/#/fda-pmtl type:0)$$"
+    -
