@@ -76,7 +76,8 @@ const columns = [
 ];
 
 function Body({ definition, id: chemblId, label: name }) {
-  const request = useQuery(INDICATIONS_QUERY, { variables: { chemblId } });
+  const variables = { chemblId };
+  const request = useQuery(INDICATIONS_QUERY, { variables });
 
   return (
     <SectionItem
@@ -97,6 +98,8 @@ function Body({ definition, id: chemblId, label: name }) {
             order="desc"
             rowsPerPageOptions={[10, 25, 100]}
             ActionsComponent={PaginationActionsComplete}
+            query={INDICATIONS_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

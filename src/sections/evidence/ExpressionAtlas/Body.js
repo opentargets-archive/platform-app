@@ -105,12 +105,14 @@ function Body({ definition, id, label }) {
     Summary.fragments.expressionAtlasSummary
   );
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.expressionAtlasSummary.count,
+  };
+
   const request = useQuery(EXPRESSION_ATLAS_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.expressionAtlasSummary.count,
-    },
+    variables,
   });
 
   return (
@@ -131,6 +133,8 @@ function Body({ definition, id, label }) {
             showGlobalFilter
             sortBy="resourceScore"
             order="asc"
+            query={EXPRESSION_ATLAS_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

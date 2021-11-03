@@ -207,9 +207,10 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
       openTargetsGenetics: { count: size },
     },
   } = usePlatformApi(Summary.fragments.OpenTargetsGeneticsSummaryFragment);
+  const variables = { ensemblId: ensgId, efoId, size };
 
   const request = useQuery(OPEN_TARGETS_GENETICS_QUERY, {
-    variables: { ensemblId: ensgId, efoId, size },
+    variables,
   });
 
   return (
@@ -229,6 +230,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
           sortBy="resourceScore"
+          query={OPEN_TARGETS_GENETICS_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />

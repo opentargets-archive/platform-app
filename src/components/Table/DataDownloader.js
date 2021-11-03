@@ -1,5 +1,5 @@
 import FileSaver from 'file-saver';
-import React, { useState } from 'react';
+import React, { Suspense, useState, lazy } from 'react';
 import _ from 'lodash';
 import {
   Button,
@@ -9,7 +9,16 @@ import {
   makeStyles,
   Snackbar,
   Slide,
+  Drawer,
+  Paper,
+  IconButton,
 } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import 'graphiql/graphiql.min.css';
+import config from '../../config';
+import Link from '../Link';
+
+const GraphiQL = lazy(() => import('graphiql'));
 
 const asJSON = (columns, rows) => {
   const rowStrings = rows.map(row => {
@@ -38,7 +47,6 @@ const asDSV = (columns, rows, separator = ',', quoteStrings = true) => {
     if (Array.isArray(d)) {
       d = d.join(',');
     }
-
     return quoteStrings && typeof d === 'string' ? `"${d}"` : d;
   };
 
@@ -93,7 +101,7 @@ const createBlob = format =>
       }),
   }[format]);
 
-const styles = makeStyles({
+const styles = makeStyles(theme => ({
   messageProgress: {
     marginRight: '1rem',
   },
@@ -107,10 +115,52 @@ const styles = makeStyles({
   snackbarContentRoot: {
     padding: 0,
   },
-});
+  backdrop: {
+    '& .MuiBackdrop-root': {
+      opacity: '0 !important',
+    },
+  },
+  container: {
+    width: '80%',
+    backgroundColor: theme.palette.grey[300],
+  },
+  paper: {
+    margin: '1.5rem',
+    padding: '1rem',
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    borderBottom: '1px solid #ccc',
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    padding: '1rem',
+  },
+  playgroundContainer: {
+    margin: '0 1.5rem 1.5rem 1.5rem',
+    height: '100%',
+  },
+}));
 
-function DataDownloader({ columns, rows, fileStem }) {
+const fetcher = async graphQLParams => {
+  const data = await fetch(config.urlApi, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(graphQLParams),
+  });
+  return data.json();
+};
+
+// this removes the logo of the playground
+GraphiQL.Logo = () => null;
+
+function DataDownloader({ columns, rows, fileStem, query, variables }) {
   const [downloading, setDownloading] = useState(false);
+  const [open, setOpen] = useState(false);
   const classes = styles();
 
   const downloadData = async (format, columns, rows, fileStem) => {
@@ -135,13 +185,18 @@ function DataDownloader({ columns, rows, fileStem }) {
     downloadData('json', columns, rows, fileStem);
   };
 
-  const handleClickDownloadCSV = async () => {
-    downloadData('csv', columns, rows, fileStem);
-  };
-
   const handleClickDownloadTSV = async () => {
     downloadData('tsv', columns, rows, fileStem);
   };
+
+  function togglePlayground() {
+    setOpen(!open);
+  }
+
+  function close(e) {
+    if (e.key === 'Escape') return;
+    setOpen(false);
+  }
 
   return (
     <>
@@ -161,21 +216,19 @@ function DataDownloader({ columns, rows, fileStem }) {
         <Grid item>
           <Button
             variant="outlined"
-            onClick={handleClickDownloadCSV}
-            size="small"
-          >
-            CSV
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="outlined"
             onClick={handleClickDownloadTSV}
             size="small"
           >
             TSV
           </Button>
         </Grid>
+        {query ? (
+          <Grid item>
+            <Button variant="outlined" size="small" onClick={togglePlayground}>
+              API query
+            </Button>
+          </Grid>
+        ) : null}
       </Grid>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
@@ -194,6 +247,45 @@ function DataDownloader({ columns, rows, fileStem }) {
           </>
         }
       />
+      <Drawer
+        classes={{ root: classes.backdrop, paper: classes.container }}
+        open={open}
+        onClose={close}
+        anchor="right"
+      >
+        <Typography className={classes.title}>
+          API query
+          <IconButton onClick={close}>
+            <CloseIcon />
+          </IconButton>
+        </Typography>
+        <Paper className={classes.paper} variant="outlined">
+          Press the Play button to explore the GraphQL API query used to
+          populate this table. You can also visit our{' '}
+          <Link
+            external
+            to="https://platform-docs.opentargets.org/data-access/graphql-api"
+          >
+            GraphQL API documentation
+          </Link>{' '}
+          and{' '}
+          <Link external to="https://community.opentargets.org">
+            Community
+          </Link>{' '}
+          for more how-to guides and tutorials.
+        </Paper>
+        {query ? (
+          <div className={classes.playgroundContainer}>
+            <Suspense fallback={<div>Loading...</div>}>
+              <GraphiQL
+                fetcher={fetcher}
+                query={query}
+                variables={JSON.stringify(variables, null, 2)}
+              />
+            </Suspense>
+          </div>
+        ) : null}
+      </Drawer>
     </>
   );
 }

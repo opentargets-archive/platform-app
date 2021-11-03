@@ -9,8 +9,9 @@ import PhenotypesTable from './PhenotypesTable';
 const MOUSE_PHENOTYPES_QUERY = loader('./MousePhenotypes.gql');
 
 function Body({ definition, id, label: symbol }) {
+  const variables = { ensemblId: id };
   const request = useQuery(MOUSE_PHENOTYPES_QUERY, {
-    variables: { ensemblId: id },
+    variables,
   });
 
   return (
@@ -19,7 +20,13 @@ function Body({ definition, id, label: symbol }) {
       request={request}
       renderDescription={() => <Description symbol={symbol} />}
       renderBody={({ target }) => {
-        return <PhenotypesTable mousePhenotypes={target.mousePhenotypes} />;
+        return (
+          <PhenotypesTable
+            mousePhenotypes={target.mousePhenotypes}
+            query={MOUSE_PHENOTYPES_QUERY.loc.source.body}
+            variables={variables}
+          />
+        );
       }}
     />
   );

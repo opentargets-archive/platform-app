@@ -9,6 +9,7 @@ import Description from './Description';
 const GENETIC_CONSTRAINT = loader('./GeneticConstraint.gql');
 
 function Body({ definition, id: ensemblId, label: symbol }) {
+  const variables = { ensemblId };
   const request = useQuery(GENETIC_CONSTRAINT, { variables: { ensemblId } });
   return (
     <SectionItem
@@ -20,6 +21,8 @@ function Body({ definition, id: ensemblId, label: symbol }) {
           ensemblId={ensemblId}
           symbol={symbol}
           geneticConstraint={target.geneticConstraint}
+          query={GENETIC_CONSTRAINT.loc.source.body}
+          variables={variables}
         />
       )}
     />

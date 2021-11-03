@@ -71,8 +71,9 @@ const columns = [
 ];
 
 function Body({ definition, id: chemblId, label: name }) {
+  const variables = { chemblId };
   const request = useQuery(DRUG_WARNINGS_QUERY, {
-    variables: { chemblId },
+    variables,
   });
 
   return (
@@ -88,6 +89,8 @@ function Body({ definition, id: chemblId, label: name }) {
             columns={columns}
             rows={drug.drugWarnings}
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            query={DRUG_WARNINGS_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

@@ -1,16 +1,18 @@
 import React from 'react';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import Description from './Description';
-import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import SectionItem from '../../../components/Section/SectionItem';
 import DataTable from '../../../components/Table/DataTable';
 import Link from '../../../components/Link';
-import usePlatformApi from '../../../hooks/usePlatformApi';
 import { epmcUrl } from '../../../utils/urls';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import { sortBy, filter } from 'lodash';
 import GeneOntologyEvidenceCodeMap from './GeneOntologyEvidenceCodeMappings.json';
+
+const GENE_ONTOLOGY_QUERY = loader('./GeneOntology.gql');
 
 const CATEGORY_BY_PREFIX = {
   F: { code: 'MOLECULAR_FUNCTION', label: 'Molecular Function' },
@@ -142,17 +144,18 @@ const columns = [
   },
 ];
 
-function Section({ definition, label: symbol }) {
-  const request = usePlatformApi(Summary.fragments.GeneOntologySummaryFragment);
+function Section({ definition, id, label: symbol }) {
+  const variables = { ensemblId: id };
+  const request = useQuery(GENE_ONTOLOGY_QUERY, { variables });
 
   return (
     <SectionItem
       definition={definition}
       request={request}
       renderDescription={() => <Description symbol={symbol} />}
-      renderBody={({ geneOntology }) => {
+      renderBody={({ target }) => {
         const rows = sortBy(
-          geneOntology.map(extractCategory),
+          target.geneOntology.map(extractCategory),
           'category.label'
         );
         return (
@@ -162,6 +165,8 @@ function Section({ definition, label: symbol }) {
             columns={columns}
             rows={rows}
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            query={GENE_ONTOLOGY_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

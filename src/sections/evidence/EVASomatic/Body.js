@@ -219,12 +219,14 @@ function Body({ definition, id, label }) {
     Summary.fragments.evaSomaticSummary
   );
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.evaSomaticSummary.count,
+  };
+
   const request = useQuery(EVA_SOMATIC_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.evaSomaticSummary.count,
-    },
+    variables,
   });
 
   return (
@@ -263,6 +265,8 @@ function Body({ definition, id, label }) {
               sortBy="score"
               order="desc"
               rowsPerPageOptions={defaultRowsPerPageOptions}
+              query={EVA_SOMATIC_QUERY.loc.source.body}
+              variables={variables}
             />
           </>
         );

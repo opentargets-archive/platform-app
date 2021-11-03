@@ -96,13 +96,16 @@ function Body({ definition, id, label }) {
     Summary.fragments.UniprotVariantsSummary
   );
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.uniprotVariantsSummary.count,
+  };
+
   const request = useQuery(UNIPROT_VARIANTS_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.uniprotVariantsSummary.count,
-    },
+    variables,
   });
+
   return (
     <SectionItem
       definition={definition}
@@ -120,6 +123,8 @@ function Body({ definition, id, label }) {
             dataDownloader
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            query={UNIPROT_VARIANTS_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

@@ -122,8 +122,10 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
     },
   } = usePlatformApi(Summary.fragments.PhenodigmSummaryFragment);
 
+  const variables = { ensemblId: ensgId, efoId, size };
+
   const request = useQuery(INTOGEN_QUERY, {
-    variables: { ensemblId: ensgId, efoId, size },
+    variables,
   });
 
   return (
@@ -141,6 +143,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           pageSize={5}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
+          query={INTOGEN_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />

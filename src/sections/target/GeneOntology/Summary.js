@@ -20,8 +20,7 @@ function Summary({ definition }) {
           <>
             {data.geneOntology.length} terms in total
             <br />
-            {prefixCounts['F']} MF • {prefixCounts['P']} BP •{' '}
-            {prefixCounts['C']} CC
+            {prefixCounts.F} MF • {prefixCounts.P} BP • {prefixCounts.C} CC
           </>
         );
       }}

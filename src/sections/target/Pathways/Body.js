@@ -9,8 +9,9 @@ import SectionItem from '../../../components/Section/SectionItem';
 const PATHWAYS_QUERY = loader('./Pathways.gql');
 
 function Body({ definition, id: ensemblId, label: symbol }) {
+  const variables = { ensemblId };
   const request = useQuery(PATHWAYS_QUERY, {
-    variables: { ensemblId },
+    variables,
   });
 
   return (
@@ -23,6 +24,8 @@ function Body({ definition, id: ensemblId, label: symbol }) {
           <PathwaysTable
             symbol={target.approvedSymbol}
             pathways={target.pathways}
+            query={PATHWAYS_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

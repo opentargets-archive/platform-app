@@ -41,7 +41,7 @@ function getColumns(symbol) {
   ];
 }
 
-function OverviewTab({ symbol, pathways }) {
+function OverviewTab({ symbol, pathways, query, variables }) {
   return (
     <DataTable
       showGlobalFilter
@@ -49,6 +49,8 @@ function OverviewTab({ symbol, pathways }) {
       columns={getColumns(symbol)}
       rows={pathways}
       rowsPerPageOptions={defaultRowsPerPageOptions}
+      query={query}
+      variables={variables}
     />
   );
 }

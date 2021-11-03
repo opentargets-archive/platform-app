@@ -181,8 +181,11 @@ function Body({ definition, id, label }) {
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.ChemblSummaryFragment
   );
+
+  const variables = { ensemblId, efoId, size: summaryData.chemblSummary.count };
+
   const request = useQuery(CHEMBL_QUERY, {
-    variables: { ensemblId, efoId, size: summaryData.chemblSummary.count },
+    variables,
   });
 
   return (
@@ -204,6 +207,8 @@ function Body({ definition, id, label }) {
             order="desc"
             dataDownloader
             showGlobalFilter
+            query={CHEMBL_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

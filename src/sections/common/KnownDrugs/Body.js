@@ -279,6 +279,8 @@ function Body({
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleRowsPerPageChange}
           dataDownloaderColumns={exportColumns}
+          query={BODY_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />
