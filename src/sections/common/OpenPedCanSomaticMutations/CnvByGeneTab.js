@@ -35,7 +35,7 @@ const columns = [
   { id: 'geneFullName', label: 'Gene full name', sortable: true },
   { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true },
-  { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true },
+  { id: 'OncoKBOncogeneTSG', label: 'OncoKB Oncogene|TSG', sortable: true },
   // { id: 'EFO', label: 'EFO', sortable: true },
   // { id: 'MONDO', label: 'MONDO', sortable: true },
 ]
