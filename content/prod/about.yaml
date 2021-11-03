@@ -60,3 +60,60 @@
       paragraph: "$$*Source*$$: $$[FDA Publications of Pediatric Molecular Target Lists](target:_blank url:https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target type:0)$$"
     -
       paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: $$[FDA PMTL Landing Page](target:_self url:/#/fda-pmtl type:0)$$"
+#SUBSECTION SEPARATOR
+    -
+      paragraph: "$$#Open Pediatric Cancer (OpenPedCan)#$$"
+    -
+      paragraph: "The Open Pediatric Cancer (OpenPedCan) project at the Children’s Hospital of Philadelphia is an open analysis effort that harmonizes pediatric cancer data from multiple sources."
+    -
+      paragraph: "Within the Molecular Targets Platform, the OpenPedCan analyses currently include the following datasets, described more fully below: TARGET, Kids First Neuroblastoma, and OpenPBTA."
+    -
+      paragraph: "$$*Source*$$: $$[OpenPedCan (v10)](https://github.com/PediatricOpenTargets/OpenPedCan-analysis)$$"
+    -
+      paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression"
+#SUBSECTION SEPARATOR
+    -
+      paragraph: "$$#Therapeutically Applicable Research to Generate Effective Treatments (TARGET)#$$"
+    -
+      paragraph: "The Therapeutically Applicable Research to Generate Effective Treatments (TARGET) Initiative is an NCI-funded collection of disease-specific projects that seeks to identify the genomic changes of pediatric cancers. The overall goal is to collect genomic data to accelerate the development of more effective therapies."
+    -
+      paragraph: "Within the Molecular Targets Platform, the OpenPedCan analyses include the seven  diseases present in the TARGET dataset: Acute Lymphoblastic Leukemia (ALL), Acute Myeloid Leukemia (AML), Clear cell sarcoma of the kidney, Neuroblastoma, Osteosarcoma, Rhabdoid tumor, and Wilm’s Tumor."
+    -
+      paragraph: "$$*Source*$$: $$[TARGET (v23)](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000218.v23.p8)$$"
+    -
+      paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression"
+#SUBSECTION SEPARATOR
+    -
+      paragraph: "$$#Gabriella Miller Kids First Neuroblastoma (Kids First)#$$"
+    -
+      paragraph: "The Gabriella Miller Kids First Pediatric Research Program (Kids First) is a large-scale effort to accelerate research and gene discovery in pediatric cancers and structural birth defects. The program includes whole genome sequencing (WGS) from patients with pediatric cancers and structural birth defects and their families."
+    -
+      paragraph: "Within the Molecular Targets Platform, the OpenPedCan analyses include Neuroblastoma data from the Kids First project."
+    -
+      paragraph: "$$*Source*$$: $$[Kids First Neuroblastoma](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001436.v1.p1)$$"
+    -
+      paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression"
+#SUBSECTION SEPARATOR
+    -
+      paragraph: "$$#Open Pediatric Brain Tumor Atlas (OpenPBTA)#$$"
+    -
+      paragraph: "The Open Pediatric Brain Tumor Atlas (OpenPBTA) Project is an open science initiative led by $$[Alex’s Lemonade Stand Foundation Childhood Cancer Data Lab](https://www.alexslemonade.org/data-lab)$$ and the $$[Center for Data-Driven Discovery at the Children’s Hospital of Philadelphia](https://d3b.center/)$$, which genomically characterized pediatric brain tumor data from the $$[Children’s Brain Tumor Network (CBTN)](https://cbtn.org/)$$ and the $$[Pacific Pediatric Neuro-oncology Consortium (PNOC)](https://pnoc.us/)$$."
+    -
+      paragraph: "The Molecular Targets Platform includes OpenPBTA data from over 1,000 tumors spanning more than 30 histologies."
+    -
+      paragraph: "$$*Source*$$: $$[OpenPBTA for the CBTN (v21)](https://alexslemonade.github.io/OpenPBTA-manuscript/)$$"
+    -
+      paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression"
+#SUBSECTION SEPARATOR
+    -
+      paragraph: "$$#Oncology Knowledge Base (OncoKB) Cancer Gene List#$$"
+    -
+      paragraph: "The OncoKB Cancer Gene list from the Memorial Sloan Kettering Cancer Center is a curated list of genes considered to be oncogenes or tumor suppressor genes based on inclusion in various other sequencing panels. "
+    -
+      paragraph: "The Molecular Targets Platform includes the OncoKB list annotations as a field within the OpenPedCan Somatic Mutations displays."
+    -
+      paragraph: "$$*Source*$$: $$[OncoKB (v3.5)](https://www.oncokb.org/news#07162021)$$, $$[Chakravarty et al., JCO PO 2017](https://ascopubs.org/doi/full/10.1200/PO.17.00011)$$"
+    -
+      paragraph: "$$*Where this data is used in the Molecular Targets Platform*$$: OpenPedCan Somatic Mutations"
+    -
+      paragraph: ~
