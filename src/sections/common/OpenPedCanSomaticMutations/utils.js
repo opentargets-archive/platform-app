@@ -1,3 +1,4 @@
+import React from 'react';
 import RelevantIcon from '../../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../../components/RMTL/NonRelevantIcon';
 
