@@ -31,7 +31,7 @@ const columns = [
   { id: 'proteinRefseqId', label: 'Protein RefSeq ID', sortable: true },
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
   { id: 'proteinEnsemblId', label: 'Protein Ensembl ID', sortable: true },
-  { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations Over Subjects in dataset', sortable: true,
+  { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations / Subjects in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
   { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
