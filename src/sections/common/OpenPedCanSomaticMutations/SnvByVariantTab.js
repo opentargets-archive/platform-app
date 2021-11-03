@@ -10,7 +10,7 @@ import { genericComparator } from '../../../utils/comparators'
 // Configuration for how the tables will display the data
 const columns = [
   {
-    id: 'geneSymbol', label: 'Gene symbol', sortable: true,
+    id: 'geneSymbol', label: 'Target', sortable: true,
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
@@ -28,28 +28,28 @@ const columns = [
   { id: 'variantClassification', label: 'Variant classification', sortable: true },
   { id: 'variantType', label: 'Variant type', sortable: true },
   { id: 'geneFullName', label: 'Gene full name', sortable: true },
-  { id: 'proteinRefseqId', label: 'Protein RefSeq ID', sortable: true },
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
+  { id: 'proteinRefseqId', label: 'Protein RefSeq ID', sortable: true },
   { id: 'proteinEnsemblId', label: 'Protein Ensembl ID', sortable: true },
-  { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations Over Patients in dataset', sortable: true,
+  { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations / Subjects in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
   { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
-  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable: true,
+  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset', label: 'Total primary tumors mutated / Primary tumors in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInPrimaryTumors', true) },
   { id: 'frequencyInPrimaryTumors', label: 'Frequency in primary tumors', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInPrimaryTumors', true) },
-  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated Over Relapse tumors in dataset', sortable: true,
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated / Relapse tumors in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'hotspot', label: 'HotSpot', sortable: true },
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true },
-  { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true },
+  { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene|TSG', sortable: true },
 ];
 
 const dataDownloaderColumns = [
-  { id: 'geneSymbol' },
+  { id: 'geneSymbol', label: 'Target' },
   { id: 'variantIdHg38' },
   { id: 'proteinChange' },
   { id: 'PMTL' },
@@ -64,10 +64,10 @@ const dataDownloaderColumns = [
   { id: 'variantClassification' },
   { id: 'variantType' },
   { id: 'geneFullName' },
-  { id: 'proteinRefseqId' },
   { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'proteinRefseqId' },
   { id: 'proteinEnsemblId' },
-  { id: 'totalMutationsOverPatientsInDataset' },
+  { id: 'totalMutationsOverPatientsInDataset', label: 'totalMutationsOverSubjectsInDataset'},
   { id: 'frequencyInOverallDataset' },
   { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
   { id: 'frequencyInPrimaryTumors' },

@@ -15,7 +15,7 @@ const createExternalLink = (url, description) => {
 // Configuration for how the tables will display the data
 const columns = [
   {
-    id: 'geneSymbol', label: 'Gene symbol', sortable: true,
+    id: 'geneSymbol', label: 'Target', sortable: true,
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
@@ -29,32 +29,32 @@ const columns = [
   { id: 'proteinRefseqId', label: 'Protein RefSeq ID', sortable: true },
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
   { id: 'proteinEnsemblId', label: 'Protein Ensembl ID', sortable: true },
-  { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations Over Patients in dataset', sortable: true,
+  { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations / Subjects in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
   { id: 'frequencyInOverallDataset', label: 'Frequency in overall dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
-  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset', label: 'Total primary tumors mutated Over Primary tumors in dataset', sortable: true,
+  { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset', label: 'Total primary tumors mutated / Primary tumors in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInPrimaryTumors', true) },
   { id: 'frequencyInPrimaryTumors', label: 'Frequency in primary tumors', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInPrimaryTumors', true) },
-  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated Over Relapse tumors in dataset', sortable: true,
+  { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset', label: 'Total relapse tumors mutated / Relapse tumors in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'frequencyInRelapseTumors',  label: 'Frequency in relapse tumors', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true},
-  { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene TSG', sortable: true},
-  { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot URL', 
+  { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene|TSG', sortable: true},
+  { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot', 
     renderCell: ({pedcbioPedotOncoprintPlotURL}) => createExternalLink(pedcbioPedotOncoprintPlotURL, "oncoprint"),
     filterValue: ({pedcbioPedotOncoprintPlotURL}) => pedcbioPedotOncoprintPlotURL ? 'oncoprint' : ''
   },
-  { id: 'pedcbioPedotMutationsPlotURL', label: 'PedcBio PedOT mutations plot URL', 
+  { id: 'pedcbioPedotMutationsPlotURL', label: 'PedcBio PedOT mutation plot', 
     renderCell: ({pedcbioPedotMutationsPlotURL}) => createExternalLink(pedcbioPedotMutationsPlotURL, "mutations"), 
     filterValue:({pedcbioPedotMutationsPlotURL}) => pedcbioPedotMutationsPlotURL ? 'mutations' : ''
   },
 ]
 
 const dataDownloaderColumns = [
-  { id: 'geneSymbol' },
+  { id: 'geneSymbol', label: 'Target'},
   { id: 'PMTL' },
   { id: 'dataset' },
   { id: 'Disease' },
@@ -65,7 +65,7 @@ const dataDownloaderColumns = [
   { id: 'proteinRefseqId' },
   { id: 'targetFromSourceId', label: 'geneEnsemblID' },
   { id: 'proteinEnsemblId' },
-  { id: 'totalMutationsOverPatientsInDataset' },
+  { id: 'totalMutationsOverPatientsInDataset', label: 'totalMutationsOverSubjectsInDataset' },
   { id: 'frequencyInOverallDataset' },
   { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
   { id: 'frequencyInPrimaryTumors' },
@@ -73,8 +73,8 @@ const dataDownloaderColumns = [
   { id: 'frequencyInRelapseTumors' },
   { id: 'OncoKBCancerGene' },
   { id: 'OncoKBOncogeneTSG' },
-  { id: 'pedcbioPedotOncoprintPlotURL' },
-  { id: 'pedcbioPedotMutationsPlotURL' },
+  { id: 'pedcbioPedotOncoprintPlotURL', label: 'pedcbioPedotOncoprintPlot'},
+  { id: 'pedcbioPedotMutationsPlotURL', label: 'pedcbioPedotMutationPlot' },
 ]
 
 function SnvByGeneTab({data, dataDownloaderFileStem}) {
