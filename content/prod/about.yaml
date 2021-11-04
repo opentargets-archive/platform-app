@@ -177,7 +177,7 @@
     -
       paragraph: "The data within the OpenPedCan Somatic Mutations display is derived from several source datasets, also known as cohorts. A frequency is calculated and displayed for each dataset. Some Target-Disease combinations are present in more than one dataset; these also have a frequency calculation across all datasets and are designated as 'All Cohorts'."
     -
-      paragraph: "$$*Source*$$: $$[OpenPedCan (v10)](https://github.com/PediatricOpenTargets/OpenPedCan-analysis)$$; $$[TARGET (v23)](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000218.v23.p8)$$; $$[Kids First Neuroblastoma](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001436.v1.p1)$$; $$[OpenPBTA for CBTN and PNOC (v21) analysis](https://github.com/AlexsLemonade/OpenPBTA-analysis/)$$ and $$[manuscript](https://alexslemonade.github.io/OpenPBTA-manuscript/)$$; $$[OncoKB (v3.5)](https://www.oncokb.org/news#07162021)$$
+      paragraph: "$$*Source*$$: $$[OpenPedCan (v10)](https://github.com/PediatricOpenTargets/OpenPedCan-analysis)$$; $$[TARGET (v23)](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000218.v23.p8)$$; $$[Kids First Neuroblastoma](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001436.v1.p1)$$; $$[OpenPBTA for CBTN and PNOC (v21) analysis](https://github.com/AlexsLemonade/OpenPBTA-analysis/)$$ and $$[manuscript](https://alexslemonade.github.io/OpenPBTA-manuscript/)$$; $$[OncoKB (v3.5)](https://www.oncokb.org/news#07162021)$$"
     -
       paragraph: ~
     -
