@@ -49,7 +49,7 @@ export const navBarstyling = {
 
 export const navBarData = [
   {
-    labelText: 'HOME',
+    labelText: 'Home',
     type: 'link',
     link: '/',
   },
