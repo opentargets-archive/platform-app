@@ -145,4 +145,43 @@
     -
       paragraph: "____________________"
     -
-      paragraph: ~      
+      paragraph: ~
+#SECTION SEPARATOR
+    -
+      paragraph: "$$#PEDIATRIC CANCER DATA VISUALIZATIONS#$$"
+    -
+      paragraph: "$$#FDA Pediatric Molecular Target Lists#$$"
+    -
+      paragraph: "The designations of the FDA Pediatric Molecular Target Lists can be visualized within the Molecular Targets Platform in several ways. The dedicated $$[FDA PMTL Landing Page](target:_self url:/#/fda-pmtl type:0)$$ can be used to find targets and see FDA details. Additionally, icons throughout the Molecular Targets Platform identify targets as 'Relevant', 'Non-Relevant', or 'Unspecified' in pediatric cancers, and can be found in the following locations: Target and Evidence page headers, Disease pages when viewing the Associated Targets tab, and within the OpenPedCan Somatic Mutations display."
+    -
+      paragraph: "$$*Source*$$: $$[FDA Publications of Pediatric Molecular Target Lists](target:_blank url:https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target type:0)$$"
+    -
+      paragraph: ~
+#SUBSECTION SEPARATOR
+    - 
+      paragraph: "$$#OpenPedCan Somatic Mutations#$$"
+    -
+      paragraph: "The OpenPedCan Somatic Mutations display aggregates data from harmonized analyses across several pediatric cancer datasets performed within the OpenPedCan project. The primary goal of this display is to show the frequency of targets in both primary and relapse pediatric tumors, where available. The display is organized into five tabs, each representing a different type of data: "
+    -
+      paragraph: "$$*SNV by Gene*$$: Frequency of $$*S*$$ingle $$*N*$$ucleotide $$*V*$$ariants aggregated by gene"
+    -
+      paragraph: "$$*SNV by Variant*$$: Frequecy of specific $$*S*$$ingle $$*N*$$ucleotide $$*V*$$ariants"
+    -
+      paragraph: "$$*CNV by Gene*$$: Frequency of specific $$*C*$$opy $$*N*$$umber $$*V*$$ariants"
+    -
+      paragraph: "$$*Fusion by Gene*$$: Frequency of gene fusions aggregated by gene"
+    -
+      paragraph: "$$*Fusion*$$: Frequency of specific gene fusions"
+    -
+      paragraph: "The OpenPedCan Somatic Mutations display is accessible within the Molecular Target Platform on both the Target and Evidence pages. The data driving each display is identical; however, the Target page display will show frequencies of the Target across all pediatric cancers, while the Evidence page display is filtered to only show frequencies of the Target in a specific Disease."
+    -
+      paragraph: "The data within the OpenPedCan Somatic Mutations display is derived from several source datasets, also known as cohorts. A frequency is calculated and displayed for each dataset. Some Target-Disease combinations are present in more than one dataset; these also have a frequency calculation across all datasets and are designated as 'All Cohorts'."
+    -
+      paragraph: "$$*Source*$$: $$[OpenPedCan (v10)](https://github.com/PediatricOpenTargets/OpenPedCan-analysis)$$; $$[TARGET (v23)](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000218.v23.p8)$$; $$[Kids First Neuroblastoma](https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001436.v1.p1)$$; $$[OpenPBTA for CBTN and PNOC (v21) analysis](https://github.com/AlexsLemonade/OpenPBTA-analysis/)$$ and $$[manuscript](https://alexslemonade.github.io/OpenPBTA-manuscript/)$$; $$[OncoKB (v3.5)](https://www.oncokb.org/news#07162021)$$
+    -
+      paragraph: ~
+    -
+      paragraph: "____________________"
+    -
+      paragraph: ~
+#SECTION SEPARATOR
