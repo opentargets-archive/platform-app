@@ -17,6 +17,23 @@ const boxPadding = boxHeight / 4;
 const margin = { top: 40, right: 20, bottom: 20, left: 220 };
 const outlierRadius = 2;
 
+function getTextWidth(text, fontSize, fontFace) {
+  const canvas = document.createElement('canvas'),
+    context = canvas.getContext('2d');
+  context.font = `${fontSize}px ${fontFace}`;
+  return context.measureText(text).width;
+}
+
+function getLongestId(data) {
+  let longestId = '';
+  data.forEach(d => {
+    if (d.tissueSiteDetailId.length > longestId.length) {
+      longestId = d.tissueSiteDetailId;
+    }
+  });
+  return longestId;
+}
+
 function buildTooltip(X, tooltipObject, data) {
   return Object.keys(tooltipObject)
     .map(field => {
@@ -46,6 +63,7 @@ class GtexVariability extends Component {
 
   render() {
     const { theme, data } = this.props;
+    margin['left'] = getTextWidth(getLongestId(data), 12, 'Arial');
 
     const height = data.length * boxHeight + margin.top + margin.bottom;
 
