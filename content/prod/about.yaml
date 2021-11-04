@@ -9,6 +9,13 @@
     -
       paragraph: "The About page for the Molecular Targets Platform is under active development, so content may be added or removed without notice. Thank you for your patience as we build a better site."
     -
+      paragraph: ~
+    -
+      paragraph: "____________________"
+    -
+      paragraph: ~
+#SECTION SEPARATOR
+    -
       paragraph: "$$#ABOUT CCDI#$$" 
     - 
       paragraph: "The Molecular Targets Platform is part of NCI’s $$[Childhood Cancer Data Initiative (CCDI)](target:_blank url:https://www.cancer.gov/research/areas/childhood/childhood-cancer-data-initiative type:0)$$, which is building a community centered around childhood cancer care and research data. Through enhanced data sharing, we can improve understanding of cancer biology,  preventive measures, treatment, quality of life, and survivorship, as well as ensure that researchers learn from every child with cancer. $$[Sign-up for email updates from NCI](target:_blank url:https://public.govdelivery.com/accounts/USNIHNCI/subscriber/new?topic_id=USNIHNCI_223 type:0)$$."
@@ -184,4 +191,74 @@
       paragraph: "____________________"
     -
       paragraph: ~
-#SECTION SEPARATOR
+#SECTION SEPARATOR  
+    -
+      paragraph: "$$#CHANGE LOG#$$"
+    -
+      paragraph: "The Molecular Target Platform integrates many different sources of data and analyses, all of which are updated at varying intervals. In order to comprehensively track changes, the various change logs are aggregated here."
+    -
+      paragraph: ~
+    -
+      paragraph: "$$#Open Targets Platform#$$"
+    -
+      paragraph: "$$*Version in use*$$: 21.06 (Released 2021-06-30)"
+    -
+      paragraph: "$$*Detailed Change Log*$$: $$[Open Targets Platform Release](https://platform-docs.opentargets.org/change-log)$$"
+    -
+      paragraph: "The Open Targets Platform version represents the built-in data and functions of the Molecular Targets Platform. This includes all data, displays, and site behavior not otherwise defined in this About page."
+    -
+      paragraph: ~
+#SUBSECTION SEPARATOR
+    -
+      paragraph: "$$#Molecular Targets Platform Frontend#$$"
+    -
+      paragraph: "$$*Version in use*$$: v1.0.0-alpha (Released 2021-11-01)"
+    -
+      paragraph: "$$*Detailed Change Log*$$: $$[MTP Frontend Release](https://github.com/CBIIT/ppdc-otp-frontend/releases/tag/v1.0.0-alpha)$$"
+    -
+      paragraph: "The Molecular Targets Platform Frontend contains all of the visual and user-focused components of the site."
+    -
+      paragraph: ~
+#SUBSECTION SEPARATOR      
+    -
+      paragraph: "$$#Molecular Targets Platform Backend#$$"
+    -
+      paragraph: "$$*Version in use*$$: v1.0.0-alpha (Released 2021-11-01)"
+    -
+      paragraph: "$$*Detailed Change Log*$$: $$[MTP Backend Release](https://github.com/CBIIT/ppdc-otp-backend/releases/tag/v1.0.0-alpha)$$"
+    -
+      paragraph: "The Molecular Targets Platform Frontend contains all of the visual and user-focused components of the site."
+    -
+      paragraph: ~
+#SUBSECTION SEPARATOR 
+    -
+      paragraph: "$$#OpenPedCan Analyses#$$"
+    -
+      paragraph: "$$*Version in use*$$: v10 (Released 2021-10-12)"
+    -
+      paragraph: "$$*Detailed Change Log*$$: $$[OpenPedCan Analysis Release](https://github.com/PediatricOpenTargets/OpenPedCan-analysis/blob/4fb04fe60754b90da3c241dbb8b727c3722487cc/doc/release-notes.md)$$"
+    -
+      paragraph: "The OpenPedCan version represents new analysis results used in the OpenPedCan Somatic Mutations and Gene Expression displays."
+    -
+      paragraph: ~
+#SUBSECTION SEPARATOR
+    -
+      paragraph: "$$#OncoKB Cancer Gene List#$$"
+    -
+      paragraph: "$$*Version in use*$$: v3.5 (Released 2021-07-16)"
+    -
+      paragraph: "$$*Detailed Change Log*$$: $$[OncoKB Release](https://www.oncokb.org/news#07162021)$$"
+    -
+      paragraph: "The OncoKB Cancer Gene List version represents the genes identified as OncoKB oncogenes or tumor suppressor genes within the OpenPedCan Somatic Mutations display."
+    -
+      paragraph: ~
+#SUBSECTION SEPARATOR
+    -
+      paragraph: "$$#FDA Pediatric Molecular Target Lists#$$"
+    -
+      paragraph: "$$*Version in use*$$: v1.1 (Released 2021-09-09)"
+    -
+      paragraph: "$$*Detailed Change Log*$$: $$[FDA PMTL Documentation](target:_self url:/#/fda-pmtl-docs type:0)$$"
+    -
+      paragraph: "The FDA PMTL version represents the computable interpretation of the lists as used within the Molecular Targets Platform. When the FDA publishes new lists, new computable interpretations will be updated here."
+#END OF PAGE     
