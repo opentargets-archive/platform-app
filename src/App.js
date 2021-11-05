@@ -14,6 +14,7 @@ import DrugPage from './pages/DrugPage';
 import TargetPage from './pages/TargetPage';
 import EvidencePage from './pages/EvidencePage';
 import VariantsPage from './pages/VariantsPage';
+import APIPage from './pages/APIPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 class App extends Component {
@@ -35,6 +36,7 @@ class App extends Component {
               <Route path="/drug/:chemblId" component={DrugPage} />
               <Route path="/evidence/:ensgId/:efoId" component={EvidencePage} />
               <Route path="/variants" component={VariantsPage} />
+              <Route path="/api" component={APIPage} />
               <Route component={NotFoundPage} />
             </Switch>
           </Router>
