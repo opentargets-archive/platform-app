@@ -115,7 +115,7 @@ const dataSources = [
   },
   {
     id: 'encore',
-    label: 'Encore',
+    label: 'ENCORE',
     isPrivate: isPrivateDataSource('encore'),
   },
 ];
