@@ -37,14 +37,14 @@ const config = {
   // evidence page
   hideEvidenceSectionIds: window.configHideEvidenceSectionIds ?? '',
   partnerEvidenceSectionIds:
-    window.configPartnerEvidenceSectionIds ?? 'otCrispr',
+    window.configPartnerEvidenceSectionIds ?? 'encore,otCrispr',
 
   // partner colour scale
   // default as empty string so it falls back to value in constants.js
   partnerColorRange: window.configPartnerColorRange ?? '',
 
   // associations - heatmaps and facets
-  // these work in the same way as the page specific sections.
+  // these work in the same way sas the page specific sections.
   // hideDataTypes: list the id of any datatype to be hidden
   // partnerDataTypes: list any private datatypes (shown with lock in facets)
   hideDataTypes: window.configHideDataTypes ?? '',
@@ -52,7 +52,7 @@ const config = {
 
   // for datasources we only set those that are private (partner)
   // partnerDataSources: list any private datasource (shown with lock in facets)
-  partnerDataSources: window.configPartnerDataSources ?? 'ot_crispr',
+  partnerDataSources: window.configPartnerDataSources ?? 'encore,ot_crispr',
 };
 
 export default config;

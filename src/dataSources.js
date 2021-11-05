@@ -113,6 +113,11 @@ const dataSources = [
     label: 'OTAR CRISPR',
     isPrivate: isPrivateDataSource('ot_crispr'),
   },
+  {
+    id: 'encore',
+    label: 'ENCORE',
+    isPrivate: isPrivateDataSource('encore'),
+  },
 ];
 
 export default dataSources;
