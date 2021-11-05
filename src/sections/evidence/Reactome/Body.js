@@ -159,12 +159,14 @@ function Body({ definition, id, label }) {
     Summary.fragments.reactomeSummary
   );
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.reactomeSummary.count,
+  };
+
   const request = useQuery(REACTOME_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.reactomeSummary.count,
-    },
+    variables,
   });
 
   return (
@@ -186,6 +188,8 @@ function Body({ definition, id, label }) {
             rowsPerPageOptions={defaultRowsPerPageOptions}
             fixed
             noWrapHeader={false}
+            query={REACTOME_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

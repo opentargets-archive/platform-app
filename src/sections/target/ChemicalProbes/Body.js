@@ -1,9 +1,11 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
+import _ from 'lodash';
 
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
-import usePlatformApi from '../../../hooks/usePlatformApi';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
 import { naLabel } from '../../../constants';
@@ -11,7 +13,8 @@ import ChipList from '../../../components/ChipList';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import ClinvarStars from '../../../components/ClinvarStars';
-import _ from 'lodash';
+
+const CHEMICAL_PROBES_QUERY = loader('./ChemicalProbes.gql');
 
 const scores = [
   {
@@ -82,9 +85,9 @@ const columns = [
     label: 'Quality',
     renderCell: row => (
       <Tooltip title={row.isHighQuality ? 'High quality' : 'Low quality'}>
-        <div>
+        <span>
           <ClinvarStars num={row.isHighQuality ? 1 : 0} length={1} />
-        </div>
+        </span>
       </Tooltip>
     ),
     exportValue: row => (row.isHighQuality ? 'high' : 'low'),
@@ -168,8 +171,9 @@ const columns = [
   },
 ];
 
-function Body({ definition, label: symbol }) {
-  const request = usePlatformApi();
+function Body({ definition, id, label: symbol }) {
+  const variables = { ensemblId: id };
+  const request = useQuery(CHEMICAL_PROBES_QUERY, { variables });
 
   return (
     <SectionItem
@@ -182,23 +186,21 @@ function Body({ definition, label: symbol }) {
           p => !p.isHighQuality,
           p => !p.origin?.map(o => o.toLowerCase()).includes('experimental'),
         ]);
-        return (
-          <>
-            {data.target.chemicalProbes?.length > 0 ? (
-              <DataTable
-                columns={columns}
-                rows={sortedProbes}
-                showGlobalFilter
-                dataDownloader
-                dataDownloaderFileStem={`${symbol}-chemical-probes`}
-                fixed
-                rowsPerPageOptions={defaultRowsPerPageOptions}
-                noWrap={false}
-                noWrapHeader={false}
-              />
-            ) : null}
-          </>
-        );
+        return data.target.chemicalProbes?.length > 0 ? (
+          <DataTable
+            columns={columns}
+            rows={sortedProbes}
+            showGlobalFilter
+            dataDownloader
+            dataDownloaderFileStem={`${symbol}-chemical-probes`}
+            fixed
+            rowsPerPageOptions={defaultRowsPerPageOptions}
+            noWrap={false}
+            noWrapHeader={false}
+            query={CHEMICAL_PROBES_QUERY.loc.source.body}
+            variables={variables}
+          />
+        ) : null;
       }}
     />
   );

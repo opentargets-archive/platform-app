@@ -98,8 +98,10 @@ const columns = [
 ];
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
+  const variables = { ensemblId: ensgId, efoId };
+
   const request = useQuery(OPEN_TARGETS_GENETICS_QUERY, {
-    variables: { ensemblId: ensgId, efoId },
+    variables,
   });
 
   return (
@@ -117,6 +119,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           pageSize={10}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
+          query={OPEN_TARGETS_GENETICS_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />

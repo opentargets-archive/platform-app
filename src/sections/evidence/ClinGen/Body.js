@@ -85,8 +85,15 @@ function Body(props) {
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.ClinGenSummaryFragment
   );
+
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.clingenSummary.count,
+  };
+
   const request = useQuery(CLINGEN_QUERY, {
-    variables: { ensemblId, efoId, size: summaryData.clingenSummary.count },
+    variables,
   });
 
   return (
@@ -106,6 +113,8 @@ function Body(props) {
             dataDownloader
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            query={CLINGEN_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

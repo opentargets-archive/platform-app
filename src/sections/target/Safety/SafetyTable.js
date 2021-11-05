@@ -189,7 +189,7 @@ function getColumns(classes) {
   ];
 }
 
-function SafetyTable({ safetyLiabilities }) {
+function SafetyTable({ safetyLiabilities, query, variables }) {
   const classes = useStyles();
   return (
     <DataTable
@@ -198,6 +198,8 @@ function SafetyTable({ safetyLiabilities }) {
       columns={getColumns(classes)}
       rows={safetyLiabilities}
       rowsPerPageOptions={defaultRowsPerPageOptions}
+      query={query}
+      variables={variables}
     />
   );
 }

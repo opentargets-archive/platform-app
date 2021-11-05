@@ -1,14 +1,7 @@
 fragment CancerHallmarksSummaryFragment on Target {
   hallmarks {
-    attributes {
-      name
-      pmid
-      description
-    }
     cancerHallmarks {
-      pmid
       impact
-      description
       label
     }
   }

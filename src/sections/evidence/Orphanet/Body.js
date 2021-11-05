@@ -129,13 +129,16 @@ function Body({ definition, id, label }) {
     },
   } = usePlatformApi(Summary.fragments.OrphanetSummaryFragment);
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size,
+  };
+
   const request = useQuery(ORPHANET_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size,
-    },
+    variables,
   });
+
   return (
     <SectionItem
       definition={definition}
@@ -155,6 +158,8 @@ function Body({ definition, id, label }) {
             dataDownloaderColumns={exportColumns}
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            query={ORPHANET_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

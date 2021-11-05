@@ -54,12 +54,14 @@ function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(Summary.fragments.crisprSummary);
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.crisprSummary.count,
+  };
+
   const request = useQuery(CRISPR_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.crisprSummary.count,
-    },
+    variables,
   });
 
   return (
@@ -78,6 +80,8 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            query={CRISPR_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

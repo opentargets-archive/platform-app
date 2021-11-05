@@ -108,13 +108,21 @@ function getColumns(ensemblId, symbol) {
   ];
 }
 
-function GeneticConstraintTable({ ensemblId, symbol, geneticConstraint }) {
+function GeneticConstraintTable({
+  ensemblId,
+  symbol,
+  geneticConstraint,
+  query,
+  variables,
+}) {
   return (
     <DataTable
       dataDownloader
       columns={getColumns(ensemblId, symbol)}
       rows={geneticConstraint}
       rowsPerPageOptions={defaultRowsPerPageOptions}
+      query={query}
+      variables={variables}
     />
   );
 }
