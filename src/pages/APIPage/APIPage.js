@@ -8,6 +8,7 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import 'graphiql/graphiql.min.css';
 
 import Link from '../../components/Link';
@@ -18,6 +19,9 @@ const GraphiQL = lazy(() => import('graphiql'));
 const useStyles = makeStyles({
   container: {
     minHeight: '600px',
+  },
+  buttonMargin: {
+    marginBottom: '12px',
   },
 });
 
@@ -62,43 +66,67 @@ function APIPage() {
         Google BigQuery instance.
       </Typography>
       <Grid className={classes.container} container spacing={3}>
-        <Grid item md={2}>
+        <Grid item md={3} xl={2}>
           <Typography variant="h5" paragraph>
             Example queries
           </Typography>
           <Accordion>
-            <AccordionSummary>Target-disease association</AccordionSummary>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle2">
+                Target-disease association (2)
+              </Typography>
+            </AccordionSummary>
             <AccordionDetails>
               <div>
-                <Typography display="block">
+                <Typography variant="subtitle2" display="block" paragraph>
                   Find targets associated with a specific disease or phenotype
                 </Typography>
-                <Button>Run sample query</Button>
-                <Typography display="block">
+                <Button
+                  className={classes.buttonMargin}
+                  variant="contained"
+                  color="primary"
+                >
+                  Run sample query
+                </Button>
+                <Typography variant="subtitle2" display="block" paragraph>
                   Find diseases and phenotypes associated with a specific target
                 </Typography>
-                <Button>Run sample query</Button>
+                <Button variant="contained" color="primary">
+                  Run sample query
+                </Button>
               </div>
             </AccordionDetails>
           </Accordion>
           <Accordion>
-            <AccordionSummary>Target-disease evidence</AccordionSummary>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle2">
+                Target-disease evidence (2)
+              </Typography>
+            </AccordionSummary>
             <AccordionDetails />
           </Accordion>
           <Accordion>
-            <AccordionSummary>Target annotation</AccordionSummary>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle2">Target annotation (3)</Typography>
+            </AccordionSummary>
             <AccordionDetails />
           </Accordion>
           <Accordion>
-            <AccordionSummary>Disease annotation</AccordionSummary>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle2">
+                Disease annotation (3)
+              </Typography>
+            </AccordionSummary>
             <AccordionDetails />
           </Accordion>
           <Accordion>
-            <AccordionSummary>Drug annotation</AccordionSummary>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle2">Drug annotation (2)</Typography>
+            </AccordionSummary>
             <AccordionDetails />
           </Accordion>
         </Grid>
-        <Grid item md={10}>
+        <Grid item md={9} xl={10}>
           <Suspense fallback={<div>Loading...</div>}>
             <GraphiQL fetcher={fetcher} />
           </Suspense>
