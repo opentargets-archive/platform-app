@@ -62,8 +62,21 @@ function APIPage() {
       </Typography>
       <Typography paragraph>
         Please note that ur API is optimised for a single query. For more
-        programmatic or systematic analyses, please use our dataset downloads or
-        Google BigQuery instance.
+        programmatic or systematic analyses, please use{' '}
+        <Link
+          external
+          to="https://platform-docs.opentargets.org/data-access/datasets"
+        >
+          our dataset downloads
+        </Link>{' '}
+        or{' '}
+        <Link
+          external
+          to="https://platform-docs.opentargets.org/data-access/google-bigquery"
+        >
+          Google BigQuery instance
+        </Link>
+        .
       </Typography>
       <Grid className={classes.container} container spacing={3}>
         <Grid item md={3} xl={2}>
