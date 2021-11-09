@@ -1,4 +1,5 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, useState, lazy } from 'react';
+import { loader } from 'graphql.macro';
 import {
   Accordion,
   AccordionSummary,
@@ -14,6 +15,8 @@ import 'graphiql/graphiql.min.css';
 import Link from '../../components/Link';
 import config from '../../config';
 
+const TARGET_ASSOCS = loader('./TargetAssocs.gql');
+const DISEASE_ASSOCS = loader('./DiseaseAssocs.gql');
 const GraphiQL = lazy(() => import('graphiql'));
 
 const useStyles = makeStyles({
@@ -39,6 +42,8 @@ const fetcher = async graphQLParams => {
 
 function APIPage() {
   const classes = useStyles();
+  const [query, setQuery] = useState(null);
+
   return (
     <>
       <Typography variant="h4" paragraph>
@@ -98,13 +103,21 @@ function APIPage() {
                   className={classes.buttonMargin}
                   variant="contained"
                   color="primary"
+                  onClick={() =>
+                    // console.log('lol', TARGET_DISEASE_ASSOCS.loc.source.body)
+                    setQuery(DISEASE_ASSOCS.loc.source.body)
+                  }
                 >
                   Run sample query
                 </Button>
                 <Typography variant="subtitle2" display="block" paragraph>
                   Find diseases and phenotypes associated with a specific target
                 </Typography>
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setQuery(TARGET_ASSOCS.loc.source.body)}
+                >
                   Run sample query
                 </Button>
               </div>
@@ -141,7 +154,7 @@ function APIPage() {
         </Grid>
         <Grid item md={9} xl={10}>
           <Suspense fallback={<div>Loading...</div>}>
-            <GraphiQL fetcher={fetcher} />
+            <GraphiQL fetcher={fetcher} query={query} />
           </Suspense>
         </Grid>
       </Grid>

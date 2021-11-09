@@ -1,0 +1,14 @@
+query TargetAssocs {
+  target(ensemblId: "ENSG00000091831") {
+    id
+    associatedDiseases {
+      count
+      rows {
+        disease {
+          id
+          name
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+query DiseaseAssocs {
+  disease(efoId: "HP_0031217") {
+    id
+    associatedTargets {
+      count
+      rows {
+        target {
+          id
+          approvedSymbol
+        }
+      }
+    }
+  }
+}
