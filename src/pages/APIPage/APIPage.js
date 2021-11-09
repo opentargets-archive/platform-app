@@ -13,11 +13,19 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import 'graphiql/graphiql.min.css';
 
 import Link from '../../components/Link';
-import config from '../../config';
+import { fetcher } from '../../utils/global';
 
 const TARGET_ASSOCS = loader('./TargetAssocs.gql');
 const DISEASE_ASSOCS = loader('./DiseaseAssocs.gql');
-const GraphiQL = lazy(() => import('graphiql'));
+
+// lazy load GraphiQL and remove Logo and Toolbar
+const GraphiQL = lazy(() =>
+  import('graphiql').then(module => {
+    module.default.Logo = () => null;
+    module.default.Toolbar = () => null;
+    return module;
+  })
+);
 
 const useStyles = makeStyles({
   container: {
@@ -27,18 +35,6 @@ const useStyles = makeStyles({
     marginBottom: '12px',
   },
 });
-
-const fetcher = async graphQLParams => {
-  const data = await fetch(config.urlApi, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(graphQLParams),
-  });
-  return data.json();
-};
 
 function APIPage() {
   const classes = useStyles();
