@@ -55,7 +55,11 @@ function Model({ model }) {
         />
       </Link>
       <div>
-        <PublicationsDrawer entries={entries} caption="Allelic composition" />
+        <PublicationsDrawer
+          entries={entries}
+          caption="Allelic composition"
+          singleEntryId={false}
+        />
       </div>
     </>
   );
