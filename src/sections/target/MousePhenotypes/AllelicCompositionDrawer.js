@@ -77,10 +77,6 @@ function AllelicCompositionDrawer({ biologicalModels }) {
     return 'N/A';
   }
 
-  if (biologicalModels.length === 1) {
-    return <Model model={biologicalModels[0]} />;
-  }
-
   return (
     <>
       <MuiLink
@@ -88,7 +84,8 @@ function AllelicCompositionDrawer({ biologicalModels }) {
         onClick={toggleOpen}
         underline="none"
       >
-        {biologicalModels.length} models
+        {biologicalModels.length}{' '}
+        {biologicalModels.length === 1 ? 'model' : 'models'}
       </MuiLink>
       <Drawer
         classes={{ root: classes.backdrop, paper: classes.container }}
