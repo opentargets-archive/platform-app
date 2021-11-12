@@ -53,7 +53,11 @@ function Header({ loading, efoId, name, dbXRefs = [] }) {
       Icon={faStethoscope}
       externalLinks={
         <>
-          <ExternalLink title="EFO" id={efoId} url={efoUrl} />
+          {efoId.startsWith('OTAR') ? (
+            <>EFO: {efoId}</>
+          ) : (
+            <ExternalLink title="EFO" id={efoId} url={efoUrl} />
+          )}
           {Object.keys(xrefs).map(xref => {
             const { label, urlStem, ids } = xrefs[xref];
             return (
