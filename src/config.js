@@ -1,5 +1,3 @@
-// import configProfile from './config/profile-default';
-
 // Configuration Object
 const config = {
   urlApi:
@@ -11,7 +9,7 @@ const config = {
     window.configEFOURL ??
     'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl',
 
-  configProfile: window.configProfile ?? {}, //configProfile,
+  profile: window.configProfile ?? {},
 };
 
 export default config;

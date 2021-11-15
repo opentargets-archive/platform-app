@@ -69,7 +69,7 @@ export const externalLinks = {
 };
 
 // Configuration for the main hamburger menu
-export const mainMenuItems = config.configProfile.mainMenuItems ?? [
+export const mainMenuItems = config.profile.mainMenuItems ?? [
   // Documentation
   {
     name: 'Documentation',
@@ -226,7 +226,7 @@ export const downloaderChunkSize = 2500;
 // NA label.
 export const naLabel = 'N/A';
 
-export const colorRange = config.configProfile.colorRange ?? [
+export const colorRange = config.profile.colorRange ?? [
   '#e5edf4',
   '#ccdcea',
   '#b2cbe0',

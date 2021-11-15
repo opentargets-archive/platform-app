@@ -1,7 +1,7 @@
 import { lighten, darken } from 'polished';
 import config from './config';
 
-const PRIMARY = config.configProfile.primaryColor;
+const PRIMARY = config.profile.primaryColor;
 const SECONDARY = '#ff6350';
 
 const theme = {
