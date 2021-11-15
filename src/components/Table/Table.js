@@ -159,7 +159,7 @@ const Table = ({
             }}
             component="div"
             count={rowCount}
-            onChangePage={handleChangePage}
+            onPageChange={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
             page={page}
             rowsPerPage={pageSize}
