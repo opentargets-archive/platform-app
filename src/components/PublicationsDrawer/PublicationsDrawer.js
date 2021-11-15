@@ -172,6 +172,7 @@ function PublicationsDrawer({
   message,
   customLabel,
   caption = 'Publications',
+  singleEntryId = true,
 }) {
   const [open, setOpen] = useState(false);
   const classes = sourceDrawerStyles();
@@ -205,9 +206,11 @@ function PublicationsDrawer({
       >
         {customLabel
           ? customLabel
-          : entries.length === 1
+          : entries.length === 1 && singleEntryId
           ? entries[0].name
-          : `${entries.length} publications`}
+          : `${entries.length} ${
+              entries.length === 1 ? 'publication' : 'publications'
+            }`}
       </MUILink>
 
       <Drawer
