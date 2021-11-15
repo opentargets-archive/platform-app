@@ -1,6 +1,7 @@
-query DiseaseAssocs {
-  disease(efoId: "HP_0031217") {
+query associatedTargets {
+  disease(efoId: "EFO_0000349") {
     id
+    name
     associatedTargets {
       count
       rows {
@@ -8,6 +9,7 @@ query DiseaseAssocs {
           id
           approvedSymbol
         }
+        score
       }
     }
   }
