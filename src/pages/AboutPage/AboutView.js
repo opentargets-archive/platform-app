@@ -623,7 +623,7 @@ const AboutView = ({ data }) => {
     </Grid>
 
     {/* Change Log */}
-    <Grid container justify="center" className={classes.container, classes.changeLogContainer}>
+    <Grid container justify="center" className={[classes.container,classes.changeLogContainer]}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
 
         <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
