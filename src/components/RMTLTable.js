@@ -429,7 +429,7 @@ class OtTableRF extends Component {
           <TablePagination
             component="div"
             count={serverSide ? totalRowsCount : data.length}
-            onChangePage={this.handleChangePage}
+            onPageChange={this.handleChangePage}
             page={page}
             rowsPerPage={pageSize}
             rowsPerPageOptions={rowsPerPageOptions} // CHANGE MADE; Previously was rowsPerPageOptions={[]}
