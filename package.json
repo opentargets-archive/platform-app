@@ -36,7 +36,7 @@
     "lodash": "^4.17.21",
     "particles.js": "^2.0.0",
     "polished": "^2.3.0",
-    "protvista-uniprot": "^2.7.5",
+    "protvista-uniprot": "^2.8.3",
     "query-string": "^6.10.1",
     "react": "^16.14.0",
     "react-beautiful-dnd": "^13.0.0",
