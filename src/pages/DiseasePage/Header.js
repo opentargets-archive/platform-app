@@ -54,7 +54,7 @@ function Header({ loading, efoId, name, dbXRefs = [] }) {
       externalLinks={
         <>
           {efoId.startsWith('OTAR') ? (
-            <>EFO: {efoId}</>
+            `EFO: ${efoId}`
           ) : (
             <ExternalLink title="EFO" id={efoId} url={efoUrl} />
           )}
