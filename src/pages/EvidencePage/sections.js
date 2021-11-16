@@ -57,11 +57,9 @@ const sections = [
   // 2. only include public section (i.e. not partner sections),
   //    OR also private sections if it's a partner preview
   section =>
-    (config.hideEvidenceSectionIds.length === 0 ||
-      !config.hideEvidenceSectionIds
-        .split(',')
-        .includes(section.definition.id)) &&
+    (config.profile.hideEvidenceSectionIds.length === 0 ||
+      !config.profile.hideEvidenceSectionIds.includes(section.definition.id)) &&
     (!section.definition.isPrivate ||
-      (section.definition.isPrivate && config.isPartnerPreview))
+      (section.definition.isPrivate && config.profile.isPartnerPreview))
 );
 export default sections;
