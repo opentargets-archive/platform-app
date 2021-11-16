@@ -1,10 +1,5 @@
 // Configuration Object
 var configProfile = {
-  // googleTagManagerID: window.configGoogleTagManagerID ?? null,
-  // efoURL:
-  //   window.configEFOURL ??
-  //   'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl',
-
   primaryColor: '#DD11EE', //'#3489ca',
   helpdeskEmail: 'helpdesk@opentargets.org',
   mainMenuItems: [
@@ -25,6 +20,45 @@ var configProfile = {
   // main flag to toggle partner preview on/off
   isPartnerPreview: true,
 
+  // Page specific sections:
+  // hide[Page]SectionsIds: hide the specified sections (comma separated ids, no spaecs, e.g. 'bibliography,otProjects')
+  // or leave as empty string to show all sections (all public sections, private sections depending on settings)
+  //
+  // partner[Page]SectionIds: specify the private widget on this page
+
+  // disease page
+  hideDiseaseSectionIds: [''],
+  partnerDiseaseSectionIds: ['otProjects'],
+  // TODO: another option could be to list all the sections of a page:
+  // diseaseSections: [
+  //   {
+  //     id: 'otProjects',
+  //     isPrivate: true,
+  //   },
+  // ],
+
+  // target page
+  hideTargetSectionIds: [''],
+  partnerTargetSectionIds: [''],
+
+  // drug page
+  hideDrugSectionIds: [''],
+  partnerDrugSectionIds: [''],
+
+  // evidence page
+  hideEvidenceSectionIds: [''],
+  partnerEvidenceSectionIds: ['encore', 'otCrispr'],
+
+  // datatypes
+  hideDataTypes: [''],
+  partnerDataTypes: ['ot_partner'],
+
+  // for datasources we only set those that are private (partner)
+  // partnerDataSources: list any private datasource (shown with lock in facets)
+  partnerDataSources: ['encore', 'ot_crispr'],
+
+  // partner colour scale
+  // default as empty string so it falls back to value in constants.js
   colorRange: [
     '#ebf0ed',
     '#d8e2dc',
@@ -37,56 +71,4 @@ var configProfile = {
     '#538064',
     '#407253',
   ],
-
-  hideDiseaseSectionIds: [''],
-  partnerDiseaseSectionIds: ['otProjects'],
-
-  // TODO: another option could be to list all the sections of a page:
-  diseaseSections: [
-    {
-      id: 'otProjects',
-      isPrivate: true,
-    },
-  ],
-
-  hideTargetSectionIds: [''],
-  partnerTargetSectionIds: [''],
-
-  // Page specific sections:
-  // hide[Page]SectionsIds: hide the specified sections (comma separated ids, no spaecs, e.g. 'bibliography,otProjects')
-  // or leave as empty string to show all sections (all public sections, private sections depending on settings)
-  //
-  // partner[Page]SectionIds: specify the private widget on this page
-
-  // disease page
-  /* 
-  hideDiseaseSectionIds: window.configHideDiseaseSectionIds ?? '',
-  partnerDiseaseSectionIds:
-    window.configPartnerDiseaseSectionIds ?? 'otProjects',
-
-  // target page
-  hideTargetSectionIds: window.configHideTargetSectionIds ?? '',
-  partnerTargetSectionIds: window.configPartnerTargetSectionIds ?? '',
-
-  // drug page
-  hideDrugSectionIds: window.configHideDrugSectionIds ?? '',
-  partnerDrugSectionIds: window.configPartnerDrugSectionIds ?? '',
-
-  // evidence page
-  hideEvidenceSectionIds: window.configHideEvidenceSectionIds ?? '',
-  partnerEvidenceSectionIds:
-    window.configPartnerEvidenceSectionIds ?? 'encore,otCrispr',
-
-  // partner colour scale
-  // default as empty string so it falls back to value in constants.js
-  partnerColorRange: window.configPartnerColorRange ?? '',
-
-  
-  hideDataTypes: window.configHideDataTypes ?? '',
-  partnerDataTypes: window.configPartnerDataTypes ?? 'ot_partner',
-
-  // for datasources we only set those that are private (partner)
-  // partnerDataSources: list any private datasource (shown with lock in facets)
-  partnerDataSources: window.configPartnerDataSources ?? 'encore,ot_crispr',
-  */
 };
