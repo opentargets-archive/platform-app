@@ -57,7 +57,7 @@ const dataDownloaderColumns = [
   { id: 'PMTL', label: 'PMTL'},
   { id: 'OncoKBCancerGene' },
   { id: 'OncoKBOncogeneTSG' },
-  { id: 'diseaseFromSourceMappedId', label: 'EFO' },
+  { id: 'diseaseFromSourceMappedId', label: 'efo' },
   { id: 'MONDO' },
 ]
 

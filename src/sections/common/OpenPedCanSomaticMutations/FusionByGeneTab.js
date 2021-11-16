@@ -48,7 +48,7 @@ const dataDownloaderColumns = [
   { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset' },
   { id: 'frequencyInRelapseTumors' },
   { id: 'MONDO' },
-  { id: 'diseaseFromSourceMappedId', label: 'EFO' },
+  { id: 'diseaseFromSourceMappedId', label: 'efo' },
 ]
 
 function FusionByGeneTab({data, dataDownloaderFileStem}) {

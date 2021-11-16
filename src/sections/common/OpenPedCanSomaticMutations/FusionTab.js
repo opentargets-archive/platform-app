@@ -65,7 +65,7 @@ const dataDownloaderColumns = [
   { id: 'Disease' },
   { id: 'MONDO' },
   { id: 'PMTL' },
-  { id: 'diseaseFromSourceMappedId', label: 'EFO' },
+  { id: 'diseaseFromSourceMappedId', label: 'efo' },
   { id: 'dataset' },
   { id: 'totalAlterationsOverNumberPatientsInDataset', label: 'totalAlterationsOverSubjectsInDataset'},
   { id: 'frequencyInOverallDataset' },

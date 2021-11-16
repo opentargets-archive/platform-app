@@ -58,7 +58,7 @@ const dataDownloaderColumns = [
   { id: 'PMTL' },
   { id: 'dataset' },
   { id: 'Disease' },
-  { id: 'diseaseFromSourceMappedId', label:'EFO' },
+  { id: 'diseaseFromSourceMappedId', label:'efo' },
   { id: 'MONDO' },
   { id: 'geneFullName' },
   { id: 'geneType' },
