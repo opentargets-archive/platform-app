@@ -37,7 +37,7 @@ const columns = [
 ]
 const dataDownloaderColumns = [
   { id: 'geneSymbol' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblId' },
   { id: 'Disease'},
   { id: 'PMTL' },
   { id: 'dataset' },

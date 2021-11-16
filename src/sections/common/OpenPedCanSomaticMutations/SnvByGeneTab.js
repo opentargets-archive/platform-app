@@ -63,7 +63,7 @@ const dataDownloaderColumns = [
   { id: 'geneFullName' },
   { id: 'geneType' },
   { id: 'proteinRefseqId' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblId' },
   { id: 'proteinEnsemblId' },
   { id: 'totalMutationsOverPatientsInDataset', label: 'totalMutationsOverSubjectsInDataset' },
   { id: 'frequencyInOverallDataset' },

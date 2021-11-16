@@ -64,7 +64,7 @@ const dataDownloaderColumns = [
   { id: 'variantClassification' },
   { id: 'variantType' },
   { id: 'geneFullName' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblId' },
   { id: 'proteinRefseqId' },
   { id: 'proteinEnsemblId' },
   { id: 'totalMutationsOverPatientsInDataset', label: 'totalMutationsOverSubjectsInDataset'},

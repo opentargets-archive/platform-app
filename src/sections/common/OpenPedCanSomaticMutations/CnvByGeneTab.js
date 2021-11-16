@@ -42,7 +42,7 @@ const columns = [
 
 const dataDownloaderColumns = [
   { id: 'geneSymbol' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblId' },
   { id: 'variantType' }, 
   { id: 'variantCategory' },
   { id: 'dataset' },

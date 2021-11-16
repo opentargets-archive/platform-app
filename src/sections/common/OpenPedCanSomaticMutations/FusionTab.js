@@ -61,7 +61,7 @@ const dataDownloaderColumns = [
   { id: 'gene1BAnno', label: 'gene1BAnnotation' },
   { id: 'gene2AAnno', label: 'gene2AAnnotation' },
   { id: 'gene2BAnno', label: 'gene2BAnnotation' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'targetFromSourceId', label: 'geneEnsemblId' },
   { id: 'Disease' },
   { id: 'MONDO' },
   { id: 'PMTL' },
