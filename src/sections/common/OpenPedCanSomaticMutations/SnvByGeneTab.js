@@ -15,7 +15,7 @@ const createExternalLink = (url, description) => {
 // Configuration for how the tables will display the data
 const columns = [
   {
-    id: 'geneSymbol', label: 'Target', sortable: true,
+    id: 'geneSymbol', label: 'Gene symbol', sortable: true,
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
@@ -54,7 +54,7 @@ const columns = [
 ]
 
 const dataDownloaderColumns = [
-  { id: 'geneSymbol', label: 'Target'},
+  { id: 'geneSymbol' },
   { id: 'PMTL' },
   { id: 'dataset' },
   { id: 'Disease' },

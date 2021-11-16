@@ -10,7 +10,7 @@ import { genericComparator } from '../../../utils/comparators'
 
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'geneSymbol', label: 'Target', sortable: true,
+  { id: 'geneSymbol', label: 'Gene symbol', sortable: true,
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
       <Link to={`/target/${targetFromSourceId}`}> {geneSymbol} </Link> },
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
@@ -41,7 +41,7 @@ const columns = [
 ]
 
 const dataDownloaderColumns = [
-  { id: 'geneSymbol', label: 'Target' },
+  { id: 'geneSymbol' },
   { id: 'targetFromSourceId', label: 'geneEnsemblID' },
   { id: 'variantType' }, 
   { id: 'variantCategory' },
