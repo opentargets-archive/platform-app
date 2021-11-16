@@ -36,9 +36,9 @@ const fixIsPrivate = id =>
  */
 const filterLevel = agg => {
   return (
-    (config.hideDataTypes.length === 0 ||
-      !config.hideDataTypes.split(',').includes(agg.nodeId)) &&
-    (!agg.isPrivate || (agg.isPrivate && config.isPartnerPreview))
+    (config.profile.hideDataTypes.length === 0 ||
+      !config.profile.hideDataTypes.includes(agg.nodeId)) &&
+    (!agg.isPrivate || (agg.isPrivate && config.profile.isPartnerPreview))
   );
 };
 
