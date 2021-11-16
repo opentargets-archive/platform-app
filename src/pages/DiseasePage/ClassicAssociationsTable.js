@@ -146,9 +146,9 @@ function getColumns(efoId, classes) {
   dataTypes
     .filter(
       dt =>
-        (config.hideDataTypes.length === 0 ||
-          !config.hideDataTypes.split(',').includes(dt.id)) &&
-        (!dt.isPrivate || (dt.isPrivate && config.isPartnerPreview))
+        (config.profile.hideDataTypes.length === 0 ||
+          !config.profile.hideDataTypes.includes(dt.id)) &&
+        (!dt.isPrivate || (dt.isPrivate && config.profile.isPartnerPreview))
     )
     .forEach(dt => {
       columns.push({
