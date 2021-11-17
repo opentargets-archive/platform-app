@@ -14,8 +14,8 @@ const Description = ({ symbol }) => (
     <Link to="https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001436.v1.p1" external>
       Kids First Neuroblastoma
     </Link>{', '}
-    <Link to="https://www.ccdatalab.org/openpbta" external>
-      OpenPBTA for the CBTN (v21)
+    <Link to="https://alexslemonade.github.io/OpenPBTA-manuscript/" external>
+      OpenPBTA for CBTN and PNOC (v21)
     </Link>{', '}
     <Link to="https://www.oncokb.org/news#07162021" external>
       OncoKB (v3.5)
