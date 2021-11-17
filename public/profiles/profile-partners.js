@@ -8,14 +8,25 @@ var configProfile = {
 
   /* colors */
 
-  primaryColor: '#3489ca',
+  primaryColor: '#407253',
   // custom colour scale: override value in constants.js
-  // colorRange: [],
+  colorRange: [
+    '#ebf0ed',
+    '#d8e2dc',
+    '#c5d4cb',
+    '#b2c6ba',
+    '#9fb8a9',
+    '#8caa97',
+    '#799c86',
+    '#668e75',
+    '#538064',
+    '#407253',
+  ],
 
   /* partner preview options */
 
   // main flag to toggle partner preview on/off
-  isPartnerPreview: false,
+  isPartnerPreview: true,
 
   // Page specific sections:
   // hide[Page]SectionsIds: hide the specified sections (comma separated ids, no spaecs, e.g. 'bibliography,otProjects')
