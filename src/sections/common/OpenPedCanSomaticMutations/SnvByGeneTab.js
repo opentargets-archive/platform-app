@@ -58,14 +58,14 @@ const dataDownloaderColumns = [
   { id: 'PMTL' },
   { id: 'dataset' },
   { id: 'Disease' },
-  { id: 'diseaseFromSourceMappedId', label:'efo' },
+  { id: 'diseaseFromSourceMappedId', exportLabel:'efo' },
   { id: 'MONDO' },
   { id: 'geneFullName' },
   { id: 'geneType' },
   { id: 'proteinRefseqId' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblId' },
+  { id: 'targetFromSourceId', exportLabel: 'geneEnsemblId' },
   { id: 'proteinEnsemblId' },
-  { id: 'totalMutationsOverPatientsInDataset', label: 'totalMutationsOverSubjectsInDataset' },
+  { id: 'totalMutationsOverPatientsInDataset', exportLabel: 'totalMutationsOverSubjectsInDataset' },
   { id: 'frequencyInOverallDataset' },
   { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
   { id: 'frequencyInPrimaryTumors' },
@@ -73,8 +73,8 @@ const dataDownloaderColumns = [
   { id: 'frequencyInRelapseTumors' },
   { id: 'OncoKBCancerGene' },
   { id: 'OncoKBOncogeneTSG' },
-  { id: 'pedcbioPedotOncoprintPlotURL', label: 'pedcbioPedotOncoprintPlot'},
-  { id: 'pedcbioPedotMutationsPlotURL', label: 'pedcbioPedotMutationPlot' },
+  { id: 'pedcbioPedotOncoprintPlotURL', exportLabel: 'pedcbioPedotOncoprintPlot'},
+  { id: 'pedcbioPedotMutationsPlotURL', exportLabel: 'pedcbioPedotMutationPlot' },
 ]
 
 function SnvByGeneTab({data, dataDownloaderFileStem}) {

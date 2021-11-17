@@ -42,22 +42,22 @@ const columns = [
 
 const dataDownloaderColumns = [
   { id: 'geneSymbol' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblId' },
+  { id: 'targetFromSourceId', exportLabel: 'geneEnsemblId' },
   { id: 'variantType' }, 
   { id: 'variantCategory' },
   { id: 'dataset' },
   { id: 'Disease' },
-  { id: 'totalAlterationsOverPatientsInDataset', label: 'totalAlterationsOverSubjectsInDataset'},
+  { id: 'totalAlterationsOverPatientsInDataset', exportLabel: 'totalAlterationsOverSubjectsInDataset'},
   { id: 'frequencyInOverallDataset' },
   { id: 'totalPrimaryTumorsAlteredOverPrimaryTumorsInDataset' },
   { id: 'frequencyInPrimaryTumors' },
   { id: 'totalRelapseTumorsAlteredOverRelapseTumorsInDataset' },
   { id: 'frequencyInRelapseTumors' },
   { id: 'geneFullName' },
-  { id: 'PMTL', label: 'PMTL'},
+  { id: 'PMTL', exportLabel: 'PMTL'},
   { id: 'OncoKBCancerGene' },
   { id: 'OncoKBOncogeneTSG' },
-  { id: 'diseaseFromSourceMappedId', label: 'efo' },
+  { id: 'diseaseFromSourceMappedId', exportLabel: 'efo' },
   { id: 'MONDO' },
 ]
 

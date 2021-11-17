@@ -37,18 +37,18 @@ const columns = [
 ]
 const dataDownloaderColumns = [
   { id: 'geneSymbol' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblId' },
+  { id: 'targetFromSourceId', exportLabel: 'geneEnsemblId' },
   { id: 'Disease'},
   { id: 'PMTL' },
   { id: 'dataset' },
-  { id: 'totalAlterationsOverNumberPatientsInDataset', label: 'totalAlterationsOverSubjectsInDataset' },
+  { id: 'totalAlterationsOverNumberPatientsInDataset', exportLabel: 'totalAlterationsOverSubjectsInDataset' },
   { id: 'frequencyInOverallDataset' },
   { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
   { id: 'frequencyInPrimaryTumors' },
   { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset' },
   { id: 'frequencyInRelapseTumors' },
   { id: 'MONDO' },
-  { id: 'diseaseFromSourceMappedId', label: 'efo' },
+  { id: 'diseaseFromSourceMappedId', exportLabel: 'efo' },
 ]
 
 function FusionByGeneTab({data, dataDownloaderFileStem}) {
