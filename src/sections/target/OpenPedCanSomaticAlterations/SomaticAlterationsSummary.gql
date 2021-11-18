@@ -1,4 +1,4 @@
-fragment targetSomaticMutationSummary on Target {
+fragment targetSomaticAlterationsSummary on Target {
   snvByGene: evidences(
     efoIds: []
     datasourceIds: ["chop_gene_level_snv"]
