@@ -98,7 +98,7 @@ function Body(props) {
         <Description symbol={label.symbol} diseaseName={label.name} />
       )}
       renderBody={({ disease }) => {
-        console.log('disease', disease);
+        // console.log('disease', disease);
         const { rows } = disease.evidences;
         return (
           <DataTable

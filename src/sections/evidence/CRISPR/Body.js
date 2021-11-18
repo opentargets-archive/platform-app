@@ -7,6 +7,7 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { dataTypesMap } from '../../../dataTypes';
+import { naLabel } from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 
@@ -27,6 +28,8 @@ const columns = [
   {
     label: 'Reported disease/phenotype',
     renderCell: ({ diseaseCellLines, diseaseFromSource }) => {
+      if (!diseaseCellLines) return naLabel;
+
       const cellLines = diseaseCellLines.map(line => {
         return {
           name: line,
