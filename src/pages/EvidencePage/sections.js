@@ -22,6 +22,7 @@ import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
 import * as OTCRISPR from '../../sections/evidence/OTCRISPR';
 import * as OTEncore from '../../sections/evidence/OTEncore';
+import * as CancerBiomarkers from '../../sections/evidence/CancerBiomarkers';
 
 import config from '../../config';
 
@@ -49,6 +50,7 @@ const sections = [
   Phenodigm,
   OTCRISPR,
   OTEncore,
+  CancerBiomarkers,
 ].filter(
   // select sections to show based on:
   // 1. there is no specific hidden section for this page (length==0)
