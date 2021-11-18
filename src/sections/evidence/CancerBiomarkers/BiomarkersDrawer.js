@@ -11,6 +11,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 
 import Link from '../../../components/Link';
+import { sentenceCase } from '../../../utils/global';
 
 const useStyles = makeStyles(theme => ({
   drawerLink: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles(theme => ({
     margin: '1rem',
     padding: '1rem',
   },
+  biomarkerItem: { marginBottom: '8px' },
 }));
 
 function BiomarkersDrawer({ biomarkerName, biomarkers }) {
@@ -84,7 +86,7 @@ function BiomarkersDrawer({ biomarkerName, biomarkers }) {
           </Typography>
           {biomarkers.variant.map(variant => {
             return (
-              <Fragment key={variant.name}>
+              <div key={variant.name} className={classes.biomarkerItem}>
                 <div>{variant.name}</div>
                 <Link
                   external
@@ -92,9 +94,9 @@ function BiomarkersDrawer({ biomarkerName, biomarkers }) {
                     variant.functionalConsequenceId.id
                   }`}
                 >
-                  {variant.functionalConsequenceId.label}
+                  {sentenceCase(variant.functionalConsequenceId.label)}
                 </Link>
-              </Fragment>
+              </div>
             );
           })}
         </Paper>
@@ -105,7 +107,7 @@ function BiomarkersDrawer({ biomarkerName, biomarkers }) {
             </Typography>
             {biomarkers.geneExpression.map(expression => {
               return (
-                <Fragment key={expression.name}>
+                <div key={expression.name} className={classes.biomarkerItem}>
                   <div>{expression.name}</div>
                   <Link
                     external
@@ -113,7 +115,7 @@ function BiomarkersDrawer({ biomarkerName, biomarkers }) {
                   >
                     {expression.id.name}
                   </Link>
-                </Fragment>
+                </div>
               );
             })}
           </Paper>

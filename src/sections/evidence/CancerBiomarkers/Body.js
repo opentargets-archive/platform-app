@@ -56,8 +56,8 @@ const columns = [
       allelicRequirements ? allelicRequirements.join() : '',
   },
   {
-    id: 'confidence',
-    label: 'Classification',
+    id: 'drug',
+    label: 'Reported drug',
     renderCell: ({ studyId, confidence }) => {
       return (
         <Link
