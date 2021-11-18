@@ -164,25 +164,16 @@ function getColumns(classes) {
     {
       id: 'datasource',
       label: 'Source',
-      renderCell: ({ datasource, literature }) => {
-        if (literature) {
-          return (
-            <PublicationsDrawer
-              entries={[{ name: literature }]}
-              customLabel={datasource}
-            />
-          );
-        }
-
-        return datasource === 'ToxCast' ? (
-          <Link
-            external
-            to="https://www.epa.gov/chemical-research/exploring-toxcast-data-downloadable-data"
-          >
+      renderCell: ({ datasource, literature, url }) => {
+        return literature ? (
+          <PublicationsDrawer
+            entries={[{ name: literature }]}
+            customLabel={datasource}
+          />
+        ) : (
+          <Link external to={url}>
             {datasource}
           </Link>
-        ) : (
-          datasource
         );
       },
     },
