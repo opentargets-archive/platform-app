@@ -53,8 +53,6 @@ const columns = [
         />
       );
     },
-    filterValue: ({ allelicRequirements }) =>
-      allelicRequirements ? allelicRequirements.join() : '',
   },
   {
     id: 'drug',
@@ -66,10 +64,13 @@ const columns = [
         drugFromSource
       );
     },
+    filterValue: ({ drug, drugFromSource }) => {
+      return drug ? drug.name : drugFromSource;
+    },
   },
   { id: 'confidence', label: 'Source' },
   {
-    id: 'drugResponse',
+    id: 'drugResponse.name',
     label: 'Drug response',
     renderCell: ({ drugResponse }) => {
       return (
