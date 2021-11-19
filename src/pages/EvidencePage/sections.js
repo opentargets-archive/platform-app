@@ -41,6 +41,7 @@ const sections = [
   EVASomatic,
   Chembl,
   CRISPR,
+  CancerBiomarkers,
   SlapEnrich,
   Progeny,
   Reactome,
@@ -50,7 +51,6 @@ const sections = [
   Phenodigm,
   OTCRISPR,
   OTEncore,
-  CancerBiomarkers,
 ].filter(
   // select sections to show based on:
   // 1. there is no specific hidden section for this page (length==0)
