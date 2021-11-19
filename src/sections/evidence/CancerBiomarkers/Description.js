@@ -5,8 +5,9 @@ function Description({ symbol, diseaseName }) {
   return (
     <>
       Expert-curated genomic biomarkers of drug sensitivity, resistance, and
-      toxicity for drugs targeting {symbol} with an experimental or approved
-      indication of {diseaseName}. Source:{' '}
+      toxicity for drugs targeting <strong>{symbol}</strong> with an
+      experimental or approved indication of <strong>{diseaseName}</strong>.
+      Source:{' '}
       <Link
         external
         to="https://www.cancergenomeinterpreter.org/2018/biomarkers"
