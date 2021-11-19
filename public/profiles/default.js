@@ -26,13 +26,6 @@ var configProfile = {
   // disease page
   hideDiseaseSectionIds: [''],
   partnerDiseaseSectionIds: ['otProjects'],
-  // TODO: another option could be to list all the sections of a page:
-  // diseaseSections: [
-  //   {
-  //     id: 'otProjects',
-  //     isPrivate: true,
-  //   },
-  // ],
 
   // target page
   hideTargetSectionIds: [''],
