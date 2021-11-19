@@ -59,8 +59,6 @@ function BiomarkersDrawer({ biomarkerName, biomarkers }) {
     return 'N/A';
   }
 
-  console.log('biomarkers', biomarkers);
-
   return (
     <>
       <MuiLink

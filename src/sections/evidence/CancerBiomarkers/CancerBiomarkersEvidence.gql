@@ -37,6 +37,16 @@ query CancerBiomarkersQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
           id
           name
         }
+        drugResponse {
+          id
+          name
+        }
+        confidence
+        literature
+        urls {
+          niceName
+          url
+        }
       }
     }
   }

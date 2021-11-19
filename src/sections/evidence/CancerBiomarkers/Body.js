@@ -9,6 +9,8 @@ import Tooltip from '../../../components/Tooltip';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import { dataTypesMap } from '../../../dataTypes';
+import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
+import { epmcUrl } from '../../../utils/urls';
 import Summary from './Summary';
 import Description from './Description';
 import BiomarkersDrawer from './BiomarkersDrawer';
@@ -58,15 +60,35 @@ const columns = [
   {
     id: 'drug',
     label: 'Reported drug',
-    renderCell: ({ studyId, confidence }) => {
-      return (
-        <Link
-          external
-          to={`https://search.clinicalgenome.org/kb/gene-validity/${studyId}`}
-        >
-          {confidence}
-        </Link>
+    renderCell: ({ drug, drugFromSource }) => {
+      return drug ? (
+        <Link to={`/drug/${drug.id}`}>{drug.name}</Link>
+      ) : (
+        drugFromSource
       );
+    },
+  },
+  { id: 'confidence', label: 'Source' },
+  {
+    id: 'drugResponse',
+    label: 'Drug response',
+    renderCell: ({ drugResponse }) => {
+      return (
+        <Link to={`/disease/${drugResponse.id}`}>{drugResponse.name}</Link>
+      );
+    },
+  },
+  {
+    id: 'literature',
+    label: 'Literature',
+    renderCell: ({ literature }) => {
+      const entries = literature
+        ? literature.map(id => {
+            return { name: id, url: epmcUrl(id), group: 'literature' };
+          })
+        : [];
+
+      return <PublicationsDrawer entries={entries} />;
     },
   },
 ];
@@ -98,7 +120,7 @@ function Body(props) {
         <Description symbol={label.symbol} diseaseName={label.name} />
       )}
       renderBody={({ disease }) => {
-        // console.log('disease', disease);
+        console.log('disease', disease);
         const { rows } = disease.evidences;
         return (
           <DataTable
