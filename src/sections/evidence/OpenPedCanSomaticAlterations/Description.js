@@ -3,7 +3,7 @@ import Link from '../../../components/Link';
 
 const Description = ({ symbol, name }) => (
   <>
-    Somatic mutations associated with {' '}
+    Somatic alterations associated with {' '}
     <strong>{symbol}</strong> in pediatric {' '}
     <strong>{name}</strong>. Source:{' '}
     <Link to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis" external>
