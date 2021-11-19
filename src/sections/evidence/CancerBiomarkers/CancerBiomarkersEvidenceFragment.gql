@@ -1,0 +1,10 @@
+fragment CancerBiomarkersEvidenceFragment on Disease {
+  cancerBiomarkersSummary: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["cancer_biomarkers"]
+    size: 0
+  ) {
+    count
+  }
+}
