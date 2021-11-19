@@ -1,4 +1,4 @@
-fragment evidenceSomaticMutationSummary on Disease {
+fragment evidenceSomaticAlterationsSummary on Disease {
   snvByGene: evidences(
     ensemblIds: [$ensgId]
     enableIndirect: true
