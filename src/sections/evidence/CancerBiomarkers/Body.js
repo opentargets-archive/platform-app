@@ -7,11 +7,10 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
 import { DataTable } from '../../../components/Table';
-import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
+import { defaultRowsPerPageOptions } from '../../../constants';
 import { dataTypesMap } from '../../../dataTypes';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { epmcUrl } from '../../../utils/urls';
-import Summary from './Summary';
 import Description from './Description';
 import BiomarkersDrawer from './BiomarkersDrawer';
 
@@ -96,15 +95,16 @@ const columns = [
 function Body(props) {
   const { definition, id, label } = props;
   const { ensgId: ensemblId, efoId } = id;
-  /* const { data: summaryData } = usePlatformApi(
-    Summary.fragments.ClinGenSummaryFragment
-  ); */
+  const {
+    data: {
+      disease: { cancerBiomarkersSummary },
+    },
+  } = usePlatformApi();
 
   const variables = {
     ensemblId,
     efoId,
-    // size: summaryData.clingenSummary.count,
-    size: 10,
+    size: cancerBiomarkersSummary.count,
   };
 
   const request = useQuery(CANCER_BIOMARKERS_EVIDENCE_QUERY, {
@@ -120,7 +120,6 @@ function Body(props) {
         <Description symbol={label.symbol} diseaseName={label.name} />
       )}
       renderBody={({ disease }) => {
-        console.log('disease', disease);
         const { rows } = disease.evidences;
         return (
           <DataTable
