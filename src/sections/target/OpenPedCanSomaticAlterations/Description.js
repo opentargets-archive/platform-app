@@ -3,7 +3,7 @@ import Link from '../../../components/Link';
 
 const Description = ({ symbol }) => (
   <>
-    Somatic mutations associated with {' '} 
+    Somatic alterations associated with {' '} 
     <strong>{symbol}</strong> in pediatric cancers. Source:{' '}
     <Link to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis" external>
       OpenPedCan (v10) 
