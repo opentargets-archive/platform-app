@@ -54,7 +54,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git describe --abbrev=0)}\" react-scripts build && gzipper compress --brotli ./build",
+    "build": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git describe --abbrev=0)}\" react-scripts build",
     "build:sourcemap": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=true REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git describe --abbrev=0)}\" react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -75,7 +75,6 @@
   "devDependencies": {
     "browserstack-local": "^1.4.5",
     "cross-fetch": "^3.1.4",
-    "gzipper": "^5.0.0",
     "husky": ">=4",
     "lint-staged": ">=10",
     "nanoid-cli": "^1.1.0",
