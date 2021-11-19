@@ -9,7 +9,7 @@ const SOMATIC_ALTERATIONS_QUERY = loader('./SomaticAlterationsQuery.gql');
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
   const variables = { ensemblId, efoId }
-  const dataDownloaderFileStem = `OpenPedCanSomaticMutations-${ensemblId}-${efoId}`
+  const dataDownloaderFileStem = `OpenPedCanSomaticAlterations-${ensemblId}-${efoId}`
   return (
     <OpenPedCanSomaticAlterationsBody 
       definition={definition}
