@@ -32,6 +32,11 @@ query CancerBiomarkersQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
             }
           }
         }
+        drugFromSource
+        drug {
+          id
+          name
+        }
       }
     }
   }

@@ -59,6 +59,8 @@ function BiomarkersDrawer({ biomarkerName, biomarkers }) {
     return 'N/A';
   }
 
+  console.log('biomarkers', biomarkers);
+
   return (
     <>
       <MuiLink
@@ -80,26 +82,31 @@ function BiomarkersDrawer({ biomarkerName, biomarkers }) {
             <CloseIcon />
           </IconButton>
         </Typography>
-        <Paper className={classes.paper} variant="outlined">
-          <Typography variant="subtitle2" paragraph>
-            Variant:
-          </Typography>
-          {biomarkers.variant.map(variant => {
-            return (
-              <div key={variant.name} className={classes.biomarkerItem}>
-                <div>{variant.name}</div>
-                <Link
-                  external
-                  to={`https://identifiers.org/${
-                    variant.functionalConsequenceId.id
-                  }`}
-                >
-                  {sentenceCase(variant.functionalConsequenceId.label)}
-                </Link>
-              </div>
-            );
-          })}
-        </Paper>
+        {biomarkers.variant ? (
+          <Paper className={classes.paper} variant="outlined">
+            <Typography variant="subtitle2" paragraph>
+              Variant:
+            </Typography>
+            {biomarkers.variant.map(variant => {
+              return (
+                <div key={variant.name} className={classes.biomarkerItem}>
+                  <div>
+                    {variant.name}{' '}
+                    {variant.variantId ? `(ID: ${variant.variantId})` : null}
+                  </div>
+                  <Link
+                    external
+                    to={`https://identifiers.org/${
+                      variant.functionalConsequenceId.id
+                    }`}
+                  >
+                    {sentenceCase(variant.functionalConsequenceId.label)}
+                  </Link>
+                </div>
+              );
+            })}
+          </Paper>
+        ) : null}
         {biomarkers.geneExpression ? (
           <Paper className={classes.paper} variant="outlined">
             <Typography variant="subtitle2" paragraph>
