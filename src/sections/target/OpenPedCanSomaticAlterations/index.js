@@ -1,5 +1,5 @@
 export const definition = {
-  id: 'openPedCanSomaticMutations',
+  id: 'openPedCanSomaticAlterations',
   name: 'OpenPedCan Somatic Alterations',
   shortName: 'SA',
   hasData: ( data ) => {
