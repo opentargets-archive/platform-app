@@ -32,7 +32,8 @@ const columns = [
 
       const cellLines = diseaseCellLines.map(line => {
         return {
-          name: line,
+          name: <>Cell line: {line.name}</>,
+          url: `https://cellmodelpassports.sanger.ac.uk/passports/${line.id}`,
           group: 'Cancer Cell Lines',
         };
       });
