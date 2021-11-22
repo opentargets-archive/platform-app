@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-
 import {
   Drawer,
   Link as MuiLink,
@@ -10,13 +9,14 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
+import Tooltip from '../../../components/Tooltip';
 import Link from '../../../components/Link';
 import { sentenceCase } from '../../../utils/global';
 
 const useStyles = makeStyles(theme => ({
   drawerLink: {
     cursor: 'pointer',
-    display: 'block',
+    display: 'inline-block',
     maxWidth: '420px',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -65,13 +65,15 @@ function BiomarkersDrawer({ biomarkerName, biomarkers }) {
 
   return (
     <>
-      <MuiLink
-        className={classes.drawerLink}
-        onClick={toggleOpen}
-        underline="none"
-      >
-        {biomarkerName}
-      </MuiLink>
+      <Tooltip title={biomarkerName}>
+        <MuiLink
+          className={classes.drawerLink}
+          onClick={toggleOpen}
+          underline="none"
+        >
+          {biomarkerName}
+        </MuiLink>
+      </Tooltip>
       <Drawer
         classes={{ root: classes.backdrop, paper: classes.container }}
         open={open}
