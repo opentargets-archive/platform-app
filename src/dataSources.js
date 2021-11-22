@@ -118,6 +118,11 @@ const dataSources = [
     label: 'ENCORE',
     isPrivate: isPrivateDataSource('encore'),
   },
+  {
+    id: 'cancer_biomarkers',
+    label: 'Cancer Biomarkers',
+    isPrivate: isPrivateDataSource('cancer_biomarkers'),
+  },
 ];
 
 export default dataSources;
