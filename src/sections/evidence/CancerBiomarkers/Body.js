@@ -6,7 +6,7 @@ import Link from '../../../components/Link';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
-import { DataTable } from '../../../components/Table';
+import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import { dataTypesMap } from '../../../dataTypes';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
@@ -68,7 +68,6 @@ const columns = [
       return drug ? drug.name : drugFromSource;
     },
   },
-  { id: 'confidence', label: 'Source' },
   {
     id: 'drugResponse.name',
     label: 'Drug response',
@@ -76,6 +75,22 @@ const columns = [
       return (
         <Link to={`/disease/${drugResponse.id}`}>{drugResponse.name}</Link>
       );
+    },
+  },
+  {
+    id: 'confidence',
+    label: 'Source',
+    renderCell: ({ confidence, urls }) => {
+      const entries = urls
+        ? urls.map(url => {
+            return {
+              url: url.url,
+              name: url.niceName,
+              group: 'Sources',
+            };
+          })
+        : [];
+      return <TableDrawer entries={entries} message={confidence} />;
     },
   },
   {
