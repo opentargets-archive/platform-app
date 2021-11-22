@@ -81,16 +81,16 @@ const columns = [
     id: 'confidence',
     label: 'Source',
     renderCell: ({ confidence, urls }) => {
-      if (!urls) return confidence;
-
-      const entries = urls.map(url => {
-        return {
-          url: url.url,
-          name: url.niceName,
-          group: 'Sources',
-        };
-      });
-      return <TableDrawer entries={entries} />;
+      const entries = urls
+        ? urls.map(url => {
+            return {
+              url: url.url,
+              name: url.niceName,
+              group: 'Sources',
+            };
+          })
+        : [];
+      return <TableDrawer entries={entries} message={confidence} />;
     },
   },
   {

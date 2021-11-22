@@ -79,6 +79,10 @@ function TableDrawer({
   const [open, setOpen] = useState(false);
   const classes = sourceDrawerStyles();
 
+  if (entries.length === 0 && message) {
+    return message;
+  }
+
   if (entries.length === 0) {
     return naLabel;
   }
