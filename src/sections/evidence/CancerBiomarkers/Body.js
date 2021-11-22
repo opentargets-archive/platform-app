@@ -6,7 +6,7 @@ import Link from '../../../components/Link';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
-import { DataTable } from '../../../components/Table';
+import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import { dataTypesMap } from '../../../dataTypes';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
@@ -77,7 +77,22 @@ const columns = [
       );
     },
   },
-  { id: 'confidence', label: 'Source' },
+  {
+    id: 'confidence',
+    label: 'Source',
+    renderCell: ({ confidence, urls }) => {
+      if (!urls) return confidence;
+
+      const entries = urls.map(url => {
+        return {
+          url: url.url,
+          name: url.niceName,
+          group: 'Sources',
+        };
+      });
+      return <TableDrawer entries={entries} />;
+    },
+  },
   {
     id: 'literature',
     label: 'Literature',
