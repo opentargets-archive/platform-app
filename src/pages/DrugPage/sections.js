@@ -23,9 +23,9 @@ const sections = [
   // 2. only include public section (i.e. not partner sections),
   //    OR also private sections if it's a partner preview
   section =>
-    (config.hideDrugSectionIds.length === 0 ||
-      !config.hideDrugSectionIds.split(',').includes(section.definition.id)) &&
+    (config.profile.hideDrugSectionIds.length === 0 ||
+      !config.profile.hideDrugSectionIds.includes(section.definition.id)) &&
     (!section.definition.isPrivate ||
-      (section.definition.isPrivate && config.isPartnerPreview))
+      (section.definition.isPrivate && config.profile.isPartnerPreview))
 );
 export default sections;
