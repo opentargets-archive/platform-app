@@ -1,11 +1,10 @@
 import React from 'react';
 import Link from '../../../components/Link';
 
-const Description = ({ symbol, name }) => (
+const Description = ({ symbol }) => (
   <>
-    Somatic mutations associated with {' '}
-    <strong>{symbol}</strong> in pediatric {' '}
-    <strong>{name}</strong>. Source:{' '}
+    Somatic alterations associated with {' '} 
+    <strong>{symbol}</strong> in pediatric cancers. Source:{' '}
     <Link to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis" external>
       OpenPedCan (v10) 
     </Link>{', '}
@@ -15,8 +14,8 @@ const Description = ({ symbol, name }) => (
     <Link to="https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001436.v1.p1" external>
       Kids First Neuroblastoma
     </Link>{', '}
-    <Link to="https://www.ccdatalab.org/openpbta" external>
-      OpenPBTA for the CBTN (v21)
+    <Link to="https://alexslemonade.github.io/OpenPBTA-manuscript/" external>
+      OpenPBTA for CBTN and PNOC (v21)
     </Link>{', '}
     <Link to="https://www.oncokb.org/news#07162021" external>
       OncoKB (v3.5)

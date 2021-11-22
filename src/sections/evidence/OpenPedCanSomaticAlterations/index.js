@@ -1,7 +1,7 @@
 export const definition = {
-  id: 'openPedCanSomaticMutations',
-  name: 'OpenPedCan Somatic Mutations',
-  shortName: 'SM',
+  id: 'openPedCanSomaticAlterations',
+  name: 'OpenPedCan Somatic Alterations',
+  shortName: 'SA',
   hasData: ( data ) => {
     const {snvByGene, snvByVariant, cnvByGene, fusionByGene, fusion} = data;
     const hasCount = snvByGene.count > 0 || snvByVariant.count > 0 || cnvByGene.count > 0 

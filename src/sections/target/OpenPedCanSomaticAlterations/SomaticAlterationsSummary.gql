@@ -1,7 +1,6 @@
-fragment evidenceSomaticMutationSummary on Disease {
+fragment targetSomaticAlterationsSummary on Target {
   snvByGene: evidences(
-    ensemblIds: [$ensgId]
-    enableIndirect: true
+    efoIds: []
     datasourceIds: ["chop_gene_level_snv"]
     size: 0
   ) {
@@ -9,8 +8,7 @@ fragment evidenceSomaticMutationSummary on Disease {
   }
 
   snvByVariant: evidences(
-    ensemblIds: [$ensgId]
-    enableIndirect: true
+    efoIds: []
     size: 0
     datasourceIds: ["chop_variant_level_snv"]
   ) {
@@ -18,8 +16,7 @@ fragment evidenceSomaticMutationSummary on Disease {
   }
 
   cnvByGene: evidences(
-    ensemblIds: [$ensgId]
-    enableIndirect: true
+    efoIds: []
     size: 0
     datasourceIds: ["chop_gene_level_cnv"]
   ) {
@@ -27,8 +24,7 @@ fragment evidenceSomaticMutationSummary on Disease {
   }
 
   fusionByGene: evidences(
-    ensemblIds: [$ensgId]
-    enableIndirect: true
+    efoIds: []
     size: 0
     datasourceIds: ["chop_putative_oncogene_fused_gene"]
   ) {
@@ -36,8 +32,7 @@ fragment evidenceSomaticMutationSummary on Disease {
   }
 
   fusion: evidences(
-    ensemblIds: [$ensgId]
-    enableIndirect: true
+    efoIds: []
     size: 0
     datasourceIds: ["chop_putative_oncogene_fusion"]
   ) {

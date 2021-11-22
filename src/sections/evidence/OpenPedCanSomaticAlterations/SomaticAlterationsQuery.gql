@@ -1,4 +1,8 @@
-query SomaticMutationQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+query SomaticAlterationsQuery(
+  $ensemblId: String!
+  $efoId: String!
+  $size: Int!
+) {
   snvByGene: disease(efoId: $efoId) {
     id
     evidences(

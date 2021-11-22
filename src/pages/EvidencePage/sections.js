@@ -21,10 +21,10 @@ import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
 import * as OpenPedCanGeneExpression from '../../sections/evidence/OpenPedCanGeneExpression';
-import * as OpenPedCanSomaticMutations from '../../sections/evidence/OpenPedCanSomaticMutations'
+import * as OpenPedCanSomaticAlterations from '../../sections/evidence/OpenPedCanSomaticAlterations'
 
 const sections = [
-  OpenPedCanSomaticMutations,
+  OpenPedCanSomaticAlterations,
   OpenPedCanGeneExpression,
   OTGenetics,
   PheWASCatalog,
