@@ -16,6 +16,10 @@ import { sentenceCase } from '../../../utils/global';
 const useStyles = makeStyles(theme => ({
   drawerLink: {
     cursor: 'pointer',
+    display: 'block',
+    maxWidth: '420px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   backdrop: {
     '& .MuiBackdrop-root': {

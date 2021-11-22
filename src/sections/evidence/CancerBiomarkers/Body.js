@@ -68,7 +68,6 @@ const columns = [
       return drug ? drug.name : drugFromSource;
     },
   },
-  { id: 'confidence', label: 'Source' },
   {
     id: 'drugResponse.name',
     label: 'Drug response',
@@ -78,6 +77,7 @@ const columns = [
       );
     },
   },
+  { id: 'confidence', label: 'Source' },
   {
     id: 'literature',
     label: 'Literature',
