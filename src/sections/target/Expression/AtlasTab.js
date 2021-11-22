@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import ErrorBoundary from '../../../components/ErrorBoundary';
 
 const ExpressionAtlasHeatmap = lazy(() =>
-  import('expression-atlas-heatmap-highcharts')
+  import('@ebi-gene-expression-group/expression-atlas-heatmap-highcharts')
 );
 
 const AtlasTab = ({ ensgId, symbol }) => {
@@ -29,6 +29,7 @@ const AtlasTab = ({ ensgId, symbol }) => {
             gene: ensgId,
             target: 'heatmapContainer',
           }}
+          showAnatomogram={false}
         />
       </Suspense>
     </ErrorBoundary>
