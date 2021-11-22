@@ -10,7 +10,7 @@ import { genericComparator } from '../../../utils/comparators'
 // Configuration for how the tables will display the data
 const columns = [
   {
-    id: 'geneSymbol', label: 'Target', sortable: true,
+    id: 'geneSymbol', label: 'Gene symbol', sortable: true,
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
@@ -49,13 +49,13 @@ const columns = [
 ];
 
 const dataDownloaderColumns = [
-  { id: 'geneSymbol', label: 'Target' },
+  { id: 'geneSymbol' },
   { id: 'variantIdHg38' },
   { id: 'proteinChange' },
   { id: 'PMTL' },
   { id: 'dataset' },
   { id: 'Disease' },
-  { id: 'diseaseFromSourceMappedId', label: 'EFO' },
+  { id: 'diseaseFromSourceMappedId', exportLabel: 'efo' },
   { id: 'MONDO' },
   { id: 'dbSNPId' },
   { id: 'vepImpact' },
@@ -64,10 +64,10 @@ const dataDownloaderColumns = [
   { id: 'variantClassification' },
   { id: 'variantType' },
   { id: 'geneFullName' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'targetFromSourceId', exportLabel: 'geneEnsemblId' },
   { id: 'proteinRefseqId' },
   { id: 'proteinEnsemblId' },
-  { id: 'totalMutationsOverPatientsInDataset', label: 'totalMutationsOverSubjectsInDataset'},
+  { id: 'totalMutationsOverPatientsInDataset', exportLabel: 'totalMutationsOverSubjectsInDataset'},
   { id: 'frequencyInOverallDataset' },
   { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
   { id: 'frequencyInPrimaryTumors' },

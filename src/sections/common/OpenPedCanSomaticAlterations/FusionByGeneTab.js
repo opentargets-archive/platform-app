@@ -9,7 +9,7 @@ import { genericComparator } from '../../../utils/comparators'
 
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'geneSymbol', label: 'Target', sortable: true,
+  { id: 'geneSymbol', label: 'Gene symbol', sortable: true,
       renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
@@ -36,19 +36,19 @@ const columns = [
   // { id: 'EFO', label: 'EFO', sortable: true},
 ]
 const dataDownloaderColumns = [
-  { id: 'geneSymbol', label: 'Target' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'geneSymbol' },
+  { id: 'targetFromSourceId', exportLabel: 'geneEnsemblId' },
   { id: 'Disease'},
   { id: 'PMTL' },
   { id: 'dataset' },
-  { id: 'totalAlterationsOverNumberPatientsInDataset', label: 'totalAlterationsOverSubjectsInDataset' },
+  { id: 'totalAlterationsOverNumberPatientsInDataset', exportLabel: 'totalAlterationsOverSubjectsInDataset' },
   { id: 'frequencyInOverallDataset' },
   { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
   { id: 'frequencyInPrimaryTumors' },
   { id: 'totalRelapseTumorsMutatedOverRelapseTumorsInDataset' },
   { id: 'frequencyInRelapseTumors' },
   { id: 'MONDO' },
-  { id: 'diseaseFromSourceMappedId', label: 'EFO' },
+  { id: 'diseaseFromSourceMappedId', exportLabel: 'efo' },
 ]
 
 function FusionByGeneTab({data, dataDownloaderFileStem}) {

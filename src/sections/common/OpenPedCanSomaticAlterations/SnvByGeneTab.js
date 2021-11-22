@@ -15,7 +15,7 @@ const createExternalLink = (url, description) => {
 // Configuration for how the tables will display the data
 const columns = [
   {
-    id: 'geneSymbol', label: 'Target', sortable: true,
+    id: 'geneSymbol', label: 'Gene symbol', sortable: true,
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
@@ -54,18 +54,18 @@ const columns = [
 ]
 
 const dataDownloaderColumns = [
-  { id: 'geneSymbol', label: 'Target'},
+  { id: 'geneSymbol' },
   { id: 'PMTL' },
   { id: 'dataset' },
   { id: 'Disease' },
-  { id: 'diseaseFromSourceMappedId', label:'EFO' },
+  { id: 'diseaseFromSourceMappedId', exportLabel:'efo' },
   { id: 'MONDO' },
   { id: 'geneFullName' },
   { id: 'geneType' },
   { id: 'proteinRefseqId' },
-  { id: 'targetFromSourceId', label: 'geneEnsemblID' },
+  { id: 'targetFromSourceId', exportLabel: 'geneEnsemblId' },
   { id: 'proteinEnsemblId' },
-  { id: 'totalMutationsOverPatientsInDataset', label: 'totalMutationsOverSubjectsInDataset' },
+  { id: 'totalMutationsOverPatientsInDataset', exportLabel: 'totalMutationsOverSubjectsInDataset' },
   { id: 'frequencyInOverallDataset' },
   { id: 'totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset' },
   { id: 'frequencyInPrimaryTumors' },
@@ -73,8 +73,8 @@ const dataDownloaderColumns = [
   { id: 'frequencyInRelapseTumors' },
   { id: 'OncoKBCancerGene' },
   { id: 'OncoKBOncogeneTSG' },
-  { id: 'pedcbioPedotOncoprintPlotURL', label: 'pedcbioPedotOncoprintPlot'},
-  { id: 'pedcbioPedotMutationsPlotURL', label: 'pedcbioPedotMutationPlot' },
+  { id: 'pedcbioPedotOncoprintPlotURL', exportLabel: 'pedcbioPedotOncoprintPlot'},
+  { id: 'pedcbioPedotMutationsPlotURL', exportLabel: 'pedcbioPedotMutationPlot' },
 ]
 
 function SnvByGeneTab({data, dataDownloaderFileStem}) {
