@@ -104,7 +104,7 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
               {tab === 'linear' ? (
                 <>
                   <Grid container>
-                    <DataDownloader rows={json} columns={columns} fileStem={fileStem}/>
+                    <DataDownloader rows={json} columns={columns} fileStem={fileStem} captionLabel="Download data as"/>
                     <Grid item xs={12} style={{overflow: 'auto'}}>
                       <img src={`data:image/png;base64,${linearPlot}`}
                         width={imageWidth} height={imageHeight} alt={`${imageAlt} TPM boxplot (Linear)`} />
@@ -116,12 +116,12 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
               {tab === 'log10' ? (
                 <>
                   <Grid container>
-                    <DataDownloader rows={json} columns={columns} fileStem={fileStem}/>
+                    <DataDownloader rows={json} columns={columns} fileStem={fileStem} captionLabel="Download data as"/>
                     <Grid item xs={12} style={{overflow: 'auto'}}>
                       <img src={`data:image/png;base64,${log10Plot}`}
                       width={imageWidth} height={imageHeight} alt={`${imageAlt} TPM boxplot (Lag10)`} />
                     </Grid>
-                </Grid>
+                  </Grid>
                 </>
               ) : null}
             </>
