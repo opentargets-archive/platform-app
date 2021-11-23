@@ -109,7 +109,7 @@ const styles = makeStyles({
   },
 });
 
-function DataDownloader({ columns, rows, fileStem }) {
+function DataDownloader({ columns, rows, fileStem, captionLabel="Download table as" }) {
   const [downloading, setDownloading] = useState(false);
   const classes = styles();
 
@@ -147,7 +147,7 @@ function DataDownloader({ columns, rows, fileStem }) {
     <>
       <Grid container alignItems="center" justify="flex-end" spacing={1}>
         <Grid item>
-          <Typography variant="caption">Download table as</Typography>
+          <Typography variant="caption">{captionLabel}</Typography>
         </Grid>
         <Grid item>
           <Button
