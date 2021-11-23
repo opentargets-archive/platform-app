@@ -85,8 +85,8 @@ export const mainMenuItems = config.profile.mainMenuItems ?? [
   // API
   {
     name: 'API',
-    url: config.urlApi.split('/api/v4/graphql')[0],
-    external: true,
+    url: '/api',
+    external: false,
   },
   // Community
   {
