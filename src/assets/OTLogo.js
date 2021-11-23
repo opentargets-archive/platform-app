@@ -1,5 +1,6 @@
 import React from 'react';
 import { SvgIcon, makeStyles } from '@material-ui/core';
+import config from '../config';
 
 const useStyles = makeStyles({
   root: {
@@ -9,8 +10,8 @@ const useStyles = makeStyles({
 
 const OTLogo = props => {
   const classes = useStyles();
-  // TODO: version should come from config
-  const version = 'Partners Preview';
+  const tagline = config.profile.otLogoTagline ?? '';
+
   return (
     <SvgIcon
       xmlns="http://www.w3.org/2000/svg"
@@ -56,9 +57,9 @@ const OTLogo = props => {
           fontFamily: 'Inter, sans-serif',
         }}
         transform="translate(1660 261.35)"
-        text-anchor="end"
+        textAnchor="end"
       >
-        <tspan>{version}</tspan>
+        <tspan>{tagline}</tspan>
       </text>
     </SvgIcon>
   );
