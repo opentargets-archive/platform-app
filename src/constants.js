@@ -54,9 +54,9 @@ export const externalLinks = {
       url: 'https://platform-docs.opentargets.org',
     },
     {
-      label: config.helpdeskEmail,
+      label: config.profile.helpdeskEmail,
       icon: faEnvelope,
-      url: `mailto:${config.helpdeskEmail}`,
+      url: `mailto:${config.profile.helpdeskEmail}`,
     },
   ],
   social: [
@@ -97,7 +97,7 @@ export const mainMenuItems = config.profile.mainMenuItems ?? [
   // Contact
   {
     name: 'Contact us',
-    url: `mailto:${config.helpdeskEmail}`,
+    url: `mailto:${config.profile.helpdeskEmail}`,
     external: true,
   },
 ];

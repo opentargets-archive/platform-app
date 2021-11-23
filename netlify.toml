@@ -3,8 +3,3 @@
   from = "/*"
   to = "/index.html"
   status = 200
-
-[context.production.environment]
-
-[context.lf-config-profiles.environment]
-  REACT_APP_configUrlApi = "https://api.partner-platform.opentargets.org/api/v4/graphql"

@@ -5,6 +5,8 @@ var configProfile = {
   helpdeskEmail: 'helpdesk@opentargets.org',
   // config navbar main menu (hamburger)
   // mainMenuItems: [],
+  // homepage logo subtitle (tagline)
+  otLogoTagline: 'Partner Preview',
 
   /* colors */
 
