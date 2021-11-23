@@ -15,10 +15,17 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import 'graphiql/graphiql.min.css';
-import config from '../../config';
+import { fetcher } from '../../utils/global';
 import Link from '../Link';
 
-const GraphiQL = lazy(() => import('graphiql'));
+// lazy load GraphiQL and remove Logo and Toolbar
+const GraphiQL = lazy(() =>
+  import('graphiql').then(module => {
+    module.default.Logo = () => null;
+    module.default.Toolbar = () => null;
+    return module;
+  })
+);
 
 const asJSON = (columns, rows) => {
   const rowStrings = rows.map(row => {
@@ -142,21 +149,6 @@ const styles = makeStyles(theme => ({
     height: '100%',
   },
 }));
-
-const fetcher = async graphQLParams => {
-  const data = await fetch(config.urlApi, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(graphQLParams),
-  });
-  return data.json();
-};
-
-// this removes the logo of the playground
-GraphiQL.Logo = () => null;
 
 function DataDownloader({ columns, rows, fileStem, query, variables }) {
   const [downloading, setDownloading] = useState(false);

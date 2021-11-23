@@ -17,8 +17,42 @@ const boxPadding = boxHeight / 4;
 const margin = { top: 40, right: 20, bottom: 20, left: 220 };
 const outlierRadius = 2;
 
+function getTextWidth(text, fontSize, fontFace) {
+  const canvas = document.createElement('canvas'),
+    context = canvas.getContext('2d');
+  context.font = `${fontSize}px ${fontFace}`;
+  return context.measureText(text).width;
+}
+
+function getLongestId(data) {
+  let longestId = '';
+  data.forEach(d => {
+    if (d.tissueSiteDetailId.length > longestId.length) {
+      longestId = d.tissueSiteDetailId;
+    }
+  });
+  return longestId;
+}
+
+function buildTooltip(X, tooltipObject, data) {
+  return Object.keys(tooltipObject)
+    .map(field => {
+      const value =
+        data[field] === null
+          ? 'N/A'
+          : data[field].toFixed(tooltipObject[field]['roundDigits']);
+      return (
+        `<tspan x='${X}' dy='1.2em' style="font-weight: bold;">` +
+        `${tooltipObject[field]['label']}: </tspan>` +
+        `<tspan>${value}</tspan>`
+      );
+    })
+    .join('');
+}
+
 class GtexVariability extends Component {
   boxPlotRef = React.createRef();
+  tooltipRef = React.createRef();
   xAxisRef = React.createRef();
   yAxisRef = React.createRef();
   xAxis = axisTop();
@@ -29,6 +63,7 @@ class GtexVariability extends Component {
 
   render() {
     const { theme, data } = this.props;
+    margin['left'] = getTextWidth(getLongestId(data), 12, 'Arial');
 
     const height = data.length * boxHeight + margin.top + margin.bottom;
 
@@ -53,6 +88,10 @@ class GtexVariability extends Component {
         />
         <g
           ref={this.yAxisRef}
+          transform={`translate(${margin.left}, ${margin.top})`}
+        />
+        <g
+          ref={this.tooltipRef}
           transform={`translate(${margin.left}, ${margin.top})`}
         />
       </svg>
@@ -86,6 +125,51 @@ class GtexVariability extends Component {
 
     colour.domain(data.map(d => d.tissueSiteDetailId)).range(schemeCategory10);
 
+    const tooltipTextFields = {
+      lowerLimit: {
+        label: 'lower limit',
+        roundDigits: 1,
+      },
+      q1: {
+        label: 'q1',
+        roundDigits: 1,
+      },
+      median: {
+        label: 'median',
+        roundDigits: 1,
+      },
+      q3: {
+        label: 'q3',
+        roundDigits: 1,
+      },
+      upperLimit: {
+        label: 'upper limit',
+        roundDigits: 1,
+      },
+    };
+
+    const tooltipSettings = {
+      fontSize: 12,
+      fontFamily: 'sans-serif',
+      offsetText: 5,
+      offsetX: 10,
+      offsetY: boxHeight / 2 + 5,
+    };
+
+    const tooltip = select(this.tooltipRef.current);
+
+    const tooltipRect = tooltip
+      .append('rect')
+      .style('fill', 'white')
+      .style('opacity', 0.8)
+      .style('visibility', 'hidden');
+
+    const tooltipText = tooltip
+      .append('text')
+      .style('font-family', tooltipSettings['fontFamily'])
+      .style('font-size', `${tooltipSettings['fontSize']}px`)
+      .style('visibility', 'hidden');
+
     const boxPlot = select(this.boxPlotRef.current);
 
     const boxContainer = boxPlot
@@ -110,7 +194,61 @@ class GtexVariability extends Component {
       )
       .attr('width', d => x(d.q3) - x(d.q1))
       .attr('height', rectHeight)
-      .attr('fill', d => colour(d.tissueSiteDetailId));
+      .attr('fill', d => colour(d.tissueSiteDetailId))
+      .on('mouseover', function(d) {
+        var X =
+          parseFloat(select(this).attr('x')) +
+          parseFloat(select(this).attr('width')) +
+          tooltipSettings['offsetX'];
+        var Y = parseFloat(select(this).attr('y')) + tooltipSettings['offsetY'];
+
+        tooltipText
+          .attr('y', Y)
+          .html(
+            buildTooltip(
+              X + tooltipSettings['offsetText'],
+              tooltipTextFields,
+              d
+            )
+          )
+          .style('visibility', 'visible');
+
+        const bbox = tooltip
+          .select('text')
+          .node()
+          .getBBox();
+
+        // keep tooltip box within SVG (X axis)
+        if (margin.left + X + bbox.width + margin.right > width) {
+          X = width - margin.right - bbox.width - margin.left;
+          // re-build tooltip string; this is necessary because the X coordinate
+          // is part of the tooltip string
+          tooltipText.html(
+            buildTooltip(
+              X + tooltipSettings['offsetText'],
+              tooltipTextFields,
+              d
+            )
+          );
+        }
+
+        // keep tooltip box within SVG (Y axis)
+        if (margin.top + Y + bbox.height + margin.bottom > height) {
+          Y = height - margin.top - bbox.height - margin.bottom;
+          tooltipText.attr('y', Y);
+        }
+
+        tooltipRect
+          .attr('x', X)
+          .attr('y', Y)
+          .attr('width', bbox.width + 10)
+          .attr('height', bbox.height + 10)
+          .style('visibility', 'visible');
+      })
+      .on('mouseout', function() {
+        tooltipRect.style('visibility', 'hidden');
+        tooltipText.style('visibility', 'hidden');
+      });
 
     boxContainer
       .append('line')

@@ -1,6 +1,12 @@
-query Safety($ensemblId: String!) {
-  target(ensemblId: $ensemblId) {
+query targetAnnotation {
+  target(ensemblId: "ENSG00000169083") {
     id
+    approvedSymbol
+    tractability {
+      modality
+      id
+      value
+    }
     safetyLiabilities {
       event
       eventId
@@ -21,7 +27,6 @@ query Safety($ensemblId: String!) {
       }
       datasource
       literature
-      url
     }
   }
 }

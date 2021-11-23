@@ -22,6 +22,7 @@ import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
 import * as OTCRISPR from '../../sections/evidence/OTCRISPR';
 import * as OTEncore from '../../sections/evidence/OTEncore';
+import * as CancerBiomarkers from '../../sections/evidence/CancerBiomarkers';
 
 import config from '../../config';
 
@@ -40,6 +41,7 @@ const sections = [
   EVASomatic,
   Chembl,
   CRISPR,
+  CancerBiomarkers,
   SlapEnrich,
   Progeny,
   Reactome,

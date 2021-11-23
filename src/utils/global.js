@@ -1,4 +1,5 @@
 import { format } from 'd3-format';
+import config from '../config';
 
 export const safeToString = x => {
   switch (typeof x) {
@@ -57,4 +58,16 @@ export function clearDescriptionCodes(descriptions, themeColor) {
     const parsedDesc = desc.slice(0, codeStart);
     return parsedDesc.replace(/Pubmed:\d+/gi, makePmidLink(themeColor));
   });
+}
+
+export async function fetcher(graphQLParams) {
+  const data = await fetch(config.urlApi, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(graphQLParams),
+  });
+  return data.json();
 }
