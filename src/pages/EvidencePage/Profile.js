@@ -45,6 +45,7 @@ const EVIDENCE_PROFILE_QUERY = gql`
 function Profile({ ensgId, efoId, symbol, name }) {
   return (
     <PlatformApiProvider
+      lsSectionsField="evidence"
       entity="disease"
       query={EVIDENCE_PROFILE_QUERY}
       variables={{ ensgId, efoId }}
