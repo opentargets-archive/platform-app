@@ -2,6 +2,7 @@
 var configProfile = {
   /* general items */
 
+  googleTagManagerID: null,
   helpdeskEmail: 'helpdesk@opentargets.org',
   // config navbar main menu (hamburger)
   // mainMenuItems: [],
