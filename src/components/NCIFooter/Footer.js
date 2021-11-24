@@ -182,17 +182,30 @@ const styles = () => ({
       width: 'calc((100vw)/4)',
     },
   },
+  nciFooterTitle: {
+    fontFamily: 'Montserrat', 
+    fontWeight: 'bold', 
+    fontSize: '25pt', 
+    lineHeight: '26pt', 
+    color: '#fff'
+  },
+  nihFooterTitle: {
+    fontSize: '16pt', 
+    display: 'block'
+  }
 });
 
 const Footer = ({ classes, data }) => (
   <div className={classes.footerRoot}>
     <div className={classes.footerComponent}>
       <div className={cn(classes.footerRow,classes.padding20)}>
-        <div className={
-            cn(classes.footerRowSection, classes.footerNciColumn, classes.marginRight40)
-  }
-        >
-          {data.footerLogoHyperlink
+        <div>
+          <h1 NCIFooterTitle className={classes.nciFooterTitle}>
+            National Cancer Institute
+            <span className={classes.nihFooterTitle} > at the National Institutes of Health</span>
+          </h1>
+       
+         {/*} {data.footerLogoHyperlink
             ? (
               <RouteLinks to={data.footerLogoHyperlink} className={classes.nciLogo}>
                 <img
@@ -207,7 +220,7 @@ const Footer = ({ classes, data }) => (
                 alt={data.footerLogoAltText}
                 className={classes.nciLogo}
               />
-            )}
+            )}*/}
         </div>
         { data.link_sections.slice(0, 3).map((linkSection) => (
           <div className={classes.footerRowSectionLinks}>
