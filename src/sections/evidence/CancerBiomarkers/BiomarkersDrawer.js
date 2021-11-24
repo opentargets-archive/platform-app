@@ -98,14 +98,16 @@ function BiomarkersDrawer({ biomarkerName, biomarkers }) {
                     {variant.name}{' '}
                     {variant.variantId ? `(ID: ${variant.variantId})` : null}
                   </div>
-                  <Link
-                    external
-                    to={`https://identifiers.org/${
-                      variant.functionalConsequenceId.id
-                    }`}
-                  >
-                    {sentenceCase(variant.functionalConsequenceId.label)}
-                  </Link>
+                  {variant.functionalConsequenceId ? (
+                    <Link
+                      external
+                      to={`https://identifiers.org/${
+                        variant.functionalConsequenceId.id
+                      }`}
+                    >
+                      {sentenceCase(variant.functionalConsequenceId.label)}
+                    </Link>
+                  ) : null}
                 </div>
               );
             })}
