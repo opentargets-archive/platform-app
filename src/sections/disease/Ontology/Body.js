@@ -10,7 +10,7 @@ function Body({ definition, id: efoId, label: name }) {
 
   useEffect(() => {
     let isCurrent = true;
-    fetch(config.efoURL)
+    fetch(config.profile.efoURL)
       .then(res => res.text())
       .then(lines => {
         if (isCurrent) {

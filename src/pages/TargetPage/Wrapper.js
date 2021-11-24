@@ -20,7 +20,7 @@ function Wrapper({ ensemblId, symbol, Component, aggregationFilters }) {
     () => {
       let isCurrent = true;
       const promises = [
-        fetch(config.efoURL).then(res => res.text()),
+        fetch(config.profile.efoURL).then(res => res.text()),
         getAllAssociations(),
       ];
       Promise.all(promises).then(data => {
