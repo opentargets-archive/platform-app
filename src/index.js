@@ -8,8 +8,8 @@ import config from './config';
 import 'typeface-inter';
 import './index.scss';
 
-if (config.googleTagManagerID) {
-  TagManager.initialize({ gtmId: config.googleTagManagerID });
+if (config.profile.googleTagManagerID) {
+  TagManager.initialize({ gtmId: config.profile.googleTagManagerID });
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
