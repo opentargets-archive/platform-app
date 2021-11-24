@@ -3,6 +3,7 @@ var configProfile = {
   /* general items */
 
   googleTagManagerID: 'GTM-WPXWRDV',
+  efoURL: '/data/ontology/efo_json/diseases_efo.jsonl',
   helpdeskEmail: 'helpdesk@opentargets.org',
   // config navbar main menu (hamburger)
   // mainMenuItems: [],
