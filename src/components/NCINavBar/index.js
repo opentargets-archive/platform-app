@@ -63,6 +63,11 @@ export const navBarData = [
     type: 'link',
     link: '/about',
   },
+  {
+    labelText: 'CHOP Target Disease Data',
+    type: 'link',
+    link: '/chopTargetDiseaseData',
+  },
 ];
 
 
