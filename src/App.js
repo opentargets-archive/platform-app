@@ -18,6 +18,7 @@ import PMTLDocPage from './pages/PMTLDocPage';
 import NotFoundPage from './pages/NotFoundPage';
 import PMTLPage from './pages/PMTLPage/PMTLPage';
 import AboutPage from './pages/AboutPage';
+import CHOPTargetDiseasePage from './pages/CHOPTargetDiseasePage'
 
 class App extends Component {
   componentDidMount() {
@@ -45,6 +46,7 @@ class App extends Component {
                 <Route path="/About" component={AboutPage} />
                 <Route path="/fda-pmtl" component={PMTLPage} />
                 <Route path="/fda-pmtl-docs" component={PMTLDocPage} />
+                <Route path="/chopTargetDiseaseData" component={CHOPTargetDiseasePage} />
                 <Route component={NotFoundPage} />
               </Switch>
             </Router>
