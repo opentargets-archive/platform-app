@@ -185,12 +185,12 @@ const styles = () => ({
   nciFooterTitle: {
     fontFamily: 'Montserrat', 
     fontWeight: 'bold', 
-    fontSize: '25pt', 
-    lineHeight: '26pt', 
+    fontSize: '25px', 
+    lineHeight: '26px', 
     color: '#fff'
   },
   nihFooterTitle: {
-    fontSize: '16pt', 
+    fontSize: '16px', 
     display: 'block'
   }
 });
