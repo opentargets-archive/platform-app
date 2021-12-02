@@ -4,7 +4,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/58a127ca-67c0-4cc3-b9e3-88dad47cfc7f/deploy-status)](https://app.netlify.com/sites/platform-app/deploys)
 
 
-The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the [Open Targets Platform](https://www.targetvalidation.org) outbounnd web site icon with a focus on pediatric cancerdata. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. The Molecular Targets Platform builds uponthe data and functionality of the Open Targets Platform while also including:
+The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the [Open Targets Platform](https://www.targetvalidation.org) with a focus on pediatric cancerdata. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. The Molecular Targets Platform builds uponthe data and functionality of the Open Targets Platform while also including:
 
 <ul>
   <li>The FDA Pediatric Molecular Target Lists (FDA PMTL)</li>
