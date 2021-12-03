@@ -189,7 +189,7 @@ const styles = () => ({
     lineHeight: '26px', 
     color: '#fff'
   },
-  nihFooterTitle: {
+  nciFooterSubTitle: {
     fontSize: '16px', 
     display: 'block'
   }
@@ -200,27 +200,10 @@ const Footer = ({ classes, data }) => (
     <div className={classes.footerComponent}>
       <div className={cn(classes.footerRow,classes.padding20)}>
         <div>
-          <h1 NCIFooterTitle className={classes.nciFooterTitle}>
-            National Cancer Institute
-            <span className={classes.nihFooterTitle} > at the National Institutes of Health</span>
+          <h1 className={classes.nciFooterTitle}>
+            {data.footerTitle} 
+            <span className={classes.nciFooterSubTitle}> {data.footerSubTitle} </span>
           </h1>
-       
-         {/*} {data.footerLogoHyperlink
-            ? (
-              <RouteLinks to={data.footerLogoHyperlink} className={classes.nciLogo}>
-                <img
-                  src={data.footerLogoImage}
-                  alt={data.footerLogoAltText}
-                  id="footer_logo_image"
-                />
-              </RouteLinks>
-            ) : (
-              <img
-                src={data.footerLogoImage}
-                alt={data.footerLogoAltText}
-                className={classes.nciLogo}
-              />
-            )}*/}
         </div>
         { data.link_sections.slice(0, 3).map((linkSection) => (
           <div className={classes.footerRowSectionLinks}>
