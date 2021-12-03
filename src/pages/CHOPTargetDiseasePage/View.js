@@ -298,13 +298,13 @@ class CHOPPage extends Component {
     this.columnFilterHandler(e, selection, this.rmtlXf, this.GeneExpressionDim);
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.filteredRows.length !== nextProps.data.length) {
-          return { filteredRows: getRows(nextProps.data) };
-        }
-    
-        return null;
+  /*static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.filteredRows.length !== nextProps.data.length) {
+      return { filteredRows: getRows(nextProps.data) };
     }
+
+    return null;
+  }*/
 
   componentDidMount() {
     const { data} = this.props;

@@ -24,6 +24,6 @@ function CHoPPage() {
     fetchData();
   },[data.length]);
 
-  return (<View data={data} />);
+  return data ? data.length !==0 ? (<View data={data} />) : <></>:<></>;
 }
 export default CHoPPage;
