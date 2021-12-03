@@ -142,7 +142,7 @@ const AboutView = ({ data }) => {
           In accordance with the Race to Accelerate Cures and Equity (RACE) for Children Act, the FDA and NCI generated two lists: 
           one list of molecular targets relevant to the growth of pediatric cancers and one list of molecular targets not relevant 
           to the growth of pediatric cancers. The Molecular Targets Platform integrates a computable interpretation of these lists 
-          in order tobetter inform decisions and improve treatments for childhood cancers. To read more about the implementation 
+          in order to better inform decisions and improve treatments for childhood cancers. To read more about the implementation 
           of the FDA PMTL within the Molecular Targets Platform, read our detailed 
           <Link to="/fda-pmtl-docs">{' '} 
             FDA PMTL Documentation.
@@ -375,7 +375,7 @@ const AboutView = ({ data }) => {
     return (
       <div className={classes.listContent}>
         <p>
-          OpenPedCan Gene ExpressionThe OpenPedCan Gene Expression plots visualize mRNA expression of Targets within pediatric cancers. 
+          The OpenPedCan Gene Expression plots visualize mRNA expression of Targets within pediatric cancers. 
           The expression is measured in Transcript Per Million (TPM) and is viewable with either a linear or log<span className={classes.log10}>10</span> scale. 
           The OpenPedCan Gene Expression plots are accessible on both the Target and Evidence pages, 
           though the views differ:
@@ -384,8 +384,8 @@ const AboutView = ({ data }) => {
             <li><b>Evidence Page</b>: expression of specific Target in singlepediatric cancer alongside expression of the sameTarget across normal adult GTEx tissue</li>
           </ul> <br />
 
-          The data within the OpenPedCan Gene Expression plots is derived from several source datasets. A single frequency boxfor each canceris 
-          calculated and displayed foreach dataset. Some cancers are present in more than one dataset; these also have a frequency box calculated 
+          The data within the OpenPedCan Gene Expression plots is derived from several source datasets. A single frequency box for each cancer is 
+          calculated and displayed for each dataset. Some cancers are present in more than one dataset; these also have a frequency box calculated 
           across all datasets and designated as “All Cohorts”. 
         </p>
         <p>
@@ -445,19 +445,19 @@ const AboutView = ({ data }) => {
           <Link to="https://platform.opentargets.org/" external>{' '} 
             Open Target Platform<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
           </Link>
-          with a focus on pediatric cancerdata. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. 
-          The Molecular Targets Platform builds uponthe data and functionality of the Open Targets Platform while also including: 
+          with a focus on pediatric cancer data. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. 
+          The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including: 
         </Typography>
         
         <ul>
           <li>The FDA Pediatric Molecular Target Lists (FDA PMTL)</li>
           <li>
-          Analysesof pediatric oncology datasets from the Open Pediatric Cancer (OpenPedCan) project at the
+          Analyses of pediatric oncology datasets from the Open Pediatric Cancer (OpenPedCan) project at the
           Children's Hospital of Philadelphia:
             <ul>
               <li>Therapeutically Applicable Research to Generate Effective Treatments (TARGET)</li>
               <li>Open Pediatric Brain Tumor Atlas (OpenPBTA) </li>
-              <li>Gabriella Miller Kids First (Kids First) Neuroblastoma(Kids First)</li>
+              <li>Gabriella Miller Kids First (Kids First) Neuroblastoma</li>
             </ul>
           </li>
         </ul>
@@ -520,14 +520,14 @@ const AboutView = ({ data }) => {
         </div>*/}
         
         <Typography paragraph>
-          The Open Targets Platform is not an NCI program; their site is not affiliated withthe NCI or any other US government agency. 
+          The Open Targets Platform is not an NCI program; their site is not affiliated with the NCI or any other US government agency. 
           However, the Open Targets Platform is an open-source product, meaning that the data and code are shared freely with other 
-          organizations for development.The NCI has added pediatric cancer data and additional functionality into a separate instance 
-          of the Open Targets Platform under NCI control –the Molecular Targets Platform.
+          organizations for development. The NCI has added pediatric cancer data and additional functionality into a separate instance 
+          of the Open Targets Platform under NCI control – the Molecular Targets Platform.
         </Typography>
         <Typography paragraph>
           This About page will document all of the new data and features present in the Molecular Targets Platform. 
-          For detailed descriptions and tutorialsof the built-in functions of the Open Targets Platform, please see their 
+          For detailed descriptions and tutorials of the built-in functions of the Open Targets Platform, please see their 
           <Link to="https://platform-docs.opentargets.org/" external>{' '} 
             documentation<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
           </Link> 
@@ -544,7 +544,7 @@ const AboutView = ({ data }) => {
         </Typography>
 
         <Typography paragraph className={classes.space}>
-          The Open Targets Platform undergoes regular updates to add new data and functionalities, which are integratedinto the Molecular 
+          The Open Targets Platform undergoes regular updates to add new data and functionalities, which are integrated into the Molecular 
           Targets Platform as soon as possible.
         </Typography>
         
