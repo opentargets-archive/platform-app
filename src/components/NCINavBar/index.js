@@ -64,9 +64,9 @@ export const navBarData = [
     link: '/about',
   },
   {
-    labelText: 'CHOP Target Disease Data',
+    labelText: 'Pediatric Cancer Data Navigation',
     type: 'link',
-    link: '/chopTargetDiseaseData',
+    link: '/pediatric-cancer-data-navigation',
   },
 ];
 
