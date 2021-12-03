@@ -360,11 +360,14 @@ class View extends Component {
     const rowsPerPageOptions = [10, 25, 50];
    
     return (
-      <BasePage title="CHOP Target Disease Data">
+      <BasePage title="Pediatric Cancer Data Navigation">
         <Typography variant="h4" component="h1" paragraph>
-          CHOP Target Disease Data - EXAMPLE
+          Pediatric Cancer Data Navigation
         </Typography>
         <br />
+        <Typography component="p" paragraph>
+          (This page is under active development)
+        </Typography>
           
         <hr />
         <br />
@@ -372,7 +375,6 @@ class View extends Component {
           <Box m={2}>
             {loading || error ? null : (
               <>
-        
                 <DataDownloader
                   tableHeaders={downloadColumns}
                   rows={downloadRows}
