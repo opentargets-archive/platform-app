@@ -258,7 +258,7 @@ const getGeneExpressionOptions = rows => {
   }));
 };
 
-class CHOPPage extends Component {
+class View extends Component {
   state = {
     filteredRows: [],
     pageSize: 25,
@@ -394,4 +394,4 @@ class CHOPPage extends Component {
     );
   }
 }
-export default CHOPPage;
+export default View;
