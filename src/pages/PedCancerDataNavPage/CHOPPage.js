@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import View from './View';
 
-const CHoP_CONTENT_URL = "https://raw.githubusercontent.com/CBIIT/ppdc-config/main/front-end/page_CHoP/chopTargetDiseaseData-EXAMPLE.json";
+const CHoP_CONTENT_URL = "https://gl.githack.com/yizhenchen/dummy-data/-/raw/main/chopDataNavigationTable_SA_GX.json";
 
 function CHoPPage() {
   const [data, setData] = useState([]);
