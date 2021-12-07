@@ -262,6 +262,7 @@ class View extends Component {
   state = {
     filteredRows: [],
     pageSize: 25,
+    loading: true,
   };
   // Generic Function to handle column filtering
   columnFilterHandler = (e, selection, rmtlXf, columnDim) => {
@@ -298,29 +299,33 @@ class View extends Component {
     this.columnFilterHandler(e, selection, this.rmtlXf, this.GeneExpressionDim);
   };
 
-  /*static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.filteredRows.length !== nextProps.data.length) {
-      return { filteredRows: getRows(nextProps.data) };
+
+  componentDidUpdate(nextProps,prevState) {
+
+     const { data} = nextProps;
+
+    if (nextProps.data.length ===0 ) {
+        return this.setState({ loading: true, });
+    }else{
+        if(prevState.filteredRows.length === 0){
+
+        const rows = getRows(data);
+
+        this.rmtlXf = crossfilter(rows);
+        this.geneSymbolDim = this.rmtlXf.dimension(row => row.geneSymbol);
+        this.DiseaseDim = this.rmtlXf.dimension(row => row.Disease);
+        this.SNVDim = this.rmtlXf.dimension(row => row.SNV);
+        this.CNVDim = this.rmtlXf.dimension(row => row.CNV);
+        this.FusionDim = this.rmtlXf.dimension(row => row.Fusion);
+        this.GeneExpressionDim = this.rmtlXf.dimension(row => row.GeneExpression);
+
+        this.setState({
+          filteredRows: rows,
+          loading: false,
+        });
+      }
     }
-
     return null;
-  }*/
-
-  componentDidMount() {
-    const { data} = this.props;
-    this.setState({
-      filteredRows: getRows(data),
-    });
-
-    this.rmtlXf = crossfilter(getRows(this.props.data));
-    this.geneSymbolDim = this.rmtlXf.dimension(row => row.geneSymbol);
-    this.DiseaseDim = this.rmtlXf.dimension(row => row.Disease);
-
-    this.SNVDim = this.rmtlXf.dimension(row => row.SNV);
-    this.CNVDim = this.rmtlXf.dimension(row => row.CNV);
-    this.FusionDim = this.rmtlXf.dimension(row => row.Fusion);
-    this.GeneExpressionDim = this.rmtlXf.dimension(row => row.GeneExpression);
-
   }
 
   handleRowsPerPageChange = newPageSize => {
@@ -333,8 +338,9 @@ class View extends Component {
     const downloadRows = getDownloadRows(this.props.data);
     const { filteredRows, pageSize } = this.state;
 
-    const loading = false,
+    const loading = this.state.loading,
       error = false;
+
     const geneSymbolOptions = getGeneSymbolOptions(rows);
     const DiseaseOptions = getDiseaseOptions(rows);
 
@@ -373,7 +379,7 @@ class View extends Component {
         <br />
         <Paper variant="outlined" elevation={0}>
           <Box m={2}>
-            {loading || error ? null : (
+            {error ? null : (
               <>
                 <DataDownloader
                   tableHeaders={downloadColumns}
@@ -387,6 +393,7 @@ class View extends Component {
                   pageSize={pageSize}
                   onRowsPerPageChange={this.handleRowsPerPageChange}
                   rowsPerPageOptions={rowsPerPageOptions}
+                  loading = {loading}
                 />
               </>
             )}

@@ -17,13 +17,13 @@ function CHoPPage() {
             resultData = result.data;
         }
       } catch (error) {
-        resultData = "Under Development ... ";
+        resultData = [];
       }
       setData(resultData);
     };
     fetchData();
   },[data.length]);
 
-  return data ? data.length !==0 ? (<View data={data} />) : <></>:<></>;
+  return <View data={data} /> ;
 }
 export default CHoPPage;
