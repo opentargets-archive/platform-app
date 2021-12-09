@@ -66,7 +66,7 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
     { id: 'PMTL' },
     { id: 'Dataset' },
     { id: 'Disease' },
-    { id: 'GTEx_tissue_subgroup' },
+    { id: 'GTEx_tissue_subgroup', exportLabel: 'gtexTissueSubgroup' },
     { id: 'EFO' },
     { id: 'MONDO' },
     { id: 'GTEx_tissue_subgroup_UBERON' },
