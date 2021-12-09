@@ -69,7 +69,7 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
     { id: 'GTEx_tissue_subgroup', exportLabel: 'gtexTissueSubgroup' },
     { id: 'EFO' },
     { id: 'MONDO' },
-    { id: 'GTEx_tissue_subgroup_UBERON' },
+    { id: 'GTEx_tissue_subgroup_UBERON', exportLabel: 'gtexTissueSubgroupUberon' },
     { id: 'TPM_mean' },
     { id: 'TPM_sd' },
     { id: 'TPM_min' },
