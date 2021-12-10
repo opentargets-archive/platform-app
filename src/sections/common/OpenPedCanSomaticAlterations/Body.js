@@ -10,13 +10,14 @@ import SnvByVariantTab from './SnvByVariantTab';
 import CnvByGeneTab from './CnvByGeneTab';
 import FusionByGeneTab from './FusionByGeneTab';
 import FusionTab from './FusionTab';
+import { getSADefaultTab } from './utils'
 
-function Body({ definition, id, label, entity, variables, BODY_QUERY, Description, dataDownloaderFileStem}) {
+function Body({ definition, id, label, entity, variables, BODY_QUERY, summaryRequest, Description, dataDownloaderFileStem}) {
 
   const request = useQuery(BODY_QUERY, {
     variables: { ...variables, size: 9999 },
   });
-  const defaultTab = "snvByGene";
+  const defaultTab = getSADefaultTab(summaryRequest.data);
   const [tab, setTab] = useState(defaultTab);
 
   const handleChangeTab = (_, tab) => {
