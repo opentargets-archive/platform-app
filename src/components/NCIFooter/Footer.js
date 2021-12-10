@@ -182,32 +182,28 @@ const styles = () => ({
       width: 'calc((100vw)/4)',
     },
   },
+  nciFooterTitle: {
+    fontFamily: 'Montserrat', 
+    fontWeight: 'bold', 
+    fontSize: '25px', 
+    lineHeight: '26px', 
+    color: '#fff'
+  },
+  nciFooterSubTitle: {
+    fontSize: '16px', 
+    display: 'block'
+  }
 });
 
 const Footer = ({ classes, data }) => (
   <div className={classes.footerRoot}>
     <div className={classes.footerComponent}>
       <div className={cn(classes.footerRow,classes.padding20)}>
-        <div className={
-            cn(classes.footerRowSection, classes.footerNciColumn, classes.marginRight40)
-  }
-        >
-          {data.footerLogoHyperlink
-            ? (
-              <RouteLinks to={data.footerLogoHyperlink} className={classes.nciLogo}>
-                <img
-                  src={data.footerLogoImage}
-                  alt={data.footerLogoAltText}
-                  id="footer_logo_image"
-                />
-              </RouteLinks>
-            ) : (
-              <img
-                src={data.footerLogoImage}
-                alt={data.footerLogoAltText}
-                className={classes.nciLogo}
-              />
-            )}
+        <div>
+          <h1 className={classes.nciFooterTitle}>
+            {data.footerTitle} 
+            <span className={classes.nciFooterSubTitle}> {data.footerSubTitle} </span>
+          </h1>
         </div>
         { data.link_sections.slice(0, 3).map((linkSection) => (
           <div className={classes.footerRowSectionLinks}>

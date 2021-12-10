@@ -4,9 +4,8 @@ import Footer from './Footer';
 
 const FooterData = {
   bg: '#325068',
-  footerLogoImage: 'https://raw.githubusercontent.com/CBIIT/bento-frontend/master/src/assets/footer/FNL_logo.png',
-  footerLogoAltText: 'Footer Logo',
-  footerLogoHyperlink: 'https://frederick.cancer.gov/',
+  footerTitle: 'National Cancer Institute',
+  footerSubTitle: 'at the National Institutes of Health',
   footerStaticText: 'NIH … Turning Discovery Into Health®',
    version: "mvp1",
   BEversion: "mvp1",
