@@ -64,7 +64,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git describe --abbrev=0)}\" react-scripts build",
+    "build": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=false REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git describe --abbrev=0)}\" react-scripts --max_old_space_size=2048 build",
     "build:sourcemap": "REACT_APP_BUILD_ID=\"$(nanoid)\" GENERATE_SOURCEMAP=true REACT_APP_REVISION=\"${REACT_APP_REVISION:-$(git describe --abbrev=0)}\" react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
