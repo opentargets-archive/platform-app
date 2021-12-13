@@ -21,3 +21,22 @@ export const renderPMTLCell = (pmtlText) => {
   
 }
 
+// return a default Tab that has available data
+export const getSADefaultTab = (data) => {
+  let defaultTab = "snvByGene"
+  if (data) {
+    const {snvByGene, snvByVariant, cnvByGene, fusionByGene, fusion} = data;
+    if (snvByGene && snvByGene.count !== 0) {
+      defaultTab = "snvByGene"
+    } else if (snvByVariant && snvByVariant.count !== 0) {
+      defaultTab = "snvByVariant"
+    } else if (cnvByGene && cnvByGene.count !== 0) {
+      defaultTab = "cnvByGene"
+    } else if (fusionByGene && fusionByGene.count !== 0) {
+      defaultTab = "fusionByGene"
+    } else if (fusion && fusion.count !== 0) {
+      defaultTab = "fusion"
+    }
+  }
+  return defaultTab;
+}
