@@ -19,7 +19,7 @@ const columns = [
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
-  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
+  { id: 'PMTL', label: 'PMTL', renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
   { id: 'dataset', label: 'Dataset', sortable: true, comparator: (a, b) => genericComparator(a, b, 'dataset')},
   { id: 'Disease', label: 'Disease', sortable: true,
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
