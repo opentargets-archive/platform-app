@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import { getGeneAllCancerJSON } from '../../../utils/externalAPI';
 import { setDisplaySettingForExternal } from '../../common/OpenPedCanGeneExpression/utils'
@@ -42,6 +41,7 @@ function Summary({ definition, id, displaySettingsForExternal, updateDisplaySett
         const hasData = definition.hasData(data)
         return hasData ? "Available" : "no data"
       }}
+      color = {definition.color}
     />
   );
 }

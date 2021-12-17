@@ -47,6 +47,7 @@ function Summary({ definition, id, displaySettingsForExternal, updateDisplaySett
         return hasData ? "Available" : "no data"
       }}
       subText={dataTypesMap.rna_expression}
+      color = {definition.color}
     />
   );
 }

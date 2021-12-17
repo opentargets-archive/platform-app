@@ -9,6 +9,7 @@ export const definition = {
     return hasCount
   
   },
+  color: '#5ca300',
 }
 
 export { default as Summary } from './Summary';

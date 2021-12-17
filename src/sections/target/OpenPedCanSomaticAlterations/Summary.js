@@ -16,6 +16,7 @@ function Summary({ definition }) {
         const hasData = definition.hasData(data);
         return  hasData ? 'Available' : 'no data';
       }}
+      color = {definition.color}
     />
   );
 }

@@ -18,6 +18,7 @@ function Summary({ definition }) {
         return  hasData ? 'Available' : 'no data';
       }}
       subText={dataTypesMap.somatic_mutation}
+      color = {definition.color}
     />
   );
 }

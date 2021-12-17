@@ -76,6 +76,11 @@ const theme = {
         display: 'none',
       },
     },
+    Mui: {
+      disabled : {
+          color : 'black !important'
+      }
+    },
     MuiTab: {
       root: {
         textTransform: 'none',
@@ -86,6 +91,12 @@ const theme = {
           '&:hover': { backgroundColor: PRIMARY },
         },
         '&:hover': { backgroundColor: lighten(0.3, PRIMARY) },
+      },
+      textColorInherit: {
+        color: 'rgb(52, 137, 202)',
+        '&.Mui-disabled':{
+          color: '#9e9e9e !important',
+        }
       },
     },
     MuiTypography: {
