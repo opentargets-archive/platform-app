@@ -45,7 +45,7 @@ const columns = [
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'hotspot', label: 'HotSpot', sortable: true },
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene' },
-  { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene|TSG', sortable: true },
+  { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene|TSG' },
 ];
 
 const dataDownloaderColumns = [
