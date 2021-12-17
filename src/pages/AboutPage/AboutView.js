@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '68px',
     backgroundColor: '#EDF1F4',
     color: '#000000',
-    fontSize: '16px'
+    fontSize: '16px',
   },
   container: {
     margin: '58px 0 56px 0',
@@ -79,15 +79,31 @@ const useStyles = makeStyles(theme => ({
   },
   listContent: {
     backgroundColor: '#D7E8F6',
-    padding: '10px 25px 20px 18px',
+    padding: '20px 25px 20px 18px',
     font: 'Inter Regular',
     fontSize: '16px',
     lineHeight: '25px',
     color: '#5C605E',
     borderRadius: '10px'
   },
+  listHeaderText:{
+    fontSize: '19px',
+    fontFamily: 'Inter',
+    lineHeight: 1.6,
+    fontWeight:500,
+
+  },
+  listHeaderAcronym:{
+    fontSize: '16px',
+    fontFamily: 'Inter',
+    fontWeight:400,
+  },
   playArrowIcon: {
     marginRight: '12px'
+  },
+  playArrowIconDown: {
+        transform: 'rotate(90deg)',
+        marginRight: '12px'
   },
   containerDiverHr: {
     color: '#808080', backgroundColor: '#808080', height: '2px', borderColor : '#808080',
@@ -100,6 +116,28 @@ const useStyles = makeStyles(theme => ({
   },
   projectTitle: {
     color: '#2188D8'
+  },
+  changeLogContainer: {
+    padding:'20px 40px 0px 40px',
+  },
+  changeLogPaper: {
+    marginBottom: '8px',
+    borderRadius: '8px',
+  },
+  changeLogBox:{
+    display: 'flex', 
+    border: '1px solid #2188D8', 
+    borderRadius: '6px'
+  },
+
+  changeLogBoxLeft:{
+    flex: 1, padding: '12px 17px 17px 14px' 
+  },
+
+  changeLogBoxRight:{
+    flex: 1,
+    padding: '12px 17px 17px 14px',
+    borderLeft: '1px solid #2188D8' 
   }
 }));
 
@@ -127,14 +165,27 @@ const AboutView = ({ data }) => {
     setShowHide({...showHide, [id]:newResult})
   }
 
-  const listHeader = (header, id) => {
+  const listHeader = (headerStr,acronym, id) => {
+
+    let headSplit = headerStr.split("%acronym");
+    let header = <div><Typography variant="h6" component="h1" className={classes.listHeaderText}> {headerStr} </Typography></div>;
+    if(acronym !== ""){
+      header= <div>
+              <span className={classes.listHeaderText}> {headSplit[0].replace("%acronym","")} </span>
+               <span className={classes.listHeaderAcronym}> ({acronym})</span>
+                <span className={classes.listHeaderText}> {headSplit[1]} </span>
+          </div>
+    }
+
     return (
       <div className={classes.listHeaderDiv} onClick={()=> showHideContent(id)}>
-        <div className={classes.playArrowIcon}><PlayArrowIcon /></div>
-        <div><Typography variant="h6" component="h1"> {header} </Typography></div> 
+        <div className={showHide[id]? classes.playArrowIconDown : classes.playArrowIcon}><PlayArrowIcon /></div>
+       {header}
       </div>
     )
   }
+
+
   const fdaPmtlDataSource = ()=>{
     return (
       <div className={classes.listContent}>
@@ -191,7 +242,7 @@ const AboutView = ({ data }) => {
           The Therapeutically Applicable Research to Generate Effective Treatments (TARGET) Initiative is an NCI-funded collection of 
           disease-specific projects that seeks to identify the genomic changes of pediatric cancers. The overall goal is to collect 
           genomic data to accelerate the development of more effective therapies. Within the Molecular Targets Platform, the OpenPedCan 
-          analyses include the seven diseases present in the TARGET dataset: Acute Lymphoblastic Leukemia (ALL), Acute Myeloid Leukemia (AML), 
+          analyses include the seven diseases present include the TARGET dataset: Acute Lymphoblastic Leukemia (ALL), Acute Myeloid Leukemia (AML), 
           Clear cell sarcoma of the kidney, Neuroblastoma, Osteosarcoma, Rhabdoid tumor, and Wilm’s Tumor.
         </p>
         <p>
@@ -563,37 +614,36 @@ const AboutView = ({ data }) => {
         </Typography>
 
         {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Targets Lists (FDA PMTL)", "fdaPmtlDS")}
+        {listHeader("FDA Pediatric Molecular Targets Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
         {showHide.fdaPmtlDS && fdaPmtlDataSource()}
         <hr className={classes.listDiverHr} />
 
         {/* Open Pediatric Cancer (OpenPedCan) */}
-        {listHeader("Open Pediatric Cancer (OpenPedCan)", "openPedCanDS")}
+        {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan ", "openPedCanDS")}
         {showHide.openPedCanDS && openPedCanDataSource()}
         <hr className={classes.listDiverHr} />
 
         {/* Therapeutically Applicable Research to Generate Effective Treatments (TARGET) */}
-        {listHeader("Therapeutically Applicable Research to Generate Effective Treatments (TARGET)", "targetDS")}
+        {listHeader("Therapeutically Applicable Research to Generate Effective Treatments %acronym", "TARGET", "targetDS")}
         {showHide.targetDS && targetDataSource()}
         <hr className={classes.listDiverHr} />
 
         {/* Gabriella Miller Kids First Neuroblastoma (Kids First) */}
-        {listHeader("Gabriella Miller Kids First Neuroblastoma (Kids First)", "kidsFirstDS")}
+        {listHeader("Gabriella Miller Kids First Neuroblastoma %acronym", "Kids First", "kidsFirstDS")}
         {showHide.kidsFirstDS && kidsFirstDataSource()}
         <hr className={classes.listDiverHr} />
 
         {/* Open Pediatric Brain Tumor Atlas (OpenPBTA) */}
-        {listHeader("Open Pediatric Brain Tumor Atlas (OpenPBTA)", "openPbtaDS")}
+        {listHeader("Open Pediatric Brain Tumor Atlas %acronym","OpenPBTA", "openPbtaDS")}
         {showHide.openPbtaDS && openPbtaDataSource()}
         <hr className={classes.listDiverHr} />
 
         {/* Oncology Knowledge Base (OncoKB) Cancer Gene List */}
-        {listHeader("Oncology Knowledge Base (OncoKB) Cancer Gene List", "oncokbDS")}
+        {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB ", "oncokbDS")}
         {showHide.oncokbDS && oncokbDataSource()}
         <hr className={classes.listDiverHr} />
         
         <div className={classes.space}></div>
-        <hr className={classes.containerDiverHr}/>
       </Grid>
     </Grid>
 
@@ -605,17 +655,17 @@ const AboutView = ({ data }) => {
         </Typography>
 
         {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Targets Lists (FDA PMTL)", "fdaPmtlDV")}
+        {listHeader("FDA Pediatric Molecular Targets Lists %acronym","FDA PMTL", "fdaPmtlDV")}
         {showHide.fdaPmtlDV && fdaPmtlDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
         {/* OpenPedCan Somatic Mutations (SM)*/}
-        {listHeader("OpenPedCan Somatic Mutations", "somaticMutationsDV")}
+        {listHeader("OpenPedCan Somatic Mutations", "", "somaticMutationsDV")}
         {showHide.somaticMutationsDV && smDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
         {/* OpenPedCan Gene Expression (GX)*/}
-        {listHeader("OpenPedCan Gene Expression", "geneExpressionDV")}
+        {listHeader("OpenPedCan Gene Expression", "", "geneExpressionDV")}
         {showHide.geneExpressionDV && geneExDataVisualizations()}
         <hr className={classes.listDiverHr} />
         
@@ -635,10 +685,10 @@ const AboutView = ({ data }) => {
           at varying intervals. In order to comprehensively track changes, the various changelogs are aggregated here.
         </Typography>
         
-        <Grid item style={{padding:'20px 40px 0px 40px'}}>
-          <Paper style={{marginBottom: '8px'}}>
-            <div style={{display: 'flex', border: '1px solid #2188D8'}}>
-              <div style={{flex: 1, padding: '12px 17px 17px 14px' }}>
+        <Grid item className={classes.changeLogContainer}>
+          <Paper className={classes.changeLogPaper}>
+            <div className={classes.changeLogBox}>
+              <div className={classes.changeLogBoxLeft} >
               
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   Open Targets Platform
@@ -651,7 +701,7 @@ const AboutView = ({ data }) => {
                 </Link>
               
               </div>
-              <div style={{flex: 1, padding: '12px 17px 17px 14px', borderLeft: '1px solid #2188D8' }}>
+              <div className={classes.changeLogBoxRight}>
                 The Open Targets Platform version represents the built-in data and functions of the Molecular Targets Platform. 
                 This includes all data, displays, and site behavior not otherwise defined in this About page.
               </div>
@@ -659,10 +709,9 @@ const AboutView = ({ data }) => {
             </div>
           </Paper>
 
-          <Paper style={{marginBottom: '8px'}}>
-            <div style={{display: 'flex', border: '1px solid #2188D8'}}>
-            
-              <div style={{flex: 1, padding: '12px 17px 17px 14px' }}>
+           <Paper className={classes.changeLogPaper}>
+            <div className={classes.changeLogBox}>
+              <div className={classes.changeLogBoxLeft} >
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   Molecular Targets Platform Frontend
                 </Typography>
@@ -673,16 +722,15 @@ const AboutView = ({ data }) => {
                 </Link>
               </div>
 
-              <div style={{flex: 1, padding: '12px 17px 17px 14px', borderLeft: '1px solid #2188D8' }}>
+              <div className={classes.changeLogBoxRight}>
                 The Molecular Targets Platform Frontend contains all of the visual and user-focused components of the site.
               </div>
             </div>
           </Paper>
 
-          <Paper style={{marginBottom: '8px'}}>
-            <div style={{display: 'flex', border: '1px solid #2188D8'}}>
-            
-              <div style={{flex: 1, padding: '12px 17px 17px 14px' }}>
+           <Paper className={classes.changeLogPaper}>
+            <div className={classes.changeLogBox}>
+              <div className={classes.changeLogBoxLeft} >
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   Molecular Targets Platform Backend
                 </Typography>
@@ -693,16 +741,15 @@ const AboutView = ({ data }) => {
                 </Link>
               </div>
 
-              <div style={{flex: 1, padding: '12px 17px 17px 14px', borderLeft: '1px solid #2188D8' }}>
+              <div className={classes.changeLogBoxRight}>
                 The Molecular Targets Platform Backend contains all of the database and infrastructure components of the site. 
               </div>
             </div>
           </Paper>
 
-          <Paper style={{marginBottom: '8px'}}>
-            <div style={{display: 'flex', border: '1px solid #2188D8'}}>
-            
-              <div style={{flex: 1, padding: '12px 17px 17px 14px' }}>
+           <Paper className={classes.changeLogPaper}>
+            <div className={classes.changeLogBox}>
+              <div className={classes.changeLogBoxLeft} >
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   OpenPedCan Analyses
                 </Typography>
@@ -713,16 +760,15 @@ const AboutView = ({ data }) => {
                 </Link>
               </div>
 
-              <div style={{flex: 1, padding: '12px 17px 17px 14px', borderLeft: '1px solid #2188D8' }}>
+              <div className={classes.changeLogBoxRight}>
                 The OpenPedCan version represents new analysis results used in the OpenPedCan Somatic Mutations and Gene Expression displays.
               </div>
             </div>
           </Paper>
 
-          <Paper style={{marginBottom: '8px'}}>
-            <div style={{display: 'flex', border: '1px solid #2188D8'}}>
-            
-              <div style={{flex: 1, padding: '12px 17px 17px 14px' }}>
+           <Paper className={classes.changeLogPaper}>
+            <div className={classes.changeLogBox}>
+              <div className={classes.changeLogBoxLeft} >
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   OncoKB Cancer Gene List
                 </Typography>
@@ -733,16 +779,14 @@ const AboutView = ({ data }) => {
                 </Link>
               </div>
 
-              <div style={{flex: 1, padding: '12px 17px 17px 14px', borderLeft: '1px solid #2188D8' }}>
+              <div className={classes.changeLogBoxRight}>
                 The OncoKB Cancer Gene List version represents the genes identified as OncoKB oncogenes or tumor suppressor genes within the OpenPedCan Somatic Mutations display.
               </div>
             </div>
           </Paper>
-
-          <Paper style={{marginBottom: '8px'}}>
-            <div style={{display: 'flex', border: '1px solid #2188D8'}}>
-            
-              <div style={{flex: 1, padding: '12px 17px 17px 14px' }}>
+        <Paper className={classes.changeLogPaper}>
+            <div className={classes.changeLogBox}>
+              <div className={classes.changeLogBoxLeft} >
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   FDA Pediatric Molecular Target Lists
                 </Typography>
@@ -753,7 +797,7 @@ const AboutView = ({ data }) => {
                 </Link>
               </div>
 
-              <div style={{flex: 1, padding: '12px 17px 17px 14px', borderLeft: '1px solid #2188D8' }}>
+              <div className={classes.changeLogBoxRight}>
                 The FDA PMTL version represents the computable interpretation of the lists as used within the Molecular Targets Platform. 
                 When the FDA publishes new lists, new computable interpretations will be updated here.
               </div>
