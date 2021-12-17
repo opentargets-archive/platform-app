@@ -36,8 +36,6 @@ const columns = [
   { id: 'PMTL', label: 'PMTL', renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
   { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene' },
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB Oncogene|TSG' },
-  // { id: 'EFO', label: 'EFO', sortable: true },
-  // { id: 'MONDO', label: 'MONDO', sortable: true },
 ]
 
 const dataDownloaderColumns = [

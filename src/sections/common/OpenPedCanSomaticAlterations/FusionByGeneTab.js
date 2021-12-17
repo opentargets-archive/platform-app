@@ -31,9 +31,6 @@ const columns = [
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) }
-
-  // { id: 'MONDO', label: 'MONDO', sortable: true},
-  // { id: 'EFO', label: 'EFO', sortable: true},
 ]
 const dataDownloaderColumns = [
   { id: 'geneSymbol' },
