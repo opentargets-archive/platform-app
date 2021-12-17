@@ -34,7 +34,7 @@ const columns = [
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'geneFullName', label: 'Gene full name' },
   { id: 'PMTL', label: 'PMTL', renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
-  { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true },
+  { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene' },
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB Oncogene|TSG', sortable: true },
   // { id: 'EFO', label: 'EFO', sortable: true },
   // { id: 'MONDO', label: 'MONDO', sortable: true },

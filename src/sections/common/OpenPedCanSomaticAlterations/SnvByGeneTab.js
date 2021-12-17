@@ -41,7 +41,7 @@ const columns = [
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'frequencyInRelapseTumors',  label: 'Frequency in relapse tumors', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
-  { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true},
+  { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene' },
   { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene|TSG', sortable: true},
   { id: 'pedcbioPedotOncoprintPlotURL', label: 'PedcBio PedOT oncoprint plot', 
     renderCell: ({pedcbioPedotOncoprintPlotURL}) => createExternalLink(pedcbioPedotOncoprintPlotURL, "oncoprint"),
