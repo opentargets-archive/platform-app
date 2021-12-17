@@ -26,7 +26,7 @@ const columns = [
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link>},
   { id: 'geneFullName', label: 'Gene full name' },
   { id: 'geneType', label: 'Gene type', sortable: true },
-  { id: 'proteinRefseqId', label: 'Protein RefSeq ID', sortable: true },
+  { id: 'proteinRefseqId', label: 'Protein RefSeq ID' },
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
   { id: 'proteinEnsemblId', label: 'Protein Ensembl ID', sortable: true },
   { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations / Subjects in dataset', sortable: true,

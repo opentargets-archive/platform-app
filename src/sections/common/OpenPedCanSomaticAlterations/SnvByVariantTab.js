@@ -29,7 +29,7 @@ const columns = [
   { id: 'variantType', label: 'Variant type', sortable: true },
   { id: 'geneFullName', label: 'Gene full name' },
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
-  { id: 'proteinRefseqId', label: 'Protein RefSeq ID', sortable: true },
+  { id: 'proteinRefseqId', label: 'Protein RefSeq ID' },
   { id: 'proteinEnsemblId', label: 'Protein Ensembl ID', sortable: true },
   { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations / Subjects in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
