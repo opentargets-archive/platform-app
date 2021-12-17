@@ -13,7 +13,8 @@ import { scroller } from 'react-scroll';
 import summaryStyles from './summaryStyles';
 import { createShortName } from './utils';
 
-function SummaryItem({ definition, request, renderSummary, subText, color }) {
+function SummaryItem({ definition, request, renderSummary, subText }) {
+  const color = definition.color
   const classes = summaryStyles({color});
   const { loading, error, data } = request;
   const shortName = createShortName(definition);

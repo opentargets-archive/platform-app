@@ -41,7 +41,6 @@ function Summary({ definition, id, displaySettingsForExternal, updateDisplaySett
         const hasData = definition.hasData(data)
         return hasData ? "Available" : "no data"
       }}
-      color = {definition.color}
     />
   );
 }
