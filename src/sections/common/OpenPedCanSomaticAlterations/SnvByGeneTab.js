@@ -15,7 +15,7 @@ const createExternalLink = (url, description) => {
 // Configuration for how the tables will display the data
 const columns = [
   {
-    id: 'geneSymbol', label: 'Gene symbol', sortable: true,
+    id: 'geneSymbol', label: 'Gene symbol',
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
