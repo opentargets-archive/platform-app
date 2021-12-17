@@ -33,11 +33,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: '16px'
   },
   changeLogContainer: {
-    padding: '58px 0 68px 0',
     marginBottom: '68px',
     backgroundColor: '#EDF1F4',
     color: '#000000',
     fontSize: '16px',
+    padding:'20px 40px 0px 40px',
   },
   container: {
     margin: '58px 0 56px 0',
@@ -63,7 +63,6 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     paddingLeft: '20px'
   },
-
   externalIcon: {
     width: '20px',
     margin: '0 0 0 2px',
@@ -116,10 +115,7 @@ const useStyles = makeStyles(theme => ({
   },
   projectTitle: {
     color: '#2188D8'
-  },
-  changeLogContainer: {
-    padding:'20px 40px 0px 40px',
-  },
+  },  
   changeLogPaper: {
     marginBottom: '8px',
     borderRadius: '8px',
