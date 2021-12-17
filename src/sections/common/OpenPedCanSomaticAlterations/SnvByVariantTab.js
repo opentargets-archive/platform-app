@@ -27,7 +27,7 @@ const columns = [
   { id: 'polyphenImpact', label: 'PolyPhen impact', sortable: true },
   { id: 'variantClassification', label: 'Variant classification', sortable: true },
   { id: 'variantType', label: 'Variant type', sortable: true },
-  { id: 'geneFullName', label: 'Gene full name', sortable: true },
+  { id: 'geneFullName', label: 'Gene full name' },
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
   { id: 'proteinRefseqId', label: 'Protein RefSeq ID', sortable: true },
   { id: 'proteinEnsemblId', label: 'Protein Ensembl ID', sortable: true },

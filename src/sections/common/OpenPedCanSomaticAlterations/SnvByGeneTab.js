@@ -24,7 +24,7 @@ const columns = [
   { id: 'Disease', label: 'Disease', sortable: true,
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link>},
-  { id: 'geneFullName', label: 'Gene full name', sortable: true },
+  { id: 'geneFullName', label: 'Gene full name' },
   { id: 'geneType', label: 'Gene type', sortable: true },
   { id: 'proteinRefseqId', label: 'Protein RefSeq ID', sortable: true },
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
