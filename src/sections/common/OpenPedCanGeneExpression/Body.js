@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Tab, Tabs, Grid } from '@material-ui/core';
-
+import { Tab, Tabs, Grid, makeStyles} from '@material-ui/core';
 import SectionItem from '../../../components/Section/SectionItem';
 import DataDownloader from '../../../components/Table/DataDownloader';
 import { dataTypesMap } from '../../../dataTypes';
+
+
+
+
 
 function Body({ definition, id, label, getData, getPlot, Description, entity, fileStem, imageAlt}) {
 
@@ -18,6 +21,27 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
   const handleOnChange = (_, tab) => {
     return setTab(tab);
   };
+
+
+  const useStyles = makeStyles({
+  tabs: {
+    
+    "& .MuiTabs-indicator": {
+      color: '#5ca300',
+    },
+    "& .MuiTab-root.Mui-selected": {
+      backgroundColor: '#5ca300',
+      color:'#fff'
+    },
+    "& .MuiTab-textColorInherit": {
+      color: '#376100 ',
+      "&:hover": { backgroundColor: "#bdda99",
+      },
+    }
+  }
+})
+
+  const classes = useStyles();
 
   useEffect(
     ()=>{
@@ -95,7 +119,8 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
               <Tabs
                 value={tab}
                 onChange={handleOnChange}
-                style={{ marginBottom: '1rem' }}
+                style={{ marginBottom: '1rem'}}
+                className={classes.tabs}
               >
                 <Tab value="linear" label="Linear" />
                 <Tab value="log10" label="Log 10"/>

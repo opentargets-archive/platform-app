@@ -14,7 +14,8 @@ import summaryStyles from './summaryStyles';
 import { createShortName } from './utils';
 
 function SummaryItem({ definition, request, renderSummary, subText }) {
-  const classes = summaryStyles();
+  const color = definition.color
+  const classes = summaryStyles({color});
   const { loading, error, data } = request;
   const shortName = createShortName(definition);
   const hasData = !loading && !error && data && definition.hasData(data);

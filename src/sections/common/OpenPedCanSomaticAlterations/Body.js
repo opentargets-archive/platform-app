@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tab, Tabs } from '@material-ui/core';
+import { Tab, Tabs, makeStyles} from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 
 import SectionItem from '../../../components/Section/SectionItem';
@@ -20,6 +20,27 @@ function Body({ definition, id, label, entity, variables, BODY_QUERY, summaryReq
   const defaultTab = getSADefaultTab(summaryRequest.data);
   const [tab, setTab] = useState(defaultTab);
 
+
+ const useStyles = makeStyles({
+  tabs: {
+    
+    "& .MuiTabs-indicator": {
+      color: '#5ca300',
+    },
+    "& .MuiTab-root.Mui-selected": {
+      backgroundColor: '#5ca300',
+      color:'#fff'
+    },
+    "& .MuiTab-textColorInherit": {
+      color: '#376100 ',
+      "&:hover": { backgroundColor: "#bdda99",
+      },
+    }
+  }
+})
+
+  const classes = useStyles();
+
   const handleChangeTab = (_, tab) => {
     setTab(tab)
   }
@@ -36,7 +57,7 @@ function Body({ definition, id, label, entity, variables, BODY_QUERY, summaryReq
         const {snvByGene, snvByVariant, cnvByGene, fusionByGene, fusion} = data;
         return (
           <>
-            <Tabs value={tab} onChange={handleChangeTab} style={{ marginBottom: '2rem' }}>
+            <Tabs value={tab} onChange={handleChangeTab} style={{ marginBottom: '2rem' }} className={classes.tabs}>
               <Tab value="snvByGene" label="SNV By Gene" disabled={snvByGene.evidences.count === 0}></Tab>
               <Tab value="snvByVariant" label="SNV By Variant" disabled={snvByVariant.evidences.count === 0}></Tab>
               <Tab value="cnvByGene" label="CNV By Gene" disabled={cnvByGene.evidences.count === 0}></Tab>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import { getGeneAllCancerJSON } from '../../../utils/externalAPI';
 import { setDisplaySettingForExternal } from '../../common/OpenPedCanGeneExpression/utils'

@@ -49,7 +49,7 @@ const navPanelStyles = makeStyles(theme => ({
     marginRight: '1rem',
   },
   listItemAvatarHasData: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: props => props.color ? props.color :theme.palette.primary.main,
   },
   listItemHome: {
     padding: '.5rem .9375rem',

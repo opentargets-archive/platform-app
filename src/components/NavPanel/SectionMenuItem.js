@@ -8,8 +8,8 @@ import { scroller } from 'react-scroll';
 import navPanelStyles from './navPanelStyles';
 import useSectionOrder from '../../hooks/useSectionOrder';
 
-function SectionMenuItem({ index, section }) {
-  const classes = navPanelStyles();
+function SectionMenuItem({ index, section ,color} ) {
+  const classes = navPanelStyles({color});
   const { shouldRender } = useSectionOrder();
   const { id, name, shortName } = section.props.definition;
 

@@ -15,7 +15,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-function SectionMenu({ sections, onSectionReorder }) {
+function SectionMenu({ sections, onSectionReorder}) {
   const classes = navPanelStyles();
 
   const handleSectionDrop = result => {
@@ -45,6 +45,7 @@ function SectionMenu({ sections, onSectionReorder }) {
                 key={section.props.definition.id}
                 index={index}
                 section={section}
+                color={section.props.definition.color}
               />
             ))}
             {provided.placeholder}
