@@ -41,7 +41,7 @@ function ClassicAssociations({ ensgId, symbol }) {
 
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <Typography variant="h6">
           {data ? (
             <>
@@ -55,6 +55,20 @@ function ClassicAssociations({ ensgId, symbol }) {
           )}
         </Typography>
       </Grid>{' '}
+      <Grid item xs={12} md={6}>
+        <Typography variant="h6">
+          {data ? (
+            <>
+              <Link>
+                Pediatric Cancer Data Navigation
+              </Link>{' '}
+            </>
+          ) : (
+            <></>
+          )}
+        </Typography>
+      </Grid>{' '}
+      
       <Grid item xs={12} lg={3}>
         <Card elevation={0}>
           <CardContent>
