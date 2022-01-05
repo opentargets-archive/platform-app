@@ -297,3 +297,8 @@ export const studySourceMap = {
   SAIGE: 'UK Biobank',
   NEALE: 'UK Biobank',
 };
+
+export const contact = {
+  email: 'ncichildhoodcancerdatainitiative@mail.nih.gov'
+}
+
