@@ -23,7 +23,9 @@ import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 
 import externalIcon from '../../assets/about/About-ExternalLink.svg';
 import Infographic from '../../assets/about/Infographic.png'
+import classNames from 'classnames';
 
+import { contact } from '../../constants';
 const useStyles = makeStyles(theme => ({
 
   molecularTargetC: {
@@ -134,7 +136,18 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     padding: '12px 17px 17px 14px',
     borderLeft: '1px solid #2188D8' 
-  }
+  },
+
+  base: {
+    fontSize: 'inherit',
+    textDecoration: 'none',
+  },
+  baseDefault: {
+    color: theme.palette.primary.main,
+    '&:hover': {
+      color: theme.palette.primary.dark,
+    },
+  },
 }));
 
 const AboutView = ({ data }) => {
@@ -155,6 +168,7 @@ const AboutView = ({ data }) => {
 
     }
   )
+  const contactEmail = `mailto:${contact.email}`
 
   const showHideContent = (id) => {
     const newResult = !showHide[id]
@@ -511,6 +525,14 @@ const AboutView = ({ data }) => {
 
         <Typography paragraph>
           As the project matures, new pediatric cancer data and additional functionality will be added to the Molecular Targets Platform.
+        </Typography>
+
+        <Typography paragraph>
+     
+          <a className={classNames(classes.base, classes.baseDefault)} href={contactEmail}>
+            Contact {' '}
+          </a> 
+          the Molecular Targets Platform to get more information.
         </Typography>
 
       </Grid>
