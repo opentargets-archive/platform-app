@@ -11,7 +11,7 @@ import { genericComparator } from '../../../utils/comparators'
 const columns = [
   { id: 'fusionName', label: 'Fusion Name', sortable:true },
   { id: 'fusionType', label: 'Fusion Type', sortable:true },
-  { id: 'geneSymbol', label: 'Gene symbol', sortable:true,
+  { id: 'geneSymbol', label: 'Gene symbol',
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
@@ -31,7 +31,7 @@ const columns = [
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
       <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> 
   },
-  { id: 'PMTL', label: 'PMTL', sortable:true , renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
+  { id: 'PMTL', label: 'PMTL', renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
   { id: 'dataset', label: 'Dataset', sortable:true, comparator: (row1, row2) => genericComparator(row1, row2, 'dataset') },
   { id: 'totalAlterationsOverNumberPatientsInDataset', label: 'Total alterations / Subjects in dataset', sortable:true,
       comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true)},

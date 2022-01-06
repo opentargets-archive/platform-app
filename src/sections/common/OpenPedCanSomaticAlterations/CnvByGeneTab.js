@@ -10,7 +10,7 @@ import { genericComparator } from '../../../utils/comparators'
 
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'geneSymbol', label: 'Gene symbol', sortable: true,
+  { id: 'geneSymbol', label: 'Gene symbol',
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
       <Link to={`/target/${targetFromSourceId}`}> {geneSymbol} </Link> },
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
@@ -32,12 +32,10 @@ const columns = [
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
-  { id: 'geneFullName', label: 'Gene full name', sortable: true },
-  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
-  { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true },
-  { id: 'OncoKBOncogeneTSG', label: 'OncoKB Oncogene|TSG', sortable: true },
-  // { id: 'EFO', label: 'EFO', sortable: true },
-  // { id: 'MONDO', label: 'MONDO', sortable: true },
+  { id: 'geneFullName', label: 'Gene full name' },
+  { id: 'PMTL', label: 'PMTL', renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
+  { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene' },
+  { id: 'OncoKBOncogeneTSG', label: 'OncoKB Oncogene|TSG' },
 ]
 
 const dataDownloaderColumns = [

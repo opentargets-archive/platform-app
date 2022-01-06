@@ -9,7 +9,7 @@ import { genericComparator } from '../../../utils/comparators'
 
 // Configuration for how the tables will display the data
 const columns = [
-  { id: 'geneSymbol', label: 'Gene symbol', sortable: true,
+  { id: 'geneSymbol', label: 'Gene symbol',
       renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
@@ -17,7 +17,7 @@ const columns = [
   { id: 'Disease', label: 'Disease', sortable: true,
       renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
         <Link to={`/disease/${diseaseFromSourceMappedId}`}>{Disease}</Link> },
-  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
+  { id: 'PMTL', label: 'PMTL', renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false},
   { id: 'dataset', label: 'Dataset', sortable: true, comparator: (row1, row2) => genericComparator(row1, row2, 'dataset')},
   { id: 'totalAlterationsOverNumberPatientsInDataset', label:'Total alterations / Subjects in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
@@ -31,9 +31,6 @@ const columns = [
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) }
-
-  // { id: 'MONDO', label: 'MONDO', sortable: true},
-  // { id: 'EFO', label: 'EFO', sortable: true},
 ]
 const dataDownloaderColumns = [
   { id: 'geneSymbol' },
