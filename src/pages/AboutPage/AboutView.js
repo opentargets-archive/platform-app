@@ -42,14 +42,14 @@ const useStyles = makeStyles(theme => ({
     padding:'20px 40px 0px 40px',
   },
   container: {
-    margin: '58px 0 56px 0',
+    margin: '58px 0 0px 0',
     fontSize: '16px'
   },
   centerText: {
     textAlign: 'center'
   },
   title: {
-    marginBottom: '30px',
+    margin: '30px',
     color: '#5C605E',
     fontFamily: 'Inter',
     fontSize: '34px',
