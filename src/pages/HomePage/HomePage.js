@@ -37,8 +37,6 @@ import {
   faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
 
-import config from '../../config';
-
 const useStyles = makeStyles(theme => ({
   links: {
     marginTop: '12px',
