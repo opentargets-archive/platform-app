@@ -37,6 +37,8 @@ import {
   faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
 
+import config from '../../config';
+
 const useStyles = makeStyles(theme => ({
   links: {
     marginTop: '12px',
@@ -53,6 +55,12 @@ const useStyles = makeStyles(theme => ({
   },
   hpSection: {
     marginBottom: '40px',
+  },
+  dataPolicy: {
+    padding: '10px',
+    marginTop: '30px',
+    border: '2px solid',
+    borderColor: config.profile.primaryColor,
   },
 }));
 
@@ -159,6 +167,31 @@ const HomePage = () => {
             </Hidden>
           </Grid>
           <Version />
+          {config.profile.isPartnerPreview ? (
+            <div className={classes.dataPolicy}>
+              <Typography
+                variant="body2"
+                display="block"
+                align="center"
+                gutterBottom
+              >
+                The Open Targets Partner Preview Platform is provided
+                exclusively to Open Targets consortium members. All data and
+                results of queries must remain confidential and must not be
+                shared publicly.
+              </Typography>
+              <Typography
+                variant="body2"
+                display="block"
+                align="center"
+                gutterBottom
+              >
+                <Link to="http://home.opentargets.org/partner-preview-platform-data-policy">
+                  View our data policy
+                </Link>
+              </Typography>
+            </div>
+          ) : null}
         </HomeBox>
 
         {/* scroll down button */}
