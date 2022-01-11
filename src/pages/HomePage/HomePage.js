@@ -37,8 +37,6 @@ import {
   faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
 
-import config from '../../config';
-
 const useStyles = makeStyles(theme => ({
   links: {
     marginTop: '12px',
@@ -238,7 +236,7 @@ const HomePage = () => {
             <Grid item xs={12} sm={'auto'}>
               <HelpBoxPanel
                 fai={faLaptopCode}
-                url={config.urlApi.split('/api/v4/graphql')[0]}
+                url="/api"
                 label="Access data with our GraphQL API"
                 external
               />
