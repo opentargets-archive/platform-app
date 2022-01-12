@@ -1,0 +1,36 @@
+query SearchQuery($queryString: String!) {
+  topHit: search(
+    queryString: $queryString
+    entityNames: ["disease"]
+    page: { index: 0, size: 1 }
+  ) {
+    hits {
+      id
+      entity
+      object {
+        ... on Disease {
+          id
+          name
+          description
+        }
+      }
+    }
+  }
+
+  diseases: search(
+    queryString: $queryString
+    entityNames: ["disease"]
+    page: { index: 0, size: 3 }
+  ) {
+    hits {
+      id
+      entity
+      object {
+        ... on Disease {
+          id
+          name
+        }
+      }
+    }
+  }
+}
