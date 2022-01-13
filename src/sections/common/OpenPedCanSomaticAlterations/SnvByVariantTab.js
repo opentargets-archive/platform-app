@@ -10,13 +10,13 @@ import { genericComparator } from '../../../utils/comparators'
 // Configuration for how the tables will display the data
 const columns = [
   {
-    id: 'geneSymbol', label: 'Gene symbol', sortable: true,
+    id: 'geneSymbol', label: 'Gene symbol',
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
         <Link to={`/target/${targetFromSourceId}`}>{geneSymbol}</Link>
   },
   { id: 'variantIdHg38', label: 'Variant ID hg38', sortable: true },
   { id: 'proteinChange', label: 'Protein change', sortable: true},
-  { id: 'PMTL', label: 'PMTL', sortable: true, renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false },
+  { id: 'PMTL', label: 'PMTL', renderCell: ({PMTL}) => renderPMTLCell(PMTL), filterValue: false },
   { id: 'dataset', label: 'Dataset', sortable: true, comparator: (a, b) => genericComparator(a, b, 'dataset') },
   { id: 'Disease', label: 'Disease', sortable: true,
     renderCell: ({ diseaseFromSourceMappedId, Disease }) => 
@@ -27,9 +27,9 @@ const columns = [
   { id: 'polyphenImpact', label: 'PolyPhen impact', sortable: true },
   { id: 'variantClassification', label: 'Variant classification', sortable: true },
   { id: 'variantType', label: 'Variant type', sortable: true },
-  { id: 'geneFullName', label: 'Gene full name', sortable: true },
+  { id: 'geneFullName', label: 'Gene full name' },
   { id: 'targetFromSourceId', label: 'Gene Ensembl ID', sortable: true },
-  { id: 'proteinRefseqId', label: 'Protein RefSeq ID', sortable: true },
+  { id: 'proteinRefseqId', label: 'Protein RefSeq ID' },
   { id: 'proteinEnsemblId', label: 'Protein Ensembl ID', sortable: true },
   { id: 'totalMutationsOverPatientsInDataset', label: 'Total mutations / Subjects in dataset', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInOverallDataset', true) },
@@ -44,8 +44,8 @@ const columns = [
   { id: 'frequencyInRelapseTumors', label: 'Frequency in relapse tumors', sortable: true,
     comparator: (row1, row2) => genericComparator(row1, row2, 'frequencyInRelapseTumors', true) },
   { id: 'hotspot', label: 'HotSpot', sortable: true },
-  { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene', sortable: true },
-  { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene|TSG', sortable: true },
+  { id: 'OncoKBCancerGene', label: 'OncoKB cancer gene' },
+  { id: 'OncoKBOncogeneTSG', label: 'OncoKB oncogene|TSG' },
 ];
 
 const dataDownloaderColumns = [

@@ -1,6 +1,6 @@
 import React from 'react';
 import Footer from './Footer';
-
+import { contact } from '../../constants';
 
 const FooterData = {
   bg: '#325068',
@@ -22,6 +22,10 @@ const FooterData = {
           text: 'Policies',
           link: 'https://www.cancer.gov/global/web/policies',
           title: 'link to NCI policies',
+        },
+        {
+          text: 'Contact MTP',
+          link: `mailto:${contact.email}`
         },
         {
           text: 'Disclaimer',
