@@ -3,7 +3,6 @@ import { loader } from 'graphql.macro';
 import {
   Switch,
   Route,
-  Link,
   useRouteMatch,
   useLocation,
 } from 'react-router-dom';
@@ -16,6 +15,8 @@ import {
   Tab,
 } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
+
+import Link from '../../components/Link';
 
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
@@ -59,7 +60,7 @@ function ClassicAssociations({ ensgId, symbol }) {
         <Typography variant="h6">
           {data ? (
             <>
-              <Link>
+              <Link to="/pediatric-cancer-data-navigation">
                 Pediatric Cancer Data Navigation
               </Link>{' '}
             </>
