@@ -1,89 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import View from './View';
-import { initial } from 'lodash-es';
-import CHOPTable from '../../components/RMTLTable';
+import React, { useState } from 'react';
+import { loader } from 'graphql.macro';
+import { Helmet } from 'react-helmet';
+import { Grid, Paper, Box, Typography, Button, makeStyles } from '@material-ui/core';
+import {Check as CheckIcon } from '@material-ui/icons';
 
-import { Grid, Paper, Box, Typography, Button, TextField } from '@material-ui/core';
-import BasePage from '../../components/BasePage';
-import Link from '../../components/Link';
+import NCIHeader from '../../components/NCIHeader';
 import PedSearch from '../../components/Search/PedSearch';
+import CHOPTable from '../../components/RMTLTable';
+import NCIFooter from '../../components/NCIFooter';
+import Link from '../../components/Link';
+import { appDescription, appCanonicalUrl } from '../../constants';
+import DummyData from './DummyData.json'
 
-import {Check as CheckIcon, CropLandscapeOutlined} from '@material-ui/icons';
-
+const TARGET_SEARCH_QUERY = loader('../../components/Search/TargetSearchQuery.gql');
+const DISEASE_SEARCH_QUERY = loader('../../components/Search/DiseaseSearchQuery.gql');
 const CHoP_CONTENT_URL = "https://gl.githack.com/yizhenchen/dummy-data/-/raw/main/chopDataNavigationTable_SA_GX.json";
-// const {Renderr, debouncedInputValue} = PedSearch;
-// console.log("debouncedInputValue: ", debouncedInputValue)
-const intitalData = [{
-  "targetFromSourceId": "ENSG00000000003",
-  "diseaseFromSourceMappedId": "EFO_0000174",
-  "Gene_symbol": "TSPAN6",
-  "Disease": "Ewing sarcoma",
-  "SNV": false,
-  "CNV": true,
-  "Fusion": false,
-  "GeneExpression": true
-},
-{
-  "targetFromSourceId": "ENSG00000000003",
-  "diseaseFromSourceMappedId": "EFO_0000220",
-  "Gene_symbol": "TSPAN6",
-  "Disease": "Acute Lymphoblastic Leukemia",
-  "SNV": true,
-  "CNV": true,
-  "Fusion": false,
-  "GeneExpression": true
-},
-{
-  "targetFromSourceId": "ENSG00000000003",
-  "diseaseFromSourceMappedId": "EFO_0000222",
-  "Gene_symbol": "TSPAN6",
-  "Disease": "Acute Myeloid Leukemia",
-  "SNV": false,
-  "CNV": true,
-  "Fusion": false,
-  "GeneExpression": true
-},
-{
-  "targetFromSourceId": "ENSG00000000003",
-  "diseaseFromSourceMappedId": "EFO_0000232",
-  "Gene_symbol": "TSPAN6",
-  "Disease": "Adenoma",
-  "SNV": false,
-  "CNV": false,
-  "Fusion": false,
-  "GeneExpression": true
-},
-{
-  "targetFromSourceId": "ENSG00000000003",
-  "diseaseFromSourceMappedId": "EFO_0000350",
-  "Gene_symbol": "TSPAN6",
-  "Disease": "Clear cell sarcoma of the kidney",
-  "SNV": false,
-  "CNV": false,
-  "Fusion": false,
-  "GeneExpression": true
-},
-{
-  "targetFromSourceId": "ENSG00000000003",
-  "diseaseFromSourceMappedId": "EFO_0000514",
-  "Gene_symbol": "TSPAN6",
-  "Disease": "Germinoma",
-  "SNV": false,
-  "CNV": false,
-  "Fusion": false,
-  "GeneExpression": true
-},
-{
-  "targetFromSourceId": "ENSG00000000003",
-  "diseaseFromSourceMappedId": "EFO_0000621",
-  "Gene_symbol": "TSPAN6",
-  "Disease": "Neuroblastoma",
-  "SNV": true,
-  "CNV": true,
-  "Fusion": false,
-  "GeneExpression": true
-}]
+
+const intitalData = DummyData
 
 /*
  * genericComparator: comparing row1 and row2 using the input keyName.
@@ -128,6 +61,7 @@ const columns = [
   {
     id: 'geneEnsemblId',
     label: 'Evidence',
+    orderable: false,
     renderCell: ({ geneEnsemblId, EFO }) => 
       <Link to={`/evidence/${geneEnsemblId}/${EFO}`} external>Evidence Page</Link>,
   },
@@ -157,9 +91,7 @@ const columns = [
   },
 ];
 
-function handleRowsPerPageChange(newPageSize){
-  this.setState({ pageSize: newPageSize });
-};
+
 
 function getRows(downloadData) {
   const rows = [];
@@ -178,131 +110,177 @@ function getRows(downloadData) {
   return rows;
 }
 
-const pageSize = 25;
-const rowsPerPageOptions = [10, 25, 50];
 
+const useStyles = makeStyles(theme => ({
+  page: {
+    background: theme.palette.grey['50'],
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    margin: 0,
+    width: '100%',
+  },
+  gridContainer: {
+    margin: '200px 0 0 0',
+    padding: '24px',
+    width: '100%',
+    flex: '1 0 auto',
+  },
+  spaceMaker: {
+    minWidth: '50px', 
+    minHeight: '50px'
+  },
+  searchButton: {
+    padding: "12px 24px",
+    borderRadius: "8px",
+    transition: "all 150ms ease",
+    border: "none",
+    cursor: props => props.inputFieldAreEmpty ? "notAllowed" : "pointer",
+    backgroundColor: props => props.inputFieldAreEmpty ? "" : "#3489ca",
+    color: props => props.inputFieldAreEmpty ? "" : "white" 
+  },
+  searchContainer: {
+    maxWidth: '447px', 
+    borderRadius: '10px', 
+    backgroundColor: '#3489ca', 
+    padding: '5px', 
+    border: 'solid 1px black'
+  },
+  entityContainer:{
+    marginRight: '15px',
+    color: 'white'
+  },
+  inputFieldContainer: {
+    backgroundColor: "white"
+  }
+  
+}))
 
 function CHoPPage() {
   const [data, setData] = useState(getRows(intitalData));
   const [targetInputValue, setTargetInputValue] = useState('');
   const [diseaseInputValue, setDiseaseInputValue] = useState('');
+  const [pageSize, setPageSize] = useState(25);
+  const [displayTable, setDisplayTable] = useState(false)
+  
+  const appTitle = "Pediatric Cancer Data Navigation";
 
-  const [searchButton, setSearchButton] = useState(false)
+  const rowsPerPageOptions = [10, 25, 50];
+  const inputFieldAreEmpty = targetInputValue.length === 0 && diseaseInputValue.length === 0
+  const classes = useStyles({inputFieldAreEmpty})
 
-
-  console.log("targetInputValue: ", targetInputValue)
-  console.log("diseaseInputValue", diseaseInputValue)
+  function handleRowsPerPageChange(newPageSize){
+    setPageSize(newPageSize)
+  };
 
   const handleOnClick = e => {
-    console.log("I am hereeeeeee")
-    if (targetInputValue.length > 0 || diseaseInputValue.length > 0) {
-      setSearchButton(true)
-    }
+    if (inputFieldAreEmpty === false) setDisplayTable(true)
   }
 
   return (
-    <BasePage title="Pediatric Cancer Data Navigation" >
-      <Typography component="p" paragraph>
-        (This page is under active development)
-      </Typography>
+    <div className={classes.page}>
 
-      <Typography variant="h5" component="h1" paragraph>
-        Pediatric Cancer Data Navigation
-      </Typography>
+    <NCIHeader/>
+
+      <Grid container justify={'center'} spacing={3} className={classes.gridContainer} >
+        <Grid item xs={12} md={11}>
+          <Helmet title={appTitle}>
+            <meta name="description" content={appDescription} />
+            <link rel="canonical" href={appCanonicalUrl} />
+          </Helmet>
+
+          <Grid container>
+            <Grid item xs>
+              <Typography component="p" paragraph>
+                (This page is under active development)
+              </Typography>
     
-
-      <br />
-      <Typography component="p" paragraph>
-        Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to find detailed evidence pages with pediatric cancer data within the Molecular Targets Platform.
-      </Typography>
-
-      <Grid container direction="row">
-        <Grid container item direction="row" justifyContent="center" alignItems="center" spacing={0} style={{maxWidth: '447px', borderRadius: '10px', backgroundColor: '#3489ca', padding: '5px', border: 'solid 1px black'}}>
+              <Typography variant="h5" component="h1" paragraph>
+                Pediatric Cancer Data Navigation
+              </Typography>
+    
+              <br />
+              <Typography component="p" paragraph>
+                Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to find detailed evidence pages with pediatric cancer data within the Molecular Targets Platform.
+              </Typography>
+            </Grid>
+          
+          </Grid> <br/>
+  
+          <Grid container direction="row" justifyContent="center" alignItems="center">
+    
+            {/*******  Target Search Box ********/}  
+            <Grid className={classes.searchContainer} container item direction="row" justifyContent="center" alignItems="center" spacing={0}>
+              <Grid item className={classes.entityContainer}>Target: </Grid>
+              <Grid item xs={10} className={classes.inputFieldContainer}>
+                <PedSearch searchQuery={TARGET_SEARCH_QUERY} inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
+              </Grid>
+            </Grid>
+    
+            <Grid item xs={1} className={classes.spaceMaker}></Grid>
+            
+            {/*******  Disease Search Box ********/}
+            <Grid className={classes.searchContainer} container item direction="row" justifyContent="center" alignItems="center" spacing={0}>
+              <Grid item className={classes.entityContainer}> Disease: </Grid>
+              <Grid item xs={10} className={classes.inputFieldContainer}>
+                <PedSearch searchQuery={DISEASE_SEARCH_QUERY} inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
+              </Grid>
+            </Grid>
+          </Grid> 
         
-          <Grid item style={{marginRight: '15px', color: 'white'}}>
-            Target:  
+          <br/> <br/>
+  
+          {/*******  Search Button ********/}
+          <Grid container direction="row" justifyContent="center" alignItems="center">
+            <Grid item >
+              <Button className={classes.searchButton} onClick={handleOnClick} disabled={inputFieldAreEmpty} variant="contained" > Search </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={10} style={{backgroundColor: 'white'}}>
-            <PedSearch inputValue={targetInputValue} setInputValue={setTargetInputValue}
-              />
-          </Grid>
-        </Grid>
-
-        <Grid item xs={1} style={{minWidth: '50px', minHeight: '50px'}}></Grid>
-
-        <Grid container item direction="row" justifyContent="center" alignItems="center" spacing={0} style={{maxWidth: '447px', borderRadius: '10px', backgroundColor: '#3489ca', padding: '5px', border: 'solid 1px black'}}>
-        
-          <Grid item style={{marginRight: '15px', color: 'white'}}>
-            Disease:  
-          </Grid>
-          <Grid item xs={10} style={{backgroundColor: 'white'}}>
-            <PedSearch inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue}
-             />
-          </Grid>
-        </Grid>
-      </Grid> <br/><br/>
-      <Grid container  direction="row"
-      justifyContent="center"
-      alignItems="center">
-        <Grid item >
-          <Button onClick={handleOnClick} variant="contained" style={{}} disabled={targetInputValue.length===0 && diseaseInputValue.length===0} >Search</Button>
+          
+          <br/> <br/>
+          <hr /> <br />
+  
+          {/*******  Result/Table ********/}
+          { displayTable 
+            ? <>
+                <Grid container>
+                  <Grid item >
+                    <Typography component='p'>
+                      Found <strong>7</strong> Diseases with <strong>tetraspanin 6</strong> pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
+                    </Typography>
+                  </Grid>
+                </Grid> 
+                
+                <br/><br/>
+                
+                <Paper variant="outlined" elevation={0}>
+                  <Box m={2}>
+                    {(
+                      <>
+                        <CHOPTable
+                          columns={columns}
+                          data={data}
+                          pageSize={pageSize}
+                          onRowsPerPageChange={handleRowsPerPageChange}
+                          rowsPerPageOptions={rowsPerPageOptions}
+                          paginationPosition="TOP"
+                          sortBy={"geneSymbol"}
+                          order={"asc"}
+                        />
+                      </>
+                    )}
+                  </Box>
+                </Paper>
+              </>
+            : <></>
+          }
         </Grid>
       </Grid>
 
-      <Grid container>
-        <Grid item >
-          <Typography variant='p'>
-          Found 37 Diseases with ALKpediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
-          </Typography>
-        </Grid>
-      </Grid>
-     
-        
-      <hr />
-      <br />
-      {searchButton ?
-      <Paper variant="outlined" elevation={0}>
-        <Box m={2}>
-          {(
-            <>
-              <CHOPTable
-                columns={columns}
-                data={data}
-                pageSize={pageSize}
-                onRowsPerPageChange={handleRowsPerPageChange}
-                rowsPerPageOptions={rowsPerPageOptions}
-              />
-            </>
-          )}
-        </Box>
-      </Paper>
-        : <></>}
-    </BasePage>
-    
+      <NCIFooter/>
+    </div>
   )
 }
 export default CHoPPage;
 
 
-
-/* function CHoPPage() {
-  const [data, setData] = useState(intitalData);
- 
-   useEffect(() => {
-    const fetchData = async () => {
-      let resultData = [];
-      let result = [];
-      try {
-        result = await axios.get(CHoP_CONTENT_URL);
-        if(result.status === 200){
-            resultData = result.data;
-        }
-      } catch (error) {
-        resultData = [];
-      }
-      setData(resultData);
-    };
-    fetchData();
-  },[data.length]);
-
-  return <View data={data} /> };*/
