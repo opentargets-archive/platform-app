@@ -44,16 +44,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInputValue  }) {
+function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInputValue, searchQuery }) {
   const [open, setOpen] = React.useState(false);
   const debouncedInputValue = useDebounce(inputValue, 300);
-  const [getData, { loading, data }] = useLazyQuery(SEARCH_QUERY, {
+  const [getData, { loading, data }] = useLazyQuery(searchQuery, {
     variables: { queryString: debouncedInputValue },
     onCompleted: () => {},
   });
   const [searchResults, setSearchResults] = useState([]);
-  console.log("searchResults: ", searchResults)
-  let history = useHistory();
 
   const handleChangeInputValue = e => {
     if (!e.target.value) {
@@ -67,19 +65,12 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
   const handleSelectOption = (e, option, r) => {
     handleChangeInputValue(e);
 
-
     if (!option) return;
 
     if (option.type === 'search') {
-      history.push(`/search?q=${option.name}&page=1`);
-      console.log("Input More character than ( ", option.name, " )")
+      setInputValue(option.name || '')
     } else {
-      console.log("")
-      history.push(
-        `/${option.entity}/${option.id}${
-          option.entity !== 'drug' ? '/associations' : ''
-        }`
-      );
+      option.entity === "target" ? setInputValue(option.approvedName || '') : setInputValue(option.name || '')
     }
   };
 
@@ -156,13 +147,14 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
         }}
         open={open}
         popupIcon={open ? <ArrowDropDown /> : <SearchIcon />}
-        renderOption={option => <Option data={option} />}
+        renderOption={option => <Option data={option} setInputValue={setInputValue} />}
         renderGroup={group => (
           <Group key={group.key} name={group.group} children={group.children} />
         )}
         renderInput={params =>
           !embedded ? (
             <Input
+            style={{paddingLeft: '5px'}}
               className={classes.input}
               inputProps={params.inputProps}
               ref={params.InputProps.ref}
@@ -170,7 +162,7 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
                 loading ? (
                   <CircularProgress color="inherit" size={20} />
                 ) : (
-                  params.InputProps.endAdornment
+                  <></>
                 )
               }
               placeholder=" Search ..."
