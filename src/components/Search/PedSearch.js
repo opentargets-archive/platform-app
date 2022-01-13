@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
-import { loader } from 'graphql.macro';
 import {
   Box,
   CircularProgress,
@@ -10,13 +9,11 @@ import {
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { Search as SearchIcon, ArrowDropDown } from '@material-ui/icons';
-import { useHistory } from 'react-router-dom';
 
 import useDebounce from '../../hooks/useDebounce';
 import Option from './Option';
 import Group from './Group';
 
-const SEARCH_QUERY = loader('./SearchQuery.gql');
 
 const useStyles = makeStyles(theme => ({
   container: {
