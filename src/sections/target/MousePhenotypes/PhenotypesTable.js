@@ -69,11 +69,12 @@ const columns = [
   },
 ];
 
-function PhenotypesTable({ mousePhenotypes, query, variables }) {
+function PhenotypesTable({ mousePhenotypes, query, variables, symbol }) {
   return (
     <DataTable
       showGlobalFilter
       dataDownloader
+      dataDownloaderFileStem={`${symbol}-mouse-phenotypes`}
       columns={columns}
       rows={mousePhenotypes}
       rowsPerPageOptions={defaultRowsPerPageOptions}
