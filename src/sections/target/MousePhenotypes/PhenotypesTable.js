@@ -64,6 +64,8 @@ const columns = [
     renderCell: ({ biologicalModels }) => {
       return <AllelicCompositionDrawer biologicalModels={biologicalModels} />;
     },
+    exportValue: ({ biologicalModels }) =>
+      biologicalModels.map(bm => bm.allelicComposition),
   },
 ];
 
