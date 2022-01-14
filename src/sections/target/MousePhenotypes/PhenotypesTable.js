@@ -54,6 +54,9 @@ const columns = [
         />
       );
     },
+    exportValue: ({ modelPhenotypeClasses }) => {
+      return modelPhenotypeClasses.map(phenotypeClass => phenotypeClass.label);
+    },
   },
   {
     id: 'lol',
