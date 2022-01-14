@@ -54,6 +54,9 @@ const columns = [
         />
       );
     },
+    exportValue: ({ modelPhenotypeClasses }) => {
+      return modelPhenotypeClasses.map(phenotypeClass => phenotypeClass.label);
+    },
   },
   {
     id: 'lol',
@@ -61,14 +64,17 @@ const columns = [
     renderCell: ({ biologicalModels }) => {
       return <AllelicCompositionDrawer biologicalModels={biologicalModels} />;
     },
+    exportValue: ({ biologicalModels }) =>
+      biologicalModels.map(bm => bm.allelicComposition),
   },
 ];
 
-function PhenotypesTable({ mousePhenotypes, query, variables }) {
+function PhenotypesTable({ mousePhenotypes, query, variables, symbol }) {
   return (
     <DataTable
       showGlobalFilter
       dataDownloader
+      dataDownloaderFileStem={`${symbol}-mouse-phenotypes`}
       columns={columns}
       rows={mousePhenotypes}
       rowsPerPageOptions={defaultRowsPerPageOptions}

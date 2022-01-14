@@ -25,6 +25,7 @@ function Body({ definition, id, label: symbol }) {
             mousePhenotypes={target.mousePhenotypes}
             query={MOUSE_PHENOTYPES_QUERY.loc.source.body}
             variables={variables}
+            symbol={symbol}
           />
         );
       }}
