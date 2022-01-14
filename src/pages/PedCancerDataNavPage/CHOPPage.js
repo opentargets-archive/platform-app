@@ -14,7 +14,6 @@ import DummyData from './DummyData.json'
 
 const TARGET_SEARCH_QUERY = loader('../../components/Search/TargetSearchQuery.gql');
 const DISEASE_SEARCH_QUERY = loader('../../components/Search/DiseaseSearchQuery.gql');
-const CHoP_CONTENT_URL = "https://gl.githack.com/yizhenchen/dummy-data/-/raw/main/chopDataNavigationTable_SA_GX.json";
 
 const intitalData = DummyData
 
@@ -157,7 +156,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function CHoPPage() {
-  const [data, setData] = useState(getRows(intitalData));
+  const [data, setData] = useState([]);
   const [targetInputValue, setTargetInputValue] = useState('');
   const [diseaseInputValue, setDiseaseInputValue] = useState('');
   const [pageSize, setPageSize] = useState(25);
@@ -174,7 +173,10 @@ function CHoPPage() {
   };
 
   const handleOnClick = e => {
-    if (inputFieldAreEmpty === false) setDisplayTable(true)
+    if (inputFieldAreEmpty === false) {
+      setDisplayTable(true)
+      setData(getRows(intitalData))
+    }
   }
 
   return (
