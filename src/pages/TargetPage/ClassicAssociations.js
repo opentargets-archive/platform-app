@@ -3,7 +3,6 @@ import { loader } from 'graphql.macro';
 import {
   Switch,
   Route,
-  Link,
   useRouteMatch,
   useLocation,
 } from 'react-router-dom';
@@ -16,6 +15,8 @@ import {
   Tab,
 } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
+
+import Link from '../../components/Link';
 
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
@@ -41,7 +42,7 @@ function ClassicAssociations({ ensgId, symbol }) {
 
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={6}>
         <Typography variant="h6">
           {data ? (
             <>
@@ -55,6 +56,20 @@ function ClassicAssociations({ ensgId, symbol }) {
           )}
         </Typography>
       </Grid>{' '}
+      <Grid item xs={12} md={6}>
+        <Typography variant="h6">
+          {data ? (
+            <>
+              <Link to="/pediatric-cancer-data-navigation">
+                Pediatric Cancer Data Navigation
+              </Link>{' '}
+            </>
+          ) : (
+            <></>
+          )}
+        </Typography>
+      </Grid>{' '}
+      
       <Grid item xs={12} lg={3}>
         <Card elevation={0}>
           <CardContent>

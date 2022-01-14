@@ -181,6 +181,9 @@ const tableStyles = theme => ({
   downloadHeader: {
     marginTop: '7px',
   },
+  hr: {
+    backgorund: theme.palette.grey[300]
+  },
 });
 
 class OtTableRF extends Component {
@@ -252,6 +255,7 @@ class OtTableRF extends Component {
       serverSide,
       totalRowsCount,
       rowsPerPageOptions = [], // Added this prop and gave option [] for existing component that do not have functionality to change the amount of row per page
+      paginationPosition = "BOTTOM"
     } = this.props;
     const { sortBy, order, page } = this.state;
     const filterRow = filters ? (
@@ -284,7 +288,6 @@ class OtTableRF extends Component {
       }
       return column.label
     }
-
     return (
       <PlotContainer
         loading={loading}
@@ -300,6 +303,21 @@ class OtTableRF extends Component {
           </PlotContainerSection>
         ) : null}
         <PlotContainerSection>
+          {paginationPosition === "TOP" ? (
+            <div>
+              <TablePagination
+                component="div"
+                count={serverSide ? totalRowsCount : data.length}
+                onPageChange={this.handleChangePage}
+                page={page}
+                rowsPerPage={pageSize}
+                rowsPerPageOptions={rowsPerPageOptions} // CHANGE MADE; Previously was rowsPerPageOptions={[]}
+                ActionsComponent={TablePaginationActions}
+                onChangeRowsPerPage={this.handleChangeRowsPerPage} // CHANGE MADE; Previously did not exist
+              /> 
+              <hr className={classes.hr} />
+            </div>
+          ) : null}
           <div className={classes.tableWrapper}>
             <Table>
               <TableHead>
@@ -426,17 +444,19 @@ class OtTableRF extends Component {
               </div>
             </PlotContainerSection>
           ) : null}
-          <TablePagination
-            component="div"
-            count={serverSide ? totalRowsCount : data.length}
-            onPageChange={this.handleChangePage}
-            page={page}
-            rowsPerPage={pageSize}
-            rowsPerPageOptions={rowsPerPageOptions} // CHANGE MADE; Previously was rowsPerPageOptions={[]}
-            ActionsComponent={TablePaginationActions}
-            onChangeRowsPerPage={this.handleChangeRowsPerPage} // CHANGE MADE; Previously did not exist
-          />
-        </PlotContainerSection>
+         {paginationPosition === "BOTTOM" ? (
+            <TablePagination
+              component="div"
+              count={serverSide ? totalRowsCount : data.length}
+              onPageChange={this.handleChangePage}
+              page={page}
+              rowsPerPage={pageSize}
+              rowsPerPageOptions={rowsPerPageOptions} // CHANGE MADE; Previously was rowsPerPageOptions={[]}
+              ActionsComponent={TablePaginationActions}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage} // CHANGE MADE; Previously did not exist
+            />
+          ) : null}
+          </PlotContainerSection>
       </PlotContainer>
     );
   }
