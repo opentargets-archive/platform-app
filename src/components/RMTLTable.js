@@ -444,19 +444,17 @@ class OtTableRF extends Component {
               </div>
             </PlotContainerSection>
           ) : null}
-         {paginationPosition === "BOTTOM" ? (
-            <TablePagination
-              component="div"
-              count={serverSide ? totalRowsCount : data.length}
-              onPageChange={this.handleChangePage}
-              page={page}
-              rowsPerPage={pageSize}
-              rowsPerPageOptions={rowsPerPageOptions} // CHANGE MADE; Previously was rowsPerPageOptions={[]}
-              ActionsComponent={TablePaginationActions}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage} // CHANGE MADE; Previously did not exist
-            />
-          ) : null}
-          </PlotContainerSection>
+          <TablePagination
+            component="div"
+            count={serverSide ? totalRowsCount : data.length}
+            onPageChange={this.handleChangePage}
+            page={page}
+            rowsPerPage={pageSize}
+            rowsPerPageOptions={rowsPerPageOptions} // CHANGE MADE; Previously was rowsPerPageOptions={[]}
+            ActionsComponent={TablePaginationActions}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage} // CHANGE MADE; Previously did not exist
+          />
+        </PlotContainerSection>
       </PlotContainer>
     );
   }
