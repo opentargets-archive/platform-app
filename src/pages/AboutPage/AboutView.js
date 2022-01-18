@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#EDF1F4',
     color: '#000000',
     fontSize: '16px',
-    padding:'20px 40px 0px 40px',
+    padding:'55px 40px 0px 40px',
   },
   container: {
     margin: '58px 0 0px 0',
