@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     width: '100%',
-    paddingRight: '60px',
+    //paddingRight: '60px',
   },
   inputBase: {
     backgroundColor: theme.palette.background.default,
@@ -67,7 +67,7 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
     if (option.type === 'search') {
       setInputValue(option.name || '')
     } else {
-      option.entity === "target" ? setInputValue(option.approvedName || '') : setInputValue(option.name || '')
+      option.entity === "target" ? setInputValue(option.approvedSymbol || '') : setInputValue(option.name || '')
     }
   };
 
@@ -159,7 +159,7 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
                 loading ? (
                   <CircularProgress color="inherit" size={20} />
                 ) : (
-                  <></>
+                  params.InputProps.endAdornment.props.children[0]
                 )
               }
               placeholder=" Search ..."
