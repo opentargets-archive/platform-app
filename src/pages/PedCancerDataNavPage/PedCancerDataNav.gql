@@ -1,0 +1,15 @@
+query getPedCanNav($disease: String!, $geneSymbol: String!) {
+  pedCanNav(disease: $disease, geneSymbol: $geneSymbol) {
+    rows {
+      diseaseFromSourceMappedId
+      targetFromSourceId
+      Gene_symbol
+      Disease
+      SNV
+      CNV
+      Fusion
+      GeneExpression
+      id
+    }
+  }
+}
