@@ -72,13 +72,15 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
   };
 
   const getOptionVal = (option, defualtReturn) =>{
+    let result = defualtReturn
+    
     if (option.entity === "target") {
-      return option.approvedSymbol.toLowerCase()
+      result = option.approvedSymbol.toLowerCase()
     } else if (option.entity === "disease") {
-      return option.name.toLowerCase()
-    } else {
-      return typeof defualtReturn === 'string' ? defualtReturn.toLowerCase() : defualtReturn
-    }
+      result = option.name.toLowerCase()
+    } 
+
+    return result;
   }
 
   useEffect(
@@ -138,7 +140,7 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
         }}
         filterOptions={(o, s) => searchResults}
         getOptionLabel={option => getOptionVal(option, option)}
-        getOptionSelected={(option, value) => getOptionVal(option, option.id) === value.toLowerCase()}
+        getOptionSelected={(option, value) => getOptionVal(option, option.id).toLowerCase() === value.toLowerCase()}
         groupBy={option =>
           option.type === 'topHit' ? 'topHit' : option.entity
         }
