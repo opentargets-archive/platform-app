@@ -71,6 +71,16 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
     }
   };
 
+  const getOptionVal = (option, defualtReturn) =>{
+    if (option.entity === "target") {
+      return option.approvedSymbol.toLowerCase()
+    } else if (option.entity === "disease") {
+      return option.name.toLowerCase()
+    } else {
+      return typeof defualtReturn === 'string' ? defualtReturn.toLowerCase() : defualtReturn
+    }
+  }
+
   useEffect(
     () => {
       if (debouncedInputValue) {
@@ -127,8 +137,8 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
           root: classes.root,
         }}
         filterOptions={(o, s) => searchResults}
-        getOptionLabel={option => (option.id ? option.id : option)}
-        getOptionSelected={(option, value) => option.id === value}
+        getOptionLabel={option => getOptionVal(option, option)}
+        getOptionSelected={(option, value) => getOptionVal(option, option.id) === value.toLowerCase()}
         groupBy={option =>
           option.type === 'topHit' ? 'topHit' : option.entity
         }
