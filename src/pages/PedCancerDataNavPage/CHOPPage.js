@@ -282,13 +282,17 @@ function CHoPPage() {
             ? <>
                 <Grid container>
                   <Grid item >
-                    <Typography component='p'>
-                      Found <strong>{reformatResult.length}</strong> 
-                      { searchForTarget ? <span> Diseases with <strong>{debouncedTargetInputValue}</strong> </span> : ""}
-                      { searchForDisease ? <span> Targets with <strong>{debouncedDiseaseInputValue}</strong> </span> : ""}
-                      { searchForBoth ? <span> result of <strong>{debouncedTargetInputValue}</strong> in <strong>{debouncedDiseaseInputValue}</strong> with </span> : ""}
-                      {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
-                    </Typography>
+                  { reformatResult.length !== 0 
+                    ?
+                      <Typography component='p'>
+                        Found <strong>{reformatResult.length}</strong> 
+                        { searchForTarget ? <span> Diseases with <strong>{debouncedTargetInputValue}</strong> </span> : ""}
+                        { searchForDisease ? <span> Targets with <strong>{debouncedDiseaseInputValue}</strong> </span> : ""}
+                        { searchForBoth ? <span> result of <strong>{debouncedTargetInputValue}</strong> in <strong>{debouncedDiseaseInputValue}</strong> with </span> : ""}
+                        {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
+                      </Typography>
+                    : <Typography component='p'>No results found</Typography>
+                  }
                   </Grid>
                 </Grid> 
                 
