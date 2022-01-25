@@ -187,7 +187,18 @@ const getColumns = classes => [
   {
     id: 'diseaseCellLines',
     label: 'Cell line',
-    renderCell: row => <>{row.diseaseCellLines.map(line => line.name)}</>,
+    renderCell: row => (
+      <>
+        {row.diseaseCellLines.map(line => (
+          <Link
+            to={`https://cellmodelpassports.sanger.ac.uk/passports/${line.id}`}
+            external
+          >
+            {line.name}
+          </Link>
+        ))}
+      </>
+    ),
   },
   {
     id: 'biomarkers',
