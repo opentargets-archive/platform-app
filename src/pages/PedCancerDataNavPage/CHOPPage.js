@@ -160,11 +160,17 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function CHoPPage() {
-  //const [data, setData] = useState([]);
-  const [targetInputValue, setTargetInputValue] = useState('');
-  const [diseaseInputValue, setDiseaseInputValue] = useState('');
+  let geneSymbol = '', disease = ''
+  const location = useLocation()
+  if (location.state) {
+    geneSymbol = location.state.geneSymbol || ''
+    disease = location.state.disease || ''
+  }
+
+  const [targetInputValue, setTargetInputValue] = useState(geneSymbol || '');
+  const [diseaseInputValue, setDiseaseInputValue] = useState(disease || '');
+  const [displayTable, setDisplayTable] = useState(false || geneSymbol.length !==0 || disease.length !==0)
   const [pageSize, setPageSize] = useState(25);
-  const [displayTable, setDisplayTable] = useState(false)
 
   const [getData, { loading, data }] = useLazyQuery(PED_CAN_DATA_NAV_QUERY, {
     variables: { disease: diseaseInputValue, geneSymbol: targetInputValue },
