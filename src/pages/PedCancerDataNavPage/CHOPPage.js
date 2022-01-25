@@ -187,7 +187,6 @@ function CHoPPage() {
   const searchForDisease = debouncedDiseaseInputValue.length !== 0 && debouncedTargetInputValue.length === 0;
   const searchForBoth = debouncedTargetInputValue.length !== 0 && debouncedDiseaseInputValue.length !== 0;
 
-
   useEffect(
     () => {
       if (displayTable ) {
@@ -199,9 +198,6 @@ function CHoPPage() {
     },
     [  data, debouncedDiseaseInputValue, debouncedTargetInputValue, displayTable, getData]
   );
-
-  console.log("Data: ", data, " \n\n result:", result)
-
 
   const appTitle = "Pediatric Cancer Data Navigation";
 
@@ -215,7 +211,6 @@ function CHoPPage() {
   const handleOnClick = e => {
     if (inputFieldAreEmpty === false) {
       setDisplayTable(true)
-      //setData(getRows(intitalData))
     }
   }
 
