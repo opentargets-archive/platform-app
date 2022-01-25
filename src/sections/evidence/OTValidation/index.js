@@ -3,7 +3,7 @@ import { isPrivateEvidenceSection } from '../../../utils/partnerPreviewUtils';
 const id = 'validationlab';
 export const definition = {
   id: id,
-  name: 'Open Targets Validation Lab',
+  name: 'Open Targets Validation CRISPR',
   shortName: 'VL',
   hasData: () => true, // ({ otValidationSummary }) => otValidationSummary.count > 0,
   isPrivate: isPrivateEvidenceSection(id),
