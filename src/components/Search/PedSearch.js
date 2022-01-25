@@ -73,11 +73,11 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
 
   const getOptionVal = (option, defualtReturn) =>{
     let result = defualtReturn
-    
+
     if (option.entity === "target") {
-      result = option.approvedSymbol.toLowerCase()
+      result = option.approvedSymbol
     } else if (option.entity === "disease") {
-      result = option.name.toLowerCase()
+      result = option.name
     } 
 
     return result;
@@ -140,7 +140,7 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
         }}
         filterOptions={(o, s) => searchResults}
         getOptionLabel={option => getOptionVal(option, option)}
-        getOptionSelected={(option, value) => getOptionVal(option, option.id).toLowerCase() === value.toLowerCase()}
+        getOptionSelected={(option, value) => option.id === value}
         groupBy={option =>
           option.type === 'topHit' ? 'topHit' : option.entity
         }
