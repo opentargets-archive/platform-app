@@ -178,7 +178,11 @@ const getColumns = classes => [
   {
     id: 'contrast',
     label: 'Contrast',
-    renderCell: row => <>{row.contrast}</>,
+    renderCell: row => (
+      <Tooltip title={row.studyOverview} showHelpIcon>
+        {row.contrast}
+      </Tooltip>
+    ),
   },
   {
     id: 'diseaseCellLines',
