@@ -159,14 +159,14 @@ const getColumns = classes => [
     id: 'disease',
     label: 'Reported disease',
     renderCell: row => (
-      <Link to={`/disease/${row.disease.id}`}>{row.disease.name}</Link>
+      <Link to={`/disease/${row.diseaseId}`}>{row.diseaseLabel}</Link>
     ),
-    filterValue: row => row.disease.name + ', ' + row.disease.id,
+    // filterValue: row => row.disease.name + ', ' + row.disease.id,
   },
   {
-    id: 'project',
+    id: 'projectDescription',
     label: 'OTAR primary project',
-    renderCell: row => <>{row.project}</>,
+    renderCell: row => <>{row.projectDescription}</>,
   },
   {
     id: 'contrast',
@@ -174,19 +174,19 @@ const getColumns = classes => [
     renderCell: row => <>{row.contrast}</>,
   },
   {
-    id: 'cellLine',
+    id: 'diseaseCellLines',
     label: 'Cell line',
-    renderCell: row => <>{row.cellLine}</>,
+    renderCell: row => <>{row.diseaseCellLines.map(line => line.name)}</>,
   },
   {
     id: 'biomarkers',
     label: 'Biomarkers considered',
-    renderCell: row => <>{row.biomarkers.join(', ')}</>,
+    renderCell: row => <>{row.biomarkers.map(bm => bm.name).join(', ')}</>,
   },
   {
-    id: 'size',
+    id: 'resourceScore',
     label: 'Effect size',
-    renderCell: row => <>{row.size}</>,
+    renderCell: row => <>{row.resourceScore}</>,
   },
   {
     id: 'hit',
@@ -204,9 +204,11 @@ const getColumns = classes => [
     renderCell: row => <>{row.observation ? 'yes' : '-'}</>,
   },
   {
-    id: 'hypothesis',
-    label: 'Validate hypothesis',
-    renderCell: row => <>{row.hypothesis}</>,
+    id: 'validationHypotheses',
+    label: 'Validated hypothesis',
+    renderCell: row => (
+      <>{row.validationHypotheses?.length > 0 ? 'yes' : '-'}</>
+    ),
   },
 ];
 
