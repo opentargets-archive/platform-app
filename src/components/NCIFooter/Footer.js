@@ -2,6 +2,9 @@ import React from 'react';
 import { withStyles } from '@material-ui/core';
 import cn from '../helpers/classNameConcat';
 import RouteLinks from '../helpers/routeLinks';
+import {
+  version
+} from '../../constants';
 
 const styles = () => ({
   ext: {
@@ -239,8 +242,8 @@ const Footer = ({ classes, data }) => (
               <div>
                 <span className={classes.paddingLeft17}>
                   Version : &nbsp;
-                  <RouteLinks to={"https://github.com/CBIIT/ppdc-otp-frontend/tags"}>
-                   MTP 1.0.0-alpha
+                  <RouteLinks to={version.frontendURL}>
+                   {version.frontend}
                   </RouteLinks>
                 </span>
             </div>

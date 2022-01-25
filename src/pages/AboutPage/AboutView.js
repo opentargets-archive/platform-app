@@ -6,26 +6,24 @@ import {
   Paper,
 } from '@material-ui/core';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-
 import { Helmet } from 'react-helmet';
-
 import NCIFooter from '../../components/NCIFooter';
 import NCIHeader from '../../components/NCIHeader';
 import Link from '../../components/Link';
 import {
   appDescription,
   appCanonicalUrl,
+  contact,
+  version
 } from '../../constants';
-
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
-
 import externalIcon from '../../assets/about/About-ExternalLink.svg';
 import Infographic from '../../assets/about/Infographic.png'
 import classNames from 'classnames';
 
-import { contact } from '../../constants';
+
 const useStyles = makeStyles(theme => ({
 
   molecularTargetC: {
@@ -529,10 +527,12 @@ const AboutView = ({ data }) => {
 
         <Typography paragraph>
      
-          <a className={classNames(classes.base, classes.baseDefault)} href={contactEmail}>
-            Contact {' '}
-          </a> 
-          the Molecular Targets Platform to get more information.
+         
+          As the CCDI continues to refine the Molecular Targets Platform, input from the community is highly valued to help improve usability. Please send your feedback and comments to 
+           {' '} 
+           <a className={classNames(classes.base, classes.baseDefault)} href={contactEmail}>
+             {contact.email}
+          </a> .
         </Typography>
 
       </Grid>
@@ -733,9 +733,9 @@ const AboutView = ({ data }) => {
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   Molecular Targets Platform Frontend
                 </Typography>
-                <b>Version in use</b>: 1.0.0-alpha <br />
+                <b>Version in use</b>: {version.frontend} <br />
                 <b>Detailed Change Log</b>: 
-                <Link to="https://github.com/CBIIT/ppdc-otp-frontend/releases/tag/v1.0.0-alpha" external>{' '} 
+                <Link to={version.frontendURL} external>{' '} 
                   MTP Frontend Release <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
                 </Link>
               </div>
@@ -752,9 +752,9 @@ const AboutView = ({ data }) => {
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   Molecular Targets Platform Backend
                 </Typography>
-                <b>Version in use</b>: v1.0.0-alpha (Released 2021-11-01) <br />
+                <b>Version in use</b>: {version.backend} <br />
                 <b>Detailed Change Log</b>: 
-                <Link to="https://github.com/CBIIT/ppdc-otp-backend/releases/tag/v1.0.0-alpha" external>{' '} 
+                <Link to={version.backendURL} external>{' '} 
                   MTP Backend Release <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
                 </Link>
               </div>
