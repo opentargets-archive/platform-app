@@ -14,7 +14,7 @@ import {
   faArrowAltCircleUp,
   faArrowAltCircleDown,
 } from '@fortawesome/free-solid-svg-icons';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import classNames from 'classnames';
@@ -166,7 +166,14 @@ const getColumns = classes => [
   {
     id: 'projectDescription',
     label: 'OTAR primary project',
-    renderCell: row => <>{row.projectDescription}</>,
+    renderCell: row => (
+      <Link to={`http://home.opentargets.org/${row.projectId}`} external>
+        {row.projectDescription}
+        <Typography variant="caption" display="block">
+          {row.projectId}
+        </Typography>
+      </Link>
+    ),
   },
   {
     id: 'contrast',
@@ -180,7 +187,7 @@ const getColumns = classes => [
   },
   {
     id: 'biomarkers',
-    label: 'Biomarkers considered',
+    label: 'Cell line biomarkers',
     renderCell: row => <>{row.biomarkers.map(bm => bm.name).join(', ')}</>,
   },
   {
