@@ -13,6 +13,7 @@ import { appDescription, appCanonicalUrl } from '../../constants';
 import { useLazyQuery } from '@apollo/client';
 
 import useDebounce from '../../hooks/useDebounce';
+import { useLocation } from 'react-router-dom';
 
 
 const TARGET_SEARCH_QUERY = loader('../../components/Search/TargetSearchQuery.gql');
@@ -282,16 +283,21 @@ function CHoPPage() {
             ? <>
                 <Grid container>
                   <Grid item >
-                  { reformatResult.length !== 0 
-                    ?
-                      <Typography component='p'>
-                        Found <strong>{reformatResult.length}</strong> 
-                        { searchForTarget ? <span> Diseases with <strong>{debouncedTargetInputValue}</strong> </span> : ""}
-                        { searchForDisease ? <span> Targets with <strong>{debouncedDiseaseInputValue}</strong> </span> : ""}
-                        { searchForBoth ? <span> result of <strong>{debouncedTargetInputValue}</strong> in <strong>{debouncedDiseaseInputValue}</strong> with </span> : ""}
-                        {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
-                      </Typography>
-                    : <Typography component='p'>No results found</Typography>
+                  { loading 
+                    ? 
+                      <strong>Loading...</strong>
+                    :
+                     data?.pedCanNav?.rows?.length !==0
+                      ?
+                        <Typography component='p'>
+                          Found <strong>{reformatResult.length}</strong> 
+                          { searchForTarget ? <span> Diseases with <strong>{debouncedTargetInputValue}</strong> </span> : ""}
+                          { searchForDisease ? <span> Targets with <strong>{debouncedDiseaseInputValue}</strong> </span> : ""}
+                          { searchForBoth ? <span> result of <strong>{debouncedTargetInputValue}</strong> in <strong>{debouncedDiseaseInputValue}</strong> with </span> : ""}
+                          {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
+                        </Typography>
+                      : 
+                        <Typography component='p'>No results found</Typography>
                   }
                   </Grid>
                 </Grid> 
