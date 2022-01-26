@@ -42,7 +42,7 @@ function ClassicAssociations({ ensgId, symbol }) {
 
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={4}>
         <Typography variant="h6">
           {data ? (
             <>
@@ -56,13 +56,21 @@ function ClassicAssociations({ ensgId, symbol }) {
           )}
         </Typography>
       </Grid>{' '}
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={8}>
         <Typography variant="h6">
           {data ? (
             <>
-              <Link to="/pediatric-cancer-data-navigation">
-                Pediatric Cancer Data Navigation
-              </Link>{' '}
+            <span style={{fontSize: '15px'}}>Pediatric Cancer Data is not yet part of these results. Please use </span> {' '} 
+              <Link to={{
+                pathname: "/pediatric-cancer-data-navigation",
+                state: {
+                  entity: 'target',
+                  'geneSymbol': symbol
+                }
+              }}>
+                <span style={{fontSize: '16px'}}>Pediatric Cancer Data Navigation</span>
+              </Link> {' '}
+              <span style={{fontSize: '15px'}}>to search for pediatric cancer data.</span>
             </>
           ) : (
             <></>

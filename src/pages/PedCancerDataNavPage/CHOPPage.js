@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { loader } from 'graphql.macro';
 import { Helmet } from 'react-helmet';
 import { Grid, Paper, Box, Typography, Button, makeStyles } from '@material-ui/core';
@@ -10,12 +10,17 @@ import CHOPTable from '../../components/RMTLTable';
 import NCIFooter from '../../components/NCIFooter';
 import Link from '../../components/Link';
 import { appDescription, appCanonicalUrl } from '../../constants';
-import DummyData from './DummyData.json'
+import { useLazyQuery } from '@apollo/client';
+
+import useDebounce from '../../hooks/useDebounce';
+import { useLocation } from 'react-router-dom';
+
 
 const TARGET_SEARCH_QUERY = loader('../../components/Search/TargetSearchQuery.gql');
 const DISEASE_SEARCH_QUERY = loader('../../components/Search/DiseaseSearchQuery.gql');
 
-const intitalData = DummyData
+const PED_CAN_DATA_NAV_QUERY = loader('./PedCancerDataNav.gql')
+
 
 /*
  * genericComparator: comparing row1 and row2 using the input keyName.
@@ -90,8 +95,6 @@ const columns = [
   },
 ];
 
-
-
 function getRows(downloadData) {
   const rows = [];
   downloadData.forEach(mapping => {
@@ -108,7 +111,6 @@ function getRows(downloadData) {
   });
   return rows;
 }
-
 
 const useStyles = makeStyles(theme => ({
   page: {
@@ -139,33 +141,67 @@ const useStyles = makeStyles(theme => ({
     color: props => props.inputFieldAreEmpty ? "" : "white" 
   },
   searchContainer: {
-    maxWidth: '447px', 
+    maxWidth: '550px', // 447px 
     borderRadius: '10px', 
     backgroundColor: '#3489ca', 
-    padding: '5px', 
+    padding: '10px', 
     border: 'solid 1px black'
   },
   entityContainer:{
-    marginRight: '15px',
     color: 'white'
   },
   inputFieldContainer: {
     backgroundColor: "white"
+  },
+  entityText: {
+    textAlign: 'center',
+    fontSize: '16px'
   }
-  
 }))
 
 function CHoPPage() {
-  const [data, setData] = useState([]);
-  const [targetInputValue, setTargetInputValue] = useState('');
-  const [diseaseInputValue, setDiseaseInputValue] = useState('');
+  let geneSymbol = '', disease = ''
+  const location = useLocation()
+  if (location.state) {
+    geneSymbol = location.state.geneSymbol || ''
+    disease = location.state.disease || ''
+  }
+
+  const [targetInputValue, setTargetInputValue] = useState(geneSymbol || '');
+  const [diseaseInputValue, setDiseaseInputValue] = useState(disease || '');
+  const [displayTable, setDisplayTable] = useState(false || geneSymbol.length !==0 || disease.length !==0)
   const [pageSize, setPageSize] = useState(25);
-  const [displayTable, setDisplayTable] = useState(false)
-  
+
+  const [getData, { loading, data }] = useLazyQuery(PED_CAN_DATA_NAV_QUERY, {
+    variables: { disease: diseaseInputValue, geneSymbol: targetInputValue },
+    onCompleted: () => {},
+  });
+  const [result, setResult] = useState(data || [])
+
+  const debouncedTargetInputValue = useDebounce(targetInputValue, 300);
+  const debouncedDiseaseInputValue = useDebounce(diseaseInputValue, 300);
+
+  const inputFieldAreEmpty = debouncedTargetInputValue.length === 0 && debouncedDiseaseInputValue.length === 0
+
+  const searchForTarget = debouncedTargetInputValue.length !== 0 && debouncedDiseaseInputValue.length === 0;
+  const searchForDisease = debouncedDiseaseInputValue.length !== 0 && debouncedTargetInputValue.length === 0;
+  const searchForBoth = debouncedTargetInputValue.length !== 0 && debouncedDiseaseInputValue.length !== 0;
+
+  useEffect(
+    () => {
+      if (displayTable ) {
+        getData({ variables: { disease: debouncedDiseaseInputValue.toLowerCase(), geneSymbol: debouncedTargetInputValue.toLowerCase() } });
+        setResult(data || [])
+      } else {
+        setResult([])
+      }
+    },
+    [  data, debouncedDiseaseInputValue, debouncedTargetInputValue, displayTable, getData]
+  );
+
   const appTitle = "Pediatric Cancer Data Navigation";
 
   const rowsPerPageOptions = [10, 25, 50];
-  const inputFieldAreEmpty = targetInputValue.length === 0 && diseaseInputValue.length === 0
   const classes = useStyles({inputFieldAreEmpty})
 
   function handleRowsPerPageChange(newPageSize){
@@ -175,14 +211,15 @@ function CHoPPage() {
   const handleOnClick = e => {
     if (inputFieldAreEmpty === false) {
       setDisplayTable(true)
-      setData(getRows(intitalData))
     }
   }
+
+  const reformatResult = result.length !== 0 ? getRows(result.pedCanNav.rows) : []
 
   return (
     <div className={classes.page}>
 
-    <NCIHeader/>
+      <NCIHeader/>
 
       <Grid container justify={'center'} spacing={3} className={classes.gridContainer} >
         <Grid item xs={12} md={11}>
@@ -209,22 +246,22 @@ function CHoPPage() {
           
           </Grid> <br/>
   
-          <Grid container direction="row" justifyContent="center" alignItems="center">
+          <Grid container direction="row" justifyContent="center" alignItems="center" >
     
             {/*******  Target Search Box ********/}  
             <Grid className={classes.searchContainer} container item direction="row" justifyContent="center" alignItems="center" spacing={0}>
-              <Grid item className={classes.entityContainer}>Target: </Grid>
-              <Grid item xs={10} className={classes.inputFieldContainer}>
+              <Grid item xs={3}  className={classes.entityContainer}> <p className={classes.entityText} > Gene symbol: </p> </Grid>
+              <Grid item xs className={classes.inputFieldContainer}>
                 <PedSearch searchQuery={TARGET_SEARCH_QUERY} inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
               </Grid>
             </Grid>
-    
-            <Grid item xs={1} className={classes.spaceMaker}></Grid>
-            
+          {/*md={10} l={1} xl={1}*/}
+            <Grid item xs={1}  className={classes.spaceMaker}></Grid>
+
             {/*******  Disease Search Box ********/}
             <Grid className={classes.searchContainer} container item direction="row" justifyContent="center" alignItems="center" spacing={0}>
-              <Grid item className={classes.entityContainer}> Disease: </Grid>
-              <Grid item xs={10} className={classes.inputFieldContainer}>
+              <Grid item xs={2} className={classes.entityContainer}> <p className={classes.entityText}> Disease: </p> </Grid>
+              <Grid item xs className={classes.inputFieldContainer}>
                 <PedSearch searchQuery={DISEASE_SEARCH_QUERY} inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
               </Grid>
             </Grid>
@@ -243,13 +280,26 @@ function CHoPPage() {
           <hr /> <br />
   
           {/*******  Result/Table ********/}
-          { displayTable 
+          { displayTable && inputFieldAreEmpty === false
             ? <>
                 <Grid container>
                   <Grid item >
-                    <Typography component='p'>
-                      Found <strong>7</strong> Diseases with <strong>tetraspanin 6</strong> pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
-                    </Typography>
+                  { loading 
+                    ? 
+                      <strong>Loading...</strong>
+                    :
+                     data?.pedCanNav?.rows?.length !==0
+                      ?
+                        <Typography component='p'>
+                          Found <strong>{reformatResult.length}</strong> 
+                          { searchForTarget ? <span> Diseases with <strong>{debouncedTargetInputValue}</strong> </span> : ""}
+                          { searchForDisease ? <span> Targets with <strong>{debouncedDiseaseInputValue}</strong> </span> : ""}
+                          { searchForBoth ? <span> result of <strong>{debouncedTargetInputValue}</strong> in <strong>{debouncedDiseaseInputValue}</strong> with </span> : ""}
+                          {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
+                        </Typography>
+                      : 
+                        <Typography component='p'>No results found</Typography>
+                  }
                   </Grid>
                 </Grid> 
                 
@@ -260,8 +310,9 @@ function CHoPPage() {
                     {(
                       <>
                         <CHOPTable
+                          loading={loading}
                           columns={columns}
-                          data={data}
+                          data={reformatResult}
                           pageSize={pageSize}
                           onRowsPerPageChange={handleRowsPerPageChange}
                           rowsPerPageOptions={rowsPerPageOptions}

@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     width: '100%',
-    paddingRight: '60px',
+    //paddingRight: '60px',
   },
   inputBase: {
     backgroundColor: theme.palette.background.default,
@@ -67,9 +67,21 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
     if (option.type === 'search') {
       setInputValue(option.name || '')
     } else {
-      option.entity === "target" ? setInputValue(option.approvedName || '') : setInputValue(option.name || '')
+      option.entity === "target" ? setInputValue(option.approvedSymbol || '') : setInputValue(option.name || '')
     }
   };
+
+  const getOptionVal = (option, defualtReturn) =>{
+    let result = defualtReturn
+
+    if (option.entity === "target") {
+      result = option.approvedSymbol
+    } else if (option.entity === "disease") {
+      result = option.name
+    } 
+
+    return result;
+  }
 
   useEffect(
     () => {
@@ -127,7 +139,7 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
           root: classes.root,
         }}
         filterOptions={(o, s) => searchResults}
-        getOptionLabel={option => (option.id ? option.id : option)}
+        getOptionLabel={option => getOptionVal(option, option)}
         getOptionSelected={(option, value) => option.id === value}
         groupBy={option =>
           option.type === 'topHit' ? 'topHit' : option.entity
@@ -159,7 +171,7 @@ function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInpu
                 loading ? (
                   <CircularProgress color="inherit" size={20} />
                 ) : (
-                  <></>
+                  params.InputProps.endAdornment.props.children[0]
                 )
               }
               placeholder=" Search ..."
