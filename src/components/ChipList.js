@@ -36,9 +36,10 @@ function ChipContainer({ item, children }) {
  * Display a (horizontal) list of "chips".
  * Each chip can show an optional tooltip.
  * @param items Array of Strings.
+ * @param small Display each chip as size="small"
  * Each item in the items array can also be an object, with format {label, tooltip}
  */
-function ChipList({ items }) {
+function ChipList({ items, small }) {
   const classes = useChipStyles();
 
   if (!items || items.length === 0) return naLabel;
@@ -55,6 +56,7 @@ function ChipList({ items }) {
         noreferrer="true"
         color="primary"
         label={item.label}
+        size={small ? 'small' : 'medium'}
       />
     </ChipContainer>
   ));
