@@ -8,6 +8,7 @@ import { dataTypesMap } from '../../../dataTypes';
 import Summary from './Summary';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
+import ChipList from '../../../components/ChipList';
 import TooltipStyledLabel from '../../../components/TooltipStyledLabel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -202,8 +203,26 @@ const getColumns = classes => [
   },
   {
     id: 'biomarkers',
-    label: 'Cell line biomarkers',
-    renderCell: row => <>{row.biomarkers.map(bm => bm.name).join(', ')}</>,
+    label: (
+      <>
+        Cell line biomarkers
+        <br />
+        <Typography variant="caption">
+          Available as seen in cell lines
+        </Typography>
+      </>
+    ),
+    renderCell: row => {
+      return (
+        <ChipList
+          small
+          items={row.biomarkers.map(bm => ({
+            label: bm.name,
+            tooltip: bm.description,
+          }))}
+        />
+      );
+    },
   },
   {
     id: 'resourceScore',
