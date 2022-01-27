@@ -272,7 +272,13 @@ const getColumns = classes => [
     id: 'validationHypotheses',
     label: 'Validated hypothesis',
     renderCell: row => (
-      <>{row.validationHypotheses?.length > 0 ? 'yes' : '-'}</>
+      <ChipList
+        small
+        items={row.validationHypotheses.map(vh => ({
+          label: vh.hypothesis,
+          tooltip: vh.description,
+        }))}
+      />
     ),
   },
 ];
