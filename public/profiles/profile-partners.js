@@ -54,7 +54,7 @@ var configProfile = {
 
   // datatypes
   hideDataTypes: [''],
-  partnerDataTypes: ['ot_partner'],
+  partnerDataTypes: ['ot_partner', 'ot_validation_lab'],
 
   // for datasources we only set those that are private (partner)
   // partnerDataSources: list any private datasource (shown with lock in facets)
