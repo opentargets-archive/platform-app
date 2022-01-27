@@ -241,15 +241,20 @@ const getColumns = classes => [
     label: 'Hit',
     renderCell: row => (
       <HitIcon
-        isHit={row.confidence?.toLowerCase() === 'significant'}
+        isHit={row.confidence.toLowerCase() === 'significant'}
         classes={classes}
       />
     ),
   },
   {
     id: 'projectHit',
-    label: 'Primari project hit',
-    renderCell: row => <>{row.projectHit ? 'yes' : '-'}</>,
+    label: 'Primary project hit',
+    renderCell: row => (
+      <HitIcon
+        isHit={row.expectedConfidence.toLowerCase() === 'significant'}
+        classes={classes}
+      />
+    ),
   },
   {
     id: 'observation',
