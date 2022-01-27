@@ -92,6 +92,7 @@ const getColumns = classes => [
         ))}
       </>
     ),
+    width: '8%',
   },
   {
     id: 'biomarkers',
@@ -120,6 +121,7 @@ const getColumns = classes => [
     id: 'resourceScore',
     label: 'Effect size',
     renderCell: row => <>{row.resourceScore}</>,
+    width: '7%',
   },
   {
     id: 'confidence',
@@ -130,6 +132,7 @@ const getColumns = classes => [
         classes={classes}
       />
     ),
+    width: '7%',
   },
   {
     id: 'projectHit',
@@ -140,6 +143,7 @@ const getColumns = classes => [
         classes={classes}
       />
     ),
+    width: '7%',
   },
   {
     id: 'observation',
@@ -152,6 +156,7 @@ const getColumns = classes => [
         classes={classes}
       />
     ),
+    width: '7%',
   },
   {
     id: 'validationHypotheses',
@@ -165,6 +170,7 @@ const getColumns = classes => [
         }))}
       />
     ),
+    width: '8%',
   },
 ];
 
