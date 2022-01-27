@@ -1,11 +1,11 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-import usePlatformApi from '../../../hooks/usePlatformApi';
+// import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
 import { dataTypesMap } from '../../../dataTypes';
-import Summary from './Summary';
+// import Summary from './Summary';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
 import ChipList from '../../../components/ChipList';
@@ -240,9 +240,9 @@ const exportColumns = [
 
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
-  const { data: summaryData } = usePlatformApi(
-    Summary.fragments.otEncoreSummary
-  );
+  // const { data: summaryData } = usePlatformApi(
+  //   Summary.fragments.otEncoreSummary
+  // );
   const request = useQuery(VALIDATION_QUERY, {
     variables: {
       ensemblId,
@@ -262,9 +262,7 @@ function Body({ definition, id, label }) {
       )}
       renderBody={({ disease }) => {
         // TODO
-        {
-          /* const { rows } = disease.evidences; */
-        }
+        // const { rows } = disease.evidences;
         const { rows } = sample;
         return (
           <DataTable

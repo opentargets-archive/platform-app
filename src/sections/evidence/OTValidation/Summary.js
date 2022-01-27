@@ -12,12 +12,22 @@ function Summary({ definition }) {
   const request = usePlatformApi(OT_VALIDATION_SUMMARY);
   // TODO: remove mock data
   const tmpCount = sample.rows.length;
+  // return (
+  //   <SummaryItem
+  //     definition={definition}
+  //     request={request}
+  //     renderSummary={({ otValidationSummary }) => {
+  //       const { count } = otValidationSummary;
+  //       return `${tmpCount} ${tmpCount === 1 ? 'entry' : 'entries'}`;
+  //     }}
+  //     subText={dataTypesMap.ot_validation_lab}
+  //   />
+  // );
   return (
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={({ otValidationSummary }) => {
-        const { count } = otValidationSummary;
+      renderSummary={() => {
         return `${tmpCount} ${tmpCount === 1 ? 'entry' : 'entries'}`;
       }}
       subText={dataTypesMap.ot_validation_lab}
