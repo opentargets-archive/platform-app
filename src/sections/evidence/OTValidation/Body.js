@@ -259,7 +259,14 @@ const getColumns = classes => [
   {
     id: 'observation',
     label: 'Validated observation',
-    renderCell: row => <>{row.observation ? 'yes' : '-'}</>,
+    renderCell: row => (
+      <HitIcon
+        isHit={
+          row.confidence.toLowerCase() === row.expectedConfidence.toLowerCase()
+        }
+        classes={classes}
+      />
+    ),
   },
   {
     id: 'validationHypotheses',
