@@ -3,10 +3,10 @@ import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import { dataTypesMap } from '../../../dataTypes';
-
-const OT_VALIDATION_SUMMARY = loader('./OTValidationSummary.gql');
 // TODO: remove mock data
 import sample from './data/sample';
+
+const OT_VALIDATION_SUMMARY = loader('./OTValidationSummary.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(OT_VALIDATION_SUMMARY);

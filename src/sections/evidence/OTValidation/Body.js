@@ -17,11 +17,10 @@ import { makeStyles, Typography } from '@material-ui/core';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
 // import classNames from 'classnames';
-
-const VALIDATION_QUERY = loader('./OTValidationQuery.gql');
-
 // TODO: remove mock data
 import sample from './data/sample';
+
+const VALIDATION_QUERY = loader('./OTValidationQuery.gql');
 
 const useStyles = makeStyles(theme => {
   return {
