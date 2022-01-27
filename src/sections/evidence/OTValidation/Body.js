@@ -9,14 +9,14 @@ import Summary from './Summary';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
 import ChipList from '../../../components/ChipList';
-import TooltipStyledLabel from '../../../components/TooltipStyledLabel';
+// import TooltipStyledLabel from '../../../components/TooltipStyledLabel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { makeStyles, Typography } from '@material-ui/core';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 
 const VALIDATION_QUERY = loader('./OTValidationQuery.gql');
 
@@ -47,121 +47,6 @@ const HitIcon = ({ isHit, classes }) => (
 );
 
 const getColumns = classes => [
-  /*{
-    id: 'disease',
-    label: 'Disease',
-    renderCell: row => (
-      <Link to={`/disease/${row.disease.id}`}>{row.disease.name}</Link>
-    ),
-    filterValue: row => row.disease.name + ', ' + row.disease.id,
-  },
-  {
-    id: 'target',
-    label: 'Target A',
-    renderCell: row => (
-      <Link to={`/target/${row.target.id}`}>{row.target.approvedSymbol}</Link>
-    ),
-    filterValue: row => row.target.approvedSymbol + ', ' + row.target.id,
-  },
-  {
-    id: 'interactingTargetFromSourceId',
-    label: 'Target B',
-    renderCell: row => row.interactingTargetFromSourceId,
-  },
-  {
-    id: 'phenotypicConsequenceLogFoldChange',
-    label: 'Direction of effect',
-    renderCell: row => (
-      <>
-        <Tooltip
-          title={
-            <>
-              <TooltipStyledLabel
-                label={'Log-fold change'}
-                description={row.phenotypicConsequenceLogFoldChange}
-              />
-              <TooltipStyledLabel
-                label={'P-value'}
-                description={row.phenotypicConsequencePValue}
-              />
-              <TooltipStyledLabel
-                label={'FDR'}
-                description={row.phenotypicConsequenceFDR}
-              />
-            </>
-          }
-        >
-          <span>
-            <FontAwesomeIcon
-              icon={faArrowAltCircleUp}
-              size="lg"
-              className={classNames(
-                row.phenotypicConsequenceLogFoldChange >= 0
-                  ? classes.primaryColor
-                  : classes.grey,
-                classes.circleUp
-              )}
-            />
-            <FontAwesomeIcon
-              icon={faArrowAltCircleDown}
-              size="lg"
-              className={
-                row.phenotypicConsequenceLogFoldChange < 0
-                  ? classes.primaryColor
-                  : classes.grey
-              }
-            />
-          </span>
-        </Tooltip>
-      </>
-    ),
-  },
-  {
-    id: 'geneticInteractionPValue',
-    label: 'Cooperativity (Type of effect)',
-    renderCell: row => (
-      <Tooltip
-        title={
-          <>
-            <TooltipStyledLabel
-              label={'Method'}
-              description={row.geneticInteractionMethod}
-            />
-            <TooltipStyledLabel
-              label={'Score'}
-              description={row.geneticInteractionScore}
-            />
-            <TooltipStyledLabel
-              label={'P-value'}
-              description={row.geneticInteractionPValue}
-            />
-            <TooltipStyledLabel
-              label={'FDR'}
-              description={row.geneticInteractionFDR}
-            />
-          </>
-        }
-      >
-        <span className={classes.primaryColor}>
-          {row.geneticInteractionPValue >= 0.05 ? 'Additive' : 'Synergistic'}
-        </span>
-      </Tooltip>
-    ),
-    filterValue: row =>
-      row.geneticInteractionPValue >= 0.05 ? 'Additive' : 'Synergistic',
-  },
-  {
-    id: 'cellType',
-    label: 'Cell line',
-    renderCell: row => (
-      <Link
-        external
-        to={`https://cellmodelpassports.sanger.ac.uk/passports/${row.cellType}`}
-      >
-        {row.cellType}
-      </Link>
-    ),
-  },*/
   {
     id: 'disease',
     label: 'Reported disease',
