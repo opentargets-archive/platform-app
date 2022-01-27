@@ -20,7 +20,7 @@ function Summary({ definition }) {
         const { count } = otValidationSummary;
         return `${tmpCount} ${tmpCount === 1 ? 'entry' : 'entries'}`;
       }}
-      subText={dataTypesMap.ot_partner}
+      subText={dataTypesMap.ot_validation_lab}
     />
   );
 }

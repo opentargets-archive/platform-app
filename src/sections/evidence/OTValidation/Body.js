@@ -256,7 +256,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
-      chipText={dataTypesMap.ot_partner}
+      chipText={dataTypesMap.ot_validation_lab}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
