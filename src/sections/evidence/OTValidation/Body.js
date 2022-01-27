@@ -11,10 +11,8 @@ import Tooltip from '../../../components/Tooltip';
 import ChipList from '../../../components/ChipList';
 import TooltipStyledLabel from '../../../components/TooltipStyledLabel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faArrowAltCircleUp,
-  faArrowAltCircleDown,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { makeStyles, Typography } from '@material-ui/core';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
@@ -39,6 +37,14 @@ const useStyles = makeStyles(theme => {
     },
   };
 });
+
+const HitIcon = ({ isHit, classes }) => (
+  <FontAwesomeIcon
+    icon={isHit ? faCheckCircle : faTimesCircle}
+    size="2x"
+    className={isHit ? classes.primaryColor : classes.grey}
+  />
+);
 
 const getColumns = classes => [
   /*{
@@ -194,6 +200,7 @@ const getColumns = classes => [
           <Link
             to={`https://cellmodelpassports.sanger.ac.uk/passports/${line.id}`}
             external
+            key={line.id}
           >
             {line.name}
           </Link>
@@ -230,9 +237,14 @@ const getColumns = classes => [
     renderCell: row => <>{row.resourceScore}</>,
   },
   {
-    id: 'hit',
+    id: 'confidence',
     label: 'Hit',
-    renderCell: row => <>{row.hit ? 'yes' : '-'}</>,
+    renderCell: row => (
+      <HitIcon
+        isHit={row.confidence?.toLowerCase() === 'significant'}
+        classes={classes}
+      />
+    ),
   },
   {
     id: 'projectHit',
