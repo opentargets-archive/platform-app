@@ -50,7 +50,7 @@ var configProfile = {
 
   // evidence page
   hideEvidenceSectionIds: [''],
-  partnerEvidenceSectionIds: ['encore', 'otCrispr'],
+  partnerEvidenceSectionIds: ['encore', 'otCrispr', 'validationlab'],
 
   // datatypes
   hideDataTypes: [''],
