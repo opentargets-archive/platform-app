@@ -242,7 +242,7 @@ const Footer = ({ classes, data }) => (
               <div>
                 <span className={classes.paddingLeft17}>
                   Version : &nbsp;
-                  <RouteLinks to={version.frontendURL}>
+                  <RouteLinks to={version.changeLogSection}>
                    {version.frontend}
                   </RouteLinks>
                 </span>
