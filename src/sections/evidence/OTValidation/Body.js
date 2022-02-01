@@ -52,7 +52,7 @@ const getColumns = classes => [
     renderCell: row => (
       <Link to={`/disease/${row.diseaseId}`}>{row.diseaseLabel}</Link>
     ),
-    // filterValue: row => row.disease.name + ', ' + row.disease.id,
+    filterValue: row => row.diseaseLabel + ', ' + row.diseaseId,
   },
   {
     id: 'projectDescription',
@@ -65,6 +65,7 @@ const getColumns = classes => [
         </Typography>
       </Link>
     ),
+    filterValue: row => row.projectDescription + ', ' + row.projectId,
   },
   {
     id: 'contrast',
@@ -74,6 +75,7 @@ const getColumns = classes => [
         {row.contrast}
       </Tooltip>
     ),
+    filterValue: row => row.contrast + ', ' + row.studyOverview,
   },
   {
     id: 'diseaseCellLines',
@@ -91,6 +93,8 @@ const getColumns = classes => [
         ))}
       </>
     ),
+    filterValue: row =>
+      row.diseaseCellLines.map(line => line.name + ', ' + line.id).join(', '),
     width: '8%',
   },
   {
@@ -115,6 +119,8 @@ const getColumns = classes => [
         />
       );
     },
+    filterValue: row =>
+      row.biomarkers.map(bm => bm.name + ', ' + bm.description).join(', '),
   },
   {
     id: 'resourceScore',
@@ -169,6 +175,10 @@ const getColumns = classes => [
         }))}
       />
     ),
+    filterValue: row =>
+      row.validationHypotheses
+        .map(vh => vh.hypothesis + ', ' + vh.description)
+        .join(', '),
     width: '8%',
   },
 ];
