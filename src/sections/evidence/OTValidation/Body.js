@@ -272,8 +272,8 @@ function Body({ definition, id, label }) {
             dataDownloaderColumns={exportColumns}
             dataDownloaderFileStem={`${ensemblId}-${efoId}-otencore`}
             showGlobalFilter
-            sortBy="geneticInteractionPValue"
-            order="asc"
+            sortBy="resourceScore"
+            order="des"
             fixed
             noWrap={false}
             noWrapHeader={false}
