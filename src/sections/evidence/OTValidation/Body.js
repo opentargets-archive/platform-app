@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => {
   return {
     primaryColor: {
       color: theme.palette.primary.main,
-      cursor: 'pointer',
     },
     grey: {
       color: theme.palette.grey[300],
@@ -126,6 +125,7 @@ const getColumns = classes => [
     id: 'resourceScore',
     label: 'Effect size',
     renderCell: row => <>{row.resourceScore}</>,
+    numeric: true,
     width: '7%',
   },
   {
