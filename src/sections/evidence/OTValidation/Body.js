@@ -36,6 +36,13 @@ const useStyles = makeStyles(theme => {
   };
 });
 
+const isHit = (conf, validatedConf) => {
+  if (conf && validatedConf) {
+    return conf.toLowerCase() === validatedConf.toLowerCase();
+  }
+  return conf.toLowerCase() === 'significant';
+};
+
 const HitIcon = ({ isHit, classes }) => (
   <FontAwesomeIcon
     icon={isHit ? faCheckCircle : faTimesCircle}
@@ -132,10 +139,7 @@ const getColumns = classes => [
     id: 'confidence',
     label: 'Hit',
     renderCell: row => (
-      <HitIcon
-        isHit={row.confidence.toLowerCase() === 'significant'}
-        classes={classes}
-      />
+      <HitIcon isHit={isHit(row.confidence)} classes={classes} />
     ),
     width: '7%',
   },
@@ -143,10 +147,7 @@ const getColumns = classes => [
     id: 'projectHit',
     label: 'Primary project hit',
     renderCell: row => (
-      <HitIcon
-        isHit={row.expectedConfidence.toLowerCase() === 'significant'}
-        classes={classes}
-      />
+      <HitIcon isHit={isHit(row.expectedConfidence)} classes={classes} />
     ),
     width: '7%',
   },
@@ -155,9 +156,7 @@ const getColumns = classes => [
     label: 'Validated observation',
     renderCell: row => (
       <HitIcon
-        isHit={
-          row.confidence.toLowerCase() === row.expectedConfidence.toLowerCase()
-        }
+        isHit={isHit(row.confidence, row.expectedConfidence)}
         classes={classes}
       />
     ),
@@ -223,16 +222,15 @@ const exportColumns = [
   },
   {
     label: 'hit',
-    exportValue: row => row.confidence.toLowerCase() === 'significant',
+    exportValue: row => isHit(row.confidence),
   },
   {
     label: 'primary project hit',
-    exportValue: row => row.expectedConfidence.toLowerCase() === 'significant',
+    exportValue: row => isHit(row.expectedConfidence),
   },
   {
     label: 'validated observation',
-    exportValue: row =>
-      row.confidence.toLowerCase() === row.expectedConfidence.toLowerCase(),
+    exportValue: row => isHit(row.confidence, row.expectedConfidence),
   },
   {
     label: 'validated hypothesis',
