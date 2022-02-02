@@ -482,6 +482,13 @@ const AboutView = ({ data }) => {
     )
   }
 
+  // Temporally solution to offset when scrolling to specific section of page.
+  const ChangeLogOffset = () => {
+    return (
+      <p id="changeLog" style={{display: 'block', position: 'relative', top: '-120px', visibility: 'hidden'}}></p>
+    )
+  }
+
   return (
     <>
     <Helmet title={appTitle}>
@@ -686,11 +693,11 @@ const AboutView = ({ data }) => {
         {listHeader("OpenPedCan Gene Expression", "", "geneExpressionDV")}
         {showHide.geneExpressionDV && geneExDataVisualizations()}
         <hr className={classes.listDiverHr} />
-        
       </Grid>
     </Grid>
 
     {/* Change Log */}
+    <ChangeLogOffset />
     <Grid container justify="center" className={[classes.container,classes.changeLogContainer]}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
 

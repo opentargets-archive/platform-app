@@ -36,10 +36,10 @@ function ClassicAssociations({ efoId, name }) {
         </Typography>
       </Grid>
       <Grid item xs={12} md={8}>
-        <Typography variant="h6">
+        <Typography variant='h6'>
           {data ? (
             <>
-            <span style={{fontSize: '15px'}}>Pediatric Cancer Data is not yet part of these results. Please use </span> {' '} 
+              <span style={{fontSize: '16px'}}>Additional pediatric cancer data may be found by using the search tool on the </span> {' '} 
               <Link to={{
                 pathname: "/pediatric-cancer-data-navigation",
                 state: {
@@ -47,9 +47,9 @@ function ClassicAssociations({ efoId, name }) {
                   'disease': name
                 }
               }}>
-                <span style={{fontSize: '16px'}}>Pediatric Cancer Data Navigation</span>
+                <span style={{fontSize: '16px'}}><b>Pediatric Cancer Data Navigation</b></span>
               </Link> {' '}
-              <span style={{fontSize: '15px'}}>to search for pediatric cancer data.</span>
+              <span style={{fontSize: '16px'}}>page.</span>
             </>
           ) : (
             <></>
