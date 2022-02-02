@@ -184,68 +184,60 @@ const getColumns = classes => [
 ];
 
 const exportColumns = [
-  // {
-  //   label: 'disease',
-  //   exportValue: row => row.disease.name,
-  // },
-  // {
-  //   label: 'disease id',
-  //   exportValue: row => row.disease.id,
-  // },
-  // {
-  //   label: 'target A',
-  //   exportValue: row => row.target.approvedSymbol,
-  // },
-  // {
-  //   label: 'target A id',
-  //   exportValue: row => row.target.id,
-  // },
-  // {
-  //   label: 'target B',
-  //   exportValue: row => row.interactingTargetFromSourceId,
-  // },
-  // {
-  //   label: 'direction of effect',
-  //   exportValue: row =>
-  //     row.phenotypicConsequenceLogFoldChange >= 0 ? 'up' : 'down',
-  // },
-  // {
-  //   label: 'phenotypicConsequenceLogFoldChange',
-  //   exportValue: row => row.phenotypicConsequenceLogFoldChange,
-  // },
-  // {
-  //   label: 'phenotypicConsequencePValue',
-  //   exportValue: row => row.phenotypicConsequencePValue,
-  // },
-  // {
-  //   label: 'phenotypicConsequenceFDR',
-  //   exportValue: row => row.phenotypicConsequenceFDR,
-  // },
-  // {
-  //   label: 'Cooperativity',
-  //   exportValue: row =>
-  //     row.geneticInteractionPValue >= 0.05 ? 'Additive' : 'Synergistic',
-  // },
-  // {
-  //   label: 'geneticInteractionMethod',
-  //   exportValue: row => row.geneticInteractionMethod,
-  // },
-  // {
-  //   label: 'geneticInteractionScore',
-  //   exportValue: row => row.geneticInteractionScore,
-  // },
-  // {
-  //   label: 'geneticInteractionPValue',
-  //   exportValue: row => row.geneticInteractionPValue,
-  // },
-  // {
-  //   label: 'geneticInteractionFDR',
-  //   exportValue: row => row.geneticInteractionFDR,
-  // },
-  // {
-  //   label: 'cell line',
-  //   exportValue: row => row.cellType,
-  // },
+  {
+    label: 'disease',
+    exportValue: row => row.diseaseLabel,
+  },
+  {
+    label: 'disease id',
+    exportValue: row => row.diseaseId,
+  },
+  {
+    label: 'project description',
+    exportValue: row => row.projectDescription,
+  },
+  {
+    label: 'project id',
+    exportValue: row => row.projectId,
+  },
+  {
+    label: 'contrast',
+    exportValue: row => row.contrast,
+  },
+  {
+    label: 'study overview',
+    exportValue: row => row.studyOverview,
+  },
+  {
+    label: 'disease cell line',
+    exportValue: row =>
+      row.diseaseCellLines.map(line => `${line.name} (${line.id})`),
+  },
+  {
+    label: 'biomarkers',
+    exportValue: row => row.biomarkers.map(bm => bm.name),
+  },
+  {
+    label: 'effect size',
+    exportValue: row => row.resourceScore,
+  },
+  {
+    label: 'hit',
+    exportValue: row => row.confidence.toLowerCase() === 'significant',
+  },
+  {
+    label: 'primary project hit',
+    exportValue: row => row.expectedConfidence.toLowerCase() === 'significant',
+  },
+  {
+    label: 'validated observation',
+    exportValue: row =>
+      row.confidence.toLowerCase() === row.expectedConfidence.toLowerCase(),
+  },
+  {
+    label: 'validated hypothesis',
+    exportValue: row => row.validationHypotheses.map(vh => vh.hypothesis),
+  },
 ];
 
 function Body({ definition, id, label }) {
@@ -280,7 +272,7 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             dataDownloaderColumns={exportColumns}
-            dataDownloaderFileStem={`${ensemblId}-${efoId}-otencore`}
+            dataDownloaderFileStem={`${ensemblId}-${efoId}-otvalidation`}
             showGlobalFilter
             sortBy="resourceScore"
             order="des"
