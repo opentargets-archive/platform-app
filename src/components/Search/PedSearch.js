@@ -1,209 +1,157 @@
-import React, { useEffect, useState } from 'react';
-import { useLazyQuery } from '@apollo/client';
-import {
-  Box,
-  CircularProgress,
-  Input,
-  InputBase,
-  makeStyles,
-} from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
-import { Search as SearchIcon, ArrowDropDown } from '@material-ui/icons';
+import React, { Component, Fragment } from 'react';
 
-import useDebounce from '../../hooks/useDebounce';
-import Option from './Option';
-import Group from './Group';
+import Select from 'react-select';
+// import AsyncSelect from 'react-select/async'
+//import { colourOptions } from '../data';
 
+// const geneSymbolList = [
+//   { value: 'CDK14', label: 'CDK14'},
+//   { value: 'SOX30', label: 'SOX30'},		
+//   { value: 'RBMX', label: 'RBMX'},
+//   { value: 'KCNK13', label: 'KCNK13'},
+//   { value: 'MORC3', label: 'MORC3'},
+//   { value: 'PDCD2', label: 'PDCD2'},	
+//   { value: 'FRY', label: 'FRY'},
+//   { value: 'ALK', label: 'ALK'},
+//   { value: 'ZSCAN16-AS1', label: 'ZSCAN16-AS1'},
+//   { value: 'HEG1', label: 'HEG1'},
+//   { value: 'CACNA1I', label: 'CACNA1I'},
+//   { value: 'ZNRF2', label: 'ZNRF2'},
+//   { value: 'ZNRD1ASP', label: 'ZNRD1ASP'},	
+//   { value: 'ZNRD1', label: 'ZNRD1'},
+//   { value: 'ZNHIT2', label: 'ZNHIT2'},
+//   { value: 'ZNF971P', label: 'ZNF971P'},
+//   { value: 'ZNF965P', label: 'ZNF965P'},
+//   { value: 'ZNF962P', label: 'ZNF962P'},
+//   { value: 'ZNF93', label: 'ZNF93'},
+//   { value: 'ZNF90P3', label: 'ZNF90P3'},
+//   { value: 'ZNF90P2', label: 'ZNF90P2'},
+//   { value: 'ZNF880', label: 'ZNF880'},
+// ]
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    width: '100%',
-  },
-  containerEmbedded: {
-    minWidth: '447px',
-    [theme.breakpoints.only('sm')]: { minWidth: '48%' },
-    [theme.breakpoints.only('xs')]: { display: 'none' },
-  },
-  input: {
-    width: '100%',
-    //paddingRight: '60px',
-  },
-  inputBase: {
-    backgroundColor: theme.palette.background.default,
-    color: theme.palette.text.secondary,
-    width: '100%',
-  },
-  inputBaseInput: { padding: '.25rem0- .5rem' },
-  listbox: { maxHeight: 'fit-content', color: theme.palette.text.primary },
-  option: { display: 'block', padding: '0 .5rem' },
-  root: {
-    width: '100%',
-  },
-}));
+const diseaseList = [
+  { value: 'Acute Lymphoblastic Leukemia', label: 'Acute Lymphoblastic Leukemia'},
+  { value: 'Acute Myeloid Leukemia', label: 'Acute Myeloid Leukemia'},
+  { value: 'Clear cell sarcoma of the kidney', label: 'Clear cell sarcoma of the kidney'},
+  { value: 'Osteosarcoma', label: 'Osteosarcoma'},
+  { value: 'neuroblastoma', label: 'neuroblastoma'},
+  { value: 'Craniopharyngioma', label: 'Craniopharyngioma'},
+  { value: 'Atypical Teratoid Rhabdoid Tumor', label: 'Atypical Teratoid Rhabdoid Tumor'},
+  { value: 'High-grade glioma/astrocytoma', label: 'High-grade glioma/astrocytoma'},
+  { value: 'Choroid plexus carcinoma', label: 'Choroid plexus carcinoma'},
+  { value: 'Ewing sarcoma', label: 'Ewing sarcoma'},
+  { value: 'Adenoma', label: 'Adenoma'},
+  { value: 'Germinoma', label: 'Germinoma'},
+  { value: 'Diffuse midline glioma', label: 'Diffuse midline glioma'},
+  { value: 'Low-grade glioma/astrocytoma', label: 'Low-grade glioma/astrocytoma'},
+  { value: 'Meningioma', label: 'Meningioma'},
+  { value: 'Sarcoma', label: 'Sarcoma'},
+  { value: 'CNS Embryonal tumor', label: 'CNS Embryonal tumor'},
+  { value: 'Teratoma', label: 'Teratoma'},
+  { value: 'Subependymal Giant Cell Astrocytoma', label: 'Subependymal Giant Cell Astrocytoma'},
+  { value: 'Chordoma', label: 'Chordoma'},
+  { value: 'Neuroblastoma', label: 'Neuroblastoma'},
+  { value: 'Neurofibroma/Plexiform', label: 'Neurofibroma/Plexiform'},
+  { value: 'Schwannoma', label: 'Schwannoma'},
+  { value: 'Medulloblastoma', label: 'Medulloblastoma'},
+  { value: 'Dysembryoplastic neuroepithelial tumor', label: 'Dysembryoplastic neuroepithelial tumor'},
+  { value: 'Rhabdoid tumor', label: 'Rhabdoid tumor'},
+  { value: 'choroid plexus papilloma', label: 'Choroid plexus papilloma'}
 
-function PedSearch({ autoFocus = false, embedded = false, inputValue='', setInputValue, searchQuery }) {
-  const [open, setOpen] = React.useState(false);
-  const debouncedInputValue = useDebounce(inputValue, 300);
-  const [getData, { loading, data }] = useLazyQuery(searchQuery, {
-    variables: { queryString: debouncedInputValue },
-    onCompleted: () => {},
-  });
-  const [searchResults, setSearchResults] = useState([]);
+]
 
-  const handleChangeInputValue = e => {
-    if (!e.target.value) {
-      setOpen(false);
-    } else {
-      setOpen(true);
+export default class PedSearch extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      isClearable: true,
+      isDisabled: false,
+      isLoading: false,
+      isRtl: false,
+      isSearchable: true,
+      geneSymbolOptions: [],
+      diseaseOptions: diseaseList
     }
-    setInputValue(e.target.value || '');
-  };
+    this.toggleClearable = this.toggleClearable.bind(this)
+    this.toggleDisabled = this.toggleDisabled.bind(this)
+    this.toggleLoading = this.toggleLoading.bind(this)
+    this.toggleRtl = this.toggleRtl.bind(this)
+    this.toggleSearchable = this.toggleSearchable.bind(this)
+  
+  }
+ 
 
-  const handleSelectOption = (e, option, r) => {
-    handleChangeInputValue(e);
+  toggleClearable = () =>
+    this.setState((state) => ({ isClearable: !state.isClearable }));
+  toggleDisabled = () =>
+    this.setState((state) => ({ isDisabled: !state.isDisabled }));
+  toggleLoading = () =>
+    this.setState((state) => ({ isLoading: !state.isLoading }));
+  toggleRtl = () => this.setState((state) => ({ isRtl: !state.isRtl }));
+  toggleSearchable = () =>
+    this.setState((state) => ({ isSearchable: !state.isSearchable }));
 
-    if (!option) return;
-
-    if (option.type === 'search') {
-      setInputValue(option.name || '')
-    } else {
-      option.entity === "target" ? setInputValue(option.approvedSymbol || '') : setInputValue(option.name || '')
+  handleChange = (e) => {
+    if (typeof e === "string") {
+      this.props.setInputValue(e || '')
+    } else if (typeof e === "object") {
+      console.log("It's true")
+      this.props.setInputValue(e?.value || '')
     }
-  };
-
-  const getOptionVal = (option, defualtReturn) =>{
-    let result = defualtReturn
-
-    if (option.entity === "target") {
-      result = option.approvedSymbol
-    } else if (option.entity === "disease") {
-      result = option.name
-    } 
-
-    return result;
+    console.log("Selected: ", e)
   }
 
-  useEffect(
-    () => {
-      if (debouncedInputValue) {
-        getData({ variables: { queryString: debouncedInputValue } });
-      } else {
-        setSearchResults([]);
+  getOptions(){
+    if (this.props.entity === "target") {
+      this.setState({isLoading: true})
+      let i = 0;
+      let geneSymbolList = [
+        { value: 'CDK14', label: 'CDK14'},
+        
+      ] 
+      while( i < 40000) {
+        geneSymbolList = [...geneSymbolList, { value: 'ZNRD1', label: 'ZNRD1'}]
+        i++
       }
-    },
-    [debouncedInputValue, getData]
-  );
-
-  useEffect(
-    () => {
-      const res = [];
-
-      if (inputValue) {
-        res.push({
-          type: 'search',
-          entity: 'any',
-          id: inputValue,
-          name: inputValue,
-        });
+      if (i >= 40000) {
+        this.setState({isLoading: false})
       }
+      this.setState({geneSymbolOptions: geneSymbolList})
+    }
+  }
+  componentDidMount(){
+    this.getOptions()
+  }
 
-      if (data) {
-        Object.keys(data).forEach(key =>
-          data[key].hits.map(i =>
-            res.push({
-              type: key === 'topHit' ? 'topHit' : 'normal',
-              entity: i.entity,
-              ...i.object,
-            })
-          )
-        );
-      }
-      setSearchResults(res);
-    },
-    [data, inputValue]
-  );
+  render() {
 
-  const classes = useStyles();
+    const { isClearable, isSearchable, isDisabled, isLoading, isRtl, geneSymbolOptions, diseaseOptions} =
+      this.state;
+    const { inputValue, entity} = this.props;
+    
+    console.log("geneSymbolList: ", geneSymbolOptions)
 
-  return (
-    <Box className={!embedded ? classes.container : classes.containerEmbedded}>
-      <Autocomplete
-        autoHighlight
-        freeSolo
-        forcePopupIcon
-        disablePortal
-        clearOnEscape={false}
-        classes={{
-          listbox: classes.listbox,
-          option: classes.option,
-          root: classes.root,
-        }}
-        filterOptions={(o, s) => searchResults}
-        getOptionLabel={option => getOptionVal(option, option)}
-        getOptionSelected={(option, value) => option.id === value}
-        groupBy={option =>
-          option.type === 'topHit' ? 'topHit' : option.entity
-        }
-        loading={loading}
-        noOptionsText="No results"
-        options={searchResults}
-        onChange={handleSelectOption}
-        onOpen={() => {
-          if (inputValue) setOpen(true);
-        }}
-        onClose={() => {
-          setOpen(false);
-        }}
-        open={open}
-        popupIcon={open ? <ArrowDropDown /> : <SearchIcon />}
-        renderOption={option => <Option data={option} setInputValue={setInputValue} />}
-        renderGroup={group => (
-          <Group key={group.key} name={group.group} children={group.children} />
-        )}
-        renderInput={params =>
-          !embedded ? (
-            <Input
-            style={{paddingLeft: '5px'}}
-              className={classes.input}
-              inputProps={params.inputProps}
-              ref={params.InputProps.ref}
-              endAdornment={
-                loading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : (
-                  params.InputProps.endAdornment.props.children[0]
-                )
-              }
-              placeholder=" Search ..."
-              onChange={handleChangeInputValue}
-              value={inputValue}
-            />
-          ) : (
-            <InputBase
-              autoFocus={autoFocus}
-              classes={{
-                root: classes.inputBase,
-                input: classes.inputBaseInput,
-              }}
-              inputProps={params.inputProps}
-              ref={params.InputProps.ref}
-              endAdornment={
-                loading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : (
-                  params.InputProps.endAdornment
-                )
-              }
-              placeholder="Search..."
-              onChange={handleChangeInputValue}
-              value={inputValue}
-            />
-          )
-        }
-        value={inputValue}
-      />
-    </Box>)
+    return (
+      <Fragment>
+        <Select         
+          className="basic-single"
+          classNamePrefix="select"
+          defaultValue={ {value: inputValue, label: inputValue} || ''}
+          isDisabled={isDisabled}
+          isLoading={isLoading}
+          isClearable={isClearable}
+          isRtl={isRtl}
+          isSearchable={isSearchable}
+          name="color"
+          options={ entity === 'target' ? geneSymbolOptions : diseaseOptions}
+          onChange={this.handleChange}
+          // cacheOptions defaultOptions 
+          // loadOptions={colourOptions}
+          // onInputChange={this.handleChange}
+        />
 
+      
+      </Fragment>
+    );
+  }
 }
-
-export default PedSearch;
