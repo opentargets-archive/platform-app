@@ -1,64 +1,9 @@
 import React, { Component, Fragment } from 'react';
 
 import Select from 'react-select';
-// import AsyncSelect from 'react-select/async'
-//import { colourOptions } from '../data';
 
-// const geneSymbolList = [
-//   { value: 'CDK14', label: 'CDK14'},
-//   { value: 'SOX30', label: 'SOX30'},		
-//   { value: 'RBMX', label: 'RBMX'},
-//   { value: 'KCNK13', label: 'KCNK13'},
-//   { value: 'MORC3', label: 'MORC3'},
-//   { value: 'PDCD2', label: 'PDCD2'},	
-//   { value: 'FRY', label: 'FRY'},
-//   { value: 'ALK', label: 'ALK'},
-//   { value: 'ZSCAN16-AS1', label: 'ZSCAN16-AS1'},
-//   { value: 'HEG1', label: 'HEG1'},
-//   { value: 'CACNA1I', label: 'CACNA1I'},
-//   { value: 'ZNRF2', label: 'ZNRF2'},
-//   { value: 'ZNRD1ASP', label: 'ZNRD1ASP'},	
-//   { value: 'ZNRD1', label: 'ZNRD1'},
-//   { value: 'ZNHIT2', label: 'ZNHIT2'},
-//   { value: 'ZNF971P', label: 'ZNF971P'},
-//   { value: 'ZNF965P', label: 'ZNF965P'},
-//   { value: 'ZNF962P', label: 'ZNF962P'},
-//   { value: 'ZNF93', label: 'ZNF93'},
-//   { value: 'ZNF90P3', label: 'ZNF90P3'},
-//   { value: 'ZNF90P2', label: 'ZNF90P2'},
-//   { value: 'ZNF880', label: 'ZNF880'},
-// ]
-
-const diseaseList = [
-  { value: 'Acute Lymphoblastic Leukemia', label: 'Acute Lymphoblastic Leukemia'},
-  { value: 'Acute Myeloid Leukemia', label: 'Acute Myeloid Leukemia'},
-  { value: 'Clear cell sarcoma of the kidney', label: 'Clear cell sarcoma of the kidney'},
-  { value: 'Osteosarcoma', label: 'Osteosarcoma'},
-  { value: 'neuroblastoma', label: 'neuroblastoma'},
-  { value: 'Craniopharyngioma', label: 'Craniopharyngioma'},
-  { value: 'Atypical Teratoid Rhabdoid Tumor', label: 'Atypical Teratoid Rhabdoid Tumor'},
-  { value: 'High-grade glioma/astrocytoma', label: 'High-grade glioma/astrocytoma'},
-  { value: 'Choroid plexus carcinoma', label: 'Choroid plexus carcinoma'},
-  { value: 'Ewing sarcoma', label: 'Ewing sarcoma'},
-  { value: 'Adenoma', label: 'Adenoma'},
-  { value: 'Germinoma', label: 'Germinoma'},
-  { value: 'Diffuse midline glioma', label: 'Diffuse midline glioma'},
-  { value: 'Low-grade glioma/astrocytoma', label: 'Low-grade glioma/astrocytoma'},
-  { value: 'Meningioma', label: 'Meningioma'},
-  { value: 'Sarcoma', label: 'Sarcoma'},
-  { value: 'CNS Embryonal tumor', label: 'CNS Embryonal tumor'},
-  { value: 'Teratoma', label: 'Teratoma'},
-  { value: 'Subependymal Giant Cell Astrocytoma', label: 'Subependymal Giant Cell Astrocytoma'},
-  { value: 'Chordoma', label: 'Chordoma'},
-  { value: 'Neuroblastoma', label: 'Neuroblastoma'},
-  { value: 'Neurofibroma/Plexiform', label: 'Neurofibroma/Plexiform'},
-  { value: 'Schwannoma', label: 'Schwannoma'},
-  { value: 'Medulloblastoma', label: 'Medulloblastoma'},
-  { value: 'Dysembryoplastic neuroepithelial tumor', label: 'Dysembryoplastic neuroepithelial tumor'},
-  { value: 'Rhabdoid tumor', label: 'Rhabdoid tumor'},
-  { value: 'choroid plexus papilloma', label: 'Choroid plexus papilloma'}
-
-]
+import DiseaseOptions from './diseaseOptions.json'
+import TargetOptions from './targetOptions.json'
 
 export default class PedSearch extends Component {
   constructor(props){
@@ -70,7 +15,7 @@ export default class PedSearch extends Component {
       isRtl: false,
       isSearchable: true,
       geneSymbolOptions: [],
-      diseaseOptions: diseaseList
+      diseaseOptions: [],
     }
     this.toggleClearable = this.toggleClearable.bind(this)
     this.toggleDisabled = this.toggleDisabled.bind(this)
@@ -102,21 +47,23 @@ export default class PedSearch extends Component {
   }
 
   getOptions(){
+    const geneSymbolList = []
+    const diseaseList = []
+
     if (this.props.entity === "target") {
-      this.setState({isLoading: true})
-      let i = 0;
-      let geneSymbolList = [
-        { value: 'CDK14', label: 'CDK14'},
-        
-      ] 
-      while( i < 40000) {
-        geneSymbolList = [...geneSymbolList, { value: 'ZNRD1', label: 'ZNRD1'}]
-        i++
-      }
-      if (i >= 40000) {
-        this.setState({isLoading: false})
-      }
+        TargetOptions.forEach(e => {
+          geneSymbolList.push(
+            {value: e.Gene_symbol, label: e.Gene_symbol}
+          )
+        });
       this.setState({geneSymbolOptions: geneSymbolList})
+    } else if (this.props.entity === "disease") {
+        DiseaseOptions.forEach(e => {
+          diseaseList.push(
+            {value: e.Disease, label: e.Disease}
+          )
+        });
+      this.setState({diseaseOptions: diseaseList})
     }
   }
   componentDidMount(){
@@ -127,9 +74,10 @@ export default class PedSearch extends Component {
 
     const { isClearable, isSearchable, isDisabled, isLoading, isRtl, geneSymbolOptions, diseaseOptions} =
       this.state;
-    const { inputValue, entity} = this.props;
+    const { inputValue, entity } = this.props;
     
-    console.log("geneSymbolList: ", geneSymbolOptions)
+    console.log("geneSymbolOptions: ", geneSymbolOptions)
+    console.log("diseaseOptions: ", diseaseOptions)
 
     return (
       <Fragment>
