@@ -160,7 +160,8 @@ const AboutView = ({ data }) => {
       openPbtaDS: false,
       oncokbDS: false, 
 
-      fdaPmtlDV: true,
+      pedCanDataNavDV: true,
+      fdaPmtlDV: false,
       somaticMutationsDV: false,
       geneExpressionDV: false
 
@@ -368,6 +369,37 @@ const AboutView = ({ data }) => {
           SOURCE: 
           <Link to="https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target" external>{' '} 
             FDA Publications of Pediatric Molecular Target Lists
+            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+          </Link>
+          
+        </p>
+      </div>
+    )
+  }
+  
+  const pedCanDataNavDataVisualizations = () => {
+    return (
+      <div className={classes.listContent}>
+        <p>
+          The <Link to="/pediatric-cancer-data-navigation"> Pediatric Cancer Data Navigation </Link> 
+          page allows users to identify and navigate to pages that are certain to contain pediatric 
+          cancer data visualizations. Searching for a target or disease on this page queries a 
+          database containing only target-disease combinations for which new pediatric cancer 
+          evidence exists. Search results include links to target and evidence pages, both of which 
+          will include pediatric cancer data visualizations.
+        </p>
+        <p>
+          Though it is possible to encounter pediatric cancer data when browsing the Molecular 
+          Target Platform, the Pediatric Cancer Data Navigation page is the most reliable method of 
+          locating pediatric cancer data in the initial Platform release. Integration of the new 
+          pediatric cancer data into existing Open Targets association heatmap displays is planned 
+          for future release.
+        </p>
+        <p>
+          SOURCE: 
+          <Link to={"https://github.com/PediatricOpenTargets/OpenPedCan-analysis/blob/"+
+                      "4fb04fe60754b90da3c241dbb8b727c3722487cc/doc/release-notes.md"} external>{' '} 
+            OpenPedCan (v10)
             <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
           </Link>
           
@@ -672,12 +704,17 @@ const AboutView = ({ data }) => {
       </Grid>
     </Grid>
 
-    {/* Pediatric Cancer Data Sources */}
+    {/* Pediatric Cancer Data Visualizations */}
     <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
         <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
           Pediatric Cancer Data Visualizations
         </Typography>
+
+        {/* Pediatric Cancer Data Navigation */}
+        {listHeader("Pediatric Cancer Data Navigation", "", "pedCanDataNavDV")}
+        {showHide.pedCanDataNavDV && pedCanDataNavDataVisualizations()}
+        <hr className={classes.listDiverHr} />
 
         {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
         {listHeader("FDA Pediatric Molecular Targets Lists %acronym","FDA PMTL", "fdaPmtlDV")}
