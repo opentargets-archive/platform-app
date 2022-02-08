@@ -10,29 +10,20 @@ export default class PedSearch extends Component {
     super(props)
     this.state = {
       isClearable: true,
-      isDisabled: false,
       isLoading: false,
-      isRtl: false,
       isSearchable: true,
       geneSymbolOptions: [],
       diseaseOptions: [],
     }
     this.toggleClearable = this.toggleClearable.bind(this)
-    this.toggleDisabled = this.toggleDisabled.bind(this)
     this.toggleLoading = this.toggleLoading.bind(this)
-    this.toggleRtl = this.toggleRtl.bind(this)
     this.toggleSearchable = this.toggleSearchable.bind(this)
-  
   }
- 
 
   toggleClearable = () =>
     this.setState((state) => ({ isClearable: !state.isClearable }));
-  toggleDisabled = () =>
-    this.setState((state) => ({ isDisabled: !state.isDisabled }));
   toggleLoading = () =>
     this.setState((state) => ({ isLoading: !state.isLoading }));
-  toggleRtl = () => this.setState((state) => ({ isRtl: !state.isRtl }));
   toggleSearchable = () =>
     this.setState((state) => ({ isSearchable: !state.isSearchable }));
 
@@ -72,33 +63,23 @@ export default class PedSearch extends Component {
 
   render() {
 
-    const { isClearable, isSearchable, isDisabled, isLoading, isRtl, geneSymbolOptions, diseaseOptions} =
+    const { isClearable, isSearchable, isLoading, geneSymbolOptions, diseaseOptions} =
       this.state;
     const { inputValue, entity } = this.props;
     
-    console.log("geneSymbolOptions: ", geneSymbolOptions)
-    console.log("diseaseOptions: ", diseaseOptions)
-
     return (
       <Fragment>
         <Select         
           className="basic-single"
           classNamePrefix="select"
           defaultValue={ {value: inputValue, label: inputValue} || ''}
-          isDisabled={isDisabled}
           isLoading={isLoading}
           isClearable={isClearable}
-          isRtl={isRtl}
           isSearchable={isSearchable}
           name="color"
           options={ entity === 'target' ? geneSymbolOptions : diseaseOptions}
           onChange={this.handleChange}
-          // cacheOptions defaultOptions 
-          // loadOptions={colourOptions}
-          // onInputChange={this.handleChange}
         />
-
-      
       </Fragment>
     );
   }
