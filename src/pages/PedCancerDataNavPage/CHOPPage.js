@@ -240,7 +240,26 @@ function CHoPPage() {
     
               <br />
               <Typography component="p" paragraph>
-                Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to find detailed evidence pages with pediatric cancer data within the Molecular Targets Platform.
+                Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to find pediatric cancer data within the 
+                Molecular Targets Platform.
+              </Typography>
+              <Typography component="p" paragraph>
+                In the resulting table:
+                <ul>
+                  <li>
+                    Each <b> Evidence </b> page link opens a page presenting all available data within the Molecular Targets 
+                    Platform including available pediatric cancer data associating the specific target with the specific disease
+                  </li>
+                  <li>
+                    Each <b>Gene symbol </b> page link opens a page presenting all available data within the Molecular 
+                    Targets Platform including available pediatric cancer data for the specific target
+                  </li>
+                  <li>
+                    <b> Disease </b> pages linked in this table will not contain pediatric data
+                  </li>
+                  <li> Refining a search will query the entire database </li>
+                  <li> A maximum of 10,000 results are returned in the search results </li>
+                </ul>
               </Typography>
             </Grid>
           
