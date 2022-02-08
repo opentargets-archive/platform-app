@@ -271,7 +271,7 @@ function CHoPPage() {
             <Grid className={classes.searchContainer} container item direction="row" justifyContent="center" alignItems="center" spacing={0}>
               <Grid item xs={3}  className={classes.entityContainer}> <p className={classes.entityText} > Gene symbol: </p> </Grid>
               <Grid item xs className={classes.inputFieldContainer}>
-                <PedSearch searchQuery={TARGET_SEARCH_QUERY} inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
+                <PedSearch entity="target" searchQuery={TARGET_SEARCH_QUERY} inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
               </Grid>
             </Grid>
           {/*md={10} l={1} xl={1}*/}
@@ -281,7 +281,7 @@ function CHoPPage() {
             <Grid className={classes.searchContainer} container item direction="row" justifyContent="center" alignItems="center" spacing={0}>
               <Grid item xs={2} className={classes.entityContainer}> <p className={classes.entityText}> Disease: </p> </Grid>
               <Grid item xs className={classes.inputFieldContainer}>
-                <PedSearch searchQuery={DISEASE_SEARCH_QUERY} inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
+                <PedSearch entity="disease" searchQuery={DISEASE_SEARCH_QUERY} inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
               </Grid>
             </Grid>
           </Grid> 
