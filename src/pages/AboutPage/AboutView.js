@@ -160,8 +160,9 @@ const AboutView = ({ data }) => {
       openPbtaDS: false,
       oncokbDS: false, 
 
-      fdaPmtlDV: true,
-      somaticMutationsDV: false,
+      pedCanDataNavDV: true,
+      fdaPmtlDV: false,
+      somaticAlterationsDV: false,
       geneExpressionDV: false
 
     }
@@ -237,7 +238,7 @@ const AboutView = ({ data }) => {
             OpenPedCan (v10)
             <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
           </Link><br/> 
-          Where this data is used in the MTP: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression
+          Where this data is used in the MTP: OpenPedCan Somatic Alterations; OpenPedCan Gene Expression
         </p>
       </div>
     )
@@ -259,7 +260,7 @@ const AboutView = ({ data }) => {
             TARGET (v23)
             <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
           </Link><br/> 
-          Where this data is used in the MTP: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression
+          Where this data is used in the MTP: OpenPedCan Somatic Alterations; OpenPedCan Gene Expression
         </p>
       </div>
     )
@@ -280,7 +281,7 @@ const AboutView = ({ data }) => {
             Kids First Neuroblastoma
             <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
           </Link><br/> 
-          Where this data is used in the MTP: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression
+          Where this data is used in the MTP: OpenPedCan Somatic Alterations; OpenPedCan Gene Expression
         </p>
       </div>
     )
@@ -317,7 +318,7 @@ const AboutView = ({ data }) => {
             OpenPBTA for the CBTN (v21)
             <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
           </Link><br/> 
-          Where this data is used in the MTP: OpenPedCan Somatic Mutations; OpenPedCan Gene Expression
+          Where this data is used in the MTP: OpenPedCan Somatic Alterations; OpenPedCan Gene Expression
         </p>
       </div>
     )
@@ -329,7 +330,7 @@ const AboutView = ({ data }) => {
         <p>
           The OncoKB Cancer Gene list from the Memorial Sloan Kettering Cancer Center is a curated list of genes considered 
           to be oncogenes or tumor suppressor genes based on inclusion in various other sequencing panels. The Molecular Targets Platform 
-          includes the OncoKB list annotations as a field within the OpenPedCan Somatic Mutations displays.
+          includes the OncoKB list annotations as a field within the OpenPedCan Somatic Alterations displays.
         </p>
         <p>
           SOURCE: 
@@ -341,7 +342,7 @@ const AboutView = ({ data }) => {
             Chakravarty et al., JCO PO 2017
             <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
           </Link><br />
-          Where this data is used in the MTP: OpenPedCan Somatic Mutations
+          Where this data is used in the MTP: OpenPedCan Somatic Alterations
         </p>
       </div>
     )
@@ -359,7 +360,7 @@ const AboutView = ({ data }) => {
               <ul>
                 <li>On Target and Evidence Page headers</li>
                 <li>On Disease pages when viewing the Associated Targets tab</li>
-                <li>Within the OpenPedCan Somatic Mutations display</li>
+                <li>Within the OpenPedCan Somatic Alterations display</li>
               </ul>
             </li>
           </ul>	
@@ -375,12 +376,43 @@ const AboutView = ({ data }) => {
       </div>
     )
   }
-
-  const smDataVisualizations =() => {
+  
+  const pedCanDataNavDataVisualizations = () => {
     return (
       <div className={classes.listContent}>
         <p>
-          The OpenPedCan Somatic Mutations display aggregates data from harmonized analyses across several pediatric cancer datasets 
+          The <Link to="/pediatric-cancer-data-navigation"> Pediatric Cancer Data Navigation </Link> 
+          page allows users to identify and navigate to pages that are certain to contain pediatric 
+          cancer data visualizations. Searching for a target or disease on this page queries a 
+          database containing only target-disease combinations for which new pediatric cancer 
+          evidence exists. Search results include links to target and evidence pages, both of which 
+          will include pediatric cancer data visualizations.
+        </p>
+        <p>
+          Though it is possible to encounter pediatric cancer data when browsing the Molecular 
+          Target Platform, the Pediatric Cancer Data Navigation page is the most reliable method of 
+          locating pediatric cancer data in the initial Platform release. Integration of the new 
+          pediatric cancer data into existing Open Targets association heatmap displays is planned 
+          for future release.
+        </p>
+        <p>
+          SOURCE: 
+          <Link to={"https://github.com/PediatricOpenTargets/OpenPedCan-analysis/blob/"+
+                      "4fb04fe60754b90da3c241dbb8b727c3722487cc/doc/release-notes.md"} external>{' '} 
+            OpenPedCan (v10)
+            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+          </Link>
+          
+        </p>
+      </div>
+    )
+  }
+
+  const saDataVisualizations =() => {
+    return (
+      <div className={classes.listContent}>
+        <p>
+          The OpenPedCan Somatic Alterations display aggregates data from harmonized analyses across several pediatric cancer datasets 
           performed within the OpenPedCan project. The primary goal of this display is to show the frequency of targets in both primary 
           and relapse pediatric tumors, where available. The display is organized into five tabs, each representing a different type of data:
             <ul>
@@ -391,11 +423,11 @@ const AboutView = ({ data }) => {
               <li><b>Fusion</b>: Frequency of specific gene fusions</li>
             </ul> 
             
-          The OpenPedCan Somatic Mutations display is accessible within the Molecular Target Platform on both the Target and Evidence pages. 
+          The OpenPedCan Somatic Alterations display is accessible within the Molecular Target Platform on both the Target and Evidence pages. 
           The data driving each display is identical; however, the Target page display will show frequencies of the Target across all pediatric cancers, 
           while the Evidence page display is filtered to only show frequencies of the Target in a specific Disease.
 
-          The data within the OpenPedCan Somatic Mutations display is derived from several source datasets, also known as cohorts. 
+          The data within the OpenPedCan Somatic Alterations display is derived from several source datasets, also known as cohorts. 
           A frequency is calculated and displayed for each dataset. Some Target-Disease combinations are present in more than one dataset; 
           these also have a frequency calculation across all datasets and are designated as 'All Cohorts'.
         </p>
@@ -672,21 +704,26 @@ const AboutView = ({ data }) => {
       </Grid>
     </Grid>
 
-    {/* Pediatric Cancer Data Sources */}
+    {/* Pediatric Cancer Data Visualizations */}
     <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
         <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
           Pediatric Cancer Data Visualizations
         </Typography>
 
+        {/* Pediatric Cancer Data Navigation */}
+        {listHeader("Pediatric Cancer Data Navigation", "", "pedCanDataNavDV")}
+        {showHide.pedCanDataNavDV && pedCanDataNavDataVisualizations()}
+        <hr className={classes.listDiverHr} />
+
         {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
         {listHeader("FDA Pediatric Molecular Targets Lists %acronym","FDA PMTL", "fdaPmtlDV")}
         {showHide.fdaPmtlDV && fdaPmtlDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
-        {/* OpenPedCan Somatic Mutations (SM)*/}
-        {listHeader("OpenPedCan Somatic Mutations", "", "somaticMutationsDV")}
-        {showHide.somaticMutationsDV && smDataVisualizations()}
+        {/* OpenPedCan Somatic Alterations (SA)*/}
+        {listHeader("OpenPedCan Somatic Alterations", "", "somaticAlterationsDV")}
+        {showHide.somaticAlterationsDV && saDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
         {/* OpenPedCan Gene Expression (GX)*/}
@@ -786,7 +823,7 @@ const AboutView = ({ data }) => {
               </div>
 
               <div className={classes.changeLogBoxRight}>
-                The OpenPedCan version represents new analysis results used in the OpenPedCan Somatic Mutations and Gene Expression displays.
+                The OpenPedCan version represents new analysis results used in the OpenPedCan Somatic Alterations and Gene Expression displays.
               </div>
             </div>
           </Paper>
@@ -805,7 +842,7 @@ const AboutView = ({ data }) => {
               </div>
 
               <div className={classes.changeLogBoxRight}>
-                The OncoKB Cancer Gene List version represents the genes identified as OncoKB oncogenes or tumor suppressor genes within the OpenPedCan Somatic Mutations display.
+                The OncoKB Cancer Gene List version represents the genes identified as OncoKB oncogenes or tumor suppressor genes within the OpenPedCan Somatic Alterations display.
               </div>
             </div>
           </Paper>
