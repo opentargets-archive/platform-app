@@ -79,7 +79,7 @@
     "lint-staged": ">=10",
     "nanoid-cli": "^1.1.0",
     "nightwatch": "^1.1.13",
-    "node-sass": "^4.14.0",
+    "node-sass": "^7.0.0",
     "prettier": "1.15.1",
     "source-map-explorer": "^2.0.0"
   },
