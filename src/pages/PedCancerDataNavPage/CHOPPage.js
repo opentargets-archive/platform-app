@@ -144,13 +144,7 @@ const useStyles = makeStyles(theme => ({
       color: "#3489ca"
     },
   },
-  searchContainer: {
-    maxWidth: '550px', // 447px 
-    borderRadius: '10px', 
-    backgroundColor: '#3489ca', 
-    padding: '10px', 
-    border: 'solid 1px black'
-  },
+
   entityContainer: {
     backgroundColor: "white",
   },
@@ -172,14 +166,15 @@ const useStyles = makeStyles(theme => ({
   /*      result    */
   result: {
     backgroundColor: "white",
-    padding: "0 50px 100px 50px",
+    padding: "0 50px 0px 50px",
   },
   resultHeader: {
     marginTop: '50px',
     color: '#04599a',
   },
   resultTable: {
-    marginTop: '50px'
+    marginTop: '50px',
+    paddingBottom: "100px"
   },
 
   inputFieldContainer: {
