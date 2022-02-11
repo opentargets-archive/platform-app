@@ -125,16 +125,21 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '25px'
   },
   header: {
-    marginBottom: '50px'
+    marginBottom: '50px',
+    fontSize: '30px',
+    fontWeight: 'bold',
   },
   /*    Search    */
   searchButton: {
     padding: '43px 20px',
     transition: "all 150ms ease",
     border: "none",
-    cursor: props => props.inputFieldAreEmpty ? "notAllowed" : "pointer",
-    backgroundColor: props => props.inputFieldAreEmpty ? "" : "#3489ca",
-    color: props => props.inputFieldAreEmpty ? "#000000" : "white" 
+    // cursor: props => props.inputFieldAreEmpty ? "notAllowed" : "pointer",
+    // backgroundColor: props => props.inputFieldAreEmpty ? "" : "#3489ca",
+    // color: props => props.inputFieldAreEmpty ? "#000000" : "white" 
+    cursor: "pointer",
+    backgroundColor: "#3489ca",
+    color: "white" 
   },
   searchContainer: {
     maxWidth: '550px', // 447px 
@@ -148,10 +153,13 @@ const useStyles = makeStyles(theme => ({
   },
   entityItem: {
     padding: '20px',
+    fontSize: '16px',
+    fontWeight: 'bold'
   },
   entitySelectItem: {
-    padding: '0 0px'
+    paddingRight: '25px'
   },
+
 
   /*      info    */
   infoContainer: {
@@ -161,7 +169,7 @@ const useStyles = makeStyles(theme => ({
   /*      result    */
   result: {
     backgroundColor: "white",
-    padding: "0 50px"
+    padding: "0 50px 100px 50px",
   },
   resultHeader: {
     marginTop: '50px',
@@ -221,6 +229,7 @@ function CHoPPage() {
     [  data, debouncedDiseaseInputValue, debouncedTargetInputValue, displayTable, getData]
   );
 
+
   const appTitle = "Pediatric Cancer Data Navigation";
 
   const rowsPerPageOptions = [10, 25, 50];
@@ -256,7 +265,7 @@ function CHoPPage() {
         {/*     Header    */}
         <Grid item xs={12} className={classes.headerContainer}>
           <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
-            <b>Pediatric Cancer Data Navigation</b>
+            Pediatric Cancer Data Navigation
           </Typography>
 
           <Typography component="p" align="center" paragraph style={{color: 'black'}}>
@@ -269,21 +278,22 @@ function CHoPPage() {
         <Grid container alignItems="center" item xs={12} lg={8} style={{}}>
           {/*   Gene Symbol   */}
           <Grid container item alignItems="center" xs className={classes.entityContainer}> 
-            <Grid item className={classes.entityItem}><b> Gene Symbol: </b> </Grid>
+            <Grid item className={classes.entityItem}> Gene Symbol: </Grid>
             <Grid item xs className={classes.entitySelectItem}>
               <PedSearch entity="target" searchQuery={TARGET_SEARCH_QUERY} inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
             </Grid>
           </Grid>
           {/*   Disease   */}
           <Grid container item xs alignItems="center" className={classes.entityContainer}> 
-            <Grid item className={classes.entityItem}><b> Disease: </b> </Grid>
+            <Grid item className={classes.entityItem}> Disease: </Grid>
             <Grid item xs className={classes.entitySelectItem}>
               <PedSearch entity="disease" searchQuery={DISEASE_SEARCH_QUERY} inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
             </Grid>
           </Grid> 
           <Grid item >
+            {/*   disabled={inputFieldAreEmpty}   */}
             <Button className={classes.searchButton} onClick={handleOnClick} 
-              disabled={inputFieldAreEmpty} variant="contained" size="large"> Search </Button>
+               variant="contained" size="large"> Search </Button>
           </Grid>
         </Grid>
         <br />

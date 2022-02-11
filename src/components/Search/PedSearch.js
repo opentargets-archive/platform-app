@@ -7,12 +7,12 @@ import TargetOptions from './targetOptions.json'
 
 
 const customStyle = {
-  option: (provided, state) => ({
+  option: (provided, state) => (
+  {
     ...provided,
-    // fontWeight: state.isSelected ? "bold" : "normal",
-    // color: "black",
-    // backgroundColor: state.data.color,
-    fontSize: "16px"
+    backgroundColor: state.isFocused ? '#ECECEC' : 'white',
+    color: 'black',
+    fontSize: "14px"
   }),
   singleValue: (provided, state) => ({
     ...provided,
@@ -60,11 +60,20 @@ export default class PedSearch extends Component {
     if (typeof e === "string") {
       this.props.setInputValue(e || '')
     } else if (typeof e === "object") {
-      console.log("It's true")
       this.props.setInputValue(e?.value || '')
     }
     console.log("Selected: ", e)
   }
+  handlerOnInputChange = (e) => {
+    console.log("I am here")
+    if (typeof e === "string") {
+      //this.props.setInputValue(e || '')
+    } else if (typeof e === "object") {
+      //this.props.setInputValue(e?.value || '')
+    }
+    console.log("Input: ", e)
+  }
+  
 
   getOptions(){
     const geneSymbolList = []
@@ -98,21 +107,24 @@ export default class PedSearch extends Component {
     
     return (
       <Fragment>
-        <Select         
-          className="basic-single"
-          classNamePrefix="select"
-          defaultValue={ {value: inputValue, label: inputValue} || ''}
-          isLoading={isLoading}
-          isClearable={isClearable}
-          isSearchable={isSearchable}
-          name="color"
-          options={ entity === 'target' ? geneSymbolOptions : diseaseOptions}
-          onChange={this.handleChange}
-          styles={customStyle}
-          placeholder=""
-          autoFocus={false}
-          components={{ DropdownIndicator: () => null, IndicatorSeparator:() => null, }}
-        />
+        {entity === 'disease' || 'target' ? 
+          <Select         
+            className="basic-single"
+            classNamePrefix="select"
+            defaultValue={ {value: inputValue, label: inputValue} || ''}
+            isLoading={isLoading}
+            isClearable={isClearable}
+            isSearchable={isSearchable}
+            name="color"
+            options={ entity === 'target' ? geneSymbolOptions : diseaseOptions}
+            onChange={this.handleChange}
+            styles={customStyle}
+            placeholder=""
+            autoFocus={false}
+            components={{ DropdownIndicator: () => null, IndicatorSeparator:() => null, }}
+            onInputChange={this.handlerOnInputChange}
+          />
+          : null}
       </Fragment>
     );
   }
