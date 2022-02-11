@@ -139,7 +139,10 @@ const useStyles = makeStyles(theme => ({
     // color: props => props.inputFieldAreEmpty ? "#000000" : "white" 
     cursor: "pointer",
     backgroundColor: "#3489ca",
-    color: "white" 
+    color: "white", 
+    "&:hover": {
+      color: "#3489ca"
+    },
   },
   searchContainer: {
     maxWidth: '550px', // 447px 
@@ -228,7 +231,14 @@ function CHoPPage() {
     },
     [  data, debouncedDiseaseInputValue, debouncedTargetInputValue, displayTable, getData]
   );
-
+  useEffect(
+    () => {
+      if(displayTable){
+        setDisplayTable(false)
+      }
+    },
+    [ debouncedDiseaseInputValue, debouncedTargetInputValue]
+  )
 
   const appTitle = "Pediatric Cancer Data Navigation";
 
