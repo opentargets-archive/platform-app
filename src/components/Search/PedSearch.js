@@ -5,6 +5,35 @@ import Select from 'react-select';
 import DiseaseOptions from './diseaseOptions.json'
 import TargetOptions from './targetOptions.json'
 
+
+const customStyle = {
+  option: (provided, state) => ({
+    ...provided,
+    // fontWeight: state.isSelected ? "bold" : "normal",
+    // color: "black",
+    // backgroundColor: state.data.color,
+    fontSize: "16px"
+  }),
+  singleValue: (provided, state) => ({
+    ...provided,
+    // color: state.data.color,
+    // fontSize: state.selectProps.myFontSize
+  }),
+  input: (provided, state) => ({
+    ...provided,
+    // backgroundColor: "white",
+    margin: "28px 0px",
+    borderBottom: '1px solid black'
+ 
+  }),
+  control: (styles) => ({
+    ...styles,
+    border: 'none',
+    // This line disable the blue border
+    boxShadow: 'none'
+  })
+}
+
 export default class PedSearch extends Component {
   constructor(props){
     super(props)
@@ -79,6 +108,10 @@ export default class PedSearch extends Component {
           name="color"
           options={ entity === 'target' ? geneSymbolOptions : diseaseOptions}
           onChange={this.handleChange}
+          styles={customStyle}
+          placeholder=""
+          autoFocus={false}
+          components={{ DropdownIndicator: () => null, IndicatorSeparator:() => null, }}
         />
       </Fragment>
     );
