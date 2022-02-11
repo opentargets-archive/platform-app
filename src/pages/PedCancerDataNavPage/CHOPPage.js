@@ -113,32 +113,28 @@ function getRows(downloadData) {
 }
 
 const useStyles = makeStyles(theme => ({
-  page: {
-    background: theme.palette.grey['50'],
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    margin: 0,
-    width: '100%',
+
+  gridContainer1: {
+    margin: '170px 0 0 0',
+    padding: '50px 50px 60px 50px',
+    color: '#04599a',
+    backgroundColor: "#CDE9FF"
   },
-  gridContainer: {
-    margin: '200px 0 0 0',
-    padding: '24px',
-    width: '100%',
-    flex: '1 0 auto',
+  /*     Header     */
+  headerContainer: { 
+    marginBottom: '25px'
   },
-  spaceMaker: {
-    minWidth: '50px', 
-    minHeight: '50px'
+  header: {
+    marginBottom: '50px'
   },
+  /*    Search    */
   searchButton: {
-    padding: "12px 24px",
-    borderRadius: "8px",
+    padding: '43px 20px',
     transition: "all 150ms ease",
     border: "none",
     cursor: props => props.inputFieldAreEmpty ? "notAllowed" : "pointer",
     backgroundColor: props => props.inputFieldAreEmpty ? "" : "#3489ca",
-    color: props => props.inputFieldAreEmpty ? "" : "white" 
+    color: props => props.inputFieldAreEmpty ? "#000000" : "white" 
   },
   searchContainer: {
     maxWidth: '550px', // 447px 
@@ -147,16 +143,42 @@ const useStyles = makeStyles(theme => ({
     padding: '10px', 
     border: 'solid 1px black'
   },
-  entityContainer:{
-    color: 'white'
+  entityContainer: {
+    backgroundColor: "white",
   },
+  entityItem: {
+    padding: '20px',
+  },
+  entitySelectItem: {
+    padding: '0 0px'
+  },
+
+  /*      info    */
+  infoContainer: {
+    marginTop: '50px'
+  },
+
+  /*      result    */
+  result: {
+    backgroundColor: "white",
+    padding: "0 50px"
+  },
+  resultHeader: {
+    marginTop: '50px',
+    color: '#04599a',
+  },
+  resultTable: {
+    marginTop: '50px'
+  },
+
   inputFieldContainer: {
     backgroundColor: "white"
   },
   entityText: {
     textAlign: 'center',
     fontSize: '16px'
-  }
+  },
+  
 }))
 
 function CHoPPage() {
@@ -221,30 +243,59 @@ function CHoPPage() {
 
       <NCIHeader/>
 
-      <Grid container justify={'center'} spacing={3} className={classes.gridContainer} >
+      <Grid container >
         <Grid item xs={12} md={11}>
           <Helmet title={appTitle}>
             <meta name="description" content={appDescription} />
             <link rel="canonical" href={appCanonicalUrl} />
           </Helmet>
+        </Grid>
+      </Grid>
 
-          <Grid container>
+      <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.gridContainer1}>
+        {/*     Header    */}
+        <Grid item xs={12} className={classes.headerContainer}>
+          <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
+            <b>Pediatric Cancer Data Navigation</b>
+          </Typography>
+
+          <Typography component="p" align="center" paragraph style={{color: 'black'}}>
+            Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to find pediatric cancer data within the 
+            Molecular Targets Platform.
+          </Typography>
+        </Grid>
+
+        {/*    Search    */}
+        <Grid container alignItems="center" item xs={12} lg={8} style={{}}>
+          {/*   Gene Symbol   */}
+          <Grid container item alignItems="center" xs className={classes.entityContainer}> 
+            <Grid item className={classes.entityItem}><b> Gene Symbol: </b> </Grid>
+            <Grid item xs className={classes.entitySelectItem}>
+              <PedSearch entity="target" searchQuery={TARGET_SEARCH_QUERY} inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
+            </Grid>
+          </Grid>
+          {/*   Disease   */}
+          <Grid container item xs alignItems="center" className={classes.entityContainer}> 
+            <Grid item className={classes.entityItem}><b> Disease: </b> </Grid>
+            <Grid item xs className={classes.entitySelectItem}>
+              <PedSearch entity="disease" searchQuery={DISEASE_SEARCH_QUERY} inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
+            </Grid>
+          </Grid> 
+          <Grid item >
+            <Button className={classes.searchButton} onClick={handleOnClick} 
+              disabled={inputFieldAreEmpty} variant="contained" size="large"> Search </Button>
+          </Grid>
+        </Grid>
+        <br />
+        
+        {/*     Info      */}
+        <Grid container item xs={12} lg={6} className={classes.infoContainer}>
+          <Grid container item alignItems="center" xs > 
             <Grid item xs>
-              <Typography component="p" paragraph>
-                (This page is under active development)
-              </Typography>
-    
-              <Typography variant="h5" component="h1" paragraph>
-                Pediatric Cancer Data Navigation
-              </Typography>
-    
-              <br />
-              <Typography component="p" paragraph>
-                Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to find pediatric cancer data within the 
-                Molecular Targets Platform.
-              </Typography>
-              <Typography component="p" paragraph>
+              <Typography component="p" align='center' paragraph>
                 In the resulting table:
+              </Typography>
+              <Typography component="p" paragraph>
                 <ul>
                   <li>
                     Each <b> Evidence </b> page link opens a page presenting all available data within the Molecular Targets 
@@ -262,91 +313,68 @@ function CHoPPage() {
                 </ul>
               </Typography>
             </Grid>
-          
-          </Grid> <br/>
-  
-          <Grid container direction="row" justifyContent="center" alignItems="center" >
-    
-            {/*******  Target Search Box ********/}  
-            <Grid className={classes.searchContainer} container item direction="row" justifyContent="center" alignItems="center" spacing={0}>
-              <Grid item xs={3}  className={classes.entityContainer}> <p className={classes.entityText} > Gene symbol: </p> </Grid>
-              <Grid item xs className={classes.inputFieldContainer}>
-                <PedSearch entity="target" searchQuery={TARGET_SEARCH_QUERY} inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
-              </Grid>
-            </Grid>
-          {/*md={10} l={1} xl={1}*/}
-            <Grid item xs={1}  className={classes.spaceMaker}></Grid>
+          </Grid>
+        </Grid>
 
-            {/*******  Disease Search Box ********/}
-            <Grid className={classes.searchContainer} container item direction="row" justifyContent="center" alignItems="center" spacing={0}>
-              <Grid item xs={2} className={classes.entityContainer}> <p className={classes.entityText}> Disease: </p> </Grid>
-              <Grid item xs className={classes.inputFieldContainer}>
-                <PedSearch entity="disease" searchQuery={DISEASE_SEARCH_QUERY} inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
-              </Grid>
-            </Grid>
-          </Grid> 
-        
-          <br/> <br/>
-  
-          {/*******  Search Button ********/}
-          <Grid container direction="row" justifyContent="center" alignItems="center">
-            <Grid item >
-              <Button className={classes.searchButton} onClick={handleOnClick} disabled={inputFieldAreEmpty} variant="contained" > Search </Button>
+        <Grid container item xs={12} lg={8}>
+          <Grid container item alignItems="center" xs > 
+            <Grid item xs>
             </Grid>
           </Grid>
-          
-          <br/> <br/>
-          <hr /> <br />
-  
-          {/*******  Result/Table ********/}
-          { displayTable && inputFieldAreEmpty === false
-            ? <>
-                <Grid container>
-                  <Grid item >
-                  { loading 
-                    ? 
-                      <strong>Loading...</strong>
-                    :
-                     data?.pedCanNav?.rows?.length !==0
-                      ?
-                        <Typography component='p'>
-                          Found <strong>{reformatResult.length}</strong> 
-                          { searchForTarget ? <span> Diseases with <strong>{debouncedTargetInputValue}</strong> </span> : ""}
-                          { searchForDisease ? <span> Targets with <strong>{debouncedDiseaseInputValue}</strong> </span> : ""}
-                          { searchForBoth ? <span> result of <strong>{debouncedTargetInputValue}</strong> in <strong>{debouncedDiseaseInputValue}</strong> with </span> : ""}
-                          {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
-                        </Typography>
-                      : 
-                        <Typography component='p'>No results found</Typography>
-                  }
-                  </Grid>
-                </Grid> 
-                
-                <br/><br/>
-                
+        </Grid>
+
+      </Grid>
+      {/*     Result     */}
+      <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
+          {/*     Result Header     */}
+        { displayTable && inputFieldAreEmpty === false ?
+          <Grid container item xs={12} lg={6} className={classes.resultHeader}>
+            <Grid container item alignItems="center" xs > 
+              <Grid item xs>
+                { loading 
+                  ? 
+                    <strong>Loading...</strong>
+                  :
+                  data?.pedCanNav?.rows?.length !==0
+                    ?
+                      <Typography component='p'>
+                        Found <strong>{reformatResult.length}</strong> 
+                        { searchForTarget ? <span> Diseases with <strong>{debouncedTargetInputValue}</strong> </span> : ""}
+                        { searchForDisease ? <span> Targets with <strong>{debouncedDiseaseInputValue}</strong> </span> : ""}
+                        { searchForBoth ? <span> result of <strong>{debouncedTargetInputValue}</strong> in <strong>{debouncedDiseaseInputValue}</strong> with </span> : ""}
+                        {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
+                      </Typography>
+                    : 
+                      <Typography component='p'>No results found</Typography>
+                }
+              </Grid>
+            </Grid>
+          </Grid>
+        : null}
+        {/*     Result Table     */}
+        { displayTable && inputFieldAreEmpty === false ?
+          <Grid container item xs={12} lg={10} className={classes.resultTable}>
+            <Grid container item alignItems="center" xs > 
+              <Grid item xs>
                 <Paper variant="outlined" elevation={0}>
                   <Box m={2}>
-                    {(
-                      <>
-                        <CHOPTable
-                          loading={loading}
-                          columns={columns}
-                          data={reformatResult}
-                          pageSize={pageSize}
-                          onRowsPerPageChange={handleRowsPerPageChange}
-                          rowsPerPageOptions={rowsPerPageOptions}
-                          paginationPosition="TOP"
-                          sortBy={"geneSymbol"}
-                          order={"asc"}
-                        />
-                      </>
-                    )}
+                    <CHOPTable
+                      loading={loading}
+                      columns={columns}
+                      data={reformatResult}
+                      pageSize={pageSize}
+                      onRowsPerPageChange={handleRowsPerPageChange}
+                      rowsPerPageOptions={rowsPerPageOptions}
+                      paginationPosition="TOP"
+                      // sortBy={"geneSymbol"}
+                      // order={"asc"}
+                    />
                   </Box>
                 </Paper>
-              </>
-            : <></>
-          }
-        </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        : null }
       </Grid>
 
       <NCIFooter/>
