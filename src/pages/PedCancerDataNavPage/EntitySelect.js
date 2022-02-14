@@ -43,14 +43,14 @@ const getDiseaseOptions = () => {
   return diseaseList
 }
 
-function PedSearch({setInputValue, inputValue, entity="disease", placeHolder="Search and Select"}) {
+function PedSearch({setInputValue, inputValue, entity="disease", defaultOptions, placeHolder="Search and Select"}) {
   const [isClearable] = useState(true)
   const [isLoading] = useState(false)
   const [isSearchable] = useState(true)
   const [diseaseOptions] = useState(getDiseaseOptions())
 
   const [getGeneOptions, {loading, data}] = useLazyQuery(TARGET_SEARCH_QUERY)
-
+  console.log(entity, " defaultOptions: ", defaultOptions)
   const  handleChange = (e) => {
     if (typeof e === "string") {
       setInputValue(e || '')
@@ -80,6 +80,14 @@ function PedSearch({setInputValue, inputValue, entity="disease", placeHolder="Se
   const DropdownIndicator = props => {
     return !props?.selectProps?.value?.value?.length ? <Search /> : null
   }
+  const getTargetOptions = () => {
+    const options = []
+    const fetchData = data?.pedCanNavGene?.rows
+    if (fetchData) {
+      fetchData.map(({key}) => options.push({value: key, label: key}))
+    } 
+    return  options.length === 0 ? defaultOptions : options
+  }
 
   return (
     <Fragment>
@@ -91,7 +99,7 @@ function PedSearch({setInputValue, inputValue, entity="disease", placeHolder="Se
         options={ 
           entity === 'target' 
             ? 
-              data?.pedCanNavGene?.rows.map(({key}) => ({value: key, label: key}))
+              getTargetOptions()
             : diseaseOptions
         }
         onChange={handleChange}

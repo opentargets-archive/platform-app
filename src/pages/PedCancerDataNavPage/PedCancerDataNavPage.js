@@ -14,7 +14,7 @@ import { useLazyQuery } from '@apollo/client';
 
 import useDebounce from '../../hooks/useDebounce';
 import { useLocation } from 'react-router-dom';
-
+import defaultTargetOptions from './defaultTargetOptions.json'
 const PED_CAN_DATA_NAV_QUERY = loader('./PedCancerDataNav.gql')
 
 /*
@@ -289,7 +289,8 @@ function CHoPPage() {
           <Grid container item alignItems="center" xs className={classes.entityContainer}> 
             <Grid item className={classes.entityItem}> Gene Symbol: </Grid>
             <Grid item xs className={classes.entitySelectItem}>
-              <EntitySelect entity="target" inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
+              <EntitySelect inputValue={targetInputValue} setInputValue={setTargetInputValue}
+                entity="target" defaultOptions={defaultTargetOptions}/>
             </Grid>
           </Grid>
           {/*   Disease   */}

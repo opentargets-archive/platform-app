@@ -1,0 +1,22 @@
+[
+  { "label": "ACHE", "value": "ACHE" },
+  { "label": "ADAM33", "value": "ADAM33" },
+  { "label": "ADORA3", "value": "ADORA3" },
+  { "label": "APP", "value": "APP" },
+  { "label": "BRAF", "value": "BRAF" },
+  { "label": "BRCA2", "value": "BRCA2" },
+  { "label": "CFTR", "value": "CFTR" },
+  { "label": "GRIN3A", "value": "GRIN3A" },
+  { "label": "IL13", "value": "IL13" },
+  { "label": "IL2RA", "value": "IL2RA" },
+  { "label": "KIT", "value": "KIT" },
+  { "label": "KRAS", "value": "KRAS" },
+  { "label": "NOD2", "value": "NOD2" },
+  { "label": "PTEN", "value": "PTEN" },
+  { "label": "PTGS2", "value": "PTGS2" },
+  { "label": "SNCA", "value": "SNCA" },
+  { "label": "TNF", "value": "TNF" },
+  { "label": "TP53", "value": "TP53" },
+  { "label": "TSLP", "value": "TSLP" },
+  { "label": "TYK2", "value": "TYK2" }
+]
