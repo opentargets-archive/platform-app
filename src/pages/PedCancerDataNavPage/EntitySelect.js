@@ -5,7 +5,7 @@ import { useLazyQuery } from '@apollo/client';
 import { Search } from '@material-ui/icons';
 import DiseaseOptions from './diseaseOptions.json'
 
-const TARGET_SEARCH_QUERY = loader('../../pages/PedCancerDataNavPage/TargetSearchQuery.gql')
+const TARGET_SEARCH_QUERY = loader('./TargetSearchQuery.gql')
 
 /*      react-select custom style   */
 const customStyle = {

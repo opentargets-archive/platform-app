@@ -5,7 +5,7 @@ import { Grid, Paper, Box, Typography, Button, makeStyles } from '@material-ui/c
 import {Check as CheckIcon } from '@material-ui/icons';
 
 import NCIHeader from '../../components/NCIHeader';
-import PedSearch from '../../components/Search/PedSearch';
+import EntitySelect from './EntitySelect';
 import CHOPTable from '../../components/RMTLTable';
 import NCIFooter from '../../components/NCIFooter';
 import Link from '../../components/Link';
@@ -280,14 +280,14 @@ function CHoPPage() {
           <Grid container item alignItems="center" xs className={classes.entityContainer}> 
             <Grid item className={classes.entityItem}> Gene Symbol: </Grid>
             <Grid item xs className={classes.entitySelectItem}>
-              <PedSearch entity="target" inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
+              <EntitySelect entity="target" inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
             </Grid>
           </Grid>
           {/*   Disease   */}
           <Grid container item xs alignItems="center" className={classes.entityContainer}> 
             <Grid item className={classes.entityItem}> Disease: </Grid>
             <Grid item xs className={classes.entitySelectItem}>
-              <PedSearch entity="disease" inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
+              <EntitySelect entity="disease" inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
             </Grid>
           </Grid> 
           <Grid item >
