@@ -189,6 +189,8 @@ const useStyles = makeStyles(theme => ({
 function CHoPPage() {
   // Accessing input from Target and Disease Page
   let geneSymbol = '', disease = ''
+  const NUMBER_OF_TARGET = 42691
+  const NUMBER_OF_DISEASE = 41
 
   const location = useLocation()
   if (location.state) {
@@ -290,6 +292,9 @@ function CHoPPage() {
           <Typography component="p" align="center" paragraph className={classes.subHeader} >
             Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to find pediatric cancer data within the 
             Molecular Targets Platform.
+          </Typography>
+          <Typography component="p" align="center" paragraph className={classes.subHeader} >
+            (We have <b>{NUMBER_OF_TARGET}</b> Targets and <b>{NUMBER_OF_DISEASE}</b> Diseases available)
           </Typography>
         </Grid>
 
