@@ -1,11 +1,13 @@
-import React, { Component, Fragment } from 'react';
-
-import Select from 'react-select';
-
+import React, { Fragment, useState } from 'react';
+import Select, { components } from 'react-select';
+import { loader } from 'graphql.macro';
+import { useLazyQuery } from '@apollo/client';
+import { Search } from '@material-ui/icons';
 import DiseaseOptions from './diseaseOptions.json'
-import TargetOptions from './targetOptions.json'
 
+const TARGET_SEARCH_QUERY = loader('../../pages/PedCancerDataNavPage/TargetSearchQuery.gql')
 
+/*      react-select custom style   */
 const customStyle = {
   option: (provided, state) => (
   {
@@ -16,12 +18,10 @@ const customStyle = {
   }),
   singleValue: (provided, state) => ({
     ...provided,
-    // color: state.data.color,
-    // fontSize: state.selectProps.myFontSize
+    fontSize: '16px'
   }),
   input: (provided, state) => ({
     ...provided,
-    // backgroundColor: "white",
     margin: "28px 0px",
     borderBottom: '1px solid black'
  
@@ -34,98 +34,92 @@ const customStyle = {
   })
 }
 
-export default class PedSearch extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      isClearable: true,
-      isLoading: false,
-      isSearchable: true,
-      geneSymbolOptions: [],
-      diseaseOptions: [],
-    }
-    this.toggleClearable = this.toggleClearable.bind(this)
-    this.toggleLoading = this.toggleLoading.bind(this)
-    this.toggleSearchable = this.toggleSearchable.bind(this)
-  }
+const getDiseaseOptions = () => {
+  console.log("I am here")
+  let diseaseList = []
+  DiseaseOptions.forEach(e => {
+    diseaseList.push(
+      {value: e.Disease, label: e.Disease}
+    )
+  });
+  return diseaseList
+}
 
-  toggleClearable = () =>
-    this.setState((state) => ({ isClearable: !state.isClearable }));
-  toggleLoading = () =>
-    this.setState((state) => ({ isLoading: !state.isLoading }));
-  toggleSearchable = () =>
-    this.setState((state) => ({ isSearchable: !state.isSearchable }));
+function PedSearch({setInputValue, inputValue, entity="disease"}) {
+  const [isClearable] = useState(true)
+  const [isLoading] = useState(false)
+  const [isSearchable] = useState(true)
+  const [diseaseOptions] = useState(getDiseaseOptions())
 
-  handleChange = (e) => {
+  const [getGeneOptions, {loading, error, data}] = useLazyQuery(TARGET_SEARCH_QUERY)
+
+  const  handleChange = (e) => {
     if (typeof e === "string") {
-      this.props.setInputValue(e || '')
+      setInputValue(e || '')
     } else if (typeof e === "object") {
-      this.props.setInputValue(e?.value || '')
+      setInputValue(e?.value || '')
     }
     console.log("Selected: ", e)
   }
-  handlerOnInputChange = (e) => {
-    console.log("I am here")
-    if (typeof e === "string") {
-      //this.props.setInputValue(e || '')
-    } else if (typeof e === "object") {
-      //this.props.setInputValue(e?.value || '')
-    }
-    console.log("Input: ", e)
+  const handlerOnInputChange = (inputVal) => {
+      console.log("Input Value: ", inputVal)
+      return  getGeneOptions({ variables: {geneSymbol: inputVal}})
   }
   
-
-  getOptions(){
-    const geneSymbolList = []
-    const diseaseList = []
-
-    if (this.props.entity === "target") {
-        TargetOptions.forEach(e => {
-          geneSymbolList.push(
-            {value: e.Gene_symbol, label: e.Gene_symbol}
-          )
-        });
-      this.setState({geneSymbolOptions: geneSymbolList})
-    } else if (this.props.entity === "disease") {
-        DiseaseOptions.forEach(e => {
-          diseaseList.push(
-            {value: e.Disease, label: e.Disease}
-          )
-        });
-      this.setState({diseaseOptions: diseaseList})
-    }
-  }
-  componentDidMount(){
-    this.getOptions()
-  }
-
-  render() {
-
-    const { isClearable, isSearchable, isLoading, geneSymbolOptions, diseaseOptions} =
-      this.state;
-    const { inputValue, entity } = this.props;
+  // Custom react-select components
+  const NoOptionsMessage = props => {
+    const inputvalue = props?.selectProps?.inputValue || ''
+    console.log("NoOptionsMessage: inputValue: ", inputvalue)
     
     return (
-      <Fragment>
-        {entity === 'disease' || 'target' ? 
-          <Select         
-            className="basic-single"
-            classNamePrefix="select"
-            defaultValue={ {value: inputValue, label: inputValue} || ''}
-            isLoading={isLoading}
-            isClearable={isClearable}
-            isSearchable={isSearchable}
-            name="color"
-            options={ entity === 'target' ? geneSymbolOptions : diseaseOptions}
-            onChange={this.handleChange}
-            styles={customStyle}
-            placeholder=""
-            autoFocus={false}
-            components={{ DropdownIndicator: () => null, IndicatorSeparator:() => null, }}
-            onInputChange={this.handlerOnInputChange}
-          />
-          : null}
-      </Fragment>
+      <components.NoOptionsMessage {...props}>
+        <span className="custom-css-class"> { inputvalue.length > 0 ? "No Option" : "Start searching ... " }</span> 
+      </components.NoOptionsMessage>
     );
+  };
+  const ClearIndicator = props => {
+    console.log("ClearIndicator: selectProps.value: ", props?.selectProps?.value?.value?.length)
+
+    return props?.selectProps?.value?.value?.length === 0 
+            ? null 
+            : <components.ClearIndicator {...props}></components.ClearIndicator> 
   }
+  const DropdownIndicator = props => {
+    console.log("DropdownIndicator: selectProps.value: ", props?.selectProps?.value?.value?.length)
+
+    return !props?.selectProps?.value?.value?.length ? <Search /> : null
+  }
+
+  console.log("Gene data", data)
+  return (
+    <Fragment>
+      <Select
+        loading={loading}         
+        className="basic-single"
+        classNamePrefix="select"
+        defaultValue={ {value: inputValue, label: inputValue} || ''}
+        isLoading={isLoading}
+        isClearable={isClearable}
+        isSearchable={isSearchable}
+        name="color"
+        options={ 
+          entity === 'target' 
+          ? 
+            data &&
+            data.pedCanNavGene &&
+            data.pedCanNavGene.rows &&
+            data.pedCanNavGene.rows.map(({key}) => ({value: key, label: key}))
+          
+          : diseaseOptions
+        }
+        onChange={handleChange}
+        styles={customStyle}
+        placeholder=""
+        autoFocus={false}
+        components={{ DropdownIndicator, IndicatorSeparator:() => null, ClearIndicator ,NoOptionsMessage}}
+        onInputChange={handlerOnInputChange}
+      />
+    </Fragment>
+  );
 }
+export default PedSearch;
