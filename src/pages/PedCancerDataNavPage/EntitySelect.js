@@ -92,20 +92,16 @@ function PedSearch({setInputValue, inputValue, entity="disease", defaultOptions,
   return (
     <Fragment>
       <Select
+        defaultValue={inputValue ? {value: inputValue, label: inputValue} : ''}
         loading={loading}         
         isLoading={isLoading}
         isClearable={isClearable}
         isSearchable={isSearchable}
-        options={ 
-          entity === 'target' 
-            ? 
-              getTargetOptions()
-            : diseaseOptions
-        }
+        options={ entity === 'target' ? getTargetOptions() : diseaseOptions }
         onChange={handleChange}
         styles={customStyle}
         placeholder={placeHolder}
-        components={{ ClearIndicator, DropdownIndicator, NoOptionsMessage, IndicatorSeparator:() => null}}
+        components={{ ClearIndicator, DropdownIndicator, NoOptionsMessage, IndicatorSeparator: () => null}}
         onInputChange={handlerOnInputChange}
       />
     </Fragment>
