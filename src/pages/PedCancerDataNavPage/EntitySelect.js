@@ -50,7 +50,7 @@ function PedSearch({setInputValue, inputValue, entity="disease", defaultOptions,
   const [diseaseOptions] = useState(getDiseaseOptions())
 
   const [getGeneOptions, {loading, data}] = useLazyQuery(TARGET_SEARCH_QUERY)
-  console.log(entity, " defaultOptions: ", defaultOptions)
+
   const  handleChange = (e) => {
     if (typeof e === "string") {
       setInputValue(e || '')

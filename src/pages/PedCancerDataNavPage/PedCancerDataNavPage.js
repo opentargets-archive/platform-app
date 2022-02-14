@@ -12,7 +12,6 @@ import Link from '../../components/Link';
 import { appDescription, appCanonicalUrl } from '../../constants';
 import { useLazyQuery } from '@apollo/client';
 
-import useDebounce from '../../hooks/useDebounce';
 import { useLocation } from 'react-router-dom';
 import defaultTargetOptions from './defaultTargetOptions.json'
 const PED_CAN_DATA_NAV_QUERY = loader('./PedCancerDataNav.gql')
@@ -188,15 +187,23 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function CHoPPage() {
+  // Accessing input from Target and Disease Page
   let geneSymbol = '', disease = ''
+
   const location = useLocation()
   if (location.state) {
     geneSymbol = location.state.geneSymbol || ''
     disease = location.state.disease || ''
   }
 
+  // state for tracking input value
   const [targetInputValue, setTargetInputValue] = useState(geneSymbol || '');
   const [diseaseInputValue, setDiseaseInputValue] = useState(disease || '');
+
+  console.log("targetInputValue: ", targetInputValue)
+  console.log("diseaseInputValue: ", diseaseInputValue)
+
+
   const [displayTable, setDisplayTable] = useState(false || geneSymbol.length !==0 || disease.length !==0)
   const [pageSize, setPageSize] = useState(25);
 
@@ -206,11 +213,9 @@ function CHoPPage() {
   });
   const [result, setResult] = useState(data || [])
 
-  const debouncedTargetInputValue = useDebounce(targetInputValue, 300);
-  const debouncedDiseaseInputValue = useDebounce(diseaseInputValue, 300);
 
-  const deTargetIsEmpty = isEmpty(debouncedTargetInputValue)
-  const deDiseaseIsEmpty = isEmpty(debouncedDiseaseInputValue)
+  const deTargetIsEmpty = isEmpty(targetInputValue)
+  const deDiseaseIsEmpty = isEmpty(diseaseInputValue)
 
   const inputFieldAreEmpty = deTargetIsEmpty && deDiseaseIsEmpty
 
@@ -222,13 +227,13 @@ function CHoPPage() {
   useEffect(
     () => {
       if (displayTable ) {
-        getData({ variables: { disease: debouncedDiseaseInputValue.toLowerCase(), geneSymbol: debouncedTargetInputValue.toLowerCase() } });
+        getData({ variables: { disease: diseaseInputValue.toLowerCase(), geneSymbol: targetInputValue.toLowerCase() } });
         setResult(data || [])
       } else {
         setResult([])
       }
     },
-    [  data, debouncedDiseaseInputValue, debouncedTargetInputValue, displayTable, getData]
+    [  data, diseaseInputValue, targetInputValue, displayTable, getData]
   );
   useEffect(
     () => {
@@ -236,7 +241,7 @@ function CHoPPage() {
         setDisplayTable(false)
       }
     },
-    [ debouncedDiseaseInputValue, debouncedTargetInputValue]
+    [ diseaseInputValue, targetInputValue]
   )
 
   const appTitle = "Pediatric Cancer Data Navigation";
@@ -256,6 +261,11 @@ function CHoPPage() {
 
   const reformatResult = result.length !== 0 ? getRows(result.pedCanNav.rows) : []
 
+  const displayResult = () => {
+    
+    return displayTable && inputFieldAreEmpty === false
+
+  }
   return (
     <div className={classes.page}>
 
@@ -284,7 +294,7 @@ function CHoPPage() {
         </Grid>
 
         {/*    Search    */}
-        <Grid container alignItems="center" justifyContent='center' item xs={12} md={11} lg={8}>
+        <Grid container alignItems="center" justifyContent='center' item xs={12} md={11} lg={10} xl={8}>
           {/*   Gene Symbol   */}
           <Grid container item alignItems="center" xs className={classes.entityContainer}> 
             <Grid item className={classes.entityItem}> Gene Symbol: </Grid>
@@ -344,7 +354,7 @@ function CHoPPage() {
       {/*     Result     */}
       <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
           {/*     Result Header     */}
-        { displayTable && inputFieldAreEmpty === false ?
+        { displayResult() ?
           <Grid container item xs={12} md={10} lg={6} className={classes.resultHeader}>
             <Grid container item alignItems="center" xs > 
               <Grid item xs>
@@ -356,9 +366,9 @@ function CHoPPage() {
                     ?
                       <Typography component='p'>
                         Found <strong>{reformatResult.length}</strong> 
-                        { searchOnlyForTarget ? <span> Diseases with <strong>{debouncedTargetInputValue}</strong> </span> : ""}
-                        { searchOnlyForDisease ? <span> Targets with <strong>{debouncedDiseaseInputValue}</strong> </span> : ""}
-                        { searchForBoth ? <span> result of <strong>{debouncedTargetInputValue}</strong> in <strong>{debouncedDiseaseInputValue}</strong> with </span> : ""}
+                        { searchOnlyForTarget ? <span> Diseases with <strong>{targetInputValue}</strong> </span> : ""}
+                        { searchOnlyForDisease ? <span> Targets with <strong>{diseaseInputValue}</strong> </span> : ""}
+                        { searchForBoth ? <span> result of <strong>{targetInputValue}</strong> in <strong>{diseaseInputValue}</strong> with </span> : ""}
                         {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
                       </Typography>
                     : 
@@ -369,7 +379,7 @@ function CHoPPage() {
           </Grid>
         : null}
         {/*     Result Table     */}
-        { displayTable && inputFieldAreEmpty === false ?
+        { displayResult() ?
           <Grid container item xs={12} lg={10} className={classes.resultTable}>
             <Grid container item alignItems="center" xs > 
               <Grid item xs>
