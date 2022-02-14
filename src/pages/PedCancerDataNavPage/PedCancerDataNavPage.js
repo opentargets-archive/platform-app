@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { loader } from 'graphql.macro';
 import { Helmet } from 'react-helmet';
 import { Grid, Paper, Box, Typography, Button, makeStyles } from '@material-ui/core';
-import {Check as CheckIcon } from '@material-ui/icons';
 
+import { GreenCheckIcon, isEmpty} from './utils';
 import NCIHeader from '../../components/NCIHeader';
 import EntitySelect from './EntitySelect';
 import CHOPTable from '../../components/RMTLTable';
@@ -67,25 +67,25 @@ const columns = [
   {
     id: 'SNV',
     label: 'SNV',
-    renderCell: ({SNV}) => SNV === "true" ? <CheckIcon style={{color:"Green"}}/>: '',
+    renderCell: ({SNV}) => SNV === "true" ? <GreenCheckIcon />: null,
     comparator: (a, b) => genericComparator(a, b, 'SNV'),
   },
   {
     id: 'CNV',
     label: 'CNV',
-    renderCell: ({CNV}) => CNV === "true" ? <CheckIcon style={{color:"Green"}}/>: '',
+    renderCell: ({CNV}) => CNV === "true" ? <GreenCheckIcon />: null,
     comparator: (a, b) => genericComparator(a, b, 'CNV'),
   },
   {
     id: 'Fusion',
     label: 'Fusion',
-    renderCell: ({Fusion}) => Fusion === "true" ? <CheckIcon style={{color:"Green"}}/>: '',
+    renderCell: ({Fusion}) => Fusion === "true" ? <GreenCheckIcon />: null,
     comparator: (a, b) => genericComparator(a, b, 'Fusion'),
   },
   {
     id: 'GeneExpression',
     label: 'Gene Expression',
-    renderCell: ({GeneExpression}) => GeneExpression === "true" ? <CheckIcon style={{color:"Green"}}/>: '',
+    renderCell: ({GeneExpression}) => GeneExpression === "true" ? <GreenCheckIcon /> : null,
     comparator: (a, b) => genericComparator(a, b, 'GeneExpression'),
   },
 ];
@@ -109,13 +109,16 @@ function getRows(downloadData) {
 
 const useStyles = makeStyles(theme => ({
 
-  gridContainer1: {
+  gridContainer: {
     margin: '170px 0 0 0',
     padding: '50px 50px 60px 50px',
     color: '#04599a',
-    backgroundColor: "#CDE9FF"
+    backgroundColor: "#CDE9FF",
+    fontSize: '16px'
+
   },
-  /*     Header     */
+
+  /*****          Header          *****/
   headerContainer: { 
     marginBottom: '25px'
   },
@@ -124,14 +127,15 @@ const useStyles = makeStyles(theme => ({
     fontSize: '30px',
     fontWeight: 'bold',
   },
-  /*    Search    */
+  subHeader: {
+    color: 'black'
+  },
+
+  /*****          Search          *****/
   searchButton: {
     padding: '43px 20px',
     transition: "all 150ms ease",
     border: "none",
-    // cursor: props => props.inputFieldAreEmpty ? "notAllowed" : "pointer",
-    // backgroundColor: props => props.inputFieldAreEmpty ? "" : "#3489ca",
-    // color: props => props.inputFieldAreEmpty ? "#000000" : "white" 
     cursor: "pointer",
     backgroundColor: "#3489ca",
     color: "white", 
@@ -152,13 +156,12 @@ const useStyles = makeStyles(theme => ({
     paddingRight: '25px'
   },
 
-
-  /*      info    */
+  /*****          info          *****/
   infoContainer: {
-    marginTop: '50px'
+    marginTop: '50px',
   },
 
-  /*      result    */
+  /*****          result          *****/
   result: {
     backgroundColor: "white",
     padding: "0 50px 0px 50px",
@@ -172,14 +175,16 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: "100px"
   },
 
-  inputFieldContainer: {
-    backgroundColor: "white"
-  },
-  entityText: {
-    textAlign: 'center',
-    fontSize: '16px'
-  },
-  
+  /*       Responsive      */
+
+  "@media (max-width: 650px)": {
+    headerContainer: {
+      marginTop: '100px'
+    },
+    entityContainer: {
+      minWidth: '300px'
+    },
+  }
 }))
 
 function CHoPPage() {
@@ -204,11 +209,15 @@ function CHoPPage() {
   const debouncedTargetInputValue = useDebounce(targetInputValue, 300);
   const debouncedDiseaseInputValue = useDebounce(diseaseInputValue, 300);
 
-  const inputFieldAreEmpty = debouncedTargetInputValue.length === 0 && debouncedDiseaseInputValue.length === 0
+  const deTargetIsEmpty = isEmpty(debouncedTargetInputValue)
+  const deDiseaseIsEmpty = isEmpty(debouncedDiseaseInputValue)
 
-  const searchForTarget = debouncedTargetInputValue.length !== 0 && debouncedDiseaseInputValue.length === 0;
-  const searchForDisease = debouncedDiseaseInputValue.length !== 0 && debouncedTargetInputValue.length === 0;
-  const searchForBoth = debouncedTargetInputValue.length !== 0 && debouncedDiseaseInputValue.length !== 0;
+  const inputFieldAreEmpty = deTargetIsEmpty && deDiseaseIsEmpty
+
+  const searchOnlyForTarget = !deTargetIsEmpty && deDiseaseIsEmpty
+  const searchOnlyForDisease = !deDiseaseIsEmpty && deTargetIsEmpty
+  const searchForBoth = !deTargetIsEmpty && !deDiseaseIsEmpty
+
 
   useEffect(
     () => {
@@ -261,67 +270,65 @@ function CHoPPage() {
         </Grid>
       </Grid>
 
-      <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.gridContainer1}>
+      <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.gridContainer}>
         {/*     Header    */}
         <Grid item xs={12} className={classes.headerContainer}>
           <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
             Pediatric Cancer Data Navigation
           </Typography>
 
-          <Typography component="p" align="center" paragraph style={{color: 'black'}}>
+          <Typography component="p" align="center" paragraph className={classes.subHeader} >
             Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to find pediatric cancer data within the 
             Molecular Targets Platform.
           </Typography>
         </Grid>
 
         {/*    Search    */}
-        <Grid container alignItems="center" item xs={12} lg={8} style={{}}>
+        <Grid container alignItems="center" justifyContent='center' item xs={12} md={11} lg={8}>
           {/*   Gene Symbol   */}
           <Grid container item alignItems="center" xs className={classes.entityContainer}> 
             <Grid item className={classes.entityItem}> Gene Symbol: </Grid>
             <Grid item xs className={classes.entitySelectItem}>
-              <EntitySelect entity="target" inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
+              <EntitySelect entity="target" inputValue={targetInputValue} 
+                menuPlaceHolder="Search Gene Symbol" setInputValue={setTargetInputValue}/>
             </Grid>
           </Grid>
           {/*   Disease   */}
-          <Grid container item xs alignItems="center" className={classes.entityContainer}> 
+          <Grid container item xs alignItems="center"  className={classes.entityContainer}> 
             <Grid item className={classes.entityItem}> Disease: </Grid>
             <Grid item xs className={classes.entitySelectItem}>
               <EntitySelect entity="disease" inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
             </Grid>
           </Grid> 
           <Grid item >
-            {/*   disabled={inputFieldAreEmpty}   */}
             <Button className={classes.searchButton} onClick={handleOnClick} 
-               variant="contained" size="large"> Search </Button>
+              variant="contained" size="large"> Search </Button>
           </Grid>
         </Grid>
         <br />
         
         {/*     Info      */}
-        <Grid container item xs={12} lg={6} className={classes.infoContainer}>
+        <Grid container item xs={12} md={10} lg={6} className={classes.infoContainer}>
           <Grid container item alignItems="center" xs > 
             <Grid item xs>
               <Typography component="p" align='center' paragraph>
                 In the resulting table:
               </Typography>
-              <Typography component="p" paragraph>
-                <ul>
-                  <li>
-                    Each <b> Evidence </b> page link opens a page presenting all available data within the Molecular Targets 
-                    Platform including available pediatric cancer data associating the specific target with the specific disease
-                  </li>
-                  <li>
-                    Each <b>Gene symbol </b> page link opens a page presenting all available data within the Molecular 
-                    Targets Platform including available pediatric cancer data for the specific target
-                  </li>
-                  <li>
-                    <b> Disease </b> pages linked in this table will not contain pediatric data
-                  </li>
-                  <li> Refining a search will query the entire database </li>
-                  <li> A maximum of 10,000 results are returned in the search results </li>
-                </ul>
-              </Typography>
+              <ul>
+                <li>
+                  Each <b> Evidence </b> page link opens a page presenting all available data within the Molecular Targets 
+                  Platform including available pediatric cancer data associating the specific target with the specific disease
+                </li>
+                <li>
+                  Each <b>Gene symbol </b> page link opens a page presenting all available data within the Molecular 
+                  Targets Platform including available pediatric cancer data for the specific target
+                </li>
+                <li>
+                  <b> Disease </b> pages linked in this table will not contain pediatric data
+                </li>
+                <li> Refining a search will query the entire database </li>
+                <li> A maximum of 10,000 results are returned in the search results </li>
+              </ul>
             </Grid>
           </Grid>
         </Grid>
@@ -338,7 +345,7 @@ function CHoPPage() {
       <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
           {/*     Result Header     */}
         { displayTable && inputFieldAreEmpty === false ?
-          <Grid container item xs={12} lg={6} className={classes.resultHeader}>
+          <Grid container item xs={12} md={10} lg={6} className={classes.resultHeader}>
             <Grid container item alignItems="center" xs > 
               <Grid item xs>
                 { loading 
@@ -349,8 +356,8 @@ function CHoPPage() {
                     ?
                       <Typography component='p'>
                         Found <strong>{reformatResult.length}</strong> 
-                        { searchForTarget ? <span> Diseases with <strong>{debouncedTargetInputValue}</strong> </span> : ""}
-                        { searchForDisease ? <span> Targets with <strong>{debouncedDiseaseInputValue}</strong> </span> : ""}
+                        { searchOnlyForTarget ? <span> Diseases with <strong>{debouncedTargetInputValue}</strong> </span> : ""}
+                        { searchOnlyForDisease ? <span> Targets with <strong>{debouncedDiseaseInputValue}</strong> </span> : ""}
                         { searchForBoth ? <span> result of <strong>{debouncedTargetInputValue}</strong> in <strong>{debouncedDiseaseInputValue}</strong> with </span> : ""}
                         {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
                       </Typography>
