@@ -639,16 +639,10 @@ const AboutView = ({ data }) => {
           <Link to="https://platform-docs.opentargets.org/" external>{' '} 
             documentation<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
           </Link> 
-          or their most recent publication: 
-        </Typography>
-        <Typography paragraph style={{"marginLeft": '50px'}}>
-
-              Ochoa, D. et al. (2021). 
-              <Link to="https://academic.oup.com/nar/article/49/D1/D1302/5983621" external>{' '} 
-                Open Targets Platform: supporting systematic drug–target identification and prioritisation. 
-                <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
-              </Link>
-              Nucleic Acids Research.
+          or 
+          <Link to="https://platform-docs.opentargets.org/citation" external>{' '} 
+            their most recent publication.<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
+          </Link> 
         </Typography>
 
         <Typography paragraph className={classes.space}>
