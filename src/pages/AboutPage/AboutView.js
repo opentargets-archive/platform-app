@@ -617,9 +617,9 @@ const AboutView = ({ data }) => {
           <Link to="https://platform-docs.opentargets.org/" external>{' '} 
             documentation<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
           </Link> 
-          or 
+          or their 
           <Link to="https://platform-docs.opentargets.org/citation" external>{' '} 
-            their most recent publication.<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
+             most recent publication.<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
           </Link> 
         </Typography>
 
