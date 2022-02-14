@@ -215,15 +215,20 @@ function CHoPPage() {
   });
   const [result, setResult] = useState(data || [])
 
+  const isTargetEmpty = isEmpty(targetInputValue)
+  const isDiseaseEmpty = isEmpty(diseaseInputValue)
 
-  const deTargetIsEmpty = isEmpty(targetInputValue)
-  const deDiseaseIsEmpty = isEmpty(diseaseInputValue)
+  // Check if Both inputField are empty
+  const inputFieldAreBothEmpty = isTargetEmpty && isDiseaseEmpty
 
-  const inputFieldAreEmpty = deTargetIsEmpty && deDiseaseIsEmpty
+  // Check if user is only searching for target
+  const targetOnlyHasValue = !isTargetEmpty && isDiseaseEmpty
 
-  const searchOnlyForTarget = !deTargetIsEmpty && deDiseaseIsEmpty
-  const searchOnlyForDisease = !deDiseaseIsEmpty && deTargetIsEmpty
-  const searchForBoth = !deTargetIsEmpty && !deDiseaseIsEmpty
+  // Check if user is only searching for disease
+  const diseaseOnlyHasValue = !isDiseaseEmpty && isTargetEmpty
+
+  // check if Both inputField are not empty
+  const bothInputFieldAreNotEmpty = !isTargetEmpty && !isDiseaseEmpty
 
 
   useEffect(
@@ -249,14 +254,14 @@ function CHoPPage() {
   const appTitle = "Pediatric Cancer Data Navigation";
 
   const rowsPerPageOptions = [10, 25, 50];
-  const classes = useStyles({inputFieldAreEmpty})
+  const classes = useStyles({inputFieldAreBothEmpty})
 
   function handleRowsPerPageChange(newPageSize){
     setPageSize(newPageSize)
   };
 
   const handleOnClick = e => {
-    if (inputFieldAreEmpty === false) {
+    if (inputFieldAreBothEmpty === false) {
       setDisplayTable(true)
     }
   }
@@ -265,7 +270,7 @@ function CHoPPage() {
 
   const displayResult = () => {
     
-    return displayTable && inputFieldAreEmpty === false
+    return displayTable && inputFieldAreBothEmpty === false
 
   }
   return (
@@ -371,9 +376,9 @@ function CHoPPage() {
                     ?
                       <Typography component='p'>
                         Found <strong>{reformatResult.length}</strong> 
-                        { searchOnlyForTarget ? <span> Diseases with <strong>{targetInputValue}</strong> </span> : ""}
-                        { searchOnlyForDisease ? <span> Targets with <strong>{diseaseInputValue}</strong> </span> : ""}
-                        { searchForBoth ? <span> result of <strong>{targetInputValue}</strong> in <strong>{diseaseInputValue}</strong> with </span> : ""}
+                        { targetOnlyHasValue ? <span> Diseases with <strong>{targetInputValue}</strong> </span> : ""}
+                        { diseaseOnlyHasValue ? <span> Targets with <strong>{diseaseInputValue}</strong> </span> : ""}
+                        { bothInputFieldAreNotEmpty ? <span> result of <strong>{targetInputValue}</strong> in <strong>{diseaseInputValue}</strong> with </span> : ""}
                         {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
                       </Typography>
                     : 
