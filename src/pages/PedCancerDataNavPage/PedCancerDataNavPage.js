@@ -403,8 +403,8 @@ function CHoPPage() {
                       onRowsPerPageChange={handleRowsPerPageChange}
                       rowsPerPageOptions={rowsPerPageOptions}
                       paginationPosition="TOP"
-                      // sortBy={"geneSymbol"}
-                      // order={"asc"}
+                      sortBy={targetOnlyHasValue ? "Disease" : diseaseOnlyHasValue ? "geneSymbol" : ""}
+                      order={"asc"}
                     />
                   </Box>
                 </Paper>
