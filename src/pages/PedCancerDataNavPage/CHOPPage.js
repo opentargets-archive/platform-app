@@ -15,12 +15,7 @@ import { useLazyQuery } from '@apollo/client';
 import useDebounce from '../../hooks/useDebounce';
 import { useLocation } from 'react-router-dom';
 
-
-const TARGET_SEARCH_QUERY = loader('../../components/Search/TargetSearchQuery.gql');
-const DISEASE_SEARCH_QUERY = loader('../../components/Search/DiseaseSearchQuery.gql');
-
 const PED_CAN_DATA_NAV_QUERY = loader('./PedCancerDataNav.gql')
-
 
 /*
  * genericComparator: comparing row1 and row2 using the input keyName.
@@ -285,14 +280,14 @@ function CHoPPage() {
           <Grid container item alignItems="center" xs className={classes.entityContainer}> 
             <Grid item className={classes.entityItem}> Gene Symbol: </Grid>
             <Grid item xs className={classes.entitySelectItem}>
-              <PedSearch entity="target" searchQuery={TARGET_SEARCH_QUERY} inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
+              <PedSearch entity="target" inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
             </Grid>
           </Grid>
           {/*   Disease   */}
           <Grid container item xs alignItems="center" className={classes.entityContainer}> 
             <Grid item className={classes.entityItem}> Disease: </Grid>
             <Grid item xs className={classes.entitySelectItem}>
-              <PedSearch entity="disease" searchQuery={DISEASE_SEARCH_QUERY} inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
+              <PedSearch entity="disease" inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
             </Grid>
           </Grid> 
           <Grid item >
