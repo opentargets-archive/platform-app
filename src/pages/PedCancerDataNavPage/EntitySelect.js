@@ -85,7 +85,6 @@ function PedSearch({setInputValue, inputValue, entity="disease", placeHolder="Se
     <Fragment>
       <Select
         loading={loading}         
-        defaultValue={ {value: inputValue, label: inputValue} || ''}
         isLoading={isLoading}
         isClearable={isClearable}
         isSearchable={isSearchable}
