@@ -289,8 +289,7 @@ function CHoPPage() {
           <Grid container item alignItems="center" xs className={classes.entityContainer}> 
             <Grid item className={classes.entityItem}> Gene Symbol: </Grid>
             <Grid item xs className={classes.entitySelectItem}>
-              <EntitySelect entity="target" inputValue={targetInputValue} 
-                menuPlaceHolder="Search Gene Symbol" setInputValue={setTargetInputValue}/>
+              <EntitySelect entity="target" inputValue={targetInputValue} setInputValue={setTargetInputValue}/>
             </Grid>
           </Grid>
           {/*   Disease   */}

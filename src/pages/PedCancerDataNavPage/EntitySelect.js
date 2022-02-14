@@ -43,7 +43,7 @@ const getDiseaseOptions = () => {
   return diseaseList
 }
 
-function PedSearch({setInputValue, inputValue, entity="disease", menuPlaceHolder=""}) {
+function PedSearch({setInputValue, inputValue, entity="disease", placeHolder="Search and Select"}) {
   const [isClearable] = useState(true)
   const [isLoading] = useState(false)
   const [isSearchable] = useState(true)
@@ -68,7 +68,7 @@ function PedSearch({setInputValue, inputValue, entity="disease", menuPlaceHolder
     
     return (
       <components.NoOptionsMessage {...props}>
-        <span className="custom-css-class"> { inputvalue.length > 0 ? "No Option" : menuPlaceHolder }</span> 
+        <span className="custom-css-class"> { inputvalue.length > 0 ? "No matches were found" : placeHolder }</span> 
       </components.NoOptionsMessage>
     );
   };
@@ -97,7 +97,7 @@ function PedSearch({setInputValue, inputValue, entity="disease", menuPlaceHolder
         }
         onChange={handleChange}
         styles={customStyle}
-        placeholder="Search"
+        placeholder={placeHolder}
         components={{ ClearIndicator, DropdownIndicator, NoOptionsMessage, IndicatorSeparator:() => null}}
         onInputChange={handlerOnInputChange}
       />
