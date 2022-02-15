@@ -58,5 +58,5 @@ var configProfile = {
 
   // for datasources we only set those that are private (partner)
   // partnerDataSources: list any private datasource (shown with lock in facets)
-  partnerDataSources: ['encore', 'ot_crispr'],
+  partnerDataSources: ['encore', 'ot_crispr', 'ot_crispr_validation'],
 };
