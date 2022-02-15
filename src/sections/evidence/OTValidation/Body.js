@@ -151,35 +151,35 @@ const getColumns = classes => [
     ),
     width: '7%',
   },
-  {
-    id: 'observation',
-    label: 'Validated observation',
-    renderCell: row => (
-      <HitIcon
-        isHit={isHit(row.confidence, row.expectedConfidence)}
-        classes={classes}
-      />
-    ),
-    width: '7%',
-  },
-  {
-    id: 'validationHypotheses',
-    label: 'Validated hypothesis',
-    renderCell: row => (
-      <ChipList
-        small
-        items={row.validationHypotheses.map(vh => ({
-          label: vh.hypothesis,
-          tooltip: vh.description,
-        }))}
-      />
-    ),
-    filterValue: row =>
-      row.validationHypotheses
-        .map(vh => vh.hypothesis + ', ' + vh.description)
-        .join(', '),
-    width: '8%',
-  },
+  // {
+  //   id: 'observation',
+  //   label: 'Validated observation',
+  //   renderCell: row => (
+  //     <HitIcon
+  //       isHit={isHit(row.confidence, row.expectedConfidence)}
+  //       classes={classes}
+  //     />
+  //   ),
+  //   width: '7%',
+  // },
+  // {
+  //   id: 'validationHypotheses',
+  //   label: 'Validated hypothesis',
+  //   renderCell: row => (
+  //     <ChipList
+  //       small
+  //       items={row.validationHypotheses.map(vh => ({
+  //         label: vh.hypothesis,
+  //         tooltip: vh.description,
+  //       }))}
+  //     />
+  //   ),
+  //   filterValue: row =>
+  //     row.validationHypotheses
+  //       .map(vh => vh.hypothesis + ', ' + vh.description)
+  //       .join(', '),
+  //   width: '8%',
+  // },
 ];
 
 const exportColumns = [
