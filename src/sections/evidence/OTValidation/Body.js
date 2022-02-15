@@ -198,6 +198,7 @@ function Body({ definition, id, label }) {
   // const { data: summaryData } = usePlatformApi(
   //   Summary.fragments.otEncoreSummary
   // );
+  // TODO: update query!
   const request = useQuery(VALIDATION_QUERY, {
     variables: {
       ensemblId,
@@ -225,6 +226,7 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             dataDownloaderColumns={exportColumns}
+            query={VALIDATION_QUERY.loc.source.body}
             dataDownloaderFileStem={`${ensemblId}-${efoId}-otvalidation`}
             showGlobalFilter
             sortBy="resourceScore"
