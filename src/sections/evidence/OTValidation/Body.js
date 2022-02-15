@@ -105,15 +105,7 @@ const getColumns = classes => [
   },
   {
     id: 'biomarkers',
-    label: (
-      <>
-        Cell line biomarkers
-        <br />
-        <Typography variant="caption">
-          Available as seen in cell lines
-        </Typography>
-      </>
-    ),
+    label: 'Cell line biomarkers',
     renderCell: row => {
       return (
         <ChipList
