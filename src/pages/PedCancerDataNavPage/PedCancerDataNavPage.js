@@ -188,9 +188,9 @@ const useStyles = makeStyles(theme => ({
 
 function CHoPPage() {
 
-  const NUMBER_OF_TARGET = 42691
+  const NUMBER_OF_TARGET = '43,880'
   const NUMBER_OF_DISEASE = 41
-  const NUMBER_OF_EVIDENCE = 1446573
+  const NUMBER_OF_EVIDENCE = '1,446,573'
 
   // Accessing input from Target and Disease Page
   let geneSymbol = '', disease = ''
