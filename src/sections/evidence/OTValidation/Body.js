@@ -143,35 +143,6 @@ const getColumns = classes => [
     ),
     width: '8%',
   },
-  // {
-  //   id: 'observation',
-  //   label: 'Validated observation',
-  //   renderCell: row => (
-  //     <HitIcon
-  //       isHit={isHit(row.confidence, row.expectedConfidence)}
-  //       classes={classes}
-  //     />
-  //   ),
-  //   width: '7%',
-  // },
-  // {
-  //   id: 'validationHypotheses',
-  //   label: 'Validated hypothesis',
-  //   renderCell: row => (
-  //     <ChipList
-  //       small
-  //       items={row.validationHypotheses.map(vh => ({
-  //         label: vh.hypothesis,
-  //         tooltip: vh.description,
-  //       }))}
-  //     />
-  //   ),
-  //   filterValue: row =>
-  //     row.validationHypotheses
-  //       .map(vh => vh.hypothesis + ', ' + vh.description)
-  //       .join(', '),
-  //   width: '8%',
-  // },
 ];
 
 const exportColumns = [
@@ -219,14 +190,6 @@ const exportColumns = [
   {
     label: 'primary project hit',
     exportValue: row => isHit(row.expectedConfidence),
-  },
-  {
-    label: 'validated observation',
-    exportValue: row => isHit(row.confidence, row.expectedConfidence),
-  },
-  {
-    label: 'validated hypothesis',
-    exportValue: row => row.validationHypotheses.map(vh => vh.hypothesis),
   },
 ];
 
