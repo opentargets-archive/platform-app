@@ -125,7 +125,7 @@ const getColumns = classes => [
     label: 'Effect size',
     renderCell: row => <>{row.resourceScore}</>,
     numeric: true,
-    width: '7%',
+    width: '8%',
   },
   {
     id: 'confidence',
@@ -133,7 +133,7 @@ const getColumns = classes => [
     renderCell: row => (
       <HitIcon isHit={isHit(row.confidence)} classes={classes} />
     ),
-    width: '7%',
+    width: '8%',
   },
   {
     id: 'projectHit',
@@ -141,7 +141,7 @@ const getColumns = classes => [
     renderCell: row => (
       <HitIcon isHit={isHit(row.expectedConfidence)} classes={classes} />
     ),
-    width: '7%',
+    width: '8%',
   },
   // {
   //   id: 'observation',
