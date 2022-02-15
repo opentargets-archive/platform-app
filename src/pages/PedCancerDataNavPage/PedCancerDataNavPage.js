@@ -204,8 +204,8 @@ function CHoPPage() {
   const [targetInputValue, setTargetInputValue] = useState(geneSymbol || '');
   const [diseaseInputValue, setDiseaseInputValue] = useState(disease || '');
 
-  console.log("targetInputValue: ", targetInputValue)
-  console.log("diseaseInputValue: ", diseaseInputValue)
+  // console.log("targetInputValue: ", targetInputValue)
+  // console.log("diseaseInputValue: ", diseaseInputValue)
 
 
   const [displayTable, setDisplayTable] = useState(false || geneSymbol.length !==0 || disease.length !==0)
@@ -244,15 +244,7 @@ function CHoPPage() {
     },
     [  data, diseaseInputValue, targetInputValue, displayTable, getData]
   );
-  useEffect(
-    () => {
-      if(displayTable){
-        setDisplayTable(false)
-      }
-    },
-    [ diseaseInputValue, targetInputValue]
-  )
-
+ 
   const appTitle = "Pediatric Cancer Data Navigation";
 
   const rowsPerPageOptions = [10, 25, 50];
