@@ -1,1 +1,1 @@
-export { default } from './CHOPPage';
+export { default } from './PedCancerDataNavPage';

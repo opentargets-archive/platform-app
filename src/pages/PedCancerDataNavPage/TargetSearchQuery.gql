@@ -1,0 +1,7 @@
+query getPedCanNavGene($geneSymbol: String!) {
+  pedCanNavGene(geneSymbol: $geneSymbol) {
+    rows {
+      key
+    }
+  }
+}
