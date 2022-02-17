@@ -2,9 +2,6 @@ import React from 'react';
 import { withStyles } from '@material-ui/core';
 import cn from '../helpers/classNameConcat';
 import RouteLinks from '../helpers/routeLinks';
-import {
-  version
-} from '../../constants';
 
 const styles = () => ({
   ext: {
@@ -19,19 +16,7 @@ const styles = () => ({
       marginTop: '0px',
     },
   },
-  footerText: {
-    color: 'white',
-    marginLeft: 16,
-    marginRight: 16,
-    fontWeight: 400,
-    fontSize: '14px',
-    fontFamily: '"Roboto", "Helvetica", "Arial", "sans-serif"',
-    lineHeight: '1.71',
-    whiteSpace: 'nowrap',
-    '@media (max-width: 600px)': {
-      fontSize: 12,
-    },
-  },
+
   nciLinks: {
     display: 'flex',
     fontSize: '14px',
@@ -41,12 +26,7 @@ const styles = () => ({
       marginLeft: '20px',
     },
   },
-  listHeader: {
-    paddingBottom: '4px',
-    fontWeight: 500,
-    fontSize: '25px',
-    fontFamily: '"Roboto", "Helvetica", "Arial", "sans-serif"',
-  },
+
   footerRoot: (props) => ({
     background: 'rgb(11, 68, 107)',
   }),
@@ -100,21 +80,8 @@ const styles = () => ({
   padding20: {
     padding: '20px',
   },
-
-  paddingLeft17:{
-    paddingLeft: '17px',
-  },
   footerRowSection: {
     marginTop: '16px',
-    '@media (max-width: 900px)': {
-      margin: '0 auto',
-    },
-  },
-  footerRowSectionLinks: {
-    marginTop: '16px',
-    '& li': {
-      float: 'left',
-    },
     '@media (max-width: 900px)': {
       margin: '0 auto',
     },
@@ -124,34 +91,8 @@ const styles = () => ({
     color: 'white',
     textDecoration: 'none',
   },
-  footorVersiontext: {
-    fontSize: '8px',
-    color: 'white',
-    textDecoration: 'none',
-  },
-  socialIcon: {
-    width: '20px',
-    height: '20px',
-    marginLeft: 16,
-  },
-  footerNciColumn: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    height: '30px',
-    '@media (min-width: 600px)': {
-      width: '200px',
-    },
 
-    '@media (min-width: 960px)': {
-      width: '300px',
-    },
 
-    '& .nciBadge': {
-      border: '0',
-      height: '40px',
-    },
-  },
   linkSections :{
     paddingTop: '13px',
     display: 'flex',
@@ -165,32 +106,13 @@ const styles = () => ({
     fontSize: "16px",
     fontWeight: "400",
   },
-  footerBar: {
-    color: 'white',
-    backgroundColor: '#4F536B',
-    width: '100%',
-    textAlign: 'center',
-    '-webkit-font-smoothing': 'antialiased',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxSizing: 'border-box',
-    padding: '14px',
-    marginTop: '48px',
-  },
   contentJustifyCenter: {
     justifyContent: 'center',
-  },
-  contentJustifyLeft: {
-    justifyContent: 'left',
   },
   horizontalLine: {
     width: '100%',
     margin: '32px auto 16px auto',
     borderTop: '1px solid #2E5573',
-  },
-  marginRight40: {
-    marginRight: '40px',
   },
   nciLogo: {
     '@media (min-width: 960px)': {
