@@ -12,22 +12,17 @@ const columns = [
   {
     id: 'otarCode',
     label: 'Project Code',
+    renderCell: ({ otarCode }) => {
+      return (
+        <Link external to={`http://home.opentargets.org/${otarCode}`}>
+          {otarCode}
+        </Link>
+      );
+    },
   },
   {
     id: 'projectName',
     label: 'Project name',
-  },
-  { id: 'status', label: 'Status' },
-  {
-    id: 'reference',
-    label: 'Open Targest Intranet Link',
-    renderCell: ({ otarCode }) => {
-      return (
-        <Link external to={`http://home.opentargets.org/${otarCode}`}>
-          {otarCode} project page
-        </Link>
-      );
-    },
   },
 ];
 
