@@ -1,47 +1,19 @@
 import React from 'react';
 import Footer from './Footer';
-import { contact } from '../../constants';
+import { contact, version } from '../../constants';
 
 const FooterData = {
-  bg: '#325068',
   footerTitle: 'National Cancer Institute',
   footerSubTitle: 'at the National Institutes of Health',
   footerStaticText: 'NIH … Turning Discovery Into Health®',
-   version: "mvp1",
-  BEversion: "mvp1",
-  // A maximum of 3 Subsections (link_sections) are allowed
-  // A maximum of 4 Subsection Links ('items' under link_sections) are allowed
-  // A maximum of 4 Anchor Links (global_footer_links) are allowed
-  // Ideal size for icon is 20x20 px
-  link_sections: [
-
-    {
-      title: 'More Information',
-      items: [
-        {
-          text: 'Policies',
-          link: 'https://www.cancer.gov/global/web/policies',
-          title: 'link to NCI policies',
-        },
-        {
-          text: 'Contact MTP',
-          link: `mailto:${contact.email}`
-        },
-        {
-          text: 'Disclaimer',
-          link: 'https://www.cancer.gov/policies/disclaimer',
-        },
-        {
-          text: 'Accessibility',
-          link: 'https://www.cancer.gov/policies/accessibility',
-        },
-        {
-          text: 'FOIA',
-          link: 'https://www.cancer.gov/policies/foia',
-        },
-      ],
-    },
-  ],
+  FEversion: version.frontend,
+  BEversion: version.backend,
+  contactUs:`mailto:${contact.email}`,
+  aboutPage: '/about',
+  disclaimer: 'https://www.cancer.gov/policies/disclaimer',
+  accessibility: 'https://www.cancer.gov/policies/accessibility',
+  FOIA: 'https://www.cancer.gov/policies/foia',
+  policies: 'https://www.cancer.gov/global/web/policies',
   global_footer_links: [
     {
       text: 'U.S. Department of Health and Human Services',
