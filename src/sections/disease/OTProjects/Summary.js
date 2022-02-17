@@ -18,7 +18,6 @@ function Summary({ definition }) {
           <>
             {otarProjects.length} OTAR project
             {otarProjects.length === 1 ? '' : 's'}
-            <br />
           </>
         );
       }}
