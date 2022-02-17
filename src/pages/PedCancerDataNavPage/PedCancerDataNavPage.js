@@ -114,7 +114,6 @@ const useStyles = makeStyles(theme => ({
     color: '#04599a',
     backgroundColor: "#CDE9FF",
     fontSize: '16px'
-
   },
 
   /*****          Header          *****/
@@ -203,6 +202,8 @@ function CHoPPage() {
   // state for tracking input value
   const [targetInputValue, setTargetInputValue] = useState(geneSymbol || '');
   const [diseaseInputValue, setDiseaseInputValue] = useState(disease || '');
+  const [firstLoad, setFirstLoad] = useState(!isEmpty(geneSymbol) || !isEmpty(disease))
+  console.log("geneSymbol: ", geneSymbol, " Disease: ", disease, " firstLoad: ", firstLoad)
 
   // console.log("targetInputValue: ", targetInputValue)
   // console.log("diseaseInputValue: ", diseaseInputValue)
@@ -235,14 +236,24 @@ function CHoPPage() {
 
   useEffect(
     () => {
-      if (displayTable ) {
-        getData({ variables: { disease: diseaseInputValue.toLowerCase(), geneSymbol: targetInputValue.toLowerCase() } });
+      // Trigger the API if Gene Symbol or Disease is coming from Target or Disease Associated Page.
+      if(firstLoad && (!isEmpty(geneSymbol) || !isEmpty(disease))){
+        console.log("API is called from useEffect")
+        getData({ variables: { disease: disease.toLowerCase(), geneSymbol: geneSymbol.toLowerCase() } });
+      }
+    },
+    [disease, firstLoad, geneSymbol, getData]
+  )
+
+  useEffect(
+    () => {
+      if (displayTable) {
         setResult(data || [])
       } else {
         setResult([])
       }
     },
-    [  data, diseaseInputValue, targetInputValue, displayTable, getData]
+    [data, displayTable, getData]
   );
  
   const appTitle = "Pediatric Cancer Data Navigation";
@@ -255,21 +266,33 @@ function CHoPPage() {
   };
 
   const handleOnClick = e => {
+    getData({ variables: { disease: diseaseInputValue.toLowerCase(), geneSymbol: targetInputValue.toLowerCase() } });
     if (inputFieldAreBothEmpty === false) {
+      setFirstLoad(false)
       setDisplayTable(true)
     }
   }
 
-  const reformatResult = result.length !== 0 ? getRows(result.pedCanNav.rows) : []
+  const reformatResult = result?.length !== 0 ? getRows(result?.pedCanNav.rows || []) : []
 
   const displayResult = () => {
-    
-    return displayTable && inputFieldAreBothEmpty === false
+    // displayTable && inputFieldAreBothEmpty === false
+    return displayTable
 
   }
+  const areSame = (str1, str2) => {
+    let result = false;
+    if (str1 && str2) {
+      result = str1 === str2
+    }
+    return result
+  }
+
+  const geneSymbolFromData = reformatResult[0]?.geneSymbol
+  const diseaseFromData = reformatResult[0]?.Disease
+  console.log("result: ", reformatResult)
   return (
     <div className={classes.page}>
-
       <NCIHeader/>
 
       <Grid container >
@@ -313,7 +336,7 @@ function CHoPPage() {
             </Grid>
           </Grid> 
           <Grid item >
-            <Button className={classes.searchButton} onClick={handleOnClick} 
+            <Button className={classes.searchButton} onClick={handleOnClick} disabled={inputFieldAreBothEmpty}
               variant="contained" size="large"> Search </Button>
           </Grid>
         </Grid>
@@ -368,9 +391,9 @@ function CHoPPage() {
                     ?
                       <Typography component='p'>
                         Found <strong>{reformatResult.length}</strong> 
-                        { targetOnlyHasValue ? <span> Diseases with <strong>{targetInputValue}</strong> </span> : ""}
-                        { diseaseOnlyHasValue ? <span> Targets with <strong>{diseaseInputValue}</strong> </span> : ""}
-                        { bothInputFieldAreNotEmpty ? <span> result of <strong>{targetInputValue}</strong> in <strong>{diseaseInputValue}</strong> with </span> : ""}
+                        { areSame(reformatResult[0]?.geneSymbol, reformatResult[1]?.geneSymbol) ? <span> Diseases with <strong>{geneSymbolFromData}</strong> </span> : ""}
+                        { areSame(reformatResult[0]?.Disease, reformatResult[1]?.Disease) ? <span> Targets with <strong>{diseaseFromData}</strong> </span> : ""}
+                        { reformatResult.length === 1 ? <span> result of <strong>{geneSymbolFromData}</strong> in <strong>{diseaseFromData}</strong> with </span> : ""}
                         {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
                       </Typography>
                     : 
@@ -395,8 +418,6 @@ function CHoPPage() {
                       onRowsPerPageChange={handleRowsPerPageChange}
                       rowsPerPageOptions={rowsPerPageOptions}
                       paginationPosition="TOP"
-                      sortBy={targetOnlyHasValue ? "Disease" : diseaseOnlyHasValue ? "geneSymbol" : ""}
-                      order={"asc"}
                     />
                   </Box>
                 </Paper>
