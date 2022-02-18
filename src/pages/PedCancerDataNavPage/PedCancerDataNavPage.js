@@ -50,11 +50,11 @@ const columns = [
     comparator: (a, b) => genericComparator(a, b, 'geneSymbol'),
   },
   {
-    id: 'Disease',
+    id: 'disease',
     label: 'Disease',
-    renderCell: ({ EFO, Disease }) => 
-      <Link to={`/disease/${EFO}`}>{Disease}</Link>,
-    comparator: (a, b) => genericComparator(a, b, 'Disease'),
+    renderCell: ({ EFO, disease }) => 
+      <Link to={`/disease/${EFO}`}>{disease}</Link>,
+    comparator: (a, b) => genericComparator(a, b, 'disease'),
   },
   {
     id: 'geneEnsemblId',
@@ -96,7 +96,7 @@ function getRows(downloadData) {
       geneEnsemblId: mapping.targetFromSourceId,
       EFO: mapping.diseaseFromSourceMappedId,
       geneSymbol: mapping.Gene_symbol,
-      Disease: mapping.Disease,
+      disease: mapping.Disease,
       SNV: mapping.SNV + "",
       CNV: mapping.CNV + "",
       Fusion: mapping.Fusion + "",
@@ -250,9 +250,9 @@ function CHoPPage() {
   // Check if Both inputField are empty
   const inputFieldAreBothEmpty = isTargetEmpty && isDiseaseEmpty
 
-  const rowsPerPageOptions = [10, 25, 50];
   const classes = useStyles({inputFieldAreBothEmpty})
-
+  
+  const rowsPerPageOptions = [10, 25, 50];
   function handleRowsPerPageChange(newPageSize){
     setPageSize(newPageSize)
   };
@@ -271,7 +271,7 @@ function CHoPPage() {
   const reformatResult = result?.length !== 0 ? getRows(result?.pedCanNav.rows || []) : []
 
   console.log("result: ", reformatResult)
-  const resultInfoFun = () => {
+  const resultInfoObj = () => {
     const searchOnlyForTarget = isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
     const searchOnlyForDisease = !isEmpty(diseaseForInfo) && isEmpty(targetForInfo)
     const searchForBoth = !isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
@@ -284,13 +284,13 @@ function CHoPPage() {
   }
 
   const resultInfo = () => {
-    let result = <strong>Loading...</strong>
-    resultInfoFun()
-    const searchFor = resultInfoFun()
+    let res = <strong>Loading...</strong>
+    resultInfoObj()
+    const searchFor = resultInfoObj()
  
     if (!loading) { 
       if (reformatResult?.length !==0) {
-        result = 
+        res = 
         <Typography component='p'>
           Found <strong>{reformatResult.length}</strong> 
           { searchFor.target ? 
@@ -300,10 +300,10 @@ function CHoPPage() {
           {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
         </Typography>
       } else {
-        result = <Typography component='p'>No results found</Typography>
+        res = <Typography component='p'>No results found</Typography>
       }
     }
-    return result;
+    return res;
   }
 
   return (
@@ -357,7 +357,7 @@ function CHoPPage() {
         </Grid>
         <br />
         
-        {/*     Info      */}
+        {/*     Result Description      */}
         <Grid container item xs={12} md={10} lg={6} className={classes.infoContainer}>
           <Grid container item alignItems="center" xs > 
             <Grid item xs>
