@@ -186,9 +186,15 @@ const HomePage = () => {
                 align="center"
                 gutterBottom
               >
-                <Link to="http://home.opentargets.org/partner-preview-platform-data-policy">
-                  View our data policy
-                </Link>
+                <strong>
+                  <Link
+                    external
+                    newTab
+                    to="http://home.opentargets.org/partner-preview-platform-data-policy"
+                  >
+                    View our data policy
+                  </Link>
+                </strong>
               </Typography>
             </div>
           ) : null}
