@@ -3,7 +3,7 @@ import { loader } from 'graphql.macro';
 import { Helmet } from 'react-helmet';
 import { Grid, Paper, Box, Typography, Button, makeStyles } from '@material-ui/core';
 
-import { GreenCheckIcon, isEmpty} from './utils';
+import { GreenCheckIcon, isEmpty } from './utils';
 import NCIHeader from '../../components/NCIHeader';
 import EntitySelect from './EntitySelect';
 import CHOPTable from '../../components/RMTLTable';
@@ -107,7 +107,6 @@ function getRows(downloadData) {
 }
 
 const useStyles = makeStyles(theme => ({
-
   gridContainer: {
     margin: '170px 0 0 0',
     padding: '50px 50px 60px 50px',
@@ -174,7 +173,6 @@ const useStyles = makeStyles(theme => ({
   },
 
   /*       Responsive      */
-
   "@media (max-width: 650px)": {
     headerContainer: {
       marginTop: '100px'
@@ -190,24 +188,27 @@ function CHoPPage() {
   const NUMBER_OF_TARGET = '43,880'
   const NUMBER_OF_DISEASE = 41
   const NUMBER_OF_EVIDENCE = '1,446,573'
+  const appTitle = "Pediatric Cancer Data Navigation";
 
-  // Accessing input from Target and Disease Page
+  // Accessing input from Target and Disease Associated Page
   let geneSymbol = '', disease = ''
   const location = useLocation()
-  if (location.state) {
-    geneSymbol = location.state.geneSymbol || ''
-    disease = location.state.disease || ''
+  if (location?.state) {
+    geneSymbol = location.state?.geneSymbol || ''
+    disease = location.state?.disease || ''
   }
 
   // state for tracking input value
   const [targetInputValue, setTargetInputValue] = useState(geneSymbol || '');
   const [diseaseInputValue, setDiseaseInputValue] = useState(disease || '');
+
+  // State to track the target and disease used to trigger API. These value will be used
+  // to display result info above the Table.
+  const [targetForInfo, setTargetForInfo] = useState('')
+  const [diseaseForInfo, setDiseaseForInfo] = useState('')
+  
+  // Track when Page is first loaded. if true, API will be triggered instantly under useEffect
   const [firstLoad, setFirstLoad] = useState(!isEmpty(geneSymbol) || !isEmpty(disease))
-  console.log("geneSymbol: ", geneSymbol, " Disease: ", disease, " firstLoad: ", firstLoad)
-
-  // console.log("targetInputValue: ", targetInputValue)
-  // console.log("diseaseInputValue: ", diseaseInputValue)
-
 
   const [displayTable, setDisplayTable] = useState(false || geneSymbol.length !==0 || disease.length !==0)
   const [pageSize, setPageSize] = useState(25);
@@ -216,23 +217,8 @@ function CHoPPage() {
     variables: { disease: diseaseInputValue, geneSymbol: targetInputValue },
     onCompleted: () => {},
   });
+
   const [result, setResult] = useState(data || [])
-
-  const isTargetEmpty = isEmpty(targetInputValue)
-  const isDiseaseEmpty = isEmpty(diseaseInputValue)
-
-  // Check if Both inputField are empty
-  const inputFieldAreBothEmpty = isTargetEmpty && isDiseaseEmpty
-
-  // Check if user is only searching for target
-  const targetOnlyHasValue = !isTargetEmpty && isDiseaseEmpty
-
-  // Check if user is only searching for disease
-  const diseaseOnlyHasValue = !isDiseaseEmpty && isTargetEmpty
-
-  // check if Both inputField are not empty
-  const bothInputFieldAreNotEmpty = !isTargetEmpty && !isDiseaseEmpty
-
 
   useEffect(
     () => {
@@ -240,6 +226,8 @@ function CHoPPage() {
       if(firstLoad && (!isEmpty(geneSymbol) || !isEmpty(disease))){
         console.log("API is called from useEffect")
         getData({ variables: { disease: disease.toLowerCase(), geneSymbol: geneSymbol.toLowerCase() } });
+        setTargetForInfo(geneSymbol)
+        setDiseaseInputValue(disease)
       }
     },
     [disease, firstLoad, geneSymbol, getData]
@@ -255,8 +243,12 @@ function CHoPPage() {
     },
     [data, displayTable, getData]
   );
- 
-  const appTitle = "Pediatric Cancer Data Navigation";
+
+  const isTargetEmpty = isEmpty(targetInputValue)
+  const isDiseaseEmpty = isEmpty(diseaseInputValue)
+
+  // Check if Both inputField are empty
+  const inputFieldAreBothEmpty = isTargetEmpty && isDiseaseEmpty
 
   const rowsPerPageOptions = [10, 25, 50];
   const classes = useStyles({inputFieldAreBothEmpty})
@@ -266,31 +258,54 @@ function CHoPPage() {
   };
 
   const handleOnClick = e => {
-    getData({ variables: { disease: diseaseInputValue.toLowerCase(), geneSymbol: targetInputValue.toLowerCase() } });
     if (inputFieldAreBothEmpty === false) {
+      getData({ variables: { disease: diseaseInputValue.toLowerCase(), 
+        geneSymbol: targetInputValue.toLowerCase() } });
       setFirstLoad(false)
       setDisplayTable(true)
+      setTargetForInfo(targetInputValue)
+      setDiseaseForInfo(diseaseInputValue)
     }
   }
 
   const reformatResult = result?.length !== 0 ? getRows(result?.pedCanNav.rows || []) : []
 
-  const displayResult = () => {
-    // displayTable && inputFieldAreBothEmpty === false
-    return displayTable
-
-  }
-  const areSame = (str1, str2) => {
-    let result = false;
-    if (str1 && str2) {
-      result = str1 === str2
-    }
-    return result
-  }
-
-  const geneSymbolFromData = reformatResult[0]?.geneSymbol
-  const diseaseFromData = reformatResult[0]?.Disease
   console.log("result: ", reformatResult)
+  const resultInfoFun = () => {
+    const searchOnlyForTarget = isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
+    const searchOnlyForDisease = !isEmpty(diseaseForInfo) && isEmpty(targetForInfo)
+    const searchForBoth = !isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
+
+    return {
+      target: searchOnlyForTarget,
+      disease: searchOnlyForDisease,
+      both: searchForBoth,
+    } 
+  }
+
+  const resultInfo = () => {
+    let result = <strong>Loading...</strong>
+    resultInfoFun()
+    const searchFor = resultInfoFun()
+ 
+    if (!loading) { 
+      if (reformatResult?.length !==0) {
+        result = 
+        <Typography component='p'>
+          Found <strong>{reformatResult.length}</strong> 
+          { searchFor.target ? 
+              <span> Diseases with <strong>{targetForInfo}</strong> </span> : ""}
+          { searchFor.disease ? <span> Targets with <strong>{diseaseForInfo}</strong> </span> : ""}
+          { searchFor.both ? <span> result of <strong>{targetForInfo}</strong> in <strong>{diseaseForInfo}</strong> with </span> : ""}
+          {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
+        </Typography>
+      } else {
+        result = <Typography component='p'>No results found</Typography>
+      }
+    }
+    return result;
+  }
+
   return (
     <div className={classes.page}>
       <NCIHeader/>
@@ -377,34 +392,17 @@ function CHoPPage() {
 
       </Grid>
       {/*     Result     */}
-      <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
+      { displayTable ?
+        <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
           {/*     Result Header     */}
-        { displayResult() ?
           <Grid container item xs={12} md={10} lg={6} className={classes.resultHeader}>
             <Grid container item alignItems="center" xs > 
               <Grid item xs>
-                { loading 
-                  ? 
-                    <strong>Loading...</strong>
-                  :
-                  data?.pedCanNav?.rows?.length !==0
-                    ?
-                      <Typography component='p'>
-                        Found <strong>{reformatResult.length}</strong> 
-                        { areSame(reformatResult[0]?.geneSymbol, reformatResult[1]?.geneSymbol) ? <span> Diseases with <strong>{geneSymbolFromData}</strong> </span> : ""}
-                        { areSame(reformatResult[0]?.Disease, reformatResult[1]?.Disease) ? <span> Targets with <strong>{diseaseFromData}</strong> </span> : ""}
-                        { reformatResult.length === 1 ? <span> result of <strong>{geneSymbolFromData}</strong> in <strong>{diseaseFromData}</strong> with </span> : ""}
-                        {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
-                      </Typography>
-                    : 
-                      <Typography component='p'>No results found</Typography>
-                }
+                {resultInfo()}
               </Grid>
             </Grid>
           </Grid>
-        : null}
-        {/*     Result Table     */}
-        { displayResult() ?
+          {/*     Result Table     */}
           <Grid container item xs={12} lg={10} className={classes.resultTable}>
             <Grid container item alignItems="center" xs > 
               <Grid item xs>
@@ -424,13 +422,14 @@ function CHoPPage() {
               </Grid>
             </Grid>
           </Grid>
-        : null }
-      </Grid>
+        </Grid>
+      : null }
 
       <NCIFooter/>
     </div>
   )
 }
+
 export default CHoPPage;
 
 
