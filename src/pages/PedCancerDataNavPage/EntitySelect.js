@@ -4,6 +4,8 @@ import { loader } from 'graphql.macro';
 import { useLazyQuery } from '@apollo/client';
 import { Search } from '@material-ui/icons';
 import DiseaseOptions from './diseaseOptions.json'
+import { inputSanitize } from './utils';
+
 
 const TARGET_SEARCH_QUERY = loader('./TargetSearchQuery.gql')
 
@@ -59,7 +61,7 @@ function PedSearch({setInputValue, inputValue, entity="disease", defaultOptions,
     }
   }
   const handlerOnInputChange = (inputVal) => {
-      return  getGeneOptions({ variables: {geneSymbol: inputVal}})
+      return  getGeneOptions({ variables: {geneSymbol: inputSanitize(inputVal)}})
   }
   
   /****         Custom react-select components         ****/

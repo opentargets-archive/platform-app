@@ -3,7 +3,7 @@ import { loader } from 'graphql.macro';
 import { Helmet } from 'react-helmet';
 import { Grid, Paper, Box, Typography, Button, makeStyles } from '@material-ui/core';
 
-import { GreenCheckIcon, isEmpty } from './utils';
+import { GreenCheckIcon, isEmpty, inputSanitize } from './utils';
 import NCIHeader from '../../components/NCIHeader';
 import EntitySelect from './EntitySelect';
 import CHOPTable from '../../components/RMTLTable';
@@ -237,7 +237,8 @@ function CHoPPage() {
     () => {
       // Trigger the API if Gene Symbol or Disease is coming from Target or Disease Associated Page.
       if(firstLoad && (!isEmpty(geneSymbol) || !isEmpty(disease))){
-        getData({ variables: { disease: disease.toLowerCase(), geneSymbol: geneSymbol.toLowerCase() } });
+        getData({ variables: { disease: inputSanitize(disease), 
+            geneSymbol: inputSanitize(geneSymbol) } });
         setTargetForInfo(geneSymbol)
         setDiseaseInputValue(disease)
       }
@@ -271,8 +272,8 @@ function CHoPPage() {
 
   const handleOnClick = e => {
     if (inputFieldAreBothEmpty === false) {
-      getData({ variables: { disease: diseaseInputValue.toLowerCase(), 
-        geneSymbol: targetInputValue.toLowerCase() } });
+      getData({ variables: { disease: inputSanitize(diseaseInputValue), 
+        geneSymbol: inputSanitize(targetInputValue) } });
       setFirstLoad(false)
       setDisplayTable(true)
       setTargetForInfo(targetInputValue)

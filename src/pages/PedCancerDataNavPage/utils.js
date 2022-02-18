@@ -11,3 +11,13 @@ export const isEmpty = (s) => {
   if(!str) return true
   return _isEmpty(str)
 }
+export const inputSanitize = (input) => {
+  let result = input?.toLowerCase()
+  if (input){
+    // trim any white space
+    result = result.trim()
+  }
+  
+  return result;
+}
+
