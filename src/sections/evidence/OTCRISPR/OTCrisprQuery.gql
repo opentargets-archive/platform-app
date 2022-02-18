@@ -20,6 +20,10 @@ query CrisprQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
         crisprScreenLibrary
         statisticalTestTail
         resourceScore
+        log2FoldChangeValue
+        diseaseCellLines {
+          name
+        }
       }
     }
   }
