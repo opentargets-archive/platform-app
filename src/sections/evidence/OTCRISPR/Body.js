@@ -9,11 +9,6 @@ import Summary from './Summary';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
 import TooltipStyledLabel from '../../../components/TooltipStyledLabel';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCaretSquareUp,
-  faCaretSquareDown,
-} from '@fortawesome/free-solid-svg-icons';
 import { makeStyles } from '@material-ui/core';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
@@ -72,13 +67,13 @@ const getColumns = classes => [
     id: 'cellType',
     label: 'Cell type',
     renderCell: row =>
-      row.cellLineBackground ? (
+      row.diseaseCellLines?.name ? (
         <Tooltip
           showHelpIcon
           title={
             <TooltipStyledLabel
               label={'Cell line background'}
-              description={row.cellLineBackground}
+              description={row.diseaseCellLines?.name}
             />
           }
         >
@@ -90,36 +85,14 @@ const getColumns = classes => [
     filterValue: row => row.cellType + '; ' + row.cellLineBackground,
   },
   {
-    id: 'crisprScreenLibrary',
-    label: 'CRISPR screen library',
-    renderCell: row => row.crisprScreenLibrary,
+    id: 'log2FoldChangeValue',
+    label: 'log2 fold change',
+    renderCell: row =>
+      row.log2FoldChangeValue ? row.log2FoldChangeValue : 'N/A',
   },
   {
     id: 'resourceScore',
     label: 'Significance',
-    renderCell: row => (
-      <>
-        <Tooltip
-          title={
-            <TooltipStyledLabel
-              label={'Statistical test tail'}
-              description={row.statisticalTestTail}
-            />
-          }
-        >
-          <span className={classes.significanceIcon}>
-            <FontAwesomeIcon
-              icon={
-                row.statisticalTestTail.toLowerCase() === 'upper tail'
-                  ? faCaretSquareUp
-                  : faCaretSquareDown
-              }
-            />
-          </span>
-        </Tooltip>{' '}
-        {row.resourceScore}
-      </>
-    ),
     filterValue: row => row.resourceScore + '; ' + row.statisticalTestTail,
   },
 ];
