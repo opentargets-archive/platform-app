@@ -99,6 +99,7 @@ const styles = () => ({
   },
   linkSectionHead:{
     fontSize: '17px',
+    paddingBottom: '6px',
   },
   linkSection:{
     width: "fit-content",
@@ -147,7 +148,7 @@ const Footer = ({ classes, data }) => (
         </div>
           <div className={cn(classes.linkSections, classes.contentJustifyCenter)}>
            <div className={classes.linkSection} >
-             <div className={classes.linkSectionHead}>Contact Information</div>
+             <div className={classes.linkSectionHead}>CONTACT INFORMATION</div>
               <div>
                  <RouteLinks to={data.contactUs}>
                  Contact US
@@ -155,13 +156,13 @@ const Footer = ({ classes, data }) => (
                   </div>
            </div>
            <div className={classes.linkSection}>
-             <div className={classes.linkSectionHead}> More Information</div>
+             <div className={classes.linkSectionHead}>MORE INFORMATION</div>
               <RouteLinks to={data.aboutPage}>
                  About MTP
               </RouteLinks>
            </div>
            <div className={classes.linkSection}>
-             <div className={classes.linkSectionHead}>  NIH Policies</div>
+             <div className={classes.linkSectionHead}>  NIH POLICIES</div>
               <div>
                   <RouteLinks to={data.policies}>Policies </RouteLinks>
                 </div>
