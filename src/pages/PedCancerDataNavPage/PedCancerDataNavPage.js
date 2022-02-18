@@ -144,12 +144,12 @@ const useStyles = makeStyles(theme => ({
   entityContainer: {
     backgroundColor: "white",
   },
-  entityItem: {
+  entityNameItem: {
     padding: '20px',
     fontSize: '16px',
     fontWeight: 'bold'
   },
-  entitySelectItem: {
+  diseaseSelectItem: {
     paddingRight: '25px'
   },
 
@@ -171,15 +171,28 @@ const useStyles = makeStyles(theme => ({
     marginTop: '50px',
     paddingBottom: "100px"
   },
-
+  "@media (min-width: 1200px)": {
+    geneSymbolSelectItem: {
+      paddingRight: '25px'
+    },
+  },
   /*       Responsive      */
   "@media (max-width: 650px)": {
+    gridContainer: {
+      padding: '50px 10px 60px 10px',
+    },
     headerContainer: {
       marginTop: '100px'
     },
     entityContainer: {
       minWidth: '300px'
     },
+    entityNameItem: {
+      paddingRight: '0px'
+    },
+    geneSymbolSelectItem: {
+      paddingRight: '25px' 
+    }
   }
 }))
 
@@ -321,7 +334,7 @@ function CHoPPage() {
 
       <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.gridContainer}>
         {/*     Header    */}
-        <Grid item xs={12} className={classes.headerContainer}>
+        <Grid item xs={12} md={10} lg={9} xl={8} className={classes.headerContainer}>
           <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
             Pediatric Cancer Data Navigation
           </Typography>
@@ -334,19 +347,19 @@ function CHoPPage() {
         </Grid>
 
         {/*    Search    */}
-        <Grid container alignItems="center" justifyContent='center' item xs={12} md={11} lg={10} xl={8}>
+        <Grid container alignItems="center" justifyContent='center' item xs={12} md={11} lg={10} xl={9}>
           {/*   Gene Symbol   */}
-          <Grid container item alignItems="center" xs className={classes.entityContainer}> 
-            <Grid item className={classes.entityItem}> Gene Symbol: </Grid>
-            <Grid item xs className={classes.entitySelectItem}>
+          <Grid container item alignItems="center" sm={5} className={classes.entityContainer}> 
+            <Grid item className={classes.entityNameItem}> Gene Symbol: </Grid>
+            <Grid item xs className={classes.geneSymbolSelectItem}>
               <EntitySelect inputValue={targetInputValue} setInputValue={setTargetInputValue}
                 entity="target" defaultOptions={defaultTargetOptions}/>
             </Grid>
           </Grid>
           {/*   Disease   */}
-          <Grid container item xs alignItems="center"  className={classes.entityContainer}> 
-            <Grid item className={classes.entityItem}> Disease: </Grid>
-            <Grid item xs className={classes.entitySelectItem}>
+          <Grid container item sm={5} alignItems="center"  className={classes.entityContainer}> 
+            <Grid item className={classes.entityNameItem}> Disease: </Grid>
+            <Grid item xs className={classes.diseaseSelectItem}>
               <EntitySelect entity="disease" inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
             </Grid>
           </Grid> 
