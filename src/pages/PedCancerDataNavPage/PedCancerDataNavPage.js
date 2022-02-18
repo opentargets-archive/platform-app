@@ -237,7 +237,6 @@ function CHoPPage() {
     () => {
       // Trigger the API if Gene Symbol or Disease is coming from Target or Disease Associated Page.
       if(firstLoad && (!isEmpty(geneSymbol) || !isEmpty(disease))){
-        console.log("API is called from useEffect")
         getData({ variables: { disease: disease.toLowerCase(), geneSymbol: geneSymbol.toLowerCase() } });
         setTargetForInfo(geneSymbol)
         setDiseaseInputValue(disease)
@@ -283,7 +282,6 @@ function CHoPPage() {
 
   const reformatResult = result?.length !== 0 ? getRows(result?.pedCanNav.rows || []) : []
 
-  console.log("result: ", reformatResult)
   const resultInfoObj = () => {
     const searchOnlyForTarget = isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
     const searchOnlyForDisease = !isEmpty(diseaseForInfo) && isEmpty(targetForInfo)
