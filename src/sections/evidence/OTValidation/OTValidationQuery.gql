@@ -4,27 +4,35 @@ query ValidationQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
     evidences(
       ensemblIds: [$ensemblId]
       enableIndirect: true
-      datasourceIds: ["encore"]
+      datasourceIds: ["ot_crispr_validation"]
       size: $size
     ) {
       rows {
-        target{
-          id
-          approvedSymbol
-        }
-        disease{
+        disease {
           id
           name
         }
-        # cellType
-        # interactingTargetFromSourceId
-        # phenotypicConsequenceLogFoldChange
-        # phenotypicConsequenceFDR
-        # phenotypicConsequencePValue
-        # geneticInteractionMethod
-        # geneticInteractionScore
-        # geneticInteractionPValue
-        # geneticInteractionFDR
+        projectId
+        projectDescription
+        contrast
+        studyOverview
+        diseaseCellLines {
+          id
+          name
+          tissue
+          tissueId
+        }
+        resourceScore
+        biomarkerList {
+          name
+          description
+        }
+        confidence
+        expectedConfidence
+        validationHypotheses {
+          name
+          description
+        }
       }
     }
   }
