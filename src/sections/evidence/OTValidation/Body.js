@@ -1,11 +1,11 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-// import usePlatformApi from '../../../hooks/usePlatformApi';
+import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
 import { dataTypesMap } from '../../../dataTypes';
-// import Summary from './Summary';
+import Summary from './Summary';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
 import ChipList from '../../../components/ChipList';
@@ -17,8 +17,6 @@ import { Box, makeStyles, Typography } from '@material-ui/core';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
 // import classNames from 'classnames';
-// TODO: remove mock data
-import sample from './data/sample';
 
 const VALIDATION_QUERY = loader('./OTValidationQuery.gql');
 
@@ -62,7 +60,7 @@ const getColumns = classes => [
     id: 'disease',
     label: 'Reported disease',
     renderCell: row => (
-      <Link to={`/disease/${row.diseaseId}`}>{row.diseaseLabel}</Link>
+      <Link to={`/disease/${row.disease.id}`}>{row.disease.name}</Link>
     ),
     filterValue: row => row.diseaseLabel + ', ' + row.diseaseId,
   },
@@ -110,13 +108,13 @@ const getColumns = classes => [
     width: '8%',
   },
   {
-    id: 'biomarkers',
+    id: 'biomarkerList',
     label: 'Cell line biomarkers',
     renderCell: row => {
       return (
         <ChipList
           small
-          items={row.biomarkers.map(bm => ({
+          items={row.biomarkerList.map(bm => ({
             label: bm.name,
             tooltip: bm.description,
           }))}
@@ -124,7 +122,7 @@ const getColumns = classes => [
       );
     },
     filterValue: row =>
-      row.biomarkers.map(bm => bm.name + ', ' + bm.description).join(', '),
+      row.biomarkerList.map(bm => bm.name + ', ' + bm.description).join(', '),
   },
   {
     id: 'resourceScore',
@@ -201,15 +199,14 @@ const exportColumns = [
 
 function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
-  // const { data: summaryData } = usePlatformApi(
-  //   Summary.fragments.otEncoreSummary
-  // );
-  // TODO: update query!
+  const { data: summaryData } = usePlatformApi(
+    Summary.fragments.otValidationSummary
+  );
   const request = useQuery(VALIDATION_QUERY, {
     variables: {
       ensemblId,
       efoId,
-      size: 10, //summaryData.otValidationSummary.count,
+      size: summaryData.otValidationSummary.count,
     },
   });
   const classes = useStyles();
@@ -224,8 +221,7 @@ function Body({ definition, id, label }) {
       )}
       renderBody={({ disease }) => {
         // TODO
-        // const { rows } = disease.evidences;
-        const { rows } = sample;
+        const { rows } = disease.evidences;
         const hypothesis = rows.reduce(
           (prev, curr) =>
             prev.concat(
