@@ -67,13 +67,13 @@ const getColumns = classes => [
     id: 'cellType',
     label: 'Cell type',
     renderCell: row =>
-      row.diseaseCellLines?.name ? (
+      row.cellLineBackground ? (
         <Tooltip
           showHelpIcon
           title={
             <TooltipStyledLabel
               label={'Cell line background'}
-              description={row.diseaseCellLines?.name}
+              description={row.cellLineBackground}
             />
           }
         >
