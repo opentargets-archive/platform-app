@@ -13,7 +13,7 @@ import ChipList from '../../../components/ChipList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
-import { makeStyles, Typography } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
 // import classNames from 'classnames';
@@ -32,6 +32,12 @@ const useStyles = makeStyles(theme => {
     },
     circleUp: {
       marginRight: '10px',
+    },
+    hypotesisBox: {
+      // display: 'flex',
+      marginBottom: '2rem',
+      paddingBottom: '1rem',
+      borderBottom: `1px solid ${theme.palette.grey[300]}`,
     },
   };
 });
@@ -220,22 +226,47 @@ function Body({ definition, id, label }) {
         // TODO
         // const { rows } = disease.evidences;
         const { rows } = sample;
+        const hypothesis = rows.reduce(
+          (prev, curr) =>
+            prev.concat(
+              curr.validationHypotheses.map(vht => ({
+                label: vht.hypothesis,
+                tooltip: vht.description,
+              }))
+            ),
+          []
+        );
+
         return (
-          <DataTable
-            columns={getColumns(classes)}
-            rows={rows}
-            dataDownloader
-            dataDownloaderColumns={exportColumns}
-            query={VALIDATION_QUERY.loc.source.body}
-            dataDownloaderFileStem={`${ensemblId}-${efoId}-otvalidation`}
-            showGlobalFilter
-            sortBy="resourceScore"
-            order="des"
-            fixed
-            noWrap={false}
-            noWrapHeader={false}
-            rowsPerPageOptions={defaultRowsPerPageOptions}
-          />
+          <>
+            <Box className={classes.hypotesisBox}>
+              <Typography variant="subtitle1" gutterBottom>
+                OTVL biomarker assessment for {label.symbol}
+              </Typography>
+              <br />
+              {/** LEGEND */}
+              {/** CHIPLIST */}
+              <div>
+                <ChipList items={hypothesis} />
+              </div>
+            </Box>
+
+            <DataTable
+              columns={getColumns(classes)}
+              rows={rows}
+              dataDownloader
+              dataDownloaderColumns={exportColumns}
+              query={VALIDATION_QUERY.loc.source.body}
+              dataDownloaderFileStem={`${ensemblId}-${efoId}-otvalidation`}
+              showGlobalFilter
+              sortBy="resourceScore"
+              order="des"
+              fixed
+              noWrap={false}
+              noWrapHeader={false}
+              rowsPerPageOptions={defaultRowsPerPageOptions}
+            />
+          </>
         );
       }}
     />
