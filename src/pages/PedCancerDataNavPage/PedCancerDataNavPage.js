@@ -3,7 +3,7 @@ import { loader } from 'graphql.macro';
 import { Helmet } from 'react-helmet';
 import { Grid, Paper, Box, Typography, Button, makeStyles } from '@material-ui/core';
 
-import { GreenCheckIcon, isEmpty} from './utils';
+import { GreenCheckIcon, isEmpty } from './utils';
 import NCIHeader from '../../components/NCIHeader';
 import EntitySelect from './EntitySelect';
 import CHOPTable from '../../components/RMTLTable';
@@ -50,11 +50,11 @@ const columns = [
     comparator: (a, b) => genericComparator(a, b, 'geneSymbol'),
   },
   {
-    id: 'Disease',
+    id: 'disease',
     label: 'Disease',
-    renderCell: ({ EFO, Disease }) => 
-      <Link to={`/disease/${EFO}`}>{Disease}</Link>,
-    comparator: (a, b) => genericComparator(a, b, 'Disease'),
+    renderCell: ({ EFO, disease }) => 
+      <Link to={`/disease/${EFO}`}>{disease}</Link>,
+    comparator: (a, b) => genericComparator(a, b, 'disease'),
   },
   {
     id: 'geneEnsemblId',
@@ -96,7 +96,7 @@ function getRows(downloadData) {
       geneEnsemblId: mapping.targetFromSourceId,
       EFO: mapping.diseaseFromSourceMappedId,
       geneSymbol: mapping.Gene_symbol,
-      Disease: mapping.Disease,
+      disease: mapping.Disease,
       SNV: mapping.SNV + "",
       CNV: mapping.CNV + "",
       Fusion: mapping.Fusion + "",
@@ -107,14 +107,12 @@ function getRows(downloadData) {
 }
 
 const useStyles = makeStyles(theme => ({
-
   gridContainer: {
     margin: '170px 0 0 0',
     padding: '50px 50px 60px 50px',
     color: '#04599a',
     backgroundColor: "#CDE9FF",
     fontSize: '16px'
-
   },
 
   /*****          Header          *****/
@@ -146,12 +144,12 @@ const useStyles = makeStyles(theme => ({
   entityContainer: {
     backgroundColor: "white",
   },
-  entityItem: {
+  entityNameItem: {
     padding: '20px',
     fontSize: '16px',
     fontWeight: 'bold'
   },
-  entitySelectItem: {
+  diseaseSelectItem: {
     paddingRight: '25px'
   },
 
@@ -173,16 +171,28 @@ const useStyles = makeStyles(theme => ({
     marginTop: '50px',
     paddingBottom: "100px"
   },
-
+  "@media (min-width: 1200px)": {
+    geneSymbolSelectItem: {
+      paddingRight: '25px'
+    },
+  },
   /*       Responsive      */
-
   "@media (max-width: 650px)": {
+    gridContainer: {
+      padding: '50px 10px 60px 10px',
+    },
     headerContainer: {
       marginTop: '100px'
     },
     entityContainer: {
       minWidth: '300px'
     },
+    entityNameItem: {
+      paddingRight: '0px'
+    },
+    geneSymbolSelectItem: {
+      paddingRight: '25px' 
+    }
   }
 }))
 
@@ -191,22 +201,27 @@ function CHoPPage() {
   const NUMBER_OF_TARGET = '43,880'
   const NUMBER_OF_DISEASE = 41
   const NUMBER_OF_EVIDENCE = '1,446,573'
+  const appTitle = "Pediatric Cancer Data Navigation";
 
-  // Accessing input from Target and Disease Page
+  // Accessing input from Target and Disease Associated Page
   let geneSymbol = '', disease = ''
   const location = useLocation()
-  if (location.state) {
-    geneSymbol = location.state.geneSymbol || ''
-    disease = location.state.disease || ''
+  if (location?.state) {
+    geneSymbol = location.state?.geneSymbol || ''
+    disease = location.state?.disease || ''
   }
 
   // state for tracking input value
   const [targetInputValue, setTargetInputValue] = useState(geneSymbol || '');
   const [diseaseInputValue, setDiseaseInputValue] = useState(disease || '');
 
-  // console.log("targetInputValue: ", targetInputValue)
-  // console.log("diseaseInputValue: ", diseaseInputValue)
-
+  // State to track the target and disease used to trigger API. These value will be used
+  // to display result info above the Table.
+  const [targetForInfo, setTargetForInfo] = useState('')
+  const [diseaseForInfo, setDiseaseForInfo] = useState('')
+  
+  // Track when Page is first loaded. if true, API will be triggered instantly under useEffect
+  const [firstLoad, setFirstLoad] = useState(!isEmpty(geneSymbol) || !isEmpty(disease))
 
   const [displayTable, setDisplayTable] = useState(false || geneSymbol.length !==0 || disease.length !==0)
   const [pageSize, setPageSize] = useState(25);
@@ -215,7 +230,31 @@ function CHoPPage() {
     variables: { disease: diseaseInputValue, geneSymbol: targetInputValue },
     onCompleted: () => {},
   });
+
   const [result, setResult] = useState(data || [])
+
+  useEffect(
+    () => {
+      // Trigger the API if Gene Symbol or Disease is coming from Target or Disease Associated Page.
+      if(firstLoad && (!isEmpty(geneSymbol) || !isEmpty(disease))){
+        getData({ variables: { disease: disease.toLowerCase(), geneSymbol: geneSymbol.toLowerCase() } });
+        setTargetForInfo(geneSymbol)
+        setDiseaseInputValue(disease)
+      }
+    },
+    [disease, firstLoad, geneSymbol, getData]
+  )
+
+  useEffect(
+    () => {
+      if (displayTable) {
+        setResult(data || [])
+      } else {
+        setResult([])
+      }
+    },
+    [data, displayTable, getData]
+  );
 
   const isTargetEmpty = isEmpty(targetInputValue)
   const isDiseaseEmpty = isEmpty(diseaseInputValue)
@@ -223,53 +262,63 @@ function CHoPPage() {
   // Check if Both inputField are empty
   const inputFieldAreBothEmpty = isTargetEmpty && isDiseaseEmpty
 
-  // Check if user is only searching for target
-  const targetOnlyHasValue = !isTargetEmpty && isDiseaseEmpty
-
-  // Check if user is only searching for disease
-  const diseaseOnlyHasValue = !isDiseaseEmpty && isTargetEmpty
-
-  // check if Both inputField are not empty
-  const bothInputFieldAreNotEmpty = !isTargetEmpty && !isDiseaseEmpty
-
-
-  useEffect(
-    () => {
-      if (displayTable ) {
-        getData({ variables: { disease: diseaseInputValue.toLowerCase(), geneSymbol: targetInputValue.toLowerCase() } });
-        setResult(data || [])
-      } else {
-        setResult([])
-      }
-    },
-    [  data, diseaseInputValue, targetInputValue, displayTable, getData]
-  );
- 
-  const appTitle = "Pediatric Cancer Data Navigation";
-
-  const rowsPerPageOptions = [10, 25, 50];
   const classes = useStyles({inputFieldAreBothEmpty})
-
+  
+  const rowsPerPageOptions = [10, 25, 50];
   function handleRowsPerPageChange(newPageSize){
     setPageSize(newPageSize)
   };
 
   const handleOnClick = e => {
     if (inputFieldAreBothEmpty === false) {
+      getData({ variables: { disease: diseaseInputValue.toLowerCase(), 
+        geneSymbol: targetInputValue.toLowerCase() } });
+      setFirstLoad(false)
       setDisplayTable(true)
+      setTargetForInfo(targetInputValue)
+      setDiseaseForInfo(diseaseInputValue)
     }
   }
 
-  const reformatResult = result.length !== 0 ? getRows(result.pedCanNav.rows) : []
+  const reformatResult = result?.length !== 0 ? getRows(result?.pedCanNav.rows || []) : []
 
-  const displayResult = () => {
-    
-    return displayTable && inputFieldAreBothEmpty === false
+  const resultInfoObj = () => {
+    const searchOnlyForTarget = isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
+    const searchOnlyForDisease = !isEmpty(diseaseForInfo) && isEmpty(targetForInfo)
+    const searchForBoth = !isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
 
+    return {
+      target: searchOnlyForTarget,
+      disease: searchOnlyForDisease,
+      both: searchForBoth,
+    } 
   }
+
+  const resultInfo = () => {
+    let res = <strong>Loading...</strong>
+    resultInfoObj()
+    const searchFor = resultInfoObj()
+ 
+    if (!loading) { 
+      if (reformatResult?.length !==0) {
+        res = 
+        <Typography component='p'>
+          Found <strong>{reformatResult.length}</strong> 
+          { searchFor.target ? 
+              <span> Diseases with <strong>{targetForInfo}</strong> </span> : ""}
+          { searchFor.disease ? <span> Targets with <strong>{diseaseForInfo}</strong> </span> : ""}
+          { searchFor.both ? <span> result of <strong>{targetForInfo}</strong> in <strong>{diseaseForInfo}</strong> with </span> : ""}
+          {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
+        </Typography>
+      } else {
+        res = <Typography component='p'>No results found</Typography>
+      }
+    }
+    return res;
+  }
+
   return (
     <div className={classes.page}>
-
       <NCIHeader/>
 
       <Grid container >
@@ -283,7 +332,7 @@ function CHoPPage() {
 
       <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.gridContainer}>
         {/*     Header    */}
-        <Grid item xs={12} className={classes.headerContainer}>
+        <Grid item xs={12} md={10} lg={9} xl={8} className={classes.headerContainer}>
           <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
             Pediatric Cancer Data Navigation
           </Typography>
@@ -296,30 +345,30 @@ function CHoPPage() {
         </Grid>
 
         {/*    Search    */}
-        <Grid container alignItems="center" justifyContent='center' item xs={12} md={11} lg={10} xl={8}>
+        <Grid container alignItems="center" justifyContent='center' item xs={12} md={11} lg={10} xl={9}>
           {/*   Gene Symbol   */}
-          <Grid container item alignItems="center" xs className={classes.entityContainer}> 
-            <Grid item className={classes.entityItem}> Gene Symbol: </Grid>
-            <Grid item xs className={classes.entitySelectItem}>
+          <Grid container item alignItems="center" sm={5} className={classes.entityContainer}> 
+            <Grid item className={classes.entityNameItem}> Gene Symbol: </Grid>
+            <Grid item xs className={classes.geneSymbolSelectItem}>
               <EntitySelect inputValue={targetInputValue} setInputValue={setTargetInputValue}
                 entity="target" defaultOptions={defaultTargetOptions}/>
             </Grid>
           </Grid>
           {/*   Disease   */}
-          <Grid container item xs alignItems="center"  className={classes.entityContainer}> 
-            <Grid item className={classes.entityItem}> Disease: </Grid>
-            <Grid item xs className={classes.entitySelectItem}>
+          <Grid container item sm={5} alignItems="center"  className={classes.entityContainer}> 
+            <Grid item className={classes.entityNameItem}> Disease: </Grid>
+            <Grid item xs className={classes.diseaseSelectItem}>
               <EntitySelect entity="disease" inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
             </Grid>
           </Grid> 
           <Grid item >
-            <Button className={classes.searchButton} onClick={handleOnClick} 
+            <Button className={classes.searchButton} onClick={handleOnClick} disabled={inputFieldAreBothEmpty}
               variant="contained" size="large"> Search </Button>
           </Grid>
         </Grid>
         <br />
         
-        {/*     Info      */}
+        {/*     Result Description      */}
         <Grid container item xs={12} md={10} lg={6} className={classes.infoContainer}>
           <Grid container item alignItems="center" xs > 
             <Grid item xs>
@@ -354,34 +403,17 @@ function CHoPPage() {
 
       </Grid>
       {/*     Result     */}
-      <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
+      { displayTable ?
+        <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
           {/*     Result Header     */}
-        { displayResult() ?
           <Grid container item xs={12} md={10} lg={6} className={classes.resultHeader}>
             <Grid container item alignItems="center" xs > 
               <Grid item xs>
-                { loading 
-                  ? 
-                    <strong>Loading...</strong>
-                  :
-                  data?.pedCanNav?.rows?.length !==0
-                    ?
-                      <Typography component='p'>
-                        Found <strong>{reformatResult.length}</strong> 
-                        { targetOnlyHasValue ? <span> Diseases with <strong>{targetInputValue}</strong> </span> : ""}
-                        { diseaseOnlyHasValue ? <span> Targets with <strong>{diseaseInputValue}</strong> </span> : ""}
-                        { bothInputFieldAreNotEmpty ? <span> result of <strong>{targetInputValue}</strong> in <strong>{diseaseInputValue}</strong> with </span> : ""}
-                        {' '}pediatric cancer evidence data. Note that  the existence of data does not necessarily indicate significance.
-                      </Typography>
-                    : 
-                      <Typography component='p'>No results found</Typography>
-                }
+                {resultInfo()}
               </Grid>
             </Grid>
           </Grid>
-        : null}
-        {/*     Result Table     */}
-        { displayResult() ?
+          {/*     Result Table     */}
           <Grid container item xs={12} lg={10} className={classes.resultTable}>
             <Grid container item alignItems="center" xs > 
               <Grid item xs>
@@ -395,21 +427,20 @@ function CHoPPage() {
                       onRowsPerPageChange={handleRowsPerPageChange}
                       rowsPerPageOptions={rowsPerPageOptions}
                       paginationPosition="TOP"
-                      sortBy={targetOnlyHasValue ? "Disease" : diseaseOnlyHasValue ? "geneSymbol" : ""}
-                      order={"asc"}
                     />
                   </Box>
                 </Paper>
               </Grid>
             </Grid>
           </Grid>
-        : null }
-      </Grid>
+        </Grid>
+      : null }
 
       <NCIFooter/>
     </div>
   )
 }
+
 export default CHoPPage;
 
 
