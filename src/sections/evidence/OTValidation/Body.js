@@ -17,6 +17,7 @@ import { Box, makeStyles, Typography } from '@material-ui/core';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
 // import classNames from 'classnames';
+import _ from 'lodash';
 
 const VALIDATION_QUERY = loader('./OTValidationQuery.gql');
 
@@ -221,15 +222,18 @@ function Body({ definition, id, label }) {
       )}
       renderBody={({ disease }) => {
         const { rows } = disease.evidences;
-        const hypothesis = rows.reduce(
-          (prev, curr) =>
-            prev.concat(
-              curr.validationHypotheses.map(vht => ({
-                label: vht.name,
-                tooltip: vht.description,
-              }))
-            ),
-          []
+        const hypothesis = _.uniqBy(
+          rows.reduce(
+            (prev, curr) =>
+              prev.concat(
+                curr.validationHypotheses.map(vht => ({
+                  label: vht.name,
+                  tooltip: vht.description,
+                }))
+              ),
+            []
+          ),
+          'label'
         );
 
         return (
