@@ -44,6 +44,7 @@ export const externalLinks = {
     { label: 'Bristol Myers Squibb', url: 'https://www.bms.com' },
     { label: 'EMBL-EBI', url: 'https://www.ebi.ac.uk' },
     { label: 'GSK', url: 'https://www.gsk.com' },
+    { label: 'Pfizer', url: 'https://pfizer.com' },
     { label: 'Sanofi', url: 'https://www.sanofi.com' },
     { label: 'Wellcome Sanger Institute', url: 'https://www.sanger.ac.uk' },
   ],
