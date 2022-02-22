@@ -127,7 +127,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "white",
   },
   entityNameItem: {
-    padding: '20px',
+    padding: '20px 2px 20px 20px',
     fontSize: '16px',
     fontWeight: 'bold'
   },
@@ -155,7 +155,7 @@ const useStyles = makeStyles(theme => ({
   },
   "@media (min-width: 1200px)": {
     geneSymbolSelectItem: {
-      paddingRight: '25px'
+      paddingRight: '15px'
     },
   },
   /*       Responsive      */
