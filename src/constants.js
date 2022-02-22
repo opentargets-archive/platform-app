@@ -1,5 +1,6 @@
 import {
   faQuestionCircle,
+  faBook,
   faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -51,7 +52,7 @@ export const externalLinks = {
   help: [
     {
       label: 'Documentation',
-      icon: faQuestionCircle,
+      icon: faBook,
       url: 'https://platform-docs.opentargets.org',
     },
     {
