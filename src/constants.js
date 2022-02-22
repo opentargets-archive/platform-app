@@ -61,7 +61,7 @@ export const externalLinks = {
     },
   ],
   social: [
-    { icon: faDiscourse, url: 'https://community.opentargets.org' },
+    // { icon: faDiscourse, url: 'https://community.opentargets.org' },
     { icon: faTwitterSquare, url: 'https://twitter.com/opentargets' },
     { icon: faLinkedin, url: 'https://www.linkedin.com/company/open-targets' },
     { icon: faYoutubeSquare, url: 'https://www.youtube.com/opentargets' },
