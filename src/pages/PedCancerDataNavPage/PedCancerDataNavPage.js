@@ -107,7 +107,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
   },
   subHeader: {
-    color: 'black'
+    color: '#5c5f5e'
   },
 
   /*****          Search          *****/
@@ -313,20 +313,28 @@ function CHoPPage() {
         </Grid>
       </Grid>
 
+      {/*     First Section (Search/Info)    */}
       <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.gridContainer}>
-        {/*     Header    */}
-        <Grid item xs={12} md={10} lg={9} xl={8} className={classes.headerContainer}>
-          <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
-            Pediatric Cancer Data Navigation
-          </Typography>
-
-          <Typography component="p" align="center" paragraph className={classes.subHeader} >
-            Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to navigate our dataset 
-            containing <b>{NUMBER_OF_TARGET}</b> Targets and <b>{NUMBER_OF_DISEASE}</b> Diseases 
-            across <b>{NUMBER_OF_EVIDENCE}</b> Evidence Pages.
-          </Typography>
+        {/*     Header   */}
+        <Grid container item xs={12} className={classes.headerContainer}>
+          <Grid item xs={12}>
+            <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
+              Pediatric Cancer Data Navigation
+            </Typography>
+          </Grid>
+          {/*   Sub Header  */}
+          <Grid container item xs={12} direction="row" justifyContent="center" alignItems="center">
+            <Grid container item alignItems="center" style={{width: '600px'}}> 
+              <Grid item xs>
+                <Typography component="p" align="center" paragraph className={classes.subHeader} >
+                Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to navigate our dataset 
+                containing <b>{NUMBER_OF_TARGET}</b> Targets and <b>{NUMBER_OF_DISEASE}</b> Diseases 
+                across <b>{NUMBER_OF_EVIDENCE}</b> Evidence Pages.
+              </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
-
         {/*    Search    */}
         <Grid container alignItems="center" justifyContent='center' item xs={12} md={11} lg={10} xl={9}>
           {/*   Gene Symbol   */}
@@ -385,7 +393,8 @@ function CHoPPage() {
         </Grid>
 
       </Grid>
-      {/*     Result     */}
+      
+      {/*     Second Section (Result)    */}
       { displayTable ?
         <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
           {/*     Result Header     */}
