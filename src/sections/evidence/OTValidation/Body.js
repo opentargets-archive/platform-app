@@ -238,7 +238,6 @@ function Body({ definition, id, label }) {
               <Typography variant="subtitle1" gutterBottom>
                 OTVL biomarker assessment for {label.symbol}
               </Typography>
-              <br />
               {/** LEGEND */}
               {/** CHIPLIST */}
               <div>
