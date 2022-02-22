@@ -1,39 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { loader } from 'graphql.macro';
+import { useLazyQuery } from '@apollo/client';
 import { Helmet } from 'react-helmet';
 import { Grid, Paper, Box, Typography, Button, makeStyles } from '@material-ui/core';
+import { useLocation } from 'react-router-dom';
 
-import { GreenCheckIcon, isEmpty } from './utils';
 import NCIHeader from '../../components/NCIHeader';
-import EntitySelect from './EntitySelect';
 import CHOPTable from '../../components/RMTLTable';
 import NCIFooter from '../../components/NCIFooter';
 import Link from '../../components/Link';
 import { appDescription, appCanonicalUrl } from '../../constants';
-import { useLazyQuery } from '@apollo/client';
 
-import { useLocation } from 'react-router-dom';
+import EntitySelect from './EntitySelect';
 import defaultTargetOptions from './defaultTargetOptions.json'
+import { GreenCheckIcon, isEmpty, inputSanitize, genericComparator } from './utils';
+
 const PED_CAN_DATA_NAV_QUERY = loader('./PedCancerDataNav.gql')
-
-/*
- * genericComparator: comparing row1 and row2 using the input keyName.
- * return: -1 if first string is lexicographically less than second property
- *          1 if first string is lexicographically greater than second property
- *          0 if both property are equal
- */
-function genericComparator(row1, row2, keyName) {
-  const a =
-    typeof row1[keyName] === 'string'
-      ? row1[keyName].toLowerCase()
-      : row1[keyName];
-  const b =
-    typeof row2[keyName] === 'string'
-      ? row2[keyName].toLowerCase()
-      : row2[keyName];
-
-  return a < b ? -1 : a > b ? 1 : 0;
-}
 
 const columns = [
   {
@@ -237,7 +219,8 @@ function CHoPPage() {
     () => {
       // Trigger the API if Gene Symbol or Disease is coming from Target or Disease Associated Page.
       if(firstLoad && (!isEmpty(geneSymbol) || !isEmpty(disease))){
-        getData({ variables: { disease: disease.toLowerCase(), geneSymbol: geneSymbol.toLowerCase() } });
+        getData({ variables: { disease: inputSanitize(disease), 
+            geneSymbol: inputSanitize(geneSymbol) } });
         setTargetForInfo(geneSymbol)
         setDiseaseInputValue(disease)
       }
@@ -271,8 +254,8 @@ function CHoPPage() {
 
   const handleOnClick = e => {
     if (inputFieldAreBothEmpty === false) {
-      getData({ variables: { disease: diseaseInputValue.toLowerCase(), 
-        geneSymbol: targetInputValue.toLowerCase() } });
+      getData({ variables: { disease: inputSanitize(diseaseInputValue), 
+        geneSymbol: inputSanitize(targetInputValue) } });
       setFirstLoad(false)
       setDisplayTable(true)
       setTargetForInfo(targetInputValue)
