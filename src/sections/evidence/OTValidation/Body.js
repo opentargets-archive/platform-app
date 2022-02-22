@@ -220,13 +220,12 @@ function Body({ definition, id, label }) {
         <Description symbol={label.symbol} name={label.name} />
       )}
       renderBody={({ disease }) => {
-        // TODO
         const { rows } = disease.evidences;
         const hypothesis = rows.reduce(
           (prev, curr) =>
             prev.concat(
               curr.validationHypotheses.map(vht => ({
-                label: vht.hypothesis,
+                label: vht.name,
                 tooltip: vht.description,
               }))
             ),
