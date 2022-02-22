@@ -153,11 +153,11 @@ const getColumns = classes => [
 const exportColumns = [
   {
     label: 'disease',
-    exportValue: row => row.diseaseLabel,
+    exportValue: row => row.disease.name,
   },
   {
     label: 'disease id',
-    exportValue: row => row.diseaseId,
+    exportValue: row => row.disease.id,
   },
   {
     label: 'project description',
@@ -182,7 +182,7 @@ const exportColumns = [
   },
   {
     label: 'biomarkers',
-    exportValue: row => row.biomarkers.map(bm => bm.name),
+    exportValue: row => row.biomarkerList.map(bm => bm.name),
   },
   {
     label: 'effect size',
