@@ -93,7 +93,7 @@ export const mainMenuItems = config.profile.mainMenuItems ?? [
   },
   // Community
   {
-    name: 'Community',
+    name: 'Ask a question',
     url: 'https://community.opentargets.org/',
     external: true,
   },
