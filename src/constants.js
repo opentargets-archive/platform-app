@@ -4,7 +4,7 @@ import {
   // faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  // faDiscourse,
+  faDiscourse,
   faTwitterSquare,
   faLinkedin,
   faGithubSquare,
@@ -56,8 +56,8 @@ export const externalLinks = {
       url: 'https://platform-docs.opentargets.org',
     },
     {
-      label: 'Ask a question',
-      icon: faQuestionCircle,
+      label: 'Community',
+      icon: faDiscourse,
       url: 'https://community.opentargets.org',
       external: true,
     },
