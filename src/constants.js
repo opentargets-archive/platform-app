@@ -56,9 +56,10 @@ export const externalLinks = {
       url: 'https://platform-docs.opentargets.org',
     },
     {
-      label: config.profile.helpdeskEmail,
-      icon: faEnvelope,
-      url: `mailto:${config.profile.helpdeskEmail}`,
+      label: 'Ask a question',
+      icon: faQuestionCircle,
+      url: 'https://community.opentargets.org',
+      external: true,
     },
   ],
   social: [
