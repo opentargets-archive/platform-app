@@ -14,11 +14,11 @@ import config from './config';
 
 export const externalLinks = {
   about: [
-    {
-      label: `Platform version ${process.env.REACT_APP_REVISION ?? 'dev'}`,
-      url: `https://github.com/opentargets/platform-app/releases/tag/${process
-        .env.REACT_APP_REVISION ?? 'v0.1.1'}`,
-    },
+    // {
+    //   label: `Platform version ${process.env.REACT_APP_REVISION ?? 'dev'}`,
+    //   url: `https://github.com/opentargets/platform-app/releases/tag/${process
+    //     .env.REACT_APP_REVISION ?? 'v0.1.1'}`,
+    // },
     {
       label: 'Community forum',
       url: 'https://community.opentargets.org',
