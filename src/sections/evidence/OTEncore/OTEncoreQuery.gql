@@ -8,14 +8,22 @@ query EncoreQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
       size: $size
     ) {
       rows {
-        target{
+        target {
           id
           approvedSymbol
         }
-        disease{
+        disease {
           id
           name
         }
+        diseaseCellLines {
+          name
+          id
+          tissue
+          tissueId
+        }
+        targetRole
+        interactingTargetRole
         cellType
         interactingTargetFromSourceId
         phenotypicConsequenceLogFoldChange
@@ -25,6 +33,7 @@ query EncoreQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
         geneticInteractionScore
         geneticInteractionPValue
         geneticInteractionFDR
+        geneInteractionType
       }
     }
   }
