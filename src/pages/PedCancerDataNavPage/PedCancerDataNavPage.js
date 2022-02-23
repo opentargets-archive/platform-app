@@ -222,7 +222,7 @@ function CHoPPage() {
         getData({ variables: { disease: inputSanitize(disease), 
             geneSymbol: inputSanitize(geneSymbol) } });
         setTargetForInfo(geneSymbol)
-        setDiseaseInputValue(disease)
+        setDiseaseForInfo(disease)
       }
     },
     [disease, firstLoad, geneSymbol, getData]
@@ -267,9 +267,8 @@ function CHoPPage() {
 
   const resultInfoObj = () => {
     const searchOnlyForTarget = isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
-    const searchOnlyForDisease = !isEmpty(diseaseForInfo) && isEmpty(targetForInfo)
+    const searchOnlyForDisease = isEmpty(targetForInfo) && !isEmpty(diseaseForInfo) 
     const searchForBoth = !isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
-
     return {
       target: searchOnlyForTarget,
       disease: searchOnlyForDisease,
