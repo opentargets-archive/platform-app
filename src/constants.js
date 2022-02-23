@@ -1,7 +1,7 @@
 import {
   faQuestionCircle,
   faBook,
-  // faEnvelope,
+  faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faDiscourse,
@@ -59,6 +59,12 @@ export const externalLinks = {
       label: 'Community',
       icon: faDiscourse,
       url: 'https://community.opentargets.org',
+      external: true,
+    },
+    {
+      label: config.profile.helpdeskEmail,
+      icon: faEnvelope,
+      url: `mailto: ${config.profile.helpdeskEmail}`,
       external: true,
     },
   ],
