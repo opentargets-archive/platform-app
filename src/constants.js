@@ -1,10 +1,10 @@
 import {
   faQuestionCircle,
   faBook,
-  faEnvelope,
+  // faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  faDiscourse,
+  // faDiscourse,
   faTwitterSquare,
   faLinkedin,
   faGithubSquare,
