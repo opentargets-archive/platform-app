@@ -1,5 +1,5 @@
 import {
-  faQuestionCircle,
+  // faQuestionCircle,
   faBook,
   faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
