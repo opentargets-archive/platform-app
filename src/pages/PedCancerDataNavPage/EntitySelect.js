@@ -16,20 +16,21 @@ const customStyle = {
     ...provided,
     backgroundColor: state.isFocused ? '#ECECEC' : 'white',
     color: 'black',
+    textTransform: 'capitalize',
     fontSize: "14px"
   }),
   singleValue: (provided, state) => ({
     ...provided,
     fontSize: '16px',
-    // border: '1px solid black',
     margin: '0px',
+    textTransform: 'capitalize',
     padding: '0px'
   }),
   input: (provided, state) => ({
     ...provided,
     margin: "28px 0px",
     borderBottom: '1px solid black',
-    paddingTop: '1px',
+    paddingTop: '1px'
   }),
   control: (styles) => ({
     ...styles,
