@@ -11,6 +11,7 @@ import RMTLTable from '../../components/RMTLTable';
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
+import ScrollToTop from '../../components/ScrollToTop';
 import PMTLData from './PMTL.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
@@ -319,6 +320,7 @@ class PMTLPage extends Component {
 
     return (
       <BasePage title="PMTL">
+        <ScrollToTop/>
         <Typography variant="h4" component="h1" paragraph>
           US Food & Drug Administration Pediatric Molecular Target Lists (FDA
           PMTL)

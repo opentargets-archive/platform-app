@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import NCIHeader from '../../components/NCIHeader';
 import CHOPTable from '../../components/RMTLTable';
 import NCIFooter from '../../components/NCIFooter';
+import ScrollToTop from '../../components/ScrollToTop';
 import Link from '../../components/Link';
 import { appDescription, appCanonicalUrl } from '../../constants';
 
@@ -87,13 +88,16 @@ function getRows(downloadData) {
   });
   return rows;
 }
+const siteBlue = '#3488c8'
+const generalTextColor = '#04599a'
+const generalBackGroundColor = '#CDE9FF'
 
 const useStyles = makeStyles(theme => ({
   gridContainer: {
     margin: '170px 0 0 0',
     padding: '50px 50px 60px 50px',
-    color: '#04599a',
-    backgroundColor: "#CDE9FF",
+    color: generalTextColor,
+    backgroundColor: generalBackGroundColor,
     fontSize: '16px'
   },
 
@@ -107,7 +111,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
   },
   subHeader: {
-    color: 'black'
+    color: '#5c5f5e'
   },
 
   /*****          Search          *****/
@@ -116,18 +120,23 @@ const useStyles = makeStyles(theme => ({
     transition: "all 150ms ease",
     border: "none",
     cursor: "pointer",
-    backgroundColor: "#3489ca",
+    backgroundColor: siteBlue,
     color: "white", 
     "&:hover": {
-      color: "#3489ca"
+      color: siteBlue
     },
   },
 
   entityContainer: {
     backgroundColor: "white",
+    minWidth: '360px',
+    maxWidth: '441px'
+  },
+  searchContainer:{
+    maxWidth: '92px'
   },
   entityNameItem: {
-    padding: '20px',
+    padding: '20px 2px 20px 20px',
     fontSize: '16px',
     fontWeight: 'bold'
   },
@@ -147,7 +156,7 @@ const useStyles = makeStyles(theme => ({
   },
   resultHeader: {
     marginTop: '50px',
-    color: '#04599a',
+    color: 'generalTextColor',
   },
   resultTable: {
     marginTop: '50px',
@@ -155,10 +164,24 @@ const useStyles = makeStyles(theme => ({
   },
   "@media (min-width: 1200px)": {
     geneSymbolSelectItem: {
-      paddingRight: '25px'
+      paddingRight: '15px'
     },
   },
   /*       Responsive      */
+  "@media (max-width: 913px)": {
+    searchContainer: {
+      minWidth: '300px',
+      marginTop: '20px'
+    },
+  },
+  "@media (max-width: 821px)": {
+    entityContainer: {
+      marginTop: '20px'
+    },
+    geneSymbolSelectItem: {
+      paddingRight: '25px'
+    }
+  },
   "@media (max-width: 650px)": {
     gridContainer: {
       padding: '50px 10px 60px 10px',
@@ -166,12 +189,7 @@ const useStyles = makeStyles(theme => ({
     headerContainer: {
       marginTop: '100px'
     },
-    entityContainer: {
-      minWidth: '300px'
-    },
-    entityNameItem: {
-      paddingRight: '0px'
-    },
+
     geneSymbolSelectItem: {
       paddingRight: '25px' 
     }
@@ -222,7 +240,7 @@ function CHoPPage() {
         getData({ variables: { disease: inputSanitize(disease), 
             geneSymbol: inputSanitize(geneSymbol) } });
         setTargetForInfo(geneSymbol)
-        setDiseaseInputValue(disease)
+        setDiseaseForInfo(disease)
       }
     },
     [disease, firstLoad, geneSymbol, getData]
@@ -267,9 +285,8 @@ function CHoPPage() {
 
   const resultInfoObj = () => {
     const searchOnlyForTarget = isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
-    const searchOnlyForDisease = !isEmpty(diseaseForInfo) && isEmpty(targetForInfo)
+    const searchOnlyForDisease = isEmpty(targetForInfo) && !isEmpty(diseaseForInfo) 
     const searchForBoth = !isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
-
     return {
       target: searchOnlyForTarget,
       disease: searchOnlyForDisease,
@@ -302,6 +319,7 @@ function CHoPPage() {
 
   return (
     <div className={classes.page}>
+      <ScrollToTop/>
       <NCIHeader/>
 
       <Grid container >
@@ -313,24 +331,32 @@ function CHoPPage() {
         </Grid>
       </Grid>
 
+      {/*     First Section (Search/Info)    */}
       <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.gridContainer}>
-        {/*     Header    */}
-        <Grid item xs={12} md={10} lg={9} xl={8} className={classes.headerContainer}>
-          <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
-            Pediatric Cancer Data Navigation
-          </Typography>
-
-          <Typography component="p" align="center" paragraph className={classes.subHeader} >
-            Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to navigate our dataset 
-            containing <b>{NUMBER_OF_TARGET}</b> Targets and <b>{NUMBER_OF_DISEASE}</b> Diseases 
-            across <b>{NUMBER_OF_EVIDENCE}</b> Evidence Pages.
-          </Typography>
+        {/*     Header   */}
+        <Grid container item xs={12} className={classes.headerContainer}>
+          <Grid item xs={12}>
+            <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
+              Pediatric Cancer Data Navigation
+            </Typography>
+          </Grid>
+          {/*   Sub Header  */}
+          <Grid container item xs={12} direction="row" justifyContent="center" alignItems="center">
+            <Grid container item alignItems="center" style={{width: '600px'}}> 
+              <Grid item xs>
+                <Typography component="p" align="center" paragraph className={classes.subHeader} >
+                Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to navigate our dataset 
+                containing <b>{NUMBER_OF_TARGET}</b> Targets and <b>{NUMBER_OF_DISEASE}</b> Diseases 
+                across <b>{NUMBER_OF_EVIDENCE}</b> Evidence Pages.
+              </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
-
-        {/*    Search    */}
-        <Grid container alignItems="center" justifyContent='center' item xs={12} md={11} lg={10} xl={9}>
+        {/*    Search    xs={10} sm={7} md={12} lg={10} xl={9} */} 
+        <Grid container justifyContent='center' item xs={12}>
           {/*   Gene Symbol   */}
-          <Grid container item alignItems="center" sm={5} className={classes.entityContainer}> 
+          <Grid container item alignItems="center" xs className={classes.entityContainer}> 
             <Grid item className={classes.entityNameItem}> Gene Symbol: </Grid>
             <Grid item xs className={classes.geneSymbolSelectItem}>
               <EntitySelect inputValue={targetInputValue} setInputValue={setTargetInputValue}
@@ -338,16 +364,18 @@ function CHoPPage() {
             </Grid>
           </Grid>
           {/*   Disease   */}
-          <Grid container item sm={5} alignItems="center"  className={classes.entityContainer}> 
+          <Grid container item  alignItems="center" xs className={classes.entityContainer}> 
             <Grid item className={classes.entityNameItem}> Disease: </Grid>
             <Grid item xs className={classes.diseaseSelectItem}>
               <EntitySelect entity="disease" inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
             </Grid>
-          </Grid> 
-          <Grid item >
-            <Button className={classes.searchButton} onClick={handleOnClick} disabled={inputFieldAreBothEmpty}
-              variant="contained" size="large"> Search </Button>
           </Grid>
+          <Grid container item justifyContent='center' xs={12} className={classes.searchContainer}> 
+            <Grid item> 
+              <Button className={classes.searchButton} onClick={handleOnClick} disabled={inputFieldAreBothEmpty}
+              variant="contained" size="large"> Search </Button>
+            </Grid>
+          </Grid>  
         </Grid>
         <br />
         
@@ -385,7 +413,8 @@ function CHoPPage() {
         </Grid>
 
       </Grid>
-      {/*     Result     */}
+      
+      {/*     Second Section (Result)    */}
       { displayTable ?
         <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
           {/*     Result Header     */}
