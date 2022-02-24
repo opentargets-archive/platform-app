@@ -26,7 +26,7 @@ const columns = [
       const ensemblID = row.geneEnsemblId;
       const url = '/target/' + ensemblID;
       return ensemblID !== "Symbol_Not_Found" ? 
-      ( <Link to={url}>{row.geneSymbol}</Link>):
+      ( <Link to={url} external>{row.geneSymbol}</Link>):
        (<p> {row.geneSymbol} </p>)
     },
     
@@ -36,7 +36,7 @@ const columns = [
     id: 'disease',
     label: 'Disease',
     renderCell: ({ EFO, disease }) => 
-      <Link to={`/disease/${EFO}`}>{disease}</Link>,
+      <Link to={`/disease/${EFO}`} external>{disease}</Link>,
     comparator: (a, b) => genericComparator(a, b, 'disease'),
   },
   {
