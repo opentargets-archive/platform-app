@@ -168,13 +168,13 @@ const useStyles = makeStyles(theme => ({
     },
   },
   /*       Responsive      */
-  "@media (max-width: 913px)": {
+  "@media (max-width: 926px)": {
     searchContainer: {
-      minWidth: '300px',
+      minWidth: '400px',
       marginTop: '20px'
     },
   },
-  "@media (max-width: 821px)": {
+  "@media (max-width: 834px)": {
     entityContainer: {
       marginTop: '20px'
     },
@@ -189,7 +189,9 @@ const useStyles = makeStyles(theme => ({
     headerContainer: {
       marginTop: '100px'
     },
-
+    searchContainer: {
+      minWidth: '300px'
+    },
     geneSymbolSelectItem: {
       paddingRight: '25px' 
     }
