@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import NCIHeader from '../../components/NCIHeader';
 import CHOPTable from '../../components/RMTLTable';
 import NCIFooter from '../../components/NCIFooter';
+import ScrollToTop from '../../components/ScrollToTop';
 import Link from '../../components/Link';
 import { appDescription, appCanonicalUrl } from '../../constants';
 
@@ -302,6 +303,7 @@ function CHoPPage() {
 
   return (
     <div className={classes.page}>
+      <ScrollToTop/>
       <NCIHeader/>
 
       <Grid container >
