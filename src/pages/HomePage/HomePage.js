@@ -11,6 +11,7 @@ import NCIHeader from '../../components/NCIHeader';
 import HomeBox from './HomeBox';
 import Link from '../../components/Link';
 import Search from '../../components/Search';
+import ScrollToTop from '../../components/ScrollToTop';
 import searchExamples from './searchExamples';
 import Splash from './Splash';
 import Version from './Version';
@@ -67,6 +68,7 @@ const HomePage = () => {
         <meta name="description" content={appDescription} />
         <link rel="canonical" href={appCanonicalUrl} />
       </Helmet>
+      <ScrollToTop/>
       <NCIHeader/>
       <Grid
         container

@@ -9,6 +9,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { Helmet } from 'react-helmet';
 import NCIFooter from '../../components/NCIFooter';
 import NCIHeader from '../../components/NCIHeader';
+import ScrollToTop from '../../components/ScrollToTop';
 import Link from '../../components/Link';
 import {
   appDescription,
@@ -524,7 +525,7 @@ const AboutView = ({ data }) => {
       <meta name="description" content={appDescription} />
       <link rel="canonical" href={appCanonicalUrl} />
     </Helmet>
-
+    <ScrollToTop/>
     <NCIHeader/>
 
     {/* The Molecular Targets Platform */}
