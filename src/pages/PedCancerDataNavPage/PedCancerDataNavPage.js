@@ -156,7 +156,7 @@ const useStyles = makeStyles(theme => ({
   },
   resultHeader: {
     marginTop: '50px',
-    color: 'generalTextColor',
+    color: generalTextColor,
   },
   resultTable: {
     marginTop: '50px',
