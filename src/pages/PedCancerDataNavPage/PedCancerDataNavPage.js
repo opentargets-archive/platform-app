@@ -125,6 +125,11 @@ const useStyles = makeStyles(theme => ({
 
   entityContainer: {
     backgroundColor: "white",
+    minWidth: '360px',
+    maxWidth: '441px'
+  },
+  searchContainer:{
+    maxWidth: '92px'
   },
   entityNameItem: {
     padding: '20px 2px 20px 20px',
@@ -159,6 +164,20 @@ const useStyles = makeStyles(theme => ({
     },
   },
   /*       Responsive      */
+  "@media (max-width: 913px)": {
+    searchContainer: {
+      minWidth: '300px',
+      marginTop: '20px'
+    },
+  },
+  "@media (max-width: 821px)": {
+    entityContainer: {
+      marginTop: '20px'
+    },
+    geneSymbolSelectItem: {
+      paddingRight: '25px'
+    }
+  },
   "@media (max-width: 650px)": {
     gridContainer: {
       padding: '50px 10px 60px 10px',
@@ -166,12 +185,7 @@ const useStyles = makeStyles(theme => ({
     headerContainer: {
       marginTop: '100px'
     },
-    entityContainer: {
-      minWidth: '300px'
-    },
-    entityNameItem: {
-      paddingRight: '0px'
-    },
+
     geneSymbolSelectItem: {
       paddingRight: '25px' 
     }
@@ -334,10 +348,10 @@ function CHoPPage() {
             </Grid>
           </Grid>
         </Grid>
-        {/*    Search    */}
-        <Grid container alignItems="center" justifyContent='center' item xs={12} md={11} lg={10} xl={9}>
+        {/*    Search    xs={10} sm={7} md={12} lg={10} xl={9} */} 
+        <Grid container justifyContent='center' item xs={12}>
           {/*   Gene Symbol   */}
-          <Grid container item alignItems="center" sm={5} className={classes.entityContainer}> 
+          <Grid container item alignItems="center" xs className={classes.entityContainer}> 
             <Grid item className={classes.entityNameItem}> Gene Symbol: </Grid>
             <Grid item xs className={classes.geneSymbolSelectItem}>
               <EntitySelect inputValue={targetInputValue} setInputValue={setTargetInputValue}
@@ -345,16 +359,18 @@ function CHoPPage() {
             </Grid>
           </Grid>
           {/*   Disease   */}
-          <Grid container item sm={5} alignItems="center"  className={classes.entityContainer}> 
+          <Grid container item  alignItems="center" xs className={classes.entityContainer}> 
             <Grid item className={classes.entityNameItem}> Disease: </Grid>
             <Grid item xs className={classes.diseaseSelectItem}>
               <EntitySelect entity="disease" inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
             </Grid>
-          </Grid> 
-          <Grid item >
-            <Button className={classes.searchButton} onClick={handleOnClick} disabled={inputFieldAreBothEmpty}
-              variant="contained" size="large"> Search </Button>
           </Grid>
+          <Grid container item justifyContent='center' xs={12} className={classes.searchContainer}> 
+            <Grid item> 
+              <Button className={classes.searchButton} onClick={handleOnClick} disabled={inputFieldAreBothEmpty}
+              variant="contained" size="large"> Search </Button>
+            </Grid>
+          </Grid>  
         </Grid>
         <br />
         
