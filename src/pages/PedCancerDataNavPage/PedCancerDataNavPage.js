@@ -35,7 +35,7 @@ const columns = [
     id: 'disease',
     label: 'Disease',
     renderCell: ({ EFO, disease }) => 
-      <Link to={`/disease/${EFO}`}>{disease}</Link>,
+      <Link to={`/disease/${EFO}`} external>{disease}</Link>,
     comparator: (a, b) => genericComparator(a, b, 'disease'),
   },
   {
