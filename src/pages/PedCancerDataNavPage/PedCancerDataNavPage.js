@@ -87,13 +87,16 @@ function getRows(downloadData) {
   });
   return rows;
 }
+const siteBlue = '#3488c8'
+const generalTextColor = '#04599a'
+const generalBackGroundColor = '#CDE9FF'
 
 const useStyles = makeStyles(theme => ({
   gridContainer: {
     margin: '170px 0 0 0',
     padding: '50px 50px 60px 50px',
-    color: '#04599a',
-    backgroundColor: "#CDE9FF",
+    color: generalTextColor,
+    backgroundColor: generalBackGroundColor,
     fontSize: '16px'
   },
 
@@ -116,10 +119,10 @@ const useStyles = makeStyles(theme => ({
     transition: "all 150ms ease",
     border: "none",
     cursor: "pointer",
-    backgroundColor: "#3489ca",
+    backgroundColor: siteBlue,
     color: "white", 
     "&:hover": {
-      color: "#3489ca"
+      color: siteBlue
     },
   },
 
@@ -152,7 +155,7 @@ const useStyles = makeStyles(theme => ({
   },
   resultHeader: {
     marginTop: '50px',
-    color: '#04599a',
+    color: 'generalTextColor',
   },
   resultTable: {
     marginTop: '50px',
