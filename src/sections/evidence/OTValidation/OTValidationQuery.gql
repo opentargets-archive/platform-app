@@ -32,6 +32,7 @@ query ValidationQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
         validationHypotheses {
           name
           description
+          status
         }
       }
     }
