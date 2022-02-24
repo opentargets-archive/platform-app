@@ -20,19 +20,31 @@ const customStyle = {
   }),
   singleValue: (provided, state) => ({
     ...provided,
-    fontSize: '16px'
+    fontSize: '16px',
+    // border: '1px solid black',
+    margin: '0px',
+    padding: '0px'
   }),
   input: (provided, state) => ({
     ...provided,
     margin: "28px 0px",
-    borderBottom: '1px solid black'
+    borderBottom: '1px solid black',
+    paddingTop: '1px',
   }),
   control: (styles) => ({
     ...styles,
     border: 'none',
     // This line disable the blue border
     boxShadow: 'none'
+  }),
+  clearIndicator: () => ({
+    borderBottom: '1px solid black',
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    paddingRight: 0,
   })
+
 }
 
 const getDiseaseOptions = () => {
@@ -80,7 +92,11 @@ function PedSearch({setInputValue, inputValue, entity="disease", defaultOptions,
             : <components.ClearIndicator {...props}></components.ClearIndicator> 
   }
   const DropdownIndicator = props => {
-    return !props?.selectProps?.value?.value?.length ? <Search /> : null
+    return !props?.selectProps?.value?.value?.length 
+              ? <div style={{ borderBottom: '1px solid black', marginBottom: '4px', paddingRight: '4px'}}>
+                  <Search style={{}}/>
+                </div>
+              : null
   }
   const getTargetOptions = () => {
     const options = []
