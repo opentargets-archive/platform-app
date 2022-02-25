@@ -113,7 +113,9 @@ const useStyles = makeStyles(theme => ({
     color: lightBlueColor
   },
   subHeader: {
-    color: '#5c5f5e'
+    color: '#5c5f5e',
+    wordSpacing: '-1px',
+    letterSpacing: '-.5px',
   },
 
   /*****          Search          *****/
@@ -352,7 +354,7 @@ function CHoPPage() {
           </Grid>
           {/*   Sub Header  */}
           <Grid container item xs={12} direction="row" justifyContent="center" alignItems="center">
-            <Grid container item alignItems="center" style={{width: '600px'}}> 
+            <Grid container item alignItems="center" style={{width: '500px'}}> 
               <Grid item xs>
                 <Typography component="p" align="center" paragraph className={classes.subHeader} >
                 Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to navigate our dataset 
