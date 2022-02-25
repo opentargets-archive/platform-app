@@ -109,6 +109,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '50px',
     fontSize: '30px',
     fontWeight: 'bold',
+    color: '#368acb'
   },
   subHeader: {
     color: '#5c5f5e'
