@@ -89,14 +89,15 @@ function getRows(downloadData) {
   return rows;
 }
 const siteBlue = '#3488c8'
-const generalTextColor = '#04599a'
+const lightBlueColor = '#368acb'
+const darkerBlueColor = '#04599a'
 const generalBackGroundColor = '#CDE9FF'
 
 const useStyles = makeStyles(theme => ({
   gridContainer: {
     margin: '170px 0 0 0',
     padding: '50px 50px 60px 50px',
-    color: generalTextColor,
+    color: darkerBlueColor,
     backgroundColor: generalBackGroundColor,
     fontSize: '16px'
   },
@@ -109,7 +110,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '50px',
     fontSize: '30px',
     fontWeight: 'bold',
-    color: '#368acb'
+    color: lightBlueColor
   },
   subHeader: {
     color: '#5c5f5e'
@@ -140,7 +141,7 @@ const useStyles = makeStyles(theme => ({
     padding: '20px 2px 20px 20px',
     fontSize: '16px',
     fontWeight: 'bold',
-    color: '#368acb',
+    color: lightBlueColor,
   },
   diseaseSelectItem: {
     paddingRight: '25px'
@@ -158,7 +159,7 @@ const useStyles = makeStyles(theme => ({
   },
   resultHeader: {
     marginTop: '50px',
-    color: generalTextColor,
+    color: lightBlueColor,
   },
   resultTable: {
     marginTop: '50px',
