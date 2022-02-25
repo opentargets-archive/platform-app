@@ -125,8 +125,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: siteBlue,
     color: "white", 
     "&:hover": {
-      color: siteBlue
+      backgroundColor: siteBlue,
+      color: 'white',
     },
+    "&:disabled": {
+      backgroundColor: siteBlue,
+      color: 'white'
+    }
   },
 
   entityContainer: {
