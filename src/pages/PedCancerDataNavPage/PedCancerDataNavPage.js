@@ -139,7 +139,8 @@ const useStyles = makeStyles(theme => ({
   entityNameItem: {
     padding: '20px 2px 20px 20px',
     fontSize: '16px',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#368acb',
   },
   diseaseSelectItem: {
     paddingRight: '25px'
