@@ -308,7 +308,6 @@ function CHoPPage() {
 
   const resultInfo = () => {
     let res = <strong>Loading...</strong>
-    resultInfoObj()
     const searchFor = resultInfoObj()
  
     if (!loading) { 
