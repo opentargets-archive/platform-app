@@ -38,6 +38,24 @@ const useStyles = makeStyles(theme => {
       paddingBottom: '1rem',
       borderBottom: `1px solid ${theme.palette.grey[300]}`,
     },
+    // hypothesis status classes
+    hsGreen: {
+      backgroundColor: '#407253',
+      border: `1px solid ${theme.palette.grey[600]}`,
+    },
+    hsRed: {
+      backgroundColor: '#9e1316',
+      border: `1px solid ${theme.palette.grey[600]}`,
+    },
+    hsWhite: {
+      backgroundColor: '#ffffff',
+      color: theme.palette.grey[600],
+      border: `1px solid ${theme.palette.grey[600]}`,
+    },
+    hsGrey: {
+      backgroundColor: theme.palette.grey[500],
+      border: `1px solid ${theme.palette.grey[600]}`,
+    },
   };
 });
 
@@ -55,6 +73,34 @@ const HitIcon = ({ isHit, classes }) => (
     className={isHit ? classes.primaryColor : classes.grey}
   />
 );
+
+// Map response hypotheses status to style and labels
+const hypothesesStatus = [
+  {
+    status: 'expected but not observed',
+    expected: true,
+    observed: false,
+    styles: 'hsGrey',
+  },
+  {
+    status: 'observed and expected',
+    expected: true,
+    observed: true,
+    styles: 'gsGreen',
+  },
+  {
+    status: 'not expected and not observed',
+    expected: false,
+    observed: false,
+    styles: 'hsWhite',
+  },
+  {
+    status: 'observed but not expected',
+    expected: false,
+    observed: true,
+    styles: 'hsRed',
+  },
+];
 
 const getColumns = classes => [
   {
@@ -229,6 +275,11 @@ function Body({ definition, id, label }) {
                 curr.validationHypotheses.map(vht => ({
                   label: vht.name,
                   tooltip: vht.description,
+                  customClass:
+                    classes[
+                      (hypothesesStatus.find(s => s.status === vht.status)
+                        ?.styles)
+                    ] || null,
                 }))
               ),
             []
