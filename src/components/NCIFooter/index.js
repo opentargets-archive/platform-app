@@ -14,6 +14,7 @@ const FooterData = {
   accessibility: 'https://www.cancer.gov/policies/accessibility',
   FOIA: 'https://www.cancer.gov/policies/foia',
   policies: 'https://www.cancer.gov/global/web/policies',
+  vulnerability: 'https://www.hhs.gov/vulnerability-disclosure-policy/index.html',
   global_footer_links: [
     {
       text: 'U.S. Department of Health and Human Services',
