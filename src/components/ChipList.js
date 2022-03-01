@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Chip, makeStyles, Tooltip } from '@material-ui/core';
 
 import { naLabel } from '../constants';
+import classNames from 'classnames';
 
 const useContainerStyles = makeStyles(theme => ({
   tooltip: {
@@ -36,9 +37,10 @@ function ChipContainer({ item, children }) {
  * Display a (horizontal) list of "chips".
  * Each chip can show an optional tooltip.
  * @param items Array of Strings.
+ * @param small Display each chip as size="small"
  * Each item in the items array can also be an object, with format {label, tooltip}
  */
-function ChipList({ items }) {
+function ChipList({ items, small }) {
   const classes = useChipStyles();
 
   if (!items || items.length === 0) return naLabel;
@@ -48,13 +50,14 @@ function ChipList({ items }) {
       <Chip
         component={!!item.url ? 'a' : Box}
         href={item.url}
-        className={classes.chip}
+        className={classNames(classes.chip, item.customClass)}
         clickable={!!item.url}
         target="_blank"
         noopener="true"
         noreferrer="true"
         color="primary"
         label={item.label}
+        size={small ? 'small' : 'medium'}
       />
     </ChipContainer>
   ));
