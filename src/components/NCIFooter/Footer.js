@@ -36,7 +36,7 @@ const styles = () => ({
     margin: '0 60px',
     '-webkit-font-smoothing': 'antialiased',
     color: 'white',
-    padding: '24px 45px 45px 45px',
+    padding: '10px 45px 15px 45px',
     '& ul': {
       listStyle: 'none',
       margin: '0',
@@ -98,12 +98,12 @@ const styles = () => ({
     display: 'flex',
   },
   linkSectionHead:{
-    fontSize: '17px',
+    fontSize: '16px',
     paddingBottom: '6px',
   },
   linkSection:{
     width: "fit-content",
-    padding: "5px 40px",
+    padding: "5px 20px",
     fontSize: "16px",
     fontWeight: "400",
   },
@@ -139,7 +139,7 @@ const styles = () => ({
 const Footer = ({ classes, data }) => (
   <div className={classes.footerRoot}>
     <div className={classes.footerComponent}>
-      <div className={cn(classes.footerRow,classes.padding20)}>
+      <div className={cn(classes.footerRow)}>
         <div>
           <h1 className={classes.nciFooterTitle}>
             {data.footerTitle} 
@@ -176,6 +176,10 @@ const Footer = ({ classes, data }) => (
                <div>
                     <RouteLinks to={data.FOIA}>FOIA</RouteLinks>
               </div>
+              <div>
+                    <RouteLinks to={data.vulnerability}>HHS Vulnerability Disclosure</RouteLinks>
+              </div>
+              
            </div>
           </div>
       </div>
