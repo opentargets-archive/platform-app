@@ -39,6 +39,9 @@ const useStyles = makeStyles(theme => {
     hypotesisLegend: {
       marginBottom: '1rem',
     },
+    bold: {
+      fontWeight: 700,
+    },
     // hypothesis status classes
     hsLegendChip: {
       width: '32px',
@@ -294,7 +297,11 @@ function Body({ definition, id, label }) {
         return (
           <>
             <Box className={classes.hypotesisBox}>
-              <Typography variant="subtitle1" gutterBottom>
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                className={classes.bold}
+              >
                 OTVL biomarker assessment for {label.symbol}
               </Typography>
               {/** LEGEND */}
@@ -313,11 +320,15 @@ function Body({ definition, id, label }) {
                         </Grid>
                         <Grid item>
                           <Typography variant="caption" display="block">
-                            <b>{hs.expected ? 'Expected' : 'Not expected'}</b>{' '}
+                            <span className={classes.bold}>
+                              {hs.expected ? 'Expected' : 'Not expected'}
+                            </span>{' '}
                             in OTAR primary project
                           </Typography>
                           <Typography variant="caption" display="block">
-                            <b>{hs.observed ? 'Observed' : 'Not observed'}</b>{' '}
+                            <span className={classes.bold}>
+                              {hs.observed ? 'Observed' : 'Not observed'}
+                            </span>{' '}
                             in OTVL
                           </Typography>
                         </Grid>
