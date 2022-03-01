@@ -22,6 +22,10 @@ query EncoreQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
           tissue
           tissueId
         }
+        biomarkerList {
+          name
+          description
+        }
         targetRole
         interactingTargetRole
         cellType

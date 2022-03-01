@@ -16,6 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { makeStyles } from '@material-ui/core';
 import Link from '../../../components/Link';
+import ChipList from '../../../components/ChipList';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import classNames from 'classnames';
 
@@ -172,6 +173,21 @@ const getColumns = classes => [
         </Link>
       )),
   },
+  {
+    id: 'biomarkerList',
+    label: 'Cell line biomarkers',
+    renderCell: row => {
+      return (
+        <ChipList
+          small
+          items={row.biomarkerList.map(bm => ({
+            label: bm.name,
+            tooltip: bm.description,
+          }))}
+        />
+      );
+    },
+  },
 ];
 
 const exportColumns = [
@@ -236,6 +252,10 @@ const exportColumns = [
   {
     label: 'cell line',
     exportValue: row => row.cellType,
+  },
+  {
+    label: 'cell line biomarkers',
+    exportValue: row => row.biomarkerList.join(','),
   },
 ];
 
