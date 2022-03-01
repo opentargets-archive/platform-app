@@ -9,14 +9,13 @@ import Summary from './Summary';
 import Description from './Description';
 import Tooltip from '../../../components/Tooltip';
 import ChipList from '../../../components/ChipList';
-// import TooltipStyledLabel from '../../../components/TooltipStyledLabel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
-import { Box, makeStyles, Typography } from '@material-ui/core';
+import { Box, makeStyles, Typography, Chip, Grid } from '@material-ui/core';
 import Link from '../../../components/Link';
 import { defaultRowsPerPageOptions } from '../../../constants';
-// import classNames from 'classnames';
+import classNames from 'classnames';
 import _ from 'lodash';
 
 const VALIDATION_QUERY = loader('./OTValidationQuery.gql');
@@ -33,12 +32,17 @@ const useStyles = makeStyles(theme => {
       marginRight: '10px',
     },
     hypotesisBox: {
-      // display: 'flex',
       marginBottom: '2rem',
       paddingBottom: '1rem',
       borderBottom: `1px solid ${theme.palette.grey[300]}`,
     },
+    hypotesisLegend: {
+      marginBottom: '1rem',
+    },
     // hypothesis status classes
+    hsLegendChip: {
+      width: '32px',
+    },
     hsGreen: {
       backgroundColor: '#407253',
       border: `1px solid ${theme.palette.grey[600]}`,
@@ -86,7 +90,7 @@ const hypothesesStatus = [
     status: 'observed and expected',
     expected: true,
     observed: true,
-    styles: 'gsGreen',
+    styles: 'hsGreen',
   },
   {
     status: 'not expected and not observed',
@@ -294,10 +298,36 @@ function Body({ definition, id, label }) {
                 OTVL biomarker assessment for {label.symbol}
               </Typography>
               {/** LEGEND */}
-              {/** CHIPLIST */}
-              <div>
-                <ChipList items={hypothesis} />
+              <div className={classes.hypotesisLegend}>
+                <Grid container spacing={4} direction="row">
+                  {hypothesesStatus.map(hs => (
+                    <Grid item key={hs.status}>
+                      <Grid container spacing={1} alignItems="center">
+                        <Grid item>
+                          <Chip
+                            className={classNames(
+                              classes[hs.styles],
+                              classes.hsLegendChip
+                            )}
+                          />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="caption" display="block">
+                            <b>{hs.expected ? 'Expected' : 'Not expected'}</b>{' '}
+                            in OTAR primary project
+                          </Typography>
+                          <Typography variant="caption" display="block">
+                            <b>{hs.observed ? 'Observed' : 'Not observed'}</b>{' '}
+                            in OTVL
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  ))}
+                </Grid>
               </div>
+              {/** CHIPLIST */}
+              <ChipList items={hypothesis} />
             </Box>
 
             <DataTable
