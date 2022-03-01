@@ -89,14 +89,15 @@ function getRows(downloadData) {
   return rows;
 }
 const siteBlue = '#3488c8'
-const generalTextColor = '#04599a'
+const lightBlueColor = '#368acb'
+const darkerBlueColor = '#04599a'
 const generalBackGroundColor = '#CDE9FF'
 
 const useStyles = makeStyles(theme => ({
   gridContainer: {
     margin: '170px 0 0 0',
     padding: '50px 50px 60px 50px',
-    color: generalTextColor,
+    color: darkerBlueColor,
     backgroundColor: generalBackGroundColor,
     fontSize: '16px'
   },
@@ -109,9 +110,12 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '50px',
     fontSize: '30px',
     fontWeight: 'bold',
+    color: lightBlueColor
   },
   subHeader: {
-    color: '#5c5f5e'
+    color: '#5c5f5e',
+    wordSpacing: '-1px',
+    letterSpacing: '-.5px',
   },
 
   /*****          Search          *****/
@@ -123,8 +127,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: siteBlue,
     color: "white", 
     "&:hover": {
-      color: siteBlue
+      backgroundColor: siteBlue,
+      color: 'white',
     },
+    "&:disabled": {
+      backgroundColor: siteBlue,
+      color: 'white'
+    }
   },
 
   entityContainer: {
@@ -138,7 +147,8 @@ const useStyles = makeStyles(theme => ({
   entityNameItem: {
     padding: '20px 2px 20px 20px',
     fontSize: '16px',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: lightBlueColor,
   },
   diseaseSelectItem: {
     paddingRight: '25px'
@@ -156,7 +166,7 @@ const useStyles = makeStyles(theme => ({
   },
   resultHeader: {
     marginTop: '50px',
-    color: generalTextColor,
+    color: lightBlueColor,
   },
   resultTable: {
     marginTop: '50px',
@@ -298,7 +308,6 @@ function CHoPPage() {
 
   const resultInfo = () => {
     let res = <strong>Loading...</strong>
-    resultInfoObj()
     const searchFor = resultInfoObj()
  
     if (!loading) { 
@@ -344,7 +353,7 @@ function CHoPPage() {
           </Grid>
           {/*   Sub Header  */}
           <Grid container item xs={12} direction="row" justifyContent="center" alignItems="center">
-            <Grid container item alignItems="center" style={{width: '600px'}}> 
+            <Grid container item alignItems="center" style={{width: '500px'}}> 
               <Grid item xs>
                 <Typography component="p" align="center" paragraph className={classes.subHeader} >
                 Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to navigate our dataset 
