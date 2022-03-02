@@ -4,7 +4,7 @@ import NavBar from './NavBarView';
 export const navBarstyling = {
   global: {
     backgroundColor: '#0B3557',
-    height: '39px',
+    height: '59px',
     padding: '9px 20px 0px 20px',
     fontFamily: 'Raleway, sans-serif',
     activeLabel: '1px solid  #efefef',
@@ -12,6 +12,7 @@ export const navBarstyling = {
     paddingLeft: '55px',
     fontWeight: '600',
     letterSpacing: '1px',
+    alignItems: 'center'
   },
   dropDownIcon: {
     displayIcon: true,

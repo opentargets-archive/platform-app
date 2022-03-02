@@ -22,6 +22,20 @@ const NavBar = ({
   function handleButtonClickEvent(eventName) {
     setClickedEl(eventName);
   }
+  function  getButton(navButton) {
+    return (
+    <Button id="button_navbar_navButton" disableRipple weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
+      <NavLink
+        exact={true}
+        className={classes.labelText}
+        activeClassName={classes.activeLabel}
+        to={navButton.link ? navButton.link : '/'}
+        onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
+      >
+        {navButton.labelText}
+      </NavLink>
+    </Button>)
+  }
 
   return (
     <AppBar
@@ -48,17 +62,7 @@ const NavBar = ({
                 />
               )
               : (
-                <Button id="button_navbar_navButton" disableRipple weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
-                    <NavLink
-                      exact={true}
-                      className={classes.labelText}
-                      activeClassName={classes.activeLabel}
-                      to={navButton.link ? navButton.link : '/'}
-                      onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
-                    >
-                      {navButton.labelText}
-                    </NavLink>
-                </Button>
+                getButton(navButton)
               )
           ))}
         </div>
@@ -116,7 +120,7 @@ const styles = () => ({
     minHeight: props.navBarstyling.global.height ? props.navBarstyling.global.height : '39px',
     paddingRight: props.navBarstyling.global.paddingRight ? props.navBarstyling.global.paddingRight : '45px',
     paddingLeft: props.navBarstyling.global.paddingLeft ? props.navBarstyling.global.paddingLeft : '45px',
-    alignItems: 'flex-start',
+    alignItems: props.navBarstyling.global.alignItems ? props.navBarstyling.global.alignItems : 'flex-start',
   }),
   buttonRoot: (props) => ({
     padding: props.navBarstyling.global.padding ? props.navBarstyling.global.padding : '9px 20px 0px 20px',
