@@ -36,7 +36,7 @@ const styles = () => ({
     margin: '0 60px',
     '-webkit-font-smoothing': 'antialiased',
     color: 'white',
-    padding: '24px 45px 45px 45px',
+    padding: '10px 45px 15px 45px',
     '& ul': {
       listStyle: 'none',
       margin: '0',
@@ -91,19 +91,18 @@ const styles = () => ({
     color: 'white',
     textDecoration: 'none',
   },
-
-
   linkSections :{
     paddingTop: '13px',
     display: 'flex',
   },
   linkSectionHead:{
-    fontSize: '17px',
+    fontSize: '16px',
     paddingBottom: '6px',
+    fontWeight: 'bold'
   },
   linkSection:{
     width: "fit-content",
-    padding: "5px 40px",
+    padding: "5px 20px",
     fontSize: "16px",
     fontWeight: "400",
   },
@@ -122,24 +121,33 @@ const styles = () => ({
   },
   nciFooterTitle: {
     fontFamily: 'Montserrat', 
-    fontWeight: 'bold', 
+    fontWeight: 'bolder', 
     fontSize: '25px', 
     lineHeight: '26px', 
-    color: '#fff'
+    color: '#fff',
+    letterSpacing: '-0.5px'
   },
   nciFooterSubTitle: {
     fontSize: '16px', 
     display: 'block'
   },
-  paddingRight60: {
-    paddingRight: "60px",
+  marginTopNeg: {
+    '@media (min-width: 1024px)': {
+    marginTop: '-38px',
+    },
+  },
+  version :{
+    margin:' 0 auto',
+    display: 'flex',
+    maxWidth: '1200px',
+    flexDirection: 'column',
   }
 });
 
 const Footer = ({ classes, data }) => (
   <div className={classes.footerRoot}>
     <div className={classes.footerComponent}>
-      <div className={cn(classes.footerRow,classes.padding20)}>
+      <div className={cn(classes.footerRow)}>
         <div>
           <h1 className={classes.nciFooterTitle}>
             {data.footerTitle} 
@@ -151,7 +159,7 @@ const Footer = ({ classes, data }) => (
              <div className={classes.linkSectionHead}>CONTACT INFORMATION</div>
               <div>
                  <RouteLinks to={data.contactUs}>
-                 Contact US
+                 Contact Us
                   </RouteLinks>
                   </div>
            </div>
@@ -176,17 +184,22 @@ const Footer = ({ classes, data }) => (
                <div>
                     <RouteLinks to={data.FOIA}>FOIA</RouteLinks>
               </div>
+              <div>
+                    <RouteLinks to={data.vulnerability}>HHS Vulnerability Disclosure</RouteLinks>
+              </div>
+              
            </div>
           </div>
       </div>
       <div>
         <div className={classes.horizontalLine} />
       </div>
-      <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
-        <div className={classes.paddingRight60} >
+         <div className={classes.version}>
           <div>FE Version : {data.FEversion} </div>
           <div>BE Version : {data.BEversion} </div>
         </div>
+      <div className={classes.marginTopNeg}>
+      <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
         <div className={cn(classes.nciLinks, classes.contentJustifyCenter)}>
           {data.global_footer_links.slice(0, 4).map((nciLink) => (
             <div>
@@ -201,7 +214,6 @@ const Footer = ({ classes, data }) => (
       <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
         <div
           className={cn(
-            classes.extraPadding,
             classes.nciLinks,
             classes.contentJustifyCenter,
           )}
@@ -213,6 +225,7 @@ const Footer = ({ classes, data }) => (
           </div>
          
         </div>
+      </div>
       </div>
     </div>
   </div>
