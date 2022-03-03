@@ -91,8 +91,6 @@ const styles = () => ({
     color: 'white',
     textDecoration: 'none',
   },
-
-
   linkSections :{
     paddingTop: '13px',
     display: 'flex',
@@ -100,6 +98,7 @@ const styles = () => ({
   linkSectionHead:{
     fontSize: '16px',
     paddingBottom: '6px',
+    fontWeight: 'bold'
   },
   linkSection:{
     width: "fit-content",
@@ -122,17 +121,26 @@ const styles = () => ({
   },
   nciFooterTitle: {
     fontFamily: 'Montserrat', 
-    fontWeight: 'bold', 
+    fontWeight: 'bolder', 
     fontSize: '25px', 
     lineHeight: '26px', 
-    color: '#fff'
+    color: '#fff',
+    letterSpacing: '-0.5px'
   },
   nciFooterSubTitle: {
     fontSize: '16px', 
     display: 'block'
   },
-  paddingRight60: {
-    paddingRight: "60px",
+  marginTopNeg: {
+    '@media (min-width: 1024px)': {
+    marginTop: '-38px',
+    },
+  },
+  version :{
+    margin:' 0 auto',
+    display: 'flex',
+    maxWidth: '1200px',
+    flexDirection: 'column',
   }
 });
 
@@ -151,7 +159,7 @@ const Footer = ({ classes, data }) => (
              <div className={classes.linkSectionHead}>CONTACT INFORMATION</div>
               <div>
                  <RouteLinks to={data.contactUs}>
-                 Contact US
+                 Contact Us
                   </RouteLinks>
                   </div>
            </div>
@@ -186,11 +194,12 @@ const Footer = ({ classes, data }) => (
       <div>
         <div className={classes.horizontalLine} />
       </div>
-      <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
-        <div className={classes.paddingRight60} >
+         <div className={classes.version}>
           <div>FE Version : {data.FEversion} </div>
           <div>BE Version : {data.BEversion} </div>
         </div>
+      <div className={classes.marginTopNeg}>
+      <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
         <div className={cn(classes.nciLinks, classes.contentJustifyCenter)}>
           {data.global_footer_links.slice(0, 4).map((nciLink) => (
             <div>
@@ -205,7 +214,6 @@ const Footer = ({ classes, data }) => (
       <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
         <div
           className={cn(
-            classes.extraPadding,
             classes.nciLinks,
             classes.contentJustifyCenter,
           )}
@@ -217,6 +225,7 @@ const Footer = ({ classes, data }) => (
           </div>
          
         </div>
+      </div>
       </div>
     </div>
   </div>
