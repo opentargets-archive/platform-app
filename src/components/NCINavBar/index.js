@@ -68,6 +68,7 @@ export const navBarData = [
     labelText: 'Pediatric Cancer Data Navigation',
     type: 'link',
     link: '/pediatric-cancer-data-navigation',
+    emphasize: true,
   },
 ];
 
