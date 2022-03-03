@@ -251,17 +251,15 @@ const exportColumns = [
   },
 ];
 
-function Body({ definition, id, label }) {
-  const { ensgId: ensemblId, efoId } = id;
-  const { data: summaryData } = usePlatformApi(
-    Summary.fragments.otValidationSummary
-  );
-  const request = useQuery(VALIDATION_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.otValidationSummary.count,
+function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
+  const {
+    data: {
+      otValidationSummary: { count: size },
     },
+  } = usePlatformApi(Summary.fragments.otValidationSummary);
+  const variables = { ensemblId: ensgId, efoId, size };
+  const request = useQuery(VALIDATION_QUERY, {
+    variables,
   });
   const classes = useStyles();
 
@@ -270,9 +268,7 @@ function Body({ definition, id, label }) {
       definition={definition}
       chipText={dataTypesMap.ot_validation_lab}
       request={request}
-      renderDescription={() => (
-        <Description symbol={label.symbol} name={label.name} />
-      )}
+      renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={({ disease }) => {
         const { rows } = disease.evidences;
         const hypothesis = _.uniqBy(
@@ -302,7 +298,7 @@ function Body({ definition, id, label }) {
                 gutterBottom
                 className={classes.bold}
               >
-                OTVL biomarker assessment for {label.symbol}
+                OTVL biomarker assessment for {symbol}
               </Typography>
               {/** LEGEND */}
               <div className={classes.hypotesisLegend}>
@@ -346,8 +342,7 @@ function Body({ definition, id, label }) {
               rows={rows}
               dataDownloader
               dataDownloaderColumns={exportColumns}
-              query={VALIDATION_QUERY.loc.source.body}
-              dataDownloaderFileStem={`${ensemblId}-${efoId}-otvalidation`}
+              dataDownloaderFileStem={`${ensgId}-${efoId}-otvalidation`}
               showGlobalFilter
               sortBy="resourceScore"
               order="des"
@@ -355,6 +350,8 @@ function Body({ definition, id, label }) {
               noWrap={false}
               noWrapHeader={false}
               rowsPerPageOptions={defaultRowsPerPageOptions}
+              query={VALIDATION_QUERY.loc.source.body}
+              variables={variables}
             />
           </>
         );
