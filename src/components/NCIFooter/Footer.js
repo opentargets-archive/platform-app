@@ -98,6 +98,7 @@ const styles = () => ({
   linkSectionHead:{
     fontSize: '16px',
     paddingBottom: '6px',
+    fontWeight: 'bold'
   },
   linkSection:{
     width: "fit-content",
@@ -150,7 +151,7 @@ const Footer = ({ classes, data }) => (
              <div className={classes.linkSectionHead}>CONTACT INFORMATION</div>
               <div>
                  <RouteLinks to={data.contactUs}>
-                 Contact US
+                 Contact Us
                   </RouteLinks>
                   </div>
            </div>
