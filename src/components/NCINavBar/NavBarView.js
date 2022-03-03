@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import classnames from 'classnames';
 import DropdownMenu from './components/DropdownMenu';
+import NavIcon from '../../assets/PediatricDataCancer-MenuBar-Icon.svg'
 
 const drawerWidth = 240;
 
@@ -23,18 +24,41 @@ const NavBar = ({
     setClickedEl(eventName);
   }
   function  getButton(navButton) {
+    const PCDNStyle = {
+      height: '38px',
+      width: '323px',
+      border: '1px solid #FFFFFF',
+      backgroundColor: "#4B8500",
+      borderRadius: '20px',
+      marginLeft: '29px'
+    }
+    const imageStyle = {
+      position: 'relative',
+      top: '2px',
+      left: '-3px',
+      color: 'white',
+    }
+    const textStyle = {
+      position: 'relative',
+      top: '-6px',
+      paddingLeft: '3px',
+    }
     return (
-    <Button id="button_navbar_navButton" disableRipple weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
-      <NavLink
-        exact={true}
-        className={classes.labelText}
-        activeClassName={classes.activeLabel}
-        to={navButton.link ? navButton.link : '/'}
-        onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
-      >
-        {navButton.labelText}
-      </NavLink>
-    </Button>)
+      <Button style={navButton.emphasize ? PCDNStyle : {}} id="button_navbar_navButton" disableRipple 
+        weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
+        <NavLink
+          exact={true}
+          className={classes.labelText}
+          activeClassName={classes.activeLabel}
+          to={navButton.link ? navButton.link : '/'}
+          onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
+        >
+        {navButton.emphasize ?
+          <img style={imageStyle} src={NavIcon} width="26px" height="27px" alt={"Navigation Icon"}/> : null}
+          <span style={navButton.emphasize ? textStyle : {}}> {navButton.labelText} </span>
+        </NavLink>
+      </Button>
+    )
   }
 
   return (
