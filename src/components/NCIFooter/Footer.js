@@ -131,8 +131,16 @@ const styles = () => ({
     fontSize: '16px', 
     display: 'block'
   },
-  paddingRight60: {
-    paddingRight: "60px",
+  marginTopNeg: {
+    '@media (min-width: 1024px)': {
+    marginTop: '-38px',
+    },
+  },
+  version :{
+    margin:' 0 auto',
+    display: 'flex',
+    maxWidth: '1200px',
+    flexDirection: 'column',
   }
 });
 
@@ -186,11 +194,12 @@ const Footer = ({ classes, data }) => (
       <div>
         <div className={classes.horizontalLine} />
       </div>
-      <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
-        <div className={classes.paddingRight60} >
+         <div className={classes.version}>
           <div>FE Version : {data.FEversion} </div>
           <div>BE Version : {data.BEversion} </div>
         </div>
+      <div className={classes.marginTopNeg}>
+      <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
         <div className={cn(classes.nciLinks, classes.contentJustifyCenter)}>
           {data.global_footer_links.slice(0, 4).map((nciLink) => (
             <div>
@@ -217,6 +226,7 @@ const Footer = ({ classes, data }) => (
           </div>
          
         </div>
+      </div>
       </div>
     </div>
   </div>
