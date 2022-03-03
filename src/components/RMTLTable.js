@@ -195,6 +195,7 @@ class OtTableRF extends Component {
 
   handleChangePage = (event, page) => {
     const { onPageSort, pageSize } = this.props;
+    window.scrollTo(0, document.getElementById('mtp-table').offsetTop-300);
     this.setState({
       page,
     });
@@ -304,7 +305,7 @@ class OtTableRF extends Component {
         ) : null}
         <PlotContainerSection>
           {paginationPosition === "TOP" ? (
-            <div>
+            <div id="mtp-table">
               <TablePagination
                 component="div"
                 count={serverSide ? totalRowsCount : data.length}
@@ -318,7 +319,7 @@ class OtTableRF extends Component {
               <hr className={classes.hr} />
             </div>
           ) : null}
-          <div className={classes.tableWrapper}>
+          <div id="mtp-table" className={classes.tableWrapper}>
             <Table>
               <TableHead>
                 {headerGroups ? (
