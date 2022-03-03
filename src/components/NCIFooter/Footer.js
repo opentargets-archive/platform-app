@@ -91,8 +91,6 @@ const styles = () => ({
     color: 'white',
     textDecoration: 'none',
   },
-
-
   linkSections :{
     paddingTop: '13px',
     display: 'flex',
@@ -122,10 +120,11 @@ const styles = () => ({
   },
   nciFooterTitle: {
     fontFamily: 'Montserrat', 
-    fontWeight: 'bold', 
+    fontWeight: 'bolder', 
     fontSize: '25px', 
     lineHeight: '26px', 
-    color: '#fff'
+    color: '#fff',
+    letterSpacing: '-0.5px'
   },
   nciFooterSubTitle: {
     fontSize: '16px', 
