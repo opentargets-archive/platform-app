@@ -5,14 +5,15 @@ export const navBarstyling = {
   global: {
     backgroundColor: '#0B3557',
     height: '59px',
-    padding: '9px 20px 0px 20px',
+    padding: '13px 28px 10px 29px',
     fontFamily: 'Raleway, sans-serif',
     activeLabel: '1px solid  #efefef',
     paddingRight: '65px',
     paddingLeft: '55px',
     fontWeight: '600',
     letterSpacing: '1px',
-    alignItems: 'center'
+    alignItems: 'center',
+    fontSize: '14px',
   },
   dropDownIcon: {
     displayIcon: true,
