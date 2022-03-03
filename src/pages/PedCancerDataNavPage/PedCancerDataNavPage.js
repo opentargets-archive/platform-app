@@ -94,7 +94,7 @@ const generalBackGroundColor = '#CDE9FF'
 
 const useStyles = makeStyles(theme => ({
   gridContainer: {
-    margin: '170px 0 0 0',
+    margin: '190px 0 0 0',
     padding: '50px 50px 60px 50px',
     color: generalTextColor,
     backgroundColor: generalBackGroundColor,

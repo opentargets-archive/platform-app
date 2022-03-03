@@ -28,7 +28,7 @@ import classNames from 'classnames';
 const useStyles = makeStyles(theme => ({
 
   molecularTargetC: {
-    margin: '171px 0 0 0',
+    margin: '191px 0 0 0',
     padding: '48px 0 56px 0',
     backgroundColor: '#CDE9FF',
     fontSize: '16px'

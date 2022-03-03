@@ -25,7 +25,7 @@ function SummaryItem({ definition, request, renderSummary, subText }) {
       duration: 500,
       delay: 100,
       smooth: true,
-      offset: -243, // CHANGE MADE: to scroll back -243 px 
+      offset: -263, // CHANGE MADE: to scroll back -(243 + 20) px 
     });
   };
 
