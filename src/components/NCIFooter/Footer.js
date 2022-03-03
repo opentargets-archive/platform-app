@@ -214,7 +214,6 @@ const Footer = ({ classes, data }) => (
       <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
         <div
           className={cn(
-            classes.extraPadding,
             classes.nciLinks,
             classes.contentJustifyCenter,
           )}
