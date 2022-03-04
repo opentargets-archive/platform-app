@@ -17,6 +17,7 @@ function SectionMenuItem({ index, section ,color} ) {
     scroller.scrollTo(sectionId, {
       duration: 500,
       smooth: true,
+      offset: -263, // CHANGE MADE: offset of -263 added
     });
   };
 
