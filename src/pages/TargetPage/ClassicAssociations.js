@@ -40,6 +40,10 @@ function ClassicAssociations({ ensgId, symbol }) {
 
   const facetData = data?.target?.associatedDiseases.aggregations.aggs;
 
+  const PCDNStyle = {
+
+  }
+
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
       <Grid item xs={12} md={4}>
@@ -57,10 +61,10 @@ function ClassicAssociations({ ensgId, symbol }) {
         </Typography>
       </Grid>{' '}
       <Grid item xs={12} md={8}>
-        <Typography variant='h6'>
+        <Typography variant='h6' align='right'>
           {data ? (
             <>
-              <span style={{fontSize: '16px'}}>Additional pediatric cancer data may be found by using the search tool on the </span> {' '} 
+              <span style={{fontSize: '16px'}}>Additional pediatric cancer data may be found at: </span> {' '} 
               <Link to={{
                 pathname: "/pediatric-cancer-data-navigation",
                 state: {
@@ -70,7 +74,6 @@ function ClassicAssociations({ ensgId, symbol }) {
               }}>
                 <span style={{fontSize: '16px'}}><b>Pediatric Cancer Data Navigation</b></span>
               </Link> {' '}
-              <span style={{fontSize: '16px'}}>page.</span>
             </>
           ) : (
             <></>
