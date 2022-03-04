@@ -61,7 +61,7 @@ export const navBarData = [
     link: '/fda-pmtl',
   },
   {
-    labelText: 'About',
+    labelText: 'About Molecular Targets',
     type: 'link',
     link: '/about',
   },
