@@ -41,7 +41,6 @@ const dataTypes = [
     label: 'OTAR Projects',
     isPrivate: isPrivateDataType('ot_partner'),
   },
-  // TODO: review ot_validation_lab details once API/backend is finalized
   {
     id: 'ot_validation_lab',
     label: 'OTAR Validation Lab',
