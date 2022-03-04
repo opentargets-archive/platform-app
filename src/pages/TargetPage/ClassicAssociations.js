@@ -89,7 +89,7 @@ function ClassicAssociations({ ensgId, symbol }) {
               <span className={classes.desPCDNText} desPCDNText>Additional pediatric cancer data may be found at:</span>
               <div className={classes.PCDNBox}>
                 <Link to={{
-                  pathname: {PCDNUrl},
+                  pathname: PCDNUrl,
                   state: {
                     entity: 'target',
                     'geneSymbol': symbol
