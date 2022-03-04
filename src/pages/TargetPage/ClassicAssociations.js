@@ -86,7 +86,7 @@ function ClassicAssociations({ ensgId, symbol }) {
         <Typography variant='h6' align='right'>
           {data ? (
             <>
-              <span className={classes.desPCDNText} desPCDNText>Additional pediatric cancer data may be found at:</span>
+              <span className={classes.desPCDNText}>Additional pediatric cancer data may be found at:</span>
               <div className={classes.PCDNBox}>
                 <Link to={{
                   pathname: PCDNUrl,
