@@ -16,6 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { makeStyles } from '@material-ui/core';
 import Link from '../../../components/Link';
+import ChipList from '../../../components/ChipList';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import classNames from 'classnames';
 
@@ -39,7 +40,7 @@ const useStyles = makeStyles(theme => {
 const getColumns = classes => [
   {
     id: 'disease',
-    label: 'Disease',
+    label: 'Reported disease',
     renderCell: row => (
       <Link to={`/disease/${row.disease.id}`}>{row.disease.name}</Link>
     ),
@@ -49,18 +50,38 @@ const getColumns = classes => [
     id: 'target',
     label: 'Target A',
     renderCell: row => (
-      <Link to={`/target/${row.target.id}`}>{row.target.approvedSymbol}</Link>
+      <Tooltip title={row.targetRole}>
+        <span>
+          <Link to={`/target/${row.target.id}`}>
+            {row.target.approvedSymbol}
+          </Link>
+        </span>
+      </Tooltip>
     ),
     filterValue: row => row.target.approvedSymbol + ', ' + row.target.id,
   },
   {
     id: 'interactingTargetFromSourceId',
     label: 'Target B',
-    renderCell: row => row.interactingTargetFromSourceId,
+    renderCell: row => (
+      <Tooltip title={row.interactingTargetRole}>
+        <span>
+          <Link to={`/target/${row.target.id}`}>
+            {row.interactingTargetFromSourceId}
+          </Link>
+        </span>
+      </Tooltip>
+    ),
   },
   {
     id: 'phenotypicConsequenceLogFoldChange',
-    label: 'Direction of effect',
+    label: 'Cell count log fold change',
+    tooltip: (
+      <>
+        When a negative log fold change is measured, it means there is an excess
+        of cell death.
+      </>
+    ),
     renderCell: row => (
       <>
         <Tooltip
@@ -108,7 +129,7 @@ const getColumns = classes => [
   },
   {
     id: 'geneticInteractionPValue',
-    label: 'Cooperativity (Type of effect)',
+    label: 'Type of effect',
     renderCell: row => (
       <Tooltip
         title={
@@ -132,25 +153,40 @@ const getColumns = classes => [
           </>
         }
       >
-        <span className={classes.primaryColor}>
-          {row.geneticInteractionPValue >= 0.05 ? 'Additive' : 'Synergistic'}
-        </span>
+        <span className={classes.primaryColor}>{row.geneInteractionType}</span>
       </Tooltip>
     ),
-    filterValue: row =>
-      row.geneticInteractionPValue >= 0.05 ? 'Additive' : 'Synergistic',
+    filterValue: row => row.geneInteractionType,
   },
   {
     id: 'cellType',
     label: 'Cell line',
-    renderCell: row => (
-      <Link
-        external
-        to={`https://cellmodelpassports.sanger.ac.uk/passports/${row.cellType}`}
-      >
-        {row.cellType}
-      </Link>
-    ),
+    renderCell: row =>
+      row.diseaseCellLines.map(diseaseCellLine => (
+        <Link
+          external
+          to={`https://cellmodelpassports.sanger.ac.uk/passports/${
+            diseaseCellLine.id
+          }`}
+        >
+          {diseaseCellLine.name}
+        </Link>
+      )),
+  },
+  {
+    id: 'biomarkerList',
+    label: 'Cell line biomarkers',
+    renderCell: row => {
+      return (
+        <ChipList
+          small
+          items={row.biomarkerList.map(bm => ({
+            label: bm.name,
+            tooltip: bm.description,
+          }))}
+        />
+      );
+    },
   },
 ];
 
@@ -216,6 +252,10 @@ const exportColumns = [
   {
     label: 'cell line',
     exportValue: row => row.cellType,
+  },
+  {
+    label: 'cell line biomarkers',
+    exportValue: row => row.biomarkerList.join(','),
   },
 ];
 

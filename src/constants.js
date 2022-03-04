@@ -1,5 +1,6 @@
 import {
-  faQuestionCircle,
+  // faQuestionCircle,
+  faBook,
   faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -13,11 +14,11 @@ import config from './config';
 
 export const externalLinks = {
   about: [
-    {
-      label: `Platform version ${process.env.REACT_APP_REVISION ?? 'dev'}`,
-      url: `https://github.com/opentargets/platform-app/releases/tag/${process
-        .env.REACT_APP_REVISION ?? 'v0.1.1'}`,
-    },
+    // {
+    //   label: `Platform version ${process.env.REACT_APP_REVISION ?? 'dev'}`,
+    //   url: `https://github.com/opentargets/platform-app/releases/tag/${process
+    //     .env.REACT_APP_REVISION ?? 'v0.1.1'}`,
+    // },
     {
       label: 'Community forum',
       url: 'https://community.opentargets.org',
@@ -44,23 +45,31 @@ export const externalLinks = {
     { label: 'Bristol Myers Squibb', url: 'https://www.bms.com' },
     { label: 'EMBL-EBI', url: 'https://www.ebi.ac.uk' },
     { label: 'GSK', url: 'https://www.gsk.com' },
+    { label: 'Pfizer', url: 'https://pfizer.com' },
     { label: 'Sanofi', url: 'https://www.sanofi.com' },
     { label: 'Wellcome Sanger Institute', url: 'https://www.sanger.ac.uk' },
   ],
   help: [
     {
       label: 'Documentation',
-      icon: faQuestionCircle,
+      icon: faBook,
       url: 'https://platform-docs.opentargets.org',
+    },
+    {
+      label: 'Community',
+      icon: faDiscourse,
+      url: 'https://community.opentargets.org',
+      external: true,
     },
     {
       label: config.profile.helpdeskEmail,
       icon: faEnvelope,
-      url: `mailto:${config.profile.helpdeskEmail}`,
+      url: `mailto: ${config.profile.helpdeskEmail}`,
+      external: true,
     },
   ],
   social: [
-    { icon: faDiscourse, url: 'https://community.opentargets.org' },
+    // { icon: faDiscourse, url: 'https://community.opentargets.org' },
     { icon: faTwitterSquare, url: 'https://twitter.com/opentargets' },
     { icon: faLinkedin, url: 'https://www.linkedin.com/company/open-targets' },
     { icon: faYoutubeSquare, url: 'https://www.youtube.com/opentargets' },

@@ -6,8 +6,8 @@ const DownloadsPage = lazy(() => import('./DownloadsPage.js'));
 
 const DownloadsWrapper = ({ location }) => (
   <BasePage
-    title="Variant definitions"
-    description="Variant definitions, including Sequence Ontology (SO) consequence terms, descriptions, and accession IDs"
+    title="Data downloads | Open Targets Platform"
+    description="Data downloads | Open Targets Platform"
     location={location}
   >
     <Suspense fallback={<LoadingBackdrop />}>
