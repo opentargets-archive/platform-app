@@ -13,6 +13,7 @@ import {
   Typography,
   Tabs,
   Tab,
+  makeStyles,
 } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 
@@ -23,8 +24,30 @@ import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { Facets } from '../../components/Facets';
 import Wrapper from './Wrapper';
+import NavIcon from '../../assets/PediatricDataCancer-MenuBar-Icon.svg'
 
 const TARGET_FACETS_QUERY = loader('./TargetFacets.gql');
+const useStyles = makeStyles(theme => ({
+  PCDNBox: {
+    backgroundColor: '#5CA300', 
+    minWidth: '289px',
+    height: '31px', 
+    display: 'inline-block', 
+    fontFamily: 'Inter', 
+    padding: '0px 13px'
+  },
+  PCDNText: {
+    fontSize: '16px', 
+    color: 'white', 
+    paddingLeft: '8px', 
+    position: 'relative', 
+    top: '-1px'
+  },
+  desPCDNText: {
+    fontSize: '16px',
+    marginRight: '11px',
+  },
+}))
 
 function ClassicAssociations({ ensgId, symbol }) {
   const match = useRouteMatch();
@@ -39,10 +62,9 @@ function ClassicAssociations({ ensgId, symbol }) {
   };
 
   const facetData = data?.target?.associatedDiseases.aggregations.aggs;
-
-  const PCDNStyle = {
-
-  }
+ 
+  const classes = useStyles()
+  const PCDNUrl = '/pediatric-cancer-data-navigation';
 
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
@@ -64,16 +86,19 @@ function ClassicAssociations({ ensgId, symbol }) {
         <Typography variant='h6' align='right'>
           {data ? (
             <>
-              <span style={{fontSize: '16px'}}>Additional pediatric cancer data may be found at: </span> {' '} 
-              <Link to={{
-                pathname: "/pediatric-cancer-data-navigation",
-                state: {
-                  entity: 'target',
-                  'geneSymbol': symbol
-                }
-              }}>
-                <span style={{fontSize: '16px'}}><b>Pediatric Cancer Data Navigation</b></span>
-              </Link> {' '}
+              <span className={classes.desPCDNText} desPCDNText>Additional pediatric cancer data may be found at:</span>
+              <div className={classes.PCDNBox}>
+                <Link to={{
+                  pathname: {PCDNUrl},
+                  state: {
+                    entity: 'target',
+                    'geneSymbol': symbol
+                  }
+                }}>
+                  <img src={NavIcon} width="15px" height="15px" alt={"Navigation Icon"}/>
+                  <span className={classes.PCDNText}>Pediatric Cancer Data Navigation</span>
+                </Link> {' '}
+              </div>
             </>
           ) : (
             <></>
