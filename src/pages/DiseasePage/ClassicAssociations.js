@@ -1,13 +1,36 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Grid, Typography } from '@material-ui/core';
+import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { Facets } from '../../components/Facets';
 import Link from '../../components/Link';
+import NavIcon from '../../assets/PediatricDataCancer-MenuBar-Icon.svg'
 
 const DISEASE_FACETS_QUERY = loader('./DiseaseFacets.gql');
+
+const useStyles = makeStyles(theme => ({
+  PCDNBox: {
+    backgroundColor: '#5CA300', 
+    minWidth: '289px',
+    height: '31px', 
+    display: 'inline-block', 
+    fontFamily: 'Inter', 
+    padding: '0px 13px'
+  },
+  PCDNText: {
+    fontSize: '16px', 
+    color: 'white', 
+    paddingLeft: '8px', 
+    position: 'relative', 
+    top: '-1px'
+  },
+  desPCDNText: {
+    fontSize: '16px',
+    marginRight: '11px',
+  },
+}))
 
 function ClassicAssociations({ efoId, name }) {
   const [aggregationFilters, setAggregationFilters] = useState([]);
@@ -20,6 +43,8 @@ function ClassicAssociations({ efoId, name }) {
   };
 
   const facetData = data?.disease?.associatedTargets.aggregations.aggs;
+  const classes = useStyles()
+  const PCDNUrl = '/pediatric-cancer-data-navigation';
 
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
@@ -36,25 +61,27 @@ function ClassicAssociations({ efoId, name }) {
         </Typography>
       </Grid>
       <Grid item xs={12} md={8}>
-        <Typography variant='h6'>
-          {data ? (
-            <>
-              <span style={{fontSize: '16px'}}>Additional pediatric cancer data may be found by using the search tool on the </span> {' '} 
-              <Link to={{
-                pathname: "/pediatric-cancer-data-navigation",
-                state: {
-                  entity: 'disease',
-                  'disease': name
-                }
-              }}>
-                <span style={{fontSize: '16px'}}><b>Pediatric Cancer Data Navigation</b></span>
-              </Link> {' '}
-              <span style={{fontSize: '16px'}}>page.</span>
-            </>
-          ) : (
-            <></>
-          )}
-        </Typography>
+      <Typography variant='h6' align='right'>
+      {data ? (
+        <>
+          <span className={classes.desPCDNText}>Additional pediatric cancer data may be found at:</span>
+          <div className={classes.PCDNBox}>
+            <Link to={{
+              pathname: PCDNUrl,
+              state: {
+                entity: 'disease',
+                'disease': name
+              }
+            }}>
+              <img src={NavIcon} width="15px" height="15px" alt={"Navigation Icon"}/>
+              <span className={classes.PCDNText}>Pediatric Cancer Data Navigation</span>
+            </Link> {' '}
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
+    </Typography>
       </Grid>{' '}
 
       <Grid item xs={12} lg={3}>
