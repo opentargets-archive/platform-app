@@ -38,7 +38,7 @@ function ChipContainer({ item, children }) {
  * Each chip can show an optional tooltip.
  * @param items Array of Strings.
  * @param small Display each chip as size="small"
- * Each item in the items array can also be an object, with format {label, tooltip}
+ * Each item in the items array can also be an object, with format {label, tooltip, customClass}
  */
 function ChipList({ items, small }) {
   const classes = useChipStyles();

@@ -114,6 +114,11 @@ const dataSources = [
     isPrivate: isPrivateDataSource('ot_crispr'),
   },
   {
+    id: 'ot_crispr_validation',
+    label: 'OT CRISPR Validation',
+    isPrivate: isPrivateDataSource('ot_crispr_validation'),
+  },
+  {
     id: 'encore',
     label: 'ENCORE',
     isPrivate: isPrivateDataSource('encore'),
