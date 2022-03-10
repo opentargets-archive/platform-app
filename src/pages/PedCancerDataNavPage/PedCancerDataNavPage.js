@@ -237,7 +237,6 @@ function CHoPPage() {
 
   const [displayTable, setDisplayTable] = useState(false || geneSymbol.length !==0 || disease.length !==0)
   const [pageSize, setPageSize] = useState(25);
-  const [page, setPage] = useState(0)
 
   const [getData, { loading, data }] = useLazyQuery(PED_CAN_DATA_NAV_QUERY, {
     variables: { disease: diseaseInputValue, geneSymbol: targetInputValue },
@@ -291,13 +290,11 @@ function CHoPPage() {
       setDisplayTable(true)
       setTargetForInfo(targetInputValue)
       setDiseaseForInfo(diseaseInputValue)
-      // reset to the first page 
-      setPage(0)
     }
   }
 
   const reformatResult = result?.length !== 0 ? getRows(result?.pedCanNav.rows || []) : []
-
+  
   const resultInfoObj = () => {
     const searchOnlyForTarget = isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
     const searchOnlyForDisease = isEmpty(targetForInfo) && !isEmpty(diseaseForInfo) 
@@ -453,8 +450,6 @@ function CHoPPage() {
                       onRowsPerPageChange={handleRowsPerPageChange}
                       rowsPerPageOptions={rowsPerPageOptions}
                       paginationPosition="TOP"
-                      page={page}
-                      setPage={setPage}
                     />
                   </Box>
                 </Paper>
