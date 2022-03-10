@@ -294,7 +294,7 @@ function CHoPPage() {
   }
 
   const reformatResult = result?.length !== 0 ? getRows(result?.pedCanNav.rows || []) : []
-  
+
   const resultInfoObj = () => {
     const searchOnlyForTarget = isEmpty(diseaseForInfo) && !isEmpty(targetForInfo)
     const searchOnlyForDisease = isEmpty(targetForInfo) && !isEmpty(diseaseForInfo) 
