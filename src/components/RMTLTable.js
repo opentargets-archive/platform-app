@@ -188,15 +188,15 @@ const tableStyles = theme => ({
 
 class OtTableRF extends Component {
   state = {
-    page: this.props.page || 0,
+    page: 0,
     sortBy: this.props.sortBy,
     order: this.props.order,
   };
 
   handleChangePage = (event, page) => {
-    const { onPageSort, pageSize, setPage } = this.props;
+    const { onPageSort, pageSize } = this.props;
     window.scrollTo(0, document.getElementById('mtp-table').offsetTop-300);
-    setPage ? setPage(page) : this.setState({page})
+    this.setState({ page })
     if (onPageSort) {
       onPageSort({ page: page, pageSize: pageSize });
     }
@@ -227,12 +227,18 @@ class OtTableRF extends Component {
   * Change the rows per page and set back the page to 0.
   */
   handleChangeRowsPerPage = event => {
-    const { onRowsPerPageChange, setPage } = this.props
+    const { onRowsPerPageChange } = this.props
     if (onRowsPerPageChange) {
       onRowsPerPageChange(event.target.value);
-      setPage ? setPage(0) : this.setState({page:0})
+      this.setState({ page: 0 })
     }
   };
+  componentDidUpdate(prevProps) {
+    // Reset to the first page if data is updated.
+    if (prevProps.data !== this.props.data ) {
+      this.setState({page: 0})
+    }
+  }
 
   render() {
     const {
@@ -256,9 +262,7 @@ class OtTableRF extends Component {
       rowsPerPageOptions = [], // Added this prop and gave option [] for existing component that do not have functionality to change the amount of row per page
       paginationPosition = "BOTTOM"
     } = this.props;
-    const { sortBy, order } = this.state;
-    const page = this.props.page || this.state.page
-
+    const { sortBy, order, page} = this.state;
     const filterRow = filters ? (
       <TableRow className={classes.tableRowFilters}>
         {columns.map(column => (
