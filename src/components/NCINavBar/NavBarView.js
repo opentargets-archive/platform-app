@@ -9,6 +9,7 @@ import {
 import classnames from 'classnames';
 import DropdownMenu from './components/DropdownMenu';
 import NavIcon from '../../assets/PediatricDataCancer-MenuBar-Icon.svg'
+import cn from '../helpers/classNameConcat';
 
 const drawerWidth = 240;
 
@@ -34,22 +35,38 @@ const NavBar = ({
     }
     const imageStyle = {
       position: 'relative',
-      top: '2px',
+      top: '4px',
       left: '-3px',
       color: 'white',
     }
     const textStyle = {
       position: 'relative',
-      top: '-6px',
+      top: '-4px',
       paddingLeft: '3px',
     }
     return (
-      <Button style={navButton.emphasize ? PCDNStyle : {}} id="button_navbar_navButton" disableRipple 
-        weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
+      !navButton.emphasize ?
+        <Button style={navButton.emphasize ? PCDNStyle : {}} id="button_navbar_navButton" disableRipple 
+          weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
+          <NavLink
+            exact={true}
+            className={classes.labelText}
+            activeClassName={classes.activeLabel}
+            to={navButton.link ? navButton.link : '/'}
+            onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
+          >
+          {navButton.emphasize ?
+            <img style={imageStyle} src={NavIcon} width="26px" height="27px" alt={"Navigation Icon"}/> : null}
+            <span style={navButton.emphasize ? textStyle : {}}> {navButton.labelText} </span>
+          </NavLink>
+        </Button>
+      :
+      <Button style={{border: '0px solid red'}} disableRipple 
+          weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
         <NavLink
           exact={true}
-          className={classes.labelText}
-          activeClassName={classes.activeLabel}
+          className={cn(classes.labelText,classes.navLinkStyleForPCDN)}
+          activeClassName={classes.activeLabelForPCDN}
           to={navButton.link ? navButton.link : '/'}
           onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
         >
@@ -130,6 +147,16 @@ const styles = () => ({
   }),
   activeLabel: (props) => ({
     borderBottom: props.navBarstyling.global.activeLabel ? props.navBarstyling.global.activeLabel : '1px solid  #FFFFFF',
+  }),
+  navLinkStyleForPCDN: (props) => ({
+    height: '38px',
+    width: '323px',
+    border: '1px solid #FFFFFF',
+    backgroundColor: "#4B8500",
+    borderRadius: '20px',
+  }),
+  activeLabelForPCDN: (props) => ({
+    backgroundColor: '#355e00',
   }),
   appBarShift: {
     paddingRight: '0px !important',
