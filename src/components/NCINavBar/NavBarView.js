@@ -35,7 +35,7 @@ const NavBar = ({
     }
     const imageStyle = {
       position: 'relative',
-      top: '4px',
+      top: '5px',
       left: '-3px',
       color: 'white',
     }
@@ -61,8 +61,8 @@ const NavBar = ({
           </NavLink>
         </Button>
       :
-      <Button style={{border: '0px solid red'}} disableRipple 
-          weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
+      <Button disableRipple weight="medium" className={cn(classes.logotype, classes.pcdnButton)} 
+        classes={{ root: classes.buttonRoot }}>
         <NavLink
           exact={true}
           className={cn(classes.labelText,classes.navLinkStyleForPCDN)}
@@ -139,6 +139,9 @@ const styles = () => ({
     height: '22px',
     margin: '0px 0px 0px 6px',
   },
+  pcdnButton: {
+    height: '38px'
+  },
   labelText: (props) => ({
     textDecoration: 'none',
     color: props.navBarstyling.global.fontColor ? props.navBarstyling.global.fontColor : '#FFFFFF',
@@ -172,6 +175,7 @@ const styles = () => ({
     paddingRight: props.navBarstyling.global.paddingRight ? props.navBarstyling.global.paddingRight : '45px',
     paddingLeft: props.navBarstyling.global.paddingLeft ? props.navBarstyling.global.paddingLeft : '45px',
     alignItems: props.navBarstyling.global.alignItems ? props.navBarstyling.global.alignItems : 'flex-start',
+    paddingBottom: props.navBarstyling.global.paddingBottom ? props.navBarstyling.global.paddingBottom : '4px',
   }),
   buttonRoot: (props) => ({
     padding: props.navBarstyling.global.padding ? props.navBarstyling.global.padding : '9px 20px 0px 20px',
