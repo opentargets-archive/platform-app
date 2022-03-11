@@ -137,6 +137,9 @@ const styles = () => ({
     border: '1px solid #FFFFFF',
     backgroundColor: "#4B8500",
     borderRadius: '20px',
+    '&:hover': {
+      backgroundColor: '#437503'
+    }
   }),
   activeLabelForPCDN: (props) => ({
     backgroundColor: '#437503',
