@@ -24,57 +24,24 @@ const NavBar = ({
   function handleButtonClickEvent(eventName) {
     setClickedEl(eventName);
   }
-  function  getButton(navButton) {
-    const PCDNStyle = {
-      height: '38px',
-      width: '323px',
-      border: '1px solid #FFFFFF',
-      backgroundColor: "#4B8500",
-      borderRadius: '20px',
-      marginLeft: '29px'
-    }
-    const imageStyle = {
-      position: 'relative',
-      top: '5px',
-      left: '-3px',
-      color: 'white',
-    }
-    const textStyle = {
-      position: 'relative',
-      top: '-4px',
-      paddingLeft: '3px',
-    }
+  function  getPCDNButton(navButton) {
+
     return (
-      !navButton.emphasize ?
-        <Button style={navButton.emphasize ? PCDNStyle : {}} id="button_navbar_navButton" disableRipple 
-          weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
+      navButton.emphasize ?
+        <Button disableRipple weight="medium" className={cn(classes.logotype, classes.pcdnButton)} 
+          classes={{ root: classes.buttonRoot }}>
           <NavLink
             exact={true}
-            className={classes.labelText}
-            activeClassName={classes.activeLabel}
+            className={cn(classes.labelText,classes.navLinkStyleForPCDN)}
+            activeClassName={classes.activeLabelForPCDN}
             to={navButton.link ? navButton.link : '/'}
             onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
           >
-          {navButton.emphasize ?
-            <img style={imageStyle} src={NavIcon} width="26px" height="27px" alt={"Navigation Icon"}/> : null}
-            <span style={navButton.emphasize ? textStyle : {}}> {navButton.labelText} </span>
+            <img className={classes.navIcon} src={NavIcon} width="26px" height="27px" alt={"Navigation Icon"}/>
+            <span className={classes.pcdnText}> {navButton.labelText} </span>
           </NavLink>
         </Button>
-      :
-      <Button disableRipple weight="medium" className={cn(classes.logotype, classes.pcdnButton)} 
-        classes={{ root: classes.buttonRoot }}>
-        <NavLink
-          exact={true}
-          className={cn(classes.labelText,classes.navLinkStyleForPCDN)}
-          activeClassName={classes.activeLabelForPCDN}
-          to={navButton.link ? navButton.link : '/'}
-          onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
-        >
-        {navButton.emphasize ?
-          <img style={imageStyle} src={NavIcon} width="26px" height="27px" alt={"Navigation Icon"}/> : null}
-          <span style={navButton.emphasize ? textStyle : {}}> {navButton.labelText} </span>
-        </NavLink>
-      </Button>
+      : null
     )
   }
 
@@ -103,7 +70,20 @@ const NavBar = ({
                 />
               )
               : (
-                getButton(navButton)
+                navButton.emphasize 
+                  ? getPCDNButton(navButton)
+                  : <Button id="button_navbar_navButton" disableRipple 
+                      weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
+                      <NavLink
+                        exact={true}
+                        className={classes.labelText}
+                        activeClassName={classes.activeLabel}
+                        to={navButton.link ? navButton.link : '/'}
+                        onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
+                      >
+                        {navButton.labelText}
+                      </NavLink>
+                    </Button>
               )
           ))}
         </div>
@@ -238,6 +218,18 @@ const styles = () => ({
     zIndex: '1201',
     height: 'calc(100% - 100px)',
   },
+  navIcon: {
+    position: 'relative',
+    top: '5px',
+    left: '-3px',
+    color: 'white',
+  },
+  pcdnText: {
+    position: 'relative',
+    top: '-4px',
+    paddingLeft: '3px',
+  },
+
 });
 
 NavBar.defaultProps = {
