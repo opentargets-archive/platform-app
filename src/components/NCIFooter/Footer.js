@@ -195,8 +195,8 @@ const Footer = ({ classes, data }) => (
         <div className={classes.horizontalLine} />
       </div>
          <div className={classes.version}>
-          <div>FE Version : {data.FEversion} </div>
-          <div>BE Version : {data.BEversion} </div>
+          <div>FE Version: {data.FEversion} </div>
+          <div>BE Version: {data.BEversion} </div>
         </div>
       <div className={classes.marginTopNeg}>
       <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
