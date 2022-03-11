@@ -9,6 +9,7 @@ import {
 import classnames from 'classnames';
 import DropdownMenu from './components/DropdownMenu';
 import NavIcon from '../../assets/PediatricDataCancer-MenuBar-Icon.svg'
+import cn from '../helpers/classNameConcat';
 
 const drawerWidth = 240;
 
@@ -23,41 +24,24 @@ const NavBar = ({
   function handleButtonClickEvent(eventName) {
     setClickedEl(eventName);
   }
-  function  getButton(navButton) {
-    const PCDNStyle = {
-      height: '38px',
-      width: '323px',
-      border: '1px solid #FFFFFF',
-      backgroundColor: "#4B8500",
-      borderRadius: '20px',
-      marginLeft: '29px'
-    }
-    const imageStyle = {
-      position: 'relative',
-      top: '2px',
-      left: '-3px',
-      color: 'white',
-    }
-    const textStyle = {
-      position: 'relative',
-      top: '-6px',
-      paddingLeft: '3px',
-    }
+  function  getPCDNButton(navButton) {
+
     return (
-      <Button style={navButton.emphasize ? PCDNStyle : {}} id="button_navbar_navButton" disableRipple 
-        weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
-        <NavLink
-          exact={true}
-          className={classes.labelText}
-          activeClassName={classes.activeLabel}
-          to={navButton.link ? navButton.link : '/'}
-          onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
-        >
-        {navButton.emphasize ?
-          <img style={imageStyle} src={NavIcon} width="26px" height="27px" alt={"Navigation Icon"}/> : null}
-          <span style={navButton.emphasize ? textStyle : {}}> {navButton.labelText} </span>
-        </NavLink>
-      </Button>
+      navButton.emphasize ?
+        <Button disableRipple weight="medium" className={cn(classes.logotype, classes.pcdnButton)} 
+          classes={{ root: classes.buttonRoot }}>
+          <NavLink
+            exact={true}
+            className={cn(classes.labelText,classes.navLinkStyleForPCDN)}
+            activeClassName={classes.activeLabelForPCDN}
+            to={navButton.link ? navButton.link : '/'}
+            onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
+          >
+            <img className={classes.navIcon} src={NavIcon} width="26px" height="27px" alt={"Navigation Icon"}/>
+            <span className={classes.pcdnText}> {navButton.labelText} </span>
+          </NavLink>
+        </Button>
+      : null
     )
   }
 
@@ -86,7 +70,20 @@ const NavBar = ({
                 />
               )
               : (
-                getButton(navButton)
+                navButton.emphasize 
+                  ? getPCDNButton(navButton)
+                  : <Button id="button_navbar_navButton" disableRipple 
+                      weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
+                      <NavLink
+                        exact={true}
+                        className={classes.labelText}
+                        activeClassName={classes.activeLabel}
+                        to={navButton.link ? navButton.link : '/'}
+                        onClick={() => handleButtonClickEvent(`${navButton.labelText}`)}
+                      >
+                        {navButton.labelText}
+                      </NavLink>
+                    </Button>
               )
           ))}
         </div>
@@ -122,6 +119,9 @@ const styles = () => ({
     height: '22px',
     margin: '0px 0px 0px 6px',
   },
+  pcdnButton: {
+    height: '38px'
+  },
   labelText: (props) => ({
     textDecoration: 'none',
     color: props.navBarstyling.global.fontColor ? props.navBarstyling.global.fontColor : '#FFFFFF',
@@ -130,6 +130,16 @@ const styles = () => ({
   }),
   activeLabel: (props) => ({
     borderBottom: props.navBarstyling.global.activeLabel ? props.navBarstyling.global.activeLabel : '1px solid  #FFFFFF',
+  }),
+  navLinkStyleForPCDN: (props) => ({
+    height: '38px',
+    width: '323px',
+    border: '1px solid #FFFFFF',
+    backgroundColor: "#4B8500",
+    borderRadius: '20px',
+  }),
+  activeLabelForPCDN: (props) => ({
+    backgroundColor: '#355e00',
   }),
   appBarShift: {
     paddingRight: '0px !important',
@@ -145,6 +155,7 @@ const styles = () => ({
     paddingRight: props.navBarstyling.global.paddingRight ? props.navBarstyling.global.paddingRight : '45px',
     paddingLeft: props.navBarstyling.global.paddingLeft ? props.navBarstyling.global.paddingLeft : '45px',
     alignItems: props.navBarstyling.global.alignItems ? props.navBarstyling.global.alignItems : 'flex-start',
+    paddingBottom: props.navBarstyling.global.paddingBottom ? props.navBarstyling.global.paddingBottom : '4px',
   }),
   buttonRoot: (props) => ({
     padding: props.navBarstyling.global.padding ? props.navBarstyling.global.padding : '9px 20px 0px 20px',
@@ -207,6 +218,18 @@ const styles = () => ({
     zIndex: '1201',
     height: 'calc(100% - 100px)',
   },
+  navIcon: {
+    position: 'relative',
+    top: '5px',
+    left: '-3px',
+    color: 'white',
+  },
+  pcdnText: {
+    position: 'relative',
+    top: '-4px',
+    paddingLeft: '3px',
+  },
+
 });
 
 NavBar.defaultProps = {
