@@ -1,4 +1,4 @@
-# The Molecular Targets Platform
+# Molecular Targets Platform
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b52c44fa1c5d479b8e9726a14056a284)](https://app.codacy.com/gh/CBIIT/ppdc-otp-frontend?utm_source=github.com&utm_medium=referral&utm_content=CBIIT/ppdc-otp-frontend&utm_campaign=Badge_Grade_Settings)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/58a127ca-67c0-4cc3-b9e3-88dad47cfc7f/deploy-status)](https://app.netlify.com/sites/platform-app/deploys)
