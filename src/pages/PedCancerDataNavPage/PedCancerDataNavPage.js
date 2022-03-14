@@ -348,24 +348,21 @@ function CHoPPage() {
   return (
     <div className={classes.page}>
       <ScrollToTop/>
+      <Helmet title={appTitle}>
+        <meta name="description" content={appDescription} />
+        <link rel="canonical" href={appCanonicalUrl} />
+      </Helmet>
+      
       <NCIHeader/>
+      {/*       Body      */}
       <Grid
         container
         justify={'center'}
         className={classes.flexContainer}
       >
         <Grid item xs={12}>
-          <Grid container >
-            <Grid item xs={12} md={11}>
-              <Helmet title={appTitle}>
-                <meta name="description" content={appDescription} />
-                <link rel="canonical" href={appCanonicalUrl} />
-              </Helmet>
-            </Grid>
-          </Grid>
-
           {/*     First Section (Search/Info)    */}
-          <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.gridContainer}>
+          <Grid container justifyContent="center" className={classes.gridContainer}>
             {/*     Header   */}
             <Grid container item xs={12} className={classes.headerContainer}>
               <Grid item xs={12}>
@@ -386,7 +383,7 @@ function CHoPPage() {
                 </Grid>
               </Grid>
             </Grid>
-            {/*    Search    xs={10} sm={7} md={12} lg={10} xl={9} */} 
+            {/*    Search    */} 
             <Grid container justifyContent='center' item xs={12}>
               {/*   Gene Symbol   */}
               <Grid container item alignItems="center" xs className={classes.entityContainer}> 
@@ -413,38 +410,28 @@ function CHoPPage() {
             <br />
             
             {/*     Result Description      */}
-            <Grid container item xs={12} md={10} lg={8} className={classes.infoContainer}>
-              <Grid container item xs alignItems="center" justifyContent="center"> 
-                <Grid item xs className={classes.maxContainerWidth}>
-                  <Typography component="p" align='center' paragraph>
-                    In the resulting table:
-                  </Typography>
-                  <ul>
-                    <li>
-                      Each <b> Evidence </b> page link opens a page presenting all available data within the Molecular Targets 
-                      Platform including available pediatric cancer data associating the specific target with the specific disease
-                    </li>
-                    <li>
-                      Each <b>Gene symbol </b> page link opens a page presenting all available data within the Molecular 
-                      Targets Platform including available pediatric cancer data for the specific target
-                    </li>
-                    <li>
-                      <b> Disease </b> pages linked in this table will not contain pediatric data
-                    </li>
-                    <li> Refining a search will query the entire database </li>
-                    <li> A maximum of 10,000 results are returned in the search results </li>
-                  </ul>
-                </Grid>
+            <Grid container item xs={12} md={10} lg={8} justifyContent="center" className={classes.infoContainer}> 
+              <Grid item xs className={classes.maxContainerWidth}>
+                <Typography component="p" align='center' paragraph>
+                  In the resulting table:
+                </Typography>
+                <ul>
+                  <li>
+                    Each <b> Evidence </b> page link opens a page presenting all available data within the Molecular Targets 
+                    Platform including available pediatric cancer data associating the specific target with the specific disease
+                  </li>
+                  <li>
+                    Each <b>Gene symbol </b> page link opens a page presenting all available data within the Molecular 
+                    Targets Platform including available pediatric cancer data for the specific target
+                  </li>
+                  <li>
+                    <b> Disease </b> pages linked in this table will not contain pediatric data
+                  </li>
+                  <li> Refining a search will query the entire database </li>
+                  <li> A maximum of 10,000 results are returned in the search results </li>
+                </ul>
               </Grid>
             </Grid>
-
-            <Grid container item xs={12} lg={8}>
-              <Grid container item alignItems="center" xs > 
-                <Grid item xs>
-                </Grid>
-              </Grid>
-            </Grid>
-
           </Grid>
       
           {/*     Second Section (Result)    */}
