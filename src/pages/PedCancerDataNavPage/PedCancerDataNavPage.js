@@ -438,31 +438,27 @@ function CHoPPage() {
           { displayTable ?
             <Grid container direction="row" justifyContent="center" className={classes.result}>
               {/*     Result Header     */}
-              <Grid container item xs={12} md={10} lg={8} className={classes.resultHeader}>
-                <Grid container item  xs justifyContent="center" > 
-                  <Grid item xs className={classes.maxContainerWidth}>
-                    {resultInfo()}
-                  </Grid>
+              <Grid container item xs={12} md={10} lg={8} justifyContent="center" className={classes.resultHeader}> 
+                <Grid item xs className={classes.maxContainerWidth}>
+                  {resultInfo()}
                 </Grid>
               </Grid>
               {/*     Result Table     */}
-              <Grid container item xs={12} lg={10} className={classes.resultTable}>
-                <Grid container item alignItems="center" xs > 
-                  <Grid item xs>
-                    <Paper variant="outlined" elevation={0}>
-                      <Box m={2}>
-                        <CHOPTable
-                          loading={loading}
-                          columns={columns}
-                          data={reformatResult}
-                          pageSize={pageSize}
-                          onRowsPerPageChange={handleRowsPerPageChange}
-                          rowsPerPageOptions={rowsPerPageOptions}
-                          paginationPosition="TOP"
-                        />
-                      </Box>
-                    </Paper>
-                  </Grid>
+              <Grid container item xs={12} lg={10} className={classes.resultTable} > 
+                <Grid item xs>
+                  <Paper variant="outlined" elevation={0}>
+                    <Box m={2}>
+                      <CHOPTable
+                        loading={loading}
+                        columns={columns}
+                        data={reformatResult}
+                        pageSize={pageSize}
+                        onRowsPerPageChange={handleRowsPerPageChange}
+                        rowsPerPageOptions={rowsPerPageOptions}
+                        paginationPosition="TOP"
+                      />
+                    </Box>
+                  </Paper>
                 </Grid>
               </Grid>
             </Grid>
