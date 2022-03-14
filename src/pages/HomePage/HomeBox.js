@@ -82,7 +82,7 @@ const HomeBox = ({ children }) => {
             <img src={NavIcon} width="26px" height="27px" alt={"Navigation Icon"}/>
           </div>
           <span className={classes.PCDNTextContainer}>
-            <span className={classes.PCDNText}>Explore our Pediatric Cancer Data Navigation</span>
+            <span className={classes.PCDNText}>Explore our Pediatric Cancer Data</span>
           </span>
         </div>
       </a>
