@@ -172,6 +172,9 @@ const useStyles = makeStyles(theme => ({
   infoContainer: {
     marginTop: '50px',
   },
+  maxContainerWidth: {
+    maxWidth: '900px'
+  },
 
   /*****          result          *****/
   result: {
@@ -410,9 +413,9 @@ function CHoPPage() {
             <br />
             
             {/*     Result Description      */}
-            <Grid container item xs={12} md={10} lg={6} className={classes.infoContainer}>
-              <Grid container item alignItems="center" xs > 
-                <Grid item xs>
+            <Grid container item xs={12} md={10} lg={8} className={classes.infoContainer}>
+              <Grid container item xs alignItems="center" justifyContent="center"> 
+                <Grid item xs className={classes.maxContainerWidth}>
                   <Typography component="p" align='center' paragraph>
                     In the resulting table:
                   </Typography>
@@ -446,11 +449,11 @@ function CHoPPage() {
       
           {/*     Second Section (Result)    */}
           { displayTable ?
-            <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
+            <Grid container direction="row" justifyContent="center" className={classes.result}>
               {/*     Result Header     */}
-              <Grid container item xs={12} md={10} lg={6} className={classes.resultHeader}>
-                <Grid container item alignItems="center" xs > 
-                  <Grid item xs>
+              <Grid container item xs={12} md={10} lg={8} className={classes.resultHeader}>
+                <Grid container item  xs justifyContent="center" > 
+                  <Grid item xs className={classes.maxContainerWidth}>
                     {resultInfo()}
                   </Grid>
                 </Grid>
