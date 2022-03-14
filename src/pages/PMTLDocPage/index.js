@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Link, Avatar, Paper } from '@material-ui/core';
-import BasePage from '../../components/BasePage';
+import BasePageMTP from '../../components/BasePageMTP';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -176,7 +176,7 @@ function PMTLDocPage() {
   }
 
   return (
-    <BasePage title="PMTL Document">
+    <BasePageMTP title="PMTL Document">
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -430,7 +430,7 @@ function PMTLDocPage() {
           </Grid>
         </Grid>
       </div>
-    </BasePage>
+    </BasePageMTP>
   );
 }
 export default PMTLDocPage;
