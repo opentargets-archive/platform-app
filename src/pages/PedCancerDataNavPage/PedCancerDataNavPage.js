@@ -94,6 +94,20 @@ const darkerBlueColor = '#04599a'
 const generalBackGroundColor = '#CDE9FF'
 
 const useStyles = makeStyles(theme => ({
+  page: ({displayTable}) => {
+    return {
+      background: displayTable ? 'white' : generalBackGroundColor,
+      display: 'flex',
+      flexDirection: 'column',
+      margin: 0,
+      minHeight: '100vh',
+      width: '100%',
+    }
+  },
+  flexContainer: {
+    width: '100%',
+    flex: '1 0 auto',
+  },
   gridContainer: {
     margin: '190px 0 0 0',
     padding: '50px 50px 60px 50px',
@@ -157,6 +171,9 @@ const useStyles = makeStyles(theme => ({
   /*****          info          *****/
   infoContainer: {
     marginTop: '50px',
+  },
+  maxContainerWidth: {
+    maxWidth: '900px'
   },
 
   /*****          result          *****/
@@ -275,7 +292,7 @@ function CHoPPage() {
   // Check if Both inputField are empty
   const inputFieldAreBothEmpty = isTargetEmpty && isDiseaseEmpty
 
-  const classes = useStyles({inputFieldAreBothEmpty})
+  const classes = useStyles({ displayTable })
   
   const rowsPerPageOptions = [10, 25, 50];
   function handleRowsPerPageChange(newPageSize){
@@ -331,133 +348,123 @@ function CHoPPage() {
   return (
     <div className={classes.page}>
       <ScrollToTop/>
-      <NCIHeader/>
-
-      <Grid container >
-        <Grid item xs={12} md={11}>
-          <Helmet title={appTitle}>
-            <meta name="description" content={appDescription} />
-            <link rel="canonical" href={appCanonicalUrl} />
-          </Helmet>
-        </Grid>
-      </Grid>
-
-      {/*     First Section (Search/Info)    */}
-      <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.gridContainer}>
-        {/*     Header   */}
-        <Grid container item xs={12} className={classes.headerContainer}>
-          <Grid item xs={12}>
-            <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
-              Pediatric Cancer Data Navigation
-            </Typography>
-          </Grid>
-          {/*   Sub Header  */}
-          <Grid container item xs={12} direction="row" justifyContent="center" alignItems="center">
-            <Grid container item alignItems="center" style={{width: '500px'}}> 
-              <Grid item xs>
-                <Typography component="p" align="center" paragraph className={classes.subHeader} >
-                Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to navigate our dataset 
-                containing <b>{NUMBER_OF_TARGET}</b> Targets and <b>{NUMBER_OF_DISEASE}</b> Diseases 
-                across <b>{NUMBER_OF_EVIDENCE}</b> Evidence Pages.
-              </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-        {/*    Search    xs={10} sm={7} md={12} lg={10} xl={9} */} 
-        <Grid container justifyContent='center' item xs={12}>
-          {/*   Gene Symbol   */}
-          <Grid container item alignItems="center" xs className={classes.entityContainer}> 
-            <Grid item className={classes.entityNameItem}> Gene Symbol: </Grid>
-            <Grid item xs className={classes.geneSymbolSelectItem}>
-              <EntitySelect inputValue={targetInputValue} setInputValue={setTargetInputValue}
-                entity="target" defaultOptions={defaultTargetOptions}/>
-            </Grid>
-          </Grid>
-          {/*   Disease   */}
-          <Grid container item  alignItems="center" xs className={classes.entityContainer}> 
-            <Grid item className={classes.entityNameItem}> Disease: </Grid>
-            <Grid item xs className={classes.diseaseSelectItem}>
-              <EntitySelect entity="disease" inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
-            </Grid>
-          </Grid>
-          <Grid container item justifyContent='center' xs={12} className={classes.searchContainer}> 
-            <Grid item> 
-              <Button className={classes.searchButton} onClick={handleOnClick} disabled={inputFieldAreBothEmpty}
-              variant="contained" size="large"> Search </Button>
-            </Grid>
-          </Grid>  
-        </Grid>
-        <br />
-        
-        {/*     Result Description      */}
-        <Grid container item xs={12} md={10} lg={6} className={classes.infoContainer}>
-          <Grid container item alignItems="center" xs > 
-            <Grid item xs>
-              <Typography component="p" align='center' paragraph>
-                In the resulting table:
-              </Typography>
-              <ul>
-                <li>
-                  Each <b> Evidence </b> page link opens a page presenting all available data within the Molecular Targets 
-                  Platform including available pediatric cancer data associating the specific target with the specific disease
-                </li>
-                <li>
-                  Each <b>Gene symbol </b> page link opens a page presenting all available data within the Molecular 
-                  Targets Platform including available pediatric cancer data for the specific target
-                </li>
-                <li>
-                  <b> Disease </b> pages linked in this table will not contain pediatric data
-                </li>
-                <li> Refining a search will query the entire database </li>
-                <li> A maximum of 10,000 results are returned in the search results </li>
-              </ul>
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid container item xs={12} lg={8}>
-          <Grid container item alignItems="center" xs > 
-            <Grid item xs>
-            </Grid>
-          </Grid>
-        </Grid>
-
-      </Grid>
+      <Helmet title={appTitle}>
+        <meta name="description" content={appDescription} />
+        <link rel="canonical" href={appCanonicalUrl} />
+      </Helmet>
       
-      {/*     Second Section (Result)    */}
-      { displayTable ?
-        <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.result}>
-          {/*     Result Header     */}
-          <Grid container item xs={12} md={10} lg={6} className={classes.resultHeader}>
-            <Grid container item alignItems="center" xs > 
-              <Grid item xs>
-                {resultInfo()}
+      <NCIHeader/>
+      {/*       Body      */}
+      <Grid
+        container
+        justify={'center'}
+        className={classes.flexContainer}
+      >
+        <Grid item xs={12}>
+          {/*     First Section (Search/Info)    */}
+          <Grid container justifyContent="center" className={classes.gridContainer}>
+            {/*     Header   */}
+            <Grid container item xs={12} className={classes.headerContainer}>
+              <Grid item xs={12}>
+                <Typography className={classes.header} variant="h5" align="center" component="h1" paragraph>
+                  Pediatric Cancer Data Navigation
+                </Typography>
+              </Grid>
+              {/*   Sub Header  */}
+              <Grid container item xs={12} direction="row" justifyContent="center" alignItems="center">
+                <Grid container item alignItems="center" style={{width: '500px'}}> 
+                  <Grid item xs>
+                    <Typography component="p" align="center" paragraph className={classes.subHeader} >
+                    Search for a <b>Target</b>, <b>Disease</b>, or <b>both</b> to navigate our dataset 
+                    containing <b>{NUMBER_OF_TARGET}</b> Targets and <b>{NUMBER_OF_DISEASE}</b> Diseases 
+                    across <b>{NUMBER_OF_EVIDENCE}</b> Evidence Pages.
+                  </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+            {/*    Search    */} 
+            <Grid container justifyContent='center' item xs={12}>
+              {/*   Gene Symbol   */}
+              <Grid container item alignItems="center" xs className={classes.entityContainer}> 
+                <Grid item className={classes.entityNameItem}> Gene Symbol: </Grid>
+                <Grid item xs className={classes.geneSymbolSelectItem}>
+                  <EntitySelect inputValue={targetInputValue} setInputValue={setTargetInputValue}
+                    entity="target" defaultOptions={defaultTargetOptions}/>
+                </Grid>
+              </Grid>
+              {/*   Disease   */}
+              <Grid container item  alignItems="center" xs className={classes.entityContainer}> 
+                <Grid item className={classes.entityNameItem}> Disease: </Grid>
+                <Grid item xs className={classes.diseaseSelectItem}>
+                  <EntitySelect entity="disease" inputValue={diseaseInputValue} setInputValue={setDiseaseInputValue} />
+                </Grid>
+              </Grid>
+              <Grid container item justifyContent='center' xs={12} className={classes.searchContainer}> 
+                <Grid item> 
+                  <Button className={classes.searchButton} onClick={handleOnClick} disabled={inputFieldAreBothEmpty}
+                  variant="contained" size="large"> Search </Button>
+                </Grid>
+              </Grid>  
+            </Grid>
+            <br />
+            
+            {/*     Result Description      */}
+            <Grid container item xs={12} md={10} lg={8} justifyContent="center" className={classes.infoContainer}> 
+              <Grid item xs className={classes.maxContainerWidth}>
+                <Typography component="p" align='center' paragraph>
+                  In the resulting table:
+                </Typography>
+                <ul>
+                  <li>
+                    Each <b> Evidence </b> page link opens a page presenting all available data within the Molecular Targets 
+                    Platform including available pediatric cancer data associating the specific target with the specific disease
+                  </li>
+                  <li>
+                    Each <b>Gene symbol </b> page link opens a page presenting all available data within the Molecular 
+                    Targets Platform including available pediatric cancer data for the specific target
+                  </li>
+                  <li>
+                    <b> Disease </b> pages linked in this table will not contain pediatric data
+                  </li>
+                  <li> Refining a search will query the entire database </li>
+                  <li> A maximum of 10,000 results are returned in the search results </li>
+                </ul>
               </Grid>
             </Grid>
           </Grid>
-          {/*     Result Table     */}
-          <Grid container item xs={12} lg={10} className={classes.resultTable}>
-            <Grid container item alignItems="center" xs > 
-              <Grid item xs>
-                <Paper variant="outlined" elevation={0}>
-                  <Box m={2}>
-                    <CHOPTable
-                      loading={loading}
-                      columns={columns}
-                      data={reformatResult}
-                      pageSize={pageSize}
-                      onRowsPerPageChange={handleRowsPerPageChange}
-                      rowsPerPageOptions={rowsPerPageOptions}
-                      paginationPosition="TOP"
-                    />
-                  </Box>
-                </Paper>
+      
+          {/*     Second Section (Result)    */}
+          { displayTable ?
+            <Grid container direction="row" justifyContent="center" className={classes.result}>
+              {/*     Result Header     */}
+              <Grid container item xs={12} md={10} lg={8} justifyContent="center" className={classes.resultHeader}> 
+                <Grid item xs className={classes.maxContainerWidth}>
+                  {resultInfo()}
+                </Grid>
+              </Grid>
+              {/*     Result Table     */}
+              <Grid container item xs={12} lg={10} className={classes.resultTable} > 
+                <Grid item xs>
+                  <Paper variant="outlined" elevation={0}>
+                    <Box m={2}>
+                      <CHOPTable
+                        loading={loading}
+                        columns={columns}
+                        data={reformatResult}
+                        pageSize={pageSize}
+                        onRowsPerPageChange={handleRowsPerPageChange}
+                        rowsPerPageOptions={rowsPerPageOptions}
+                        paginationPosition="TOP"
+                      />
+                    </Box>
+                  </Paper>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          : null }
         </Grid>
-      : null }
+      </Grid>
 
       <NCIFooter/>
     </div>
