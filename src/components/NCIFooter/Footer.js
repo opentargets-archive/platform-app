@@ -31,6 +31,8 @@ const styles = () => ({
     background: 'rgb(11, 68, 107)',
   }),
   footerComponent: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
     lineHeight: '1.42857143',
     maxWidth: '1800px',
     margin: '0 60px',
