@@ -4,7 +4,7 @@ import { Autocomplete } from '@material-ui/lab';
 import crossfilter from 'crossfilter2';
 import _ from 'lodash';
 
-import BasePage from '../../components/BasePage';
+import BasePageMTP from '../../components/BasePageMTP';
 import Link from '../../components/Link';
 import DataDownloader from '../../components/DataDownloader';
 import RMTLTable from '../../components/RMTLTable';
@@ -319,7 +319,7 @@ class PMTLPage extends Component {
       'https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target';
 
     return (
-      <BasePage title="PMTL">
+      <BasePageMTP title="PMTL">
         <ScrollToTop/>
         <Typography variant="h4" component="h1" paragraph>
           US Food & Drug Administration Pediatric Molecular Target Lists (FDA
@@ -376,7 +376,7 @@ class PMTLPage extends Component {
             )}
           </Box>
         </Paper>
-      </BasePage>
+      </BasePageMTP>
     );
   }
 }
