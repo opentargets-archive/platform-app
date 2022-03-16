@@ -1,10 +1,7 @@
 import React from 'react';
 import { Grid, Typography, withStyles } from '@material-ui/core';
 import {
-  faEnvelope,
   faExclamationTriangle,
-  faQuestionCircle,
-  faSearchPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -15,9 +12,6 @@ const styles = theme => ({
   icon: {
     color: theme.palette.primary.main,
     marginBottom: '12px',
-  },
-  actionText: {
-    width: '150px',
   },
   suggestions: {
     width: '450px',
