@@ -30,9 +30,12 @@ const styles = () => ({
   footerRoot: (props) => ({
     background: 'rgb(11, 68, 107)',
   }),
+  footerWrapper: {
+    margin: '0 auto',
+    maxWidth: '1920px',
+  },
   footerComponent: {
     lineHeight: '1.42857143',
-    maxWidth: '1800px',
     margin: '0 60px',
     '-webkit-font-smoothing': 'antialiased',
     color: 'white',
@@ -146,86 +149,88 @@ const styles = () => ({
 
 const Footer = ({ classes, data }) => (
   <div className={classes.footerRoot}>
-    <div className={classes.footerComponent}>
-      <div className={cn(classes.footerRow)}>
-        <div>
-          <h1 className={classes.nciFooterTitle}>
-            {data.footerTitle} 
-            <span className={classes.nciFooterSubTitle}> {data.footerSubTitle} </span>
-          </h1>
-        </div>
-          <div className={cn(classes.linkSections, classes.contentJustifyCenter)}>
-           <div className={classes.linkSection} >
-             <div className={classes.linkSectionHead}>CONTACT INFORMATION</div>
-              <div>
-                 <RouteLinks to={data.contactUs}>
-                 Contact Us
-                  </RouteLinks>
-                  </div>
-           </div>
-           <div className={classes.linkSection}>
-             <div className={classes.linkSectionHead}>MORE INFORMATION</div>
-              <RouteLinks to={data.aboutPage}>
-                 About MTP
-              </RouteLinks>
-           </div>
-           <div className={classes.linkSection}>
-             <div className={classes.linkSectionHead}>  NIH POLICIES</div>
-              <div>
-                  <RouteLinks to={data.policies}>Policies </RouteLinks>
-                </div>
-               <div>
-                  <RouteLinks to={data.disclaimer}>Disclaimer </RouteLinks>
-                </div>
-               <div>
-                  <RouteLinks to={data.accessibility}>Accessibility </RouteLinks>
-               </div>
-
-               <div>
-                    <RouteLinks to={data.FOIA}>FOIA</RouteLinks>
-              </div>
-              <div>
-                    <RouteLinks to={data.vulnerability}>HHS Vulnerability Disclosure</RouteLinks>
-              </div>
-              
-           </div>
+    <div className={classes.footerWrapper}>
+      <div className={classes.footerComponent}>
+        <div className={cn(classes.footerRow)}>
+          <div>
+            <h1 className={classes.nciFooterTitle}>
+              {data.footerTitle} 
+              <span className={classes.nciFooterSubTitle}> {data.footerSubTitle} </span>
+            </h1>
           </div>
-      </div>
-      <div>
-        <div className={classes.horizontalLine} />
-      </div>
-         <div className={classes.version}>
+            <div className={cn(classes.linkSections, classes.contentJustifyCenter)}>
+            <div className={classes.linkSection} >
+              <div className={classes.linkSectionHead}>CONTACT INFORMATION</div>
+                <div>
+                  <RouteLinks to={data.contactUs}>
+                  Contact Us
+                    </RouteLinks>
+                    </div>
+            </div>
+            <div className={classes.linkSection}>
+              <div className={classes.linkSectionHead}>MORE INFORMATION</div>
+                <RouteLinks to={data.aboutPage}>
+                  About MTP
+                </RouteLinks>
+            </div>
+            <div className={classes.linkSection}>
+              <div className={classes.linkSectionHead}>  NIH POLICIES</div>
+                <div>
+                    <RouteLinks to={data.policies}>Policies </RouteLinks>
+                  </div>
+                <div>
+                    <RouteLinks to={data.disclaimer}>Disclaimer </RouteLinks>
+                  </div>
+                <div>
+                    <RouteLinks to={data.accessibility}>Accessibility </RouteLinks>
+                </div>
+
+                <div>
+                      <RouteLinks to={data.FOIA}>FOIA</RouteLinks>
+                </div>
+                <div>
+                      <RouteLinks to={data.vulnerability}>HHS Vulnerability Disclosure</RouteLinks>
+                </div>
+                
+            </div>
+            </div>
+        </div>
+        <div>
+          <div className={classes.horizontalLine} />
+        </div>
+        <div className={classes.version}>
           <div>FE Version: {data.FEversion} </div>
           <div>BE Version: {data.BEversion} </div>
         </div>
-      <div className={classes.marginTopNeg}>
-      <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
-        <div className={cn(classes.nciLinks, classes.contentJustifyCenter)}>
-          {data.global_footer_links.slice(0, 4).map((nciLink) => (
-            <div>
-              <RouteLinks to={nciLink.link}>
-                {nciLink.text}
-              </RouteLinks>
-              <span className={classes.ext}>&nbsp;|&nbsp;</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
-        <div
-          className={cn(
-            classes.nciLinks,
-            classes.contentJustifyCenter,
-          )}
-        >
-          <div>
-            <span className={classes.turningNIH}>
-              {data.footerStaticText}
-            </span>
+        <div className={classes.marginTopNeg}>
+        <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
+          <div className={cn(classes.nciLinks, classes.contentJustifyCenter)}>
+            {data.global_footer_links.slice(0, 4).map((nciLink) => (
+              <div>
+                <RouteLinks to={nciLink.link}>
+                  {nciLink.text}
+                </RouteLinks>
+                <span className={classes.ext}>&nbsp;|&nbsp;</span>
+              </div>
+            ))}
           </div>
-         
         </div>
-      </div>
+        <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
+          <div
+            className={cn(
+              classes.nciLinks,
+              classes.contentJustifyCenter,
+            )}
+          >
+            <div>
+              <span className={classes.turningNIH}>
+                {data.footerStaticText}
+              </span>
+            </div>
+          
+          </div>
+        </div>
+        </div>
       </div>
     </div>
   </div>
