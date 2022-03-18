@@ -66,14 +66,13 @@ const columns = [
   {
     id: 'confidence',
     label: 'Classification',
-    renderCell: ({ studyId, confidence }) => {
-      return (
-        <Link
-          external
-          to={`https://search.clinicalgenome.org/kb/gene-validity/${studyId}`}
-        >
+    renderCell: ({ confidence, urls }) => {
+      return urls && urls[0]?.url ? (
+        <Link external to={urls[0].url}>
           {confidence}
         </Link>
+      ) : (
+        confidence
       );
     },
   },
