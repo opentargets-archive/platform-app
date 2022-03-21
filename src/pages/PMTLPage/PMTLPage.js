@@ -361,7 +361,7 @@ class PMTLPage extends Component {
                 </Lk>
                 <DataDownloader
                   tableHeaders={downloadColumns}
-                  rows={downloadRows}
+                  rows={filteredRows}
                   fileStem={`pmtl`}
                 />
                 <RMTLTable
