@@ -379,17 +379,6 @@ function PMTLDocPage() {
           </Grid>
 
 
-          <Grid item xs={12}>
-            <Typography paragraph>
-            To view and download previous interpretations of the PMTL 
-            and the detailed changelog, access the 
-            <Link href={hugoHgncLink} rel="noopener" target="_blank">
-                 <b> archive</b> 
-              </Link>.
-            </Typography>
-          </Grid>
-
-
           <Grid item xs={12} id="colums-description">
             <Typography variant="h4">FDA PMTL Columns</Typography>
           </Grid>
