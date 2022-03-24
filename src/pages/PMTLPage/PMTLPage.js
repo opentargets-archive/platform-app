@@ -17,21 +17,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link as Lk } from '@material-ui/core';
 
-function getDownloadRows(downloadData) {
-  const rows = [];
-  downloadData.forEach(mapping => {
-    rows.push({
-      ensemblID: mapping.Ensembl_ID,
-      targetSymbol: mapping.Approved_Symbol,
-      designation: mapping.FDA_Designation,
-      fdaClass: mapping.FDA_Class,
-      fdaTarget: mapping.FDA_Target,
-      mappingDescription: mapping.Mapping_Description,
-    });
-  });
-  return rows;
-}
-
 function getRows(downloadData) {
   const rows = [];
   downloadData.forEach(mapping => {
@@ -289,7 +274,6 @@ class PMTLPage extends Component {
   render() {
     const rows = getRows(PMTLData);
     // Download Data will be coming from getDownloadRows()
-    const downloadRows = getDownloadRows(PMTLData);
     const { filteredRows, pageSize } = this.state;
 
     const loading = false,
@@ -361,7 +345,7 @@ class PMTLPage extends Component {
                 </Lk>
                 <DataDownloader
                   tableHeaders={downloadColumns}
-                  rows={downloadRows}
+                  rows={filteredRows}
                   fileStem={`pmtl`}
                 />
                 <RMTLTable
