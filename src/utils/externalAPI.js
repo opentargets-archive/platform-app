@@ -19,7 +19,8 @@ const url= {
          
     const params= {
         ensemblId: ensemblId,
-        efoId: efoId
+        efoId: efoId,
+        includeTumorDesc: 'primaryOnly'
       };
     const endpoint = config.chopRServer.concat("/tpm/gene-disease-gtex/json");
     if (widget === "detail") {
@@ -40,10 +41,11 @@ const url= {
         ensemblId: ensemblId,
         efoId: efoId,
         yAxisScale: yAxisScale,
+        includeTumorDesc: 'primaryOnly'
       };
     let endpoint = config.chopRServer.concat("/tpm/gene-disease-gtex/plot");
     
-    endpoint = endpoint + `?ensemblId=${ensemblId}&efoId=${efoId}&yAxisScale=${yAxisScale}`
+    endpoint = endpoint + `?includeTumorDesc=${params.includeTumorDesc}&ensemblId=${ensemblId}&efoId=${efoId}&yAxisScale=${yAxisScale}`
     console.log("endpoint: ", endpoint)
     RServerPlotGETFetcher(params, endpoint, callback, errorHandler)
   
@@ -59,7 +61,8 @@ const url= {
 export const getGeneAllCancerJSON = async (ensemblId,callback,errorHandler = (error)=>{console.log(error)}, widget = 'detail') => {
          
           const params= {
-              ensemblId: ensemblId
+              ensemblId: ensemblId,
+              includeTumorDesc: 'primaryOnly'
             };
           const endpoint = config.chopRServer.concat(url.geneAllCancerJSON);
 
@@ -81,11 +84,11 @@ export const getGeneAllCancerJSON = async (ensemblId,callback,errorHandler = (er
     const params= {
         ensemblId: ensemblId,
         yAxisScale: yAxisScale,
+        includeTumorDesc: 'primaryOnly'
       };
     let endpoint = config.chopRServer.concat(url.geneAllCancerPlot);
     
-    endpoint = endpoint + `?ensemblId=${ensemblId}&yAxisScale=${yAxisScale}`
-     console.log("endpoint: ", endpoint)
+    endpoint = endpoint + `?includeTumorDesc=${params.includeTumorDesc}&ensemblId=${ensemblId}&yAxisScale=${yAxisScale}`
     RServerPlotGETFetcher(params, endpoint, callback, errorHandler)
   
 }

@@ -11,7 +11,7 @@ const config = {
     window.injectedEnv.configEFOURL ??
     'https://platform.opentargets.org/data/ontology/efo_json/diseases_efo.jsonl',
   primaryColor: window.injectedEnv.configPrimaryColor ?? '#3489ca',
-  chopRServer: window.injectedEnv.chopRServer ?? 'https://openpedcan-api.d3b.io',
+  chopRServer: window.injectedEnv.chopRServer ?? 'https://openpedcan-api-dev.d3b.io',
   flagShowOTARProjects: window.injectedEnv.configFlagShowOTARProjects ?? false,
   frontendVersion:window.injectedEnv.frontend_version ?? '1.0.0',
   backendVersion:window.injectedEnv.backend_version ?? '1.0.0'
