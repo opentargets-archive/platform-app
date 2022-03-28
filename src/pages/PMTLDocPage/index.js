@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Link, Avatar, Paper } from '@material-ui/core';
+import { Grid, Typography, Avatar, Paper } from '@material-ui/core';
 import BasePageMTP from '../../components/BasePageMTP';
-
+import Link from '../../components/Link'
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -194,14 +194,14 @@ function PMTLDocPage() {
                   The targets in these lists have <b> special legal requirements</b> associated with drug development.
             </Typography>
             <Typography paragraph>
-              While the  <Link href={fDPublicationLink} rel="noopener" target="_blank">
+              While the  <Link to={fDPublicationLink} external>
                 <b>FDA publications </b>
               </Link>
               remain the authoritative source for these targets, a computable interpretation of the lists is integrated into the Molecular Targets Platform.
             </Typography>
             <Typography paragraph>
               Browse the
-              <Link href={fdaPMTL} rel="noopener">
+              <Link to={fdaPMTL}>
                 <b> FDA PMTL Landing Page </b>
               </Link>
               to identify pediatric molecular targets within the Molecular Targets Platform.
@@ -287,7 +287,7 @@ function PMTLDocPage() {
             <Typography paragraph>
               In the Molecular Targets Platform, every Target is identified with gene-level
               resolution by a unique (
-              <Link href={ensemblStableIDLink} rel="noopener" target="_blank">
+              <Link to={ensemblStableIDLink} external>
                 <b>Ensembl stable ID</b>
               </Link>
               ), and then mapped to other information (e.g. gene name and
@@ -323,7 +323,7 @@ function PMTLDocPage() {
           <Grid item xs={12} className={classes.paddingLeft}>
             <Typography paragraph>
               3. Using Human Genome Organization Gene Nomenclature Committee (
-              <Link href={hugoHgncLink} rel="noopener" target="_blank">
+              <Link to={hugoHgncLink} external>
                 HUGO HGNC
               </Link>
               ) resources, manually standardized the names and symbols of all
@@ -385,7 +385,7 @@ function PMTLDocPage() {
           <Grid item xs={12}>
             <Typography paragraph>
               The table below contains examples and descriptions of each column
-              within the searchable <Link href={fdaPMTL} rel="noopener">
+              within the searchable <Link to={fdaPMTL}>
                 <b> FDA PMTL Landing Page</b>
               </Link>.
             </Typography>
