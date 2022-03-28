@@ -201,7 +201,7 @@ function PMTLDocPage() {
             </Typography>
             <Typography paragraph>
               Browse the
-              <Link href={fdaPMTL} rel="noopener" target="_blank">
+              <Link href={fdaPMTL} rel="noopener">
                 <b> FDA PMTL Landing Page </b>
               </Link>
               to identify pediatric molecular targets within the Molecular Targets Platform.
