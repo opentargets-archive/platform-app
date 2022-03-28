@@ -385,7 +385,7 @@ function PMTLDocPage() {
           <Grid item xs={12}>
             <Typography paragraph>
               The table below contains examples and descriptions of each column
-              within the searchable <Link href={fdaPMTL} rel="noopener" target="_blank">
+              within the searchable <Link href={fdaPMTL} rel="noopener">
                 <b> FDA PMTL Landing Page</b>
               </Link>.
             </Typography>
