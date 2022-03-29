@@ -84,7 +84,7 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
     }, [hasData, tab, linearPlot.length, log10Plot.length, id, getData, getPlot, entity]);
 
   const columns = [
-    { id: 'x_labels' },
+    { id: 'x_label' },
     { id: 'Gene_Ensembl_ID' },
     { id: 'Gene_symbol' },
     { id: 'PMTL' },
@@ -100,7 +100,9 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
     { id: 'TPM_25th_percentile' },
     { id: 'TPM_median',},
     { id: 'TPM_75th_percentile' },
-    { id: 'TPM_max' }
+    { id: 'TPM_max' },
+    { id: 'specimen_descriptor_fill'},
+    { id: 'box_sample_count'}
   ]
   return   (
       <SectionItem
