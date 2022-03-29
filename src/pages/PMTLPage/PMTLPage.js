@@ -69,9 +69,9 @@ function getColumns(
       renderCell: row => {
         const ensemblID = row.ensemblID;
         const url = '/target/' + ensemblID;
-        return ensemblID !== "Symbol_Not_Found" ? 
-        ( <Link to={url} external>{row.targetSymbol}</Link>):
-         (<p> {row.targetSymbol} </p>)
+        return ensemblID !== "Symbol_Not_Found" ?
+          (<Link to={url} external>{row.targetSymbol}</Link>) :
+          (<p> {row.targetSymbol} </p>)
       },
       renderFilter: () => (
         <Autocomplete
@@ -304,22 +304,22 @@ class PMTLPage extends Component {
 
     return (
       <BasePageMTP title="PMTL">
-        <ScrollToTop/>
+        <ScrollToTop />
         <Typography variant="h4" component="h1" paragraph>
           US Food & Drug Administration Pediatric Molecular Target Lists (FDA
           PMTL)
         </Typography>
         <br />
         <Typography paragraph>
-        <Link to={FDA_PMTL_DocumentationUrl}> Version 1.1 </Link>
+          <Link to={FDA_PMTL_DocumentationUrl}> Version 1.1 </Link>
         </Typography>
         <hr />
         <br />
         <Typography paragraph>
-          Targets in the FDA's Pediatric Molecular Target Lists (PMTL) are important for studies 
-          of pediatric cancer and have special legal requirements associated with drug development. 
-          The table below is a computable interpretation of the target lists published by the FDA. 
-          See our  <Link to={FDA_PMTL_DocumentationUrl}> <b>FDA PMTL Documentation </b></Link> 
+          Targets in the FDA's Pediatric Molecular Target Lists (PMTL) are important for studies
+          of pediatric cancer and have special legal requirements associated with drug development.
+          The table below is a computable interpretation of the target lists published by the FDA.
+          See our  <Link to={FDA_PMTL_DocumentationUrl}> <b>FDA PMTL Documentation </b></Link>
           or the official <Link external to={FDA_Publication}><b>FDA publication{' '}</b> </Link>for details.
         </Typography>
         <Typography paragraph>
