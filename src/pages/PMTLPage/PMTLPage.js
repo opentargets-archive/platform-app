@@ -180,7 +180,7 @@ function getColumns(
 const downloadColumns = [
   { id: 'ensemblID', label: 'ensemblID' },
   { id: 'targetSymbol', label: 'targetSymbol' },
-  { id: 'designation', label: 'FDA_Designation' },
+  { id: 'designation', label: 'designation' },
   { id: 'fdaClass', label: 'FDA_Class' },
   { id: 'fdaTarget', label: 'FDA_Target' },
   { id: 'mappingDescription', label: 'Mapping_Description' },
