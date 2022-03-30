@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Paper, Box, Typography, TextField } from '@material-ui/core';
+import { Paper, Box, Typography, TextField, Link as Lk } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import crossfilter from 'crossfilter2';
 import _ from 'lodash';
 
@@ -12,11 +14,8 @@ import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import ScrollToTop from '../../components/ScrollToTop';
-import PMTLData from './PMTL.json';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { Link as Lk } from '@material-ui/core';
 import ExternalLinkIcon from '../../components/ExternalLinkIcon';
+import PMTLData from './PMTL.json';
 
 function getRows(downloadData) {
   const rows = [];
@@ -346,8 +345,7 @@ class PMTLPage extends Component {
                   href="/fda-pmtl-docs#colums-description"
                   title="FDA PMTL Columns Description"
                 >
-                  <FontAwesomeIcon icon={faInfoCircle} size="md" /> Columns
-                  Description
+                  <FontAwesomeIcon icon={faInfoCircle} size="md" /> Columns Description
                 </Lk>
                 <DataDownloader
                   tableHeaders={downloadColumns}
