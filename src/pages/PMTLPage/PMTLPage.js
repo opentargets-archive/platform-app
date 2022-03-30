@@ -16,6 +16,7 @@ import PMTLData from './PMTL.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link as Lk } from '@material-ui/core';
+import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 
 function getRows(downloadData) {
   const rows = [];
@@ -320,7 +321,12 @@ class PMTLPage extends Component {
           of pediatric cancer and have special legal requirements associated with drug development.
           The table below is a computable interpretation of the target lists published by the FDA.
           See our  <Link to={FDA_PMTL_DocumentationUrl}> <b>FDA PMTL Documentation </b></Link>
-          or the official <Link external to={FDA_Publication}><b>FDA publication{' '}</b> </Link>for details.
+          or the official{' '}
+          <Link external to={FDA_Publication}>
+            <b>FDA publication</b>
+            <ExternalLinkIcon />
+          </Link>{' '}
+          for details.
         </Typography>
         <Typography paragraph>
           Each target in the list is designated as either a <RelevantIcon />{' '}
