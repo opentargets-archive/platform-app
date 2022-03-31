@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Avatar, Paper } from '@material-ui/core';
 import BasePageMTP from '../../components/BasePageMTP';
 import Link from '../../components/Link'
+import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -194,9 +195,11 @@ function PMTLDocPage() {
                   The targets in these lists have <b> special legal requirements</b> associated with drug development.
             </Typography>
             <Typography paragraph>
-              While the  <Link to={fDPublicationLink} external>
-                <b>FDA publications </b>
-              </Link>
+              While the{' '}  
+              <Link to={fDPublicationLink} external>
+                <b>FDA publications</b>
+                <ExternalLinkIcon />
+              </Link>{' '}
               remain the authoritative source for these targets, a computable interpretation of the lists is integrated into the Molecular Targets Platform.
             </Typography>
             <Typography paragraph>
