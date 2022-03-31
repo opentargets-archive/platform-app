@@ -292,6 +292,7 @@ function PMTLDocPage() {
               resolution by a unique (
               <Link to={ensemblStableIDLink} external>
                 <b>Ensembl stable ID</b>
+                <ExternalLinkIcon />
               </Link>
               ), and then mapped to other information (e.g. gene name and
               symbol). As published, the FDA PMTL does not use
