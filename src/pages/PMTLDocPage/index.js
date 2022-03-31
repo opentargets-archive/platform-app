@@ -329,6 +329,7 @@ function PMTLDocPage() {
               3. Using Human Genome Organization Gene Nomenclature Committee (
               <Link to={hugoHgncLink} external>
                 HUGO HGNC
+                <ExternalLinkIcon />
               </Link>
               ) resources, manually standardized the names and symbols of all
               targets, which enabled mapping each target to Ensembl gene IDs.
