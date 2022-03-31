@@ -4,6 +4,8 @@ import { Grid, Typography, Avatar, Paper } from '@material-ui/core';
 import BasePageMTP from '../../components/BasePageMTP';
 import Link from '../../components/Link'
 import ExternalLinkIcon from '../../components/ExternalLinkIcon';
+import ScrollToTop from '../../components/ScrollToTop';
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -178,6 +180,7 @@ function PMTLDocPage() {
 
   return (
     <BasePageMTP title="PMTL Document">
+      <ScrollToTop />
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
