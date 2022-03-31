@@ -20,7 +20,7 @@ import {
   appDescription,
   appCanonicalUrl,
 } from '../../constants';
-import externalIcon from '../../assets/about/About-ExternalLink.svg';
+import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 
 
 const useStyles = makeStyles(theme => ({
@@ -40,9 +40,6 @@ const useStyles = makeStyles(theme => ({
   aboutBox:{
     margin: '70px 0',
   },
-  externalIcon: {
-    width: '15px',
-  }
 }));
 
 function pickTwo(arr) {
@@ -118,7 +115,8 @@ const HomePage = () => {
           <Typography paragraph align="center">
             The Molecular Targets Platform is an NCI-supported instance of the 
             <Link to={"https://platform.opentargets.org/"} external> Open Target Platform
-            <img src={externalIcon} alt="redirct to public open targets" className={classes.externalIcon} /></Link> with a focus on
+              <ExternalLinkIcon />
+            </Link> with a focus on
              preclinical pediatric oncology data. It is a tool that supports the identification and 
              prioritization of molecular targets expressed in childhood cancers. 
           </Typography>

@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Avatar, Paper } from '@material-ui/core';
 import BasePageMTP from '../../components/BasePageMTP';
 import Link from '../../components/Link'
+import ExternalLinkIcon from '../../components/ExternalLinkIcon';
+import ScrollToTop from '../../components/ScrollToTop';
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -177,6 +180,7 @@ function PMTLDocPage() {
 
   return (
     <BasePageMTP title="PMTL Document">
+      <ScrollToTop />
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -194,9 +198,11 @@ function PMTLDocPage() {
                   The targets in these lists have <b> special legal requirements</b> associated with drug development.
             </Typography>
             <Typography paragraph>
-              While the  <Link to={fDPublicationLink} external>
-                <b>FDA publications </b>
-              </Link>
+              While the{' '}  
+              <Link to={fDPublicationLink} external>
+                <b>FDA publications</b>
+                <ExternalLinkIcon />
+              </Link>{' '}
               remain the authoritative source for these targets, a computable interpretation of the lists is integrated into the Molecular Targets Platform.
             </Typography>
             <Typography paragraph>
@@ -289,6 +295,7 @@ function PMTLDocPage() {
               resolution by a unique (
               <Link to={ensemblStableIDLink} external>
                 <b>Ensembl stable ID</b>
+                <ExternalLinkIcon />
               </Link>
               ), and then mapped to other information (e.g. gene name and
               symbol). As published, the FDA PMTL does not use
@@ -325,6 +332,7 @@ function PMTLDocPage() {
               3. Using Human Genome Organization Gene Nomenclature Committee (
               <Link to={hugoHgncLink} external>
                 HUGO HGNC
+                <ExternalLinkIcon />
               </Link>
               ) resources, manually standardized the names and symbols of all
               targets, which enabled mapping each target to Ensembl gene IDs.
