@@ -38,6 +38,11 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
       "&:hover": { backgroundColor: "#bdda99",
       },
     }
+  },
+  image: {
+     minWidth : '1200px',
+     width: '100%',
+     height: 'auto'
   }
 })
 
@@ -114,8 +119,6 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
         )}
         renderBody={(data) => {
           const { json, linearPlot, log10Plot} = data
-          const imageWidth = 1400
-          const imageHeight = 957
           return (
             <>
               <Tabs
@@ -134,7 +137,7 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
                     <DataDownloader rows={json} columns={columns} fileStem={fileStem} captionLabel="Download data as"/>
                     <Grid item xs={12} style={{overflow: 'auto'}}>
                       <img src={`data:image/png;base64,${linearPlot}`}
-                        width={imageWidth} height={imageHeight} alt={`${imageAlt} TPM boxplot (Linear)`} />
+                       className={classes.image}  alt={`${imageAlt} TPM boxplot (Linear)`} />
                     </Grid>
                 </Grid>
                 </>
@@ -145,8 +148,8 @@ function Body({ definition, id, label, getData, getPlot, Description, entity, fi
                   <Grid container>
                     <DataDownloader rows={json} columns={columns} fileStem={fileStem} captionLabel="Download data as"/>
                     <Grid item xs={12} style={{overflow: 'auto'}}>
-                      <img src={`data:image/png;base64,${log10Plot}`}
-                      width={imageWidth} height={imageHeight} alt={`${imageAlt} TPM boxplot (Lag10)`} />
+                      <img  className={classes.image} src={`data:image/png;base64,${log10Plot}`}
+                      alt={`${imageAlt} TPM boxplot (Lag10)`} />
                     </Grid>
                   </Grid>
                 </>
