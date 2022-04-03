@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import { Typography, List, ListItem, Box } from '@material-ui/core';
@@ -9,6 +9,7 @@ import Link from '../../../components/Link';
 import { identifiersOrgLink, getUniprotIds } from '../../../utils/global';
 
 const SUBCELLULAR_LOCATION_QUERY = loader('./SubcellularLocation.gql');
+const SwissbioViz = lazy(() => import('./SwissbioViz'));
 
 function Body({ definition, id: ensemblId, label: symbol }) {
   const request = useQuery(SUBCELLULAR_LOCATION_QUERY, {
@@ -41,9 +42,14 @@ function Body({ definition, id: ensemblId, label: symbol }) {
             uniprot.push(location);
           }
         });
+        // TODO: mock data - replace with API results
+        const goLocations = ['0005829', '0005615', '0045095'];
 
         return (
           <>
+            <SwissbioViz taxonId="9606" goLocations={goLocations}>
+              {' '}
+            </SwissbioViz>
             {hpaMain.length > 0 ||
             hpaAdditional.length > 0 ||
             hpaExtracellular.length > 0 ? (
