@@ -2290,6 +2290,11 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
+"@swissprot/swissbiopics-visualizer@^0.0.28":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@swissprot/swissbiopics-visualizer/-/swissbiopics-visualizer-0.0.28.tgz#5942b7347278c571b588f29906748a4aee72c448"
+  integrity sha512-8hbHJgET9iZzKSBKMQLTheZSIuf7a78jgYjOBBslet5gKujgK9yZVmtfzvKOtCgWd81F1L/BuWLv2B1rHKoYlQ==
+
 "@tanem/svg-injector@^2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@tanem/svg-injector/-/svg-injector-2.1.4.tgz#b804f1c78b5179365ae21061f119263acccbeb13"
