@@ -510,7 +510,7 @@ const AboutView = ({ data }) => {
         <Typography paragraph>
           The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the 
           <Link to="https://platform.opentargets.org/" external>{' '} 
-            Open Target Platform<ExternalLinkIcon />{' '}
+            Open Targets Platform<ExternalLinkIcon />{' '}
           </Link>
           with a focus on pediatric cancer data. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. 
           The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including: 
@@ -557,7 +557,7 @@ const AboutView = ({ data }) => {
         <Typography paragraph>
           The 
           <Link to="https://platform.opentargets.org/" external>{' '} 
-            Open Target Platform<ExternalLinkIcon />{' '}
+            Open Targets Platform<ExternalLinkIcon />{' '}
           </Link>
           is the open-source infrastructure upon which the Molecular Targets Platform is built. 
 
@@ -703,7 +703,7 @@ const AboutView = ({ data }) => {
                 <b>Version in use</b>: 21.06 (Released 2021-06-30) <br />
                 <b>Detailed Change Log</b>: 
                 <Link to="https://platform-docs.opentargets.org/change-log" external>{' '} 
-                  Open Target Platform<ExternalLinkIcon />
+                  Open Targets Platform<ExternalLinkIcon />
                 </Link>
               
               </div>
