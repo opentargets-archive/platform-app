@@ -15,6 +15,7 @@ import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import ChipList from '../../../components/ChipList';
 
 const CHEMBL_QUERY = loader('./ChemblQuery.gql');
 
@@ -132,12 +133,29 @@ const columns = [
   {
     id: 'clinicalStatus',
     label: 'Status',
-    renderCell: ({ studyStopReason, clinicalStatus }) => {
+    renderCell: ({
+      studyStopReason,
+      clinicalStatus,
+      studyStopReasonCategories,
+    }) => {
       return clinicalStatus ? (
         studyStopReason ? (
           <Tooltip
             showHelpIcon
-            title={<>Study stop reason: {studyStopReason}</>}
+            title={
+              <>
+                Study stop reason: {studyStopReason}
+                <p>
+                  {studyStopReasonCategories ? (
+                    <ChipList
+                      items={studyStopReasonCategories.map(reason => ({
+                        label: reason,
+                      }))}
+                    />
+                  ) : null}
+                </p>
+              </>
+            }
           >
             {clinicalStatus}
           </Tooltip>

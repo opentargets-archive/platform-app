@@ -36,6 +36,7 @@ query ChemblQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
         clinicalStatus
         studyStartDate
         studyStopReason
+        studyStopReasonCategories
         urls {
           niceName
           url
