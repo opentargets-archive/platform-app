@@ -145,7 +145,7 @@ const columns = [
           <>{clinicalStatus}</>
         )
       ) : (
-        'N/A'
+        naLabel
       );
     },
   },
@@ -153,7 +153,8 @@ const columns = [
     id: 'studyStartDate',
     label: 'Start Date',
     numeric: true,
-    renderCell: ({ studyStartDate }) => new Date(studyStartDate).getFullYear(),
+    renderCell: ({ studyStartDate }) =>
+      studyStartDate ? new Date(studyStartDate).getFullYear() : naLabel,
   },
   {
     label: 'Source',
