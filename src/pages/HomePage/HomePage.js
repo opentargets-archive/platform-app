@@ -114,7 +114,7 @@ const HomePage = () => {
 
           <Typography paragraph align="center">
             The Molecular Targets Platform is an NCI-supported instance of the 
-            <Link to={"https://platform.opentargets.org/"} external> Open Target Platform
+            <Link to={"https://platform.opentargets.org/"} external> Open Targets Platform
               <ExternalLinkIcon />
             </Link> with a focus on
              preclinical pediatric oncology data. It is a tool that supports the identification and 
