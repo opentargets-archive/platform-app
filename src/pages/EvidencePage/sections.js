@@ -24,6 +24,7 @@ import * as OTCRISPR from '../../sections/evidence/OTCRISPR';
 import * as OTEncore from '../../sections/evidence/OTEncore';
 import * as CancerBiomarkers from '../../sections/evidence/CancerBiomarkers';
 import * as OTValidation from '../../sections/evidence/OTValidation';
+import * as GeneBurden from '../../sections/evidence/GeneBurden';
 
 import config from '../../config';
 
@@ -53,6 +54,7 @@ const sections = [
   OTCRISPR,
   OTEncore,
   OTValidation,
+  GeneBurden,
 ].filter(
   // select sections to show based on:
   // 1. there is no specific hidden section for this page (length==0)
