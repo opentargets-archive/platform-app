@@ -375,7 +375,7 @@ const AboutView = ({ data }) => {
         </p>
         <p>
           Though it is possible to encounter pediatric cancer data when browsing the Molecular 
-          Target Platform, the Pediatric Cancer Data Navigation page is the most reliable method of 
+          Targets Platform, the Pediatric Cancer Data Navigation page is the most reliable method of 
           locating pediatric cancer data in the initial Platform release. Integration of the new 
           pediatric cancer data into existing Open Targets association heatmap displays is planned 
           for future release.
@@ -407,7 +407,7 @@ const AboutView = ({ data }) => {
               <li><b>Fusion</b>: Frequency of specific gene fusions</li>
             </ul> 
             
-          The OpenPedCan Somatic Alterations display is accessible within the Molecular Target Platform on both the Target and Evidence pages. 
+          The OpenPedCan Somatic Alterations display is accessible within the Molecular Targets Platform on both the Target and Evidence pages. 
           The data driving each display is identical; however, the Target page display will show frequencies of the Target across all pediatric cancers, 
           while the Evidence page display is filtered to only show frequencies of the Target in a specific Disease.
 
@@ -687,7 +687,7 @@ const AboutView = ({ data }) => {
         </Typography>
 
         <Typography paragraph>
-          The Molecular Target Platform integrates many different sources of data and analyses, all of which are updated 
+          The Molecular Targets Platform integrates many different sources of data and analyses, all of which are updated 
           at varying intervals. In order to comprehensively track changes, the various changelogs are aggregated here.
         </Typography>
         
