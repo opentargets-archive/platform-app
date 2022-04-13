@@ -375,7 +375,7 @@ const AboutView = ({ data }) => {
         </p>
         <p>
           Though it is possible to encounter pediatric cancer data when browsing the Molecular 
-          Target Platform, the Pediatric Cancer Data Navigation page is the most reliable method of 
+          Targets Platform, the Pediatric Cancer Data Navigation page is the most reliable method of 
           locating pediatric cancer data in the initial Platform release. Integration of the new 
           pediatric cancer data into existing Open Targets association heatmap displays is planned 
           for future release.
@@ -407,7 +407,7 @@ const AboutView = ({ data }) => {
               <li><b>Fusion</b>: Frequency of specific gene fusions</li>
             </ul> 
             
-          The OpenPedCan Somatic Alterations display is accessible within the Molecular Target Platform on both the Target and Evidence pages. 
+          The OpenPedCan Somatic Alterations display is accessible within the Molecular Targets Platform on both the Target and Evidence pages. 
           The data driving each display is identical; however, the Target page display will show frequencies of the Target across all pediatric cancers, 
           while the Evidence page display is filtered to only show frequencies of the Target in a specific Disease.
 
@@ -510,7 +510,7 @@ const AboutView = ({ data }) => {
         <Typography paragraph>
           The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the 
           <Link to="https://platform.opentargets.org/" external>{' '} 
-            Open Target Platform<ExternalLinkIcon />{' '}
+            Open Targets Platform<ExternalLinkIcon />{' '}
           </Link>
           with a focus on pediatric cancer data. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. 
           The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including: 
@@ -557,7 +557,7 @@ const AboutView = ({ data }) => {
         <Typography paragraph>
           The 
           <Link to="https://platform.opentargets.org/" external>{' '} 
-            Open Target Platform<ExternalLinkIcon />{' '}
+            Open Targets Platform<ExternalLinkIcon />{' '}
           </Link>
           is the open-source infrastructure upon which the Molecular Targets Platform is built. 
 
@@ -687,7 +687,7 @@ const AboutView = ({ data }) => {
         </Typography>
 
         <Typography paragraph>
-          The Molecular Target Platform integrates many different sources of data and analyses, all of which are updated 
+          The Molecular Targets Platform integrates many different sources of data and analyses, all of which are updated 
           at varying intervals. In order to comprehensively track changes, the various changelogs are aggregated here.
         </Typography>
         
@@ -703,7 +703,7 @@ const AboutView = ({ data }) => {
                 <b>Version in use</b>: 21.06 (Released 2021-06-30) <br />
                 <b>Detailed Change Log</b>: 
                 <Link to="https://platform-docs.opentargets.org/change-log" external>{' '} 
-                  Open Target Platform<ExternalLinkIcon />
+                  Open Targets Platform<ExternalLinkIcon />
                 </Link>
               
               </div>
