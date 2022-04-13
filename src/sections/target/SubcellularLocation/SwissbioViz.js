@@ -56,9 +56,9 @@ function SwissbioViz({ uniProtLocations, goLocations, taxonId, children }) {
   useEffect(
     () => {
       class InstanceClass extends CanonicalDefinition {
-        constructor() {
-          super();
-        }
+        // constructor() {
+        //   super();
+        // }
       }
       customElements.define(instanceName.current, InstanceClass);
     },
