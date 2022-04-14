@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Paper, Box, Typography, TextField } from '@material-ui/core';
+import { Paper, Box, Typography, TextField, Link as Lk } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import crossfilter from 'crossfilter2';
 import _ from 'lodash';
 
@@ -12,25 +14,8 @@ import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import ScrollToTop from '../../components/ScrollToTop';
+import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 import PMTLData from './PMTL.json';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { Link as Lk } from '@material-ui/core';
-
-function getDownloadRows(downloadData) {
-  const rows = [];
-  downloadData.forEach(mapping => {
-    rows.push({
-      ensemblID: mapping.Ensembl_ID,
-      targetSymbol: mapping.Approved_Symbol,
-      designation: mapping.FDA_Designation,
-      fdaClass: mapping.FDA_Class,
-      fdaTarget: mapping.FDA_Target,
-      mappingDescription: mapping.Mapping_Description,
-    });
-  });
-  return rows;
-}
 
 function getRows(downloadData) {
   const rows = [];
@@ -84,9 +69,9 @@ function getColumns(
       renderCell: row => {
         const ensemblID = row.ensemblID;
         const url = '/target/' + ensemblID;
-        return ensemblID !== "Symbol_Not_Found" ? 
-        ( <Link to={url} external>{row.targetSymbol}</Link>):
-         (<p> {row.targetSymbol} </p>)
+        return ensemblID !== "Symbol_Not_Found" ?
+          (<Link to={url} external>{row.targetSymbol}</Link>) :
+          (<p> {row.targetSymbol} </p>)
       },
       renderFilter: () => (
         <Autocomplete
@@ -193,12 +178,12 @@ function getColumns(
 }
 
 const downloadColumns = [
-  { id: 'ensemblID', label: 'Ensembl_ID' },
-  { id: 'targetSymbol', label: 'Approved_Symbol' },
-  { id: 'designation', label: 'FDA_Designation' },
-  { id: 'fdaClass', label: 'FDA_Class' },
-  { id: 'fdaTarget', label: 'FDA_Target' },
-  { id: 'mappingDescription', label: 'Mapping_Description' },
+  { id: 'ensemblID', label: 'ensemblID' },
+  { id: 'targetSymbol', label: 'targetSymbol' },
+  { id: 'designation', label: 'designation' },
+  { id: 'fdaClass', label: 'fdaClass' },
+  { id: 'fdaTarget', label: 'fdaTarget' },
+  { id: 'mappingDescription', label: 'mappingDescription' },
 ];
 
 const getTargetSymbolOptions = rows => {
@@ -289,7 +274,6 @@ class PMTLPage extends Component {
   render() {
     const rows = getRows(PMTLData);
     // Download Data will be coming from getDownloadRows()
-    const downloadRows = getDownloadRows(PMTLData);
     const { filteredRows, pageSize } = this.state;
 
     const loading = false,
@@ -320,23 +304,28 @@ class PMTLPage extends Component {
 
     return (
       <BasePageMTP title="PMTL">
-        <ScrollToTop/>
+        <ScrollToTop />
         <Typography variant="h4" component="h1" paragraph>
           US Food & Drug Administration Pediatric Molecular Target Lists (FDA
           PMTL)
         </Typography>
         <br />
         <Typography paragraph>
-        <Link to={FDA_PMTL_DocumentationUrl}> Version 1.1 </Link>
+          <Link to={FDA_PMTL_DocumentationUrl}> Version 1.1 </Link>
         </Typography>
         <hr />
         <br />
         <Typography paragraph>
-          Targets in the FDA's Pediatric Molecular Target Lists (PMTL) are important for studies 
-          of pediatric cancer and have special legal requirements associated with drug development. 
-          The table below is a computable interpretation of the target lists published by the FDA. 
-          See our  <Link to={FDA_PMTL_DocumentationUrl}> <b>FDA PMTL Documentation </b></Link> 
-          or the official <Link external to={FDA_Publication}><b>FDA publication{' '}</b> </Link>for details.
+          Targets in the FDA's Pediatric Molecular Target Lists (PMTL) are important for studies
+          of pediatric cancer and have special legal requirements associated with drug development.
+          The table below is a computable interpretation of the target lists published by the FDA.
+          See our  <Link to={FDA_PMTL_DocumentationUrl}> <b>FDA PMTL Documentation </b></Link>
+          or the official{' '}
+          <Link external to={FDA_Publication}>
+            <b>FDA publication</b>
+            <ExternalLinkIcon />
+          </Link>{' '}
+          for details.
         </Typography>
         <Typography paragraph>
           Each target in the list is designated as either a <RelevantIcon />{' '}
@@ -356,12 +345,11 @@ class PMTLPage extends Component {
                   href="/fda-pmtl-docs#colums-description"
                   title="FDA PMTL Columns Description"
                 >
-                  <FontAwesomeIcon icon={faInfoCircle} size="md" /> Columns
-                  Description
+                  <FontAwesomeIcon icon={faInfoCircle} size="md" /> Columns Description
                 </Lk>
                 <DataDownloader
                   tableHeaders={downloadColumns}
-                  rows={downloadRows}
+                  rows={filteredRows}
                   fileStem={`pmtl`}
                 />
                 <RMTLTable

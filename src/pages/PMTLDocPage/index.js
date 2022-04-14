@@ -1,7 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Link, Avatar, Paper } from '@material-ui/core';
+import { Grid, Typography, Avatar, Paper } from '@material-ui/core';
 import BasePageMTP from '../../components/BasePageMTP';
+import Link from '../../components/Link'
+import ExternalLinkIcon from '../../components/ExternalLinkIcon';
+import ScrollToTop from '../../components/ScrollToTop';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -70,7 +73,7 @@ function PMTLDocPage() {
       [
         'FDA Target',
         ['JAK1, 2, and 3 | Gene Abnormality: JAK1, 2, and 3'],
-        'Target as originally listed in the FDA publication. For targets in the Gene Abnormality FDA Class, the gene abnormality from the FDA publication is included here, separated from the target by “ | “ ' 
+        'Target as originally listed in the FDA publication. For targets in the Gene Abnormality FDA Class, the gene abnormality from the FDA publication is included here, separated from the target by “ | “ '
       ],
       [
         'Mapping Description',
@@ -147,29 +150,29 @@ function PMTLDocPage() {
             {!data.tableHeader
               ? null
               : data.tableHeader.map(header => (
-                  <th className={classes.th} key={header}>
-                    {' '}
-                    {header}{' '}
-                  </th>
-                ))}
+                <th className={classes.th} key={header}>
+                  {' '}
+                  {header}{' '}
+                </th>
+              ))}
           </tr>
         </thead>
         <tbody>
           {!data.tableDetail
             ? null
             : data.tableDetail.map((row, i) => (
-                <tr key={i + row}>
-                  {row.map((detail, i) => (
-                    <td className={classes.td} key={i + row + detail}>
-                      {typeof detail !== 'object'
-                        ? detail
-                        : detail.map((item, i) => (
-                            <p key={i + detail + item}> {item} </p>
-                          ))}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              <tr key={i + row}>
+                {row.map((detail, i) => (
+                  <td className={classes.td} key={i + row + detail}>
+                    {typeof detail !== 'object'
+                      ? detail
+                      : detail.map((item, i) => (
+                        <p key={i + detail + item}> {item} </p>
+                      ))}
+                  </td>
+                ))}
+              </tr>
+            ))}
         </tbody>
       </table>
     );
@@ -177,6 +180,7 @@ function PMTLDocPage() {
 
   return (
     <BasePageMTP title="PMTL Document">
+      <ScrollToTop />
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -187,21 +191,23 @@ function PMTLDocPage() {
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
-              In 2018, the United States Food & Drug Administration (FDA) published the Pediatric Molecular Target Lists (PMTL). 
+              In 2018, the United States Food & Drug Administration (FDA) published the Pediatric Molecular Target Lists (PMTL).
               Briefly, these lists contain targets that are <b> important for studies of pediatric cancer</b>;
                one list defines molecular targets that are relevant to the growth of pediatric cancer,
-                while the other defines molecular targets that are explicitly not relevant. 
-                  The targets in these lists have <b> special legal requirements</b> associated with drug development. 
+                while the other defines molecular targets that are explicitly not relevant.
+                  The targets in these lists have <b> special legal requirements</b> associated with drug development.
             </Typography>
             <Typography paragraph>
-              While the  <Link href={fDPublicationLink} rel="noopener" target="_blank">
-                <b>FDA publications </b>
-              </Link>
+              While the{' '}  
+              <Link to={fDPublicationLink} external>
+                <b>FDA publications</b>
+                <ExternalLinkIcon />
+              </Link>{' '}
               remain the authoritative source for these targets, a computable interpretation of the lists is integrated into the Molecular Targets Platform.
             </Typography>
             <Typography paragraph>
-              Browse the 
-              <Link href={fdaPMTL} rel="noopener" target="_blank">
+              Browse the
+              <Link to={fdaPMTL}>
                 <b> FDA PMTL Landing Page </b>
               </Link>
               to identify pediatric molecular targets within the Molecular Targets Platform.
@@ -226,11 +232,11 @@ function PMTLDocPage() {
               <Grid item xs>
                 <Typography paragraph>
                   <b>Relevant Molecular Target: </b>
-                  These targets have evidence indicating their relevance 
-                  in the growth or progression of pediatric cancers. 
-                  Any new drugs developed for these targets in 
-                  adult cancers must also be studied for use in 
-                  pediatric cancers. These targets are from the FDA’s 
+                  These targets have evidence indicating their relevance
+                  in the growth or progression of pediatric cancers.
+                  Any new drugs developed for these targets in
+                  adult cancers must also be studied for use in
+                  pediatric cancers. These targets are from the FDA’s
                   published list of Relevant Molecular Targets.
                 </Typography>
               </Grid>
@@ -244,13 +250,13 @@ function PMTLDocPage() {
               <Grid item xs>
                 <Typography paragraph>
                   <b> Non-Relevant Molecular Target: </b>
-                  These targets have evidence indicating that they are 
-                  not relevant in the growth or progression of pediatric 
-                  cancers, or that studies of them would be ineffective 
-                  or impractical for therapeutic pediatric use. Any new 
+                  These targets have evidence indicating that they are
+                  not relevant in the growth or progression of pediatric
+                  cancers, or that studies of them would be ineffective
+                  or impractical for therapeutic pediatric use. Any new
                   drugs developed for these targets in adult cancers will
                   receive an automatic waiver from also studying them in
-                  pediatric cancers. These targets are from the FDA’s 
+                  pediatric cancers. These targets are from the FDA’s
                   list of Non-Relevant Molecular Targets (Automatic Waivers).
                 </Typography>
               </Grid>
@@ -265,8 +271,8 @@ function PMTLDocPage() {
               <Grid item xs>
                 <Typography paragraph>
                   <b> Unspecified Target: </b>
-                  These targets are not mentioned in the FDA PMTL. 
-                  Most targets within the Molecular Targets Platform fall 
+                  These targets are not mentioned in the FDA PMTL.
+                  Most targets within the Molecular Targets Platform fall
                   into this category by default.
                 </Typography>
               </Grid>
@@ -277,9 +283,9 @@ function PMTLDocPage() {
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
-              The PMTL as published by the FDA is optimized for human-readability. 
-              This presents several computational challenges for integration into 
-              the Molecular Targets Platform. To overcome these challenges and make the PMTL compatible 
+              The PMTL as published by the FDA is optimized for human-readability.
+              This presents several computational challenges for integration into
+              the Molecular Targets Platform. To overcome these challenges and make the PMTL compatible
               with the Molecular Targets Platform, significant reformatting and interpretation was required.
             </Typography>
           </Grid>
@@ -287,11 +293,12 @@ function PMTLDocPage() {
             <Typography paragraph>
               In the Molecular Targets Platform, every Target is identified with gene-level
               resolution by a unique (
-              <Link href={ensemblStableIDLink} rel="noopener" target="_blank">
+              <Link to={ensemblStableIDLink} external>
                 <b>Ensembl stable ID</b>
+                <ExternalLinkIcon />
               </Link>
               ), and then mapped to other information (e.g. gene name and
-              symbol). As published, the FDA PMTL does not use 
+              symbol). As published, the FDA PMTL does not use
               a standardized, computable naming system.  In addition, many FDA PMTL targets
               are representations of complex proteins or pathways, each
               consisting of a multitude of genes (e.g. “Proteasome”, “Tubulins”
@@ -302,29 +309,30 @@ function PMTLDocPage() {
             <Typography paragraph>
               In order to implement the FDA PMTL into the Molecular Targets Platform,
               each target needs to be machine-readable and contain mappable
-               IDs at gene-level resolution. Thus, the following standardization 
-               steps were taken to obtain our interpretation of the FDA PMTL:
+              IDs at gene-level resolution. Thus, the following standardization
+              steps were taken to obtain our interpretation of the FDA PMTL:
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.paddingLeft}>
             <Typography paragraph>
-              1. Separated each list of genes, gene fusions, 
-              and gene abnormalities contained within a single 
+              1. Separated each list of genes, gene fusions,
+              and gene abnormalities contained within a single
               target into separate targets
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.paddingLeft}>
             <Typography paragraph>
-              2. Identified and separated pathways, gene groups, 
-              and other complex targets that required “unpacking” 
+              2. Identified and separated pathways, gene groups,
+              and other complex targets that required “unpacking”
               into component genes with manual many-to-one mapping
             </Typography>
           </Grid>
           <Grid item xs={12} className={classes.paddingLeft}>
             <Typography paragraph>
               3. Using Human Genome Organization Gene Nomenclature Committee (
-              <Link href={hugoHgncLink} rel="noopener" target="_blank">
+              <Link to={hugoHgncLink} external>
                 HUGO HGNC
+                <ExternalLinkIcon />
               </Link>
               ) resources, manually standardized the names and symbols of all
               targets, which enabled mapping each target to Ensembl gene IDs.
@@ -335,57 +343,46 @@ function PMTLDocPage() {
 
           <Grid item xs={12}>
             <Typography paragraph>
-              Note that each FDA PMTL target appearing in our interpretation 
-              can be directly traced to one or more targets in the FDA’s 
-              published lists. No new targets were added that do not depend 
+              Note that each FDA PMTL target appearing in our interpretation
+              can be directly traced to one or more targets in the FDA’s
+              published lists. No new targets were added that do not depend
               upon the FDA source.
             </Typography>
           </Grid>
 
           <Grid item xs={12}>
             <Typography paragraph>
-              Also note that many Target Symbols occur more than once in the 
+              Also note that many Target Symbols occur more than once in the
               FDA PMTL Landing Page by design. Any target derived from multiple
-               FDA Targets will appear once for each FDA Target. For example,
-                BRAF is derived from three separate FDA Targets: “BRAF | Gene 
-                Abnormality: BRAF”, “ERK | Gene Abnormality: BRAF, MAP2K1”, 
-                and “MEK | Gene Abnormality: BRAF and BRAF gene fusions, MAP2K1, 
-                NF1”. Searching the Target Symbol column for “BRAF” on the FDA 
-                PMTL Landing Page will show all of these derivations separately. 
+              FDA Targets will appear once for each FDA Target. For example,
+              BRAF is derived from three separate FDA Targets: “BRAF | Gene
+              Abnormality: BRAF”, “ERK | Gene Abnormality: BRAF, MAP2K1”,
+              and “MEK | Gene Abnormality: BRAF and BRAF gene fusions, MAP2K1,
+              NF1”. Searching the Target Symbol column for “BRAF” on the FDA
+              PMTL Landing Page will show all of these derivations separately.
           </Typography>
           </Grid>
-        
-         <Grid item xs={12} id="colums-description">
+
+          <Grid item xs={12} id="colums-description">
             <Typography variant="h4">Version</Typography>
           </Grid>
 
           <Grid item xs={12}>
             <Typography paragraph>
-               The current version of the FDA PMTL used in the Molecular Targets Platform is <b> version 1.1. </b>
+              The current version of the FDA PMTL used in the Molecular Targets Platform is <b> version 1.1. </b>
             </Typography>
           </Grid>
 
 
           <Grid item xs={12}>
             <Typography paragraph>
-            We intend to update the targets listed in our 
-            interpretation of the FDA PMTL as needed in 
-            response to publications from the FDA or feedback 
-            from the community. The first digit of the version 
-            identifier will increase upon a new FDA publication, 
-            and the second digit notes iterative interpretations 
-            upon that FDA publication. 
-            </Typography>
-          </Grid>
-
-
-          <Grid item xs={12}>
-            <Typography paragraph>
-            To view and download previous interpretations of the PMTL 
-            and the detailed changelog, access the 
-            <Link href={hugoHgncLink} rel="noopener" target="_blank">
-                 <b> archive</b> 
-              </Link>.
+              We intend to update the targets listed in our
+              interpretation of the FDA PMTL as needed in
+              response to publications from the FDA or feedback
+              from the community. The first digit of the version
+              identifier will increase upon a new FDA publication,
+              and the second digit notes iterative interpretations
+              upon that FDA publication.
             </Typography>
           </Grid>
 
@@ -396,7 +393,7 @@ function PMTLDocPage() {
           <Grid item xs={12}>
             <Typography paragraph>
               The table below contains examples and descriptions of each column
-              within the searchable <Link href={fdaPMTL} rel="noopener" target="_blank">
+              within the searchable <Link to={fdaPMTL}>
                 <b> FDA PMTL Landing Page</b>
               </Link>.
             </Typography>
@@ -414,12 +411,12 @@ function PMTLDocPage() {
 
           <Grid item xs={12}>
             <Typography paragraph>
-              The table below contains a description of each potential value in 
-              the Mapping Description column. These describe the action(s) taken 
-              to map targets within the published FDA PMTL into the computable, 
-              gene-level targets used in the Molecular Targets Platform. Many FDA targets required 
+              The table below contains a description of each potential value in
+              the Mapping Description column. These describe the action(s) taken
+              to map targets within the published FDA PMTL into the computable,
+              gene-level targets used in the Molecular Targets Platform. Many FDA targets required
               more than one action to reach Molecular Targets Platform compatibility; these are
-              all listed for each target when appropriate (e.g. “Separate list 
+              all listed for each target when appropriate (e.g. “Separate list
               and standardize symbol”).
             </Typography>
           </Grid>

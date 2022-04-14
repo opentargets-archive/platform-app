@@ -6,6 +6,7 @@ import NCIHeader from '../../components/NCIHeader';
 import NCIFooter from '../../components/NCIFooter'
 import { appTitle, appDescription, appCanonicalUrl } from '../../constants';
 import cn from '../../components/helpers/classNameConcat';
+import Link from '../../components/Link';
 
 const blurRadius = 5
 const shadowColor = '#035BA2'
@@ -63,6 +64,13 @@ const styles = makeStyles(theme => ({
     marginTop: '25px',
     marginBottom: '186px'
   },
+  goBackHome: {
+    color: 'black',
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
+    fontWeight: 'bold',
+  },
   "@media (max-width: 900px)": {
     four0four: {
       fontSize: '250px',
@@ -116,7 +124,9 @@ const MTPNotFoundPage = ({location}) => {
 
             <p className={classes.pageNotFoundInfo}>
               The page you are looking for does not exist or another error has occurred. <br/>
-              Go back or head <b>home</b> to choose another direction.
+              Go back or head 
+              <Link to="/" className={classes.goBackHome}> home </Link> 
+              to choose another direction.
             </p>
           </Typography>
         </Grid>
