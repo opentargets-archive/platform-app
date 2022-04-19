@@ -119,7 +119,9 @@ const columns = [
       oddsRatioConfidenceIntervalLower,
       oddsRatioConfidenceIntervalUpper,
     }) => {
-      return `${oddsRatio} (${oddsRatioConfidenceIntervalLower} - ${oddsRatioConfidenceIntervalUpper})`;
+      return oddsRatio
+        ? `${oddsRatio} (${oddsRatioConfidenceIntervalLower} - ${oddsRatioConfidenceIntervalUpper})`
+        : naLabel;
     },
   },
   {
@@ -130,7 +132,9 @@ const columns = [
       betaConfidenceIntervalLower,
       betaConfidenceIntervalUpper,
     }) => {
-      return `${beta} (${betaConfidenceIntervalLower} - ${betaConfidenceIntervalUpper})`;
+      return beta
+        ? `${beta} (${betaConfidenceIntervalLower} - ${betaConfidenceIntervalUpper})`
+        : naLabel;
     },
   },
   {
