@@ -6,12 +6,13 @@ import Link from '../../../components/Link';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
-import { DataTable, TableDrawer } from '../../../components/Table';
-import { defaultRowsPerPageOptions } from '../../../constants';
+import { DataTable } from '../../../components/Table';
+import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import { dataTypesMap } from '../../../dataTypes';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { epmcUrl } from '../../../utils/urls';
 import Description from './Description';
+import ScientificNotation from '../../../components/ScientificNotation';
 
 const GENE_BURDEN_QUERY = loader('./GeneBurdenQuery.gql');
 
@@ -40,102 +41,103 @@ const columns = [
     },
   },
   {
-    // TODO: update column with API fields
-    id: 'biomarkerName',
+    id: 'studyId',
     label: 'Study',
-    renderCell: ({ biomarkerName, biomarkers }) => {
-      return <>N/A</>;
+    renderCell: ({ studyId }) => {
+      return (
+        <Link to={`https://www.ebi.ac.uk/gwas/studies/${studyId}`}>
+          {studyId}
+        </Link>
+      );
     },
   },
   {
-    // TODO: update column with API fields
-    id: 'drug',
+    id: 'cohortId',
     label: 'Source',
-    renderCell: ({ drug, drugFromSource }) => {
-      // return drug ? (
-      //   <Link to={`/drug/${drug.id}`}>{drug.name}</Link>
-      // ) : (
-      //   drugFromSource
-      // );
-      return <>N/A</>;
+    renderCell: ({ cohortId, projectId }) => {
+      const source = `${cohortId} (${projectId})`;
+      return projectId === 'AstraZeneca PheWAS Portal' ? (
+        <Link to="https://azphewas.com" external>
+          {source}
+        </Link>
+      ) : (
+        source
+      );
     },
     // filterValue: ({ drug, drugFromSource }) => {
     //   return drug ? drug.name : drugFromSource;
     // },
   },
   {
-    // TODO: update column with API fields
-    id: 'drugResponse.name',
+    id: 'ancestry',
     label: 'Ancestry',
-    renderCell: ({ drugResponse }) => {
+    renderCell: ({ ancestry }) => {
       return (
-        <Link to={`/disease/${drugResponse.id}`}>{drugResponse.name}</Link>
+        <Link to={`http://purl.obolibrary.org/obo/${ancestry}`} external>
+          {ancestry}
+        </Link>
       );
     },
   },
   {
-    // TODO: update column with API fields
-    id: 'confidence',
+    id: 'statisticalMethod',
     label: 'Model',
-    renderCell: ({ confidence, urls }) => {
-      const entries = urls
-        ? urls.map(url => {
-            return {
-              url: url.url,
-              name: url.niceName,
-              group: 'Sources',
-            };
-          })
-        : [];
-      return <TableDrawer entries={entries} message={confidence} />;
+    renderCell: ({ statisticalMethod, statisticalMethodOverview }) => {
+      return (
+        <Tooltip title={statisticalMethodOverview} showHelpIcon>
+          {statisticalMethod}
+        </Tooltip>
+      );
     },
   },
   {
-    // TODO: update column with API fields
-    id: '',
+    id: 'studyCasesWithQualifyingVariants',
     label: 'Cases with QV',
-    renderCell: () => {
-      return <>N/A</>;
+    renderCell: ({ studyCasesWithQualifyingVariants }) => {
+      return studyCasesWithQualifyingVariants || naLabel;
     },
   },
   {
-    // TODO: update column with API fields
-    id: '',
+    id: 'studyCases',
     label: 'Cases',
-    renderCell: () => {
-      return <>N/A</>;
+    renderCell: ({ studyCases }) => {
+      return studyCases;
     },
   },
   {
-    // TODO: update column with API fields
-    id: '',
+    id: 'studySampleSize',
     label: 'Sample size',
-    renderCell: () => {
-      return <>N/A</>;
+    renderCell: ({ studySampleSize }) => {
+      return studySampleSize;
     },
   },
   {
-    // TODO: update column with API fields
-    id: '',
+    id: 'oddsRatio',
     label: 'Odds Ratio (CI 95%)',
-    renderCell: () => {
-      return <>N/A</>;
+    renderCell: ({
+      oddsRatio,
+      oddsRatioConfidenceIntervalLower,
+      oddsRatioConfidenceIntervalUpper,
+    }) => {
+      return `${oddsRatio} (${oddsRatioConfidenceIntervalLower} - ${oddsRatioConfidenceIntervalUpper})`;
     },
   },
   {
-    // TODO: update column with API fields
-    id: '',
+    id: 'beta',
     label: 'Beta (CI 95%)',
-    renderCell: () => {
-      return <>N/A</>;
+    renderCell: ({
+      beta,
+      betaConfidenceIntervalLower,
+      betaConfidenceIntervalUpper,
+    }) => {
+      return `${beta} (${betaConfidenceIntervalLower} - ${betaConfidenceIntervalUpper})`;
     },
   },
   {
-    // TODO: update column with API fields
-    id: '',
+    id: 'pValueMantissa',
     label: 'p-value',
-    renderCell: () => {
-      return <>N/A</>;
+    renderCell: ({ pValueMantissa, pValueExponent }) => {
+      return <ScientificNotation number={[pValueMantissa, pValueExponent]} />;
     },
   },
   {
@@ -158,14 +160,14 @@ function Body(props) {
   const { ensgId: ensemblId, efoId } = id;
   const {
     data: {
-      disease: { cancerBiomarkersSummary },
+      disease: { geneBurdenSummary },
     },
   } = usePlatformApi();
 
   const variables = {
     ensemblId,
     efoId,
-    size: cancerBiomarkersSummary.count,
+    size: geneBurdenSummary.count,
   };
 
   const request = useQuery(GENE_BURDEN_QUERY, {
