@@ -620,7 +620,7 @@ const AboutView = ({ data }) => {
         <hr className={classes.listDiverHr} />
 
         {/* Open Pediatric Cancer (OpenPedCan) */}
-        {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan ", "openPedCanDS")}
+        {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan", "openPedCanDS")}
         {showHide.openPedCanDS && openPedCanDataSource()}
         <hr className={classes.listDiverHr} />
 
@@ -640,7 +640,7 @@ const AboutView = ({ data }) => {
         <hr className={classes.listDiverHr} />
 
         {/* Oncology Knowledge Base (OncoKB) Cancer Gene List */}
-        {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB ", "oncokbDS")}
+        {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB", "oncokbDS")}
         {showHide.oncokbDS && oncokbDataSource()}
         <hr className={classes.listDiverHr} />
         
