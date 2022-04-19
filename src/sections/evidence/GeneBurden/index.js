@@ -3,8 +3,7 @@ export const definition = {
   name: 'Gene Burden',
   shortName: 'GB',
   hasData: data => {
-    // return data.cancerBiomarkersSummary.count > 0;
-    return true;
+    return data.geneBurdenSummary.count > 0;
   },
 };
 
