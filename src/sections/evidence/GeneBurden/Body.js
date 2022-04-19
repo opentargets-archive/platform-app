@@ -193,6 +193,7 @@ function Body(props) {
             columns={columns}
             rows={rows}
             dataDownloader
+            dataDownloaderFileStem={`geneburden-${ensemblId}-${efoId}`}
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
             query={GENE_BURDEN_QUERY.loc.source.body}
