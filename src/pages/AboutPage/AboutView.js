@@ -149,6 +149,8 @@ const AboutView = ({ data }) => {
   const appTitle = "About Page";
   const [showHide, setShowHide] = useState(
     {
+      diseaseD: true,
+
       fdaPmtlDS: true,
       openPedCanDS: false,
       targetDS: false,
@@ -190,6 +192,39 @@ const AboutView = ({ data }) => {
     )
   }
 
+  const pedCanDisease = () => {
+    return (
+      <div className={classes.listContent}>
+        <p>
+          Pediatric cancers are rare and heterogeneous, and have a different biology even from adult 
+          cancers of the same name. Due to the complexity and rarity, there was no international 
+          standard of classification until the end of 2021 when WHO updated their standards to 
+          include a distinct section for pediatric tumors. Considering the challenges and historical 
+          lack of standards, disease assignment and molecular subtyping is a challenging process. 
+          For Open Targets, classifying pediatric tumors starts with the pathologist’s report from 
+          original diagnosis followed by confirmation of the molecular features of the disease using 
+          the repository data. The specific molecular features examined for each disease were 
+          determined by the literature with expert review and curation from both bioinformaticians 
+          and clinicians. A final disease label is assigned based on the combination of the clinical 
+          pathology report and the molecular features in the data. If there is a discrepancy between 
+          clinical and molecular labels, samples are reviewed by a pathologist and final disease 
+          assignment is made in consultation with pathology, bioinformatics, and clinicians. For 
+          each disease, a non-exhaustive list of synonyms as well as the specific Experimental 
+          Factor Ontology (EFO) label used can be found on the individual page for each disease. For 
+          more details on disease assignment see {' '}
+          <Link external to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis/tree/dev/analyses/molecular-subtyping-pathology">
+            OpenPedCan Molecular Subtyping and Pathology Documentation.
+            <ExternalLinkIcon />
+          </Link> {' '} 
+          For a summary table of the number of subjects included,{' '} 
+          <Link external to="https://github.com/PediatricOpenTargets/documentation/blob/main/disease_subject_counts.tsv">
+            a table is available for viewing and download.
+            <ExternalLinkIcon />
+          </Link>
+        </p>
+      </div>
+    )
+  }
 
   const fdaPmtlDataSource = ()=>{
     return (
@@ -607,6 +642,21 @@ const AboutView = ({ data }) => {
 
     </Grid>
 
+    {/* Pediatric Cancer Disease */}
+    <Grid container justify="center" className={classes.container}>
+      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
+          Pediatric Cancer Disease
+        </Typography>
+
+        {/* DISEASE */}
+        {listHeader("DISEASE", "", "diseaseD")}
+        {showHide.diseaseD && pedCanDisease()}
+        <hr className={classes.listDiverHr} />
+
+      </Grid>
+    </Grid>
+    
     {/* Pediatric Cancer Data Sources */}
     <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
