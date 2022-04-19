@@ -13,40 +13,31 @@ query GeneBurdenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
           id
           name
         }
-        # diseaseFromSource
-        # biomarkerName
-        # biomarkers {
-        #   variant {
-        #     variantId: id
-        #     name
-        #     functionalConsequenceId {
-        #       id
-        #       label
-        #     }
-        #   }
-        #   geneExpression {
-        #     name
-        #     id {
-        #       id
-        #       name
-        #     }
-        #   }
-        # }
-        # drugFromSource
-        # drug {
-        #   id
-        #   name
-        # }
-        # drugResponse {
-        #   id
-        #   name
-        # }
-        # confidence
-        # literature
-        # urls {
-        #   niceName
-        #   url
-        # }
+        diseaseFromSource
+        target {
+          id
+          approvedSymbol
+        }
+        studyId
+        ancestry
+        ancestryId
+        resourceScore
+        cohortId
+        projectId
+        statisticalMethod
+        statisticalMethodOverview
+        studyCases
+        studyCasesWithQualifyingVariants
+        studySampleSize
+        oddsRatio
+        oddsRatioConfidenceIntervalLower
+        oddsRatioConfidenceIntervalUpper
+        beta
+        betaConfidenceIntervalLower
+        betaConfidenceIntervalUpper
+        pValueMantissa
+        pValueExponent
+        literature
       }
     }
   }
