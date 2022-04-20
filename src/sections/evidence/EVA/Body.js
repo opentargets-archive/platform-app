@@ -82,7 +82,6 @@ const columns = [
         naLabel
       );
     },
-    filterValue: ({ variantId }) => `${variantId}`,
   },
   {
     id: 'variantRsId',
@@ -101,7 +100,6 @@ const columns = [
         naLabel
       );
     },
-    filterValue: ({ variantRsId }) => `${variantRsId}`,
   },
   {
     id: 'variantHgvsId',
@@ -109,7 +107,6 @@ const columns = [
     renderCell: ({ variantHgvsId }) => {
       return variantHgvsId ? variantHgvsId : naLabel;
     },
-    filterValue: ({ variantHgvsId }) => `${variantHgvsId}`,
   },
   {
     id: 'studyId',
