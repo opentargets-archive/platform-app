@@ -70,34 +70,43 @@ const columns = [
     },
   },
   {
-    id: 'variantRsId',
-    label: 'Variant ID (RSID)',
-    renderCell: ({ variantId, variantRsId }) => {
+    id: 'variantId',
+    label: 'Variant ID',
+    renderCell: ({ variantId }) => {
       return variantId ? (
         <>
           {variantId.substring(0, 20)}
           {variantId.length > 20 ? '\u2026' : ''}
-          {variantRsId ? (
-            <>
-              {' '}
-              (
-              <Link
-                external
-                to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
-              >
-                {variantRsId}
-              </Link>
-              )
-            </>
-          ) : (
-            ''
-          )}
         </>
       ) : (
         naLabel
       );
     },
-    filterValue: ({ variantId, variantRsId }) => `${variantId} ${variantRsId}`,
+  },
+  {
+    id: 'variantRsId',
+    label: 'rsID',
+    renderCell: ({ variantRsId }) => {
+      return variantRsId ? (
+        <>
+          <Link
+            external
+            to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
+          >
+            {variantRsId}
+          </Link>
+        </>
+      ) : (
+        naLabel
+      );
+    },
+  },
+  {
+    id: 'variantHgvsId',
+    label: 'HGVS ID',
+    renderCell: ({ variantHgvsId }) => {
+      return variantHgvsId ? variantHgvsId : naLabel;
+    },
   },
   {
     id: 'studyId',
