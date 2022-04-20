@@ -128,6 +128,11 @@ const dataSources = [
     label: 'Cancer Biomarkers',
     isPrivate: isPrivateDataSource('cancer_biomarkers'),
   },
+  {
+    id: 'gene_burden',
+    label: 'Gene Burden',
+    isPrivate: isPrivateDataSource('cancer_biomarkers'),
+  },
 ];
 
 export default dataSources;
