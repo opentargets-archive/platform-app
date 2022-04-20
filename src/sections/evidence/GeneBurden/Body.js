@@ -163,6 +163,9 @@ const columns = [
     filterValue: ({ pValueMantissa, pValueExponent }) => {
       return `${pValueMantissa} ${pValueExponent}`;
     },
+    exportValue: ({ pValueMantissa, pValueExponent }) => {
+      return `${pValueMantissa}x10${pValueExponent}`;
+    },
   },
   {
     id: 'literature',
