@@ -21,8 +21,12 @@ import { makeStyles } from '@material-ui/core';
 const CHEMBL_QUERY = loader('./ChemblQuery.gql');
 
 const useStyles = makeStyles(theme => ({
-  dInlineBlock: {
+  tooltipContainer: {
+    padding: '0.3em',
+  },
+  chipContainer: {
     display: 'inline-block',
+    marginTop: '0.4em',
   },
   chipStyle: {
     fontSize: '0.625rem',
@@ -154,11 +158,11 @@ function getColumns(classes) {
             <Tooltip
               showHelpIcon
               title={
-                <div>
+                <div className={classes.tooltipContainer}>
                   <div>
                     <span>Study stop reason: {studyStopReason}</span>
                   </div>
-                  <div className={classes.dInlineBlock}>
+                  <div className={classes.chipContainer}>
                     {studyStopReasonCategories ? (
                       <ChipList
                         items={studyStopReasonCategories.map(reason => ({
