@@ -24,6 +24,9 @@ const useStyles = makeStyles(theme => ({
   dInlineBlock: {
     display: 'inline-block',
   },
+  chipStyle: {
+    fontSize: '0.625rem',
+  },
 }));
 
 function getColumns(classes) {
@@ -151,18 +154,21 @@ function getColumns(classes) {
             <Tooltip
               showHelpIcon
               title={
-                <>
-                  Study stop reason: {studyStopReason}
+                <div>
+                  <div>
+                    <span>Study stop reason: {studyStopReason}</span>
+                  </div>
                   <div className={classes.dInlineBlock}>
                     {studyStopReasonCategories ? (
                       <ChipList
                         items={studyStopReasonCategories.map(reason => ({
                           label: reason,
+                          customClass: classes.chipStyle,
                         }))}
                       />
                     ) : null}
                   </div>
-                </>
+                </div>
               }
             >
               {clinicalStatus}
