@@ -64,9 +64,9 @@ const columns = [
         source
       );
     },
-    // filterValue: ({ drug, drugFromSource }) => {
-    //   return drug ? drug.name : drugFromSource;
-    // },
+    filterValue: ({ cohortId, projectId }) => {
+      return `${cohortId} ${projectId}`;
+    },
   },
   {
     id: 'ancestry',
@@ -96,6 +96,9 @@ const columns = [
     renderCell: ({ studyCasesWithQualifyingVariants }) => {
       return studyCasesWithQualifyingVariants || naLabel;
     },
+    filterValue: ({ studyCasesWithQualifyingVariants }) => {
+      return `${studyCasesWithQualifyingVariants} ${naLabel}`;
+    },
   },
   {
     id: 'studyCases',
@@ -123,6 +126,13 @@ const columns = [
         ? `${oddsRatio} (${oddsRatioConfidenceIntervalLower} - ${oddsRatioConfidenceIntervalUpper})`
         : naLabel;
     },
+    filterValue: ({
+      oddsRatio,
+      oddsRatioConfidenceIntervalLower,
+      oddsRatioConfidenceIntervalUpper,
+    }) => {
+      return `${oddsRatio} ${oddsRatioConfidenceIntervalLower} ${oddsRatioConfidenceIntervalUpper} ${naLabel}`;
+    },
   },
   {
     id: 'beta',
@@ -136,12 +146,22 @@ const columns = [
         ? `${beta} (${betaConfidenceIntervalLower} - ${betaConfidenceIntervalUpper})`
         : naLabel;
     },
+    filterValue: ({
+      beta,
+      betaConfidenceIntervalLower,
+      betaConfidenceIntervalUpper,
+    }) => {
+      return `${beta} ${betaConfidenceIntervalLower} ${betaConfidenceIntervalUpper} ${naLabel}`;
+    },
   },
   {
     id: 'pValueMantissa',
     label: 'p-value',
     renderCell: ({ pValueMantissa, pValueExponent }) => {
       return <ScientificNotation number={[pValueMantissa, pValueExponent]} />;
+    },
+    filterValue: ({ pValueMantissa, pValueExponent }) => {
+      return `${pValueMantissa} ${pValueExponent}`;
     },
   },
   {
