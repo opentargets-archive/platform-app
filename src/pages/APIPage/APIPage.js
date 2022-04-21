@@ -1,4 +1,4 @@
-import { Suspense, useState, lazy } from 'react';
+import React, { Suspense, useState, lazy } from 'react';
 import { loader } from 'graphql.macro';
 import {
   Accordion,

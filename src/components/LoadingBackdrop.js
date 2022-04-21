@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, CircularProgress, withStyles } from '@material-ui/core';
 
 const styles = theme => ({

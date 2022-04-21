@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 import LoadingBackdrop from '../../components/LoadingBackdrop';
 import BasePage from '../../components/BasePage';
 

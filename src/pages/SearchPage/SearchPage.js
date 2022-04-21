@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { loader } from 'graphql.macro';
 import queryString from 'query-string';
 import { Typography } from '@material-ui/core';
