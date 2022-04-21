@@ -1,3 +1,6 @@
+// MTP Section imports
+import * as OpenPedCanGeneExpression from '../../sections/evidence/OpenPedCanGeneExpression';
+import * as OpenPedCanSomaticAlterations from '../../sections/evidence/OpenPedCanSomaticAlterations'
 // Section imports
 import * as CancerGeneCensus from '../../sections/evidence/CancerGeneCensus';
 import * as Chembl from '../../sections/evidence/Chembl';
@@ -20,8 +23,12 @@ import * as SysBio from '../../sections/evidence/SysBio';
 import * as UniProtLiterature from '../../sections/evidence/UniProtLiterature';
 import * as UniProtVariants from '../../sections/evidence/UniProtVariants';
 import * as Orphanet from '../../sections/evidence/Orphanet';
-import * as OpenPedCanGeneExpression from '../../sections/evidence/OpenPedCanGeneExpression';
-import * as OpenPedCanSomaticAlterations from '../../sections/evidence/OpenPedCanSomaticAlterations'
+import * as OTCRISPR from '../../sections/evidence/OTCRISPR';
+import * as OTEncore from '../../sections/evidence/OTEncore';
+import * as CancerBiomarkers from '../../sections/evidence/CancerBiomarkers';
+import * as OTValidation from '../../sections/evidence/OTValidation';
+
+import config from '../../config';
 
 const sections = [
   OpenPedCanSomaticAlterations,
@@ -40,6 +47,7 @@ const sections = [
   EVASomatic,
   Chembl,
   CRISPR,
+  CancerBiomarkers,
   SlapEnrich,
   Progeny,
   Reactome,
@@ -47,5 +55,20 @@ const sections = [
   EuropePmc,
   ExpressionAtlas,
   Phenodigm,
-];
+  OTCRISPR,
+  OTEncore,
+  OTValidation,
+].filter(
+  // select sections to show based on:
+  // 1. there is no specific hidden section for this page (length==0)
+  //    OR this section is not specified as hidden
+  // AND
+  // 2. only include public section (i.e. not partner sections),
+  //    OR also private sections if it's a partner preview
+  section =>
+    (config.profile.hideEvidenceSectionIds.length === 0 ||
+      !config.profile.hideEvidenceSectionIds.includes(section.definition.id)) &&
+    (!section.definition.isPrivate ||
+      (section.definition.isPrivate && config.profile.isPartnerPreview))
+);
 export default sections;

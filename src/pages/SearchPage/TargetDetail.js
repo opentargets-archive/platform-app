@@ -1,10 +1,16 @@
-import React, { Fragment } from 'react';
-import { CardContent, Typography, withStyles } from '@material-ui/core';
+import React from 'react';
+import {
+  CardContent,
+  Typography,
+  withStyles,
+  useTheme,
+} from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDna } from '@fortawesome/free-solid-svg-icons';
 
 import Link from '../../components/Link';
-import LongText from '../../components/LongText';
+import TargetDescription from '../TargetPage/TargetDescription';
+import { getUniprotIds, clearDescriptionCodes } from '../../utils/global';
 
 const styles = () => ({
   subtitle: {
@@ -17,12 +23,19 @@ const TargetDetail = ({ classes, data }) => {
     id,
     approvedSymbol,
     approvedName,
-    proteinAnnotations,
-    bioType,
+    functionDescriptions,
+    biotype,
+    proteinIds,
   } = data;
 
-  const functions = proteinAnnotations ? proteinAnnotations.functions : null;
-  const accessions = proteinAnnotations ? proteinAnnotations.accessions : null;
+  const theme = useTheme();
+
+  const uniprotIds = getUniprotIds(proteinIds);
+
+  const targetDescription = clearDescriptionCodes(
+    functionDescriptions,
+    theme.palette.primary.main
+  );
 
   return (
     <>
@@ -34,31 +47,26 @@ const TargetDetail = ({ classes, data }) => {
         <Typography color="primary">
           <FontAwesomeIcon icon={faDna} /> Target
         </Typography>
-        {functions ? <LongText lineLimit={4}>{functions[0]}</LongText> : null}
+        {targetDescription.length > 0 ? (
+          <TargetDescription
+            descriptions={targetDescription}
+            targetId={id}
+            showLabel={false}
+            lineLimit={4}
+          />
+        ) : null}
         <Typography className={classes.subtitle} variant="subtitle1">
           Biotype
         </Typography>
-        <Typography variant="body2">{bioType}</Typography>
-        {/* temporarily hide uniprot accessions */}
-        {/* accessions && accessions.length > 0*/ false ? (
-          <>
-            <Typography className={classes.subtitle} variant="subtitle1">
-              Uniprot accessions
-            </Typography>
-            {accessions.map(accession => {
-              return (
-                <Fragment key={accession}>
-                  <Link
-                    external
-                    to={`http://www.uniprot.org/uniprot/${accession}`}
-                  >
-                    {accession}
-                  </Link>{' '}
-                </Fragment>
-              );
-            })}
-          </>
-        ) : null}
+        <Typography variant="body2">{biotype}</Typography>
+        <Typography className={classes.subtitle} variant="subtitle1">
+          UniProt accession{uniprotIds.length > 1 ? 's' : ''}
+        </Typography>
+        <Typography component="div" variant="body2">
+          {uniprotIds.map(id => (
+            <div key={id}>{id}</div>
+          ))}
+        </Typography>
       </CardContent>
     </>
   );

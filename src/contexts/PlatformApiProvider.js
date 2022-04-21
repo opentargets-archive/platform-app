@@ -7,6 +7,7 @@ const PlatformApiContext = React.createContext();
 
 function PlatformApiProvider({
   entity,
+  lsSectionsField,
   query,
   client = productionClient,
   variables,
@@ -15,7 +16,9 @@ function PlatformApiProvider({
   const request = useQuery(query, { client, variables });
 
   return (
-    <PlatformApiContext.Provider value={{ ...request, entity }}>
+    <PlatformApiContext.Provider
+      value={{ ...request, entity, lsSectionsField }}
+    >
       {children}
     </PlatformApiContext.Provider>
   );

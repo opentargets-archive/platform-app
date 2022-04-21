@@ -40,6 +40,12 @@ const useStyles = makeStyles(theme => ({
   aboutBox:{
     margin: '70px 0',
   },
+  dataPolicy: {
+    padding: '10px',
+    marginTop: '30px',
+    border: '2px solid',
+    borderColor: config.profile.primaryColor,
+  },
 }));
 
 function pickTwo(arr) {
@@ -102,6 +108,37 @@ const HomePage = () => {
             </Hidden>
           </Grid>
           <Version />
+          {config.profile.isPartnerPreview ? (
+            <div className={classes.dataPolicy}>
+              <Typography
+                variant="body2"
+                display="block"
+                align="center"
+                gutterBottom
+              >
+                The Open Targets Partner Preview Platform is provided
+                exclusively to Open Targets consortium members. All data and
+                results of queries must remain confidential and must not be
+                shared publicly.
+              </Typography>
+              <Typography
+                variant="body2"
+                display="block"
+                align="center"
+                gutterBottom
+              >
+                <strong>
+                  <Link
+                    external
+                    newTab
+                    to="http://home.opentargets.org/partner-preview-platform-data-policy"
+                  >
+                    View our data policy
+                  </Link>
+                </strong>
+              </Typography>
+            </div>
+          ) : null}
         </HomeBox>
       </Grid>
 

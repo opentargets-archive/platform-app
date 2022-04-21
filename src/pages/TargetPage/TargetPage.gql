@@ -4,8 +4,13 @@ query TargetPageQuery($ensgId: String!) {
     approvedSymbol
     approvedName
     pmtl_fda_designation
-    proteinAnnotations {
+    proteinIds{
       id
+      source
+    }
+    dbXrefs{
+      id
+      source
     }
   }
 }

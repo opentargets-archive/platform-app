@@ -1,14 +1,5 @@
 fragment PathwaysSummaryFragment on Target {
-  proteinAnnotations {
-    id
-  }
-  reactome {
-    id
-    label
-    ancestors {
-      isRoot
-      id
-      label
-    }
+  pathways {
+    pathwayId
   }
 }

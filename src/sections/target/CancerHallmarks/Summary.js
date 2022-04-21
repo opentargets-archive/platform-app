@@ -17,13 +17,13 @@ function Summary({ definition }) {
       definition={definition}
       request={request}
       renderSummary={data => {
-        const hallmarks = _.uniqBy(data.hallmarks.rows, 'label');
+        const hallmarks = _.uniqBy(data.hallmarks.cancerHallmarks, 'label');
         const promote = _.uniqBy(
-          data.hallmarks.rows.filter(d => d.promote),
+          data.hallmarks.cancerHallmarks.filter(d => d.impact === 'promotes'),
           'label'
         );
         const suppress = _.uniqBy(
-          data.hallmarks.rows.filter(d => d.suppress),
+          data.hallmarks.cancerHallmarks.filter(d => d.impact === 'suppresses'),
           'label'
         );
 
@@ -31,7 +31,7 @@ function Summary({ definition }) {
           <>
             {hallmarks.length} hallmarks
             <br />
-            {promote.length} promote • {suppress.length} suppress
+            {promote.length} promoted • {suppress.length} suppressed
           </>
         );
       }}

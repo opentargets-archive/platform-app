@@ -1,8 +1,7 @@
 fragment TargetProfileHeaderFragment on Target {
-  proteinAnnotations {
-    id
-    functions
+  synonyms{
+    label
+    source
   }
-  symbolSynonyms
-  nameSynonyms
+  functionDescriptions
 }

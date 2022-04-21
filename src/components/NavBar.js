@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link as ReactRouterLink } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -19,8 +19,6 @@ const styles = theme => ({
     left: 0,
     top: 0,
     position: 'absolute',
-    background: 'none',
-    boxShadow: 'none',
   },
   flex: {
     flexGrow: 1,
@@ -39,6 +37,15 @@ const styles = theme => ({
     textDecoration: 'none',
     '&:hover': {
       color: theme.palette.secondary.main,
+    },
+  },
+  menuList: {
+    display: 'flex',
+  },
+  menuLink: {
+    color: theme.palette.secondary.contrastText,
+    '&:hover': {
+      color: theme.palette.secondary.contrastText,
     },
   },
 });

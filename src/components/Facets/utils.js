@@ -1,5 +1,6 @@
 import dataTypes from '../../dataTypes';
 import dataSources from '../../dataSources';
+import config from '../../config';
 
 const facetData = [...dataTypes, ...dataSources];
 
@@ -8,11 +9,37 @@ export const fixLabel = id => {
 
   if (label) return label;
 
-  const spacedLabel = id
-    .replace(/_/g, ' ')
-    .replace(/([a-z])([A-Z]+[a-z])/g, '$1 $2');
+  if (id === 'tractabilityProtac') {
+    return 'Tractability PROTAC';
+  }
 
-  return `${spacedLabel.charAt(0).toUpperCase()}${spacedLabel.slice(1)}`;
+  // only do this for ids that start with a lowercase character
+  if (/^[a-z]/.test(id)) {
+    const spacedLabel = id.replace(/([a-z])([A-Z])/g, '$1 $2');
+    return `${spacedLabel[0].toUpperCase()}${spacedLabel.slice(1)}`;
+  }
+
+  return id;
+};
+
+/**
+ * Check if specified facet (id) is set as private
+ * in the facet data (so datatypes and datasource)
+ */
+const fixIsPrivate = id =>
+  facetData.find(item => item.id === id)?.isPrivate || false;
+
+/**
+ * Filter a level in the datatypes facets based on config where
+ * the datatype can be explicitly hidden, or be private and as such
+ * not shown on public instance.
+ */
+const filterLevel = agg => {
+  return (
+    (config.profile.hideDataTypes.length === 0 ||
+      !config.profile.hideDataTypes.includes(agg.nodeId)) &&
+    (!agg.isPrivate || (agg.isPrivate && config.profile.isPartnerPreview))
+  );
 };
 
 const sortLevel = (a, b) => {
@@ -24,8 +51,8 @@ const sortLevel = (a, b) => {
     : a.nodeId.localeCompare(b.nodeId);
 };
 
-const extractLevel = level =>
-  level
+const extractLevel = level => {
+  return level
     ?.map(agg => ({
       nodeId: agg.key || agg.name,
       label: fixLabel(agg.key || agg.name),
@@ -33,8 +60,11 @@ const extractLevel = level =>
       checked: false,
       aggs: extractLevel(agg.aggs || agg.rows),
       root: !!agg.name,
+      isPrivate: fixIsPrivate(agg.key || agg.name),
     }))
+    .filter(filterLevel)
     .sort(sortLevel);
+};
 
 export const prepareFacetData = data => extractLevel(data) || [];
 

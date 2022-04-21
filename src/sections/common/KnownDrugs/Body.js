@@ -137,6 +137,7 @@ function Body({
   Description,
   columnsToShow,
   stickyColumn,
+  exportColumns,
 }) {
   const [initialLoading, setInitialLoading] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -203,7 +204,7 @@ function Body({
 
   const getWholeDataset = useCursorBatchDownloader(
     BODY_QUERY,
-    variables,
+    { ...variables, freeTextQuery: globalFilter },
     `data[${entity}].knownDrugs`
   );
 
@@ -253,8 +254,6 @@ function Body({
     });
   };
 
-  // const id = variables[Object.keys(variables)[0]];
-
   return (
     <SectionItem
       definition={definition}
@@ -279,6 +278,9 @@ function Body({
           onGlobalFilterChange={handleGlobalFilterChange}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleRowsPerPageChange}
+          dataDownloaderColumns={exportColumns}
+          query={BODY_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import HelpIcon from '@material-ui/icons/Help';
 import { makeStyles, Tooltip } from '@material-ui/core';
 
@@ -15,32 +15,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function CrisprDepmapLink({ symbol }) {
+function CrisprDepmapLink({ id }) {
   const classes = useStyles();
-  const [crisprId, setCrisprId] = useState();
 
-  useEffect(
-    () => {
-      async function fetchDepmap() {
-        const depmapUrl = `https://api.cellmodelpassports.sanger.ac.uk/score_search/${symbol}`;
-        const res = await fetch(depmapUrl);
-        const data = await res.json();
-        const crisprId =
-          data.genes &&
-          data.genes.hits.length &&
-          data.genes.hits[0].symbol.toUpperCase() === symbol.toUpperCase()
-            ? data.genes.hits[0].id
-            : null;
-
-        setCrisprId(crisprId);
-      }
-
-      fetchDepmap();
-    },
-    [symbol]
-  );
-
-  if (!crisprId) return null;
+  if (!id) return null;
 
   return (
     <span>
@@ -56,8 +34,8 @@ function CrisprDepmapLink({ symbol }) {
         </sup>
       </Tooltip>
       :{' '}
-      <Link external to={`https://score.depmap.sanger.ac.uk/gene/${crisprId}`}>
-        {crisprId}
+      <Link external to={`https://score.depmap.sanger.ac.uk/gene/${id}`}>
+        {id}
       </Link>
     </span>
   );

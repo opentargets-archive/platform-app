@@ -24,6 +24,7 @@ To start developing, follow these steps:
 - [Creating a new section](docs/sections.md)
 - [Table component API](./src/components/Table/README.md)
 - [Code of conduct](docs/CODE_OF_CONDUCT.md)
+- [Customising the app](docs/CUSTOM_CONFIG.md)
 
 ## Special thanks
 

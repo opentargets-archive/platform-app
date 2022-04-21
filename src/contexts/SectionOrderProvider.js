@@ -5,17 +5,17 @@ import usePlatformApi from '../hooks/usePlatformApi';
 
 const SectionOrderContext = React.createContext();
 
-function SectionOrderProvider({ sections, displaySettingsForExternal,children }) {
-  const { data, entity } = usePlatformApi();
+function SectionOrderProvider({ sections, displaySettingsForExternal, children }) {
+  const { data, entity, lsSectionsField } = usePlatformApi();
   const [sectionOrder, setSectionOrder] = useState(
-    ls.get(`${entity}SectionsOrder`) ||
+    ls.get(`${lsSectionsField || entity}SectionsOrder`) ||
       sections.map(section => section.definition.id)
   );
 
 
   const updateSectionOrder = newSectionOrder => {
     setSectionOrder(newSectionOrder);
-    ls.set(`${entity}SectionsOrder`, newSectionOrder);
+    ls.set(`${lsSectionsField || entity}SectionsOrder`, newSectionOrder);
   };
 
   const shouldRender = (section) => {

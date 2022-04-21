@@ -224,12 +224,14 @@ const columns = [
 ];
 
 function Body({ definition, label: name, id: efoId }) {
+  const variables = {
+    efoId,
+    index: 0,
+    size: 1000,
+  };
+
   const request = useQuery(PHENOTYPES_BODY_QUERY, {
-    variables: {
-      efoId,
-      index: 0,
-      size: 1000,
-    },
+    variables,
   });
 
   return (
@@ -256,6 +258,8 @@ function Body({ definition, label: name, id: efoId }) {
             dataDownloaderFileStem={`${efoId}-phenotypes`}
             showGlobalFilter
             rowsPerPageOptions={[10, 25, 50, 100]}
+            query={PHENOTYPES_BODY_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

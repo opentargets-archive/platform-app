@@ -1,0 +1,13 @@
+query SubcellularLocation($ensemblId: String!) {
+  target(ensemblId: $ensemblId) {
+    id
+    subcellularLocations {
+      source
+      location
+    }
+    proteinIds {
+      id
+      source
+    }
+  }
+}
