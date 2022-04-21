@@ -207,7 +207,7 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target" external>{' '} 
-            FDA Pediatric Molecular Target List<ExternalLinkIcon />{' '}
+            FDA Pediatric Molecular Target Lists<ExternalLinkIcon />{' '}
           </Link><br/> 
           Where this data is used in the MTP: 
           <Link to="/fda-pmtl">{' '} 
@@ -614,13 +614,13 @@ const AboutView = ({ data }) => {
           Pediatric Cancer Data Sources
         </Typography>
 
-        {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Targets Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
+        {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
+        {listHeader("FDA Pediatric Molecular Target Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
         {showHide.fdaPmtlDS && fdaPmtlDataSource()}
         <hr className={classes.listDiverHr} />
 
         {/* Open Pediatric Cancer (OpenPedCan) */}
-        {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan ", "openPedCanDS")}
+        {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan", "openPedCanDS")}
         {showHide.openPedCanDS && openPedCanDataSource()}
         <hr className={classes.listDiverHr} />
 
@@ -640,7 +640,7 @@ const AboutView = ({ data }) => {
         <hr className={classes.listDiverHr} />
 
         {/* Oncology Knowledge Base (OncoKB) Cancer Gene List */}
-        {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB ", "oncokbDS")}
+        {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB", "oncokbDS")}
         {showHide.oncokbDS && oncokbDataSource()}
         <hr className={classes.listDiverHr} />
         
@@ -660,8 +660,8 @@ const AboutView = ({ data }) => {
         {showHide.pedCanDataNavDV && pedCanDataNavDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
-        {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Targets Lists %acronym","FDA PMTL", "fdaPmtlDV")}
+        {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
+        {listHeader("FDA Pediatric Molecular Target Lists %acronym","FDA PMTL", "fdaPmtlDV")}
         {showHide.fdaPmtlDV && fdaPmtlDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
