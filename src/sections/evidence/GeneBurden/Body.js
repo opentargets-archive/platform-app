@@ -45,7 +45,7 @@ const columns = [
     label: 'Study',
     renderCell: ({ studyId }) => {
       return (
-        <Link to={`https://www.ebi.ac.uk/gwas/studies/${studyId}`}>
+        <Link to={`https://www.ebi.ac.uk/gwas/studies/${studyId}`} external>
           {studyId}
         </Link>
       );
