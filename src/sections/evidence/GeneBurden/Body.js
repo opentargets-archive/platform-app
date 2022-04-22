@@ -71,9 +71,9 @@ const columns = [
   {
     id: 'ancestry',
     label: 'Ancestry',
-    renderCell: ({ ancestry }) => {
+    renderCell: ({ ancestry, ancestryId }) => {
       return (
-        <Link to={`http://purl.obolibrary.org/obo/${ancestry}`} external>
+        <Link to={`http://purl.obolibrary.org/obo/${ancestryId}`} external>
           {ancestry}
         </Link>
       );
