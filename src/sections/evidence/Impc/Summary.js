@@ -4,19 +4,17 @@ import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { dataTypesMap } from '../../../dataTypes';
 
-const PHENODIGM_SUMMARY_FRAGMENT = loader('./PhenodigmSummaryFragment.gql');
+const IMCP_SUMMARY_FRAGMENT = loader('./IMCPSummaryFragment.gql');
 
 function Summary({ definition }) {
-  const request = usePlatformApi(PHENODIGM_SUMMARY_FRAGMENT);
+  const request = usePlatformApi(IMCP_SUMMARY_FRAGMENT);
 
   return (
     <SummaryItem
       definition={definition}
       request={request}
       renderSummary={data =>
-        `${data.phenodigm.count} entr${
-          data.phenodigm.count === 1 ? 'y' : 'ies'
-        }`
+        `${data.imcp.count} entr${data.imcp.count === 1 ? 'y' : 'ies'}`
       }
       subText={dataTypesMap.animal_model}
     />
@@ -24,7 +22,7 @@ function Summary({ definition }) {
 }
 
 Summary.fragments = {
-  PhenodigmSummaryFragment: PHENODIGM_SUMMARY_FRAGMENT,
+  IMCPSummaryFragment: IMCP_SUMMARY_FRAGMENT,
 };
 
 export default Summary;

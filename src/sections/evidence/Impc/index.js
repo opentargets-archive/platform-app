@@ -1,8 +1,8 @@
 export const definition = {
-  id: 'phenodigm',
-  name: 'PhenoDigm',
-  shortName: 'PH',
-  hasData: data => data.phenodigm.count > 0,
+  id: 'impc',
+  name: 'IMPC',
+  shortName: 'IM',
+  hasData: data => data.impc.count > 0,
 };
 
 export { default as Summary } from './Summary';
