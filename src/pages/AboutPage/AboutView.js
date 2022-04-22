@@ -54,8 +54,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: '34px',
     fontWeight: '600',
     lineHeight: '24.96px'
-
   },
+  boxTitle: {
+    marginBottom: '34px',
+  },
+
   infographicContainer: {
     display: 'flex',
     flexWrap: 'wrap'
@@ -217,13 +220,13 @@ const AboutView = ({ data }) => {
           Factor Ontology (EFO) label used can be found on the individual page for each disease. For 
           more details on disease assignment see {' '}
           <Link external to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis/tree/dev/analyses/molecular-subtyping-pathology">
-            OpenPedCan Molecular Subtyping and Pathology Documentation.
-            <ExternalLinkIcon />
+            OpenPedCan Molecular Subtyping and Pathology Documentation
+            <ExternalLinkIcon />.
           </Link> {' '} 
           For a summary table of the number of subjects included,{' '} 
           <Link external to="https://github.com/PediatricOpenTargets/documentation/blob/main/disease_subject_counts.tsv">
-            a table is available for viewing and download.
-            <ExternalLinkIcon />
+            a table is available for viewing and download
+            <ExternalLinkIcon />.
           </Link>
         </p>
       </div>
@@ -403,7 +406,7 @@ const AboutView = ({ data }) => {
           cancer datasets to accelerate pediatric cancer target identification and drug development.
           To read more about the OpenPedCan data processing methods, view the{' '}
           <Link to="https://github.com/PediatricOpenTargets/documentation" external>
-            documentation.<ExternalLinkIcon />
+            documentation<ExternalLinkIcon />.
           </Link>
         </p>
       </div>
@@ -661,12 +664,12 @@ const AboutView = ({ data }) => {
         </Typography>
         <Typography paragraph>
           This About page will document all of the new data and features present in the Molecular Targets Platform. 
-          For detailed descriptions and tutorials of the built-in functions of the Open Targets Platform, please see their 
-          <Link to="https://platform-docs.opentargets.org/" external>{' '} 
-            documentation<ExternalLinkIcon />{' '}
-          </Link> 
-          or their 
-          <Link to="https://platform-docs.opentargets.org/citation" external>{' '} 
+          For detailed descriptions and tutorials of the built-in functions of the Open Targets Platform, please see their{' '}
+          <Link to="https://platform-docs.opentargets.org/" external> 
+            documentation<ExternalLinkIcon />
+          </Link>{' '}
+          or their{' '}
+          <Link to="https://platform-docs.opentargets.org/citation" external> 
              most recent publication<ExternalLinkIcon />.
           </Link> 
         </Typography>
@@ -686,7 +689,7 @@ const AboutView = ({ data }) => {
     {/* Pediatric Cancer Disease */}
     <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
+        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           Pediatric Cancer Disease
         </Typography>
 
@@ -702,7 +705,7 @@ const AboutView = ({ data }) => {
     {/* Pediatric Cancer Data Sources */}
     <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
+        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           Pediatric Cancer Data Sources
         </Typography>
 
@@ -743,7 +746,7 @@ const AboutView = ({ data }) => {
     {/* GTEx */}
     <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
+        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           GTEx
         </Typography>
 
@@ -760,7 +763,7 @@ const AboutView = ({ data }) => {
     {/* Pediatric Cancer Data Processing */}
     <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
+        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           Pediatric Cancer Data Processing
         </Typography>
 
@@ -777,7 +780,7 @@ const AboutView = ({ data }) => {
     {/* Pediatric Cancer Data Visualizations */}
     <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
+        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           Pediatric Cancer Data Visualizations
         </Typography>
 
