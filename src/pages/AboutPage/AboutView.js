@@ -156,7 +156,9 @@ const AboutView = ({ data }) => {
       targetDS: false,
       kidsFirstDS: false,
       openPbtaDS: false,
-      oncokbDS: false, 
+      oncokbDS: false,
+
+      gtex: true,
 
       pedCanDataNavDV: true,
       fdaPmtlDV: false,
@@ -364,6 +366,27 @@ const AboutView = ({ data }) => {
             Chakravarty et al., JCO PO 2017<ExternalLinkIcon />
           </Link><br />
           Where this data is used in the MTP: OpenPedCan Somatic Alterations
+        </p>
+      </div>
+    )
+  }
+  
+  const gtex = () => {
+    return (
+      <div className={classes.listContent}>
+        <p>
+          GTEx project is an ongoing effort to build a comprehensive public data resource and tissue
+          bank to study tissue-specific gene expression, regulation and their relationship with
+          genetic variants. Samples were collected from 54 non-diseased tissue sites across nearly
+          1000 individuals, primarily for molecular assays including WGS, WES, and RNA-Seq.
+          OpenPedCan project includes 17382 GTEx RNA-Seq samples from GTEx v8 release, which
+          span across 31 GTEx groups in the v10 release.
+        </p>
+        <p>
+          SOURCE:{' '}
+          <Link to="https://gtexportal.org/home/" external>
+            GTEx<ExternalLinkIcon />
+          </Link>
         </p>
       </div>
     )
@@ -696,6 +719,23 @@ const AboutView = ({ data }) => {
         <hr className={classes.listDiverHr} />
         
         <div className={classes.space}></div>
+      </Grid>
+    </Grid>
+
+    {/* GTEx */}
+    <Grid container justify="center" className={classes.container}>
+      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
+          GTEx
+        </Typography>
+
+        {/* Genotype-Tissue Expression */}
+        {listHeader("Genotype-Tissue Expression %acronym", "GTEx", "gtex")}
+        {showHide.gtex && gtex()}
+        <hr className={classes.listDiverHr} />
+
+        <div className={classes.space}></div>
+
       </Grid>
     </Grid>
 
