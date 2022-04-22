@@ -118,7 +118,7 @@ const columns = [
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
   const {
     data: {
-      phenodigm: { count: size },
+      impc: { count: size },
     },
   } = usePlatformApi(Summary.fragments.PhenodigmSummaryFragment);
 

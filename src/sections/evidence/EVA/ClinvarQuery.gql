@@ -22,6 +22,7 @@ query ClinvarQuery(
         diseaseFromSource
         variantId
         variantRsId
+        variantHgvsId
         studyId
         variantFunctionalConsequence {
           id

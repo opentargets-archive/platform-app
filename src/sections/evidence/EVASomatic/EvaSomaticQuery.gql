@@ -15,6 +15,7 @@ query EvaSomaticQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
         diseaseFromSource
         variantId
         variantRsId
+        variantHgvsId
         studyId
         clinicalSignificances
         allelicRequirements
