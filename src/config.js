@@ -10,6 +10,8 @@ const config = {
 
   profile: window.configProfile ?? {},
   downloadsURL: window.configDownloadsURL ?? '/data/downloads.json',
+  geneticsPortalUrl:
+    window.configGeneticsPortalUrl ?? 'https://genetics.opentargets.org',
 };
 
 export default config;
