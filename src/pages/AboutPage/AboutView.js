@@ -654,6 +654,7 @@ const AboutView = ({ data }) => {
         {showHide.diseaseD && pedCanDisease()}
         <hr className={classes.listDiverHr} />
 
+        <div className={classes.space}></div>
       </Grid>
     </Grid>
     
