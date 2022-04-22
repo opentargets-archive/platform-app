@@ -768,7 +768,7 @@ const AboutView = ({ data }) => {
         </Typography>
 
         {/*  */}
-        {listHeader("", "", "pedCanDataProcessing")}
+        {listHeader("Pediatric Cancer Data Processing", "", "pedCanDataProcessing")}
         {showHide.pedCanDataProcessing && pedCanDataProcessing()}
         <hr className={classes.listDiverHr} />
 
