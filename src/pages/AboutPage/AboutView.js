@@ -160,6 +160,8 @@ const AboutView = ({ data }) => {
 
       gtex: true,
 
+      pedCanDataProcessing: true,
+
       pedCanDataNavDV: true,
       fdaPmtlDV: false,
       somaticAlterationsDV: false,
@@ -390,7 +392,23 @@ const AboutView = ({ data }) => {
         </p>
       </div>
     )
-  }  
+  }
+  
+  const pedCanDataProcessing = () => {
+    return (
+      <div className={classes.listContent}>
+        <p>
+          Open Pediatric Cancer (OpenPedCan) project at the Children’s Hospital of Philadelphia,
+          in partnership with the National Cancer Institute, is combining and harmonizing pediatric
+          cancer datasets to accelerate pediatric cancer target identification and drug development.
+          To read more about the OpenPedCan data processing methods, view the{' '}
+          <Link to="https://github.com/PediatricOpenTargets/documentation" external>
+            documentation.<ExternalLinkIcon />
+          </Link>
+        </p>
+      </div>
+    )
+  }
 
   const fdaPmtlDataVisualizations = () => {
     return (
@@ -732,6 +750,23 @@ const AboutView = ({ data }) => {
         {/* Genotype-Tissue Expression */}
         {listHeader("Genotype-Tissue Expression %acronym", "GTEx", "gtex")}
         {showHide.gtex && gtex()}
+        <hr className={classes.listDiverHr} />
+
+        <div className={classes.space}></div>
+
+      </Grid>
+    </Grid>
+
+    {/* Pediatric Cancer Data Processing */}
+    <Grid container justify="center" className={classes.container}>
+      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
+          Pediatric Cancer Data Processing
+        </Typography>
+
+        {/*  */}
+        {listHeader("", "", "pedCanDataProcessing")}
+        {showHide.pedCanDataProcessing && pedCanDataProcessing()}
         <hr className={classes.listDiverHr} />
 
         <div className={classes.space}></div>
