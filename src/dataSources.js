@@ -6,11 +6,6 @@ const dataSources = [
     label: 'OT Genetics Portal',
     isPrivate: isPrivateDataSource('ot_genetics_portal'),
   },
-  {
-    id: 'phewas_catalog',
-    label: 'PheWAS Catalog',
-    isPrivate: isPrivateDataSource('phewas_catalog'),
-  },
   { id: 'eva', label: 'ClinVar', isPrivate: isPrivateDataSource('eva') },
   {
     id: 'uniprot',
