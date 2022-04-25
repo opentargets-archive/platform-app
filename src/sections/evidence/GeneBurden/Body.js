@@ -44,10 +44,12 @@ const columns = [
     id: 'studyId',
     label: 'Study',
     renderCell: ({ studyId }) => {
-      return (
+      return studyId ? (
         <Link to={`https://www.ebi.ac.uk/gwas/studies/${studyId}`} external>
           {studyId}
         </Link>
+      ) : (
+        naLabel
       );
     },
   },
