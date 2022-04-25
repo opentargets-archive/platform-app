@@ -17,7 +17,7 @@ function Summary({ definition }) {
         const { count } = geneBurdenSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
-      subText={dataTypesMap.affected_pathway}
+      subText={dataTypesMap.genetic_association}
     />
   );
 }
