@@ -14,7 +14,7 @@ function Summary({ definition }) {
       definition={definition}
       request={request}
       renderSummary={data =>
-        `${data.imcp.count} entr${data.imcp.count === 1 ? 'y' : 'ies'}`
+        `${data.impc.count} entr${data.impc.count === 1 ? 'y' : 'ies'}`
       }
       subText={dataTypesMap.animal_model}
     />
