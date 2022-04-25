@@ -30,6 +30,7 @@ import config from '../../config';
 const sections = [
   OTGenetics,
   EVA,
+  GeneBurden,
   GenomicsEngland,
   Gene2Phenotype,
   UniProtLiterature,
@@ -52,7 +53,6 @@ const sections = [
   OTCRISPR,
   OTEncore,
   OTValidation,
-  GeneBurden,
 ].filter(
   // select sections to show based on:
   // 1. there is no specific hidden section for this page (length==0)
