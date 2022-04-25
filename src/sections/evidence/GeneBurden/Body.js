@@ -156,7 +156,11 @@ const columns = [
   },
   {
     id: 'pValue',
-    label: 'p-value',
+    label: (
+      <>
+        <i>p</i>-value
+      </>
+    ),
     renderCell: ({ pValueMantissa, pValueExponent }) => {
       return <ScientificNotation number={[pValueMantissa, pValueExponent]} />;
     },
