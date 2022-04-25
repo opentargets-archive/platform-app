@@ -155,7 +155,7 @@ const columns = [
     },
   },
   {
-    id: 'pValueMantissa',
+    id: 'pValue',
     label: 'p-value',
     renderCell: ({ pValueMantissa, pValueExponent }) => {
       return <ScientificNotation number={[pValueMantissa, pValueExponent]} />;
@@ -166,6 +166,9 @@ const columns = [
     exportValue: ({ pValueMantissa, pValueExponent }) => {
       return `${pValueMantissa}x10${pValueExponent}`;
     },
+    comparator: (a, b) =>
+      a.pValueMantissa * 10 ** a.pValueExponent -
+      b.pValueMantissa * 10 ** b.pValueExponent,
   },
   {
     id: 'literature',
@@ -215,6 +218,8 @@ function Body(props) {
           <DataTable
             columns={columns}
             rows={rows}
+            order="asc"
+            sortBy="pValue"
             dataDownloader
             dataDownloaderFileStem={`geneburden-${ensemblId}-${efoId}`}
             showGlobalFilter
