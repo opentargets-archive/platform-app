@@ -93,8 +93,12 @@ const columns = [
   {
     id: 'studyCasesWithQualifyingVariants',
     label: 'Cases with QV',
+    numeric: true,
+    sortable: true,
     renderCell: ({ studyCasesWithQualifyingVariants }) => {
-      return studyCasesWithQualifyingVariants || naLabel;
+      return studyCasesWithQualifyingVariants
+        ? parseInt(studyCasesWithQualifyingVariants).toLocaleString()
+        : naLabel;
     },
     filterValue: ({ studyCasesWithQualifyingVariants }) => {
       return `${studyCasesWithQualifyingVariants} ${naLabel}`;
@@ -103,28 +107,40 @@ const columns = [
   {
     id: 'studyCases',
     label: 'Cases',
+    numeric: true,
+    sortable: true,
     renderCell: ({ studyCases }) => {
-      return studyCases;
+      return studyCases ? parseInt(studyCases).toLocaleString() : naLabel;
     },
   },
   {
     id: 'studySampleSize',
     label: 'Sample size',
+    numeric: true,
+    sortable: true,
     renderCell: ({ studySampleSize }) => {
-      return studySampleSize;
+      return studySampleSize
+        ? parseInt(studySampleSize).toLocaleString()
+        : naLabel;
     },
   },
   {
     id: 'oddsRatio',
     label: 'Odds Ratio (CI 95%)',
+    numeric: true,
+    sortable: true,
     renderCell: ({
       oddsRatio,
       oddsRatioConfidenceIntervalLower,
       oddsRatioConfidenceIntervalUpper,
     }) => {
-      return oddsRatio
-        ? `${oddsRatio} (${oddsRatioConfidenceIntervalLower} - ${oddsRatioConfidenceIntervalUpper})`
-        : naLabel;
+      const ci =
+        oddsRatioConfidenceIntervalLower && oddsRatioConfidenceIntervalUpper
+          ? `(${parseFloat(
+              oddsRatioConfidenceIntervalLower.toFixed(3)
+            )}, ${parseFloat(oddsRatioConfidenceIntervalUpper.toFixed(3))})`
+          : '';
+      return oddsRatio ? `${parseFloat(oddsRatio.toFixed(3))} ${ci}` : naLabel;
     },
     filterValue: ({
       oddsRatio,
@@ -137,14 +153,20 @@ const columns = [
   {
     id: 'beta',
     label: 'Beta (CI 95%)',
+    numeric: true,
+    sortable: true,
     renderCell: ({
       beta,
       betaConfidenceIntervalLower,
       betaConfidenceIntervalUpper,
     }) => {
-      return beta
-        ? `${beta} (${betaConfidenceIntervalLower} - ${betaConfidenceIntervalUpper})`
-        : naLabel;
+      const ci =
+        betaConfidenceIntervalLower && betaConfidenceIntervalUpper
+          ? `(${parseFloat(
+              betaConfidenceIntervalLower.toFixed(3)
+            )}, ${parseFloat(betaConfidenceIntervalUpper.toFixed(3))})`
+          : '';
+      return beta ? `${parseFloat(beta.toFixed(3))} ${ci}` : naLabel;
     },
     filterValue: ({
       beta,
@@ -161,6 +183,8 @@ const columns = [
         <i>p</i>-value
       </>
     ),
+    numeric: true,
+    sortable: true,
     renderCell: ({ pValueMantissa, pValueExponent }) => {
       return <ScientificNotation number={[pValueMantissa, pValueExponent]} />;
     },
