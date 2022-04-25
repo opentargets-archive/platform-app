@@ -73,7 +73,29 @@ const columns = [
   {
     id: 'confidence',
     label: 'Confidence category',
-    renderCell: ({ confidence }) => sentenceCase(confidence) || naLabel,
+    renderCell: ({ confidence }) =>
+      confidence ? (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="caption" display="block" align="center">
+                As defined by the{' '}
+                <Link
+                  external
+                  to={`https://thegencc.org/faq.html#validity-termsdelphi-survey`}
+                >
+                  GenCC Guidelines
+                </Link>
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          {sentenceCase(confidence)}
+        </Tooltip>
+      ) : (
+        naLabel
+      ),
   },
   {
     id: 'literature',
