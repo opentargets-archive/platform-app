@@ -11,8 +11,7 @@ import * as Gene2Phenotype from '../../sections/evidence/Gene2Phenotype';
 import * as GenomicsEngland from '../../sections/evidence/GenomicsEngland';
 import * as IntOgen from '../../sections/evidence/IntOgen';
 import * as OTGenetics from '../../sections/evidence/OTGenetics';
-import * as Phenodigm from '../../sections/evidence/Phenodigm';
-import * as PheWASCatalog from '../../sections/evidence/PheWASCatalog';
+import * as Impc from '../../sections/evidence/Impc';
 import * as Progeny from '../../sections/evidence/Progeny';
 import * as Reactome from '../../sections/evidence/Reactome';
 import * as SlapEnrich from '../../sections/evidence/SlapEnrich';
@@ -24,13 +23,14 @@ import * as OTCRISPR from '../../sections/evidence/OTCRISPR';
 import * as OTEncore from '../../sections/evidence/OTEncore';
 import * as CancerBiomarkers from '../../sections/evidence/CancerBiomarkers';
 import * as OTValidation from '../../sections/evidence/OTValidation';
+import * as GeneBurden from '../../sections/evidence/GeneBurden';
 
 import config from '../../config';
 
 const sections = [
   OTGenetics,
-  PheWASCatalog,
   EVA,
+  GeneBurden,
   GenomicsEngland,
   Gene2Phenotype,
   UniProtLiterature,
@@ -49,7 +49,7 @@ const sections = [
   SysBio,
   EuropePmc,
   ExpressionAtlas,
-  Phenodigm,
+  Impc,
   OTCRISPR,
   OTEncore,
   OTValidation,
