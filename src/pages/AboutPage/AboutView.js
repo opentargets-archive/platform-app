@@ -160,8 +160,7 @@ const AboutView = ({ data }) => {
       kidsFirstDS: false,
       openPbtaDS: false,
       oncokbDS: false,
-
-      gtex: true,
+      gtexDS: false,
 
       pedCanDataProcessing: true,
 
@@ -376,7 +375,7 @@ const AboutView = ({ data }) => {
     )
   }
   
-  const gtex = () => {
+  const gtexDataSource = () => {
     return (
       <div className={classes.listContent}>
         <p>
@@ -738,21 +737,10 @@ const AboutView = ({ data }) => {
         {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB", "oncokbDS")}
         {showHide.oncokbDS && oncokbDataSource()}
         <hr className={classes.listDiverHr} />
-        
-        <div className={classes.space}></div>
-      </Grid>
-    </Grid>
-
-    {/* GTEx */}
-    <Grid container justify="center" className={classes.container}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
-          GTEx
-        </Typography>
 
         {/* Genotype-Tissue Expression */}
-        {listHeader("Genotype-Tissue Expression %acronym", "GTEx", "gtex")}
-        {showHide.gtex && gtex()}
+        {listHeader("Genotype-Tissue Expression %acronym", "GTEx", "gtexDS")}
+        {showHide.gtexDS && gtexDataSource()}
         <hr className={classes.listDiverHr} />
 
         <div className={classes.space}></div>
