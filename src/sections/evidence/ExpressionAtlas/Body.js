@@ -65,7 +65,23 @@ const columns = [
     id: 'confidence',
     label: 'Experiment confidence',
     renderCell: ({ confidence }) => {
-      return <>{sentenceCase(confidence)}</>;
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="caption" display="block" align="center">
+                As defined by the{' '}
+                <Link external to={`https://www.ebi.ac.uk/gxa/FAQ.html`}>
+                  Expression Atlas Guideline
+                </Link>
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          {sentenceCase(confidence)}
+        </Tooltip>
+      );
     },
   },
   {
