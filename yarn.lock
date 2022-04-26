@@ -6934,11 +6934,6 @@ es6-promise@^2.3.0:
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-2.3.0.tgz#96edb9f2fdb01995822b263dd8aadab6748181bc"
   integrity sha1-lu258v2wGZWCKyY92KratnSBgbw=
 
-es6-promise@^3.0.2:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
-  integrity sha1-oIzd6EzNvzTQJ6FFG8kdS80ophM=
-
 es6-symbol@^3.1.1, es6-symbol@~3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/es6-symbol/-/es6-symbol-3.1.3.tgz#bad5d3c1bcdac28269f4cb331e431c78ac705d18"
@@ -9132,7 +9127,7 @@ httpplease-promises@^0.3.0:
   resolved "https://registry.yarnpkg.com/httpplease-promises/-/httpplease-promises-0.3.0.tgz#03a15cce3739c1d27c0ec311453b73e69bc58e91"
   integrity sha1-A6Fczjc5wdJ8DsMRRTtz5pvFjpE=
 
-httpplease@0.15.3, httpplease@^0.15.3:
+httpplease@^0.15.3:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/httpplease/-/httpplease-0.15.3.tgz#1363205ab35e75e337e095b7f972e9f4471af50c"
   integrity sha1-E2MgWrNedeM34JW3+XLp9Eca9Qw=
@@ -17240,14 +17235,6 @@ tnt.api@^0.1.0, tnt.api@^0.1.1:
   resolved "https://registry.yarnpkg.com/tnt.api/-/tnt.api-0.1.1.tgz#ff88d455c4aac28cd0ad56e0a919a34453e090fe"
   integrity sha1-/4jUVcSqwozQrVbgqRmjRFPgkP4=
 
-tnt.board@^0.1.12:
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/tnt.board/-/tnt.board-0.1.12.tgz#b2051fb08db52f504ef0931ee8c81beed2a363bb"
-  integrity sha1-sgUfsI21L1BO8JMe6Mgb7tKjY7s=
-  dependencies:
-    tnt.api "^0.1.0"
-    tnt.utils "^0.1.0"
-
 tnt.ensembl@0.0.13:
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/tnt.ensembl/-/tnt.ensembl-0.0.13.tgz#dc3d733ba4e2446966a42d6b3074c6ff93a69a5c"
@@ -17258,7 +17245,7 @@ tnt.ensembl@0.0.13:
     httpplease-promises "^0.3.0"
     tnt.api "0.0.1"
 
-tnt.newick@^0.1.0, tnt.newick@^0.1.1:
+tnt.newick@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/tnt.newick/-/tnt.newick-0.1.1.tgz#eb6ed3b06245058fbde7083db5996ff6545dfac9"
   integrity sha1-627TsGJFBY+95wg9tZlv9lRd+sk=
@@ -17276,27 +17263,10 @@ tnt.newick@^0.1.0, tnt.newick@^0.1.1:
     jshint "^2.8.0"
     mkdirp "^0.5.1"
 
-tnt.rest@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/tnt.rest/-/tnt.rest-0.1.1.tgz#fe2efb6f6616688ecc4701f7b737655a66f17d77"
-  integrity sha1-/i77b2YWaI7MRwH3tzdlWmbxfXc=
-  dependencies:
-    es6-promise "^3.0.2"
-    httpplease "0.15.3"
-    httpplease-promises "^0.3.0"
-    tnt.api "0.0.1"
-
 tnt.tooltip@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/tnt.tooltip/-/tnt.tooltip-0.2.0.tgz#482012d21d60d19ad4d5f9f73a22a1e6c6eb26c3"
   integrity sha1-SCAS0h1g0ZrU1fn3OiKh5sbrJsM=
-  dependencies:
-    tnt.api "^0.1.0"
-
-tnt.tooltip@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/tnt.tooltip/-/tnt.tooltip-1.0.0.tgz#601d2cfccc76d2274c3a1b2ce7ef4b4c212a6009"
-  integrity sha512-V41Sagf8ePxTPUyWmMvJefT2r1PWDRhkIORci5TiIU/2ly/Sqa+r82g/S6VBOk1fvycZ4q/ZcRekDY30fmR2QA==
   dependencies:
     tnt.api "^0.1.0"
 
@@ -17319,33 +17289,10 @@ tnt.tree@0.1.7:
     tnt.newick "^0.1.0"
     tnt.tree.node "^0.1.0"
 
-tnt.tree@^0.1.13:
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/tnt.tree/-/tnt.tree-0.1.13.tgz#8c5b0514083533d288fcebc26bf5d4fa07b8698a"
-  integrity sha1-jFsFFAg1M9KI/OvCa/XU+ge4aYo=
-  dependencies:
-    biojs-events "0.0.4"
-    tnt.api "^0.1.1"
-    tnt.newick "^0.1.0"
-    tnt.tree.node "^0.1.0"
-
 tnt.utils@^0.1.0, tnt.utils@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/tnt.utils/-/tnt.utils-0.1.3.tgz#bb67394321c89840cdba272fc4762c04fbc8140f"
   integrity sha1-u2c5QyHImEDNuicvxHYsBPvIFA8=
-
-tntvis@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/tntvis/-/tntvis-0.3.1.tgz#00472a9b136a4ea735cbc1e93f3a36b25e5b18b7"
-  integrity sha1-AEcqmxNqTqc1y8HpPzo2sl5bGLc=
-  dependencies:
-    biojs-events "0.0.4"
-    tnt.api "^0.1.1"
-    tnt.board "^0.1.12"
-    tnt.newick "^0.1.1"
-    tnt.tree "^0.1.13"
-    tnt.tree.node "^0.1.0"
-    tnt.utils "^0.1.3"
 
 to-arraybuffer@^1.0.0:
   version "1.0.1"

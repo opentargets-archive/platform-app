@@ -130,6 +130,8 @@ const styles = makeStyles(theme => ({
   container: {
     width: '80%',
     backgroundColor: theme.palette.grey[300],
+    marginTop: '262px',
+    height: 'calc(100% - 262px)',
   },
   paper: {
     margin: '1.5rem',
