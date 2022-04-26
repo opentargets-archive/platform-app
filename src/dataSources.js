@@ -8,6 +8,11 @@ const dataSources = [
   },
   { id: 'eva', label: 'ClinVar', isPrivate: isPrivateDataSource('eva') },
   {
+    id: 'gene_burden',
+    label: 'Gene Burden',
+    isPrivate: isPrivateDataSource('cancer_biomarkers'),
+  },
+  {
     id: 'uniprot',
     label: 'UniProt curated variants',
     isPrivate: isPrivateDataSource('uniprot'),
