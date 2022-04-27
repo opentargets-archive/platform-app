@@ -6,7 +6,7 @@ const config = {
   googleTagManagerID: window.configGoogleTagManagerID ?? null,
   efoURL:
     window.configEFOURL ??
-    'https://storage.googleapis.com/open-targets-data-releases/alpha-rewrite/static/ontology/diseases_efo.jsonl',
+    'https://platform.dev.opentargets.xyz/data/ontology/efo_json/diseases_efo.jsonl',
 
   profile: window.configProfile ?? {},
 };
