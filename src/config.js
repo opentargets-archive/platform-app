@@ -9,6 +9,7 @@ const config = {
     'https://platform.dev.opentargets.xyz/data/ontology/efo_json/diseases_efo.jsonl',
 
   profile: window.configProfile ?? {},
+  downloadsURL: window.configDownloadsURL ?? '/data/downloads.json',
 };
 
 export default config;
