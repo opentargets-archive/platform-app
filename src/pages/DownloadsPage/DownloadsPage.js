@@ -103,9 +103,13 @@ function DownloadsPage() {
   useEffect(() => {
     let isCurrent = true;
     fetch(config.downloadsURL)
-      .then(res => res.json())
-      .then(nodes => {
+      .then(res => res.text())
+      .then(lines => {
         if (isCurrent) {
+          const nodes = lines
+            .trim()
+            .split('\n')
+            .map(JSON.parse);
           setDownloadsData(nodes);
         }
       });
