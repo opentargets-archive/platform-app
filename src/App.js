@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
-import { loader } from 'graphql.macro';
 import { RecoilRoot } from 'recoil';
 import OtUiThemeProvider from './components/OtUiThemeProvider';
 import PlatformApiProvider from './contexts/PlatformApiProvider';
+import { GlobalQuery } from './GlobalQuery';
 import client from './client';
 import initLocalStorage from './utils/initLocalStorage';
 import theme from './theme';
@@ -22,8 +22,6 @@ import PMTLPage from './pages/PMTLPage/PMTLPage';
 import AboutPage from './pages/AboutPage';
 import PedCancerDataNavPage from './pages/PedCancerDataNavPage'
 
-const globalQuery = loader('./globalQuery.gql')
-
 class App extends Component {
   componentDidMount() {
     initLocalStorage();
@@ -34,7 +32,7 @@ class App extends Component {
       <RecoilRoot>
         <ApolloProvider client={client}>
           <OtUiThemeProvider theme={theme}>
-            <PlatformApiProvider query={globalQuery}>
+            <PlatformApiProvider query={GlobalQuery}>
               <Router>
                 <Switch>
                   <Route exact path="/" component={HomePage} />
