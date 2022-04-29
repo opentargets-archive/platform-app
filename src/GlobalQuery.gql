@@ -1,0 +1,17 @@
+query GloablQuery {
+  meta {
+    mtpVersion {
+      version
+    }
+    dataVersion {
+      year
+      month
+      iteration
+    }
+    apiVersion {
+      x
+      y
+      z
+    }
+  }
+}
