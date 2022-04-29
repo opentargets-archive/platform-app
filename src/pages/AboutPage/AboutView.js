@@ -23,6 +23,7 @@ import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 import Infographic from '../../assets/about/Infographic.png';
 import classNames from 'classnames';
+import usePlatformApi from '../../hooks/usePlatformApi';
 
 
 const useStyles = makeStyles(theme => ({
@@ -145,6 +146,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AboutView = ({ data }) => {
+  const request = usePlatformApi()
   const classes = useStyles();
   const appTitle = "About Page";
   const [showHide, setShowHide] = useState(
@@ -163,6 +165,9 @@ const AboutView = ({ data }) => {
 
     }
   )
+
+  const BEversion = 
+      request.loading ? "Loading..." : request.data?.meta?.mtpVersion?.version || version.backend
   const contactEmail = `mailto:${contact.email}`
 
   const showHideContent = (id) => {
@@ -740,7 +745,7 @@ const AboutView = ({ data }) => {
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   Molecular Targets Platform Backend
                 </Typography>
-                <b>Version in use</b>: {version.backend} <br />
+                <b>Version in use</b>: {BEversion} <br />
                 <b>Detailed Change Log</b>: 
                 <Link to={version.backendURL} external>{' '} 
                   MTP Backend Release<ExternalLinkIcon />
