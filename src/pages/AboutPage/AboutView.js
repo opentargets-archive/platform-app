@@ -160,8 +160,6 @@ const AboutView = ({ data }) => {
       oncokbDS: false,
       gtexDS: false,
 
-      pedCanDataProcessing: true,
-
       pedCanDataNavDV: true,
       fdaPmtlDV: false,
       somaticAlterationsDV: false,
@@ -355,22 +353,6 @@ const AboutView = ({ data }) => {
           <Link to="https://gtexportal.org/home/" external>
             GTEx<ExternalLinkIcon />
           </Link>
-        </p>
-      </div>
-    )
-  }
-  
-  const pedCanDataProcessing = () => {
-    return (
-      <div className={classes.listContent}>
-        <p>
-          Open Pediatric Cancer (OpenPedCan) project at the Children’s Hospital of Philadelphia,
-          in partnership with the National Cancer Institute, is combining and harmonizing pediatric
-          cancer datasets to accelerate pediatric cancer target identification and drug development.
-          To read more about the OpenPedCan data processing methods, view the{' '}
-          <Link to="https://github.com/PediatricOpenTargets/documentation" external>
-            documentation<ExternalLinkIcon />
-          </Link>.
         </p>
       </div>
     )
@@ -740,11 +722,15 @@ const AboutView = ({ data }) => {
         <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           Pediatric Cancer Data Processing
         </Typography>
-
-        {/*  */}
-        {listHeader("Pediatric Cancer Data Processing", "", "pedCanDataProcessing")}
-        {showHide.pedCanDataProcessing && pedCanDataProcessing()}
-        <hr className={classes.listDiverHr} />
+        <Typography paragraph>
+          Open Pediatric Cancer (OpenPedCan) project at the Children’s Hospital of Philadelphia,
+          in partnership with the National Cancer Institute, is combining and harmonizing pediatric
+          cancer datasets to accelerate pediatric cancer target identification and drug development.
+          To read more about the OpenPedCan data processing methods, view the{' '}
+          <Link to="https://github.com/PediatricOpenTargets/documentation" external>
+            documentation<ExternalLinkIcon />
+          </Link>.
+        </Typography>
 
         <div className={classes.space}></div>
 
