@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import OtUiThemeProvider from './components/OtUiThemeProvider';
+import PlatformApiProvider from './contexts/PlatformApiProvider';
+import { GlobalQuery } from './GlobalQuery';
 import client from './client';
 import initLocalStorage from './utils/initLocalStorage';
 import theme from './theme';
@@ -29,6 +31,7 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <OtUiThemeProvider theme={theme}>
+            <PlatformApiProvider query={GlobalQuery}>
           <Router>
             <Switch>
               <Route exact path="/" component={HomePage} />
@@ -47,6 +50,7 @@ class App extends Component {
               <Route component={NotFoundPage} />
             </Switch>
           </Router>
+        </PlatformApiProvider>
         </OtUiThemeProvider>
       </ApolloProvider>
     );
