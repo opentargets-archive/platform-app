@@ -369,8 +369,8 @@ const AboutView = ({ data }) => {
           cancer datasets to accelerate pediatric cancer target identification and drug development.
           To read more about the OpenPedCan data processing methods, view the{' '}
           <Link to="https://github.com/PediatricOpenTargets/documentation" external>
-            documentation<ExternalLinkIcon />.
-          </Link>
+            documentation<ExternalLinkIcon />
+          </Link>.
         </p>
       </div>
     )
@@ -633,8 +633,8 @@ const AboutView = ({ data }) => {
           </Link>{' '}
           or their{' '}
           <Link to="https://platform-docs.opentargets.org/citation" external> 
-             most recent publication<ExternalLinkIcon />.
-          </Link> 
+             most recent publication<ExternalLinkIcon />
+          </Link>.
         </Typography>
 
         <Typography paragraph className={classes.space}>
@@ -674,13 +674,13 @@ const AboutView = ({ data }) => {
           more details on disease assignment see {' '}
           <Link external to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis/tree/dev/analyses/molecular-subtyping-pathology">
             OpenPedCan Molecular Subtyping and Pathology Documentation
-            <ExternalLinkIcon />.
-          </Link> {' '}
+            <ExternalLinkIcon />
+          </Link>.
           For a summary table of the number of subjects included,{' '}
           <Link external to="https://github.com/PediatricOpenTargets/documentation/blob/main/disease_subject_counts.tsv">
             a table is available for viewing and download
-            <ExternalLinkIcon />.
-          </Link>
+            <ExternalLinkIcon />
+          </Link>.
         </Typography>
 
         <div className={classes.space}></div>
