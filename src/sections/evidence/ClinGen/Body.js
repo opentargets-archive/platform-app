@@ -66,14 +66,13 @@ const columns = [
   {
     id: 'confidence',
     label: 'Classification',
-    renderCell: ({ studyId, confidence }) => {
-      return (
-        <Link
-          external
-          to={`https://search.clinicalgenome.org/kb/gene-validity/${studyId}`}
-        >
+    renderCell: ({ confidence, urls }) => {
+      return urls && urls[0]?.url ? (
+        <Link external to={urls[0].url}>
           {confidence}
         </Link>
+      ) : (
+        confidence
       );
     },
   },
@@ -85,8 +84,15 @@ function Body(props) {
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.ClinGenSummaryFragment
   );
+
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.clingenSummary.count,
+  };
+
   const request = useQuery(CLINGEN_QUERY, {
-    variables: { ensemblId, efoId, size: summaryData.clingenSummary.count },
+    variables,
   });
 
   return (
@@ -106,6 +112,8 @@ function Body(props) {
             dataDownloader
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            query={CLINGEN_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

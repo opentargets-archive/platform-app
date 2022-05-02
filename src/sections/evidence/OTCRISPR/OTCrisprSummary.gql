@@ -1,0 +1,10 @@
+fragment OtCrisprSummary on Disease {
+  OtCrisprSummary: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["ot_crispr"]
+    size: 0
+  ) {
+    count
+  }
+}

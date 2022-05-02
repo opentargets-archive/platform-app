@@ -1,1 +1,1 @@
-export { default } from './VariantsPage';
+export { default } from './VariantsWrapper';

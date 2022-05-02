@@ -1,0 +1,30 @@
+query CrisprQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      datasourceIds: ["ot_crispr"]
+      size: $size
+    ) {
+      rows {
+        disease {
+          id
+          name
+        }
+        projectId
+        contrast
+        studyOverview
+        cellType
+        cellLineBackground
+        crisprScreenLibrary
+        statisticalTestTail
+        resourceScore
+        log2FoldChangeValue
+        diseaseCellLines {
+          name
+        }
+      }
+    }
+  }
+}

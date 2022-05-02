@@ -48,9 +48,10 @@ const Table = ({
   ActionsComponent,
   onRowClick = () => {},
   rowIsSelectable = false,
+  query,
+  variables,
 }) => {
   const emptyRows = pageSize - rows.length;
-  // const classes = tableStyles();
   const [selectedRow, setSelectedRow] = useState(0);
   const defaultClasses = tableStyles();
 
@@ -98,6 +99,8 @@ const Table = ({
               columns={dataDownloaderColumns || columns}
               rows={dataDownloaderRows}
               fileStem={dataDownloaderFileStem}
+              query={query}
+              variables={variables}
             />
           </Grid>
         )}

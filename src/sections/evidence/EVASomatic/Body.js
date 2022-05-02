@@ -219,12 +219,14 @@ function Body({ definition, id, label }) {
     Summary.fragments.evaSomaticSummary
   );
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.evaSomaticSummary.count,
+  };
+
   const request = useQuery(EVA_SOMATIC_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.evaSomaticSummary.count,
-    },
+    variables,
   });
 
   return (
@@ -235,33 +237,25 @@ function Body({ definition, id, label }) {
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
       )}
-      renderBody={({
-        disease,
-        target: {
-          hallmarks: { attributes },
-        },
-      }) => {
+      renderBody={({ disease, target: { hallmarks } }) => {
         const { rows } = disease.evidences;
 
-        const roleInCancerItems = attributes
-          .filter(attribute => attribute.name === 'role in cancer')
-          .map(attribute => ({
-            label: attribute.reference.description,
-            url: epmcUrl(attribute.reference.pubmedId),
-          }));
+        const roleInCancerItems =
+          hallmarks && hallmarks.attributes.length > 0
+            ? hallmarks.attributes
+                .filter(attribute => attribute.name === 'role in cancer')
+                .map(attribute => ({
+                  label: attribute.description,
+                  url: epmcUrl(attribute.pmid),
+                }))
+            : [{ label: 'Unknown' }];
         return (
           <>
             <Box className={classes.roleInCancerBox}>
               <Typography className={classes.roleInCancerTitle}>
                 <b>{label.symbol}</b> role in cancer:
               </Typography>
-              <ChipList
-                items={
-                  roleInCancerItems.length > 0
-                    ? roleInCancerItems
-                    : [{ label: 'Unknown' }]
-                }
-              />
+              <ChipList items={roleInCancerItems} />
             </Box>
             <DataTable
               columns={columns}
@@ -271,6 +265,8 @@ function Body({ definition, id, label }) {
               sortBy="score"
               order="desc"
               rowsPerPageOptions={defaultRowsPerPageOptions}
+              query={EVA_SOMATIC_QUERY.loc.source.body}
+              variables={variables}
             />
           </>
         );

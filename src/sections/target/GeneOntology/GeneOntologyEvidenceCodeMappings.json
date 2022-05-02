@@ -1,0 +1,158 @@
+[
+  {
+    "evidenceCode": "EXP",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from Experiment (EXP)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Experiment_(EXP)"
+  },
+  {
+    "evidenceCode": "IDA",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from Direct Assay (IDA)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Direct_Assay_(IDA)"
+  },
+  {
+    "evidenceCode": "IPI",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from Physical Interaction (IPI)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Physical_Interaction_(IPI)"
+  },
+  {
+    "evidenceCode": "IMP",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from Mutant Phenotype (IMP)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Mutant_Phenotype_(IMP)"
+  },
+  {
+    "evidenceCode": "IGI",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from Genetic Interaction (IGI)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Genetic_Interaction_(IGI)"
+  },
+  {
+    "evidenceCode": "IEP",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from Expression Pattern (IEP)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Expression_Pattern_(IEP)"
+  },
+  {
+    "evidenceCode": "HTP",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from High Throughput Experiment (HTP)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_High_Throughput_Experiment_(HTP)"
+  },
+  {
+    "evidenceCode": "HAD",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from High Throughput Direct Assay (HDA)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_High_Throughput_Direct_Assay_(HDA)"
+  },
+  {
+    "evidenceCode": "HMP",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from High Throughput Mutant Phenotype (HMP)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_High_Throughput_Mutant_Phenotype_(HMP)"
+  },
+  {
+    "evidenceCode": "HGI",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from High Throughput Genetic Interaction (HGI)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_High_Throughput_Genetic_Interaction_(HGI)"
+  },
+  {
+    "evidenceCode": "HEP",
+    "evidenceCategory": "Experimental evidence codes",
+    "evidenceLabel": "Inferred from High Throughput Expression Pattern (HEP)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_High_Throughput_Expression_Pattern_(HEP)"
+  },
+  {
+    "evidenceCode": "IBA",
+    "evidenceCategory": "Phylogenetically-inferred annotations",
+    "evidenceLabel": "Inferred from Biological aspect of Ancestor (IBA)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Biological_aspect_of_Ancestor_(IBA)"
+  },
+  {
+    "evidenceCode": "IBD",
+    "evidenceCategory": "Phylogenetically-inferred annotations",
+    "evidenceLabel": "Inferred from Biological aspect of Descendant (IBD)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Biological_aspect_of_Descendant_(IBD)"
+  },
+  {
+    "evidenceCode": "IKR",
+    "evidenceCategory": "Phylogenetically-inferred annotations",
+    "evidenceLabel": "Inferred from Key Residues (IKR)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Key_Residues_(IKR)"
+  },
+  {
+    "evidenceCode": "IRD",
+    "evidenceCategory": "Phylogenetically-inferred annotations",
+    "evidenceLabel": "Inferred from Rapid Divergence (IRD)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Rapid_Divergence(IRD)"
+  },
+  {
+    "evidenceCode": "ISS",
+    "evidenceCategory": "Computational analysis evidence codes",
+    "evidenceLabel": "Inferred from Sequence or structural Similarity (ISS)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Sequence_or_structural_Similarity_(ISS)"
+  },
+  {
+    "evidenceCode": "ISO",
+    "evidenceCategory": "Computational analysis evidence codes",
+    "evidenceLabel": "Inferred from Sequence Orthology (ISO)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Sequence_Orthology_(ISO)"
+  },
+  {
+    "evidenceCode": "ISA",
+    "evidenceCategory": "Computational analysis evidence codes",
+    "evidenceLabel": "Inferred from Sequence Alignment (ISA)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Sequence_Alignment_(ISA)"
+  },
+  {
+    "evidenceCode": "ISM",
+    "evidenceCategory": "Computational analysis evidence codes",
+    "evidenceLabel": "Inferred from Sequence Model (ISM)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Sequence_Model_(ISM)"
+  },
+  {
+    "evidenceCode": "IGC",
+    "evidenceCategory": "Computational analysis evidence codes",
+    "evidenceLabel": "Inferred from Genomic Context (IGC)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Genomic_Context_(IGC)"
+  },
+  {
+    "evidenceCode": "RCA",
+    "evidenceCategory": "Computational analysis evidence codes",
+    "evidenceLabel": "Inferred from Reviewed Computational Analysis (RCA)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Reviewed_Computational_Analysis_(RCA)"
+  },
+  {
+    "evidenceCode": "TAS",
+    "evidenceCategory": "Author statement evidence codes",
+    "evidenceLabel": "Traceable Author Statement (TAS)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Traceable_Author_Statement_(TAS)"
+  },
+  {
+    "evidenceCode": "NAS",
+    "evidenceCategory": "Author statement evidence codes",
+    "evidenceLabel": "Non-traceable Author Statement (NAS)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Non-traceable_Author_Statement_(NAS)"
+  },
+  {
+    "evidenceCode": "IC",
+    "evidenceCategory": "Curator statement evidence codes",
+    "evidenceLabel": "Inferred by Curator (IC)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_by_Curator_(IC)"
+  },
+  {
+    "evidenceCode": "ND",
+    "evidenceCategory": "Curator statement evidence codes",
+    "evidenceLabel": "No biological Data available (ND)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/No_biological_Data_available_(ND)_evidence_code"
+  },
+  {
+    "evidenceCode": "IEA",
+    "evidenceCategory": "Electronic annotation evidence code",
+    "evidenceLabel": "Inferred from Electronic Annotation (IEA)",
+    "evidenceSourceUrl": "http://wiki.geneontology.org/index.php/Inferred_from_Electronic_Annotation_(IEA)"
+  }
+]

@@ -1,17 +1,5 @@
 fragment MousePhenotypesSummaryFragment on Target {
   mousePhenotypes {
-    id
-    symbol
-    phenotypes {
-      categoryLabel
-      categoryIdentifier
-      genotypePhenotype {
-        subjectBackground
-        subjectAllelicComposition
-        pubmedId
-        label
-        identifier
-      }
-    }
+    modelPhenotypeId
   }
 }

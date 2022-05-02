@@ -214,6 +214,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
             rows={rows}
             rowCount={data.disease.evidences.count}
             rowsPerPageOptions={[5, 10, 15, 20, 25]}
+            query={EUROPE_PMC_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

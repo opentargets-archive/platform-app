@@ -71,9 +71,27 @@ function EntitiesToSelect({ id }) {
     setLiteratureUpdate(update);
   };
 
-  return entities.map(e => {
-    return id === e.object.id ||
-      selectedChips.find(s => s.object.id === e.object.id) ? null : (
+  const validateEntity = entity => {
+    if (id === entity.object?.id) return null;
+    if (selectedChips.find(s => s.object.id === entity.object.id)) return null;
+    return entity;
+  };
+
+  return entities.map((e, i) => {
+    if (!e.object)
+      return (
+        <Grow in key={`empty-entity-${i}`}>
+          <Chip
+            style={{ opacity: loadingEntities ? 0.5 : 1 }}
+            label={e.id}
+            disabled={true}
+            title="Missing object entity"
+            color="secondary"
+            variant="outlined"
+          />
+        </Grow>
+      );
+    return validateEntity(e) ? (
       <Grow in key={e.object.id}>
         <Chip
           style={{ opacity: loadingEntities ? 0.5 : 1 }}
@@ -88,7 +106,7 @@ function EntitiesToSelect({ id }) {
           variant="outlined"
         />
       </Grow>
-    );
+    ) : null;
   });
 }
 

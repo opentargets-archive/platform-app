@@ -1,6 +1,5 @@
 import React from 'react';
 import { loader } from 'graphql.macro';
-import _ from 'lodash';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
@@ -16,14 +15,10 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={data => {
-        const labels = _.uniq(
-          data.mousePhenotypes
-            .flatMap(i => i.phenotypes)
-            .flatMap(p => p.genotypePhenotype)
-            .map(gp => gp.label)
-        );
-        return `${labels.length} distinct phenotypes`;
+      renderSummary={({ mousePhenotypes }) => {
+        return `${mousePhenotypes.length} distinct phenotype${
+          mousePhenotypes.length > 1 ? 's' : ''
+        }`;
       }}
     />
   );

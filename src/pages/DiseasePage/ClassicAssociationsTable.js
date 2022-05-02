@@ -6,11 +6,12 @@ import Link from '../../components/Link';
 import { Table } from '../../components/Table';
 import AssocCell from '../../components/AssocCell';
 import Legend from '../../components/Legend';
+import RelevantIcon from '../../components/RMTL/RelevantIcon';
+import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 import dataTypes from '../../dataTypes';
 import client from '../../client';
-import RelevantIcon from '../../components/RMTL/RelevantIcon';
-import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
+import config from '../../config';
 
 const DISEASE_ASSOCIATIONS_QUERY = loader('./DiseaseAssociations.gql');
 
@@ -170,28 +171,42 @@ function getColumns(efoId, classes) {
     },
   ];
 
-  dataTypes.forEach(dt => {
-    columns.push({
-      id: dt.id,
-      label: dt.label,
-      classes: {
-        headerCell: classes.headerCell,
-        innerLabel: classes.innerLabel,
-        sortLabel: classes.sortLabel,
-        cell: classes.cell,
-      },
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === dt.id
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      sortable: true,
-      renderCell: row => (
-        <AssocCell score={row[dt.id]} ensemblId={row.ensemblId} efoId={efoId} />
-      ),
+  // datatypes columns are filtered based on config
+  // for hide and private (partner) options (i.e.
+  // certain columns will be hidden)
+  dataTypes
+    .filter(
+      dt =>
+        (config.profile.hideDataTypes.length === 0 ||
+          !config.profile.hideDataTypes.includes(dt.id)) &&
+        (!dt.isPrivate || (dt.isPrivate && config.profile.isPartnerPreview))
+    )
+    .forEach(dt => {
+      columns.push({
+        id: dt.id,
+        label: dt.label,
+        classes: {
+          headerCell: classes.headerCell,
+          innerLabel: classes.innerLabel,
+          sortLabel: classes.sortLabel,
+          cell: classes.cell,
+        },
+        exportValue: data => {
+          const datatypeScore = data.datatypeScores.find(
+            datatypeScore => datatypeScore.componentId === dt.id
+          );
+          return datatypeScore ? datatypeScore.score : 'No data';
+        },
+        sortable: true,
+        renderCell: row => (
+          <AssocCell
+            score={row[dt.id]}
+            ensemblId={row.ensemblId}
+            efoId={efoId}
+          />
+        ),
+      });
     });
-  });
 
   columns.push({
     id: 'name',

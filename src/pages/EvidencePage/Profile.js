@@ -21,13 +21,13 @@ const EVIDENCE_PROFILE_QUERY = gql`
     target(ensemblId: $ensgId) {
       id
       approvedSymbol
-      proteinAnnotations {
-        id
-        functions
-      }
-      symbolSynonyms
-      nameSynonyms
+      approvedName
       pmtl_fda_designation
+      functionDescriptions
+      synonyms {
+        label
+        source
+      }
     }
     disease(efoId: $efoId) {
       id
@@ -51,6 +51,7 @@ function Profile({ ensgId, efoId, symbol, name }) {
 const [displaySettingsForExternal, setDisplaySettingsForExternal] = useState([]);
   return (
     <PlatformApiProvider
+      lsSectionsField="evidence"
       entity="disease"
       query={EVIDENCE_PROFILE_QUERY}
       variables={{ ensgId, efoId }}

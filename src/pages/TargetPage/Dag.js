@@ -1,14 +1,13 @@
 import React, { Fragment } from 'react';
-import * as d3 from 'd3';
+import { line as d3Line, curveMonotoneX, scaleQuantize } from 'd3';
 import { colorRange } from '../../constants';
 import AssociationTooltip from './AssociationTooltip';
 
-const color = d3
-  .scaleQuantize()
+const color = scaleQuantize()
   .domain([0, 1])
   .range(colorRange);
 
-const line = d3.line().curve(d3.curveMonotoneX);
+const line = d3Line().curve(curveMonotoneX);
 
 const diameter = 8;
 const radius = diameter / 2;

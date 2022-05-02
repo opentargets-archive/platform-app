@@ -1,0 +1,53 @@
+query CancerBiomarkersQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      datasourceIds: ["cancer_biomarkers"]
+      size: $size
+    ) {
+      count
+      rows {
+        disease {
+          id
+          name
+        }
+        diseaseFromSource
+        biomarkerName
+        biomarkers {
+          variant {
+            variantId: id
+            name
+            functionalConsequenceId {
+              id
+              label
+            }
+          }
+          geneExpression {
+            name
+            id {
+              id
+              name
+            }
+          }
+        }
+        drugFromSource
+        drug {
+          id
+          name
+        }
+        drugResponse {
+          id
+          name
+        }
+        confidence
+        literature
+        urls {
+          niceName
+          url
+        }
+      }
+    }
+  }
+}

@@ -10,10 +10,22 @@ src
             ├── index.js
             ├── Summary.js
             ├── Body.js
-            └── Description.js
+            ├── Description.js
+            ├── <sectionId>SummaryFragment.gql
+            └── <sectionId>Query.gql
 ```
 
-The following describe all the files in detail, following the simple [TEP section](https://github.com/opentargets/platform-app/tree/alpha/src/sections/target/Tep) from the `target` entity page as an example.
+The following describe all the files in detail, following the simple [TEP section](https://github.com/opentargets/platform-app/tree/main/src/sections/target/Tep) from the `target` entity page as an example.
+
+### GraphQL queries
+
+The queries should be imported as a separate `.gql` file whenever possible, for improved code quality and testing.
+
+There are generally two queries: one for the Summary and one for the actual widget. Some page sections will have both, some will only have the Summary query.
+
+Note that the Summary query is a `Fragment`: all fragments are then bundled together in one query for the page.
+
+Below we also use examples from the [Indications section](https://github.com/opentargets/platform-app/tree/main/src/sections/drug/Indications) on the `drug` entity page to show the Body query.
 
 ## <a name="index"></a> `index.js`
 
@@ -44,18 +56,10 @@ This component is in charge of handling the data acquisition for the summary, an
 
 ![Section summary example](Summary.png)
 
-If the section uses [Open Target's GraphQL API](https://platform-api-alpha.opentargets.io/api/v4/graphql/browser), it must include a `fragments` field with the query. This is used to add the data to the context provider used by the profile page:
+If the section uses [Open Target's GraphQL API](https://api.platform.opentargets.org/api/v4/graphql/browser), it must include a `fragments` field with the query. This is used to add the data to the context provider used by the profile page. The query should be imported as a separate .gql file whenever possible.
 
 ```javascript
-const TEP_SUMMARY_FRAGMENT = gql`
-  fragment TepSummaryFragment on Target {
-    id
-    tep {
-      uri
-      name
-    }
-  }
-`;
+const TEP_SUMMARY_FRAGMENT = loader('./TepSummaryFragment.gql');
 
 function Summary({ definition }) {
   // ...
@@ -73,7 +77,7 @@ The summary component will be used in the entity's profile page, and will bring 
 - `label`: label of the entity, in case of a target it will contain the `approvedSymbol` field from the API (`ALAS2`).
 - `definition`: the `definition` object exported by [`index.js`](#index).
 
-The render must be done in using the render prop `renderSummary` of a root [`SummaryItem`](https://github.com/opentargets/platform-app/blob/alpha/src/components/Summary/SummaryItem.js) component. It must be passed the definition for the section, and takes a `data` parameter, which will contain the request's `data` field. It is safe to assume there will be data in there, as the `SummaryItem` takes care of the loading and error states.
+The render must be done in using the render prop `renderSummary` of a root [`SummaryItem`](https://github.com/opentargets/platform-app/tree/main/src/components/Summary/SummaryItem.js) component. It must be passed the definition for the section, and takes a `data` parameter, which will contain the request's `data` field. It is safe to assume there will be data in there, as the `SummaryItem` takes care of the loading and error states.
 
 For this to assumption to work when using custom requests, the `SummaryItem` component must be passed an object with the requests' state and data structured as follows:
 
@@ -83,16 +87,16 @@ For this to assumption to work when using custom requests, the `SummaryItem` com
 | error   | `object \| null` | should be `null` if no error    |
 | data    | `object \| null` |                                 |
 
-It is also worth noting that the for sections using [Open Target's GraphQL API](https://platform-api-alpha.opentargets.io/api/v4/graphql/browser), the summary should use the [`usePlatformApi` hook](https://github.com/opentargets/platform-app/blob/alpha/src/hooks/usePlatformApi.js) to store the summary data in the [context provider](https://github.com/opentargets/platform-app/blob/alpha/src/contexts/PlatformApiProvider.js), which later on can be retrieved from the section's body if it is needed. Passing the query as a parameter is optional, and it filters the object contents to only return the part relevant to this section.
+It is also worth noting that the for sections using [Open Target's GraphQL API](https://api.platform.opentargets.org/api/v4/graphql/browser), the summary should use the [`usePlatformApi` hook](https://github.com/opentargets/platform-app/tree/main/src/hooks/usePlatformApi.js) to store the summary data in the [context provider](https://github.com/opentargets/platform-app/tree/main/src/contexts/PlatformApiProvider.js), which later on can be retrieved from the section's body if it is needed. Passing the query as a parameter is optional, and it filters the object contents to only return the part relevant to this section.
 
 ```javascript
 function Summary({ definition }) {
-  const { loading, error, data } = usePlatformApi(TEP_SUMMARY_FRAGMENT);
+  const request = usePlatformApi(TEP_SUMMARY_FRAGMENT);
 
   return (
     <SummaryItem
       definition={definition}
-      request={{ loading, error, data }}
+      request={request}
       renderSummary={() => 'Available'}
     />
   );
@@ -132,6 +136,29 @@ const Section = ({ definition, label: symbol }) => {
 };
 ```
 
+Other cases might need a specific separate query: this can be loaded with the `useQuery` hook:
+
+```javascript
+const INDICATIONS_QUERY = loader('./IndicationsQuery.gql');
+
+function Body({ definition, id: chemblId, label: name }) {
+  const request = useQuery(INDICATIONS_QUERY, { variables: { chemblId } });
+
+  return (
+    <SectionItem
+      definition={definition}
+      request={request}
+      renderDescription={() => <Description name={name} />}
+      renderBody={data => {
+        const { rows } = data.drug.indications;
+
+        return <DataTable columns={columns} rows={rows} />;
+      }}
+    />
+  );
+}
+```
+
 ## <a name="description"></a>`Description.js`
 
 This component contains the description shown in the section's body's title bar:
@@ -153,11 +180,107 @@ function Description({ symbol }) {
 }
 ```
 
+## <a name="summary-query"></a>`<sectionId>SummaryFragment.gql`
+
+This is the `gql` query fragment for the summary described above.
+
+```javascript
+fragment TepSummaryFragment on Target {
+  id
+  tep {
+    uri
+    name
+  }
+}
+```
+
+## <a name="section-query"></a>`<sectionId>Query.gql`
+
+This is the `gql` query for the Body of this section.
+
+```javascript
+query IndicationsQuery($chemblId: String!) {
+  drug(chemblId: $chemblId) {
+    id
+    indications {
+      rows {
+        maxPhaseForIndication
+        disease {
+          id
+          name
+          therapeuticAreas {
+            id
+            name
+          }
+        }
+        references {
+          ids
+          source
+        }
+      }
+    }
+  }
+}
+```
+
 # Other examples
 
-- [Related Diseases](https://github.com/opentargets/platform-app/tree/alpha/src/sections/disease/RelatedDiseases): Uses Platform-API with separate queries for summary and body.
-- [Comparative Genomics](https://github.com/opentargets/platform-app/tree/alpha/src/sections/target/ComparativeGenomics): External API.
-- [Baseline Expression](https://github.com/opentargets/platform-app/tree/alpha/src/sections/target/Expression): Platform-API in the summary; both Platform-API and external API in the body, uses a query inside each subcomponent.
+- [Indications](https://github.com/opentargets/platform-app/tree/main/src/sections/drug/Indications): Uses Platform-API with separate queries for summary and body.
+- [EuropePmc](https://github.com/opentargets/platform-app/tree/main/src/sections/evidence/EuropePmc): Uses both internal and external APIs; evidence page queries requires both gene id and disease id.
+- [Baseline Expression](https://github.com/opentargets/platform-app/tree/main/src/sections/target/Expression): Platform-API in the summary; both Platform-API and external API in the body, uses a query inside each subcomponent.
+
+## Display literature info in a table using the `PublicationsDrawer`
+
+Profile or evidence sections/widgets often include tables with a "publications" column. The `PublicationsDrawer` component allows to display minimal information in the table cell, which can be expanded on user click to show publications details in a clean "drawer" that slides in from the side of the page.
+
+Using the `PublicationsDrawer` component is really straightforward and ensures a consitent and unified publications display across the platform.
+The component takes one prop `entries`, an array containing Objects in the format `{name, url, group}`.
+
+Below is an example from the CancerGeneCensus evidence table.
+
+```
+// column definition
+const columns = [
+  // ...
+  {
+    label: 'Literature',
+    renderCell: ({ literature }) => {
+      const literatureList =
+        literature?.reduce((acc, id) => {
+          if (id === 'NA') return acc;
+
+          return [
+            ...acc,
+            {
+              name: id,
+              url: epmcUrl(id),
+              group: 'literature',
+            },
+          ];
+        }, []) || [];
+
+      return <PublicationsDrawer entries={literatureList} />;
+    },
+  }
+];
+
+// ...
+
+function Body({ definition, id, label }) {
+  return (
+    <SectionItem
+
+      // ...
+
+      return (
+        <DataTable
+          columns={columns}
+          // ...
+        />
+      )
+    />
+}
+```
 
 # Other documentation
 
