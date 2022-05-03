@@ -44,6 +44,9 @@ const useStyles = makeStyles(theme => ({
     margin: '58px 0 0px 0',
     fontSize: '16px'
   },
+  datasetContainer: {
+    fontSize: '16px'
+  },
   centerText: {
     textAlign: 'center'
   },
@@ -111,6 +114,9 @@ const useStyles = makeStyles(theme => ({
   },
   space: {
     marginBottom: '64px'
+  },
+  space90: {
+    marginBottom: '90px'
   },
   projectTitle: {
     color: '#2188D8'
@@ -665,12 +671,12 @@ const AboutView = ({ data }) => {
           </Link>.
         </Typography>
 
-        <div className={classes.space}></div>
+        <div className={classes.space90}></div>
       </Grid>
     </Grid>
     
     {/* Pediatric Cancer Data Sources */}
-    <Grid container justify="center" className={classes.container}>
+    <Grid container justify="center" className={classes.datasetContainer}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
         <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           Pediatric Cancer Data Sources
@@ -711,13 +717,13 @@ const AboutView = ({ data }) => {
         {showHide.gtexDS && gtexDataSource()}
         <hr className={classes.listDiverHr} />
 
-        <div className={classes.space}></div>
+        <div className={classes.space90}></div>
 
       </Grid>
     </Grid>
 
     {/* Pediatric Cancer Data Processing */}
-    <Grid container justify="center" className={classes.container}>
+    <Grid container justify="center" className={classes.datasetContainer}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
         <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           Pediatric Cancer Data Processing
@@ -732,13 +738,13 @@ const AboutView = ({ data }) => {
           </Link>.
         </Typography>
 
-        <div className={classes.space}></div>
+        <div className={classes.space90}></div>
 
       </Grid>
     </Grid>
 
     {/* Pediatric Cancer Data Visualizations */}
-    <Grid container justify="center" className={classes.container}>
+    <Grid container justify="center" className={classes.datasetContainer}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
         <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           Pediatric Cancer Data Visualizations
