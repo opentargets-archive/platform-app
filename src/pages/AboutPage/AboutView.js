@@ -23,7 +23,6 @@ import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 import Infographic from '../../assets/about/Infographic.png';
 import classNames from 'classnames';
-import usePlatformApi from '../../hooks/usePlatformApi';
 
 
 const useStyles = makeStyles(theme => ({
@@ -35,20 +34,14 @@ const useStyles = makeStyles(theme => ({
     fontSize: '16px'
   },
   changeLogContainer: {
-    marginTop: '80px',
+    marginBottom: '68px',
     backgroundColor: '#EDF1F4',
     color: '#000000',
     fontSize: '16px',
-    padding:'55px 40px 85px 40px',
-  },
-  changeLogSubContainer: {
     padding:'55px 40px 0px 40px',
   },
   container: {
     margin: '58px 0 0px 0',
-    fontSize: '16px'
-  },
-  datasetContainer: {
     fontSize: '16px'
   },
   centerText: {
@@ -61,11 +54,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: '34px',
     fontWeight: '600',
     lineHeight: '24.96px'
-  },
-  boxTitle: {
-    marginBottom: '34px',
-  },
 
+  },
   infographicContainer: {
     display: 'flex',
     flexWrap: 'wrap'
@@ -119,9 +109,6 @@ const useStyles = makeStyles(theme => ({
   space: {
     marginBottom: '64px'
   },
-  space90: {
-    marginBottom: '90px'
-  },
   projectTitle: {
     color: '#2188D8'
   },  
@@ -158,7 +145,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AboutView = ({ data }) => {
-  const request = usePlatformApi()
   const classes = useStyles();
   const appTitle = "About Page";
   const [showHide, setShowHide] = useState(
@@ -168,8 +154,7 @@ const AboutView = ({ data }) => {
       targetDS: false,
       kidsFirstDS: false,
       openPbtaDS: false,
-      oncokbDS: false,
-      gtexDS: false,
+      oncokbDS: false, 
 
       pedCanDataNavDV: true,
       fdaPmtlDV: false,
@@ -178,9 +163,6 @@ const AboutView = ({ data }) => {
 
     }
   )
-
-  const BEversion = 
-      request.loading ? "Loading..." : request.data?.meta?.mtpVersion?.version || version.backend
   const contactEmail = `mailto:${contact.email}`
 
   const showHideContent = (id) => {
@@ -208,6 +190,7 @@ const AboutView = ({ data }) => {
     )
   }
 
+
   const fdaPmtlDataSource = ()=>{
     return (
       <div className={classes.listContent}>
@@ -224,7 +207,7 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target" external>{' '} 
-            FDA Pediatric Molecular Target Lists<ExternalLinkIcon />{' '}
+            FDA Pediatric Molecular Target List<ExternalLinkIcon />{' '}
           </Link><br/> 
           Where this data is used in the MTP: 
           <Link to="/fda-pmtl">{' '} 
@@ -349,28 +332,7 @@ const AboutView = ({ data }) => {
         </p>
       </div>
     )
-  }
-  
-  const gtexDataSource = () => {
-    return (
-      <div className={classes.listContent}>
-        <p>
-          GTEx project is an ongoing effort to build a comprehensive public data resource and tissue
-          bank to study tissue-specific gene expression, regulation and their relationship with
-          genetic variants. Samples were collected from 54 non-diseased tissue sites across nearly
-          1000 individuals, primarily for molecular assays including WGS, WES, and RNA-Seq.
-          OpenPedCan project includes 17382 GTEx RNA-Seq samples from GTEx v8 release, which
-          span across 31 GTEx groups in the v10 release.
-        </p>
-        <p>
-          SOURCE:{' '}
-          <Link to="https://gtexportal.org/home/" external>
-            GTEx<ExternalLinkIcon />
-          </Link>
-        </p>
-      </div>
-    )
-  }
+  }  
 
   const fdaPmtlDataVisualizations = () => {
     return (
@@ -524,7 +486,7 @@ const AboutView = ({ data }) => {
   // Temporally solution to offset when scrolling to specific section of page.
   const ChangeLogOffset = () => {
     return (
-      <p id="changeLog" style={{display: 'block', position: 'relative', top: '-130px', visibility: 'hidden'}}></p>
+      <p id="changeLog" style={{display: 'block', position: 'relative', top: '-120px', visibility: 'hidden'}}></p>
     )
   }
 
@@ -623,14 +585,14 @@ const AboutView = ({ data }) => {
         </Typography>
         <Typography paragraph>
           This About page will document all of the new data and features present in the Molecular Targets Platform. 
-          For detailed descriptions and tutorials of the built-in functions of the Open Targets Platform, please see their{' '}
-          <Link to="https://platform-docs.opentargets.org/" external> 
-            documentation<ExternalLinkIcon />
-          </Link>{' '}
-          or their{' '}
-          <Link to="https://platform-docs.opentargets.org/citation" external> 
-             most recent publication<ExternalLinkIcon />
-          </Link>.
+          For detailed descriptions and tutorials of the built-in functions of the Open Targets Platform, please see their 
+          <Link to="https://platform-docs.opentargets.org/" external>{' '} 
+            documentation<ExternalLinkIcon />{' '}
+          </Link> 
+          or their 
+          <Link to="https://platform-docs.opentargets.org/citation" external>{' '} 
+             most recent publication<ExternalLinkIcon />.
+          </Link> 
         </Typography>
 
         <Typography paragraph className={classes.space}>
@@ -645,58 +607,20 @@ const AboutView = ({ data }) => {
 
     </Grid>
 
-    {/* Pediatric Cancer Disease */}
+    {/* Pediatric Cancer Data Sources */}
     <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
-          Pediatric Cancer Disease
-        </Typography>
-        <Typography paragraph>
-          Pediatric cancers are rare and heterogeneous, and have a different biology even from adult
-          cancers of the same name. Due to the complexity and rarity, there was no international
-          standard of classification until the end of 2021 when WHO updated their standards to
-          include a distinct section for pediatric tumors. Considering the challenges and historical
-          lack of standards, disease assignment and molecular subtyping is a challenging process.
-          For Open Targets, classifying pediatric tumors starts with the pathologist’s report from
-          original diagnosis followed by confirmation of the molecular features of the disease using
-          the repository data. The specific molecular features examined for each disease were
-          determined by the literature with expert review and curation from both bioinformaticians
-          and clinicians. A final disease label is assigned based on the combination of the clinical
-          pathology report and the molecular features in the data. If there is a discrepancy between
-          clinical and molecular labels, samples are reviewed by a pathologist and final disease
-          assignment is made in consultation with pathology, bioinformatics, and clinicians. For
-          each disease, a non-exhaustive list of synonyms as well as the specific Experimental
-          Factor Ontology (EFO) label used can be found on the individual page for each disease. For
-          more details on disease assignment see {' '}
-          <Link external to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis/tree/dev/analyses/molecular-subtyping-pathology">
-            OpenPedCan Molecular Subtyping and Pathology Documentation
-            <ExternalLinkIcon />
-          </Link>.
-          For a summary table of the number of subjects included,{' '}
-          <Link external to="https://github.com/PediatricOpenTargets/documentation/blob/main/disease_subject_counts.tsv">
-            a table is available for viewing and download
-            <ExternalLinkIcon />
-          </Link>.
-        </Typography>
-
-        <div className={classes.space90}></div>
-      </Grid>
-    </Grid>
-    
-    {/* Pediatric Cancer Data Sources */}
-    <Grid container justify="center" className={classes.datasetContainer}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
+        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
           Pediatric Cancer Data Sources
         </Typography>
 
-        {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Target Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
+        {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
+        {listHeader("FDA Pediatric Molecular Targets Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
         {showHide.fdaPmtlDS && fdaPmtlDataSource()}
         <hr className={classes.listDiverHr} />
 
         {/* Open Pediatric Cancer (OpenPedCan) */}
-        {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan", "openPedCanDS")}
+        {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan ", "openPedCanDS")}
         {showHide.openPedCanDS && openPedCanDataSource()}
         <hr className={classes.listDiverHr} />
 
@@ -716,45 +640,18 @@ const AboutView = ({ data }) => {
         <hr className={classes.listDiverHr} />
 
         {/* Oncology Knowledge Base (OncoKB) Cancer Gene List */}
-        {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB", "oncokbDS")}
+        {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB ", "oncokbDS")}
         {showHide.oncokbDS && oncokbDataSource()}
         <hr className={classes.listDiverHr} />
-
-        {/* Genotype-Tissue Expression */}
-        {listHeader("Genotype-Tissue Expression %acronym", "GTEx", "gtexDS")}
-        {showHide.gtexDS && gtexDataSource()}
-        <hr className={classes.listDiverHr} />
-
-        <div className={classes.space90}></div>
-
-      </Grid>
-    </Grid>
-
-    {/* Pediatric Cancer Data Processing */}
-    <Grid container justify="center" className={classes.datasetContainer}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
-          Pediatric Cancer Data Processing
-        </Typography>
-        <Typography paragraph>
-          Open Pediatric Cancer (OpenPedCan) project at the Children’s Hospital of Philadelphia,
-          in partnership with the National Cancer Institute, is combining and harmonizing pediatric
-          cancer datasets to accelerate pediatric cancer target identification and drug development.
-          To read more about the OpenPedCan data processing methods, view the{' '}
-          <Link to="https://github.com/PediatricOpenTargets/documentation" external>
-            documentation<ExternalLinkIcon />
-          </Link>.
-        </Typography>
-
-        <div className={classes.space90}></div>
-
+        
+        <div className={classes.space}></div>
       </Grid>
     </Grid>
 
     {/* Pediatric Cancer Data Visualizations */}
-    <Grid container justify="center" className={classes.datasetContainer}>
+    <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
+        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
           Pediatric Cancer Data Visualizations
         </Typography>
 
@@ -763,8 +660,8 @@ const AboutView = ({ data }) => {
         {showHide.pedCanDataNavDV && pedCanDataNavDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
-        {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Target Lists %acronym","FDA PMTL", "fdaPmtlDV")}
+        {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
+        {listHeader("FDA Pediatric Molecular Targets Lists %acronym","FDA PMTL", "fdaPmtlDV")}
         {showHide.fdaPmtlDV && fdaPmtlDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
@@ -782,7 +679,7 @@ const AboutView = ({ data }) => {
 
     {/* Change Log */}
     <ChangeLogOffset />
-    <Grid container justify="center" className={classes.changeLogContainer}>
+    <Grid container justify="center" className={[classes.container,classes.changeLogContainer]}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
 
         <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
@@ -794,7 +691,7 @@ const AboutView = ({ data }) => {
           at varying intervals. In order to comprehensively track changes, the various changelogs are aggregated here.
         </Typography>
         
-        <Grid item className={classes.changeLogSubContainer}>
+        <Grid item className={classes.changeLogContainer}>
           <Paper className={classes.changeLogPaper}>
             <div className={classes.changeLogBox}>
               <div className={classes.changeLogBoxLeft} >
@@ -843,7 +740,7 @@ const AboutView = ({ data }) => {
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   Molecular Targets Platform Backend
                 </Typography>
-                <b>Version in use</b>: {BEversion} <br />
+                <b>Version in use</b>: {version.backend} <br />
                 <b>Detailed Change Log</b>: 
                 <Link to={version.backendURL} external>{' '} 
                   MTP Backend Release<ExternalLinkIcon />
