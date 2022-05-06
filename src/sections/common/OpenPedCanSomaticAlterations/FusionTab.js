@@ -75,7 +75,7 @@ const dataDownloaderColumns = [
   { id: 'frequencyInRelapseTumors' },
 ]
 
-function FusionTab({data, dataDownloaderFileStem}) {
+function FusionTab({ data, BODY_QUERY, variables, dataDownloaderFileStem }) {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -89,6 +89,8 @@ function FusionTab({data, dataDownloaderFileStem}) {
           rowsPerPageOptions={defaultRowsPerPageOptions}
           noWrapHeader={false}
           order="asc"
+          query={BODY_QUERY.loc.source.body}
+          variables={variables}
         />
       </Grid> 
     </Grid>
