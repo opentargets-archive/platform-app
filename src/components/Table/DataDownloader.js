@@ -17,6 +17,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import 'graphiql/graphiql.min.css';
 import { fetcher } from '../../utils/global';
 import Link from '../Link';
+import ExternalLinkIcon from '../ExternalLinkIcon';
+
 
 // lazy load GraphiQL and remove Logo and Toolbar
 const GraphiQL = lazy(() =>
@@ -255,16 +257,16 @@ function DataDownloader({ columns, rows, fileStem, captionLabel="Download table 
         </Typography>
         <Paper className={classes.paper} variant="outlined">
           Press the Play button to explore the GraphQL API query used to
-          populate this table. You can also visit our{' '}
+          populate this table. You can also visit the{' '}
           <Link
             external
             to="https://platform-docs.opentargets.org/data-access/graphql-api"
           >
-            GraphQL API documentation
+            GraphQL API documentation<ExternalLinkIcon/>
           </Link>{' '}
           and{' '}
           <Link external to="https://community.opentargets.org">
-            Community
+            Community<ExternalLinkIcon/>
           </Link>{' '}
           for more how-to guides and tutorials.
         </Paper>
