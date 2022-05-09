@@ -614,8 +614,8 @@ const AboutView = ({ data }) => {
           Pediatric Cancer Data Sources
         </Typography>
 
-        {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Targets Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
+        {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
+        {listHeader("FDA Pediatric Molecular Target Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
         {showHide.fdaPmtlDS && fdaPmtlDataSource()}
         <hr className={classes.listDiverHr} />
 
@@ -660,8 +660,8 @@ const AboutView = ({ data }) => {
         {showHide.pedCanDataNavDV && pedCanDataNavDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
-        {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Targets Lists %acronym","FDA PMTL", "fdaPmtlDV")}
+        {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
+        {listHeader("FDA Pediatric Molecular Target Lists %acronym","FDA PMTL", "fdaPmtlDV")}
         {showHide.fdaPmtlDV && fdaPmtlDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
