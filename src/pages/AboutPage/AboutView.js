@@ -207,7 +207,7 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target" external>{' '} 
-            FDA Pediatric Molecular Target List<ExternalLinkIcon />{' '}
+            FDA Pediatric Molecular Target Lists<ExternalLinkIcon />{' '}
           </Link><br/> 
           Where this data is used in the MTP: 
           <Link to="/fda-pmtl">{' '} 
