@@ -16,6 +16,19 @@ function Body({ definition, id: ensemblId, label: symbol }) {
     variables: { ensemblId },
   });
 
+  const LocationsList = ({ title, sls }) => {
+    return (
+      <>
+        {title ? <Typography>{title}</Typography> : null}
+        <List>
+          {sls.map(({ location }) => (
+            <ListItem key={location}>- {location}</ListItem>
+          ))}
+        </List>
+      </>
+    );
+  };
+
   return (
     <SectionItem
       definition={definition}
@@ -41,8 +54,6 @@ function Body({ definition, id: ensemblId, label: symbol }) {
             uniprot.push(sl);
           }
         });
-        // TODO: mock data - replace with API results
-        const goLocations = ['0005829', '0005615', '0045095'];
 
         return (
           <>
@@ -64,34 +75,20 @@ function Body({ definition, id: ensemblId, label: symbol }) {
                 </Typography>
                 <Box ml={4} mt={1}>
                   {hpaMain.length > 0 ? (
-                    <>
-                      <Typography>HPA (main)</Typography>
-                      <List>
-                        {hpaMain.map(location => (
-                          <ListItem key={location}>- {location}</ListItem>
-                        ))}
-                      </List>
-                    </>
+                    <LocationsList title="HPA (main)" sls={hpaMain} />
                   ) : null}
+
                   {hpaAdditional.length > 0 ? (
-                    <>
-                      <Typography>HPA (additional)</Typography>
-                      <List>
-                        {hpaAdditional.map(location => (
-                          <ListItem key={location}>- {location}</ListItem>
-                        ))}
-                      </List>
-                    </>
+                    <LocationsList
+                      title="HPA (additional)"
+                      sls={hpaAdditional}
+                    />
                   ) : null}
                   {hpaExtracellular.length > 0 ? (
-                    <>
-                      <Typography>HPA (extracellular)</Typography>
-                      <List>
-                        {hpaExtracellular.map(location => (
-                          <ListItem key={location}>- {location}</ListItem>
-                        ))}
-                      </List>
-                    </>
+                    <LocationsList
+                      title="HPA (extracellular)"
+                      sls={hpaExtracellular}
+                    />
                   ) : null}
                 </Box>
               </Box>
@@ -104,11 +101,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
                     {uniprotId}
                   </Link>
                 </Typography>
-                <List>
-                  {uniprot.map(location => (
-                    <ListItem key={location}>- {location}</ListItem>
-                  ))}
-                </List>
+                <LocationsList sls={uniprot} />
               </Box>
             ) : null}
           </>
