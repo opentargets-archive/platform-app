@@ -17,7 +17,7 @@ const CanonicalDefinition = customElements.get(canonicalName);
  * Visualization for the SwissBioPic widget.
  * This is based on Uniprot's approach
  */
-function SwissbioViz({ uniProtLocations, goLocations, taxonId, children }) {
+function SwissbioViz({ locationIds, taxonId }) {
   /*
 
   <template id="sibSwissBioPicsSlLiItem">
@@ -62,7 +62,7 @@ function SwissbioViz({ uniProtLocations, goLocations, taxonId, children }) {
       }
       customElements.define(instanceName.current, InstanceClass);
     },
-    [uniProtLocationIds, uniProtLocations, goLocationIds, goLocations]
+    [locationIds]
   );
   const Instance = props => <instanceName.current {...props} />;
   return (
@@ -70,7 +70,7 @@ function SwissbioViz({ uniProtLocations, goLocations, taxonId, children }) {
       <template id="sibSwissBioPicsStyle" />
       <div id="fakeContent" />
 
-      <Instance taxid={taxonId} contentid="fakeContent" gos={goLocationIds} />
+      <Instance taxid={taxonId} contentid="fakeContent" sls={locationIds} />
     </>
   );
 }
