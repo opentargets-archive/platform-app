@@ -27,19 +27,18 @@ function Body({ definition, id: ensemblId, label: symbol }) {
         const hpaAdditional = [];
         const hpaExtracellular = [];
         const uniprot = [];
-
-        target.subcellularLocations.forEach(({ source, location }) => {
-          if (source === 'HPA_main') {
-            hpaMain.push(location);
+        target.subcellularLocations.forEach(sl => {
+          if (sl.source === 'HPA_main') {
+            hpaMain.push(sl);
           }
-          if (source === 'HPA_additional') {
-            hpaAdditional.push(location);
+          if (sl.source === 'HPA_additional') {
+            hpaAdditional.push(sl);
           }
-          if (source === 'HPA_extracellular_location') {
-            hpaExtracellular.push(location);
+          if (sl.source === 'HPA_extracellular_location') {
+            hpaExtracellular.push(sl);
           }
-          if (source === 'uniprot') {
-            uniprot.push(location);
+          if (sl.source === 'uniprot') {
+            uniprot.push(sl);
           }
         });
         // TODO: mock data - replace with API results
