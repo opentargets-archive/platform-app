@@ -1,14 +1,7 @@
 import React, { useRef, useEffect } from 'react';
-// import { useQuery } from '@apollo/client';
-// import { loader } from 'graphql.macro';
-// import { Typography, List, ListItem, Box } from '@material-ui/core';
-
-// import Description from './Description';
-// import SectionItem from '../../../components/Section/SectionItem';
-// import Link from '../../../components/Link';
-// import { identifiersOrgLink, getUniprotIds } from '../../../utils/global';
 
 import '@swissprot/swissbiopics-visualizer';
+import config from '../../../config';
 
 const canonicalName = 'sib-swissbiopics-sl';
 const CanonicalDefinition = customElements.get(canonicalName);
@@ -50,8 +43,6 @@ function SwissbioViz({ locationIds, taxonId }) {
 
    */
   const instanceName = useRef(canonicalName + '-go');
-  const uniProtLocationIds = uniProtLocations?.map(({ id }) => id).join(',');
-  const goLocationIds = goLocations; //goLocations?.map(({ id }) => id).join(',');
 
   useEffect(
     () => {
@@ -61,13 +52,40 @@ function SwissbioViz({ locationIds, taxonId }) {
         // }
       }
       customElements.define(instanceName.current, InstanceClass);
+      const instance = document.querySelector(instanceName.current);
+      const shadowRoot = instance?.shadowRoot;
+
+      const onSvgLoaded = () => {
+        // console.log('svg loaded...');
+        const css = `
+          #fakeContent {
+            display: none;
+          }
+          .subcell_name {
+            display: none;
+          }
+          .subcell_description {
+            display: none;
+          }
+          .subcell_present .coloured {
+            fill: ${config.profile.primaryColor}
+          }
+        `;
+        // add styles
+        const style = document.createElement('style');
+        style.innerText = css;
+        shadowRoot?.appendChild(style);
+      };
+      shadowRoot?.addEventListener('svgloaded', onSvgLoaded);
+      return () => {
+        shadowRoot?.removeEventListener('svgloaded', onSvgLoaded);
+      };
     },
     [locationIds]
   );
   const Instance = props => <instanceName.current {...props} />;
   return (
     <>
-      <template id="sibSwissBioPicsStyle" />
       <div id="fakeContent" />
 
       <Instance taxid={taxonId} contentid="fakeContent" sls={locationIds} />
