@@ -1,0 +1,44 @@
+query diseaseAnnotation {
+  disease(efoId: "MONDO_0005301") {
+    id
+    name
+    phenotypes {
+      rows {
+        phenotypeHPO {
+          id
+          name
+          description
+          namespace
+        }
+        phenotypeEFO {
+          id
+          name
+        }
+        evidence {
+          aspect
+          bioCuration
+          diseaseFromSourceId
+          diseaseFromSource
+          evidenceType
+          frequency
+          frequencyHPO {
+            name
+            id
+          }
+          qualifierNot
+          onset {
+            name
+            id
+          }
+          modifiers {
+            name
+            id
+          }
+          references
+          sex
+          resource
+        }
+      }
+    }
+  }
+}

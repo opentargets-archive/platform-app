@@ -237,6 +237,8 @@ function SignorTab({ ensgId, symbol }) {
   const [selectedIntB, setSelectedIntB] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const variables = { ensgId, sourceDatabase: id };
+
   // load tab data when new tab selected (also on first load)
   useEffect(
     () => {
@@ -292,6 +294,8 @@ function SignorTab({ ensgId, symbol }) {
           }}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           loading={loading}
+          query={INTERACTIONS_QUERY.loc.source.body}
+          variables={variables}
         />
       </Grid>
 

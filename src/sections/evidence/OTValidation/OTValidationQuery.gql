@@ -1,0 +1,40 @@
+query ValidationQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      datasourceIds: ["ot_crispr_validation"]
+      size: $size
+    ) {
+      rows {
+        disease {
+          id
+          name
+        }
+        projectId
+        projectDescription
+        contrast
+        studyOverview
+        diseaseCellLines {
+          id
+          name
+          tissue
+          tissueId
+        }
+        resourceScore
+        biomarkerList {
+          name
+          description
+        }
+        confidence
+        expectedConfidence
+        validationHypotheses {
+          name
+          description
+          status
+        }
+      }
+    }
+  }
+}

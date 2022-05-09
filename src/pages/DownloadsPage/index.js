@@ -1,1 +1,1 @@
-export { default } from './DownloadsPage';
+export { default } from './DownloadsWrapper';

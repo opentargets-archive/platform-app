@@ -1,0 +1,32 @@
+query targetAnnotation {
+  target(ensemblId: "ENSG00000169083") {
+    id
+    approvedSymbol
+    tractability {
+      modality
+      id
+      value
+    }
+    safetyLiabilities {
+      event
+      eventId
+      biosample {
+        cellFormat
+        cellLabel
+        tissueLabel
+        tissueId
+      }
+      effects {
+        dosing
+        direction
+      }
+      study {
+        name
+        type
+        description
+      }
+      datasource
+      literature
+    }
+  }
+}

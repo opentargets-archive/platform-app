@@ -13,7 +13,7 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={data => `${data.reactome.length} Reactome pathways`}
+      renderSummary={({ pathways }) => `${pathways.length} Reactome pathways`}
     />
   );
 }

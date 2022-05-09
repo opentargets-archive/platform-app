@@ -1,9 +1,12 @@
+import { isPrivateDiseaseSection } from '../../../utils/partnerPreviewUtils';
+
+const id = 'otProjects';
 export const definition = {
-  id: 'otarProjects',
+  id: id,
   name: 'Open Targets Projects',
   shortName: 'OP',
-  // TODO: determine if there's data using real data from API
-  hasData: () => true,
+  hasData: data => data.otarProjects?.length > 0,
+  isPrivate: isPrivateDiseaseSection(id),
 };
 
 export { default as Summary } from './Summary';

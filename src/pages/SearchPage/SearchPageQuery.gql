@@ -22,10 +22,7 @@ query SearchPageQuery(
         ... on Target {
           id
           approvedSymbol
-          proteinAnnotations {
-            id
-            functions
-          }
+          functionDescriptions
         }
 
         ... on Disease {
@@ -53,11 +50,11 @@ query SearchPageQuery(
           id
           approvedSymbol
           approvedName
-          bioType
-          proteinAnnotations {
+          functionDescriptions
+          biotype
+          proteinIds {
             id
-            functions
-            accessions
+            source
           }
         }
         ... on Disease {

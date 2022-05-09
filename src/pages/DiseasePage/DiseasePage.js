@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import BasePage from '../../components/BasePage';
-import ScrollToTop from '../../components/ScrollToTop';
-import ClassicAssociations from './ClassicAssociations';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import Profile from './Profile';
+import ScrollToTop from '../../components/ScrollToTop';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
+
+const Profile = lazy(() => import('./Profile'));
+const ClassicAssociations = lazy(() => import('./ClassicAssociations'));
 
 const DISEASE_PAGE_QUERY = loader('./DiseasePage.gql');
 
@@ -21,7 +22,7 @@ function DiseasePage({ location, match }) {
     return <NotFoundPage />;
   }
 
-  const { name } = data?.disease || {};
+  const { name, dbXRefs } = data?.disease || {};
 
   return (
     <BasePage
@@ -37,7 +38,7 @@ function DiseasePage({ location, match }) {
       }
       location={location}
     >
-      <Header loading={loading} efoId={efoId} name={name} />
+      <Header loading={loading} efoId={efoId} name={name} dbXRefs={dbXRefs} />
       <ScrollToTop />
       <RoutingTabs>
         <RoutingTab

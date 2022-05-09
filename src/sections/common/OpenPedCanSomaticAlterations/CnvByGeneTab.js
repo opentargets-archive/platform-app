@@ -59,7 +59,7 @@ const dataDownloaderColumns = [
   { id: 'MONDO' },
 ]
 
-function CnvByGeneTab({data, dataDownloaderFileStem}) {
+function CnvByGeneTab({ data, BODY_QUERY, variables, dataDownloaderFileStem }) {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -73,6 +73,8 @@ function CnvByGeneTab({data, dataDownloaderFileStem}) {
           rowsPerPageOptions={defaultRowsPerPageOptions}
           noWrapHeader={false}
           order="asc"
+          query={BODY_QUERY.loc.source.body}
+          variables={variables}
         />
       </Grid> 
     </Grid>

@@ -12,6 +12,7 @@ import { scroller } from 'react-scroll';
 
 import summaryStyles from './summaryStyles';
 import { createShortName } from './utils';
+import PartnerLockIcon from '../PartnerLockIcon';
 
 function SummaryItem({ definition, request, renderSummary, subText }) {
   const color = definition.color
@@ -60,7 +61,8 @@ function SummaryItem({ definition, request, renderSummary, subText }) {
                 })}
                 variant="body2"
               >
-                {definition.name}
+                {definition.name}{' '}
+                {definition.isPrivate ? <PartnerLockIcon /> : null}
               </Typography>
               {subText ? (
                 <Typography

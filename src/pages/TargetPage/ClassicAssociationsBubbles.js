@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Grid, Typography, useTheme } from '@material-ui/core';
 import { withContentRect } from 'react-measure';
-import * as d3 from 'd3';
+import { scaleQuantize, pack, hierarchy } from 'd3';
 
 import AssociationTooltip from './AssociationTooltip';
 import { colorRange } from '../../constants';
@@ -71,8 +71,7 @@ function buildHierarchicalData(associations, idToDisease) {
   };
 }
 
-const color = d3
-  .scaleQuantize()
+const color = scaleQuantize()
   .domain([0, 1])
   .range(colorRange);
 
@@ -91,9 +90,8 @@ function ClassicAssociationsBubbles({
   const { width: size } = contentRect.bounds;
 
   const hierarchicalData = buildHierarchicalData(assocs, idToDisease);
-  const root = d3.hierarchy(hierarchicalData);
-  const packLayout = d3
-    .pack()
+  const root = hierarchy(hierarchicalData);
+  const packLayout = pack()
     .size([size, size])
     .padding(node => (node.data.uniqueId === 'EFO_ROOT' ? 17 : 2));
   root.sum(d => d.score);

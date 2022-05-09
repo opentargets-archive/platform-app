@@ -78,7 +78,7 @@ const dataDownloaderColumns = [
   { id: 'OncoKBOncogeneTSG' },
 ]
 
-function SnvByVariantTab({data, dataDownloaderFileStem}) {
+function SnvByVariantTab({ data, BODY_QUERY, variables, dataDownloaderFileStem }) {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -92,6 +92,8 @@ function SnvByVariantTab({data, dataDownloaderFileStem}) {
           rowsPerPageOptions={defaultRowsPerPageOptions}
           noWrapHeader={false}
           order="asc"
+          query={BODY_QUERY.loc.source.body}
+          variables={variables}
         />
       </Grid> 
     </Grid>

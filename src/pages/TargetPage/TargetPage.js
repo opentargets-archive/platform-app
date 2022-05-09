@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { loader } from 'graphql.macro';
 import { useQuery } from '@apollo/client';
 import { Switch, Route, Link } from 'react-router-dom';
@@ -8,8 +8,13 @@ import BasePage from '../../components/BasePage';
 import ScrollToTop from '../../components/ScrollToTop';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import Profile from '../TargetPage/Profile';
-import ClassicAssociations from '../TargetPage/ClassicAssociations';
+import { getUniprotIds } from '../../utils/global';
+import LoadingBackdrop from '../../components/LoadingBackdrop';
+
+const Profile = lazy(() => import('../TargetPage/Profile'));
+const ClassicAssociations = lazy(() =>
+  import('../TargetPage/ClassicAssociations')
+);
 
 const TARGET_PAGE_QUERY = loader('./TargetPage.gql');
 
@@ -23,9 +28,10 @@ function TargetPage({ location, match }) {
     return <NotFoundPage />;
   }
 
-  const { approvedSymbol: symbol, approvedName, pmtl_fda_designation: pmtl } =
-    data?.target || {};
-  const uniprotId = data?.target.proteinAnnotations?.id;
+  const { approvedSymbol: symbol, approvedName, pmtl_fda_designation: pmtl } = data?.target || {};
+  const uniprotIds = loading ? null : getUniprotIds(data.target.proteinIds);
+  const crisprId = data?.target.dbXrefs.find(p => p.source === 'ProjectScore')
+    ?.id;
 
   return (
     <BasePage
@@ -45,10 +51,11 @@ function TargetPage({ location, match }) {
       <Header
         loading={loading}
         ensgId={ensgId}
-        uniprotId={uniprotId}
+        uniprotIds={uniprotIds}
         symbol={symbol}
         name={approvedName}
         pmtl={pmtl}
+        crisprId={crisprId}
       />
 
       <Tabs
@@ -71,14 +78,16 @@ function TargetPage({ location, match }) {
           to={match.url}
         />
       </Tabs>
-      <Switch>
-        <Route path={`${match.path}/associations`}>
-          <ClassicAssociations ensgId={ensgId} symbol={symbol} />
-        </Route>
-        <Route path={match.path}>
-          <Profile ensgId={ensgId} symbol={symbol} />
-        </Route>
-      </Switch>
+      <Suspense fallback={<LoadingBackdrop />}>
+        <Switch>
+          <Route path={`${match.path}/associations`}>
+            <ClassicAssociations ensgId={ensgId} symbol={symbol} />
+          </Route>
+          <Route path={match.path}>
+            <Profile ensgId={ensgId} symbol={symbol} />
+          </Route>
+        </Switch>
+      </Suspense>
     </BasePage>
   );
 }

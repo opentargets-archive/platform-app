@@ -1,0 +1,10 @@
+fragment otValidationSummary on Disease {
+  otValidationSummary: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["ot_crispr_validation"]
+    size: 0
+  ) {
+    count
+  }
+}

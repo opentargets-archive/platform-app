@@ -67,8 +67,10 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
     },
   } = usePlatformApi(Summary.fragments.SysBioSummaryFragment);
 
+  const variables = { ensemblId: ensgId, efoId, size };
+
   const request = useQuery(SYSBIO_QUERY, {
-    variables: { ensemblId: ensgId, efoId, size },
+    variables,
   });
 
   return (
@@ -86,6 +88,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           pageSize={10}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
+          query={SYSBIO_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />

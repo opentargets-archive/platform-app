@@ -7,7 +7,7 @@ const summaryStyles =makeStyles((theme) => {
     backgroundColor: theme.palette.grey[300],
   },
   avatarHasData: {
-    backgroundColor: props => props.color ? props.color : theme.palette.primary.main,
+    backgroundColor: props => `${props.color ? props.color : theme.palette.primary.main} !important`,
   },
   avatarError: {
     backgroundColor: props => props.color ? props.color :theme.palette.secondary.main,
@@ -33,7 +33,7 @@ const summaryStyles =makeStyles((theme) => {
     },
     '&:hover $avatarHasData': {
       color: props => props.color ? props.color : theme.palette.primary.main,
-      backgroundColor: 'white',
+      backgroundColor: 'white !important',
     },
   },
   cardHeader: {

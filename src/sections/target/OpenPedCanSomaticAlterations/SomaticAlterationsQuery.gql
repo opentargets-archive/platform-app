@@ -1,4 +1,4 @@
-query SomaticAlterationsQuery($ensemblId: String!, $size: Int!) {
+query SomaticAlterationsQuery($ensemblId: String!, $size: Int = 20) {
   snvByGene: target(ensemblId: $ensemblId) {
     id
     evidences(efoIds: [], size: $size, datasourceIds: ["chop_gene_level_snv"]) {

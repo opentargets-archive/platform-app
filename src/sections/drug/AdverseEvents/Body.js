@@ -78,10 +78,11 @@ const getColumns = (critVal, maxLlr, classes) => {
 
 function Body({ definition, id: chemblId, label: name }) {
   const classes = useStyles();
+  const variables = { chemblId };
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const { loading, error, data, fetchMore } = useQuery(ADVERSE_EVENTS_QUERY, {
-    variables: { chemblId },
+    variables,
   });
 
   // TODO: fetchMore doesn't seem to use gql/apollo caching
@@ -111,7 +112,7 @@ function Body({ definition, id: chemblId, label: name }) {
 
   const getAllAdverseEvents = useBatchDownloader(
     ADVERSE_EVENTS_QUERY,
-    { chemblId },
+    variables,
     'data.drug.adverseEvents'
   );
 
@@ -143,6 +144,8 @@ function Body({ definition, id: chemblId, label: name }) {
             pageSize={pageSize}
             rowsPerPageOptions={[10, 25, 50, 100]}
             onRowsPerPageChange={handleRowsPerPageChange}
+            query={ADVERSE_EVENTS_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

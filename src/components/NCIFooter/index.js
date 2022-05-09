@@ -1,13 +1,13 @@
 import React from 'react';
 import Footer from './Footer';
 import { contact, version } from '../../constants';
+import usePlatformApi from '../../hooks/usePlatformApi';
 
 const FooterData = {
   footerTitle: 'National Cancer Institute',
   footerSubTitle: 'at the National Institutes of Health',
   footerStaticText: 'NIH … Turning Discovery Into Health®',
   FEversion: version.frontend,
-  BEversion: version.backend,
   contactUs:`mailto:${contact.email}`,
   aboutPage: '/about',
   disclaimer: 'https://www.cancer.gov/policies/disclaimer',
@@ -34,7 +34,12 @@ const FooterData = {
     },
   ],
 };
-const NCIFooter = () => <><Footer data={FooterData} background={FooterData.bg} /></>;
+const NCIFooter = () => {
+  const { loading, data } = usePlatformApi()
+  const BEversion = loading ? "Loading..." : data?.meta?.mtpVersion?.version || version.backend
+
+  return <><Footer data={{...FooterData, BEversion}} background={FooterData.bg} /></>;
+}
 
 
 export default NCIFooter;

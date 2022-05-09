@@ -15,15 +15,12 @@ function Summary({ definition }) {
       definition={definition}
       request={request}
       renderSummary={data => {
-        const prefixCounts = _.countBy(data.geneOntology, row =>
-          row.term.substring(0, 1)
-        );
+        const prefixCounts = _.countBy(data.geneOntology, row => row.aspect);
         return (
           <>
             {data.geneOntology.length} terms in total
             <br />
-            {prefixCounts['F']} MF • {prefixCounts['P']} BP •{' '}
-            {prefixCounts['C']} CC
+            {prefixCounts.F} MF • {prefixCounts.P} BP • {prefixCounts.C} CC
           </>
         );
       }}

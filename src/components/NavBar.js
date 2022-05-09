@@ -19,8 +19,6 @@ const styles = theme => ({
     left: 0,
     top: 0,
     position: 'absolute',
-    background: 'none',
-    boxShadow: 'none',
   },
   flex: {
     flexGrow: 1,
@@ -39,6 +37,15 @@ const styles = theme => ({
     textDecoration: 'none',
     '&:hover': {
       color: theme.palette.secondary.main,
+    },
+  },
+  menuList: {
+    display: 'flex',
+  },
+  menuLink: {
+    color: theme.palette.secondary.contrastText,
+    '&:hover': {
+      color: theme.palette.secondary.contrastText,
     },
   },
 });

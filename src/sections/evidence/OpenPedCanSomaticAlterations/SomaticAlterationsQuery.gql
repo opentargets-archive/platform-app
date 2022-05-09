@@ -1,7 +1,7 @@
 query SomaticAlterationsQuery(
   $ensemblId: String!
   $efoId: String!
-  $size: Int!
+  $size: Int = 20
 ) {
   snvByGene: disease(efoId: $efoId) {
     id

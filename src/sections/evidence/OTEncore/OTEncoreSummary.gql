@@ -1,0 +1,10 @@
+fragment otEncoreSummary on Disease {
+  otEncoreSummary: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["encore"]
+    size: 0
+  ) {
+    count
+  }
+}

@@ -16,6 +16,7 @@ query SimilarEntitiesQuery(
         entityNames: $entityNames
       ) {
         score
+        id
         object {
           ... on Target {
             id

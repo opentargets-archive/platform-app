@@ -1,0 +1,19 @@
+query associatedDiseases {
+  target(ensemblId: "ENSG00000127318") {
+    id
+    approvedSymbol
+    associatedDiseases {
+      count
+      rows {
+        disease {
+          id
+          name
+        }
+        datasourceScores {
+          id
+          score
+        }
+      }
+    }
+  }
+}

@@ -1,11 +1,11 @@
 import React from 'react';
-import * as d3 from 'd3';
+import { max, select } from 'd3';
 
 class Histogram extends React.Component {
   update = () => {
     const { id, data } = this.props;
-    const maxLength = d3.max(data, d => d.length);
-    const barsContainer = d3.select(`#histogram-${id} g`);
+    const maxLength = max(data, d => d.length);
+    const barsContainer = select(`#histogram-${id} g`);
 
     const bars = barsContainer.selectAll('rect').data(data);
 

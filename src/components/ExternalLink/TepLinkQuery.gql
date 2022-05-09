@@ -1,0 +1,12 @@
+query TepsInfoQuery($ensgId: String!) {
+  target(ensemblId: $ensgId) {
+    id
+    approvedSymbol
+    tep {
+      name
+      uri
+      therapeuticArea
+      description
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
@@ -6,8 +6,9 @@ import BasePage from '../../components/BasePage';
 import ScrollToTop from '../../components/ScrollToTop';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import Profile from '../DrugPage/Profile';
 import { RoutingTab, RoutingTabs } from '../../components/RoutingTabs';
+
+const Profile = lazy(() => import('../DrugPage/Profile'));
 
 const DRUG_PAGE_QUERY = loader('./DrugPage.gql');
 

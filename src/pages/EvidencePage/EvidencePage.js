@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
@@ -7,7 +7,10 @@ import ScrollToTop from '../../components/ScrollToTop';
 
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import Profile from './Profile';
+
+import LoadingBackdrop from '../../components/LoadingBackdrop';
+
+const Profile = lazy(() => import('./Profile'));
 
 const EVIDENCE_PAGE_QUERY = loader('./EvidencePageQuery.gql');
 
@@ -38,7 +41,9 @@ function EvidencePage({ location, match }) {
         name={name}
       />
       <ScrollToTop />
-      <Profile ensgId={ensgId} efoId={efoId} symbol={symbol} name={name} />
+      <Suspense fallback={<LoadingBackdrop />}>
+        <Profile ensgId={ensgId} efoId={efoId} symbol={symbol} name={name} />
+      </Suspense>
     </BasePage>
   );
 }

@@ -1,7 +1,0 @@
-fragment TepSummaryFragment on Target {
-  id
-  tep {
-    uri
-    name
-  }
-}

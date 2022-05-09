@@ -1,16 +1,16 @@
 import React, { useRef } from 'react';
-import * as d3 from 'd3';
+import { median as d3Median, quantile } from 'd3';
 
 import { DownloadSvgPlot } from '../../../components/DownloadSvgPlot';
 import GtexVariability from './GtexVariability';
 
 export async function getData(symbol) {
   try {
-    const urlGene = `https://www.gtexportal.org/rest/v1/reference/gene?geneId=${symbol}&v=clversion`;
+    const urlGene = `https://gtexportal.org/rest/v1/reference/gene?format=json&geneId=${symbol}`;
     const resGene = await fetch(urlGene);
     const rawGene = await resGene.json();
     const { gencodeId } = rawGene.gene[0];
-    const urlData = `https://www.gtexportal.org/rest/v1/expression/geneExpression?boxplotDetail=full&gencodeId=${gencodeId}`;
+    const urlData = `https://gtexportal.org/rest/v1/expression/geneExpression?gencodeId=${gencodeId}`;
     const resData = await fetch(urlData);
     const rawData = await resData.json();
     const data = transformData(rawData.geneExpression);
@@ -25,9 +25,9 @@ const transformData = data => {
   return data.map(d => {
     // d3 requires for the array of values to be sorted before using median and quantile
     d.data.sort((a, b) => a - b);
-    const median = d3.median(d.data);
-    const q1 = d3.quantile(d.data, 0.25);
-    const q3 = d3.quantile(d.data, 0.75);
+    const median = d3Median(d.data);
+    const q1 = quantile(d.data, 0.25);
+    const q3 = quantile(d.data, 0.75);
     const outliers = [];
     const notoutliers = [];
     const iqr = q3 - q1; // interquartile range

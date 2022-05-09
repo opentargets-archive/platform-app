@@ -17,6 +17,9 @@ query ClingenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
         allelicRequirements
         studyId
         confidence
+        urls {
+          url
+        }
       }
     }
   }

@@ -18,6 +18,7 @@ function TreeLevel({ loading, levelId, aggs, onSelectionChange }) {
       checked={agg.checked}
       indeterminate={hasSomeChildrenChecked(agg)}
       onClick={handleSelectionChange}
+      isPrivate={agg.isPrivate}
     >
       {agg.aggs && agg.aggs.length > 0 && (
         <TreeLevel

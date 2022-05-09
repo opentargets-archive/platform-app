@@ -48,7 +48,7 @@ const dataDownloaderColumns = [
   { id: 'diseaseFromSourceMappedId', exportLabel: 'efo' },
 ]
 
-function FusionByGeneTab({data, dataDownloaderFileStem}) {
+function FusionByGeneTab({ data, BODY_QUERY, variables, dataDownloaderFileStem }) {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -62,6 +62,8 @@ function FusionByGeneTab({data, dataDownloaderFileStem}) {
           rowsPerPageOptions={defaultRowsPerPageOptions}
           noWrapHeader={false}
           order="asc"
+          query={BODY_QUERY.loc.source.body}
+          variables={variables}
         />
       </Grid> 
     </Grid>

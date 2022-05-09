@@ -10,11 +10,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ClinvarStars({ num }) {
+function ClinvarStars({ num, length = 4 }) {
   const classes = useStyles();
 
   const stars = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < length; i++) {
     stars.push(
       <FontAwesomeIcon
         key={i}

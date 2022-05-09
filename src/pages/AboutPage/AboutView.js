@@ -20,10 +20,10 @@ import {
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
-import externalIcon from '../../assets/about/About-ExternalLink.svg';
-import Infographic from '../../assets/about/Infographic.png'
+import ExternalLinkIcon from '../../components/ExternalLinkIcon';
+import Infographic from '../../assets/about/Infographic.png';
 import classNames from 'classnames';
-
+import usePlatformApi from '../../hooks/usePlatformApi';
 
 const useStyles = makeStyles(theme => ({
 
@@ -34,14 +34,20 @@ const useStyles = makeStyles(theme => ({
     fontSize: '16px'
   },
   changeLogContainer: {
-    marginBottom: '68px',
+    marginTop: '80px',
     backgroundColor: '#EDF1F4',
     color: '#000000',
     fontSize: '16px',
+    padding:'55px 40px 68px 40px',
+  },
+  changeLogSubContainer: {
     padding:'55px 40px 0px 40px',
   },
   container: {
     margin: '58px 0 0px 0',
+    fontSize: '16px'
+  },
+  datasetContainer: {
     fontSize: '16px'
   },
   centerText: {
@@ -54,8 +60,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: '34px',
     fontWeight: '600',
     lineHeight: '24.96px'
-
   },
+  boxTitle: {
+    marginBottom: '34px',
+  },
+
   infographicContainer: {
     display: 'flex',
     flexWrap: 'wrap'
@@ -63,11 +72,6 @@ const useStyles = makeStyles(theme => ({
   infographicContent: {
     flex: 1,
     paddingLeft: '20px'
-  },
-  externalIcon: {
-    width: '20px',
-    margin: '0 0 0 2px',
-    verticalAlign: 'sub'
   },
   log10: {
     verticalAlign: 'bottom'
@@ -114,6 +118,9 @@ const useStyles = makeStyles(theme => ({
   space: {
     marginBottom: '64px'
   },
+  space90: {
+    marginBottom: '90px'
+  },
   projectTitle: {
     color: '#2188D8'
   },  
@@ -150,6 +157,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AboutView = ({ data }) => {
+  const request = usePlatformApi()
   const classes = useStyles();
   const appTitle = "About Page";
   const [showHide, setShowHide] = useState(
@@ -159,7 +167,8 @@ const AboutView = ({ data }) => {
       targetDS: false,
       kidsFirstDS: false,
       openPbtaDS: false,
-      oncokbDS: false, 
+      oncokbDS: false,
+      gtexDS: false,
 
       pedCanDataNavDV: true,
       fdaPmtlDV: false,
@@ -168,6 +177,8 @@ const AboutView = ({ data }) => {
 
     }
   )
+  const BEversion =
+      request.loading ? "Loading..." : request.data?.meta?.mtpVersion?.version || version.backend
   const contactEmail = `mailto:${contact.email}`
 
   const showHideContent = (id) => {
@@ -195,7 +206,6 @@ const AboutView = ({ data }) => {
     )
   }
 
-
   const fdaPmtlDataSource = ()=>{
     return (
       <div className={classes.listContent}>
@@ -212,8 +222,7 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target" external>{' '} 
-            FDA Pediatric Molecular Target List
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
+            FDA Pediatric Molecular Target Lists<ExternalLinkIcon />{' '}
           </Link><br/> 
           Where this data is used in the MTP: 
           <Link to="/fda-pmtl">{' '} 
@@ -236,8 +245,7 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis" external>{' '} 
-            OpenPedCan (v10)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
+            OpenPedCan (v10)<ExternalLinkIcon />{' '}
           </Link><br/> 
           Where this data is used in the MTP: OpenPedCan Somatic Alterations; OpenPedCan Gene Expression
         </p>
@@ -258,8 +266,7 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000218.v23.p8" external>{' '} 
-            TARGET (v23)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
+            TARGET (v23)<ExternalLinkIcon />{' '}
           </Link><br/> 
           Where this data is used in the MTP: OpenPedCan Somatic Alterations; OpenPedCan Gene Expression
         </p>
@@ -279,8 +286,7 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001436.v1.p1" external>{' '} 
-            Kids First Neuroblastoma
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
+            Kids First Neuroblastoma<ExternalLinkIcon />{' '}
           </Link><br/> 
           Where this data is used in the MTP: OpenPedCan Somatic Alterations; OpenPedCan Gene Expression
         </p>
@@ -293,31 +299,27 @@ const AboutView = ({ data }) => {
         <p>
           The Open Pediatric Brain Tumor Atlas (OpenPBTA) Project is an open science initiative led by 
           <Link to="https://www.alexslemonade.org/data-lab" external>{' '} 
-            Alex’s Lemonade Stand Foundation Childhood Cancer Data Lab 
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />{' '}
+            Alex’s Lemonade Stand Foundation Childhood Cancer Data Lab<ExternalLinkIcon />{' '}
           </Link>
           and the
           <Link to="https://d3b.center/" external>{' '} 
             Center for Data-Driven Discovery at the Children’s Hospital of Philadelphia 
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />{', '}
+            <ExternalLinkIcon />{', '}
           </Link> 
           which genomically characterized pediatric brain tumor data from the 
           <Link to="https://cbtn.org/" external>{' '} 
-            Children’s Brain Tumor Network (CBTN)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />{', '}
+            Children’s Brain Tumor Network (CBTN)<ExternalLinkIcon />{', '}
           </Link> 
           and the 
           <Link to="https://pnoc.us/" external>{' '} 
-            Pacific Pediatric Neuro-oncology Consortium (PNOC)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />{'. '}
+            Pacific Pediatric Neuro-oncology Consortium (PNOC)<ExternalLinkIcon />{'. '}
           </Link> 
           The Molecular Targets Platform includes OpenPBTA data from over 1,000 tumors spanning more than 30 histologies.
         </p>
         <p>
           SOURCE: 
           <Link to="https://alexslemonade.github.io/OpenPBTA-manuscript/" external>{' '} 
-            OpenPBTA for the CBTN (v21)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
+            OpenPBTA for the CBTN (v21)<ExternalLinkIcon />{' '}
           </Link><br/> 
           Where this data is used in the MTP: OpenPedCan Somatic Alterations; OpenPedCan Gene Expression
         </p>
@@ -336,18 +338,37 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://www.oncokb.org/news#07162021" external>{' '} 
-            OncoKB (v3.5)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            OncoKB (v3.5)<ExternalLinkIcon />
           </Link>{', '}
           <Link to="https://ascopubs.org/doi/full/10.1200/PO.17.00011" external>{' '} 
-            Chakravarty et al., JCO PO 2017
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            Chakravarty et al., JCO PO 2017<ExternalLinkIcon />
           </Link><br />
           Where this data is used in the MTP: OpenPedCan Somatic Alterations
         </p>
       </div>
     )
-  }  
+  }
+  
+  const gtexDataSource = () => {
+    return (
+      <div className={classes.listContent}>
+        <p>
+          GTEx project is an ongoing effort to build a comprehensive public data resource and tissue
+          bank to study tissue-specific gene expression, regulation and their relationship with
+          genetic variants. Samples were collected from 54 non-diseased tissue sites across nearly
+          1000 individuals, primarily for molecular assays including WGS, WES, and RNA-Seq.
+          OpenPedCan project includes 17382 GTEx RNA-Seq samples from GTEx v8 release, which
+          span across 31 GTEx groups in the v10 release.
+        </p>
+        <p>
+          SOURCE:{' '}
+          <Link to="https://gtexportal.org/home/" external>
+            GTEx<ExternalLinkIcon />
+          </Link>
+        </p>
+      </div>
+    )
+  }
 
   const fdaPmtlDataVisualizations = () => {
     return (
@@ -369,8 +390,7 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://www.fda.gov/about-fda/oncology-center-excellence/pediatric-oncology#target" external>{' '} 
-            FDA Publications of Pediatric Molecular Target Lists
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            FDA Publications of Pediatric Molecular Target Lists<ExternalLinkIcon />
           </Link>
           
         </p>
@@ -391,7 +411,7 @@ const AboutView = ({ data }) => {
         </p>
         <p>
           Though it is possible to encounter pediatric cancer data when browsing the Molecular 
-          Target Platform, the Pediatric Cancer Data Navigation page is the most reliable method of 
+          Targets Platform, the Pediatric Cancer Data Navigation page is the most reliable method of 
           locating pediatric cancer data in the initial Platform release. Integration of the new 
           pediatric cancer data into existing Open Targets association heatmap displays is planned 
           for future release.
@@ -400,8 +420,7 @@ const AboutView = ({ data }) => {
           SOURCE: 
           <Link to={"https://github.com/PediatricOpenTargets/OpenPedCan-analysis/blob/"+
                       "4fb04fe60754b90da3c241dbb8b727c3722487cc/doc/release-notes.md"} external>{' '} 
-            OpenPedCan (v10)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            OpenPedCan (v10)<ExternalLinkIcon />
           </Link>
           
         </p>
@@ -424,7 +443,7 @@ const AboutView = ({ data }) => {
               <li><b>Fusion</b>: Frequency of specific gene fusions</li>
             </ul> 
             
-          The OpenPedCan Somatic Alterations display is accessible within the Molecular Target Platform on both the Target and Evidence pages. 
+          The OpenPedCan Somatic Alterations display is accessible within the Molecular Targets Platform on both the Target and Evidence pages. 
           The data driving each display is identical; however, the Target page display will show frequencies of the Target across all pediatric cancers, 
           while the Evidence page display is filtered to only show frequencies of the Target in a specific Disease.
 
@@ -435,28 +454,22 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis" external> {' '}
-            OpenPedCan (v10)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            OpenPedCan (v10)<ExternalLinkIcon />
           </Link>{', '}
           <Link to="https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000218.v23.p8" external>
-            TARGET (v23)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            TARGET (v23)<ExternalLinkIcon />
           </Link>{', '}
           <Link to="https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001436.v1.p1" external> 
-            Kids First Neuroblastoma
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            Kids First Neuroblastoma<ExternalLinkIcon />
           </Link>{', '}
           <Link to="https://github.com/AlexsLemonade/OpenPBTA-analysis/" external>
-            OpenPBTA for CBTN and PNOC (v21) analysis
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            OpenPBTA for CBTN and PNOC (v21) analysis<ExternalLinkIcon />
           </Link>, and 
           <Link to="https://alexslemonade.github.io/OpenPBTA-manuscript/" external>{' '}
-            manuscript
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            manuscript<ExternalLinkIcon />
           </Link>{', '}
           <Link to="https://www.oncokb.org/news#07162021" external> 
-            OncoKB (v3.5)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            OncoKB (v3.5)<ExternalLinkIcon />
           </Link>
         </p>
       </div>
@@ -483,28 +496,22 @@ const AboutView = ({ data }) => {
         <p>
           SOURCE: 
           <Link to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis" external>{' '} 
-          OpenPedCan (v10)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            OpenPedCan (v10)<ExternalLinkIcon />
           </Link>, 
           <Link to="https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000218.v23.p8" external>{' '} 
-          TARGET (v23)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            TARGET (v23)<ExternalLinkIcon />
           </Link>, 
           <Link to="https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001436.v1.p1" external>{' '} 
-          Kids First Neuroblastoma
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            Kids First Neuroblastoma<ExternalLinkIcon />
           </Link>,
           <Link to="https://github.com/AlexsLemonade/OpenPBTA-analysis/" external>{' '} 
-          OpenPBTA for CBTN and PNOC (v21) analysis
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            OpenPBTA for CBTN and PNOC (v21) analysis<ExternalLinkIcon />
           </Link>, and
           <Link to="https://alexslemonade.github.io/OpenPBTA-manuscript/" external>{' '} 
-          manuscript
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            manuscript<ExternalLinkIcon />
           </Link>,
           <Link to="https://www.oncokb.org/news#07162021" external>{' '} 
-            OncoKB (v3.5)
-            <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+            OncoKB (v3.5)<ExternalLinkIcon />
           </Link>
           
         </p>
@@ -515,7 +522,7 @@ const AboutView = ({ data }) => {
   // Temporally solution to offset when scrolling to specific section of page.
   const ChangeLogOffset = () => {
     return (
-      <p id="changeLog" style={{display: 'block', position: 'relative', top: '-120px', visibility: 'hidden'}}></p>
+      <p id="changeLog" style={{display: 'block', position: 'relative', top: '-130px', visibility: 'hidden'}}></p>
     )
   }
 
@@ -539,7 +546,7 @@ const AboutView = ({ data }) => {
         <Typography paragraph>
           The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the 
           <Link to="https://platform.opentargets.org/" external>{' '} 
-            Open Target Platform<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
+            Open Targets Platform<ExternalLinkIcon />{' '}
           </Link>
           with a focus on pediatric cancer data. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. 
           The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including: 
@@ -586,7 +593,7 @@ const AboutView = ({ data }) => {
         <Typography paragraph>
           The 
           <Link to="https://platform.opentargets.org/" external>{' '} 
-            Open Target Platform<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
+            Open Targets Platform<ExternalLinkIcon />{' '}
           </Link>
           is the open-source infrastructure upon which the Molecular Targets Platform is built. 
 
@@ -614,14 +621,14 @@ const AboutView = ({ data }) => {
         </Typography>
         <Typography paragraph>
           This About page will document all of the new data and features present in the Molecular Targets Platform. 
-          For detailed descriptions and tutorials of the built-in functions of the Open Targets Platform, please see their 
-          <Link to="https://platform-docs.opentargets.org/" external>{' '} 
-            documentation<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
-          </Link> 
-          or their 
-          <Link to="https://platform-docs.opentargets.org/citation" external>{' '} 
-             most recent publication.<img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} /> {' '}
-          </Link> 
+          For detailed descriptions and tutorials of the built-in functions of the Open Targets Platform, please see their{' '}
+          <Link to="https://platform-docs.opentargets.org/" external> 
+            documentation<ExternalLinkIcon />
+          </Link>{' '}
+          or their{' '}
+          <Link to="https://platform-docs.opentargets.org/citation" external> 
+             most recent publication<ExternalLinkIcon />
+          </Link>.
         </Typography>
 
         <Typography paragraph className={classes.space}>
@@ -636,20 +643,58 @@ const AboutView = ({ data }) => {
 
     </Grid>
 
-    {/* Pediatric Cancer Data Sources */}
+    {/* Pediatric Cancer Disease */}
     <Grid container justify="center" className={classes.container}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
+        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
+          Pediatric Cancer Disease
+        </Typography>
+        <Typography paragraph>
+          Pediatric cancers are rare and heterogeneous, and have a different biology even from adult
+          cancers of the same name. Due to the complexity and rarity, there was no international
+          standard of classification until the end of 2021 when WHO updated their standards to
+          include a distinct section for pediatric tumors. Considering the challenges and historical
+          lack of standards, disease assignment and molecular subtyping is a challenging process.
+          For Open Targets, classifying pediatric tumors starts with the pathologist’s report from
+          original diagnosis followed by confirmation of the molecular features of the disease using
+          the repository data. The specific molecular features examined for each disease were
+          determined by the literature with expert review and curation from both bioinformaticians
+          and clinicians. A final disease label is assigned based on the combination of the clinical
+          pathology report and the molecular features in the data. If there is a discrepancy between
+          clinical and molecular labels, samples are reviewed by a pathologist and final disease
+          assignment is made in consultation with pathology, bioinformatics, and clinicians. For
+          each disease, a non-exhaustive list of synonyms as well as the specific Experimental
+          Factor Ontology (EFO) label used can be found on the individual page for each disease. For
+          more details on disease assignment see {' '}
+          <Link external to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis/tree/dev/analyses/molecular-subtyping-pathology">
+            OpenPedCan Molecular Subtyping and Pathology Documentation
+            <ExternalLinkIcon />
+          </Link>.
+          For a summary table of the number of subjects included,{' '}
+          <Link external to="https://github.com/PediatricOpenTargets/documentation/blob/main/disease_subject_counts.tsv">
+            a table is available for viewing and download
+            <ExternalLinkIcon />
+          </Link>.
+        </Typography>
+
+        <div className={classes.space90}></div>
+      </Grid>
+    </Grid>
+    
+    {/* Pediatric Cancer Data Sources */}
+    <Grid container justify="center" className={classes.datasetContainer}>
+      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           Pediatric Cancer Data Sources
         </Typography>
 
-        {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Targets Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
+        {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
+        {listHeader("FDA Pediatric Molecular Target Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
         {showHide.fdaPmtlDS && fdaPmtlDataSource()}
         <hr className={classes.listDiverHr} />
 
         {/* Open Pediatric Cancer (OpenPedCan) */}
-        {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan ", "openPedCanDS")}
+        {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan", "openPedCanDS")}
         {showHide.openPedCanDS && openPedCanDataSource()}
         <hr className={classes.listDiverHr} />
 
@@ -669,18 +714,45 @@ const AboutView = ({ data }) => {
         <hr className={classes.listDiverHr} />
 
         {/* Oncology Knowledge Base (OncoKB) Cancer Gene List */}
-        {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB ", "oncokbDS")}
+        {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB", "oncokbDS")}
         {showHide.oncokbDS && oncokbDataSource()}
         <hr className={classes.listDiverHr} />
-        
-        <div className={classes.space}></div>
+
+        {/* Genotype-Tissue Expression */}
+        {listHeader("Genotype-Tissue Expression %acronym", "GTEx", "gtexDS")}
+        {showHide.gtexDS && gtexDataSource()}
+        <hr className={classes.listDiverHr} />
+
+        <div className={classes.space90}></div>
+
+      </Grid>
+    </Grid>
+
+    {/* Pediatric Cancer Data Processing */}
+    <Grid container justify="center" className={classes.datasetContainer}>
+      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
+          Pediatric Cancer Data Processing
+        </Typography>
+        <Typography paragraph>
+          Open Pediatric Cancer (OpenPedCan) project at the Children’s Hospital of Philadelphia,
+          in partnership with the National Cancer Institute, is combining and harmonizing pediatric
+          cancer datasets to accelerate pediatric cancer target identification and drug development.
+          To read more about the OpenPedCan data processing methods, view the{' '}
+          <Link to="https://github.com/PediatricOpenTargets/documentation" external>
+            documentation<ExternalLinkIcon />
+          </Link>.
+        </Typography>
+
+        <div className={classes.space90}></div>
+
       </Grid>
     </Grid>
 
     {/* Pediatric Cancer Data Visualizations */}
-    <Grid container justify="center" className={classes.container}>
+    <Grid container justify="center" className={classes.datasetContainer}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" style={{'marginBottom': '34px'}} className={classes.title}>
+        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
           Pediatric Cancer Data Visualizations
         </Typography>
 
@@ -689,8 +761,8 @@ const AboutView = ({ data }) => {
         {showHide.pedCanDataNavDV && pedCanDataNavDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
-        {/* FDA Pediatric Molecular Targets Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Targets Lists %acronym","FDA PMTL", "fdaPmtlDV")}
+        {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
+        {listHeader("FDA Pediatric Molecular Target Lists %acronym","FDA PMTL", "fdaPmtlDV")}
         {showHide.fdaPmtlDV && fdaPmtlDataVisualizations()}
         <hr className={classes.listDiverHr} />
 
@@ -708,7 +780,7 @@ const AboutView = ({ data }) => {
 
     {/* Change Log */}
     <ChangeLogOffset />
-    <Grid container justify="center" className={[classes.container,classes.changeLogContainer]}>
+    <Grid container justify="center" className={classes.changeLogContainer}>
       <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
 
         <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
@@ -716,11 +788,11 @@ const AboutView = ({ data }) => {
         </Typography>
 
         <Typography paragraph>
-          The Molecular Target Platform integrates many different sources of data and analyses, all of which are updated 
+          The Molecular Targets Platform integrates many different sources of data and analyses, all of which are updated 
           at varying intervals. In order to comprehensively track changes, the various changelogs are aggregated here.
         </Typography>
         
-        <Grid item className={classes.changeLogContainer}>
+        <Grid item className={classes.changeLogSubContainer}>
           <Paper className={classes.changeLogPaper}>
             <div className={classes.changeLogBox}>
               <div className={classes.changeLogBoxLeft} >
@@ -732,7 +804,7 @@ const AboutView = ({ data }) => {
                 <b>Version in use</b>: 21.06 (Released 2021-06-30) <br />
                 <b>Detailed Change Log</b>: 
                 <Link to="https://platform-docs.opentargets.org/change-log" external>{' '} 
-                  Open Target Platform <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+                  Open Targets Platform<ExternalLinkIcon />
                 </Link>
               
               </div>
@@ -753,7 +825,7 @@ const AboutView = ({ data }) => {
                 <b>Version in use</b>: {version.frontend} <br />
                 <b>Detailed Change Log</b>: 
                 <Link to={version.frontendURL} external>{' '} 
-                  MTP Frontend Release <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+                  MTP Frontend Release<ExternalLinkIcon />
                 </Link>
               </div>
 
@@ -769,10 +841,10 @@ const AboutView = ({ data }) => {
                 <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
                   Molecular Targets Platform Backend
                 </Typography>
-                <b>Version in use</b>: {version.backend} <br />
+                <b>Version in use</b>: {BEversion} <br />
                 <b>Detailed Change Log</b>: 
                 <Link to={version.backendURL} external>{' '} 
-                  MTP Backend Release <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+                  MTP Backend Release<ExternalLinkIcon />
                 </Link>
               </div>
 
@@ -791,7 +863,7 @@ const AboutView = ({ data }) => {
                 <b>Version in use</b>: v10 (Released 2021-10-12) <br />
                 <b>Detailed Change Log</b>: 
                 <Link to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis/blob/4fb04fe60754b90da3c241dbb8b727c3722487cc/doc/release-notes.md" external>{' '} 
-                  OpenPedCan Analysis Release <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+                  OpenPedCan Analysis Release<ExternalLinkIcon />
                 </Link>
               </div>
 
@@ -810,7 +882,7 @@ const AboutView = ({ data }) => {
                 <b>Version in use</b>: v3.5 (Released 2021-07-16) <br />
                 <b>Detailed Change Log</b>: 
                 <Link to="https://www.oncokb.org/news#07162021" external>{' '} 
-                  OncoKB Release <img src={externalIcon} alt="outbounnd web site icon" className={classes.externalIcon} />
+                  OncoKB Release<ExternalLinkIcon />
                 </Link>
               </div>
 

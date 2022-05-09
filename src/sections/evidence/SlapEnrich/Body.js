@@ -77,8 +77,10 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
     },
   } = usePlatformApi(Summary.fragments.SlapEnrichSummaryFragment);
 
+  const variables = { ensemblId: ensgId, efoId, size };
+
   const request = useQuery(SLAPENRICH_QUERY, {
-    variables: { ensemblId: ensgId, efoId, size },
+    variables,
   });
 
   return (
@@ -98,6 +100,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
           sortBy="resourceScore"
+          query={SLAPENRICH_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />

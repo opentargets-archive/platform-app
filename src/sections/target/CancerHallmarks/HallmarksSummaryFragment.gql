@@ -1,20 +1,8 @@
 fragment CancerHallmarksSummaryFragment on Target {
   hallmarks {
-    attributes {
-      name
-      reference {
-        pubmedId
-        description
-      }
-    }
-    rows {
+    cancerHallmarks {
+      impact
       label
-      suppress
-      promote
-      reference {
-        description
-        pubmedId
-      }
     }
   }
 }

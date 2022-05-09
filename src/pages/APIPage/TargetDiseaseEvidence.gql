@@ -1,0 +1,33 @@
+query targetDiseaseEvidence {
+  disease(efoId: "EFO_0005952") {
+    id
+    name
+    evidences(datasourceIds: ["intogen"], ensemblIds: ["ENSG00000172936"]) {
+      count
+      rows {
+        disease {
+          id
+          name
+        }
+        diseaseFromSource
+        target {
+          id
+          approvedSymbol
+        }
+        mutatedSamples {
+          functionalConsequence {
+            id
+            label
+          }
+          numberSamplesTested
+          numberMutatedSamples
+        }
+        resourceScore
+        significantDriverMethods
+        cohortId
+        cohortShortName
+        cohortDescription
+      }
+    }
+  }
+}
