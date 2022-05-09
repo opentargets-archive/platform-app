@@ -46,7 +46,10 @@ function Body({ definition, id: ensemblId, label: symbol }) {
 
         return (
           <>
-            <SwissbioViz taxonId="9606" goLocations={goLocations}>
+            <SwissbioViz
+              taxonId="9606"
+              locationIds={hpaMain.map(s => s.termSL.substring(3)).join()}
+            >
               {' '}
             </SwissbioViz>
             {hpaMain.length > 0 ||
