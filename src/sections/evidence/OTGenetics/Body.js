@@ -10,7 +10,7 @@ import {
   studySourceMap,
 } from '../../../constants';
 import Description from './Description';
-import { otgStudyUrl } from '../../../utils/urls';
+import { otgStudyUrl, otgVariantUrl } from '../../../utils/urls';
 import { dataTypesMap } from '../../../dataTypes';
 import { identifiersOrgLink, sentenceCase } from '../../../utils/global';
 import Link from '../../../components/Link';
@@ -19,8 +19,6 @@ import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
-
-const otgVariantUrl = id => `https://genetics.opentargets.org/variant/${id}`;
 
 const OPEN_TARGETS_GENETICS_QUERY = loader('./sectionQuery.gql');
 
