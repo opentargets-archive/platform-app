@@ -67,8 +67,10 @@ function SwissbioViz({ locationIds, taxonId }) {
           .subcell_description {
             display: none;
           }
-          .subcell_present .coloured {
-            fill: ${config.profile.primaryColor}
+          .lookedAt {
+            stroke: black !important;
+            fill: ${config.profile.primaryColor} !important;
+            fill-opacity: 1 !important;
           }
         `;
         // add styles
