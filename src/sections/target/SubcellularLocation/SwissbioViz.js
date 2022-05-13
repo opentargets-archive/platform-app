@@ -13,6 +13,7 @@ const shapes = [
   'line',
 ];
 const shapesSelector = shapes.join(', ');
+// const scopedShapesSelector = shapes.map((s) => `:scope ${s}`).join(', ');
 const reMpPart = /(mp|part)_(?<id>\w+)/;
 
 const canonicalName = 'sib-swissbiopics-sl';
@@ -32,39 +33,9 @@ const getUniProtTextSelectors = subcellularPresentSVG => [
  * Visualization for the SwissBioPic widget.
  * This is based on Uniprot's approach
  */
-function SwissbioViz({ locationIds, taxonId }) {
-  /*
+function SwissbioViz({ locationIds, taxonId, children }) {
 
-  <template id="sibSwissBioPicsSlLiItem">
-            <li className="subcellular_location">
-                <a className="subcell_name"></a>
-                <span className="subcell_description"></span>
-            </li>
-          </template>
-
-          <template id="sibSwissBioPicsStyle">
-      <style>
-          ul > li > a {
-              font-style:oblique;
-          }
-          ul.notpresent li > .subcell_description {
-              display:none;
-          }
-      </style>
-    </template>
-    
-          <sib-swissbiopics-sl taxid="9606" sls="SL0073"></sib-swissbiopics-sl>
-
-
-        
-        <template id="sibSwissBioPicsStyle" />
-        <div id="fakeContent" />
-        <Instance taxid={taxonId} contentid="fakeContent" {...locationIds}>
-          {children}
-        </Instance>
-
-   */
-  const instanceName = useRef(canonicalName + '-go');
+  const instanceName = useRef(canonicalName + '-uniprot');
 
   useEffect(
     () => {
@@ -73,12 +44,16 @@ function SwissbioViz({ locationIds, taxonId }) {
         //   super();
         // }
       }
+      // customElements.get(instanceName.current) || customElements.define(instanceName.current, InstanceClass);
       customElements.define(instanceName.current, InstanceClass);
       const instance = document.querySelector(instanceName.current);
       const shadowRoot = instance?.shadowRoot;
 
       const onSvgLoaded = () => {
-        // console.log('svg loaded...');
+        // css to change colour of locations passed to the widget
+        // .subcell_present .coloured {
+        //   fill: ${config.profile.primaryColor}
+        // }
         const css = `
           #fakeContent {
             display: none;
@@ -99,6 +74,43 @@ function SwissbioViz({ locationIds, taxonId }) {
         const style = document.createElement('style');
         style.innerText = css;
         shadowRoot?.appendChild(style);
+
+        // add a slot to inject content
+        const slot = document.createElement('slot');
+        const terms = shadowRoot?.querySelector('.terms');
+        terms?.appendChild(slot);
+
+        // This finds all subcellular location SVGs that will require a tooltip
+        const subcellularPresentSVGs =
+          shadowRoot?.querySelectorAll(
+            'svg .subcell_present, svg [class*="mp_"], svg [class*="part_"]'
+          ) || [];
+
+        subcellularPresentSVGs.forEach(subcellularPresentSVG => {
+          const textSelectors = getUniProtTextSelectors(subcellularPresentSVG);
+          for (const textSelector of textSelectors) {
+            const locationText = instance?.querySelector(textSelector);
+
+            if (locationText) {
+              locationText.classList.add('inpicture');
+              const locationSVG = shadowRoot?.querySelector(
+                `#${subcellularPresentSVG.id}`
+              );
+              // TODO: need to remove event listeners on unmount. Will leave for now until
+              // to see what changes are made to @swissprot/swissbiopics-visualizer
+              locationText.addEventListener('mouseenter', () => {
+                instance?.highLight(locationText, locationSVG, shapesSelector);
+              });
+              locationText.addEventListener('mouseleave', () => {
+                instance?.removeHiglight(
+                  locationText,
+                  locationSVG,
+                  shapesSelector
+                );
+              });
+            }
+          }
+        });
       };
       shadowRoot?.addEventListener('svgloaded', onSvgLoaded);
       return () => {
@@ -112,7 +124,9 @@ function SwissbioViz({ locationIds, taxonId }) {
     <>
       <div id="fakeContent" />
 
-      <Instance taxid={taxonId} contentid="fakeContent" sls={locationIds} />
+      <Instance taxid={taxonId} contentid="fakeContent" sls={locationIds}>
+        {children}
+      </Instance>
     </>
   );
 }
