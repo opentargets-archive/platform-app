@@ -21,8 +21,10 @@ function Body({ definition, id: ensemblId, label: symbol }) {
       <>
         {title ? <Typography>{title}</Typography> : null}
         <List>
-          {sls.map(({ location }) => (
-            <ListItem key={location}>- {location}</ListItem>
+          {sls.map(({ location, termSL }) => (
+            <ListItem key={location} id={termSL.split('-').join('') + 'term'}>
+              - {location}
+            </ListItem>
           ))}
         </List>
       </>
@@ -59,51 +61,55 @@ function Body({ definition, id: ensemblId, label: symbol }) {
           <>
             <SwissbioViz
               taxonId="9606"
-              locationIds={hpaMain.map(s => s.termSL.substring(3)).join()}
+              locationIds={target.subcellularLocations
+                .map(s => s.termSL.substring(3))
+                .join()}
             >
-              {' '}
-            </SwissbioViz>
-            {hpaMain.length > 0 ||
-            hpaAdditional.length > 0 ||
-            hpaExtracellular.length > 0 ? (
-              <Box ml={4} mt={2}>
-                <Typography variant="h6">
-                  HPA -{' '}
-                  <Link external to={identifiersOrgLink('hpa', ensemblId)}>
-                    {ensemblId}
-                  </Link>
-                </Typography>
-                <Box ml={4} mt={1}>
-                  {hpaMain.length > 0 ? (
-                    <LocationsList title="HPA (main)" sls={hpaMain} />
-                  ) : null}
+              {hpaMain.length > 0 ||
+              hpaAdditional.length > 0 ||
+              hpaExtracellular.length > 0 ? (
+                <Box ml={4} mt={2}>
+                  <Typography variant="h6">
+                    HPA -{' '}
+                    <Link external to={identifiersOrgLink('hpa', ensemblId)}>
+                      {ensemblId}
+                    </Link>
+                  </Typography>
+                  <Box ml={4} mt={1}>
+                    {hpaMain.length > 0 ? (
+                      <LocationsList title="HPA (main)" sls={hpaMain} />
+                    ) : null}
 
-                  {hpaAdditional.length > 0 ? (
-                    <LocationsList
-                      title="HPA (additional)"
-                      sls={hpaAdditional}
-                    />
-                  ) : null}
-                  {hpaExtracellular.length > 0 ? (
-                    <LocationsList
-                      title="HPA (extracellular)"
-                      sls={hpaExtracellular}
-                    />
-                  ) : null}
+                    {hpaAdditional.length > 0 ? (
+                      <LocationsList
+                        title="HPA (additional)"
+                        sls={hpaAdditional}
+                      />
+                    ) : null}
+                    {hpaExtracellular.length > 0 ? (
+                      <LocationsList
+                        title="HPA (extracellular)"
+                        sls={hpaExtracellular}
+                      />
+                    ) : null}
+                  </Box>
                 </Box>
-              </Box>
-            ) : null}
-            {uniprot.length > 0 ? (
-              <Box ml={4}>
-                <Typography variant="h6">
-                  UniProt -{' '}
-                  <Link external to={identifiersOrgLink('uniprot', uniprotId)}>
-                    {uniprotId}
-                  </Link>
-                </Typography>
-                <LocationsList sls={uniprot} />
-              </Box>
-            ) : null}
+              ) : null}
+              {uniprot.length > 0 ? (
+                <Box ml={4}>
+                  <Typography variant="h6">
+                    UniProt -{' '}
+                    <Link
+                      external
+                      to={identifiersOrgLink('uniprot', uniprotId)}
+                    >
+                      {uniprotId}
+                    </Link>
+                  </Typography>
+                  <LocationsList sls={uniprot} />
+                </Box>
+              ) : null}
+            </SwissbioViz>
           </>
         );
       }}
