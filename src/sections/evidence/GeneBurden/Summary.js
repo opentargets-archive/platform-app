@@ -4,16 +4,17 @@ import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import { dataTypesMap } from '../../../dataTypes';
 
-const PHEWAS_CATALOG_SUMMARY = loader('./PheWASCatalogSummaryQuery.gql');
+const GENE_BURDEN_SUMMARY = loader('./GeneBurdenSummary.gql');
 
 function Summary({ definition }) {
-  const request = usePlatformApi(PHEWAS_CATALOG_SUMMARY);
+  const request = usePlatformApi(GENE_BURDEN_SUMMARY);
+
   return (
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={({ phewasCatalogSummary }) => {
-        const { count } = phewasCatalogSummary;
+      renderSummary={({ geneBurdenSummary }) => {
+        const { count } = geneBurdenSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
       subText={dataTypesMap.genetic_association}
@@ -22,7 +23,7 @@ function Summary({ definition }) {
 }
 
 Summary.fragments = {
-  PheWASCatalogSummary: PHEWAS_CATALOG_SUMMARY,
+  geneBurdenSummary: GENE_BURDEN_SUMMARY,
 };
 
 export default Summary;

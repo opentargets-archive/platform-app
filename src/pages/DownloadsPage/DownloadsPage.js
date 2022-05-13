@@ -1,14 +1,12 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Paper, Box, Chip, Typography } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
-
 import Link from '../../components/Link';
 import { defaultRowsPerPageOptions, formatMap } from '../../constants';
 import { DataTable } from '../../components/Table';
 import DownloadsDrawer from './DownloadsDrawer';
-import downloadData from './downloadData.json';
 import datasetMappings from './dataset-mappings';
 import config from '../../config';
 
@@ -48,8 +46,6 @@ function getRows(downloadData, datasetMappings) {
 
   return rows;
 }
-
-const rows = getRows(downloadData, datasetMappings);
 
 function getColumns(date) {
   const columns = [
@@ -99,8 +95,29 @@ function getVersion(data) {
 
 function DownloadsPage() {
   const { data, loading, error } = useQuery(DATA_VERSION_QUERY);
+  const [downloasdData, setDownloadsData] = useState(null);
+  const rows = downloasdData ? getRows(downloasdData, datasetMappings) : [];
   const columns = loading || error ? [] : getColumns(data.meta.dataVersion);
   const classes = useStyles();
+
+  useEffect(() => {
+    let isCurrent = true;
+    fetch(config.downloadsURL)
+      .then(res => res.text())
+      .then(lines => {
+        if (isCurrent) {
+          const nodes = lines
+            .trim()
+            .split('\n')
+            .map(JSON.parse);
+          setDownloadsData(nodes);
+        }
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, []);
 
   return (
     <Fragment>

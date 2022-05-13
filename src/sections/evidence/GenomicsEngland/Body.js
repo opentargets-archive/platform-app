@@ -143,7 +143,26 @@ const columns = [
     id: 'confidence',
     label: 'Gene rating',
     sortable: true,
-    renderCell: ({ confidence }) => confidenceCaption(confidence),
+    renderCell: ({ confidence }) => (
+      <Tooltip
+        title={
+          <>
+            <Typography variant="caption" display="block" align="center">
+              As defined by the{' '}
+              <Link
+                external
+                to={`https://panelapp.genomicsengland.co.uk/#!Guidelines`}
+              >
+                Panel App Guidelines
+              </Link>
+            </Typography>
+          </>
+        }
+        showHelpIcon
+      >
+        {confidenceCaption(confidence)}
+      </Tooltip>
+    ),
     comparator: (a, b) =>
       confidenceMap(a.confidence) - confidenceMap(b.confidence),
   },

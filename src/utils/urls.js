@@ -1,9 +1,15 @@
+import config from '../config';
+
 export function epmcUrl(id) {
   return `https://europepmc.org/article/MED/${id}`;
 }
 
 export function otgStudyUrl(id) {
-  return `https://genetics.opentargets.org/study/${id}`;
+  return `${config.geneticsPortalUrl}/study/${id}`;
+}
+
+export function otgVariantUrl(id) {
+  return `${config.geneticsPortalUrl}/variant/${id}`;
 }
 
 export function europePmcLiteratureQuery(ids) {

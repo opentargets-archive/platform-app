@@ -26,6 +26,12 @@ The following options work regardless of whether `isPartnerPreview` is set to `t
 
 URL of the platform API
 
+#### configGeneticsPortalUrl
+
+URL for links to corresponding pages of the Open Targets Genetics portal,
+no trailing slash;
+defaults to `https://genetics.opentargets.org`
+
 #### configPrimaryColor
 
 Define the primary colour used by the Material UI components and visualisations. Default Open Targets blue is `#3489ca`.
