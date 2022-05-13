@@ -67,12 +67,31 @@ const columns = [
     id: 'confidence',
     label: 'Classification',
     renderCell: ({ confidence, urls }) => {
-      return urls && urls[0]?.url ? (
-        <Link external to={urls[0].url}>
-          {confidence}
-        </Link>
-      ) : (
-        confidence
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="caption" display="block" align="center">
+                As defined by the{' '}
+                <Link
+                  external
+                  to="https://thegencc.org/faq.html#validity-termsdelphi-survey"
+                >
+                  GenCC Guidelines
+                </Link>
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          {urls && urls[0]?.url ? (
+            <Link external to={urls[0].url}>
+              {confidence}
+            </Link>
+          ) : (
+            confidence
+          )}
+        </Tooltip>
       );
     },
   },

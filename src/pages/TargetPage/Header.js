@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { faDna } from '@fortawesome/free-solid-svg-icons';
+import config from '../../config';
 
 import {
   CrisprDepmapLink,
@@ -15,7 +16,7 @@ function Header({ loading, ensgId, uniprotIds, symbol, name, pmtl, crisprId }) {
   const ensemblUrl = `https://identifiers.org/ensembl:${ensgId}`;
   const genecardsUrl = `https://identifiers.org/genecards:${symbol}`;
   const hgncUrl = `https://identifiers.org/hgnc.symbol:${symbol}`;
-  const geneticsUrl = `https://genetics.opentargets.org/gene/${ensgId}`;
+  const geneticsUrl = `${config.geneticsPortalUrl}/gene/${ensgId}`;
 
   return (
     <HeaderBase

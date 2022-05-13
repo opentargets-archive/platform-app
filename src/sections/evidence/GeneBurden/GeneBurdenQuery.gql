@@ -1,0 +1,44 @@
+query GeneBurdenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      datasourceIds: ["gene_burden"]
+      size: $size
+    ) {
+      count
+      rows {
+        disease {
+          id
+          name
+        }
+        diseaseFromSource
+        target {
+          id
+          approvedSymbol
+        }
+        studyId
+        ancestry
+        ancestryId
+        resourceScore
+        cohortId
+        projectId
+        statisticalMethod
+        statisticalMethodOverview
+        studyCases
+        studyCasesWithQualifyingVariants
+        studySampleSize
+        oddsRatio
+        oddsRatioConfidenceIntervalLower
+        oddsRatioConfidenceIntervalUpper
+        beta
+        betaConfidenceIntervalLower
+        betaConfidenceIntervalUpper
+        pValueMantissa
+        pValueExponent
+        literature
+      }
+    }
+  }
+}
