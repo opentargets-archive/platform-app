@@ -3,8 +3,30 @@ import React, { useRef, useEffect } from 'react';
 import '@swissprot/swissbiopics-visualizer';
 import config from '../../../config';
 
+const shapes = [
+  'path',
+  'circle',
+  'ellipse',
+  'polygon',
+  'rect',
+  'polyline',
+  'line',
+];
+const shapesSelector = shapes.join(', ');
+const reMpPart = /(mp|part)_(?<id>\w+)/;
+
 const canonicalName = 'sib-swissbiopics-sl';
 const CanonicalDefinition = customElements.get(canonicalName);
+
+const getUniProtTextSelectors = subcellularPresentSVG => [
+  `#${subcellularPresentSVG.id}term`,
+  ...Array.from(subcellularPresentSVG.classList)
+    .map(className => {
+      const id = className.match(reMpPart)?.groups?.id;
+      return id && `#${id}term`;
+    })
+    .filter(sel => Boolean(sel)),
+];
 
 /**
  * Visualization for the SwissBioPic widget.
