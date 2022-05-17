@@ -11,6 +11,10 @@ import { identifiersOrgLink, getUniprotIds } from '../../../utils/global';
 const SUBCELLULAR_LOCATION_QUERY = loader('./SubcellularLocation.gql');
 const SwissbioViz = lazy(() => import('./SwissbioViz'));
 
+// Remove the 'SL-' from a location termSL (e.g. "SL-0097")
+// as the sib-swissbiopics component actually don't like the "SL-" part
+const parseLocationTerm = term => term?.substring(3);
+
 function Body({ definition, id: ensemblId, label: symbol }) {
   const request = useQuery(SUBCELLULAR_LOCATION_QUERY, {
     variables: { ensemblId },
@@ -62,7 +66,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
             <SwissbioViz
               taxonId="9606"
               locationIds={target.subcellularLocations
-                .map(s => s.termSL.substring(3))
+                .map(s => parseLocationTerm(s.termSL))
                 .join()}
             >
               {hpaMain.length > 0 ||
