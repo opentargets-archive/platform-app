@@ -51,7 +51,8 @@
     "react-sticky": "^6.0.3",
     "recoil": "^0.3.0",
     "smiles-drawer": "^1.1.22",
-    "typeface-inter": "^3.3.0"
+    "typeface-inter": "^3.3.0",
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
