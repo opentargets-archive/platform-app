@@ -34,7 +34,6 @@ const getUniProtTextSelectors = subcellularPresentSVG => [
  * This is based on Uniprot's approach
  */
 function SwissbioViz({ locationIds, taxonId, children }) {
-
   const instanceName = useRef(canonicalName + '-uniprot');
 
   useEffect(
@@ -64,12 +63,17 @@ function SwissbioViz({ locationIds, taxonId, children }) {
           .subcell_description {
             display: none;
           }
+          .subcell_present > .coloured {
+            fill: '#F00';
+            fill-opacity: 0.7 !important;
+          }
           .lookedAt {
             stroke: black !important;
             fill: ${config.profile.primaryColor} !important;
             fill-opacity: 1 !important;
           }
         `;
+
         // add styles
         const style = document.createElement('style');
         style.innerText = css;
