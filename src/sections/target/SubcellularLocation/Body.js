@@ -11,29 +11,51 @@ import { identifiersOrgLink, getUniprotIds } from '../../../utils/global';
 const SUBCELLULAR_LOCATION_QUERY = loader('./SubcellularLocation.gql');
 const SwissbioViz = lazy(() => import('./SwissbioViz'));
 
+const sources = [
+  {
+    id: 'HPA_main',
+    label: 'HPA main location',
+  },
+  {
+    id: 'HPA_additional',
+    label: 'HPA additional location',
+  },
+  {
+    id: 'HPA_extracellular_location',
+    label: 'HPA extracellular location',
+  },
+  {
+    id: 'uniprot',
+    label: 'UniProt',
+  },
+];
+
 // Remove the 'SL-' from a location termSL (e.g. "SL-0097")
 // as the sib-swissbiopics component actually don't like the "SL-" part
 const parseLocationTerm = term => term?.substring(3);
+
+// Parse termSL to specific id format used by the text for rollovers
+const parseTermToTextId = term => `${term.replace('-', '')}term`;
+
+const LocationsList = ({ title, sls }) => {
+  return (
+    <>
+      {title ? <Typography>{title}</Typography> : null}
+      <List>
+        {sls.map(({ location, termSL }) => (
+          <ListItem key={location} id={parseTermToTextId(termSL)}>
+            - {location}
+          </ListItem>
+        ))}
+      </List>
+    </>
+  );
+};
 
 function Body({ definition, id: ensemblId, label: symbol }) {
   const request = useQuery(SUBCELLULAR_LOCATION_QUERY, {
     variables: { ensemblId },
   });
-
-  const LocationsList = ({ title, sls }) => {
-    return (
-      <>
-        {title ? <Typography>{title}</Typography> : null}
-        <List>
-          {sls.map(({ location, termSL }) => (
-            <ListItem key={location} id={termSL.split('-').join('') + 'term'}>
-              - {location}
-            </ListItem>
-          ))}
-        </List>
-      </>
-    );
-  };
 
   return (
     <SectionItem
@@ -42,24 +64,15 @@ function Body({ definition, id: ensemblId, label: symbol }) {
       renderDescription={() => <Description symbol={symbol} />}
       renderBody={({ target }) => {
         const uniprotId = getUniprotIds(target.proteinIds)[0];
-        const hpaMain = [];
-        const hpaAdditional = [];
-        const hpaExtracellular = [];
-        const uniprot = [];
-        target.subcellularLocations.forEach(sl => {
-          if (sl.source === 'HPA_main') {
-            hpaMain.push(sl);
-          }
-          if (sl.source === 'HPA_additional') {
-            hpaAdditional.push(sl);
-          }
-          if (sl.source === 'HPA_extracellular_location') {
-            hpaExtracellular.push(sl);
-          }
-          if (sl.source === 'uniprot') {
-            uniprot.push(sl);
-          }
-        });
+        const sourcesLocations = sources.reduce((p, c) => {
+          p[c.id] = target.subcellularLocations.filter(
+            sl => sl.source === c.id
+          );
+          return p;
+        }, {});
+        {
+          /* console.log(sourcesLocations); */
+        }
 
         return (
           <>
@@ -69,50 +82,35 @@ function Body({ definition, id: ensemblId, label: symbol }) {
                 .map(s => parseLocationTerm(s.termSL))
                 .join()}
             >
-              {hpaMain.length > 0 ||
-              hpaAdditional.length > 0 ||
-              hpaExtracellular.length > 0 ? (
-                <Box ml={4} mt={2}>
-                  <Typography variant="h6">
-                    HPA -{' '}
-                    <Link external to={identifiersOrgLink('hpa', ensemblId)}>
-                      {ensemblId}
-                    </Link>
-                  </Typography>
-                  <Box ml={4} mt={1}>
-                    {hpaMain.length > 0 ? (
-                      <LocationsList title="HPA (main)" sls={hpaMain} />
-                    ) : null}
-
-                    {hpaAdditional.length > 0 ? (
-                      <LocationsList
-                        title="HPA (additional)"
-                        sls={hpaAdditional}
-                      />
-                    ) : null}
-                    {hpaExtracellular.length > 0 ? (
-                      <LocationsList
-                        title="HPA (extracellular)"
-                        sls={hpaExtracellular}
-                      />
-                    ) : null}
-                  </Box>
-                </Box>
-              ) : null}
-              {uniprot.length > 0 ? (
-                <Box ml={4}>
-                  <Typography variant="h6">
-                    UniProt -{' '}
-                    <Link
-                      external
-                      to={identifiersOrgLink('uniprot', uniprotId)}
-                    >
-                      {uniprotId}
-                    </Link>
-                  </Typography>
-                  <LocationsList sls={uniprot} />
-                </Box>
-              ) : null}
+              <>
+                {sources.map(s => {
+                  {
+                    /* TODO: this will go in dropdown */
+                  }
+                  return sourcesLocations[s.id].length > 0 ? (
+                    <Box ml={4} key={s.id}>
+                      <Typography variant="h6">{s.label}</Typography>
+                      Location for{' '}
+                      {s.id === 'uniprot' ? (
+                        <Link
+                          external
+                          to={identifiersOrgLink('uniprot', uniprotId)}
+                        >
+                          {uniprotId}
+                        </Link>
+                      ) : (
+                        <Link
+                          external
+                          to={identifiersOrgLink('hpa', ensemblId)}
+                        >
+                          {ensemblId}
+                        </Link>
+                      )}
+                      <LocationsList sls={sourcesLocations[s.id]} />
+                    </Box>
+                  ) : null;
+                })}
+              </>
             </SwissbioViz>
           </>
         );
