@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { v1 } from 'uuid';
 
 import '@swissprot/swissbiopics-visualizer';
 import config from '../../../config';
@@ -34,7 +35,7 @@ const getUniProtTextSelectors = subcellularPresentSVG => [
  * This is based on Uniprot's approach
  */
 function SwissbioViz({ locationIds, taxonId, children }) {
-  const instanceName = useRef(canonicalName + '-uniprot');
+  const instanceName = useRef(`${canonicalName}-${v1()}`);
 
   useEffect(
     () => {
@@ -49,10 +50,6 @@ function SwissbioViz({ locationIds, taxonId, children }) {
       const shadowRoot = instance?.shadowRoot;
 
       const onSvgLoaded = () => {
-        // css to change colour of locations passed to the widget
-        // .subcell_present .coloured {
-        //   fill: ${config.profile.primaryColor}
-        // }
         const css = `
           #fakeContent {
             display: none;
