@@ -60,9 +60,9 @@ function SwissbioViz({ locationIds, taxonId, children }) {
           .subcell_description {
             display: none;
           }
-          .subcell_present > .coloured {
-            fill: '#F00';
-            fill-opacity: 0.7 !important;
+          .subcell_present .coloured {
+            fill: ${config.profile.primaryColor};
+            fill-opacity: 0.3;
           }
           .lookedAt {
             stroke: black !important;
