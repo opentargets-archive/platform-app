@@ -20,6 +20,13 @@ const reMpPart = /(mp|part)_(?<id>\w+)/;
 const canonicalName = 'sib-swissbiopics-sl';
 const CanonicalDefinition = customElements.get(canonicalName);
 
+// Note that these are without leading zeros eg: GO1 (and not GO0000001) so make sure
+// the correct classnames are supplied in SubcellularLocationGOView
+const getGoTermClassNames = locationGroup =>
+  Array.from(locationGroup.classList.values())
+    .filter(className => className.startsWith('GO'))
+    .map(goId => `.${goId}`);
+
 const getUniProtTextSelectors = subcellularPresentSVG => [
   `#${subcellularPresentSVG.id}term`,
   ...Array.from(subcellularPresentSVG.classList)
@@ -40,10 +47,67 @@ function SwissbioViz({ locationIds, taxonId, children }) {
   useEffect(
     () => {
       class InstanceClass extends CanonicalDefinition {
-        // constructor() {
-        //   super();
-        // }
+        constructor() {
+          super();
+          this.removedCSSRules = false;
+        }
+
+        deleteCSSRule(selectorText) {
+          for (const styleSheet of super.shadowRoot?.styleSheets || []) {
+            const { cssRules } = styleSheet;
+            for (let index = 0; index < cssRules.length; index += 1) {
+              const cssRule = cssRules[index];
+              if (
+                cssRule instanceof CSSStyleRule &&
+                cssRule.selectorText === selectorText
+              ) {
+                styleSheet.deleteRule(index);
+                return;
+              }
+            }
+          }
+        }
+
+        // logic for highlighting
+        getHighlights(image) {
+          if (!image) {
+            return [];
+          }
+          const selectors = getGoTermClassNames(image);
+
+          if (image?.id) {
+            selectors.push(`#${image.id}term`);
+          }
+          console.log(' >  ' + selectors.length, selectors);
+          return this.querySelectorAll(selectors.join(','));
+        }
+
+        highLight(text, image, selector) {
+          if (!this.removedCSSRules) {
+            // Remove the .lookedAt CSS rule to avoid the default styling
+            this.deleteCSSRule('.lookedAt');
+            // Undo hard-coded cytoskeleton rule
+            this.deleteCSSRule('#SL0090 .lookedAt');
+            this.removedCSSRules = true;
+          }
+          super.highLight(text, image, selector);
+          // Add "lookedAt" classname to image SVG and text
+          for (const highlight of this.getHighlights(image)) {
+            highlight?.classList.add('lookedAt');
+          }
+        }
+
+        // Note that there is no "h" in the middle of this method name
+        // This is probably a typo that needs correcting
+        removeHiglight(text, image, selector) {
+          // Remove "lookedAt" classname from image SVG and text
+          for (const highlight of this.getHighlights(image)) {
+            highlight?.classList.remove('lookedAt');
+          }
+          super.removeHiglight(text, image, selector);
+        }
       }
+
       // customElements.get(instanceName.current) || customElements.define(instanceName.current, InstanceClass);
       customElements.define(instanceName.current, InstanceClass);
       const instance = document.querySelector(instanceName.current);
