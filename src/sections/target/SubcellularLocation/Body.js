@@ -65,15 +65,29 @@ function Body({ definition, id: ensemblId, label: symbol }) {
       renderDescription={() => <Description symbol={symbol} />}
       renderBody={({ target }) => {
         const uniprotId = getUniprotIds(target.proteinIds)[0];
-        const sourcesLocations = sources.reduce((p, c) => {
-          p[c.id] = target.subcellularLocations.filter(
-            sl => sl.source === c.id
-          );
-          return p;
-        }, {});
+
+        // split API response locations based on sources:
+        // {
+        //     HPA_main: []
+        // }
         {
-          /* console.log(sourcesLocations); */
+          /* const sourcesLocations = sources.reduce((srcLocs, src) => {
+          srcLocs[src.id] = target.subcellularLocations.filter(
+            sl => sl.source === src.id
+          );
+          return srcLocs;
+        }, {}); */
         }
+
+        // split API response locations based on sources
+        const sourcesLocations = {};
+        target.subcellularLocations.forEach(sl => {
+          if (sourcesLocations[sl.source] === undefined) {
+            sourcesLocations[sl.source] = [];
+          }
+          sourcesLocations[sl.source].push(sl);
+        });
+        console.log(sourcesLocations);
 
         return (
           <>
