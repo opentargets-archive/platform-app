@@ -102,7 +102,7 @@ function Body({ definition, id: ensemblId, label: symbol }) {
                   {
                     /* TODO: this will go in dropdown */
                   }
-                  return sourcesLocations[s.id].length > 0 ? (
+                  return sourcesLocations[s.id] ? (
                     <Box ml={4} key={s.id}>
                       <Typography variant="h6">{s.label}</Typography>
                       Location for{' '}
