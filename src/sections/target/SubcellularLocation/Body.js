@@ -31,7 +31,8 @@ const sources = [
 ];
 
 // Remove the 'SL-' from a location termSL (e.g. "SL-0097")
-// as the sib-swissbiopics component actually don't like the "SL-" part
+// The sib-swissbiopics component (different from what is documented)
+// actually doesn't accept the "SL-" part of the term
 const parseLocationTerm = term => term?.substring(3);
 
 // Parse termSL to specific id format used by the text for rollovers
