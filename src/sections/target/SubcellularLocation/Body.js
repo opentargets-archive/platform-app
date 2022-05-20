@@ -1,7 +1,9 @@
 import React, { lazy } from 'react';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-import { Typography, List, ListItem, Box } from '@material-ui/core';
+import { Typography, List, ListItem, Box, makeStyles } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
 import Description from './Description';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -10,6 +12,20 @@ import { identifiersOrgLink, getUniprotIds } from '../../../utils/global';
 
 const SUBCELLULAR_LOCATION_QUERY = loader('./SubcellularLocation.gql');
 const SwissbioViz = lazy(() => import('./SwissbioViz'));
+
+const useStyles = makeStyles(theme => ({
+  locationIcon: {
+    paddingRight: '0.5em',
+  },
+  locationsList: {
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    color: theme.palette.primary.main,
+    '& .inpicture.lookedAt': {
+      color: theme.palette.primary.dark,
+    },
+  },
+}));
 
 const sources = [
   {
@@ -36,16 +52,20 @@ const sources = [
 const parseLocationTerm = term => term?.substring(3);
 
 // Parse termSL to specific id format used by the text for rollovers
-const parseTermToTextId = term => `${term.replace('-', '')}term`;
+const parseTermToTextId = term => (term ? `${term.replace('-', '')}term` : '');
 
 const LocationsList = ({ title, sls }) => {
+  const classes = useStyles();
   return (
     <>
       {title ? <Typography>{title}</Typography> : null}
-      <List>
+      <List className={classes.locationsList}>
         {sls.map(({ location, termSL }) => (
           <ListItem key={location} id={parseTermToTextId(termSL)}>
-            - {location}
+            <span className={classes.locationIcon}>
+              <FontAwesomeIcon icon={faMapMarkerAlt} size="lg" />
+            </span>
+            {location}
           </ListItem>
         ))}
       </List>
