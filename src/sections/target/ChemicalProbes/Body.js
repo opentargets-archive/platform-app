@@ -33,7 +33,7 @@ const scores = [
     field: 'scoreInCells',
     label: 'Cells',
     description:
-      'The organism score ranks the chemical probe for its use in model cells.',
+      'The cell score ranks the chemical probe for its use in model cells.',
   },
   {
     field: 'scoreInOrganisms',
