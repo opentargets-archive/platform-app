@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Set selected color
-        run: echo "The token ${{ secrets.SNYK_TOKEN }} "
+        run: echo "The token ${{ secrets }} "
         id: random-color-generator
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
