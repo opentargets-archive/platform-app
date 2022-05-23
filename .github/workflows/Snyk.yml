@@ -3,6 +3,7 @@ on: push
 jobs:
   security:
     runs-on: ubuntu-latest
+    environment: SNYK_TOKEN
     steps:
       - uses: actions/checkout@master
       - name: Set selected color
