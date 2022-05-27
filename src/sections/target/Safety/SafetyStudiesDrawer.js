@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     backgroundColor: theme.palette.grey[300],
+    ...theme.Drawer.paper,
   },
   title: {
     display: 'flex',

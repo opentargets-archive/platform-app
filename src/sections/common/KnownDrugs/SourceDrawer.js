@@ -33,6 +33,7 @@ const sourceDrawerStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     backgroundColor: theme.palette.grey[300],
+    ...theme.Drawer.paper,
   },
   drawerTitle: {
     borderBottom: '1px solid #ccc',

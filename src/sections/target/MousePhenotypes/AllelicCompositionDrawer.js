@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     backgroundColor: theme.palette.grey[300],
     display: 'unset',
+    ...theme.Drawer.paper,
   },
   title: {
     display: 'flex',
