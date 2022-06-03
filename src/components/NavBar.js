@@ -13,7 +13,7 @@ const styles = theme => ({
     margin: 0,
     width: '100%',
     zIndex: 40002,
-    top: 214, // NCINavBar take 59 px
+    top: 184, // NCINavBar take 59 px
   },
   navbarHomepage: {
     left: 0,

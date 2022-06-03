@@ -139,8 +139,8 @@ const theme = {
   },
   Drawer: {
     paper: {
-      marginTop: '262px',
-      height: 'calc(100% - 262px)',
+      marginTop: '232px',
+      height: 'calc(100% - 232px)',
     }
   },
 };

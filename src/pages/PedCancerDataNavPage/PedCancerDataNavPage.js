@@ -109,7 +109,7 @@ const useStyles = makeStyles(theme => ({
     flex: '1 0 auto',
   },
   gridContainer: {
-    margin: '190px 0 0 0',
+    margin: '160px 0 0 0',
     padding: '50px 50px 60px 50px',
     color: darkerBlueColor,
     backgroundColor: generalBackGroundColor,
