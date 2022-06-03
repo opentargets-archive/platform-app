@@ -30,6 +30,7 @@ function HeaderCell({
   tooltip,
   tooltipStyle = {},
   width,
+  stickyHeader,
 }) {
   const headerClasses = tableStyles();
 
@@ -63,6 +64,7 @@ function HeaderCell({
             [headerClasses.cellGroup]: isHeaderGroup,
             [headerClasses.cellSticky]: sticky,
             [headerClasses.noWrap]: noWrapHeader,
+            [headerClasses.headerCellSticky]: stickyHeader && sticky,
           }
         ),
       }}
@@ -89,6 +91,7 @@ function TableHeader({
   onRequestSort,
   sortBy,
   width,
+  stickyHeader,
 }) {
   const colspans = useDynamicColspan(headerGroups, columns, width);
   const createSortHandler = property => event => {
@@ -139,6 +142,7 @@ function TableHeader({
               tooltipStyle={column.tooltipStyle}
               width={column.width}
               minWidth={column.minWidth}
+              stickyHeader={stickyHeader}
             />
           </Hidden>
         ))}
