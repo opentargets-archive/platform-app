@@ -20,8 +20,7 @@ const navPanelStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: { display: 'none' },
   },
   paper: {
-    marginTop: '232px',
-    height: 'calc(100% - 232px)',
+    ...theme.Drawer.paper,
     overflow: 'hidden',
     width: 'inherit',
     zIndex: 40001,
