@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
-import { renderPMTLCell } from './utils'
+import { renderPMTLCell, addCustomFields } from './utils'
 import { genericComparator } from '../../../utils/comparators'
 
 const createExternalLink = (url, description) => {
@@ -13,7 +13,7 @@ const createExternalLink = (url, description) => {
 }
 
 // Configuration for how the tables will display the data
-const columns = [
+let columns = [
   {
     id: 'geneSymbol', label: 'Gene symbol',
     renderCell: ({ geneSymbol, targetFromSourceId }) => 
@@ -78,7 +78,8 @@ const dataDownloaderColumns = [
 ]
 
 function SnvByGeneTab({ data, BODY_QUERY, variables, dataDownloaderFileStem }) {
-
+  // Set a minimum column width
+  addCustomFields(columns)
   return (
     <Grid container>
       <Grid item xs={12}>

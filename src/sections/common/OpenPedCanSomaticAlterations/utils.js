@@ -40,3 +40,7 @@ export const getSADefaultTab = (data) => {
   }
   return defaultTab;
 }
+
+export const addCustomFields = (columns, minWidth='160px') => {
+  columns.map((data, i) => columns[i] = data.minWidth ? data : {...data, minWidth: minWidth})
+}
