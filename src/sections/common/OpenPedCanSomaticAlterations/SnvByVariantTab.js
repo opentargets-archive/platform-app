@@ -96,7 +96,8 @@ function SnvByVariantTab({ data, BODY_QUERY, variables, dataDownloaderFileStem }
           order="asc"
           query={BODY_QUERY.loc.source.body}
           variables={variables}
-          stickyHeader={true}
+          stickyHeader
+          noWrap={false}
         />
       </Grid> 
     </Grid>
