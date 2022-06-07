@@ -14,7 +14,6 @@ const shapes = [
   'line',
 ];
 const shapesSelector = shapes.join(', ');
-// const scopedShapesSelector = shapes.map((s) => `:scope ${s}`).join(', ');
 const reMpPart = /(mp|part)_(?<id>\w+)/;
 
 const canonicalName = 'sib-swissbiopics-sl';
@@ -39,7 +38,7 @@ const getUniProtTextSelectors = subcellularPresentSVG => [
 
 /**
  * Visualization wrapper for the SwissBioPic widget.
- * This is based on Uniprot/swissprot approach using custom elements.
+ * This is taken from Uniprot code whic in turn is based on swissprot approach using custom elements.
  */
 const SwissbioViz = memo(({ locationIds, taxonId, sourceId, children }) => {
   const instanceName = useRef(`${canonicalName}-${sourceId}-${v1()}`);
@@ -78,7 +77,6 @@ const SwissbioViz = memo(({ locationIds, taxonId, sourceId, children }) => {
           if (image?.id) {
             selectors.push(`#${image.id}term`);
           }
-          // console.log(' >  ' + selectors.length, selectors);
           return this.querySelectorAll(selectors.join(','));
         }
 
