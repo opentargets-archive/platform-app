@@ -26,7 +26,7 @@ export const tableStyles = makeStyles(theme => ({
     zIndex: 3,
   },
   stickyHeader: {
-    maxHeight: '640px',
+    maxHeight: '540px',
   },
   cellSticky: {
     position: 'sticky',
