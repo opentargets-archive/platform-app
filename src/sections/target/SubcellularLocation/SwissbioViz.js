@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { memo, useRef, useEffect } from 'react';
 import { v1 } from 'uuid';
 
 import '@swissprot/swissbiopics-visualizer';
@@ -38,11 +38,11 @@ const getUniProtTextSelectors = subcellularPresentSVG => [
 ];
 
 /**
- * Visualization for the SwissBioPic widget.
- * This is based on Uniprot's approach
+ * Visualization wrapper for the SwissBioPic widget.
+ * This is based on Uniprot/swissprot approach using custom elements.
  */
-function SwissbioViz({ locationIds, taxonId, children }) {
-  const instanceName = useRef(`${canonicalName}-${v1()}`);
+const SwissbioViz = memo(({ locationIds, taxonId, sourceId, children }) => {
+  const instanceName = useRef(`${canonicalName}-${sourceId}-${v1()}`);
 
   useEffect(
     () => {
@@ -78,7 +78,7 @@ function SwissbioViz({ locationIds, taxonId, children }) {
           if (image?.id) {
             selectors.push(`#${image.id}term`);
           }
-          console.log(' >  ' + selectors.length, selectors);
+          // console.log(' >  ' + selectors.length, selectors);
           return this.querySelectorAll(selectors.join(','));
         }
 
@@ -115,25 +115,25 @@ function SwissbioViz({ locationIds, taxonId, children }) {
 
       const onSvgLoaded = () => {
         const css = `
-          #fakeContent {
-            display: none;
-          }
-          .subcell_name {
-            display: none;
-          }
-          .subcell_description {
-            display: none;
-          }
-          .subcell_present .coloured {
-            fill: ${config.profile.primaryColor};
-            fill-opacity: 0.3;
-          }
-          .lookedAt {
-            stroke: black !important;
-            fill: ${config.profile.primaryColor} !important;
-            fill-opacity: 1 !important;
-          }
-        `;
+            #fakeContent {
+              display: none;
+            }
+            .subcell_name {
+              display: none;
+            }
+            .subcell_description {
+              display: none;
+            }
+            .subcell_present .coloured {
+              fill: ${config.profile.primaryColor};
+              fill-opacity: 0.3;
+            }
+            .lookedAt {
+              stroke: black !important;
+              fill: ${config.profile.primaryColor} !important;
+              fill-opacity: 1 !important;
+            }
+          `;
 
         // add styles
         const style = document.createElement('style');
@@ -145,7 +145,7 @@ function SwissbioViz({ locationIds, taxonId, children }) {
         const terms = shadowRoot?.querySelector('.terms');
         terms?.appendChild(slot);
 
-        // This finds all subcellular location SVGs that will require a tooltip
+        // This finds all subcellular location SVGs for which we have a location
         const subcellularPresentSVGs =
           shadowRoot?.querySelectorAll(
             'svg .subcell_present, svg [class*="mp_"], svg [class*="part_"]'
@@ -194,6 +194,6 @@ function SwissbioViz({ locationIds, taxonId, children }) {
       </Instance>
     </>
   );
-}
+});
 
 export default SwissbioViz;
