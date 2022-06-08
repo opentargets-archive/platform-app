@@ -1,46 +1,53 @@
 import React from 'react';
-import { HashRouter, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {
   withStyles, Paper,
 } from '@material-ui/core';
 import cn from '../../helpers/classNameConcat';
 
 const CustomDropdownMenu = ({ classes, handleClick, dropDownElements }) => (
+  <>
+  <div className={classes.arrowUp}></div>
   <Paper className={classes.paper}>
     <div id="aboutDropDown">
       {dropDownElements.map((dropDownElementsItem) => (
-        <HashRouter>
           <NavLink
             className={
                 dropDownElementsItem.sublink
                   ? cn(classes.sublink, classes.link)
                   : classes.link
-}
+            }
             activeStyle={dropDownElementsItem.linkActiveStyle
-              ? { color: dropDownElementsItem.linkActiveStyle } : { color: '#27DBFF' }}
+              ? { color: dropDownElementsItem.linkActiveStyle } : { color: '#0091FF' }}
             to={dropDownElementsItem.link}
             onClick={handleClick}
           >
             {dropDownElementsItem.labelText}
           </NavLink>
-        </HashRouter>
       ))}
     </div>
   </Paper>
+  </>
 );
 
 const styles = () => ({
-  paper: (props) => {
-    const defaultProps = {
-      background: '#142D64',
-      width: '170px',
-      padding: '0px 16px 18px 22px',
+  paper:{
+      background: '#E8F5FF',
+      width: '267px',
+      padding: '8px 9px 16px 33px',
       position: 'absolute',
-      margin: '-5px 0px 0px 18px',
+      margin: '150px 0px 0px -5px',
       borderRadius: '0',
-    };
-    return Object.assign(defaultProps, props.navBarstyling
-      ? props.navBarstyling.dropdownMenu ? props.navBarstyling.dropdownMenu.paper : {} : {});
+  },
+  arrowUp:{
+    width: 0, 
+    height: 0, 
+    borderLeft: '8px solid transparent',
+    borderRight: '8px solid transparent',
+    borderBottom: '13px solid #E8F5FF',
+    background: 'transparent',
+    position: 'absolute',
+    margin: '50px 0px 0px 27px',
   },
   sublink: (props) => {
     const defaultProps = {
@@ -49,23 +56,18 @@ const styles = () => ({
     return Object.assign(defaultProps, props.navBarstyling
       ? props.navBarstyling.dropdownMenu ? props.navBarstyling.dropdownMenu.sublink : {} : {});
   },
-  link: (props) => {
-    const defaultProps = {
+  link: {
       textDecoration: 'none',
-      color: 'white',
-      fontFamily: 'Lato',
-      fontSize: '15px',
-      fontWeight: '800',
-      lineHeight: '12px',
+      color: '#0C375E',
+      fontFamily: 'Nunito Sans',
+      fontSize: '18px',
+      lineHeight: '20px',
       display: 'block',
       marginTop: '13px',
       '&:hover': {
         cursor: 'pointer',
-        color: '#41A7FF',
-      },
-    };
-    return Object.assign(defaultProps, props.navBarstyling
-      ? props.navBarstyling.dropdownMenu ? props.navBarstyling.dropdownMenu.link : {} : {});
+        color: '#0091FF',
+      }
   },
 });
 

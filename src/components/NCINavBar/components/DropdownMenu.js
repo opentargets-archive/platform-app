@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Button, withStyles,
 } from '@material-ui/core';
-import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
 import DropdownItemsMenu from './DropdownItemsMenu';
 
 const DropdownMenu = ({
@@ -19,7 +18,7 @@ const DropdownMenu = ({
   }
 
   function dropdownMenuClickEvent() {
-    setDisplayDropDownMenu(false);
+    setDisplayDropDownMenu(true);
     handleButtonClickEvent('aboutMenu');
   }
 
@@ -35,13 +34,13 @@ const DropdownMenu = ({
         aria-controls="simple-menu"
         aria-haspopup="true"
         onFocus={handleClick}
+        onMouseEnter={handleClick}
         className={classes.logotype}
         classes={{ root: classes.buttonRoot }}
       >
         <span className={clickedEl === 'aboutMenu' ? classes.buttonRootClicked : ''} id={`navbar_dropdown_${linkText}`}>
           { linkText }
         </span>
-        {navBarstyling.dropDownIcon.displayIcon === true ? <ExpandMoreRoundedIcon className={classes.dropDownicon} /> : ''}
       </Button>
       {displayDropDownMenu ? <DropdownItemsMenu navBarstyling={navBarstyling} handleClick={dropdownMenuClickEvent} dropDownElements={dropDownElements} /> : ''}
     </div>
@@ -52,13 +51,8 @@ const styles = () => ({
   logotype: (props) => ({
     whiteSpace: 'nowrap',
     color: props.navBarstyling.global.fontColor ? props.navBarstyling.global.fontColor : '#FFFFFF',
-    fontFamily: props.navBarstyling.global.fontFamily ? props.navBarstyling.global.fontFamily : 'Nunito',
-    fontSize: '13px',
-    fontWeight: '600',
-    letterSpacing: '0.9px',
-    // [theme.breakpoints.down('xs')]: {
-    //   display: 'none',
-    // },
+    fontFamily: 'Nunito Sans',
+    fontSize: '18px',
     '&:hover, &:focus': {
       borderRadius: '0',
     },
@@ -74,7 +68,14 @@ const styles = () => ({
     margin: props.navBarstyling.dropDownIcon.margin ? props.navBarstyling.dropDownIcon.margin : '0px 0px 0px 0px',
   }),
   aboutMenu: {
-    display: 'inline-block',
+    display: 'inline-flex',
+    padding: '0 5px',
+    height: '59px',
+    alignItems: 'center',
+    '&:hover': {
+        cursor: 'pointer',
+        background: '#005BA0',
+      },
   },
 });
 
