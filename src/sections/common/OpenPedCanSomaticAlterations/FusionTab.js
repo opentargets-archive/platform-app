@@ -4,11 +4,11 @@ import { Grid } from '@material-ui/core';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions } from '../../../constants';
 import  Link from '../../../components/Link';
-import { renderPMTLCell } from './utils';
+import { renderPMTLCell, addCustomFields } from './utils';
 import { genericComparator } from '../../../utils/comparators'
 
 // Configuration for how the tables will display the data
-const columns = [
+let columns = [
   { id: 'fusionName', label: 'Fusion Name', sortable:true },
   { id: 'fusionType', label: 'Fusion Type', sortable:true },
   { id: 'geneSymbol', label: 'Gene symbol',
@@ -76,6 +76,8 @@ const dataDownloaderColumns = [
 ]
 
 function FusionTab({ data, BODY_QUERY, variables, dataDownloaderFileStem }) {
+  // Set a minimum column width
+  addCustomFields(columns)
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -91,6 +93,8 @@ function FusionTab({ data, BODY_QUERY, variables, dataDownloaderFileStem }) {
           order="asc"
           query={BODY_QUERY.loc.source.body}
           variables={variables}
+          stickyHeader
+          noWrap={false}
         />
       </Grid> 
     </Grid>
