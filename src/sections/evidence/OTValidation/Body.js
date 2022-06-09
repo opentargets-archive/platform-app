@@ -121,6 +121,11 @@ const getColumns = classes => [
   {
     id: 'projectDescription',
     label: 'OTAR primary project',
+    tooltip: (
+      <>
+        Binary assessment of gene perturbation effect in primary project screen
+      </>
+    ),
     renderCell: row => (
       <Link to={`http://home.opentargets.org/${row.projectId}`} external>
         {row.projectDescription}
