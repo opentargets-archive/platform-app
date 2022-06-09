@@ -20,7 +20,9 @@ import PMTLDocPage from './pages/PMTLDocPage';
 import NotFoundPage from './pages/NotFoundPage';
 import PMTLPage from './pages/PMTLPage/PMTLPage';
 import AboutPage from './pages/AboutPage';
-import PedCancerDataNavPage from './pages/PedCancerDataNavPage'
+import PedCancerDataNavPage from './pages/PedCancerDataNavPage';
+import ChangeLog from './pages/ChangeLogPage';
+
 
 class App extends Component {
   componentDidMount() {
@@ -45,6 +47,7 @@ class App extends Component {
                 <Route path="/api" component={APIPage} />
                 <Route path="/About" component={AboutPage} />
                 <Route path="/fda-pmtl" component={PMTLPage} />
+                <Route path="/change-log" component={ChangeLog} />
                 <Route path="/fda-pmtl-docs" component={PMTLDocPage} />
                 <Route path="/pediatric-cancer-data-navigation" component={PedCancerDataNavPage} />
                 <Route component={NotFoundPage} />

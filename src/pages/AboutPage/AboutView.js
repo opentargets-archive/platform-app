@@ -3,7 +3,6 @@ import {
   Grid,
   makeStyles,
   Typography,
-  Paper,
 } from '@material-ui/core';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { Helmet } from 'react-helmet';
@@ -14,8 +13,7 @@ import Link from '../../components/Link';
 import {
   appDescription,
   appCanonicalUrl,
-  contact,
-  version
+  contact
 } from '../../constants';
 import RelevantIcon from '../../components/RMTL/RelevantIcon';
 import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
@@ -23,25 +21,16 @@ import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 import Infographic from '../../assets/about/Infographic.png';
 import classNames from 'classnames';
-import usePlatformApi from '../../hooks/usePlatformApi';
 
 const useStyles = makeStyles(theme => ({
-
+  paper: {
+    padding: '0 0 100px 0',
+  },
   molecularTargetC: {
     margin: '160px 0 0 0',
     padding: '48px 0 56px 0',
     backgroundColor: '#CDE9FF',
     fontSize: '16px'
-  },
-  changeLogContainer: {
-    marginTop: '80px',
-    backgroundColor: '#EDF1F4',
-    color: '#000000',
-    fontSize: '16px',
-    padding:'55px 40px 68px 40px',
-  },
-  changeLogSubContainer: {
-    padding:'55px 40px 0px 40px',
   },
   container: {
     margin: '58px 0 0px 0',
@@ -157,7 +146,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AboutView = ({ data }) => {
-  const request = usePlatformApi()
   const classes = useStyles();
   const appTitle = "About Page";
   const [showHide, setShowHide] = useState(
@@ -177,8 +165,6 @@ const AboutView = ({ data }) => {
 
     }
   )
-  const BEversion =
-      request.loading ? "Loading..." : request.data?.meta?.mtpVersion?.version || version.backend
   const contactEmail = `mailto:${contact.email}`
 
   const showHideContent = (id) => {
@@ -519,12 +505,7 @@ const AboutView = ({ data }) => {
     )
   }
 
-  // Temporally solution to offset when scrolling to specific section of page.
-  const ChangeLogOffset = () => {
-    return (
-      <p id="changeLog" style={{display: 'block', position: 'relative', top: '-130px', visibility: 'hidden'}}></p>
-    )
-  }
+
 
   return (
     <>
@@ -534,387 +515,252 @@ const AboutView = ({ data }) => {
     </Helmet>
     <ScrollToTop/>
     <NCIHeader/>
+    <Grid container justify="center" className={classes.paper}>
+      <Grid item >
+        {/* The Molecular Targets Platform */}
+        <Grid container justify="center" className={classes.molecularTargetC}>
+          <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
 
-    {/* The Molecular Targets Platform */}
-    <Grid container justify="center" className={classes.molecularTargetC}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+            <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
+              The Molecular Targets Platform
+            </Typography>
 
-        <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
-          The Molecular Targets Platform
-        </Typography>
-
-        <Typography paragraph>
-          The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the 
-          <Link to="https://platform.opentargets.org/" external>{' '} 
-            Open Targets Platform<ExternalLinkIcon />{' '}
-          </Link>
-          with a focus on pediatric cancer data. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. 
-          The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including: 
-        </Typography>
-        
-        <ul>
-          <li>The FDA Pediatric Molecular Target Lists (FDA PMTL)</li>
-          <li>
-          Analyses of pediatric oncology datasets from the Open Pediatric Cancer (OpenPedCan) project at the
-          Children's Hospital of Philadelphia:
-            <ul>
-              <li>Therapeutically Applicable Research to Generate Effective Treatments (TARGET)</li>
-              <li>Open Pediatric Brain Tumor Atlas (OpenPBTA) </li>
-              <li>Gabriella Miller Kids First (Kids First) Neuroblastoma</li>
-            </ul>
-          </li>
-        </ul>
-
-        <Typography paragraph>
-          As the project matures, new pediatric cancer data and additional functionality will be added to the Molecular Targets Platform.
-        </Typography>
-
-        <Typography paragraph>
-     
-         
-          As the CCDI continues to refine the Molecular Targets Platform, input from the community is highly valued to help improve usability. Please send your feedback and comments to 
-           {' '} 
-           <a className={classNames(classes.base, classes.baseDefault)} href={contactEmail}>
-             {contact.email}
-          </a> .
-        </Typography>
-
-      </Grid>
-    </Grid>
-
-    {/* The Open Targets Platform  */}
-    <Grid container justify="center" className={classes.container}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-
-        <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
-          The Open Targets Platform
-        </Typography>
-
-        <Typography paragraph>
-          The 
-          <Link to="https://platform.opentargets.org/" external>{' '} 
-            Open Targets Platform<ExternalLinkIcon />{' '}
-          </Link>
-          is the open-source infrastructure upon which the Molecular Targets Platform is built. 
-
-        </Typography>
-        
-        <Grid item container direction="row" alignItems="center" className={classes.infographicContainer}>
-            <Grid item>
-              <img src={Infographic} alt="Infographic of Molecular Targets Platform"/>
-            </Grid>
-            <Grid className={classes.infographicContent} item >
-              <Typography paragraph>
-                The Open Targets Platform is a comprehensive tool that supports systematic identification and prioritisation of 
-                potential therapeutic drug targets. By integrating publicly available datasets including data generated by the Open Targets consortium, 
-                the Platform builds and scores target-disease associations to assist in drug target identification and prioritisation. 
-                It also integrates relevant annotation information about targets, diseases, phenotypes, and drugs, as well as their most relevant relationships.
-              </Typography>
-            </Grid>
-        </Grid>
-        
-        <Typography paragraph>
-          The Open Targets Platform is not an NCI program; their site is not affiliated with the NCI or any other US government agency. 
-          However, the Open Targets Platform is an open-source product, meaning that the data and code are shared freely with other 
-          organizations for development. The NCI has added pediatric cancer data and additional functionality into a separate instance 
-          of the Open Targets Platform under NCI control – the Molecular Targets Platform.
-        </Typography>
-        <Typography paragraph>
-          This About page will document all of the new data and features present in the Molecular Targets Platform. 
-          For detailed descriptions and tutorials of the built-in functions of the Open Targets Platform, please see their{' '}
-          <Link to="https://platform-docs.opentargets.org/" external> 
-            documentation<ExternalLinkIcon />
-          </Link>{' '}
-          or their{' '}
-          <Link to="https://platform-docs.opentargets.org/citation" external> 
-             most recent publication<ExternalLinkIcon />
-          </Link>.
-        </Typography>
-
-        <Typography paragraph className={classes.space}>
-          The Open Targets Platform undergoes regular updates to add new data and functionalities, which are integrated into the Molecular 
-          Targets Platform as soon as possible.
-        </Typography>
-        
-      
-        <hr className={classes.containerDiverHr}/>
-
-      </Grid>
-
-    </Grid>
-
-    {/* Pediatric Cancer Disease */}
-    <Grid container justify="center" className={classes.container}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
-          Pediatric Cancer Disease
-        </Typography>
-        <Typography paragraph>
-          Pediatric cancers are rare and heterogeneous, and have a different biology even from adult
-          cancers of the same name. Due to the complexity and rarity, there was no international
-          standard of classification until the end of 2021 when WHO updated their standards to
-          include a distinct section for pediatric tumors. Considering the challenges and historical
-          lack of standards, disease assignment and molecular subtyping is a challenging process.
-          For Open Targets, classifying pediatric tumors starts with the pathologist’s report from
-          original diagnosis followed by confirmation of the molecular features of the disease using
-          the repository data. The specific molecular features examined for each disease were
-          determined by the literature with expert review and curation from both bioinformaticians
-          and clinicians. A final disease label is assigned based on the combination of the clinical
-          pathology report and the molecular features in the data. If there is a discrepancy between
-          clinical and molecular labels, samples are reviewed by a pathologist and final disease
-          assignment is made in consultation with pathology, bioinformatics, and clinicians. For
-          each disease, a non-exhaustive list of synonyms as well as the specific Experimental
-          Factor Ontology (EFO) label used can be found on the individual page for each disease. For
-          more details on disease assignment see {' '}
-          <Link external to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis/tree/dev/analyses/molecular-subtyping-pathology">
-            OpenPedCan Molecular Subtyping and Pathology Documentation
-            <ExternalLinkIcon />
-          </Link>.
-          For a summary table of the number of subjects included,{' '}
-          <Link external to="https://github.com/PediatricOpenTargets/documentation/blob/main/disease_subject_counts.tsv">
-            a table is available for viewing and download
-            <ExternalLinkIcon />
-          </Link>.
-        </Typography>
-
-        <div className={classes.space90}></div>
-      </Grid>
-    </Grid>
-    
-    {/* Pediatric Cancer Data Sources */}
-    <Grid container justify="center" className={classes.datasetContainer}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
-          Pediatric Cancer Data Sources
-        </Typography>
-
-        {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Target Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
-        {showHide.fdaPmtlDS && fdaPmtlDataSource()}
-        <hr className={classes.listDiverHr} />
-
-        {/* Open Pediatric Cancer (OpenPedCan) */}
-        {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan", "openPedCanDS")}
-        {showHide.openPedCanDS && openPedCanDataSource()}
-        <hr className={classes.listDiverHr} />
-
-        {/* Therapeutically Applicable Research to Generate Effective Treatments (TARGET) */}
-        {listHeader("Therapeutically Applicable Research to Generate Effective Treatments %acronym", "TARGET", "targetDS")}
-        {showHide.targetDS && targetDataSource()}
-        <hr className={classes.listDiverHr} />
-
-        {/* Gabriella Miller Kids First Neuroblastoma (Kids First) */}
-        {listHeader("Gabriella Miller Kids First Neuroblastoma %acronym", "Kids First", "kidsFirstDS")}
-        {showHide.kidsFirstDS && kidsFirstDataSource()}
-        <hr className={classes.listDiverHr} />
-
-        {/* Open Pediatric Brain Tumor Atlas (OpenPBTA) */}
-        {listHeader("Open Pediatric Brain Tumor Atlas %acronym","OpenPBTA", "openPbtaDS")}
-        {showHide.openPbtaDS && openPbtaDataSource()}
-        <hr className={classes.listDiverHr} />
-
-        {/* Oncology Knowledge Base (OncoKB) Cancer Gene List */}
-        {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB", "oncokbDS")}
-        {showHide.oncokbDS && oncokbDataSource()}
-        <hr className={classes.listDiverHr} />
-
-        {/* Genotype-Tissue Expression */}
-        {listHeader("Genotype-Tissue Expression %acronym", "GTEx", "gtexDS")}
-        {showHide.gtexDS && gtexDataSource()}
-        <hr className={classes.listDiverHr} />
-
-        <div className={classes.space90}></div>
-
-      </Grid>
-    </Grid>
-
-    {/* Pediatric Cancer Data Processing */}
-    <Grid container justify="center" className={classes.datasetContainer}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
-          Pediatric Cancer Data Processing
-        </Typography>
-        <Typography paragraph>
-          Open Pediatric Cancer (OpenPedCan) project at the Children’s Hospital of Philadelphia,
-          in partnership with the National Cancer Institute, is combining and harmonizing pediatric
-          cancer datasets to accelerate pediatric cancer target identification and drug development.
-          To read more about the OpenPedCan data processing methods, view the{' '}
-          <Link to="https://github.com/PediatricOpenTargets/documentation" external>
-            documentation<ExternalLinkIcon />
-          </Link>.
-        </Typography>
-
-        <div className={classes.space90}></div>
-
-      </Grid>
-    </Grid>
-
-    {/* Pediatric Cancer Data Visualizations */}
-    <Grid container justify="center" className={classes.datasetContainer}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-        <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
-          Pediatric Cancer Data Visualizations
-        </Typography>
-
-        {/* Pediatric Cancer Data Navigation */}
-        {listHeader("Pediatric Cancer Data Navigation", "", "pedCanDataNavDV")}
-        {showHide.pedCanDataNavDV && pedCanDataNavDataVisualizations()}
-        <hr className={classes.listDiverHr} />
-
-        {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
-        {listHeader("FDA Pediatric Molecular Target Lists %acronym","FDA PMTL", "fdaPmtlDV")}
-        {showHide.fdaPmtlDV && fdaPmtlDataVisualizations()}
-        <hr className={classes.listDiverHr} />
-
-        {/* OpenPedCan Somatic Alterations (SA)*/}
-        {listHeader("OpenPedCan Somatic Alterations", "", "somaticAlterationsDV")}
-        {showHide.somaticAlterationsDV && saDataVisualizations()}
-        <hr className={classes.listDiverHr} />
-
-        {/* OpenPedCan Gene Expression (GX)*/}
-        {listHeader("OpenPedCan Gene Expression", "", "geneExpressionDV")}
-        {showHide.geneExpressionDV && geneExDataVisualizations()}
-        <hr className={classes.listDiverHr} />
-      </Grid>
-    </Grid>
-
-    {/* Change Log */}
-    <ChangeLogOffset />
-    <Grid container justify="center" className={classes.changeLogContainer}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-
-        <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
-          Change Log
-        </Typography>
-
-        <Typography paragraph>
-          The Molecular Targets Platform integrates many different sources of data and analyses, all of which are updated 
-          at varying intervals. In order to comprehensively track changes, the various changelogs are aggregated here.
-        </Typography>
-        
-        <Grid item className={classes.changeLogSubContainer}>
-          <Paper className={classes.changeLogPaper}>
-            <div className={classes.changeLogBox}>
-              <div className={classes.changeLogBoxLeft} >
-              
-                <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
-                  Open Targets Platform
-                </Typography>
-
-                <b>Version in use</b>: 21.06 (Released 2021-06-30) <br />
-                <b>Detailed Change Log</b>: 
-                <Link to="https://platform-docs.opentargets.org/change-log" external>{' '} 
-                  Open Targets Platform<ExternalLinkIcon />
-                </Link>
-              
-              </div>
-              <div className={classes.changeLogBoxRight}>
-                The Open Targets Platform version represents the built-in data and functions of the Molecular Targets Platform. 
-                This includes all data, displays, and site behavior not otherwise defined in this About page.
-              </div>
+            <Typography paragraph>
+              The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the 
+              <Link to="https://platform.opentargets.org/" external>{' '} 
+                Open Targets Platform<ExternalLinkIcon />{' '}
+              </Link>
+              with a focus on pediatric cancer data. This tool allows users to browse and identify associations between molecular targets, diseases, and drugs. 
+              The Molecular Targets Platform builds upon the data and functionality of the Open Targets Platform while also including: 
+            </Typography>
             
-            </div>
-          </Paper>
+            <ul>
+              <li>The FDA Pediatric Molecular Target Lists (FDA PMTL)</li>
+              <li>
+              Analyses of pediatric oncology datasets from the Open Pediatric Cancer (OpenPedCan) project at the
+              Children's Hospital of Philadelphia:
+                <ul>
+                  <li>Therapeutically Applicable Research to Generate Effective Treatments (TARGET)</li>
+                  <li>Open Pediatric Brain Tumor Atlas (OpenPBTA) </li>
+                  <li>Gabriella Miller Kids First (Kids First) Neuroblastoma</li>
+                </ul>
+              </li>
+            </ul>
 
-           <Paper className={classes.changeLogPaper}>
-            <div className={classes.changeLogBox}>
-              <div className={classes.changeLogBoxLeft} >
-                <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
-                  Molecular Targets Platform Frontend
-                </Typography>
-                <b>Version in use</b>: {version.frontend} <br />
-                <b>Detailed Change Log</b>: 
-                <Link to={version.frontendURL} external>{' '} 
-                  MTP Frontend Release<ExternalLinkIcon />
-                </Link>
-              </div>
+            <Typography paragraph>
+              As the project matures, new pediatric cancer data and additional functionality will be added to the Molecular Targets Platform.
+            </Typography>
 
-              <div className={classes.changeLogBoxRight}>
-                The Molecular Targets Platform Frontend contains all of the visual and user-focused components of the site.
-              </div>
-            </div>
-          </Paper>
+            <Typography paragraph>
+         
+             
+              As the CCDI continues to refine the Molecular Targets Platform, input from the community is highly valued to help improve usability. Please send your feedback and comments to 
+               {' '} 
+               <a className={classNames(classes.base, classes.baseDefault)} href={contactEmail}>
+                 {contact.email}
+              </a> .
+            </Typography>
 
-           <Paper className={classes.changeLogPaper}>
-            <div className={classes.changeLogBox}>
-              <div className={classes.changeLogBoxLeft} >
-                <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
-                  Molecular Targets Platform Backend
-                </Typography>
-                <b>Version in use</b>: {BEversion} <br />
-                <b>Detailed Change Log</b>: 
-                <Link to={version.backendURL} external>{' '} 
-                  MTP Backend Release<ExternalLinkIcon />
-                </Link>
-              </div>
+          </Grid>
+        </Grid>
 
-              <div className={classes.changeLogBoxRight}>
-                The Molecular Targets Platform Backend contains all of the database and infrastructure components of the site. 
-              </div>
-            </div>
-          </Paper>
+        {/* The Open Targets Platform  */}
+        <Grid container justify="center" className={classes.container}>
+          <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
 
-           <Paper className={classes.changeLogPaper}>
-            <div className={classes.changeLogBox}>
-              <div className={classes.changeLogBoxLeft} >
-                <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
-                  OpenPedCan Analyses
-                </Typography>
-                <b>Version in use</b>: v10 (Released 2021-10-12) <br />
-                <b>Detailed Change Log</b>: 
-                <Link to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis/blob/4fb04fe60754b90da3c241dbb8b727c3722487cc/doc/release-notes.md" external>{' '} 
-                  OpenPedCan Analysis Release<ExternalLinkIcon />
-                </Link>
-              </div>
+            <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
+              The Open Targets Platform
+            </Typography>
 
-              <div className={classes.changeLogBoxRight}>
-                The OpenPedCan version represents new analysis results used in the OpenPedCan Somatic Alterations and Gene Expression displays.
-              </div>
-            </div>
-          </Paper>
+            <Typography paragraph>
+              The 
+              <Link to="https://platform.opentargets.org/" external>{' '} 
+                Open Targets Platform<ExternalLinkIcon />{' '}
+              </Link>
+              is the open-source infrastructure upon which the Molecular Targets Platform is built. 
 
-           <Paper className={classes.changeLogPaper}>
-            <div className={classes.changeLogBox}>
-              <div className={classes.changeLogBoxLeft} >
-                <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
-                  OncoKB Cancer Gene List
-                </Typography>
-                <b>Version in use</b>: v3.5 (Released 2021-07-16) <br />
-                <b>Detailed Change Log</b>: 
-                <Link to="https://www.oncokb.org/news#07162021" external>{' '} 
-                  OncoKB Release<ExternalLinkIcon />
-                </Link>
-              </div>
+            </Typography>
+            
+            <Grid item container direction="row" alignItems="center" className={classes.infographicContainer}>
+                <Grid item>
+                  <img src={Infographic} alt="Infographic of Molecular Targets Platform"/>
+                </Grid>
+                <Grid className={classes.infographicContent} item >
+                  <Typography paragraph>
+                    The Open Targets Platform is a comprehensive tool that supports systematic identification and prioritisation of 
+                    potential therapeutic drug targets. By integrating publicly available datasets including data generated by the Open Targets consortium, 
+                    the Platform builds and scores target-disease associations to assist in drug target identification and prioritisation. 
+                    It also integrates relevant annotation information about targets, diseases, phenotypes, and drugs, as well as their most relevant relationships.
+                  </Typography>
+                </Grid>
+            </Grid>
+            
+            <Typography paragraph>
+              The Open Targets Platform is not an NCI program; their site is not affiliated with the NCI or any other US government agency. 
+              However, the Open Targets Platform is an open-source product, meaning that the data and code are shared freely with other 
+              organizations for development. The NCI has added pediatric cancer data and additional functionality into a separate instance 
+              of the Open Targets Platform under NCI control – the Molecular Targets Platform.
+            </Typography>
+            <Typography paragraph>
+              This About page will document all of the new data and features present in the Molecular Targets Platform. 
+              For detailed descriptions and tutorials of the built-in functions of the Open Targets Platform, please see their{' '}
+              <Link to="https://platform-docs.opentargets.org/" external> 
+                documentation<ExternalLinkIcon />
+              </Link>{' '}
+              or their{' '}
+              <Link to="https://platform-docs.opentargets.org/citation" external> 
+                 most recent publication<ExternalLinkIcon />
+              </Link>.
+            </Typography>
 
-              <div className={classes.changeLogBoxRight}>
-                The OncoKB Cancer Gene List version represents the genes identified as OncoKB oncogenes or tumor suppressor genes within the OpenPedCan Somatic Alterations display.
-              </div>
-            </div>
-          </Paper>
-        <Paper className={classes.changeLogPaper}>
-            <div className={classes.changeLogBox}>
-              <div className={classes.changeLogBoxLeft} >
-                <Typography variant="h6" component="h1" paragraph className={classes.projectTitle}>
-                  FDA Pediatric Molecular Target Lists
-                </Typography>
-                <b>Version in use</b>: v1.1 (Released 2021-09-09) <br />
-                <b>Detailed Change Log</b>: 
-                <Link to="/fda-pmtl-docs">{' '}
-                  FDA PMTL Documentation
-                </Link>
-              </div>
+            <Typography paragraph className={classes.space}>
+              The Open Targets Platform undergoes regular updates to add new data and functionalities, which are integrated into the Molecular 
+              Targets Platform as soon as possible.
+            </Typography>
+            
+          
+            <hr className={classes.containerDiverHr}/>
 
-              <div className={classes.changeLogBoxRight}>
-                The FDA PMTL version represents the computable interpretation of the lists as used within the Molecular Targets Platform. 
-                When the FDA publishes new lists, new computable interpretations will be updated here.
-              </div>
-            </div>
-          </Paper>
+          </Grid>
 
+        </Grid>
+
+        {/* Pediatric Cancer Disease */}
+        <Grid container justify="center" className={classes.container}>
+          <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+            <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
+              Pediatric Cancer Disease
+            </Typography>
+            <Typography paragraph>
+              Pediatric cancers are rare and heterogeneous, and have a different biology even from adult
+              cancers of the same name. Due to the complexity and rarity, there was no international
+              standard of classification until the end of 2021 when WHO updated their standards to
+              include a distinct section for pediatric tumors. Considering the challenges and historical
+              lack of standards, disease assignment and molecular subtyping is a challenging process.
+              For Open Targets, classifying pediatric tumors starts with the pathologist’s report from
+              original diagnosis followed by confirmation of the molecular features of the disease using
+              the repository data. The specific molecular features examined for each disease were
+              determined by the literature with expert review and curation from both bioinformaticians
+              and clinicians. A final disease label is assigned based on the combination of the clinical
+              pathology report and the molecular features in the data. If there is a discrepancy between
+              clinical and molecular labels, samples are reviewed by a pathologist and final disease
+              assignment is made in consultation with pathology, bioinformatics, and clinicians. For
+              each disease, a non-exhaustive list of synonyms as well as the specific Experimental
+              Factor Ontology (EFO) label used can be found on the individual page for each disease. For
+              more details on disease assignment see {' '}
+              <Link external to="https://github.com/PediatricOpenTargets/OpenPedCan-analysis/tree/dev/analyses/molecular-subtyping-pathology">
+                OpenPedCan Molecular Subtyping and Pathology Documentation
+                <ExternalLinkIcon />
+              </Link>.
+              For a summary table of the number of subjects included,{' '}
+              <Link external to="https://github.com/PediatricOpenTargets/documentation/blob/main/disease_subject_counts.tsv">
+                a table is available for viewing and download
+                <ExternalLinkIcon />
+              </Link>.
+            </Typography>
+
+            <div className={classes.space90}></div>
+          </Grid>
+        </Grid>
+        
+        {/* Pediatric Cancer Data Sources */}
+        <Grid container justify="center" className={classes.datasetContainer}>
+          <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+            <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
+              Pediatric Cancer Data Sources
+            </Typography>
+
+            {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
+            {listHeader("FDA Pediatric Molecular Target Lists %acronym", "FDA PMTL", "fdaPmtlDS")}
+            {showHide.fdaPmtlDS && fdaPmtlDataSource()}
+            <hr className={classes.listDiverHr} />
+
+            {/* Open Pediatric Cancer (OpenPedCan) */}
+            {listHeader("Open Pediatric Cancer %acronym", "OpenPedCan", "openPedCanDS")}
+            {showHide.openPedCanDS && openPedCanDataSource()}
+            <hr className={classes.listDiverHr} />
+
+            {/* Therapeutically Applicable Research to Generate Effective Treatments (TARGET) */}
+            {listHeader("Therapeutically Applicable Research to Generate Effective Treatments %acronym", "TARGET", "targetDS")}
+            {showHide.targetDS && targetDataSource()}
+            <hr className={classes.listDiverHr} />
+
+            {/* Gabriella Miller Kids First Neuroblastoma (Kids First) */}
+            {listHeader("Gabriella Miller Kids First Neuroblastoma %acronym", "Kids First", "kidsFirstDS")}
+            {showHide.kidsFirstDS && kidsFirstDataSource()}
+            <hr className={classes.listDiverHr} />
+
+            {/* Open Pediatric Brain Tumor Atlas (OpenPBTA) */}
+            {listHeader("Open Pediatric Brain Tumor Atlas %acronym","OpenPBTA", "openPbtaDS")}
+            {showHide.openPbtaDS && openPbtaDataSource()}
+            <hr className={classes.listDiverHr} />
+
+            {/* Oncology Knowledge Base (OncoKB) Cancer Gene List */}
+            {listHeader("Oncology Knowledge Base %acronym Cancer Gene List", "OncoKB", "oncokbDS")}
+            {showHide.oncokbDS && oncokbDataSource()}
+            <hr className={classes.listDiverHr} />
+
+            {/* Genotype-Tissue Expression */}
+            {listHeader("Genotype-Tissue Expression %acronym", "GTEx", "gtexDS")}
+            {showHide.gtexDS && gtexDataSource()}
+            <hr className={classes.listDiverHr} />
+
+            <div className={classes.space90}></div>
+
+          </Grid>
+        </Grid>
+
+        {/* Pediatric Cancer Data Processing */}
+        <Grid container justify="center" className={classes.datasetContainer}>
+          <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+            <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
+              Pediatric Cancer Data Processing
+            </Typography>
+            <Typography paragraph>
+              Open Pediatric Cancer (OpenPedCan) project at the Children’s Hospital of Philadelphia,
+              in partnership with the National Cancer Institute, is combining and harmonizing pediatric
+              cancer datasets to accelerate pediatric cancer target identification and drug development.
+              To read more about the OpenPedCan data processing methods, view the{' '}
+              <Link to="https://github.com/PediatricOpenTargets/documentation" external>
+                documentation<ExternalLinkIcon />
+              </Link>.
+            </Typography>
+
+            <div className={classes.space90}></div>
+
+          </Grid>
+        </Grid>
+
+        {/* Pediatric Cancer Data Visualizations */}
+        <Grid container justify="center" className={classes.datasetContainer}>
+          <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+            <Typography variant="h4" component="h1" align="center" className={classNames(classes.title, classes.boxTitle)}>
+              Pediatric Cancer Data Visualizations
+            </Typography>
+
+            {/* Pediatric Cancer Data Navigation */}
+            {listHeader("Pediatric Cancer Data Navigation", "", "pedCanDataNavDV")}
+            {showHide.pedCanDataNavDV && pedCanDataNavDataVisualizations()}
+            <hr className={classes.listDiverHr} />
+
+            {/* FDA Pediatric Molecular Target Lists (FDA PMTL) */}
+            {listHeader("FDA Pediatric Molecular Target Lists %acronym","FDA PMTL", "fdaPmtlDV")}
+            {showHide.fdaPmtlDV && fdaPmtlDataVisualizations()}
+            <hr className={classes.listDiverHr} />
+
+            {/* OpenPedCan Somatic Alterations (SA)*/}
+            {listHeader("OpenPedCan Somatic Alterations", "", "somaticAlterationsDV")}
+            {showHide.somaticAlterationsDV && saDataVisualizations()}
+            <hr className={classes.listDiverHr} />
+
+            {/* OpenPedCan Gene Expression (GX)*/}
+            {listHeader("OpenPedCan Gene Expression", "", "geneExpressionDV")}
+            {showHide.geneExpressionDV && geneExDataVisualizations()}
+            <hr className={classes.listDiverHr} />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
-
     <NCIFooter/>
     </>
   );

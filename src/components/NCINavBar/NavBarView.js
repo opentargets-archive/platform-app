@@ -25,10 +25,9 @@ const NavBar = ({
     setClickedEl(eventName);
   }
   function  getPCDNButton(navButton) {
-
     return (
       navButton.emphasize ?
-        <Button disableRipple weight="medium" className={cn(classes.logotype, classes.pcdnButton)} 
+        <Button key={navButton.labelText} disableRipple weight="medium" className={cn(classes.logotype, classes.pcdnButton)} 
           classes={{ root: classes.buttonRoot }}>
           <NavLink
             exact={true}
@@ -62,6 +61,7 @@ const NavBar = ({
             navButton.type === 'dropdown'
               ? (
                 <DropdownMenu
+                  key={navButton.labelText}
                   handleButtonClickEvent={handleButtonClickEvent}
                   clickedEl={clickedEl}
                   linkText={navButton.labelText}
@@ -72,7 +72,7 @@ const NavBar = ({
               : (
                 navButton.emphasize 
                   ? getPCDNButton(navButton)
-                  : <Button id="button_navbar_navButton" disableRipple 
+                  : <Button key={navButton.labelText} id="button_navbar_navButton" disableRipple 
                       weight="medium" className={classes.logotype} classes={{ root: classes.buttonRoot }}>
                       <NavLink
                         exact={true}
@@ -100,33 +100,33 @@ const styles = () => ({
   logotype: (props) => ({
     whiteSpace: 'nowrap',
     color: '#FFFFFF',
-    fontFamily: props.navBarstyling.global.fontFamily ? props.navBarstyling.global.fontFamily : 'Raleway',
-    fontSize: '11px',
-    letterSpacing: props.navBarstyling.global.letterSpacing ? props.navBarstyling.global.letterSpacing : '1.25px',
-    fontWeight: props.navBarstyling.global.fontWeight ? props.navBarstyling.global.fontWeight : '800',
+    fontFamily: props.navBarstyling.global.fontFamily ? props.navBarstyling.global.fontFamily : 'Nunito Sans',
+    fontSize: '18px',
     '&:hover, &:focus': {
       borderRadius: '0',
     },
   }),
   buttonContainer: {
     margin: '0 auto',
+    height: '59px'
   },
   appBar: (props) => ({
     backgroundColor: props.navBarstyling.global.backgroundColor ? props.navBarstyling.global.backgroundColor : '#142D64',
     width: '100vw',
+    boxShadow: 'none',
   }),
   cartIcon: {
     height: '22px',
     margin: '0px 0px 0px 6px',
   },
   pcdnButton: {
-    height: '38px'
+    height: '38px',
   },
   labelText: (props) => ({
     textDecoration: 'none',
     color: props.navBarstyling.global.fontColor ? props.navBarstyling.global.fontColor : '#FFFFFF',
-    fontFamily: props.navBarstyling.global.fontFamily ? props.navBarstyling.global.fontFamily : 'Nunito',
-    fontSize: props.navBarstyling.global.fontSize ? props.navBarstyling.global.fontSize : '13px',
+    fontFamily: 'Nunito Sans',
+    fontSize: '18px',
   }),
   activeLabel: (props) => ({
     borderBottom: props.navBarstyling.global.activeLabel ? props.navBarstyling.global.activeLabel : '1px solid  #FFFFFF',
@@ -158,10 +158,10 @@ const styles = () => ({
     paddingRight: props.navBarstyling.global.paddingRight ? props.navBarstyling.global.paddingRight : '45px',
     paddingLeft: props.navBarstyling.global.paddingLeft ? props.navBarstyling.global.paddingLeft : '45px',
     alignItems: props.navBarstyling.global.alignItems ? props.navBarstyling.global.alignItems : 'flex-start',
-    paddingBottom: props.navBarstyling.global.paddingBottom ? props.navBarstyling.global.paddingBottom : '4px',
   }),
   buttonRoot: (props) => ({
-    padding: props.navBarstyling.global.padding ? props.navBarstyling.global.padding : '9px 20px 0px 20px',
+    padding: '0px 28px 0px 29px',
+    marginTop: '-6px',
   }),
   buttonRootNoRightPadding: (props) => ({
     padding: props.navBarstyling.global.padding ? props.navBarstyling.global.padding : '9px 20px 0px 20px',
@@ -229,7 +229,7 @@ const styles = () => ({
   },
   pcdnText: {
     position: 'relative',
-    top: '-4px',
+    top: '-3px',
     paddingLeft: '3px',
   },
 

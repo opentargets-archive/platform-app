@@ -62,8 +62,16 @@ export const navBarData = [
   },
   {
     labelText: 'About Molecular Targets',
-    type: 'link',
-    link: '/about',
+    type: 'dropdown',
+    dropDownLinks:[
+    {
+      labelText: 'About Molecular Targets',
+      link:'/about',
+    },
+    {
+      labelText: 'Change Log',
+      link:'/change-log',
+    }]
   },
   {
     labelText: 'Pediatric Cancer Data Navigation',
