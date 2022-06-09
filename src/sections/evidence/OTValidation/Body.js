@@ -187,7 +187,8 @@ const getColumns = classes => [
   },
   {
     id: 'confidence',
-    label: 'Hit',
+    label: 'OTVL hit',
+    tooltip: <>Binary assessment of gene perturbation effect in contrast</>,
     renderCell: row => (
       <HitIcon isHit={isHit(row.confidence)} classes={classes} />
     ),
