@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Link from '../../components/Link';
 import Search from '../../components/Search';
+import config from '../../config';
 
 const styles = theme => ({
   icon: {
@@ -66,7 +67,7 @@ const EmptyPage = ({ classes, children }) => {
           </Typography>
         </Grid>
         <Grid item container direction="column" md={2} alignItems="center">
-          <a href="mailto:helpdesk@opentargets.org">
+          <a href={`mailto:${config.profile.helpdeskEmail}`}>
             <FontAwesomeIcon
               icon={faEnvelope}
               size="3x"
@@ -78,7 +79,7 @@ const EmptyPage = ({ classes, children }) => {
           </Typography>
         </Grid>
         <Grid item container direction="column" md={2} alignItems="center">
-          <a href="mailto:helpdesk@opentargets.org">
+          <a href={`mailto:${config.profile.helpdeskEmail}`}>
             <FontAwesomeIcon
               icon={faSearchPlus}
               size="3x"
