@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.4",
     "@clampy-js/react-clampy": "^1.2.0",
+    "@date-io/moment": "^1.3.13",
     "@ebi-gene-expression-group/expression-atlas-heatmap-highcharts": "^5.4.1-beta1",
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
@@ -22,6 +23,7 @@
     "@material-ui/core": "^4.9.11",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.50",
+    "@material-ui/pickers": "^3.3.10",
     "classnames": "^2.2.6",
     "d3": "^5.9.2",
     "d3-dag": "^0.5.0",
@@ -34,6 +36,7 @@
     "litemol": "^2.4.2",
     "local-storage": "^2.0.0",
     "lodash": "^4.17.21",
+    "moment": "^2.29.3",
     "particles.js": "^2.0.0",
     "polished": "^2.3.0",
     "protvista-uniprot": "^2.8.3",
