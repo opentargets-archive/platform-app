@@ -46,10 +46,6 @@ const useStyles = makeStyles(theme => {
     hsLegendChip: {
       width: '32px',
     },
-    hsGreen: {
-      backgroundColor: '#407253',
-      border: `1px solid ${theme.palette.grey[600]}`,
-    },
     hsRed: {
       backgroundColor: '#9e1316',
       border: `1px solid ${theme.palette.grey[600]}`,
@@ -59,8 +55,12 @@ const useStyles = makeStyles(theme => {
       color: theme.palette.grey[600],
       border: `1px solid ${theme.palette.grey[600]}`,
     },
-    hsGrey: {
-      backgroundColor: theme.palette.grey[500],
+    hsBlack: {
+      backgroundColor: '#000',
+      border: `1px solid ${theme.palette.grey[600]}`,
+    },
+    hsBlue: {
+      backgroundColor: '#3489ca',
       border: `1px solid ${theme.palette.grey[600]}`,
     },
   };
@@ -87,13 +87,13 @@ const hypothesesStatus = [
     status: 'expected but not observed',
     expected: true,
     observed: false,
-    styles: 'hsGrey',
+    styles: 'hsRed',
   },
   {
     status: 'observed and expected',
     expected: true,
     observed: true,
-    styles: 'hsGreen',
+    styles: 'hsBlack',
   },
   {
     status: 'not expected and not observed',
@@ -105,7 +105,7 @@ const hypothesesStatus = [
     status: 'observed but not expected',
     expected: false,
     observed: true,
-    styles: 'hsRed',
+    styles: 'hsBlue',
   },
 ];
 
