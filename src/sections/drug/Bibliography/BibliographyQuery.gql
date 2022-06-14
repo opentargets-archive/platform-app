@@ -1,6 +1,9 @@
 query SimilarEntitiesQuery(
   $id: String!
   $ids: [String!] = []
+  $year: Int = null
+  $month: Int = null
+  $comparator: ComparatorEnum = null
   $threshold: Float = 0.5
   $size: Int! = 15
   $entityNames: [String!] = []
@@ -32,7 +35,13 @@ query SimilarEntitiesQuery(
         }
       }
     }
-    literatureOcurrences(additionalIds: $ids, cursor: $cursor) {
+    literatureOcurrences(
+      additionalIds: $ids
+      cursor: $cursor
+      year: $year
+      month: $month
+      comparator: $comparator
+    ) {
       count
       cursor
       rows {

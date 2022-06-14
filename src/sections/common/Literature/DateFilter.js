@@ -13,7 +13,6 @@ import {
   fetchSimilarEntities,
   literatureState,
   loadingEntitiesState,
-  litsIdsState,
   updateLiteratureState,
 } from './atoms';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
