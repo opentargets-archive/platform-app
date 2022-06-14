@@ -72,6 +72,7 @@ const getColumns = classes => [
         </span>
       </Tooltip>
     ),
+    sortable: true,
   },
   {
     id: 'phenotypicConsequenceLogFoldChange',
