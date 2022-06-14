@@ -63,6 +63,12 @@ const useStyles = makeStyles(theme => {
       backgroundColor: '#3489ca',
       border: `1px solid ${theme.palette.grey[600]}`,
     },
+    // in the unlikely case the hypothesis status is unavailable,
+    // we don't want to display the primary green (for PPP)
+    hsUndefined: {
+      backgroundColor: theme.palette.grey[500],
+      border: `1px solid ${theme.palette.grey[600]}`,
+    },
   };
 });
 
@@ -286,9 +292,9 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
                   tooltip: vht.description,
                   customClass:
                     classes[
-                      (hypothesesStatus.find(s => s.status === vht.status)
-                        ?.styles)
-                    ] || null,
+                      hypothesesStatus.find(s => s.status === vht.status)
+                        ?.styles || 'hsUndefined'
+                    ],
                 }))
               ),
             []
