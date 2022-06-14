@@ -302,7 +302,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           'label'
           // sort alphabetically but move 'PAN-CO' at the end of the list
         ).sort((a, b) =>
-          b.label === 'PAN-CO' ? -1 : a.label < b.label ? -1 : 1
+          b.label === 'PAN-CO' ? -1 : (a.label < b.label ? -1 : 1)
         );
 
         return (
