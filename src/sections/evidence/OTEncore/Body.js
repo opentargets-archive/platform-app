@@ -168,6 +168,7 @@ const getColumns = classes => [
           to={`https://cellmodelpassports.sanger.ac.uk/passports/${
             diseaseCellLine.id
           }`}
+          key={diseaseCellLine.id}
         >
           {diseaseCellLine.name}
         </Link>
