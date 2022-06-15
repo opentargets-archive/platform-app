@@ -7,3 +7,5 @@ export const definition = {
 
 export { default as Summary } from './Summary';
 export { default as Body } from './Body';
+
+export { ComparatorEnum, GREATER_THAN, LESSER_THAN } from './utils';
