@@ -34,6 +34,7 @@
     "graphiql": "^1.4.2",
     "graphql": "^15.0.0",
     "graphql-anywhere": "^4.2.7",
+    "graphql-ws": "^5.9.0",
     "graphql.macro": "^1.4.2",
     "litemol": "^2.4.2",
     "local-storage": "^2.0.0",
@@ -88,7 +89,7 @@
     "lint-staged": ">=10",
     "nanoid-cli": "^1.1.0",
     "nightwatch": "^1.1.13",
-    "node-sass": "^4.14.0",
+    "node-sass": "^6.0.0",
     "prettier": "1.15.1",
     "source-map-explorer": "^2.0.0"
   },
