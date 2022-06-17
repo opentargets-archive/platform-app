@@ -74,14 +74,13 @@ function getColumns(
           (<p> {row.targetSymbol} </p>)
       },
       renderFilter: () => (
-        <Autocomplete
-          options={targetSymbolOption}
-          getOptionLabel={option => option.label}
-          getOptionSelected={option => option.value}
-          onChange={targetSymbolFilterHandler}
-          renderInput={params => (
-            <TextField {...params} label="Search..." margin="normal" />
-          )}
+        <TextField 
+            label="Search..." 
+            margin="normal" 
+            fullWidth
+            onChange={(event, newValue) => {
+            targetSymbolFilterHandler(event,event.target);
+          }}
         />
       ),
       comparator: (a, b) => genericComparator(a, b, 'targetSymbol'),
@@ -132,16 +131,14 @@ function getColumns(
     {
       id: 'fdaTarget',
       label: 'FDA Target',
-
       renderFilter: () => (
-        <Autocomplete
-          options={fdaTargetOption}
-          getOptionLabel={option => option.label}
-          getOptionSelected={option => option.value}
-          onChange={fdaTargetFilterHandler}
-          renderInput={params => (
-            <TextField {...params} label="Select..." margin="normal" />
-          )}
+        <TextField 
+            fullWidth
+            label="Search..." 
+            margin="normal" 
+            onChange={(event, newValue) => {
+            fdaTargetFilterHandler(event,event.target);
+          }}
         />
       ),
       comparator: (a, b) => genericComparator(a, b, 'fdaTarget'),
@@ -227,7 +224,32 @@ class PMTLPage extends Component {
     pageSize: 25,
   };
   // Generic Function to handle column filtering
-  columnFilterHandler = (e, selection, rmtlXf, columnDim) => {
+  columnFilterHandlerStartsWith = (e, selection, rmtlXf, columnDim) => {
+    if (selection) {
+      columnDim.filter(d => d.toUpperCase().startsWith(selection.value.toUpperCase()));
+    } else {
+      columnDim.filterAll();
+    }
+
+    this.setState({ filteredRows: rmtlXf.allFiltered() });
+  };
+
+
+  // Generic Function to handle column filtering
+  columnFilterHandlerParticalMatch  = (e, selection, rmtlXf, columnDim) => {
+    if (selection) {
+      columnDim.filter(d => " ".concat(d.toUpperCase()).indexOf(" ".concat(selection.value.toUpperCase()))!==-1);
+    } else {
+      columnDim.filterAll();
+    }
+
+    this.setState({ filteredRows: rmtlXf.allFiltered() });
+  };
+
+
+
+    // Generic Function to handle column filtering
+  columnFilterHandlerExact = (e, selection, rmtlXf, columnDim) => {
     if (selection) {
       columnDim.filter(d => d === selection.value);
     } else {
@@ -238,30 +260,29 @@ class PMTLPage extends Component {
   };
 
   targetSymbolFilterHandler = (e, selection) => {
-    this.columnFilterHandler(e, selection, this.rmtlXf, this.targetSymbolDim);
+    this.columnFilterHandlerStartsWith(e, selection, this.rmtlXf, this.targetSymbolDim);
   };
 
   designationFilterHandler = (e, selection) => {
-    this.columnFilterHandler(e, selection, this.rmtlXf, this.designationDim);
+    this.columnFilterHandlerExact(e, selection, this.rmtlXf, this.designationDim);
   };
 
   fdaClassFilterHandler = (e, selection) => {
-    this.columnFilterHandler(e, selection, this.rmtlXf, this.fdaClassDim);
+    this.columnFilterHandlerExact(e, selection, this.rmtlXf, this.fdaClassDim);
   };
 
   fdaTargetFilterHandler = (e, selection) => {
-    this.columnFilterHandler(e, selection, this.rmtlXf, this.fdaTargetDim);
+    this.columnFilterHandlerParticalMatch(e, selection, this.rmtlXf, this.fdaTargetDim);
   };
 
   mappingDescriptionFilterHandler = (e, selection) => {
-    this.columnFilterHandler(e, selection, this.rmtlXf, this.mappingDescriptionDim);
+    this.columnFilterHandlerExact(e, selection, this.rmtlXf, this.mappingDescriptionDim);
   };
 
   componentDidMount() {
     this.rmtlXf = crossfilter(getRows(PMTLData));
     this.targetSymbolDim = this.rmtlXf.dimension(row => row.targetSymbol);
     this.designationDim = this.rmtlXf.dimension(row => row.designation);
-
     this.fdaClassDim = this.rmtlXf.dimension(row => row.fdaClass);
     this.fdaTargetDim = this.rmtlXf.dimension(row => row.fdaTarget);
     this.mappingDescriptionDim = this.rmtlXf.dimension(row => row.mappingDescription);
