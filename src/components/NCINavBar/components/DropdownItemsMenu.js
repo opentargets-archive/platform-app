@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import cn from '../../helpers/classNameConcat';
 
-const CustomDropdownMenu = ({ classes, handleClick, dropDownElements }) => (
+const CustomDropdownMenu = ({ classes, dropDownElements }) => (
   <>
   <div className={classes.arrowUp}></div>
   <Paper className={classes.paper}>
@@ -17,10 +17,8 @@ const CustomDropdownMenu = ({ classes, handleClick, dropDownElements }) => (
                   ? cn(classes.sublink, classes.link)
                   : classes.link
             }
-            activeStyle={dropDownElementsItem.linkActiveStyle
-              ? { color: dropDownElementsItem.linkActiveStyle } : { color: '#0091FF' }}
+            activeClassName={classes.activeLink}
             to={dropDownElementsItem.link}
-            onClick={handleClick}
           >
             {dropDownElementsItem.labelText}
           </NavLink>
@@ -69,6 +67,9 @@ const styles = () => ({
         color: '#0091FF',
       }
   },
+  activeLink:{
+    fontWeight: '800',
+  }
 });
 
 CustomDropdownMenu.defaultProps = {

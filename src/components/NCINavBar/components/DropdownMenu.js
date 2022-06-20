@@ -2,13 +2,13 @@ import React from 'react';
 import {
   Button, withStyles,
 } from '@material-ui/core';
+import { useLocation } from 'react-router-dom';
 import DropdownItemsMenu from './DropdownItemsMenu';
 
 const DropdownMenu = ({
   classes, handleButtonClickEvent, linkText, clickedEl, dropDownElements, navBarstyling,
 }) => {
   const [displayDropDownMenu, setDisplayDropDownMenu] = React.useState(false);
-
   function handleClick() {
     setDisplayDropDownMenu(true);
   }
@@ -16,11 +16,7 @@ const DropdownMenu = ({
   function handleMoveOut() {
     setDisplayDropDownMenu(false);
   }
-
-  function dropdownMenuClickEvent() {
-    setDisplayDropDownMenu(true);
-    handleButtonClickEvent('aboutMenu');
-  }
+  const path = useLocation().pathname;
 
   return (
     <div
@@ -38,11 +34,11 @@ const DropdownMenu = ({
         className={classes.logotype}
         classes={{ root: classes.buttonRoot }}
       >
-        <span className={clickedEl === 'aboutMenu' ? classes.buttonRootClicked : ''} id={`navbar_dropdown_${linkText}`}>
+        <span className={ path === '/about' ||  path === '/change-log' ? classes.buttonRootClicked : ''} id={`navbar_dropdown_${linkText}`}>
           { linkText }
         </span>
       </Button>
-      {displayDropDownMenu ? <DropdownItemsMenu navBarstyling={navBarstyling} handleClick={dropdownMenuClickEvent} dropDownElements={dropDownElements} /> : ''}
+      {displayDropDownMenu ? <DropdownItemsMenu navBarstyling={navBarstyling} dropDownElements={dropDownElements} /> : ''}
     </div>
   );
 };
@@ -61,7 +57,7 @@ const styles = () => ({
     padding: props.navBarstyling.global.padding ? props.navBarstyling.global.padding : '9px 20px 0px 20px',
   }),
   buttonRootClicked: {
-    borderBottom: '2px solid #FFFFFF',
+    fontWeight: '800',
   },
   dropDownicon: (props) => ({
     fontSize: props.navBarstyling.dropDownIcon.fontSize ? props.navBarstyling.dropDownIcon.fontSize : '18px',

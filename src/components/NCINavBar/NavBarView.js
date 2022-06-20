@@ -24,6 +24,8 @@ const NavBar = ({
   function handleButtonClickEvent(eventName) {
     setClickedEl(eventName);
   }
+
+  
   function  getPCDNButton(navButton) {
     return (
       navButton.emphasize ?
@@ -67,6 +69,7 @@ const NavBar = ({
                   linkText={navButton.labelText}
                   dropDownElements={navButton.dropDownLinks.slice(0, 9)}
                   navBarstyling={navBarstyling}
+                  activeClassName={classes.activeLabel}
                 />
               )
               : (
@@ -128,9 +131,9 @@ const styles = () => ({
     fontFamily: 'Nunito Sans',
     fontSize: '18px',
   }),
-  activeLabel: (props) => ({
-    borderBottom: props.navBarstyling.global.activeLabel ? props.navBarstyling.global.activeLabel : '1px solid  #FFFFFF',
-  }),
+  activeLabel:{
+    fontWeight: '800',
+  },
   navLinkStyleForPCDN: (props) => ({
     height: '38px',
     width: '323px',
@@ -141,9 +144,10 @@ const styles = () => ({
       backgroundColor: '#437503'
     }
   }),
-  activeLabelForPCDN: (props) => ({
+  activeLabelForPCDN: {
     backgroundColor: '#437503',
-  }),
+    fontWeight: '800',
+  },
   appBarShift: {
     paddingRight: '0px !important',
     width: '100%',
