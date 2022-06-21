@@ -131,6 +131,9 @@ const SwissbioViz = memo(({ locationIds, taxonId, sourceId, children }) => {
               fill: ${config.profile.primaryColor} !important;
               fill-opacity: 1 !important;
             }
+            #swissbiopic > svg {
+              width: 100%;
+            }
           `;
 
         // add styles
