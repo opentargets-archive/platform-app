@@ -4,6 +4,7 @@ query SubcellularLocation($ensemblId: String!) {
     subcellularLocations {
       source
       location
+      termSL
     }
     proteinIds {
       id
