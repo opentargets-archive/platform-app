@@ -318,8 +318,31 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
                 gutterBottom
                 className={classes.bold}
               >
-                OTVL biomarker assessment for {symbol}
+                <Tooltip
+                  title={
+                    <>
+                      This table provides an overarching summary of the
+                      target-disease association in the context of the listed
+                      biomarkers, based on criteria described{' '}
+                      <Link
+                        external
+                        to="http://home.opentargets.org/ppp-documentation"
+                      >
+                        here
+                      </Link>
+                      , as informed by the target performance across the whole
+                      cell line panel. Colour-coding indicates whether a
+                      dependency was expected to be associated with a biomarker
+                      (based on Project SCORE data) and whether it was observed
+                      as such (based on OTVL data).
+                    </>
+                  }
+                  showHelpIcon
+                >
+                  OTVL biomarker assessment for {symbol}
+                </Tooltip>
               </Typography>
+
               {/** LEGEND */}
               <div className={classes.hypotesisLegend}>
                 <Grid container spacing={4} direction="row">
