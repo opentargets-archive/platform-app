@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => {
       width: '32px',
     },
     hsGreen: {
-      backgroundColor: '#407253',
+      backgroundColor: '#407253', // same as PPP green
       border: `1px solid ${theme.palette.grey[600]}`,
     },
     hsRed: {
@@ -59,7 +59,17 @@ const useStyles = makeStyles(theme => {
       color: theme.palette.grey[600],
       border: `1px solid ${theme.palette.grey[600]}`,
     },
-    hsGrey: {
+    hsBlack: {
+      backgroundColor: '#000',
+      border: `1px solid ${theme.palette.grey[600]}`,
+    },
+    hsBlue: {
+      backgroundColor: '#3489ca',
+      border: `1px solid ${theme.palette.grey[600]}`,
+    },
+    // in the unlikely case the hypothesis status is unavailable,
+    // we don't want to display the primary green (for PPP)
+    hsUndefined: {
       backgroundColor: theme.palette.grey[500],
       border: `1px solid ${theme.palette.grey[600]}`,
     },
@@ -87,7 +97,7 @@ const hypothesesStatus = [
     status: 'expected but not observed',
     expected: true,
     observed: false,
-    styles: 'hsGrey',
+    styles: 'hsRed',
   },
   {
     status: 'observed and expected',
@@ -99,13 +109,13 @@ const hypothesesStatus = [
     status: 'not expected and not observed',
     expected: false,
     observed: false,
-    styles: 'hsWhite',
+    styles: 'hsBlack',
   },
   {
     status: 'observed but not expected',
     expected: false,
     observed: true,
-    styles: 'hsRed',
+    styles: 'hsBlue',
   },
 ];
 
@@ -121,6 +131,11 @@ const getColumns = classes => [
   {
     id: 'projectDescription',
     label: 'OTAR primary project',
+    tooltip: (
+      <>
+        Binary assessment of gene perturbation effect in primary project screen
+      </>
+    ),
     renderCell: row => (
       <Link to={`http://home.opentargets.org/${row.projectId}`} external>
         {row.projectDescription}
@@ -171,6 +186,7 @@ const getColumns = classes => [
           items={row.biomarkerList.map(bm => ({
             label: bm.name,
             tooltip: bm.description,
+            customClass: classes['hsWhite'],
           }))}
         />
       );
@@ -187,7 +203,8 @@ const getColumns = classes => [
   },
   {
     id: 'confidence',
-    label: 'Hit',
+    label: 'OTVL hit',
+    tooltip: <>Binary assessment of gene perturbation effect in contrast</>,
     renderCell: row => (
       <HitIcon isHit={isHit(row.confidence)} classes={classes} />
     ),
@@ -280,14 +297,17 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
                   tooltip: vht.description,
                   customClass:
                     classes[
-                      (hypothesesStatus.find(s => s.status === vht.status)
-                        ?.styles)
-                    ] || null,
+                      hypothesesStatus.find(s => s.status === vht.status)
+                        ?.styles || 'hsUndefined'
+                    ],
                 }))
               ),
             []
           ),
           'label'
+          // sort alphabetically but move 'PAN-CO' at the end of the list
+        ).sort((a, b) =>
+          b.label === 'PAN-CO' ? -1 : a.label < b.label ? -1 : 1
         );
 
         return (
@@ -298,8 +318,31 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
                 gutterBottom
                 className={classes.bold}
               >
-                OTVL biomarker assessment for {symbol}
+                <Tooltip
+                  title={
+                    <>
+                      This table provides an overarching summary of the
+                      target-disease association in the context of the listed
+                      biomarkers, based on criteria described{' '}
+                      <Link
+                        external
+                        to="http://home.opentargets.org/ppp-documentation"
+                      >
+                        here
+                      </Link>
+                      , as informed by the target performance across the whole
+                      cell line panel. Colour-coding indicates whether a
+                      dependency was expected to be associated with a biomarker
+                      (based on Project SCORE data) and whether it was observed
+                      as such (based on OTVL data).
+                    </>
+                  }
+                  showHelpIcon
+                >
+                  OTVL biomarker assessment for {symbol}
+                </Tooltip>
               </Typography>
+
               {/** LEGEND */}
               <div className={classes.hypotesisLegend}>
                 <Grid container spacing={4} direction="row">
