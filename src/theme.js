@@ -144,7 +144,8 @@ const theme = {
     }
   },
   zIndex: {
-    navPanel: 1001
+    navBar: 1002,
+    navPanel: 1001,
   }
 };
 
