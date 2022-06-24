@@ -143,6 +143,9 @@ const theme = {
       height: 'calc(100% - 232px)',
     }
   },
+  zIndex: {
+    navPanel: 1001
+  }
 };
 
 export default theme;
