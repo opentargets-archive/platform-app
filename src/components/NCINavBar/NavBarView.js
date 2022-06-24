@@ -162,6 +162,10 @@ const styles = () => ({
     paddingRight: props.navBarstyling.global.paddingRight ? props.navBarstyling.global.paddingRight : '45px',
     paddingLeft: props.navBarstyling.global.paddingLeft ? props.navBarstyling.global.paddingLeft : '45px',
     alignItems: props.navBarstyling.global.alignItems ? props.navBarstyling.global.alignItems : 'flex-start',
+    "@media (max-width: 1223px)": {
+      paddingRight: 0,
+      paddingLeft: 0,
+    },
   }),
   buttonRoot: (props) => ({
     padding: '0px 28px 0px 29px',
