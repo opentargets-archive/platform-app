@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBar from './NavBarView';
+import NavBar from './NavBar';
 
 export const navBarstyling = {
   global: {
@@ -63,6 +63,7 @@ export const navBarData = [
   {
     labelText: 'About Molecular Targets',
     type: 'dropdown',
+    link: '/about',
     dropDownLinks:[
     {
       labelText: 'About Molecular Targets',
