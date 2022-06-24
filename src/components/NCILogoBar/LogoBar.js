@@ -44,6 +44,20 @@ const styles = ()=>({
       maxWidth: '460px',
       cursor: 'pointer',
       marginLeft: '45px',
+      float: 'left',
+      "@media (max-width: 1133px) and (min-width: 377px)":{
+        width: '405px',
+        marginLeft: '0px',
+      },
+      "@media (max-width: 376px) and (min-width: 340px)":{
+        width: '350px',
+        marginLeft: '10px',
+      },
+      "@media (max-width: 339px)":{
+        width: '295px',
+        marginLeft: '10px',
+      },
+
     };
     return Object.assign(defaultProps, props.customStyle.nihLogoImg);
   },
