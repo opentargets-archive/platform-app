@@ -262,7 +262,6 @@ function Body({
       renderBody={() => (
         <Table
           loading={loading}
-          stickyHeader
           showGlobalFilter
           globalFilter={globalFilter}
           dataDownloader
