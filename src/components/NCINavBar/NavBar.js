@@ -1,8 +1,6 @@
 import React from 'react';
 import SmallerScreenNB from './SmallerScreenNB';
-import LargerScreenNB from './NavBarView'
- 
-
+import LargerScreenNB from './LargerScreenNB'
 
 const NavBar = ({
   navBarData, navBarstyling, classes, isSidebarOpened, numberOfCases, components = {},

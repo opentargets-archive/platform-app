@@ -13,7 +13,7 @@ import cn from '../helpers/classNameConcat';
 
 const drawerWidth = 240;
 
-const NavBar = ({
+const LargerScreenNB = ({
   classes, isSidebarOpened, navBarData, navBarstyling, numberOfCases, components = {},
 }) => {
   // Similar to componentDidMount and componentDidUpdate:
@@ -24,7 +24,6 @@ const NavBar = ({
   function handleButtonClickEvent(eventName) {
     setClickedEl(eventName);
   }
-
   
   function  getPCDNButton(navButton) {
     return (
@@ -243,10 +242,10 @@ const styles = () => ({
 
 });
 
-NavBar.defaultProps = {
+LargerScreenNB.defaultProps = {
   classes: {},
   navBarstyling: {},
 };
 
-const StyledNavBar = withStyles(styles)(NavBar);
+const StyledNavBar = withStyles(styles)(LargerScreenNB);
 export default StyledNavBar;
