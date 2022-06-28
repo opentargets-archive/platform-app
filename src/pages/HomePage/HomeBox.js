@@ -3,6 +3,9 @@ import { Grid, Paper, makeStyles } from '@material-ui/core';
 import NavIcon from '../../assets/PediatricDataCancer-MenuBar-Icon.svg'
 
 const useStyles = makeStyles(theme => ({
+  gridContainer: {
+    padding: '0 15px',
+  },
   homeboxContainer: {
     overflow: 'visible',
     padding: '30px 60px',
@@ -75,7 +78,7 @@ const useStyles = makeStyles(theme => ({
 const HomeBox = ({ children }) => {
   const classes = useStyles();
   return (
-    <Grid item xs={12} sm={8} md={8} lg={8}>
+    <Grid item xs={12} sm={8} md={8} lg={8} className={classes.gridContainer}>
       <a href={"/pediatric-cancer-data-navigation"} className={classes.PCDNLink}>
         <div className={classes.PCDNContainer}> 
           <div className={classes.navIconContainer}>
