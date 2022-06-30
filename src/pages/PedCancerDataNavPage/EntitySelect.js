@@ -74,7 +74,7 @@ function PedSearch({setInputValue, inputValue, entity="disease", defaultOptions,
     }
   }
   const handlerOnInputChange = (inputVal) => {
-      return  getGeneOptions({ variables: {geneSymbol: inputSanitize(inputVal)}})
+        getGeneOptions({ variables: {geneSymbol: inputSanitize(inputVal)}})
   }
   
   /****         Custom react-select components         ****/
