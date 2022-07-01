@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 const AboutView = ({ data }) => {
   const request = usePlatformApi()
   const classes = useStyles();
-  const appTitle = "About Page";
+  const appTitle = "Change Log";
   const BEversion =
       request.loading ? "Loading..." : request.data?.meta?.mtpVersion?.version || version.backend
 
