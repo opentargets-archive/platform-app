@@ -36,11 +36,6 @@ const useStyles = makeStyles(theme => ({
       padding:'55px 0px 0px 0px',
     }
   },
-  container: {
-    margin: '58px 0 0px 0',
-    fontSize: '16px'
-  },
-   
   changeLogPaper: {
     marginBottom: '8px',
     borderRadius: '8px',
@@ -50,26 +45,14 @@ const useStyles = makeStyles(theme => ({
     border: '1px solid #2188D8', 
     borderRadius: '6px'
   },
-
   changeLogBoxLeft:{
-    flex: 1, padding: '12px 17px 17px 14px' 
+    flex: 1, 
+    padding: '12px 17px 17px 14px' 
   },
-
   changeLogBoxRight:{
     flex: 1,
     padding: '12px 17px 17px 14px',
     borderLeft: '1px solid #2188D8' 
-  },
-
-  base: {
-    fontSize: 'inherit',
-    textDecoration: 'none',
-  },
-  baseDefault: {
-    color: theme.palette.primary.main,
-    '&:hover': {
-      color: theme.palette.primary.dark,
-    },
   },
 }));
 
