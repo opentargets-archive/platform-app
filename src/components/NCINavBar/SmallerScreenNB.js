@@ -115,7 +115,7 @@ const styles = () => ({
   }),
   mobileToolbar: (props) => ({
     minHeight: props.navBarstyling.global.height ? props.navBarstyling.global.height : '59px',
-    paddingLeft: '31px',
+    paddingLeft: '28px',
   }),
   ulStyle: {
     margin: '0',

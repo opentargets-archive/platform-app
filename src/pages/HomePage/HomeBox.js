@@ -4,7 +4,7 @@ import NavIcon from '../../assets/PediatricDataCancer-MenuBar-Icon.svg'
 
 const useStyles = makeStyles(theme => ({
   gridContainer: {
-    padding: '0 15px',
+    padding: '0 28px',
   },
   homeboxContainer: {
     overflow: 'visible',
