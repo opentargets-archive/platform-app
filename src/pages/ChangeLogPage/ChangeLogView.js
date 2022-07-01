@@ -20,14 +20,21 @@ import usePlatformApi from '../../hooks/usePlatformApi';
 
 const useStyles = makeStyles(theme => ({
   changeLogContainer: {
+    minWidth: '320px',
     marginTop: '80px',
     backgroundColor: '#EDF1F4',
     color: '#000000',
     fontSize: '16px',
     padding:'125px 40px 68px 40px',
+    '@media (max-width: 360px)': {
+      padding:'125px 15px 68px 15px',
+    },
   },
   changeLogSubContainer: {
     padding:'55px 40px 0px 40px',
+    '@media (max-width: 460px)': {
+      padding:'55px 0px 0px 0px',
+    }
   },
   container: {
     margin: '58px 0 0px 0',
@@ -83,7 +90,7 @@ const AboutView = ({ data }) => {
     <NCIHeader/>
 
     <Grid container justify="center" className={classes.changeLogContainer}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+      <Grid item xs={12} md={8} lg={7} xl={6} className={classes.introContainer}>
 
         <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
           Change Log
