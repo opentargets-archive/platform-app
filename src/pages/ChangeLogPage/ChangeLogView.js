@@ -20,20 +20,20 @@ import usePlatformApi from '../../hooks/usePlatformApi';
 
 const useStyles = makeStyles(theme => ({
   changeLogContainer: {
-    minWidth: '320px',
+    minWidth: '340px',
     marginTop: '80px',
     backgroundColor: '#EDF1F4',
     color: '#000000',
     fontSize: '16px',
     padding:'125px 40px 68px 40px',
     '@media (max-width: 360px)': {
-      padding:'125px 15px 68px 15px',
+      padding:'125px 28px 68px 28px',
     },
   },
   changeLogSubContainer: {
     padding:'55px 40px 0px 40px',
     '@media (max-width: 460px)': {
-      padding:'55px 0px 0px 0px',
+      padding:'30px 0px 0px 0px',
     }
   },
   changeLogPaper: {
