@@ -20,20 +20,22 @@ import usePlatformApi from '../../hooks/usePlatformApi';
 
 const useStyles = makeStyles(theme => ({
   changeLogContainer: {
+    minWidth: '340px',
     marginTop: '80px',
     backgroundColor: '#EDF1F4',
     color: '#000000',
     fontSize: '16px',
     padding:'125px 40px 68px 40px',
+    '@media (max-width: 360px)': {
+      padding:'125px 28px 68px 28px',
+    },
   },
   changeLogSubContainer: {
     padding:'55px 40px 0px 40px',
+    '@media (max-width: 460px)': {
+      padding:'30px 0px 0px 0px',
+    }
   },
-  container: {
-    margin: '58px 0 0px 0',
-    fontSize: '16px'
-  },
-   
   changeLogPaper: {
     marginBottom: '8px',
     borderRadius: '8px',
@@ -43,33 +45,21 @@ const useStyles = makeStyles(theme => ({
     border: '1px solid #2188D8', 
     borderRadius: '6px'
   },
-
   changeLogBoxLeft:{
-    flex: 1, padding: '12px 17px 17px 14px' 
+    flex: 1, 
+    padding: '12px 17px 17px 14px' 
   },
-
   changeLogBoxRight:{
     flex: 1,
     padding: '12px 17px 17px 14px',
     borderLeft: '1px solid #2188D8' 
-  },
-
-  base: {
-    fontSize: 'inherit',
-    textDecoration: 'none',
-  },
-  baseDefault: {
-    color: theme.palette.primary.main,
-    '&:hover': {
-      color: theme.palette.primary.dark,
-    },
   },
 }));
 
 const AboutView = ({ data }) => {
   const request = usePlatformApi()
   const classes = useStyles();
-  const appTitle = "About Page";
+  const appTitle = "Change Log";
   const BEversion =
       request.loading ? "Loading..." : request.data?.meta?.mtpVersion?.version || version.backend
 
@@ -83,7 +73,7 @@ const AboutView = ({ data }) => {
     <NCIHeader/>
 
     <Grid container justify="center" className={classes.changeLogContainer}>
-      <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
+      <Grid item xs={12} md={8} lg={7} xl={6} className={classes.introContainer}>
 
         <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
           Change Log

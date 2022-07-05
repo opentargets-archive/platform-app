@@ -42,7 +42,7 @@ function VersionContainer({ children }) {
 function VersionLink() {
   return (
     <Box ml={1}>
-      <Link external to={version.changeLogSection}>
+      <Link external to={version.changeLogPage}>
          {version.frontend}
       </Link>
     </Box>

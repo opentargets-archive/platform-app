@@ -315,5 +315,5 @@ export const version = {
   frontendURL: "https://github.com/CBIIT/ppdc-otp-frontend/releases",
   backend: config.backendVersion,
   backendURL: "https://github.com/CBIIT/ppdc-otp-backend/releases",
-  changeLogSection: " /about#changeLog"
+  changeLogPage: "/change-log"
 }
