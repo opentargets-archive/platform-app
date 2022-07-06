@@ -184,7 +184,7 @@ function PMTLDocPage() {
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Typography variant="h4">
+            <Typography variant="h4" align="center">
               US Food & Drug Administration Pediatric Molecular Target Lists (FDA
               PMTL)
             </Typography>
@@ -215,7 +215,7 @@ function PMTLDocPage() {
           </Grid>
 
           <Grid item xs={12}>
-            <Typography variant="h5">Designations</Typography>
+            <Typography variant="h5" align="center">Designations</Typography>
           </Grid>
 
           <Grid item xs={12}>
@@ -279,7 +279,7 @@ function PMTLDocPage() {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="h5">Molecular Targets Platform Compatibility</Typography>
+            <Typography variant="h5" align="center">Molecular Targets Platform Compatibility</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
@@ -364,7 +364,7 @@ function PMTLDocPage() {
           </Grid>
 
           <Grid item xs={12} id="colums-description">
-            <Typography variant="h4">Version</Typography>
+            <Typography variant="h4" align="center">Version</Typography>
           </Grid>
 
           <Grid item xs={12}>
@@ -388,7 +388,7 @@ function PMTLDocPage() {
 
 
           <Grid item xs={12} id="colums-description">
-            <Typography variant="h4">FDA PMTL Columns</Typography>
+            <Typography variant="h4" align="center">FDA PMTL Columns</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography paragraph>
@@ -406,7 +406,7 @@ function PMTLDocPage() {
           <br />
 
           <Grid item xs={12} id="mapping-description">
-            <Typography variant="h4">FDA PMTL Mapping Description</Typography>
+            <Typography variant="h4" align="center">FDA PMTL Mapping Description</Typography>
           </Grid>
 
           <Grid item xs={12}>
