@@ -326,7 +326,7 @@ class PMTLPage extends Component {
     return (
       <BasePageMTP title="PMTL">
         <ScrollToTop />
-        <Typography variant="h4" component="h1" paragraph>
+        <Typography variant="h4" component="h1" align="center" paragraph>
           US Food & Drug Administration Pediatric Molecular Target Lists (FDA
           PMTL)
         </Typography>

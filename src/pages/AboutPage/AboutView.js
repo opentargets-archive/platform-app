@@ -48,7 +48,6 @@ const useStyles = makeStyles(theme => ({
     fontFamily: 'Inter',
     fontSize: '34px',
     fontWeight: '600',
-    lineHeight: '24.96px'
   },
   boxTitle: {
     marginBottom: '34px',
