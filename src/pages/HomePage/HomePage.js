@@ -25,7 +25,7 @@ import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 
 const useStyles = makeStyles(theme => ({
   homeBox: {
-    minHeight: '800px',
+    minHeight: '700px',
   },
   links: {
     marginTop: '12px',
