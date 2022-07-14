@@ -16,6 +16,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.main,
     width: '100%',
     height: '100%',
+    minHeight: '700px',
     zIndex: -1,
   },
 });

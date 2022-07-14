@@ -45,17 +45,25 @@ const styles = ()=>({
       cursor: 'pointer',
       marginLeft: '45px',
       float: 'left',
-      "@media (max-width: 1133px) and (min-width: 377px)":{
+      "@media (max-width: 1133px)":{
         width: '405px',
-        marginLeft: '0px',
+        marginLeft: '-3px',
       },
-      "@media (max-width: 376px) and (min-width: 340px)":{
+      "@media (max-width: 400px)":{
         width: '350px',
         marginLeft: '10px',
       },
-      "@media (max-width: 339px)":{
-        width: '295px',
-        marginLeft: '10px',
+      "@media (max-width: 355px)":{
+        width: '300px',
+        marginLeft: '11px',
+      },
+      "@media (max-width: 310px)":{
+        width: '260px',
+        marginLeft: '12px',
+      },
+      "@media (max-width: 274px)":{
+        width: '230px',
+        marginLeft: '15px',
       },
 
     };
