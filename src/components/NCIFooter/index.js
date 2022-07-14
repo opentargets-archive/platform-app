@@ -7,6 +7,7 @@ const FooterData = {
   footerTitle: 'National Cancer Institute',
   footerSubTitle: 'at the National Institutes of Health',
   footerStaticText: 'NIH … Turning Discovery Into Health®',
+  footerLogoLink: 'https://www.cancer.gov',
   FEversion: version.frontend,
   contactUs:`mailto:${contact.email}`,
   aboutPage: '/about',
