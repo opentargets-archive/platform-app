@@ -1,240 +1,306 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { withStyles } from '@material-ui/core';
 import cn from '../helpers/classNameConcat';
 import RouteLinks from '../helpers/routeLinks';
 
 const styles = () => ({
-  ext: {
-    color: 'white',
-    '@media (max-width: 600px)': {
-      display: 'none',
-    },
-  },
-  extraPadding: {
-    marginTop: '10px',
-    '@media (max-width: 600px)': {
-      marginTop: '0px',
-    },
-  },
-
   nciLinks: {
-    display: 'flex',
     fontSize: '14px',
     fontFamily: '"Roboto", "Helvetica", "Arial", "sans-serif"',
-    '@media (max-width: 600px)': {
-      flexDirection: 'column',
-      marginLeft: '20px',
-    },
   },
 
-  footerRoot: (props) => ({
+  footerRoot: () => ({
     background: 'rgb(11, 68, 107)',
-  }),
-  footerWrapper: {
-    margin: '0 auto',
-    maxWidth: '1920px',
-  },
-  footerComponent: {
-    lineHeight: '1.42857143',
-    margin: '0 60px',
-    '-webkit-font-smoothing': 'antialiased',
     color: 'white',
-    padding: '10px 45px 15px 45px',
-    '& ul': {
-      listStyle: 'none',
-      margin: '0',
-      padding: '0',
+    width: '100%',
+  }),
+  
+  footerWrapper: {
+    fontFamily: 'Lato',
+    fontSize: '16px',
+    fontWeight: '400',
+    textDecoration: 'none',
+    position: 'relative',
+    margin: '0 auto',
+    '@media (min-width: 1253px)': {
+      width: '1253px',
     },
-
-    '& li': {
-      lineHeight: '2.17',
+    '@media (max-width: 640px)': {
+      textAlign: 'center',
     },
+  },
 
-    /* Style a button like a link for accessibility */
-    '& button': {
-      background: 'none!important',
-      color: 'inherit',
-      border: 'none',
-      padding: '0!important',
-      font: 'inherit',
-      cursor: 'pointer',
+  topMenu: {
+    padding: '32px 28px 0 28px', 
+  },
+  
+  horizontalLine: {
+    width: '100%',
+    margin: '8px auto',
+    borderTop: '1px solid #2E5573',
+  },
+
+  bottomMenu: {
+    padding: '0 28px', 
+  },
+
+  row: {
+    width: '100%',
+    display: 'flex',
+    '@media (max-width: 640px)': {
+      display: 'grid',
     },
+  },
 
-    '& a, & button': {
+  contactUsRow: {
+    marginBottom: '8px', 
+    paddingBottom: '16px',
+  },
+
+  siteVersionInfo: {
+    fontSize: '11px',
+  },
+
+  col6: {
+    width: '100%',
+  },
+  
+  col12: {
+    width: '100%',
+  },
+  
+  nihPoliciesCol: {
+    marginLeft: '5px',
+    '@media (max-width: 640px)': {
+      marginLeft: 0,
+    },
+  },
+
+  logo: {
+    display: 'block',
+    width: 'fit-content',
+    '@media (max-width: 640px)': {
+      width: '100%',
+      paddingBottom: '50px',
+    },
+    '&& a': {
       color: 'white',
       textDecoration: 'none',
-
+    },
+  },
+  
+  nciFooterTitle: {
+    margin: '0 0 8px 0',
+    fontSize: '25px',
+    textAlign: 'left',
+    lineHeight: 1.2,
+    '@media (max-width: 640px)': {
+      textAlign: 'center',
+    },
+  },
+  
+  nciFooterSubTitle: {
+    fontSize: '16px',
+    display: 'block',
+  },
+  
+  h2Title: {
+    margin: '0 0 8px 0',
+    fontSize: '18px',
+    fontWeight: 'bold',
+    lineHeight: '20px',
+  },
+  
+  menuUl: {
+    margin: '0',
+    marginBottom: '16px',
+    paddingLeft: '0',
+    listStyle: 'none',
+  },
+  
+  menuLi: {
+    lineHeight: 1.5,
+    '&& a': {
+      color: 'white',
+      fontSize: '16px',
+      fontWeight: 400,
+      textDecoration: 'none',
       '&:hover': {
         cursor: 'pointer',
         textDecoration: 'underline',
       },
     },
   },
-  footerRow: {
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: '1200px',
-    margin: '0 auto',
-    '@media (min-width: 900px)': {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-  },
-  padding20: {
-    padding: '20px',
-  },
-  footerRowSection: {
-    marginTop: '16px',
-    '@media (max-width: 900px)': {
-      margin: '0 auto',
-    },
-  },
-  turningNIH: {
-    fontSize: '14px',
-    color: 'white',
-    textDecoration: 'none',
-  },
-  linkSections :{
-    paddingTop: '13px',
-    display: 'flex',
-  },
-  linkSectionHead:{
+  
+  menuLink: {
     fontSize: '16px',
-    paddingBottom: '6px',
-    fontWeight: 'bold'
+    fontWeight: 400,
   },
-  linkSection:{
-    width: "fit-content",
-    padding: "5px 20px",
-    fontSize: "16px",
-    fontWeight: "400",
-  },
-  contentJustifyCenter: {
-    justifyContent: 'center',
-  },
-  horizontalLine: {
+  
+  bottomRow: {
     width: '100%',
-    margin: '32px auto 16px auto',
-    borderTop: '1px solid #2E5573',
-  },
-  nciLogo: {
-    '@media (min-width: 960px)': {
-      width: 'calc((100vw)/4)',
-    },
-  },
-  nciFooterTitle: {
-    fontFamily: 'Montserrat', 
-    fontWeight: 'bolder', 
-    fontSize: '25px', 
-    lineHeight: '26px', 
-    color: '#fff',
-    letterSpacing: '-0.5px'
-  },
-  nciFooterSubTitle: {
-    fontSize: '16px', 
-    display: 'block'
-  },
-  marginTopNeg: {
-    '@media (min-width: 1024px)': {
-    marginTop: '-38px',
-    },
-  },
-  version :{
-    margin:' 0 auto',
     display: 'flex',
-    maxWidth: '1200px',
-    flexDirection: 'column',
-  }
+    '@media (max-width: 1000px)': {
+      display: 'grid',
+    },
+  },
+  
+  col2: {
+    width: '180px',
+    padding: '5px 0 0 0',
+    '@media (max-width: 1000px)': {
+      padding: '0 0 15px 0',
+      textAlign: 'center',
+      width: '100%',
+    },
+  },
+  
+  caption: {
+    fontSize: '11px',
+    padding: '5px 0',
+    textAlign: 'center',
+    marginRight: '90px',
+    '&& a': {
+      color: 'white',
+      fontSize: '12px',
+      margin: '0 8px',
+      textDecoration: 'none',
+      '&:hover': {
+        cursor: 'pointer',
+        textDecoration: 'underline',
+      },
+    },
+    '@media (max-width: 640px)': {
+      display: 'grid',
+      '&& span': {
+        display: 'none',
+      },
+    },
+    '@media (max-width: 1000px)': {
+      marginRight: '0px',
+    },
+  },
+  
+  copyright: {
+    textAlign: 'center',
+    paddingBottom: '10px',
+    '&& span': {
+      fontSize: '12px',
+    },
+  },
+
 });
 
-const Footer = ({ classes, data }) => (
-  <div className={classes.footerRoot}>
-    <div className={classes.footerWrapper}>
-      <div className={classes.footerComponent}>
-        <div className={cn(classes.footerRow)}>
-          <div>
-            <h1 className={classes.nciFooterTitle}>
-              {data.footerTitle} 
-              <span className={classes.nciFooterSubTitle}> {data.footerSubTitle} </span>
-            </h1>
-          </div>
-            <div className={cn(classes.linkSections, classes.contentJustifyCenter)}>
-            <div className={classes.linkSection} >
-              <div className={classes.linkSectionHead}>CONTACT INFORMATION</div>
-                <div>
-                  <RouteLinks to={data.contactUs}>
-                  Contact Us
-                    </RouteLinks>
-                    </div>
-            </div>
-            <div className={classes.linkSection}>
-              <div className={classes.linkSectionHead}>MORE INFORMATION</div>
-                <RouteLinks to={data.aboutPage}>
-                  About MTP
-                </RouteLinks>
-            </div>
-            <div className={classes.linkSection}>
-              <div className={classes.linkSectionHead}>  NIH POLICIES</div>
-                <div>
-                    <RouteLinks to={data.policies}>Policies </RouteLinks>
-                  </div>
-                <div>
-                    <RouteLinks to={data.disclaimer}>Disclaimer </RouteLinks>
-                  </div>
-                <div>
-                    <RouteLinks to={data.accessibility}>Accessibility </RouteLinks>
-                </div>
+const Footer = ({ classes, data }) => {
+  
+  const GFL_LEN = data.global_footer_links.length;
 
-                <div>
+  return (
+    <footer className={classes.footerRoot}>
+      <div className={classes.footerWrapper}>
+        <div className={classes.topMenu}>
+          <div className={classes.row}>
+            {/* Logo */}
+            <div className={classes.col6}>
+              <div className={classes.logo}>
+                <RouteLinks to={data.footerLogoLink} >
+                  <h1 className={classes.nciFooterTitle}>
+                    {data.footerTitle}
+                    <span className={classes.nciFooterSubTitle}> {data.footerSubTitle} </span>
+                  </h1>
+                </RouteLinks>
+              </div>
+            </div>
+            {/* Info & Policies */}
+            <div className={classes.col6}>
+              <div className={classes.row}>
+                <div className={classes.col6}>
+                  {/* Contact Information */}
+                  <div className={cn(classes.row, classes.contactUsRow)}>
+                    <div className={classes.col12}>
+                      <h2 className={classes.h2Title}>CONTACT INFORMATION</h2>
+                      <ul className={classes.menuUl}>
+                        <li className={classes.menuLi}>
+                          <RouteLinks to={data.contactUs}>Contact Us</RouteLinks>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                   {/* More Information */}
+                  <div className={classes.row} >
+                   <div className={classes.col12}>
+                     <h2 className={classes.h2Title}>MORE INFORMATION</h2>
+                     <ul className={classes.menuUl}>
+                        <li className={classes.menuLi}>
+                          <RouteLinks to={data.aboutPage}>About MTP</RouteLinks>
+                        </li>
+                     </ul>
+                   </div>
+                 </div>
+                </div>
+                {/* NIH Policies */}
+                <div className={cn(classes.col6, classes.nihPoliciesCol)}>
+                  <h2 className={classes.h2Title}>NIH POLICIES</h2>
+                  <ul className={classes.menuUl}>
+                    <li className={classes.menuLi}>
+                      <RouteLinks to={data.policies}>Policies</RouteLinks>
+                    </li>
+                    <li className={classes.menuLi}>
+                      <RouteLinks to={data.disclaimer}>Disclaimer</RouteLinks>
+                    </li>
+                    <li className={classes.menuLi}>
+                      <RouteLinks to={data.accessibility}>Accessibility</RouteLinks>
+                    </li>
+                    <li className={classes.menuLi}>
                       <RouteLinks to={data.FOIA}>FOIA</RouteLinks>
-                </div>
-                <div>
+                    </li>
+                    <li className={classes.menuLi}>
                       <RouteLinks to={data.vulnerability}>HHS Vulnerability Disclosure</RouteLinks>
+                    </li>
+                  </ul>
                 </div>
-                
+              </div>
             </div>
-            </div>
+          </div>
         </div>
+        {/* Hr */}
         <div>
           <div className={classes.horizontalLine} />
         </div>
-        <div className={classes.version}>
-          <div>FE Version: {data.FEversion} </div>
-          <div>BE Version: {data.BEversion} </div>
-        </div>
-        <div className={classes.marginTopNeg}>
-        <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
-          <div className={cn(classes.nciLinks, classes.contentJustifyCenter)}>
-            {data.global_footer_links.slice(0, 4).map((nciLink) => (
-              <div>
-                <RouteLinks to={nciLink.link}>
-                  {nciLink.text}
-                </RouteLinks>
-                <span className={classes.ext}>&nbsp;|&nbsp;</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className={cn(classes.footerRow, classes.contentJustifyCenter)}>
-          <div
-            className={cn(
-              classes.nciLinks,
-              classes.contentJustifyCenter,
-            )}
-          >
-            <div>
-              <span className={classes.turningNIH}>
-                {data.footerStaticText}
-              </span>
+        <div className={classes.bottomMenu}>
+          <div className={classes.bottomRow}>
+            {/* Version */}
+            <div className={classes.col2}>
+              <div className={classes.siteVersionInfo}> FE Version:&nbsp;{data.FEversion} </div>
+              <div className={classes.siteVersionInfo}> BE Version:&nbsp;{data.BEversion} </div>
             </div>
-          
+            { /* NCI Links */}
+            <div className={classes.col12}>
+              <div className={classes.caption}>
+                {data.global_footer_links.slice(0, GFL_LEN).map((nciLink, index) => (
+                  <Fragment key={index}>
+                    <RouteLinks to={nciLink.link}>
+                      {nciLink.text}
+                    </RouteLinks>
+                    { index !== GFL_LEN-1 ? <span className={classes.ext}>&nbsp;|&nbsp;</span> : null}
+                  </Fragment>
+                ))}
+              </div> 
+            </div>
           </div>
-        </div>
+          { /* Copyright */}
+          <div className={classes.row} >
+            <div className={classes.col12}>
+              <div className={classes.copyright}>
+                <span>{data.footerStaticText}</span>
+              </div> 
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-);
+    </footer>
+  );
+};
 
 Footer.defaultProps = {
   background: '#23355B',
