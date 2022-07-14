@@ -272,12 +272,8 @@ const Footer = ({ classes, data }) => {
             {/* Version */}
             <div className={classes.col2}>
               <div className={classes.siteVersionInfo}>
-                <div>
-                  FE Version:&nbsp;{data.FEversion}
-                </div>
-                <div>
-                  BE Version:&nbsp;{data.BEversion}
-                </div>
+                <div> FE Version:&nbsp;{data.FEversion} </div>
+                <div> BE Version:&nbsp;{data.BEversion} </div>
               </div>
             </div>
             { /* NCI Links */}
