@@ -72,12 +72,7 @@ function getColumnPool(id, entity) {
           renderCell: ({ drug: { mechanismsOfAction }, target }) => {
             if (!mechanismsOfAction) return naLabel;
             const at = new Set();
-
-            console.log(target);
-
             const targetId = entity === 'target' ? id : target!==null? target.id :null;
-
-
             mechanismsOfAction.rows.forEach(row => {
               row.targets.forEach(t => {
                 if (t.id === targetId) {
