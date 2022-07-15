@@ -73,7 +73,10 @@ function getColumnPool(id, entity) {
             if (!mechanismsOfAction) return naLabel;
             const at = new Set();
 
-            const targetId = entity === 'target' ? id : target.id;
+            console.log(target);
+
+            const targetId = entity === 'target' ? id : target!==null? target.id :null;
+
 
             mechanismsOfAction.rows.forEach(row => {
               row.targets.forEach(t => {
@@ -111,16 +114,26 @@ function getColumnPool(id, entity) {
           id: 'targetSymbol',
           label: 'Symbol',
           propertyPath: 'target.approvedSymbol',
-          renderCell: d => (
+          renderCell: d => {
+
+            if(d.target!==null){
+              return (
             <Link to={`/target/${d.target.id}`}>{d.target.approvedSymbol}</Link>
-          ),
+          )
+            }
+            
+          },
         },
         {
           id: 'targetName',
           label: 'Name',
           propertyPath: 'target.approvedName',
           hidden: ['lgDown'],
-          renderCell: d => d.target.approvedName,
+          renderCell: d => {
+            if(d.target!==null){
+              return d.target.approvedName;
+          }
+          },
         },
       ],
     },
