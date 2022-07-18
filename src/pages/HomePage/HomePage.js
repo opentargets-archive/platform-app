@@ -40,8 +40,8 @@ const useStyles = makeStyles(theme => ({
       textAlign: 'left',
     },
   },
-  aboutBox:{
-    margin: '70px 0',
+  aboutBox: {
+    margin: '59px 0 69px 0',
   },
 }));
 
