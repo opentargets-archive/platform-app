@@ -27,6 +27,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
   },
   table: {
+    display: 'block',
+    overflowX: 'auto',
     'border-collapse': 'collapse',
     width: '100%',
   },
@@ -40,6 +42,16 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'left',
     padding: '8px',
   },
+  scroll: {
+    overflowX: 'scroll' 
+  },
+  fdaPmtlColumnsPapper: {
+    minWidth: '400px'
+  },
+  mappingDescriptionPapper: {
+    minWidth: '500px'
+  },
+ 
 }));
 
 function PMTLDocPage() {
@@ -398,8 +410,8 @@ function PMTLDocPage() {
               </Link>.
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Paper variant="outlined" elevation={0}>
+          <Grid item xs={12} className={classes.scroll}>
+            <Paper variant="outlined" elevation={0} className={classes.fdaPmtlColumnsPapper}>
               {displayTable(fdaPmtlColumns)}
             </Paper>
           </Grid>
@@ -420,8 +432,8 @@ function PMTLDocPage() {
               and standardize symbol”).
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Paper variant="outlined" elevation={0}>
+          <Grid item xs={12} className={classes.scroll}>
+            <Paper variant="outlined" elevation={0} className={classes.mappingDescriptionPapper}>
               {displayTable(mappingDescription)}
             </Paper>
           </Grid>
