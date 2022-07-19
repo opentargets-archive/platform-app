@@ -12,11 +12,12 @@ const useStyles = makeStyles(theme => ({
   },
   mainIconContainer: {
     width: '56px',
-    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
     marginRight: '4px',
+    justifyContent: 'center',
   },
   mainIcon: {
-    height: '65px',
     color: theme.palette.primary.main,
   },
   subtitle: {

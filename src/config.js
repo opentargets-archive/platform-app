@@ -9,7 +9,7 @@ const config = {
   googleTagManagerID: window.injectedEnv.configGoogleTagManagerID ?? null,
   efoURL:
     window.injectedEnv.configEFOURL ??
-    'https://platform.opentargets.org/data/ontology/efo_json/diseases_efo.jsonl',
+    'https://raw.githubusercontent.com/CBIIT/mtp-config/main/front-end/ontology-inputs/22.04/diseases_efo.jsonl',
   
   primaryColor: window.injectedEnv.configPrimaryColor ?? '#3489ca',
   chopRServer: window.injectedEnv.chopRServer ?? 'https://openpedcan-api.d3b.io',
