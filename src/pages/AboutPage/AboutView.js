@@ -142,6 +142,12 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.primary.dark,
     },
   },
+  contactEmail: {
+    // In order to fit long character of email 
+    '@media (max-width: 450px)': {
+      fontSize: '11px'
+    },
+  }
 }));
 
 const AboutView = ({ data }) => {
@@ -554,10 +560,10 @@ const AboutView = ({ data }) => {
          
              
               As the CCDI continues to refine the Molecular Targets Platform, input from the community is highly valued to help improve usability. Please send your feedback and comments to 
-               {' '} 
-               <a className={classNames(classes.base, classes.baseDefault)} href={contactEmail}>
+               {' '}
+               <a className={classNames(classes.base, classes.baseDefault, classes.contactEmail)} href={contactEmail}>
                  {contact.email}
-              </a> .
+              </a>&nbsp;.
             </Typography>
 
           </Grid>
@@ -580,7 +586,7 @@ const AboutView = ({ data }) => {
 
             </Typography>
             
-            <Grid item container direction="row" alignItems="center" className={classes.infographicContainer}>
+            <Grid item container direction="row" alignItems="center" justify="center" className={classes.infographicContainer}>
                 <Grid item>
                   <img src={Infographic} alt="Infographic of Molecular Targets Platform"/>
                 </Grid>
