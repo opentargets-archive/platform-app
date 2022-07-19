@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Fragment } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -73,7 +73,7 @@ const SmallerScreenNB = ({
               navBarData.slice(0, navBarData.length).map( (navItem, index) => ( 
                 navItem.type === "dropdown" 
                 ? 
-                  <>
+                  <Fragment key={"fragment" + index}>
                     <li className={classes.liStyle} key={index}>
                       <NavLink to={navItem.link} onClick={handleClose} className={classes.navLink}>
                         {navItem.labelText}
@@ -90,7 +90,7 @@ const SmallerScreenNB = ({
                         )
                       )}
                     </ul>
-                  </>
+                  </Fragment>
                 : 
                   <li className={classes.liStyle} key={index}>
                     <NavLink to={navItem.link} onClick={handleClose} className={classes.navLink}>
