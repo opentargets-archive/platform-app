@@ -110,7 +110,7 @@ const useStyles = makeStyles(theme => ({
   },
   gridContainer: {
     margin: '160px 0 0 0',
-    padding: '50px 50px 60px 50px',
+    padding: '50px 28px 60px 28px',
     color: darkerBlueColor,
     backgroundColor: generalBackGroundColor,
     fontSize: '16px'
@@ -152,7 +152,7 @@ const useStyles = makeStyles(theme => ({
 
   entityContainer: {
     backgroundColor: "white",
-    minWidth: '360px',
+    minWidth: '350px',
     maxWidth: '441px'
   },
   searchContainer:{
@@ -179,7 +179,7 @@ const useStyles = makeStyles(theme => ({
   /*****          result          *****/
   result: {
     backgroundColor: "white",
-    padding: "0 50px 0px 50px",
+    padding: "0px 28px",
   },
   resultHeader: {
     marginTop: '50px',
@@ -210,11 +210,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   "@media (max-width: 650px)": {
-    gridContainer: {
-      padding: '50px 10px 60px 10px',
-    },
     headerContainer: {
-      marginTop: '100px'
+      marginTop: '30px'
     },
     searchContainer: {
       minWidth: '300px'
