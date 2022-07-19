@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
     '@media (min-width: 600px)': {
       padding: '0px',
     },
+    '@media (min-height: 950px)': {
+      marginTop: '0',
+    },
   },
   homeboxContainer: {
     overflow: 'visible',

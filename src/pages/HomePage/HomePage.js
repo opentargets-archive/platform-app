@@ -25,7 +25,7 @@ import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 
 const useStyles = makeStyles(theme => ({
   homeBox: {
-    minHeight: '700px',
+    minHeight: '736px',
   },
   links: {
     marginTop: '12px',
@@ -40,8 +40,8 @@ const useStyles = makeStyles(theme => ({
       textAlign: 'left',
     },
   },
-  aboutBox:{
-    margin: '70px 0',
+  aboutBox: {
+    margin: '59px 0 69px 0',
   },
 }));
 
