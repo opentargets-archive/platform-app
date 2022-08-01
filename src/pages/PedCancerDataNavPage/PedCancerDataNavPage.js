@@ -175,6 +175,10 @@ const useStyles = makeStyles(theme => ({
   maxContainerWidth: {
     maxWidth: '900px'
   },
+  infoList: {
+    marginLeft: '14px',
+    padding: 0,
+  },
 
   /*****          result          *****/
   result: {
@@ -412,7 +416,7 @@ function CHoPPage() {
                 <Typography component="p" align='center' paragraph>
                   In the resulting table:
                 </Typography>
-                <ul>
+                <ul className={classes.infoList}>
                   <li>
                     Each <b> Evidence </b> page link opens a page presenting all available data within the Molecular Targets 
                     Platform including available pediatric cancer data associating the specific target with the specific disease
