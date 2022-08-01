@@ -214,9 +214,6 @@ const useStyles = makeStyles(theme => ({
     }
   },
   "@media (max-width: 650px)": {
-    headerContainer: {
-      marginTop: '30px'
-    },
     searchContainer: {
       minWidth: '300px'
     },
