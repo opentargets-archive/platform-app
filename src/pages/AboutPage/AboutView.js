@@ -21,14 +21,15 @@ import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 import Infographic from '../../assets/about/Infographic.png';
 import classNames from 'classnames';
+import cn from '../../components/helpers/classNameConcat';
 
 const useStyles = makeStyles(theme => ({
   paper: {
     padding: '0 0 100px 0',
   },
   molecularTargetC: {
-    margin: '160px 0 0 0',
-    padding: '48px 0 56px 0',
+    margin: `${theme.header.height} 0px 0px`,
+    padding: `${theme.header.spacing} 0px 56px`,
     backgroundColor: '#CDE9FF',
     fontSize: '16px'
   },
@@ -48,6 +49,9 @@ const useStyles = makeStyles(theme => ({
     fontFamily: 'Inter',
     fontSize: '34px',
     fontWeight: '600',
+  },
+  'firstTitle': {
+    marginTop: '0px',
   },
   boxTitle: {
     marginBottom: '34px',
@@ -525,8 +529,13 @@ const AboutView = ({ data }) => {
         {/* The Molecular Targets Platform */}
         <Grid container justify="center" className={classes.molecularTargetC}>
           <Grid item xs={10} md={8} lg={7} xl={6} className={classes.introContainer}>
-
-            <Typography variant="h4" component="h1" align="center" paragraph className={classes.title}>
+            <Typography 
+              variant="h4"
+              component="h1"
+              align="center"
+              paragraph
+              className={classNames(classes.title, classes.firstTitle)}
+            >
               The Molecular Targets Platform
             </Typography>
 

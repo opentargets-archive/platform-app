@@ -20,8 +20,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   gridContainer: {
-    margin: '190px 0 0 0',
-    padding: '24px',
+    margin: `${theme.header.height} 0px 0px 0px`,
+    padding: '40px 16px 24px',
     width: '100%',
     flex: '1 0 auto',
   },
