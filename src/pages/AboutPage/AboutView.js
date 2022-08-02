@@ -21,7 +21,6 @@ import UnspecifiedIcon from '../../components/RMTL/UnspecifiedIcon';
 import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 import Infographic from '../../assets/about/Infographic.png';
 import classNames from 'classnames';
-import cn from '../../components/helpers/classNameConcat';
 
 const useStyles = makeStyles(theme => ({
   paper: {
