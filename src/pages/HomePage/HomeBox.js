@@ -5,7 +5,7 @@ import NavIcon from '../../assets/PediatricDataCancer-MenuBar-Icon.svg'
 const useStyles = makeStyles(theme => ({
   gridContainer: {
     padding: '0 28px',
-    marginTop: '100px',
+    marginTop: '132px',
     '@media (min-width: 600px)': {
       padding: '0px',
     },
@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
     padding: '30px 60px',
     maxWidth: '800px',
     margin: 'auto',
+    '@media (max-width: 400px)': {
+      padding: '30px 30px',
+    }
   },
   PCDNLink: {
     display: 'block',
@@ -85,7 +88,7 @@ const useStyles = makeStyles(theme => ({
 const HomeBox = ({ children }) => {
   const classes = useStyles();
   return (
-    <Grid item xs={12} sm={8} md={8} lg={8} className={classes.gridContainer}>
+    <Grid item xs={12} sm={10} md={8} lg={8} className={classes.gridContainer}>
       <a href={"/pediatric-cancer-data-navigation"} className={classes.PCDNLink}>
         <div className={classes.PCDNContainer}> 
           <div className={classes.navIconContainer}>

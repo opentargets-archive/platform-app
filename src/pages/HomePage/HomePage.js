@@ -25,10 +25,16 @@ import ExternalLinkIcon from '../../components/ExternalLinkIcon';
 
 const useStyles = makeStyles(theme => ({
   homeBox: {
-    minHeight: '736px',
+    minHeight: '686px',
   },
   links: {
     marginTop: '12px',
+  },
+  singleColumn: {
+    '@media (max-width: 500px)': {
+      width: '100%',
+      textAlign: 'center',
+    }
   },
   api: {
     marginTop: '38px',
@@ -81,7 +87,7 @@ const HomePage = () => {
           <Search autoFocus />
           {/* Search examples */}
           <Grid className={classes.links} container justify="space-around">
-            <Link to={`/target/${targets[0].id}/associations`}>
+            <Link to={`/target/${targets[0].id}/associations`} className={classes.singleColumn}>
               {targets[0].label}
             </Link>
             <Hidden smDown>
@@ -89,8 +95,7 @@ const HomePage = () => {
                 {targets[1].label}
               </Link>
             </Hidden>
-
-            <Link to={`/disease/${diseases[0].id}/associations`}>
+            <Link to={`/disease/${diseases[0].id}/associations`} className={classes.singleColumn}>
               {diseases[0].label}
             </Link>
             <Hidden smDown>
@@ -98,10 +103,13 @@ const HomePage = () => {
                 {diseases[1].label}
               </Link>
             </Hidden>
-
-            <Link to={`/drug/${drugs[0].id}`}>{drugs[0].label}</Link>
+            <Link to={`/drug/${drugs[0].id}`} className={classes.singleColumn}>
+              {drugs[0].label}
+            </Link>
             <Hidden smDown>
-              <Link to={`/drug/${drugs[1].id}`}>{drugs[1].label}</Link>
+              <Link to={`/drug/${drugs[1].id}`}>
+                {drugs[1].label}
+              </Link>
             </Hidden>
           </Grid>
           <Version />
