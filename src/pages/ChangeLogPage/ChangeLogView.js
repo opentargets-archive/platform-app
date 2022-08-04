@@ -95,7 +95,7 @@ const AboutView = ({ data }) => {
 
                 <b>Version in use</b>: 21.06 (Released 2021-06-30) <br />
                 <b>Detailed Change Log</b>: 
-                <Link to="https://platform-docs.opentargets.org/change-log" external>{' '} 
+                <Link to="https://platform-docs.opentargets.org/release-notes" external>{' '} 
                   Open Targets Platform<ExternalLinkIcon />
                 </Link>
               
