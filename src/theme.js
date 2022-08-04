@@ -146,6 +146,10 @@ const theme = {
   zIndex: {
     navBar: 1002,
     navPanel: 1001,
+  },
+  header: {
+    height: '159px', // 100px for NCILogoBar and 59px for NCINavBar
+    spacing: '52px' // spacing below the header
   }
 };
 

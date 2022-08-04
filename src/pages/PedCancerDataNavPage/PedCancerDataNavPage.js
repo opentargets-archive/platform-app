@@ -109,8 +109,8 @@ const useStyles = makeStyles(theme => ({
     flex: '1 0 auto',
   },
   gridContainer: {
-    margin: '160px 0 0 0',
-    padding: '50px 28px 60px 28px',
+    margin: `${theme.header.height} 0 0 0`,
+    padding: `${theme.header.spacing} 28px 60px`,
     color: darkerBlueColor,
     backgroundColor: generalBackGroundColor,
     fontSize: '16px'
@@ -175,6 +175,10 @@ const useStyles = makeStyles(theme => ({
   maxContainerWidth: {
     maxWidth: '900px'
   },
+  infoList: {
+    marginLeft: '14px',
+    padding: 0,
+  },
 
   /*****          result          *****/
   result: {
@@ -210,9 +214,6 @@ const useStyles = makeStyles(theme => ({
     }
   },
   "@media (max-width: 650px)": {
-    headerContainer: {
-      marginTop: '30px'
-    },
     searchContainer: {
       minWidth: '300px'
     },
@@ -412,7 +413,7 @@ function CHoPPage() {
                 <Typography component="p" align='center' paragraph>
                   In the resulting table:
                 </Typography>
-                <ul>
+                <ul className={classes.infoList}>
                   <li>
                     Each <b> Evidence </b> page link opens a page presenting all available data within the Molecular Targets 
                     Platform including available pediatric cancer data associating the specific target with the specific disease
