@@ -28,7 +28,6 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     display: 'block',
-    overflowX: 'auto',
     'border-collapse': 'collapse',
     width: '100%',
   },
@@ -42,8 +41,15 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'left',
     padding: '8px',
   },
-  scroll: {
-    overflowX: 'scroll' 
+  fdaPmtlColumnScroll: {
+    '@media (max-width: 400px)': {
+      overflowX: 'scroll'
+    },
+  },
+  mappingDescriptionScroll: {
+    '@media (max-width: 500px)': {
+      overflowX: 'scroll'
+    },
   },
   fdaPmtlColumnsPapper: {
     minWidth: '400px'
@@ -410,7 +416,7 @@ function PMTLDocPage() {
               </Link>.
             </Typography>
           </Grid>
-          <Grid item xs={12} className={classes.scroll}>
+          <Grid item xs={12} className={classes.fdaPmtlColumnScroll}>
             <Paper variant="outlined" elevation={0} className={classes.fdaPmtlColumnsPapper}>
               {displayTable(fdaPmtlColumns)}
             </Paper>
@@ -432,7 +438,7 @@ function PMTLDocPage() {
               and standardize symbol”).
             </Typography>
           </Grid>
-          <Grid item xs={12} className={classes.scroll}>
+          <Grid item xs={12} className={classes.mappingDescriptionScroll}>
             <Paper variant="outlined" elevation={0} className={classes.mappingDescriptionPapper}>
               {displayTable(mappingDescription)}
             </Paper>
