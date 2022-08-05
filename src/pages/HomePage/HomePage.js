@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: '12px',
   },
   singleColumn: {
-    '@media (max-width: 500px)': {
+    [theme.breakpoints.down('xs')]: {
       width: '100%',
       textAlign: 'center',
     }
