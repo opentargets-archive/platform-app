@@ -93,7 +93,7 @@ const AboutView = ({ data }) => {
                   Open Targets Platform
                 </Typography>
 
-                <b>Version in use</b>: 21.06 (Released 2021-06-30) <br />
+                <b>Version in use</b>: 22.04 (Released 2022-04-28) <br />
                 <b>Detailed Change Log</b>: 
                 <Link to="https://platform-docs.opentargets.org/release-notes" external>{' '} 
                   Open Targets Platform<ExternalLinkIcon />
