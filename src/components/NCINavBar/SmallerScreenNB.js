@@ -12,8 +12,13 @@ import Close from '@material-ui/icons/Close';
 import { NavLink } from 'react-router-dom';
 
 const SmallerScreenNB = ({
-  classes, isSidebarOpened, navBarData, navBarstyling, innerWidth, anchorEl, setAnchorEl
+  classes, isSidebarOpened, navBarData, navBarstyling, innerWidth, innerHeight, anchorEl, setAnchorEl
 }) => {
+  // NavBar will be scrollable, If the window height is smaller than the Header and NavBar height 
+  const headerHeight = 185, NCINavBarHeight = 318
+  const headerAndNavBarMinHeight = headerHeight + NCINavBarHeight;
+  const popoverHeight = 
+    innerHeight > headerAndNavBarMinHeight ? NCINavBarHeight : innerHeight - headerHeight
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -63,6 +68,8 @@ const SmallerScreenNB = ({
             boxShadow: 'none',
             width: innerWidth,
             maxWidth: innerWidth,
+            overflowY: 'auto', 
+            height: popoverHeight,
           },
         }} 
         className={classes.PopoverStyle}
@@ -111,7 +118,6 @@ const styles = () => ({
     backgroundColor: props.navBarstyling.global.backgroundColor ? props.navBarstyling.global.backgroundColor : '#142D64',
     width: '100vw',
     boxShadow: 'none',
-
   }),
   mobileToolbar: (props) => ({
     minHeight: props.navBarstyling.global.height ? props.navBarstyling.global.height : '59px',

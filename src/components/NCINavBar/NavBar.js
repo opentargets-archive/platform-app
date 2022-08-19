@@ -7,12 +7,15 @@ const NavBar = ({
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [innerWidth, setInnerWidth] = React.useState(window.innerWidth);
+  const [innerHeight, setInnerHeight] = React.useState(window.innerHeight);
+
   const [mobileView, setMobileView] = React.useState(false);
   const SMALLER_SCREEN_BREAK_POINT = 1133
 
   React.useEffect(() => {
     const handleResize = () => {
       setInnerWidth(window.innerWidth);
+      setInnerHeight(window.innerHeight)
       setMobileView(window.innerWidth < SMALLER_SCREEN_BREAK_POINT)
     };
 
@@ -33,7 +36,7 @@ const NavBar = ({
           mobileView={mobileView}
           setMobileView={setMobileView}
           innerWidth={innerWidth}
-          setInnerWidth={setInnerWidth}
+          innerHeight={innerHeight}
           anchorEl={anchorEl}
           setAnchorEl={setAnchorEl}/>
       :   
