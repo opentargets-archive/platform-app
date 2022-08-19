@@ -12,11 +12,12 @@ const useStyles = makeStyles(theme => ({
   },
   mainIconContainer: {
     width: '56px',
-    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
     marginRight: '4px',
+    justifyContent: 'center',
   },
   mainIcon: {
-    height: '65px',
     color: theme.palette.primary.main,
   },
   subtitle: {
@@ -42,6 +43,7 @@ function Header({
   subtitle = null,
   externalLinks,
   rightContent = null,
+  RMTLPopover = null,
 }) {
   const classes = useStyles();
 
@@ -78,6 +80,9 @@ function Header({
               <Typography variant="body2" className={classes.externalLinks}>
                 {loading ? <Skeleton width="50vw" /> : externalLinks}
               </Typography>
+            </Grid>
+            <Grid container>
+              {loading ? <Skeleton width="50vw" /> : RMTLPopover}
             </Grid>
           </Grid>
         </Grid>

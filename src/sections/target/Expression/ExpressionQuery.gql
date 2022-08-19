@@ -1,0 +1,19 @@
+query ExpressionQuery($ensemblId: String!) {
+  target(ensemblId: $ensemblId) {
+    id
+    expressions {
+      tissue {
+        label
+        organs
+        anatomicalSystems
+      }
+      rna {
+        value
+        level
+      }
+      protein {
+        level
+      }
+    }
+  }
+}

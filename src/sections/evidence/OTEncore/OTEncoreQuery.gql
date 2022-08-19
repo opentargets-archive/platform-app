@@ -1,0 +1,44 @@
+query EncoreQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
+  disease(efoId: $efoId) {
+    id
+    evidences(
+      ensemblIds: [$ensemblId]
+      enableIndirect: true
+      datasourceIds: ["encore"]
+      size: $size
+    ) {
+      rows {
+        target {
+          id
+          approvedSymbol
+        }
+        disease {
+          id
+          name
+        }
+        diseaseCellLines {
+          name
+          id
+          tissue
+          tissueId
+        }
+        biomarkerList {
+          name
+          description
+        }
+        targetRole
+        interactingTargetRole
+        cellType
+        interactingTargetFromSourceId
+        phenotypicConsequenceLogFoldChange
+        phenotypicConsequenceFDR
+        phenotypicConsequencePValue
+        geneticInteractionMethod
+        geneticInteractionScore
+        geneticInteractionPValue
+        geneticInteractionFDR
+        geneInteractionType
+      }
+    }
+  }
+}

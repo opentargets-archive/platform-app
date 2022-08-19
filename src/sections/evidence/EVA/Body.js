@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
-import { gql } from '@apollo/client';
-
+import { loader } from 'graphql.macro';
 import client from '../../../client';
 import ClinvarStars from '../../../components/ClinvarStars';
 import {
@@ -20,6 +19,7 @@ import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
 import Summary from './Summary';
+import { dataTypesMap } from '../../../dataTypes';
 
 const columns = [
   {
@@ -70,34 +70,43 @@ const columns = [
     },
   },
   {
-    id: 'variantRsId',
-    label: 'Variant ID (RSID)',
-    renderCell: ({ variantId, variantRsId }) => {
+    id: 'variantId',
+    label: 'Variant ID',
+    renderCell: ({ variantId }) => {
       return variantId ? (
         <>
           {variantId.substring(0, 20)}
           {variantId.length > 20 ? '\u2026' : ''}
-          {variantRsId ? (
-            <>
-              {' '}
-              (
-              <Link
-                external
-                to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
-              >
-                {variantRsId}
-              </Link>
-              )
-            </>
-          ) : (
-            ''
-          )}
         </>
       ) : (
         naLabel
       );
     },
-    filterValue: ({ variantId, variantRsId }) => `${variantId} ${variantRsId}`,
+  },
+  {
+    id: 'variantRsId',
+    label: 'rsID',
+    renderCell: ({ variantRsId }) => {
+      return variantRsId ? (
+        <>
+          <Link
+            external
+            to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
+          >
+            {variantRsId}
+          </Link>
+        </>
+      ) : (
+        naLabel
+      );
+    },
+  },
+  {
+    id: 'variantHgvsId',
+    label: 'HGVS ID',
+    renderCell: ({ variantHgvsId }) => {
+      return variantHgvsId ? variantHgvsId : naLabel;
+    },
   },
   {
     id: 'studyId',
@@ -223,47 +232,7 @@ const columns = [
   },
 ];
 
-const CLINVAR_QUERY = gql`
-  query clinvarQuery(
-    $ensemblId: String!
-    $efoId: String!
-    $size: Int!
-    $cursor: String
-  ) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["eva"]
-        size: $size
-        cursor: $cursor
-      ) {
-        cursor
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          variantId
-          variantRsId
-          studyId
-          variantFunctionalConsequence {
-            id
-            label
-          }
-          clinicalSignificances
-          allelicRequirements
-          alleleOrigins
-          confidence
-          literature
-          cohortPhenotypes
-        }
-      }
-    }
-  }
-`;
+const CLINVAR_QUERY = loader('./ClinvarQuery.gql');
 
 function fetchClinvar(ensemblId, efoId, cursor, size) {
   return client.query({
@@ -287,6 +256,7 @@ function Body({ definition, id, label }) {
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const variables = { ensemblId, efoId, size: count > 1000 ? 100 : count };
 
   useEffect(
     () => {
@@ -350,6 +320,7 @@ function Body({ definition, id, label }) {
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.genetic_association}
       request={{ loading: initialLoading, data: rows }}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
@@ -375,6 +346,8 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            query={CLINVAR_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

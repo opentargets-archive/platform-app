@@ -1,40 +1,18 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Typography } from '@material-ui/core';
+import { loader } from 'graphql.macro';
 import Link from '../../../components/Link';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import Tooltip from '../../../components/Tooltip';
 import { DataTable } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
+import { dataTypesMap } from '../../../dataTypes';
 import Summary from './Summary';
 import Description from './Description';
 
-const CLINGEN_QUERY = gql`
-  query ClingenQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["clingen"]
-        size: $size
-      ) {
-        count
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          allelicRequirements
-          studyId
-          confidence
-        }
-      }
-    }
-  }
-`;
+const CLINGEN_QUERY = loader('./ClingenQuery.gql');
 
 const columns = [
   {
@@ -88,14 +66,32 @@ const columns = [
   {
     id: 'confidence',
     label: 'Classification',
-    renderCell: ({ studyId, confidence }) => {
+    renderCell: ({ confidence, urls }) => {
       return (
-        <Link
-          external
-          to={`https://search.clinicalgenome.org/kb/gene-validity/${studyId}`}
+        <Tooltip
+          title={
+            <>
+              <Typography variant="caption" display="block" align="center">
+                As defined by the{' '}
+                <Link
+                  external
+                  to="https://thegencc.org/faq.html#validity-termsdelphi-survey"
+                >
+                  GenCC Guidelines
+                </Link>
+              </Typography>
+            </>
+          }
+          showHelpIcon
         >
-          {confidence}
-        </Link>
+          {urls && urls[0]?.url ? (
+            <Link external to={urls[0].url}>
+              {confidence}
+            </Link>
+          ) : (
+            confidence
+          )}
+        </Tooltip>
       );
     },
   },
@@ -107,13 +103,21 @@ function Body(props) {
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.ClinGenSummaryFragment
   );
+
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.clingenSummary.count,
+  };
+
   const request = useQuery(CLINGEN_QUERY, {
-    variables: { ensemblId, efoId, size: summaryData.clingenSummary.count },
+    variables,
   });
 
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.genetic_association}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} diseaseName={label.name} />
@@ -127,6 +131,8 @@ function Body(props) {
             dataDownloader
             showGlobalFilter
             rowsPerPageOptions={defaultRowsPerPageOptions}
+            query={CLINGEN_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

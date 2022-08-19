@@ -1,11 +1,8 @@
 import { lighten, darken } from 'polished';
+import config from './config';
 
-const PRIMARY = '#3489ca'; // '#7b196a'; // '#0091eb';
+const PRIMARY = config.profile.primaryColor;
 const SECONDARY = '#ff6350';
-
-const GENE = PRIMARY;
-const VARIANT = PRIMARY;
-const STUDY = PRIMARY;
 
 const theme = {
   shape: {
@@ -30,17 +27,8 @@ const theme = {
     text: {
       primary: '#5A5F5F',
     },
-    gene: GENE,
-    tagVariant: VARIANT,
-    indexVariant: VARIANT,
-    study: STUDY,
-    high: darken(0.2, PRIMARY),
-    medium: PRIMARY,
-    low: lighten(0.2, PRIMARY),
     footer: '#2e2d35',
   },
-  sectionPadding: '8px',
-  widgetHeight: '250px',
   props: {
     MuiTab: {
       disableRipple: true,
@@ -88,6 +76,11 @@ const theme = {
         display: 'none',
       },
     },
+    Mui: {
+      disabled : {
+          color : 'black !important'
+      }
+    },
     MuiTab: {
       root: {
         textTransform: 'none',
@@ -98,6 +91,12 @@ const theme = {
           '&:hover': { backgroundColor: PRIMARY },
         },
         '&:hover': { backgroundColor: lighten(0.3, PRIMARY) },
+      },
+      textColorInherit: {
+        color: 'rgb(52, 137, 202)',
+        '&.Mui-disabled':{
+          color: '#9e9e9e !important',
+        }
       },
     },
     MuiTypography: {
@@ -138,6 +137,20 @@ const theme = {
       },
     },
   },
+  Drawer: {
+    paper: {
+      marginTop: '232px',
+      height: 'calc(100% - 232px)',
+    }
+  },
+  zIndex: {
+    navBar: 1002,
+    navPanel: 1001,
+  },
+  header: {
+    height: '159px', // 100px for NCILogoBar and 59px for NCINavBar
+    spacing: '52px' // spacing below the header
+  }
 };
 
 export default theme;

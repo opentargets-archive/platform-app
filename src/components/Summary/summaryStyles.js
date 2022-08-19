@@ -1,15 +1,16 @@
 import { makeStyles } from '@material-ui/core';
 
-const summaryStyles = makeStyles(theme => ({
+const summaryStyles =makeStyles((theme) => {
+  return ({
   avatar: {
     color: 'white',
     backgroundColor: theme.palette.grey[300],
   },
   avatarHasData: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: props => `${props.color ? props.color : theme.palette.primary.main} !important`,
   },
   avatarError: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: props => props.color ? props.color :theme.palette.secondary.main,
   },
   card: {
     height: '100%',
@@ -19,17 +20,20 @@ const summaryStyles = makeStyles(theme => ({
   cardHasData: {
     cursor: 'pointer',
     '&:hover': {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: props => props.color ? props.color :theme.palette.primary.main,
     },
     '&:hover $titleHasData': {
+      color: 'white',
+    },
+    '&:hover $subtitle': {
       color: 'white',
     },
     '&:hover $subheaderHasData': {
       color: 'white',
     },
     '&:hover $avatarHasData': {
-      color: theme.palette.primary.main,
-      backgroundColor: 'white',
+      color: props => props.color ? props.color : theme.palette.primary.main,
+      backgroundColor: 'white !important',
     },
   },
   cardHeader: {
@@ -53,7 +57,7 @@ const summaryStyles = makeStyles(theme => ({
     fontStyle: 'italic',
   },
   subheaderHasData: {
-    color: theme.palette.primary.main,
+    color: props => props.color ? props.color :theme.palette.primary.main,
   },
   subheaderError: {
     color: theme.palette.secondary.main,
@@ -67,12 +71,19 @@ const summaryStyles = makeStyles(theme => ({
     wordBreak: 'break-word',
   },
   titleHasData: {
-    color: theme.palette.primary.main,
+    color: props => props.color ? props.color :theme.palette.primary.main,
     fontWeight: 'bold',
+  },
+  subtitle: {
+    color: theme.palette.grey[500],
+  },
+  subtitleHasData: {
+    color: props => props.color ? props.color :theme.palette.text.primary,
   },
   titleError: {
     color: theme.palette.secondary.main,
   },
-}));
+})
+});
 
 export default summaryStyles;

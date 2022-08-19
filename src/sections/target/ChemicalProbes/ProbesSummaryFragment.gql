@@ -1,0 +1,5 @@
+fragment ChemicalProbesSummaryFragment on Target {
+  chemicalProbes {
+    id
+  }
+}

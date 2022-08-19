@@ -1,6 +1,7 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Box, Typography, makeStyles } from '@material-ui/core';
+import { loader } from 'graphql.macro';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -18,49 +19,9 @@ import ClinvarStars from '../../../components/ClinvarStars';
 import Summary from './Summary';
 import Description from './Description';
 import Link from '../../../components/Link';
+import { dataTypesMap } from '../../../dataTypes';
 
-const EVA_SOMATIC_QUERY = gql`
-  query evaSomaticQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["eva_somatic"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          variantId
-          variantRsId
-          studyId
-          clinicalSignificances
-          allelicRequirements
-          alleleOrigins
-          confidence
-          literature
-          cohortPhenotypes
-        }
-      }
-    }
-    target(ensemblId: $ensemblId) {
-      id
-      hallmarks {
-        attributes {
-          reference {
-            pubmedId
-            description
-          }
-          name
-        }
-      }
-    }
-  }
-`;
+const EVA_SOMATIC_QUERY = loader('./EvaSomaticQuery.gql');
 
 const columns = [
   {
@@ -111,34 +72,46 @@ const columns = [
     },
   },
   {
-    id: 'variantRsId',
-    label: 'Variant ID (RSID)',
-    renderCell: ({ variantId, variantRsId }) => {
+    id: 'variantId',
+    label: 'Variant ID',
+    renderCell: ({ variantId }) => {
       return variantId ? (
         <>
           {variantId.substring(0, 20)}
           {variantId.length > 20 ? '\u2026' : ''}
-          {variantRsId ? (
-            <>
-              {' '}
-              (
-              <Link
-                external
-                to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
-              >
-                {variantRsId}
-              </Link>
-              )
-            </>
-          ) : (
-            ''
-          )}
         </>
       ) : (
         naLabel
       );
     },
-    filterValue: ({ variantId, variantRsId }) => `${variantId} ${variantRsId}`,
+    filterValue: ({ variantId }) => `${variantId}`,
+  },
+  {
+    id: 'variantRsId',
+    label: 'rsID',
+    renderCell: ({ variantRsId }) => {
+      return variantRsId ? (
+        <>
+          <Link
+            external
+            to={`http://www.ensembl.org/Homo_sapiens/Variation/Explore?v=${variantRsId}`}
+          >
+            {variantRsId}
+          </Link>
+        </>
+      ) : (
+        naLabel
+      );
+    },
+    filterValue: ({ variantRsId }) => `${variantRsId}`,
+  },
+  {
+    id: 'variantHgvsId',
+    label: 'HGVS ID',
+    renderCell: ({ variantHgvsId }) => {
+      return variantHgvsId ? variantHgvsId : naLabel;
+    },
+    filterValue: ({ variantHgvsId }) => `${variantHgvsId}`,
   },
   {
     id: 'studyId',
@@ -258,48 +231,43 @@ function Body({ definition, id, label }) {
     Summary.fragments.evaSomaticSummary
   );
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.evaSomaticSummary.count,
+  };
+
   const request = useQuery(EVA_SOMATIC_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.evaSomaticSummary.count,
-    },
+    variables,
   });
 
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.somatic_mutation}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
       )}
-      renderBody={({
-        disease,
-        target: {
-          hallmarks: { attributes },
-        },
-      }) => {
+      renderBody={({ disease, target: { hallmarks } }) => {
         const { rows } = disease.evidences;
 
-        const roleInCancerItems = attributes
-          .filter(attribute => attribute.name === 'role in cancer')
-          .map(attribute => ({
-            label: attribute.reference.description,
-            url: epmcUrl(attribute.reference.pubmedId),
-          }));
+        const roleInCancerItems =
+          hallmarks && hallmarks.attributes.length > 0
+            ? hallmarks.attributes
+                .filter(attribute => attribute.name === 'role in cancer')
+                .map(attribute => ({
+                  label: attribute.description,
+                  url: epmcUrl(attribute.pmid),
+                }))
+            : [{ label: 'Unknown' }];
         return (
           <>
             <Box className={classes.roleInCancerBox}>
               <Typography className={classes.roleInCancerTitle}>
                 <b>{label.symbol}</b> role in cancer:
               </Typography>
-              <ChipList
-                items={
-                  roleInCancerItems.length > 0
-                    ? roleInCancerItems
-                    : [{ label: 'Unknown' }]
-                }
-              />
+              <ChipList items={roleInCancerItems} />
             </Box>
             <DataTable
               columns={columns}
@@ -309,6 +277,8 @@ function Body({ definition, id, label }) {
               sortBy="score"
               order="desc"
               rowsPerPageOptions={defaultRowsPerPageOptions}
+              query={EVA_SOMATIC_QUERY.loc.source.body}
+              variables={variables}
             />
           </>
         );

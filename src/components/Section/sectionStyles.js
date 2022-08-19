@@ -6,7 +6,7 @@ const sectionStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.grey[300],
   },
   avatarHasData: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: props => props.color ? props.color :theme.palette.primary.main,
   },
   avatarError: {
     backgroundColor: theme.palette.secondary.main,
@@ -46,6 +46,10 @@ const sectionStyles = makeStyles(theme => ({
   },
   titleError: {
     color: theme.palette.secondary.main,
+  },
+  chip: {
+    position: 'relative',
+    top: '5px',
   },
 }));
 

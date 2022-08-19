@@ -1,49 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import gql from 'graphql-tag';
+import { loader } from 'graphql.macro';
 import { makeStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import Link from '../../components/Link';
 import { Table } from '../../components/Table';
 import AssocCell from '../../components/AssocCell';
 import Legend from '../../components/Legend';
+import RelevantIcon from '../../components/RMTL/RelevantIcon';
+import NonRelevantIcon from '../../components/RMTL/NonRelevantIcon';
 import useBatchDownloader from '../../hooks/useBatchDownloader';
 import dataTypes from '../../dataTypes';
 import client from '../../client';
+import config from '../../config';
 
-const DISEASE_ASSOCIATIONS_QUERY = gql`
-  query DiseaseAssociationsQuery(
-    $efoId: String!
-    $index: Int!
-    $size: Int!
-    $filter: String
-    $sortBy: String!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    disease(efoId: $efoId) {
-      id
-      associatedTargets(
-        page: { index: $index, size: $size }
-        orderByScore: $sortBy
-        BFilter: $filter
-        aggregationFilters: $aggregationFilters
-      ) {
-        count
-        rows {
-          target {
-            id
-            approvedSymbol
-            approvedName
-          }
-          score
-          datatypeScores {
-            componentId: id
-            score
-          }
-        }
-      }
-    }
+const DISEASE_ASSOCIATIONS_QUERY = loader('./DiseaseAssociations.gql');
+
+/* Given an FDA designation, getRMTLIcon can return the corresponding RMTL
+ * Icon to display on the Associations Table.
+ */
+const getRMTLIcon = designation => {
+  let rmtlIcon = '';
+  if (designation === 'Relevant Molecular Target') {
+    rmtlIcon = (
+      <RelevantIcon inputWidth={20} inputHeight={20} inputFontSize={14} />
+    );
+  } else if (designation === 'Non-Relevant Molecular Target') {
+    rmtlIcon = (
+      <NonRelevantIcon inputWidth={20} inputHeight={20} inputFontSize={11.5} />
+    );
   }
-`;
+  return rmtlIcon;
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -138,6 +125,18 @@ const useStyles = makeStyles(theme => ({
 function getColumns(efoId, classes) {
   const columns = [
     {
+      id: 'pmtl',
+      label: 'FDA PMTL',
+      align: 'center',
+      classes: {
+        headerCell: classes.symbolHeaderCell,
+        cell: classes.symbolCell,
+      },
+      exportValue: data =>
+        data.target.pmtl_fda_designation || 'Unspecified Target',
+      renderCell: row => getRMTLIcon(row.pmtl),
+    },
+    {
       id: 'symbol',
       label: 'Symbol',
       classes: {
@@ -172,28 +171,42 @@ function getColumns(efoId, classes) {
     },
   ];
 
-  dataTypes.forEach(dt => {
-    columns.push({
-      id: dt.id,
-      label: dt.label,
-      classes: {
-        headerCell: classes.headerCell,
-        innerLabel: classes.innerLabel,
-        sortLabel: classes.sortLabel,
-        cell: classes.cell,
-      },
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === dt.id
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      sortable: true,
-      renderCell: row => (
-        <AssocCell score={row[dt.id]} ensemblId={row.ensemblId} efoId={efoId} />
-      ),
+  // datatypes columns are filtered based on config
+  // for hide and private (partner) options (i.e.
+  // certain columns will be hidden)
+  dataTypes
+    .filter(
+      dt =>
+        (config.profile.hideDataTypes.length === 0 ||
+          !config.profile.hideDataTypes.includes(dt.id)) &&
+        (!dt.isPrivate || (dt.isPrivate && config.profile.isPartnerPreview))
+    )
+    .forEach(dt => {
+      columns.push({
+        id: dt.id,
+        label: dt.label,
+        classes: {
+          headerCell: classes.headerCell,
+          innerLabel: classes.innerLabel,
+          sortLabel: classes.sortLabel,
+          cell: classes.cell,
+        },
+        exportValue: data => {
+          const datatypeScore = data.datatypeScores.find(
+            datatypeScore => datatypeScore.componentId === dt.id
+          );
+          return datatypeScore ? datatypeScore.score : 'No data';
+        },
+        sortable: true,
+        renderCell: row => (
+          <AssocCell
+            score={row[dt.id]}
+            ensemblId={row.ensemblId}
+            efoId={efoId}
+          />
+        ),
+      });
     });
-  });
 
   columns.push({
     id: 'name',
@@ -226,6 +239,7 @@ function getRows(data) {
       symbol: d.target.approvedSymbol,
       name: d.target.approvedName,
       score: d.score,
+      pmtl: d.target.pmtl_fda_designation,
     };
     dataTypes.forEach(dataType => {
       const dataTypeScore = d.datatypeScores.find(

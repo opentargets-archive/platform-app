@@ -1,10 +1,10 @@
 // Configuration Object
 export const config = {
   urlApi:
-    window.configUrlApi ??
-    'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
+    window.injectedEnv.configUrlApi ??
+    'https://moleculartargets-stage.ccdi.cancer.gov/api/v4/graphql',
   urlApiBeta:
-    window.configUrlApiBeta ??
-    'https://api-beta-dot-open-targets-eu-dev.appspot.com/api/v4/graphql',
-  googleTagManagerID: window.configGoogleTagManagerID ?? null,
+    window.injectedEnv.configUrlApiBeta ??
+    'https://moleculartargets-stage.ccdi.cancer.gov/api/v4/graphql',
+  googleTagManagerID: window.injectedEnv.configGoogleTagManagerID ?? null,
 };

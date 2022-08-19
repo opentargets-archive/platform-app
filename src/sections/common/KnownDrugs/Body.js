@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import client from '../../../client';
 import Link from '../../../components/Link';
-import { naLabel } from '../../../constants';
+import { naLabel, phaseMap } from '../../../constants';
 import { sentenceCase } from '../../../utils/global';
 import SectionItem from '../../../components/Section/SectionItem';
 import SourceDrawer from './SourceDrawer';
@@ -16,6 +16,10 @@ function getColumnPool(id, entity) {
       columns: [
         {
           id: 'phase',
+          label: 'Phase',
+          sortable: true,
+          renderCell: ({ phase }) => phaseMap[phase],
+          filterValue: ({ phase }) => phaseMap[phase],
         },
         {
           id: 'status',
@@ -68,9 +72,7 @@ function getColumnPool(id, entity) {
           renderCell: ({ drug: { mechanismsOfAction }, target }) => {
             if (!mechanismsOfAction) return naLabel;
             const at = new Set();
-
-            const targetId = entity === 'target' ? id : target.id;
-
+            const targetId = entity === 'target' ? id : target!==null? target.id :null;
             mechanismsOfAction.rows.forEach(row => {
               row.targets.forEach(t => {
                 if (t.id === targetId) {
@@ -107,16 +109,26 @@ function getColumnPool(id, entity) {
           id: 'targetSymbol',
           label: 'Symbol',
           propertyPath: 'target.approvedSymbol',
-          renderCell: d => (
+          renderCell: d => {
+
+            if(d.target!==null){
+              return (
             <Link to={`/target/${d.target.id}`}>{d.target.approvedSymbol}</Link>
-          ),
+          )
+            }
+            
+          },
         },
         {
           id: 'targetName',
           label: 'Name',
           propertyPath: 'target.approvedName',
           hidden: ['lgDown'],
-          renderCell: d => d.target.approvedName,
+          renderCell: d => {
+            if(d.target!==null){
+              return d.target.approvedName;
+          }
+          },
         },
       ],
     },
@@ -133,6 +145,7 @@ function Body({
   Description,
   columnsToShow,
   stickyColumn,
+  exportColumns,
 }) {
   const [initialLoading, setInitialLoading] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -199,7 +212,7 @@ function Body({
 
   const getWholeDataset = useCursorBatchDownloader(
     BODY_QUERY,
-    variables,
+    { ...variables, freeTextQuery: globalFilter },
     `data[${entity}].knownDrugs`
   );
 
@@ -249,8 +262,6 @@ function Body({
     });
   };
 
-  // const id = variables[Object.keys(variables)[0]];
-
   return (
     <SectionItem
       definition={definition}
@@ -259,7 +270,6 @@ function Body({
       renderBody={() => (
         <Table
           loading={loading}
-          stickyHeader
           showGlobalFilter
           globalFilter={globalFilter}
           dataDownloader
@@ -275,6 +285,9 @@ function Body({
           onGlobalFilterChange={handleGlobalFilterChange}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleRowsPerPageChange}
+          dataDownloaderColumns={exportColumns}
+          query={BODY_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />

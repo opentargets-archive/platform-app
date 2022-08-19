@@ -1,0 +1,176 @@
+query SomaticAlterationsQuery($ensemblId: String!, $size: Int = 20) {
+  snvByGene: target(ensemblId: $ensemblId) {
+    id
+    evidences(efoIds: [], size: $size, datasourceIds: ["chop_gene_level_snv"]) {
+      count
+      rows {
+        dataset
+        Disease
+        frequencyInOverallDataset
+        frequencyInPrimaryTumors
+        frequencyInRelapseTumors
+        geneFullName
+        geneSymbol
+        geneType
+        MONDO
+        OncoKBCancerGene
+        OncoKBOncogeneTSG
+        pedcbioPedotMutationsPlotURL
+        pedcbioPedotOncoprintPlotURL
+        proteinEnsemblId
+        proteinRefseqId
+        PMTL
+        totalMutationsOverPatientsInDataset
+        totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset
+        totalRelapseTumorsMutatedOverRelapseTumorsInDataset
+        diseaseFromSourceMappedId
+        targetFromSourceId
+        id
+        score
+      }
+    }
+  }
+
+  cnvByGene: target(ensemblId: $ensemblId) {
+    id
+    evidences(efoIds: [], size: $size, datasourceIds: ["chop_gene_level_cnv"]) {
+      count
+      rows {
+        datasourceId
+        dataset
+        Disease
+        frequencyInOverallDataset
+        frequencyInPrimaryTumors
+        frequencyInRelapseTumors
+        geneFullName
+        geneSymbol
+        MONDO
+        OncoKBCancerGene
+        OncoKBOncogeneTSG
+        PMTL
+        totalAlterationsOverPatientsInDataset
+        totalPrimaryTumorsAlteredOverPrimaryTumorsInDataset
+        totalRelapseTumorsAlteredOverRelapseTumorsInDataset
+        variantCategory
+        variantType
+        datatypeId
+        diseaseFromSourceMappedId
+        targetFromSourceId
+        id
+        score
+      }
+    }
+  }
+
+  fusionByGene: target(ensemblId: $ensemblId) {
+    id
+    evidences(
+      efoIds: []
+      size: $size
+      datasourceIds: ["chop_putative_oncogene_fused_gene"]
+    ) {
+      count
+      rows {
+        dataset
+        Disease
+        frequencyInOverallDataset
+        frequencyInPrimaryTumors
+        frequencyInRelapseTumors
+        geneSymbol
+        MONDO
+        PMTL
+        totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset
+        totalRelapseTumorsMutatedOverRelapseTumorsInDataset
+        diseaseFromSourceMappedId
+        targetFromSourceId
+        totalAlterationsOverNumberPatientsInDataset
+        id
+        score
+      }
+    }
+  }
+
+  fusion: target(ensemblId: $ensemblId) {
+    id
+    evidences(
+      efoIds: []
+      size: $size
+      datasourceIds: ["chop_putative_oncogene_fusion"]
+    ) {
+      count
+      rows {
+        breakpointLocation
+        dataset
+        Disease
+        frequencyInOverallDataset
+        frequencyInPrimaryTumors
+        frequencyInRelapseTumors
+        fusionName
+        fusionType
+        fusionAnno
+        gene1AAnno
+        gene1BAnno
+        gene2AAnno
+        gene2BAnno
+        genePosition
+        geneSymbol
+        kinaseDomainRetainedGene1A
+        kinaseDomainRetainedGene1B
+        MONDO
+        PMTL
+        reciprocalExistsEitherGeneKinase
+        totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset
+        totalRelapseTumorsMutatedOverRelapseTumorsInDataset
+        annots
+        diseaseFromSourceMappedId
+        targetFromSourceId
+        totalAlterationsOverNumberPatientsInDataset
+        id
+        score
+      }
+    }
+  }
+
+  snvByVariant: target(ensemblId: $ensemblId) {
+    id
+    evidences(
+      efoIds: []
+      size: $size
+      datasourceIds: ["chop_variant_level_snv"]
+    ) {
+      count
+      rows {
+        datasourceId
+        dataset
+        Disease
+        frequencyInOverallDataset
+        frequencyInPrimaryTumors
+        frequencyInRelapseTumors
+        geneFullName
+        geneSymbol
+        hotspot
+        MONDO
+        OncoKBCancerGene
+        OncoKBOncogeneTSG
+        polyphenImpact
+        proteinEnsemblId
+        proteinRefseqId
+        proteinChange
+        PMTL
+        siftImpact
+        totalMutationsOverPatientsInDataset
+        totalPrimaryTumorsMutatedOverPrimaryTumorsInDataset
+        totalRelapseTumorsMutatedOverRelapseTumorsInDataset
+        vepImpact
+        variantIdHg38
+        variantClassification
+        variantType
+        dbSNPId
+        diseaseFromSourceMappedId
+        targetFromSourceId
+        id
+        score
+      }
+    }
+  }
+}

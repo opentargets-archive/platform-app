@@ -1,21 +1,13 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
-const OPEN_TARGETS_GENETICS_SUMMARY_FRAGMENT = gql`
-  fragment OpenTargetsGeneticsSummaryFragment on Disease {
-    openTargetsGenetics: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["ot_genetics_portal"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const OPEN_TARGETS_GENETICS_SUMMARY_FRAGMENT = loader(
+  './OpenTargetsGeneticsSummary.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(OPEN_TARGETS_GENETICS_SUMMARY_FRAGMENT);
@@ -29,6 +21,7 @@ function Summary({ definition }) {
           data.openTargetsGenetics.count === 1 ? 'y' : 'ies'
         }`
       }
+      subText={dataTypesMap.genetic_association}
     />
   );
 }

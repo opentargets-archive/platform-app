@@ -1,20 +1,11 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
+
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
+import { dataTypesMap } from '../../../dataTypes';
 
-const CANCER_GENE_CENSUS_SUMMARY = gql`
-  fragment CancerGeneCensusSummary on Disease {
-    cancerGeneCensusSummary: evidences(
-      ensemblIds: [$ensgId]
-      enableIndirect: true
-      datasourceIds: ["cancer_gene_census"]
-      size: 0
-    ) {
-      count
-    }
-  }
-`;
+const CANCER_GENE_CENSUS_SUMMARY = loader('./CancerGeneCensusSummaryQuery.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(CANCER_GENE_CENSUS_SUMMARY);
@@ -26,6 +17,7 @@ function Summary({ definition }) {
         const { count } = cancerGeneCensusSummary;
         return `${count} ${count === 1 ? 'entry' : 'entries'}`;
       }}
+      subText={dataTypesMap.somatic_mutation}
     />
   );
 }

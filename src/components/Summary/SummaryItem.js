@@ -12,9 +12,11 @@ import { scroller } from 'react-scroll';
 
 import summaryStyles from './summaryStyles';
 import { createShortName } from './utils';
+import PartnerLockIcon from '../PartnerLockIcon';
 
-function SummaryItem({ definition, request, renderSummary }) {
-  const classes = summaryStyles();
+function SummaryItem({ definition, request, renderSummary, subText }) {
+  const color = definition.color
+  const classes = summaryStyles({color});
   const { loading, error, data } = request;
   const shortName = createShortName(definition);
   const hasData = !loading && !error && data && definition.hasData(data);
@@ -24,14 +26,14 @@ function SummaryItem({ definition, request, renderSummary }) {
       duration: 500,
       delay: 100,
       smooth: true,
+      offset: -263, // CHANGE MADE: to scroll back -(243 + 20) px 
     });
   };
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
       <Card
-        className={classNames({
-          [classes.card]: true,
+        className={classNames(classes.card, {
           [classes.cardHasData]: hasData,
           [classes.cardError]: error,
         })}
@@ -42,8 +44,7 @@ function SummaryItem({ definition, request, renderSummary }) {
           className={classes.cardHeader}
           avatar={
             <Avatar
-              className={classNames({
-                [classes.avatar]: true,
+              className={classNames(classes.avatar, {
                 [classes.avatarHasData]: hasData,
                 [classes.avatarError]: error,
               })}
@@ -52,16 +53,28 @@ function SummaryItem({ definition, request, renderSummary }) {
             </Avatar>
           }
           title={
-            <Typography
-              className={classNames({
-                [classes.title]: true,
-                [classes.titleHasData]: hasData,
-                [classes.titleError]: error,
-              })}
-              variant="body2"
-            >
-              {definition.name}
-            </Typography>
+            <>
+              <Typography
+                className={classNames(classes.title, {
+                  [classes.titleHasData]: hasData,
+                  [classes.titleError]: error,
+                })}
+                variant="body2"
+              >
+                {definition.name}{' '}
+                {definition.isPrivate ? <PartnerLockIcon /> : null}
+              </Typography>
+              {subText ? (
+                <Typography
+                  className={classNames(classes.subtitle, {
+                    [classes.subtitleHasData]: hasData,
+                  })}
+                  variant="caption"
+                >
+                  {subText}
+                </Typography>
+              ) : null}
+            </>
           }
         />
         {loading && <LinearProgress />}
@@ -75,8 +88,7 @@ function SummaryItem({ definition, request, renderSummary }) {
           <Grid item>
             <Typography
               align="center"
-              className={classNames({
-                [classes.subheader]: true,
+              className={classNames(classes.subheader, {
                 [classes.subheaderHasData]: hasData,
                 [classes.subheaderError]: error,
               })}

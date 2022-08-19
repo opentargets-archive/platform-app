@@ -1,0 +1,10 @@
+fragment Gene2PhenotypeSummaryFragment on Disease {
+  gene2Phenotype: evidences(
+    ensemblIds: [$ensgId]
+    enableIndirect: true
+    datasourceIds: ["gene2phenotype"]
+    size: 0
+  ) {
+    count
+  }
+}

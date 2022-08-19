@@ -1,7 +1,9 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Typography } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable } from '../../../components/Table';
 import Tooltip from '../../../components/Tooltip';
@@ -11,38 +13,7 @@ import Description from './Description';
 import Link from '../../../components/Link';
 import { sentenceCase } from '../../../utils/global';
 
-const EXPRESSION_ATLAS_QUERY = gql`
-  query expressionAtlasQuery(
-    $ensemblId: String!
-    $efoId: String!
-    $size: Int!
-  ) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["expression_atlas"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseFromSource
-          contrast
-          confidence
-          studyOverview
-          log2FoldChangeValue
-          resourceScore
-          log2FoldChangePercentileRank
-          studyId
-        }
-      }
-    }
-  }
-`;
+const EXPRESSION_ATLAS_QUERY = loader('./ExpressionAtlasQuery.gql');
 
 const columns = [
   {
@@ -94,7 +65,23 @@ const columns = [
     id: 'confidence',
     label: 'Experiment confidence',
     renderCell: ({ confidence }) => {
-      return <>{sentenceCase(confidence)}</>;
+      return (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="caption" display="block" align="center">
+                As defined by the{' '}
+                <Link external to={`https://www.ebi.ac.uk/gxa/FAQ.html`}>
+                  Expression Atlas Guideline
+                </Link>
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          {sentenceCase(confidence)}
+        </Tooltip>
+      );
     },
   },
   {
@@ -134,17 +121,20 @@ function Body({ definition, id, label }) {
     Summary.fragments.expressionAtlasSummary
   );
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.expressionAtlasSummary.count,
+  };
+
   const request = useQuery(EXPRESSION_ATLAS_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.expressionAtlasSummary.count,
-    },
+    variables,
   });
 
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.rna_expression}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
@@ -159,6 +149,8 @@ function Body({ definition, id, label }) {
             showGlobalFilter
             sortBy="resourceScore"
             order="asc"
+            query={EXPRESSION_ATLAS_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

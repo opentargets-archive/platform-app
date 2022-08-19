@@ -1,16 +1,10 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const INDICATIONS_SUMMARY_FRAGMENT = gql`
-  fragment IndicationsSummaryFragment on Drug {
-    indications {
-      count
-    }
-  }
-`;
+const INDICATIONS_SUMMARY_FRAGMENT = loader('./IndicationsSummaryFragment.gql');
 
 function Summary({ definition }) {
   const request = usePlatformApi(INDICATIONS_SUMMARY_FRAGMENT);

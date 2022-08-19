@@ -17,6 +17,7 @@ import {
 import Link from '../../components/Link';
 import { Skeleton } from '@material-ui/lab';
 import usePlatformApi from '../../hooks/usePlatformApi';
+import RMTLPopover from '../../components/RMTL/RMTLPopover';
 
 const useStyles = makeStyles(theme => ({
   card: { height: '100%' },
@@ -58,13 +59,26 @@ function ProfileHeader() {
 
   const { id: efoId, name, description: diseaseDescription } =
     data?.disease || {};
-  const targetDescription = data?.target.proteinAnnotations?.functions?.[0];
+  const targetDescription = data?.target.functionDescriptions?.[0];
+
+  const pmtl = data?.target.pmtl_fda_designation || undefined;
 
   const diseaseSynonyms = parseSynonyms(data?.disease.synonyms || []);
 
   const { id: ensgId, approvedSymbol } = data?.target || {};
-  const targetSynonyms = data?.target.symbolSynonyms.concat(
-    data?.target.nameSynonyms
+
+  const targetSynonyms = data?.target?.synonyms?.reduce(
+    (accumulator, synonymous) => {
+      if (accumulator.find(x => x.label === synonymous.label)) {
+        return accumulator;
+      }
+      accumulator.push({
+        ...synonymous,
+        tooltip: synonymous.label,
+      });
+      return accumulator;
+    },
+    []
   );
 
   return (
@@ -79,6 +93,10 @@ function ProfileHeader() {
                 <Link to={`/target/${ensgId}`}>
                   <FontAwesomeIcon icon={faDna} /> {approvedSymbol}
                 </Link>
+                <RMTLPopover
+                  otherStyle={{ RMTLContainer: { marginLeft: '50px' } }}
+                  pmtl={pmtl}
+                />
               </Typography>
             }
           />

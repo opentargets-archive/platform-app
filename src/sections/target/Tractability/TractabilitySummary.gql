@@ -1,0 +1,9 @@
+fragment TractabilitySummaryFragment on Target {
+  id
+  tractability{
+    value
+    modality
+    # Must rename the id, or Apollo will cache it, messing up the response data
+    label: id
+  }
+}

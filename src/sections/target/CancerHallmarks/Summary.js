@@ -1,32 +1,13 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import _ from 'lodash';
 
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const CANCER_HALLMARKS_SUMMARY_FRAGMENT = gql`
-  fragment CancerHallmarksSummaryFragment on Target {
-    hallmarks {
-      attributes {
-        name
-        reference {
-          pubmedId
-          description
-        }
-      }
-      rows {
-        label
-        suppress
-        promote
-        reference {
-          description
-          pubmedId
-        }
-      }
-    }
-  }
-`;
+const CANCER_HALLMARKS_SUMMARY_FRAGMENT = loader(
+  './HallmarksSummaryFragment.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(CANCER_HALLMARKS_SUMMARY_FRAGMENT);
@@ -36,13 +17,13 @@ function Summary({ definition }) {
       definition={definition}
       request={request}
       renderSummary={data => {
-        const hallmarks = _.uniqBy(data.hallmarks.rows, 'label');
+        const hallmarks = _.uniqBy(data.hallmarks.cancerHallmarks, 'label');
         const promote = _.uniqBy(
-          data.hallmarks.rows.filter(d => d.promote),
+          data.hallmarks.cancerHallmarks.filter(d => d.impact === 'promotes'),
           'label'
         );
         const suppress = _.uniqBy(
-          data.hallmarks.rows.filter(d => d.suppress),
+          data.hallmarks.cancerHallmarks.filter(d => d.impact === 'suppresses'),
           'label'
         );
 
@@ -50,7 +31,7 @@ function Summary({ definition }) {
           <>
             {hallmarks.length} hallmarks
             <br />
-            {promote.length} promote • {suppress.length} suppress
+            {promote.length} promoted • {suppress.length} suppressed
           </>
         );
       }}

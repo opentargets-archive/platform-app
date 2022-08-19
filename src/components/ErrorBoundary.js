@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Typography } from '@material-ui/core';
+import config from '../config';
 
 class ErrorBoundary extends Component {
   state = {
@@ -12,7 +13,9 @@ class ErrorBoundary extends Component {
 
   render() {
     const {
-      message = 'Something went wrong. Please contact Open Targets at support@targetvalidation.org',
+      message = `Something went wrong. Please contact Open Targets at ${
+        config.profile.helpdeskEmail
+      }`,
     } = this.props;
 
     return this.state.hasError ? (

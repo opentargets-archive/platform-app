@@ -20,9 +20,10 @@ const navPanelStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: { display: 'none' },
   },
   paper: {
+    ...theme.Drawer.paper,
     overflow: 'hidden',
     width: 'inherit',
-    zIndex: 1000,
+    zIndex: theme.zIndex.navPanel,
     '&:hover': {
       boxShadow:
         '0px 8px 10px -5px rgba(0,0,0,0.2), 0px 16px 24px 2px rgba(0,0,0,0.14), 0px 6px 30px 5px rgba(0,0,0,0.12)',
@@ -47,7 +48,7 @@ const navPanelStyles = makeStyles(theme => ({
     marginRight: '1rem',
   },
   listItemAvatarHasData: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: props => props.color ? props.color :theme.palette.primary.main,
   },
   listItemHome: {
     padding: '.5rem .9375rem',

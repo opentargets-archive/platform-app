@@ -1,5 +1,5 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import {
   Description,
@@ -8,15 +8,7 @@ import {
 } from '../../components/ProfileHeader';
 import usePlatformApi from '../../hooks/usePlatformApi';
 
-const DISEASE_PROFILE_HEADER_FRAGMENT = gql`
-  fragment DiseaseProfileHeaderFragment on Disease {
-    description
-    synonyms {
-      relation
-      terms
-    }
-  }
-`;
+const DISEASE_PROFILE_HEADER_FRAGMENT = loader('./ProfileHeader.gql');
 
 /**
  * Disease synonyms are organized by "relation", each with a list of "terms".

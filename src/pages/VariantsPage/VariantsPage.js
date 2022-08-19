@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Typography } from '@material-ui/core';
-import BasePage from '../../components/BasePage';
 import { DataTable } from '../../components/Table';
 import Link from '../../components/Link';
 import { naLabel } from '../../constants';
@@ -321,7 +320,7 @@ const columns = [
 
 const VariantsPage = () => {
   return (
-    <BasePage title="Variant definitions">
+    <Fragment>
       <Typography variant="h4" component="h1" paragraph>
         Variant definitions
       </Typography>
@@ -347,7 +346,7 @@ const VariantsPage = () => {
         pageSize={100}
         showPagination={false}
       />
-    </BasePage>
+    </Fragment>
   );
 };
 

@@ -7,6 +7,7 @@ import { DataTable, TableDrawer } from '../../../components/Table';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
 import Description from './Description';
 import { epmcUrl } from '../../../utils/urls';
+import { dataTypesMap } from '../../../dataTypes';
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
 import { sentenceCase } from '../../../utils/global';
@@ -72,7 +73,29 @@ const columns = [
   {
     id: 'confidence',
     label: 'Confidence category',
-    renderCell: ({ confidence }) => sentenceCase(confidence) || naLabel,
+    renderCell: ({ confidence }) =>
+      confidence ? (
+        <Tooltip
+          title={
+            <>
+              <Typography variant="caption" display="block" align="center">
+                As defined by the{' '}
+                <Link
+                  external
+                  to={`https://thegencc.org/faq.html#validity-termsdelphi-survey`}
+                >
+                  GenCC Guidelines
+                </Link>
+              </Typography>
+            </>
+          }
+          showHelpIcon
+        >
+          {sentenceCase(confidence)}
+        </Tooltip>
+      ) : (
+        naLabel
+      ),
   },
   {
     id: 'literature',
@@ -97,13 +120,16 @@ const columns = [
 ];
 
 function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
+  const variables = { ensemblId: ensgId, efoId };
+
   const request = useQuery(OPEN_TARGETS_GENETICS_QUERY, {
-    variables: { ensemblId: ensgId, efoId },
+    variables,
   });
 
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.genetic_association}
       request={request}
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={data => (
@@ -115,6 +141,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           pageSize={10}
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
+          query={OPEN_TARGETS_GENETICS_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />

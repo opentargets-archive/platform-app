@@ -1,0 +1,7 @@
+fragment TargetKnownDrugsSummaryFragment on Target {
+  knownDrugs {
+    count
+    uniqueDrugs
+    uniqueDiseases
+  }
+}

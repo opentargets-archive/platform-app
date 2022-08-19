@@ -16,6 +16,7 @@ import { sentenceCase } from '../../../utils/global';
 import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
 const intOgenUrl = (id, approvedSymbol) =>
   `https://www.intogen.org/search?gene=${approvedSymbol}&cohort=${id}`;
@@ -174,29 +175,33 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
     },
   } = usePlatformApi(Summary.fragments.IntOgenSummaryFragment);
 
+  const variables = { ensemblId: ensgId, efoId, size };
+
   const request = useQuery(INTOGEN_QUERY, {
-    variables: { ensemblId: ensgId, efoId, size },
+    variables,
   });
 
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.somatic_mutation}
       request={request}
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={({
         disease: {
           evidences: { rows },
         },
-        target: {
-          hallmarks: { attributes },
-        },
+        target: { hallmarks },
       }) => {
-        const roleInCancerItems = attributes
-          .filter(attribute => attribute.name === 'role in cancer')
-          .map(attribute => ({
-            label: attribute.reference.description,
-            url: epmcUrl(attribute.reference.pubmedId),
-          }));
+        const roleInCancerItems =
+          hallmarks && hallmarks.attributes.length > 0
+            ? hallmarks.attributes
+                .filter(attribute => attribute.name === 'role in cancer')
+                .map(attribute => ({
+                  label: attribute.description,
+                  url: epmcUrl(attribute.pmid),
+                }))
+            : [{ label: 'Unknown' }];
 
         return (
           <>
@@ -204,13 +209,7 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
               <Typography className={classes.roleInCancerTitle}>
                 <b>{symbol}</b> role in cancer:
               </Typography>
-              <ChipList
-                items={
-                  roleInCancerItems.length > 0
-                    ? roleInCancerItems
-                    : [{ label: 'Unknown' }]
-                }
-              />
+              <ChipList items={roleInCancerItems} />
             </Box>
             <DataTable
               columns={columns}
@@ -222,6 +221,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
               pageSize={10}
               rowsPerPageOptions={defaultRowsPerPageOptions}
               showGlobalFilter
+              query={INTOGEN_QUERY.loc.source.body}
+              variables={variables}
             />
           </>
         );

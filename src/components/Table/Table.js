@@ -48,9 +48,11 @@ const Table = ({
   ActionsComponent,
   onRowClick = () => {},
   rowIsSelectable = false,
+  query,
+  variables,
+  stickyHeader,
 }) => {
   const emptyRows = pageSize - rows.length;
-  // const classes = tableStyles();
   const [selectedRow, setSelectedRow] = useState(0);
   const defaultClasses = tableStyles();
 
@@ -98,17 +100,22 @@ const Table = ({
               columns={dataDownloaderColumns || columns}
               rows={dataDownloaderRows}
               fileStem={dataDownloaderFileStem}
+              query={query}
+              variables={variables}
             />
           </Grid>
         )}
       </Grid>
       <TableContainer
-        className={classNames(defaultClasses.container, classes.root)}
+        className={classNames(defaultClasses.container, classes.root, {
+          [defaultClasses.stickyHeader]: stickyHeader,
+        })}
       >
         <MuiTable
           className={classNames(defaultClasses.table, classes.table, {
             [defaultClasses.tableFixed]: fixed,
           })}
+          stickyHeader={stickyHeader}
         >
           <TableHeader
             columns={columns}
@@ -117,6 +124,7 @@ const Table = ({
             order={order}
             sortBy={sortBy}
             onRequestSort={handleSort}
+            stickyHeader={stickyHeader}
           />
           <TableBody>
             {rows.map((row, i) => (
@@ -159,7 +167,7 @@ const Table = ({
             }}
             component="div"
             count={rowCount}
-            onChangePage={handleChangePage}
+            onPageChange={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
             page={page}
             rowsPerPage={pageSize}

@@ -1,10 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { withContentRect } from 'react-measure';
-import * as d3Base from 'd3';
-import * as d3Dag from 'd3-dag';
+import { line as d3Line, max, curveMonotoneX } from 'd3';
+import {
+  layeringLongestPath,
+  decrossTwoLayer,
+  coordCenter,
+  sugiyama,
+  dagStratify,
+} from 'd3-dag';
 import Link from '../../../components/Link';
+import Tooltip from '../../../components/Tooltip';
+import { makeStyles } from '@material-ui/core';
 
-const d3 = Object.assign({}, d3Base, d3Dag);
+const useStyles = makeStyles({
+  labelText: {
+    '&:hover': { fontWeight: '700' },
+  },
+});
 
 function getAncestors(efoId, idToDisease) {
   const ancestors = [{ ...idToDisease[efoId], nodeType: 'anchor' }];
@@ -51,12 +63,11 @@ function buildDagData(efoId, efo, idToDisease) {
   return dag;
 }
 
-const layering = d3.layeringLongestPath();
-const decross = d3.decrossTwoLayer();
-const coord = d3.coordCenter();
+const layering = layeringLongestPath();
+const decross = decrossTwoLayer();
+const coord = coordCenter();
 
-const helperLayout = d3
-  .sugiyama()
+const helperLayout = sugiyama()
   .layering(layering)
   .decross(decross)
   .coord(coord);
@@ -106,7 +117,7 @@ const colorMap = {
 const diameter = 12;
 const radius = diameter / 2;
 const yOffset = 100;
-const line = d3.line().curve(d3.curveMonotoneX);
+const line = d3Line().curve(curveMonotoneX);
 
 function OntologySubgraph({
   efoId,
@@ -117,13 +128,13 @@ function OntologySubgraph({
   contentRect,
 }) {
   line.x(d => d.y - xOffset).y(d => d.x);
+  const classes = useStyles();
   const { width } = contentRect.bounds;
   const dagData = buildDagData(efoId, efo, idToDisease);
-  const dag = d3.dagStratify()(dagData);
+  const dag = dagStratify()(dagData);
   const maxLayerCount = getMaxLayerCount(dag);
   const height = maxLayerCount * 6;
-  const layout = d3
-    .sugiyama()
+  const layout = sugiyama()
     .layering(layering)
     .decross(decross)
     .coord(coord)
@@ -136,7 +147,7 @@ function OntologySubgraph({
   layout(dag);
   const nodes = dag.descendants();
   const links = dag.links();
-  const separation = width / (d3.max(nodes, d => d.layer) + 1);
+  const separation = width / (max(nodes, d => d.layer) + 1);
   const xOffset = separation / 2 - radius;
   const textLimit = separation / 8;
 
@@ -289,39 +300,52 @@ function OntologySubgraph({
           <g transform={`translate(0, ${yOffset})`}>
             {nodes.map(node => {
               return (
-                <Fragment key={node.id}>
-                  <text
-                    x={node.y - xOffset}
-                    y={node.x}
-                    dx="9"
-                    fontSize="12"
-                    dominantBaseline="middle"
-                    fill="#5a5f5f"
+                <Link
+                  to={`/disease/${node.data.id}`}
+                  className={classes.labelText}
+                  key={node.id}
+                >
+                  <Tooltip
+                    title={`${node.data.name || 'No name'} | ID: ${node.id}`}
                   >
-                    <title>{node.data.name}</title>
-                    {textWithEllipsis(node.data.name || 'No name', textLimit)}
-                  </text>
-                  <Link to={`/disease/${node.data.id}`}>
-                    {node.data.parentIds.length === 0 ? (
-                      <rect
-                        x={node.y - radius - xOffset}
-                        y={node.x - radius}
-                        width={diameter}
-                        height={diameter}
-                        fill={colorMap[node.data.nodeType]}
-                        stroke="#e0e0e0"
-                      />
-                    ) : (
-                      <circle
-                        cx={node.y - xOffset}
-                        cy={node.x}
-                        r={radius}
-                        fill={colorMap[node.data.nodeType]}
-                        stroke="#e0e0e0"
-                      />
-                    )}
-                  </Link>
-                </Fragment>
+                    <g>
+                      <text
+                        x={node.y - xOffset}
+                        y={node.x}
+                        dx="9"
+                        fontSize="12"
+                        dominantBaseline="middle"
+                        fill="#5a5f5f"
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <title>{node.data.name}</title>
+                        {textWithEllipsis(
+                          node.data.name || 'No name',
+                          textLimit
+                        )}
+                      </text>
+
+                      {node.data.parentIds.length === 0 ? (
+                        <rect
+                          x={node.y - radius - xOffset}
+                          y={node.x - radius}
+                          width={diameter}
+                          height={diameter}
+                          fill={colorMap[node.data.nodeType]}
+                          stroke="#e0e0e0"
+                        />
+                      ) : (
+                        <circle
+                          cx={node.y - xOffset}
+                          cy={node.x}
+                          r={radius}
+                          fill={colorMap[node.data.nodeType]}
+                          stroke="#e0e0e0"
+                        />
+                      )}
+                    </g>
+                  </Tooltip>
+                </Link>
               );
             })}
           </g>

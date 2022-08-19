@@ -1,6 +1,3 @@
-@import 'node_modules/cttv.targetGeneTree/index.scss';
-@import 'node_modules/tntvis/index.scss';
-
 body {
   margin: 0;
   padding: 0;
@@ -14,19 +11,6 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-/* Overrides of dc.js */
-.dc-chart g.row text,
-.dc-chart .pie-label-group .pie-label {
-  fill: black;
-}
-.dc-chart .pie-slice path {
-  stroke: #fff;
-}
-
-.dcChartOverflow svg {
-  overflow: visible;
 }
 
 /* Rules for Bibliography abstract highlight */

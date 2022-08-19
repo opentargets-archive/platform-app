@@ -34,6 +34,7 @@ const sourceDrawerStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     backgroundColor: theme.palette.grey[300],
+    ...theme.Drawer.paper,
   },
   drawerTitle: {
     borderBottom: '1px solid #ccc',
@@ -79,6 +80,10 @@ function TableDrawer({
   const [open, setOpen] = useState(false);
   const classes = sourceDrawerStyles();
 
+  if (entries.length === 0 && message) {
+    return message;
+  }
+
   if (entries.length === 0) {
     return naLabel;
   }
@@ -89,7 +94,7 @@ function TableDrawer({
         {entries[0].name}
       </Link>
     ) : (
-      naLabel
+      entries[0].name ?? naLabel
     );
   }
 
@@ -143,7 +148,7 @@ function TableDrawer({
                   {group}
                 </Typography>
                 <Typography className={classes.AccordionSubtitle}>
-                  {groupedEntries[group].length} references
+                  {groupedEntries[group].length} {caption}
                 </Typography>
               </Box>
             </AccordionSummary>
@@ -170,7 +175,11 @@ function TableDrawer({
 
   return (
     <>
-      <MUILink onClick={toggleDrawer} className={classes.drawerLink}>
+      <MUILink
+        onClick={toggleDrawer}
+        className={classes.drawerLink}
+        underline="none"
+      >
         {message ? message : `${entries.length} entries`}
       </MUILink>
 

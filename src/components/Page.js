@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
@@ -13,14 +13,14 @@ const styles = theme => ({
     width: '100%',
   },
   gridContainer: {
-    margin: 0,
+    margin: '230px 0 0 0',
     padding: '24px',
     width: '100%',
     flex: '1 0 auto',
   },
 });
 
-class Page extends React.Component {
+class Page extends Component {
   render() {
     const { classes, header, footer, children } = this.props;
     return (

@@ -1,9 +1,15 @@
+import config from '../config';
+
 export function epmcUrl(id) {
   return `https://europepmc.org/article/MED/${id}`;
 }
 
 export function otgStudyUrl(id) {
-  return `https://genetics.opentargets.org/study/${id}`;
+  return `${config.geneticsPortalUrl}/study/${id}`;
+}
+
+export function otgVariantUrl(id) {
+  return `${config.geneticsPortalUrl}/variant/${id}`;
 }
 
 export function europePmcLiteratureQuery(ids) {
@@ -49,7 +55,14 @@ export function europePmcBiblioSearchPOSTQuery(ids, size = 25) {
     query: `SRC:MED AND (ext_id:${query})`,
   };
   const formBody = encodeParams(bodyOptions);
-  return { baseUrl, formBody };
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+    },
+    body: formBody,
+  };
+  return { baseUrl, formBody, requestOptions };
 }
 
 function clinicalTrialsUrl(id) {

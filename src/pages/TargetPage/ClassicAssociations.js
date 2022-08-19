@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { loader } from 'graphql.macro';
 import {
   Switch,
   Route,
-  Link,
   useRouteMatch,
   useLocation,
 } from 'react-router-dom';
@@ -13,44 +13,41 @@ import {
   Typography,
   Tabs,
   Tab,
+  makeStyles,
 } from '@material-ui/core';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+
+import Link from '../../components/Link';
 
 import ClassicAssociationsDAG from './ClassicAssociationsDAG';
 import ClassicAssociationsBubbles from './ClassicAssociationsBubbles';
 import ClassicAssociationsTable from './ClassicAssociationsTable';
 import { Facets } from '../../components/Facets';
 import Wrapper from './Wrapper';
+import NavIcon from '../../assets/PediatricDataCancer-MenuBar-Icon.svg'
 
-const TARGET_FACETS_QUERY = gql`
-  query TargetFacetsQuery(
-    $ensemblId: String!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    target(ensemblId: $ensemblId) {
-      id
-      approvedName
-      associatedDiseases(aggregationFilters: $aggregationFilters) {
-        count
-        aggregations {
-          uniques
-          aggs {
-            name
-            uniques
-            rows {
-              key
-              uniques
-              aggs {
-                key
-                uniques
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+const TARGET_FACETS_QUERY = loader('./TargetFacets.gql');
+const useStyles = makeStyles(theme => ({
+  PCDNBox: {
+    backgroundColor: '#5CA300', 
+    minWidth: '289px',
+    height: '31px', 
+    display: 'inline-block', 
+    fontFamily: 'Inter', 
+    padding: '0px 13px'
+  },
+  PCDNText: {
+    fontSize: '16px', 
+    color: 'white', 
+    paddingLeft: '8px', 
+    position: 'relative', 
+    top: '-1px'
+  },
+  desPCDNText: {
+    fontSize: '16px',
+    marginRight: '11px',
+  },
+}))
 
 function ClassicAssociations({ ensgId, symbol }) {
   const match = useRouteMatch();
@@ -65,10 +62,13 @@ function ClassicAssociations({ ensgId, symbol }) {
   };
 
   const facetData = data?.target?.associatedDiseases.aggregations.aggs;
+ 
+  const classes = useStyles()
+  const PCDNUrl = '/pediatric-cancer-data-navigation';
 
   return (
     <Grid style={{ marginTop: '8px' }} container spacing={2}>
-      <Grid item xs={12}>
+      <Grid item xs={12} md={4}>
         <Typography variant="h6">
           {data ? (
             <>
@@ -82,6 +82,30 @@ function ClassicAssociations({ ensgId, symbol }) {
           )}
         </Typography>
       </Grid>{' '}
+      <Grid item xs={12} md={8}>
+        <Typography variant='h6' align='right'>
+          {data ? (
+            <>
+              <span className={classes.desPCDNText}>Additional pediatric cancer data may be found at:</span>
+              <div className={classes.PCDNBox}>
+                <Link to={{
+                  pathname: PCDNUrl,
+                  state: {
+                    entity: 'target',
+                    'geneSymbol': symbol
+                  }
+                }}>
+                  <img src={NavIcon} width="15px" height="15px" alt={"Navigation Icon"}/>
+                  <span className={classes.PCDNText}>Pediatric Cancer Data Navigation</span>
+                </Link> {' '}
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
+        </Typography>
+      </Grid>{' '}
+      
       <Grid item xs={12} lg={3}>
         <Card elevation={0}>
           <CardContent>

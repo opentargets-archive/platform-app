@@ -1,5 +1,6 @@
-import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import React, { Suspense, lazy } from 'react';
+import { loader } from 'graphql.macro';
+import { useQuery } from '@apollo/client';
 import { Switch, Route, Link } from 'react-router-dom';
 import { Tab, Tabs } from '@material-ui/core';
 
@@ -7,21 +8,15 @@ import BasePage from '../../components/BasePage';
 import ScrollToTop from '../../components/ScrollToTop';
 import Header from './Header';
 import NotFoundPage from '../NotFoundPage';
-import Profile from '../TargetPage/Profile';
-import ClassicAssociations from '../TargetPage/ClassicAssociations';
+import { getUniprotIds } from '../../utils/global';
+import LoadingBackdrop from '../../components/LoadingBackdrop';
 
-const TARGET_PAGE_QUERY = gql`
-  query TargetPageQuery($ensgId: String!) {
-    target(ensemblId: $ensgId) {
-      id
-      approvedSymbol
-      approvedName
-      proteinAnnotations {
-        id
-      }
-    }
-  }
-`;
+const Profile = lazy(() => import('../TargetPage/Profile'));
+const ClassicAssociations = lazy(() =>
+  import('../TargetPage/ClassicAssociations')
+);
+
+const TARGET_PAGE_QUERY = loader('./TargetPage.gql');
 
 function TargetPage({ location, match }) {
   const { ensgId } = match.params;
@@ -33,18 +28,34 @@ function TargetPage({ location, match }) {
     return <NotFoundPage />;
   }
 
-  const { approvedSymbol: symbol, approvedName } = data?.target || {};
-  const uniprotId = data?.target.proteinAnnotations?.id;
+  const { approvedSymbol: symbol, approvedName, pmtl_fda_designation: pmtl } = data?.target || {};
+  const uniprotIds = loading ? null : getUniprotIds(data.target.proteinIds);
+  const crisprId = data?.target.dbXrefs.find(p => p.source === 'ProjectScore')
+    ?.id;
 
   return (
-    <BasePage title={symbol}>
+    <BasePage
+      title={
+        location.pathname.includes('associations')
+          ? `Diseases associated with ${symbol}`
+          : `${symbol} profile page`
+      }
+      description={
+        location.pathname.includes('associations')
+          ? `Ranked list of diseases and phenotypes associated with ${symbol}`
+          : `Annotation information for ${symbol}`
+      }
+      location={location}
+    >
       <ScrollToTop />
       <Header
         loading={loading}
         ensgId={ensgId}
-        uniprotId={uniprotId}
+        uniprotIds={uniprotIds}
         symbol={symbol}
         name={approvedName}
+        pmtl={pmtl}
+        crisprId={crisprId}
       />
 
       <Tabs
@@ -67,14 +78,16 @@ function TargetPage({ location, match }) {
           to={match.url}
         />
       </Tabs>
-      <Switch>
-        <Route path={`${match.path}/associations`}>
-          <ClassicAssociations ensgId={ensgId} symbol={symbol} />
-        </Route>
-        <Route path={match.path}>
-          <Profile ensgId={ensgId} symbol={symbol} />
-        </Route>
-      </Switch>
+      <Suspense fallback={<LoadingBackdrop />}>
+        <Switch>
+          <Route path={`${match.path}/associations`}>
+            <ClassicAssociations ensgId={ensgId} symbol={symbol} />
+          </Route>
+          <Route path={match.path}>
+            <Profile ensgId={ensgId} symbol={symbol} />
+          </Route>
+        </Switch>
+      </Suspense>
     </BasePage>
   );
 }

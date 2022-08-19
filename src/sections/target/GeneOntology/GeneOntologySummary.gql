@@ -1,0 +1,6 @@
+fragment GeneOntologySummaryFragment on Target {
+  id
+  geneOntology {
+    aspect
+  }
+}

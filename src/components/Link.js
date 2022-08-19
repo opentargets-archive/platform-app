@@ -40,10 +40,14 @@ class Link extends React.Component {
       to,
       onClick,
       external,
+      newTab=true,
       footer,
       tooltip,
       className,
     } = this.props;
+    const newTabProps = newTab
+      ? { target: '_blank', rel: 'noopener noreferrer' }
+      : {};
     return external ? (
       <a
         className={classNames(
@@ -57,6 +61,7 @@ class Link extends React.Component {
         )}
         href={to}
         onClick={onClick}
+        {...newTabProps}
       >
         {children}
       </a>

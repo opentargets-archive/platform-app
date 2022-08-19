@@ -46,7 +46,7 @@ function useCursorBatchDownloader(
     let cursor = _.get(firstChunk, cursorPath, null);
     let chunksFetched = 1;
 
-    while (chunksFetched < chunksToFetch || cursor === null) {
+    while (chunksFetched < chunksToFetch) {
       const newChunk = await getDataChunk(cursor, downloaderChunkSize);
 
       cursor = _.get(newChunk, cursorPath, null);

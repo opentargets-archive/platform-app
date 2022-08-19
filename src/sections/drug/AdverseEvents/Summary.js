@@ -1,16 +1,12 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SummaryItem from '../../../components/Summary/SummaryItem';
 
-const ADVERSE_EVENTS_SUMMARY_FRAGMENT = gql`
-  fragment AdverseEventsSummaryFragment on Drug {
-    adverseEvents {
-      count
-    }
-  }
-`;
+const ADVERSE_EVENTS_SUMMARY_FRAGMENT = loader(
+  './AdverseEventsSummaryFragment.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(ADVERSE_EVENTS_SUMMARY_FRAGMENT);

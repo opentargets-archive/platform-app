@@ -1,29 +1,12 @@
 import React from 'react';
-import { gql } from '@apollo/client';
-import _ from 'lodash';
+import { loader } from 'graphql.macro';
 
 import SummaryItem from '../../../components/Summary/SummaryItem';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 
-const MOUSE_PHENOTYPES_SUMMARY_FRAGMENT = gql`
-  fragment MousePhenotypesSummaryFragment on Target {
-    mousePhenotypes {
-      id
-      symbol
-      phenotypes {
-        categoryLabel
-        categoryIdentifier
-        genotypePhenotype {
-          subjectBackground
-          subjectAllelicComposition
-          pubmedId
-          label
-          identifier
-        }
-      }
-    }
-  }
-`;
+const MOUSE_PHENOTYPES_SUMMARY_FRAGMENT = loader(
+  './MousePhenotypesSummary.gql'
+);
 
 function Summary({ definition }) {
   const request = usePlatformApi(MOUSE_PHENOTYPES_SUMMARY_FRAGMENT);
@@ -32,14 +15,10 @@ function Summary({ definition }) {
     <SummaryItem
       definition={definition}
       request={request}
-      renderSummary={data => {
-        const labels = _.uniq(
-          data.mousePhenotypes
-            .flatMap(i => i.phenotypes)
-            .flatMap(p => p.genotypePhenotype)
-            .map(gp => gp.label)
-        );
-        return `${labels.length} distinct phenotypes`;
+      renderSummary={({ mousePhenotypes }) => {
+        return `${mousePhenotypes.length} distinct phenotype${
+          mousePhenotypes.length > 1 ? 's' : ''
+        }`;
       }}
     />
   );

@@ -8,6 +8,7 @@ import Tooltip from '../../../components/Tooltip';
 import { DataTable, TableDrawer } from '../../../components/Table';
 import { PublicationsDrawer } from '../../../components/PublicationsDrawer';
 import { defaultRowsPerPageOptions, naLabel } from '../../../constants';
+import { dataTypesMap } from '../../../dataTypes';
 import Description from './Description';
 import { sentenceCase } from '../../../utils/global';
 import { epmcUrl } from '../../../utils/urls';
@@ -125,7 +126,7 @@ const columns = [
           }))}
         />
       ) : variantAminoacidDescriptions?.length === 1 ? (
-        variantAminoacidDescriptions[0]
+        <EllsWrapper>{variantAminoacidDescriptions[0]}</EllsWrapper>
       ) : (
         naLabel
       );
@@ -137,7 +138,7 @@ const columns = [
     label: 'Literature',
     renderCell: ({ literature = [] }) => {
       const literatureList = [];
-      literature.forEach(id => {
+      literature?.forEach(id => {
         if (id !== 'NA') {
           literatureList.push({
             name: id,
@@ -158,17 +159,20 @@ function Body({ definition, id, label }) {
     Summary.fragments.reactomeSummary
   );
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.reactomeSummary.count,
+  };
+
   const request = useQuery(REACTOME_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.reactomeSummary.count,
-    },
+    variables,
   });
 
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.affected_pathway}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
@@ -184,6 +188,8 @@ function Body({ definition, id, label }) {
             rowsPerPageOptions={defaultRowsPerPageOptions}
             fixed
             noWrapHeader={false}
+            query={REACTOME_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

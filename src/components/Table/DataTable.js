@@ -25,6 +25,9 @@ function DataTable({
   onPagination = () => {},
   dataDownloaderColumns,
   loading,
+  query,
+  variables,
+  stickyHeader,
 }) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(initialPageSize);
@@ -98,6 +101,9 @@ function DataTable({
       rowIsSelectable={rowIsSelectable}
       showPagination={showPagination}
       loading={loading}
+      query={query}
+      variables={variables}
+      stickyHeader={stickyHeader}
     />
   );
 }

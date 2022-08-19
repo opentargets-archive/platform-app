@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   faPlusCircle,
   faMinusCircle,
@@ -52,6 +52,13 @@ function PublicationWrapper({
   const handleShowAbstractClick = () => {
     setShowAbstract(showAbstract => !showAbstract);
   };
+
+  useEffect(
+    () => {
+      setShowAbstract(false);
+    },
+    [europePmcId]
+  );
 
   const classes = useStyles();
 

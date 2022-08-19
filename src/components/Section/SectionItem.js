@@ -13,9 +13,11 @@ import {
 import { Element } from 'react-scroll';
 
 import ErrorBoundary from '../ErrorBoundary';
+import Chip from '../Chip';
 import SectionError from './SectionError';
 import sectionStyles from './sectionStyles';
 import { createShortName } from '../Summary/utils';
+import PartnerLockIcon from '../PartnerLockIcon';
 
 function SectionItem({
   definition,
@@ -23,8 +25,11 @@ function SectionItem({
   renderDescription,
   renderBody,
   tags,
+  chipText,
+  avatarStyle,
 }) {
-  const classes = sectionStyles();
+  const color = definition.color;
+  const classes = sectionStyles({color});
   const { loading, error, data } = request;
   const shortName = createShortName(definition);
 
@@ -40,9 +45,7 @@ function SectionItem({
               }}
               avatar={
                 <Avatar
-                  className={classNames({
-                    [classes.avatar]: true,
-                    [classes.avatarHasData]: true,
+                  className={classNames(classes.avatar, classes.avatarHasData, avatarStyle, {
                     [classes.avatarError]: error,
                   })}
                 >
@@ -50,23 +53,29 @@ function SectionItem({
                 </Avatar>
               }
               title={
-                <Typography
-                  className={classNames({
-                    [classes.title]: true,
-                    [classes.titleHasData]: true,
-                    [classes.titleError]: error,
-                  })}
-                >
-                  {definition.name}
-                </Typography>
+                <Grid container justify="space-between">
+                  <Typography
+                    className={classNames(classes.title, classes.titleHasData, {
+                      [classes.titleError]: error,
+                    })}
+                  >
+                    {definition.name}{' '}
+                    {definition.isPrivate ? <PartnerLockIcon /> : null}
+                  </Typography>
+                  {chipText ? (
+                    <Chip label={chipText} className={classes.chip} />
+                  ) : null}
+                </Grid>
               }
               subheader={
                 <Typography
-                  className={classNames({
-                    [classes.description]: true,
-                    [classes.descriptionHasData]: true,
-                    [classes.descriptionError]: error,
-                  })}
+                  className={classNames(
+                    classes.description,
+                    classes.descriptionHasData,
+                    {
+                      [classes.descriptionError]: error,
+                    }
+                  )}
                 >
                   {renderDescription()}
                 </Typography>

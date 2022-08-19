@@ -1,0 +1,8 @@
+fragment CancerHallmarksSummaryFragment on Target {
+  hallmarks {
+    cancerHallmarks {
+      impact
+      label
+    }
+  }
+}

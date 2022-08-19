@@ -1,0 +1,8 @@
+fragment OTProjectsSummaryFragment on Disease {
+  otarProjects {
+    otarCode
+    status
+    projectName
+    reference
+  }
+}

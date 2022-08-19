@@ -1,5 +1,0 @@
-fragment targetProteinAnnotationsFragment on Target {
-  proteinAnnotations {
-    subcellularLocations
-  }
-}

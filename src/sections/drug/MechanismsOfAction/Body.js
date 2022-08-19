@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
 import Link from '../../../components/Link';
 import SectionItem from '../../../components/Section/SectionItem';
@@ -8,27 +9,7 @@ import { DataTable, TableDrawer } from '../../../components/Table';
 import Summary from './Summary';
 import Description from './Description';
 
-const MECHANISMS_OF_ACTION_QUERY = gql`
-  query MechanismsOfActionSectionQuery($chemblId: String!) {
-    drug(chemblId: $chemblId) {
-      id
-      mechanismsOfAction {
-        rows {
-          mechanismOfAction
-          targetName
-          targets {
-            id
-            approvedSymbol
-          }
-          references {
-            source
-            urls
-          }
-        }
-      }
-    }
-  }
-`;
+const MECHANISMS_OF_ACTION_QUERY = loader('./MechanismsOfActionQuery.gql');
 
 const columns = [
   {
@@ -87,8 +68,9 @@ const columns = [
 ];
 
 function Body({ definition, id: chemblId, label: name }) {
+  const variables = { chemblId };
   const request = useQuery(MECHANISMS_OF_ACTION_QUERY, {
-    variables: { chemblId },
+    variables,
   });
   const { data: summaryData } = usePlatformApi(
     Summary.fragments.MechanismsOfActionSummaryFragment
@@ -115,6 +97,8 @@ function Body({ definition, id: chemblId, label: name }) {
             rows={rows}
             dataDownloader
             dataDownloaderFileStem={`${chemblId}-mechanisms-of-action`}
+            query={MECHANISMS_OF_ACTION_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

@@ -1,0 +1,56 @@
+query SimilarEntitiesQuery(
+  $id: String!
+  $ids: [String!] = []
+  $threshold: Float = 0.5
+  $size: Int! = 15
+  $entityNames: [String!] = []
+  $cursor: String = null
+) {
+  drug(chemblId: $id) {
+    id
+    name
+    similarEntities(
+      additionalIds: $ids
+      threshold: $threshold
+      size: $size
+      entityNames: $entityNames
+    ) {
+      score
+      id
+      object {
+        ... on Target {
+          id
+          approvedSymbol
+        }
+        ... on Drug {
+          id
+          name
+        }
+        ... on Disease {
+          id
+          name
+        }
+      }
+    }
+    literatureOcurrences(additionalIds: $ids, cursor: $cursor) {
+      count
+      cursor
+      rows {
+        pmid
+        pmcid
+        publicationDate
+        sentences {
+          section
+          matches {
+            mappedId
+            matchedLabel
+            sectionStart
+            sectionEnd
+            startInSentence
+            endInSentence
+          }
+        }
+      }
+    }
+  }
+}

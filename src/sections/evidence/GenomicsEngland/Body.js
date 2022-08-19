@@ -19,6 +19,7 @@ import SectionItem from '../../../components/Section/SectionItem';
 import Summary from './Summary';
 import Tooltip from '../../../components/Tooltip';
 import usePlatformApi from '../../../hooks/usePlatformApi';
+import { dataTypesMap } from '../../../dataTypes';
 
 const geUrl = (id, approvedSymbol) =>
   `https://panelapp.genomicsengland.co.uk/panels/${id}/gene/${approvedSymbol}`;
@@ -142,7 +143,26 @@ const columns = [
     id: 'confidence',
     label: 'Gene rating',
     sortable: true,
-    renderCell: ({ confidence }) => confidenceCaption(confidence),
+    renderCell: ({ confidence }) => (
+      <Tooltip
+        title={
+          <>
+            <Typography variant="caption" display="block" align="center">
+              As defined by the{' '}
+              <Link
+                external
+                to={`https://panelapp.genomicsengland.co.uk/#!Guidelines`}
+              >
+                Panel App Guidelines
+              </Link>
+            </Typography>
+          </>
+        }
+        showHelpIcon
+      >
+        {confidenceCaption(confidence)}
+      </Tooltip>
+    ),
     comparator: (a, b) =>
       confidenceMap(a.confidence) - confidenceMap(b.confidence),
   },
@@ -174,14 +194,16 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
       genomicsEngland: { count: size },
     },
   } = usePlatformApi(Summary.fragments.GenomicsEnglandSummaryFragment);
+  const variables = { ensemblId: ensgId, efoId, size };
 
   const request = useQuery(GENOMICS_ENGLAND_QUERY, {
-    variables: { ensemblId: ensgId, efoId, size },
+    variables,
   });
 
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.genetic_association}
       request={request}
       renderDescription={() => <Description symbol={symbol} name={name} />}
       renderBody={data => (
@@ -195,6 +217,8 @@ function Body({ definition, id: { ensgId, efoId }, label: { symbol, name } }) {
           rowsPerPageOptions={defaultRowsPerPageOptions}
           showGlobalFilter
           sortBy="confidence"
+          query={GENOMICS_ENGLAND_QUERY.loc.source.body}
+          variables={variables}
         />
       )}
     />

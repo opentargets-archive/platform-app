@@ -1,37 +1,17 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { Link } from '@material-ui/core';
 import usePlatformApi from '../../../hooks/usePlatformApi';
 import SectionItem from '../../../components/Section/SectionItem';
 import { DataTable, TableDrawer } from '../../../components/Table';
+import { dataTypesMap } from '../../../dataTypes';
+import { naLabel } from '../../../constants';
 import Summary from './Summary';
 import Description from './Description';
 
-const CRISPR_QUERY = gql`
-  query crisprQuery($ensemblId: String!, $efoId: String!, $size: Int!) {
-    disease(efoId: $efoId) {
-      id
-      evidences(
-        ensemblIds: [$ensemblId]
-        enableIndirect: true
-        datasourceIds: ["crispr"]
-        size: $size
-      ) {
-        rows {
-          disease {
-            id
-            name
-          }
-          diseaseCellLines
-          diseaseFromSource
-          resourceScore
-          literature
-        }
-      }
-    }
-  }
-`;
+const CRISPR_QUERY = loader('./CrisprQuery.gql');
 
 const columns = [
   {
@@ -48,9 +28,12 @@ const columns = [
   {
     label: 'Reported disease/phenotype',
     renderCell: ({ diseaseCellLines, diseaseFromSource }) => {
+      if (!diseaseCellLines) return naLabel;
+
       const cellLines = diseaseCellLines.map(line => {
         return {
-          name: line,
+          name: line.name,
+          url: `https://cellmodelpassports.sanger.ac.uk/passports/${line.id}`,
           group: 'Cancer Cell Lines',
         };
       });
@@ -75,17 +58,20 @@ function Body({ definition, id, label }) {
   const { ensgId: ensemblId, efoId } = id;
   const { data: summaryData } = usePlatformApi(Summary.fragments.crisprSummary);
 
+  const variables = {
+    ensemblId,
+    efoId,
+    size: summaryData.crisprSummary.count,
+  };
+
   const request = useQuery(CRISPR_QUERY, {
-    variables: {
-      ensemblId,
-      efoId,
-      size: summaryData.crisprSummary.count,
-    },
+    variables,
   });
 
   return (
     <SectionItem
       definition={definition}
+      chipText={dataTypesMap.affected_pathway}
       request={request}
       renderDescription={() => (
         <Description symbol={label.symbol} name={label.name} />
@@ -98,6 +84,8 @@ function Body({ definition, id, label }) {
             rows={rows}
             dataDownloader
             showGlobalFilter
+            query={CRISPR_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

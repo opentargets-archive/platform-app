@@ -33,6 +33,7 @@ const sourceDrawerStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     backgroundColor: theme.palette.grey[300],
+    ...theme.Drawer.paper,
   },
   drawerTitle: {
     borderBottom: '1px solid #ccc',
@@ -71,23 +72,25 @@ const sourceDrawerStyles = makeStyles(theme => ({
 
 const tableSourceLabel = name =>
   ({
-    'ATC Information': 'ATC',
-    'Clinical Trials Information': 'ClinicalTrials.gov',
-    'DailyMed Information': 'DailyMed',
-    'FDA Information': 'FDA',
+    ATC: 'ATC',
+    ClinicalTrials: 'ClinicalTrials.gov',
+    DailyMed: 'DailyMed',
+    FDA: 'FDA',
   }[name]);
 
 const drawerSourceLabel = (name, url) => {
-  if (name === 'Clinical Trials Information') {
+  if (name === 'ClinicalTrials') {
     return url.split('%22')[1] || `${tableSourceLabel(name)} reference`;
   }
-  if (name === 'DailyMed Information') {
+  if (name === 'DailyMed') {
     return url.split('setid=')[1] || `${tableSourceLabel(name)} reference`;
   }
-  if (name === 'FDA Information') {
+  if (name === 'FDA') {
     return url.split('set_id:')[1] || `${tableSourceLabel(name)} reference`;
   }
-
+  if (name === 'ATC') {
+    return url.split('code=')[1] || `${tableSourceLabel(name)} reference`;
+  }
   return `${url.name} entry`;
 };
 

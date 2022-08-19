@@ -31,23 +31,23 @@ const actionsStyles = theme => ({
 
 class TablePaginationActions extends Component {
   handleFirstPageButtonClick = event => {
-    this.props.onChangePage(event, 0);
+    this.props.onPageChange(event, 0);
   };
 
   handleBackButtonClick = event => {
-    const { onChangePage, page } = this.props;
-    onChangePage(event, page - 1);
+    const { onPageChange, page } = this.props;
+    onPageChange(event, page - 1);
   };
 
   handleNextButtonClick = event => {
-    const { onChangePage, page } = this.props;
-    onChangePage(event, page + 1);
+    const { onPageChange, page } = this.props;
+    onPageChange(event, page + 1);
   };
 
   handleLastPageButtonClick = event => {
-    const { onChangePage, count, rowsPerPage } = this.props;
+    const { onPageChange, count, rowsPerPage } = this.props;
     const lastPage = Math.ceil(count / rowsPerPage) - 1;
-    onChangePage(event, lastPage);
+    onPageChange(event, lastPage);
   };
 
   render() {
@@ -220,6 +220,18 @@ class OtTableRF extends Component {
     this.setState({ sortBy, order });
   };
 
+  /*
+  * Callback fun that is fired when the number of rows per page is changed.
+  * If statement is needed, Sense some of the Existing code that use OtTableRF (ex. src/sections/target/ChemicalProbes/Body.js) do
+    not have the Rows per page options and do not provide onRowsPerPageChange as props.
+  * Change the rows per page and set back the page to 0.
+  */
+  handleChangeRowsPerPage = event => {
+    if (this.props.onRowsPerPageChange) {
+      this.props.onRowsPerPageChange(event.target.value);
+      this.setState({ page: 0 });
+    }
+  };
   render() {
     const {
       loading,
@@ -239,6 +251,7 @@ class OtTableRF extends Component {
       tableRowComponent,
       serverSide,
       totalRowsCount,
+      rowsPerPageOptions = [], // Added this prop and gave option [] for existing component that do not have functionality to change the amount of row per page
     } = this.props;
     const { sortBy, order, page } = this.state;
     const filterRow = filters ? (
@@ -413,11 +426,12 @@ class OtTableRF extends Component {
           <TablePagination
             component="div"
             count={serverSide ? totalRowsCount : data.length}
-            onChangePage={this.handleChangePage}
+            onPageChange={this.handleChangePage}
             page={page}
             rowsPerPage={pageSize}
-            rowsPerPageOptions={[]}
+            rowsPerPageOptions={rowsPerPageOptions} // CHANGE MADE; Previously was rowsPerPageOptions={[]}
             ActionsComponent={TablePaginationActions}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage} // CHANGE MADE; Previously did not exist
           />
         </PlotContainerSection>
       </PlotContainer>

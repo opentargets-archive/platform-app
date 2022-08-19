@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import gql from 'graphql-tag';
+import { loader } from 'graphql.macro';
 import { makeStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import Link from '../../components/Link';
@@ -9,40 +9,9 @@ import useBatchDownloader from '../../hooks/useBatchDownloader';
 import Legend from '../../components/Legend';
 import dataTypes from '../../dataTypes';
 import client from '../../client';
+import config from '../../config';
 
-const TARGET_ASSOCIATIONS_QUERY = gql`
-  query TargetAssociationsQuery(
-    $ensemblId: String!
-    $index: Int!
-    $size: Int!
-    $filter: String
-    $sortBy: String!
-    $aggregationFilters: [AggregationFilter!]
-  ) {
-    target(ensemblId: $ensemblId) {
-      id
-      associatedDiseases(
-        page: { index: $index, size: $size }
-        orderByScore: $sortBy
-        BFilter: $filter
-        aggregationFilters: $aggregationFilters
-      ) {
-        count
-        rows {
-          disease {
-            id
-            name
-          }
-          score
-          datatypeScores {
-            componentId: id
-            score
-          }
-        }
-      }
-    }
-  }
-`;
+const TARGET_ASSOCIATIONS_QUERY = loader('./TargetAssociations.gql');
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -158,28 +127,42 @@ function getColumns(ensemblId, classes) {
     },
   ];
 
-  dataTypes.forEach(dt => {
-    columns.push({
-      id: dt.id,
-      label: dt.label,
-      classes: {
-        headerCell: classes.headerCell,
-        innerLabel: classes.innerLabel,
-        sortLabel: classes.sortLabel,
-        cell: classes.cell,
-      },
-      exportValue: data => {
-        const datatypeScore = data.datatypeScores.find(
-          datatypeScore => datatypeScore.componentId === dt.id
-        );
-        return datatypeScore ? datatypeScore.score : 'No data';
-      },
-      sortable: true,
-      renderCell: row => (
-        <AssocCell score={row[dt.id]} ensemblId={ensemblId} efoId={row.efoId} />
-      ),
+  // datatypes columns are filtered based on config
+  // for hide and private (partner) options (i.e.
+  // certain columns will be hidden)
+  dataTypes
+    .filter(
+      dt =>
+        (config.profile.hideDataTypes.length === 0 ||
+          !config.profile.hideDataTypes.includes(dt.id)) &&
+        (!dt.isPrivate || (dt.isPrivate && config.profile.isPartnerPreview))
+    )
+    .forEach(dt => {
+      columns.push({
+        id: dt.id,
+        label: dt.label,
+        classes: {
+          headerCell: classes.headerCell,
+          innerLabel: classes.innerLabel,
+          sortLabel: classes.sortLabel,
+          cell: classes.cell,
+        },
+        exportValue: data => {
+          const datatypeScore = data.datatypeScores.find(
+            datatypeScore => datatypeScore.componentId === dt.id
+          );
+          return datatypeScore ? datatypeScore.score : 'No data';
+        },
+        sortable: true,
+        renderCell: row => (
+          <AssocCell
+            score={row[dt.id]}
+            ensemblId={ensemblId}
+            efoId={row.efoId}
+          />
+        ),
+      });
     });
-  });
 
   return columns;
 }

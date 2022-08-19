@@ -1,0 +1,7 @@
+fragment DiseaseKnownDrugsSummaryFragment on Disease {
+  knownDrugs {
+    count
+    uniqueDrugs
+    uniqueTargets
+  }
+}

@@ -1,14 +1,20 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Paper, Box, Chip, Typography } from '@material-ui/core';
-
-import BasePage from '../../components/BasePage';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/core/styles';
 import Link from '../../components/Link';
 import { defaultRowsPerPageOptions, formatMap } from '../../constants';
 import { DataTable } from '../../components/Table';
 import DownloadsDrawer from './DownloadsDrawer';
-import downloadData from './downloadData.json';
 import datasetMappings from './dataset-mappings';
+import config from '../../config';
+
+const useStyles = makeStyles(theme => ({
+  alert: {
+    marginBottom: theme.spacing(2),
+  },
+}));
 
 function getFormats(id, downloadData) {
   const formats = [];
@@ -40,8 +46,6 @@ function getRows(downloadData, datasetMappings) {
 
   return rows;
 }
-
-const rows = getRows(downloadData, datasetMappings);
 
 function getColumns(date) {
   const columns = [
@@ -91,10 +95,32 @@ function getVersion(data) {
 
 function DownloadsPage() {
   const { data, loading, error } = useQuery(DATA_VERSION_QUERY);
+  const [downloasdData, setDownloadsData] = useState(null);
+  const rows = downloasdData ? getRows(downloasdData, datasetMappings) : [];
   const columns = loading || error ? [] : getColumns(data.meta.dataVersion);
+  const classes = useStyles();
+
+  useEffect(() => {
+    let isCurrent = true;
+    fetch(config.downloadsURL)
+      .then(res => res.text())
+      .then(lines => {
+        if (isCurrent) {
+          const nodes = lines
+            .trim()
+            .split('\n')
+            .map(JSON.parse);
+          setDownloadsData(nodes);
+        }
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, []);
 
   return (
-    <BasePage>
+    <Fragment>
       <Typography variant="h4" component="h1" paragraph>
         Data downloads
       </Typography>
@@ -129,6 +155,21 @@ function DownloadsPage() {
           FTP
         </Link>
       </Typography>
+
+      {config.isPartnerPreview ? (
+        <Alert severity="warning" className={classes.alert}>
+          <AlertTitle>Important Note</AlertTitle>
+          These data files do not contain any of the custom data found in this
+          version of the Platform. They are the same files that are available
+          from the public Platform. To download the data for a specific project,
+          please visit the{' '}
+          <Link external to="http://home.opentargets.org/">
+            Open Targets Intranet
+          </Link>{' '}
+          and submit a data request.
+        </Alert>
+      ) : null}
+
       <Paper variant="outlined" elevation={0}>
         <Box m={2}>
           {loading || error ? null : (
@@ -141,7 +182,7 @@ function DownloadsPage() {
           )}
         </Box>
       </Paper>
-    </BasePage>
+    </Fragment>
   );
 }
 

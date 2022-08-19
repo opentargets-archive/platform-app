@@ -1,0 +1,7 @@
+fragment TargetProfileHeaderFragment on Target {
+  synonyms{
+    label
+    source
+  }
+  functionDescriptions
+}

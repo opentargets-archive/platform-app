@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { loader } from 'graphql.macro';
 import { makeStyles, Typography } from '@material-ui/core';
 import _ from 'lodash';
 
@@ -9,32 +10,7 @@ import { Table, PaginationActionsComplete } from '../../../components/Table';
 import useBatchDownloader from '../../../hooks/useBatchDownloader';
 import Link from '../../../components/Link';
 
-const ADVERSE_EVENTS_QUERY = gql`
-  query AdverseEventsQuery(
-    $chemblId: String!
-    $index: Int = 0
-    $size: Int = 10
-  ) {
-    drug(chemblId: $chemblId) {
-      id
-      maxLlr: adverseEvents(page: { index: 0, size: 1 }) {
-        rows {
-          logLR
-        }
-      }
-      adverseEvents(page: { index: $index, size: $size }) {
-        criticalValue
-        count
-        rows {
-          name
-          count
-          logLR
-          meddraCode
-        }
-      }
-    }
-  }
-`;
+const ADVERSE_EVENTS_QUERY = loader('./AdverseEventsQuery.gql');
 
 const useStyles = makeStyles(theme => ({
   levelBarContainer: {
@@ -102,10 +78,11 @@ const getColumns = (critVal, maxLlr, classes) => {
 
 function Body({ definition, id: chemblId, label: name }) {
   const classes = useStyles();
+  const variables = { chemblId };
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const { loading, error, data, fetchMore } = useQuery(ADVERSE_EVENTS_QUERY, {
-    variables: { chemblId },
+    variables,
   });
 
   // TODO: fetchMore doesn't seem to use gql/apollo caching
@@ -135,7 +112,7 @@ function Body({ definition, id: chemblId, label: name }) {
 
   const getAllAdverseEvents = useBatchDownloader(
     ADVERSE_EVENTS_QUERY,
-    { chemblId },
+    variables,
     'data.drug.adverseEvents'
   );
 
@@ -167,6 +144,8 @@ function Body({ definition, id: chemblId, label: name }) {
             pageSize={pageSize}
             rowsPerPageOptions={[10, 25, 50, 100]}
             onRowsPerPageChange={handleRowsPerPageChange}
+            query={ADVERSE_EVENTS_QUERY.loc.source.body}
+            variables={variables}
           />
         );
       }}

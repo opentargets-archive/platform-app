@@ -2,12 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon.png" />
+    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon.ico" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="theme-color" content="#3489ca" />
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Molecular Targets Platform" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://moleculartargets.ccdi.cancer.gov/" />
+    <meta property="og:description" content="The Molecular Targets Platform is a National Cancer Institute (NCI) instance of the Open Targets Platform with a focus on pediatric cancer data." />
+    <meta property="og:image" content="https://raw.githubusercontent.com/CBIIT/mtp-config/main/front-end/assets/images/mtp-splash.png" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -22,9 +33,33 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Open Targets Platform</title>
+       <!-- Adobe Analytics and DAP analytics -->
+    <script src=https://assets.adobedtm.com/6a4249cd0a2c/f4e387f9e3a3/launch-13b63a2d928c.min.js> </script>
+    <title>Molecular Targets Platform</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TN7B5QXJ7S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TN7B5QXJ7S');
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5K5XQV6');</script>
+<!-- End Google Tag Manager -->
+
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5K5XQV6"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <div id="root"></div>
     <!--
@@ -39,12 +74,7 @@
     -->
 
     <!--- Deployment Context -->
+    <script type="text/javascript" src="%PUBLIC_URL%/profiles/default.js"></script>
     <script type="text/javascript" src="%PUBLIC_URL%/config.js"></script>
-    <!-- d3 v3 (needed by tntvis, while v5 is used for newer components) -->
-    <script
-      type="text/javascript"
-      language="javascript"
-      src="https://d3js.org/d3.v3.min.js"
-    ></script>
   </body>
 </html>
