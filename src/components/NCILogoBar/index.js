@@ -2,7 +2,7 @@ import React from 'react';
 import  LogoBar  from './LogoBar';
 
 const headerData = {
-  globalHeaderLogo: 'https://raw.githubusercontent.com/CBIIT/mtp-frontend/6b62ab0a61e947768ab9177ad83b86e884c00052/CCDI-MT-Logo-COLOR.svg',
+  globalHeaderLogo: 'https://raw.githubusercontent.com/CBIIT/mtp-config/main/front-end/assets/images/CCDI-MT-Logo-COLOR.svg',
   globalHeaderLogoLink: '/',
   globalHeaderLogoAltText: 'MTP Logo',
   globalHeaderImage: '',
